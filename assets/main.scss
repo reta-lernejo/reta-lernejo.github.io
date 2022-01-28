@@ -1,0 +1,16 @@
+---
+---
+/* customizing did not work as explained in https://github.com/jekyll/minima
+  maybe documentation is newer than the used version? */
+@import "{{ site.theme }}";
+body {
+  background: AliceBlue;
+}
+
+.site-header {
+  border-bottom: 1px solid gray;
+  color: black
+}
+.site-footer {
+  border-top: 1px solid gray;
+}
