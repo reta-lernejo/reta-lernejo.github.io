@@ -1,13 +1,7 @@
 *.gem
 *.rbc
-/.config
-/coverage/
-/InstalledFiles
-/pkg/
-/spec/reports/
-/spec/examples.txt
-/test/tmp/
-/test/version_tmp/
+_site/
+.jekyll-cache/
 /tmp/
 
 # Used by dotenv library to load environment variables.
