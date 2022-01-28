@@ -10,6 +10,8 @@ title: Citratociklo
           src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js">
   </script>
   
+  <!-- vd. pri baza ideo de diagramoj en md-teksto: https://www.jappoker.com/blog/2018/markdown-grammar/ -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
 <!-- uzeblaj TeX-komandoj en formuloj vd.
 http://docs.mathjax.org/en/latest/input/tex/macros/index.html 
@@ -38,7 +40,20 @@ $$
 $$
 -->
 
+
+<div class="mermaid">
+    graph TD;
+        s1["C₂ acetil-KoA"]-->s2[C6 citrato];
+        s2-->s3["C₆ izocitrato"]-->s4["C₅ α-ketoglutarato"];
+        s4-->s5["C₄ sukcinil-KoA"]-->s6["C₄sukcinato"];
+        s6-->s7["C₄ fumarato"]-->s8["C₄ malato"];
+        s8-->s9["C₄ okzalacetato"] --> s2;        
+</div>
+
+
 ### Paŝoj
+
+
 
 1. Transformo de okzalacetato al citrato per la enzimo citrat-sintazo
 
