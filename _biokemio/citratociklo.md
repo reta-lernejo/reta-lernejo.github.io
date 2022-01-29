@@ -43,13 +43,18 @@ $$
 
 <div class="mermaid">
     graph TD;
-        s1["C₂ acetil-KoA"]-->s2[C6 citrato];
+        s1["C₂ acetil-KoA"]-->s2["C₆ citrato"];
         s2-->s3["C₆ izocitrato"]-->s4["C₅ α-ketoglutarato"];
-        s4-->s5["C₄ sukcinil-KoA"]-->s6["C₄sukcinato"];
+        s4-->s5["C₄ sukcinil-KoA"]-->s6["C₄ sukcinato"];
         s6-->s7["C₄ fumarato"]-->s8["C₄ malato"];
         s8-->s9["C₄ okzalacetato"] --> s2;        
 </div>
 
+![ciklo (tradukenda)](../assets/bld/TCA_cycle.svg)
+
+CC BY 3.0, TCA cycle; tricarboxylic acid cycle; Szent-Györgyi-Krebs cycle
+[Wikimedia: Yikrazuul, propra verko](https://commons.wikimedia.org/wiki/File:TCA_cycle.svg)
+        
 
 ### Paŝoj
 
