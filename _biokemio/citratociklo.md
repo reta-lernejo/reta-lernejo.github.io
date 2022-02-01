@@ -38,6 +38,10 @@ $$
 $$
 -->
 
+![skemo](https://upload.wikimedia.org/wikipedia/commons/1/14/TCACycle_WP78.png)
+de Alexander Pico, Thomas Kelder, Martijn van Iersel, Kristina Hanspers, Kdahlquist, Nick Fidelman
+el Wikiemdia, pemesilo CC3
+
 ### Paŝoj
 
 1. Transformo de okzalacetato al citrato per la enzimo citrat-sintazo

@@ -17,11 +17,11 @@ La sekvajn dudek oni nomas *kanonaj proteinogenoj*.
 
 |esperanta nomo|mallongigo|unulitera|sumformulo|
 |-|-|-|
-|alanino|Ala|A|$$\ce{C3H7NO2}$$|
-|arginino|Arg|R|$$\ce{C6H14N4O2}$$|
-|asparagino|Asn|N|$$\ce{C4H8N2O3}$$|
-|aspartato|Asp|D|$$\ce{C4H7NO4}$$|
-|cisteino|Cys|C|$$\ce{C3H7NO2S}$$|
+|alanino|Ala|A|$$\ce{C3H7NO2}$$|![alanino](../assets/kem/alanino.png)|
+|arginino|Arg|R|$$\ce{C6H14N4O2}$$|![arginino](../assets/kem/arginino.png)
+|asparagino|Asn|N|$$\ce{C4H8N2O3}$$|![asparagino](../assets/kem/asparagino.png)
+|aspartato|Asp|D|$$\ce{C4H7NO4}$$|![asparaginacido](../assets/kem/asparaginacido.png)
+|cisteino|Cys|C|$$\ce{C3H7NO2S}$$|![cisteino](../assets/kem/cisteino.png)
 |glutamino|Gln|Q|$$\ce{C5H10N2O3}$$|
 |glutamato|Glu|E|$$\ce{C5H9NO4}$$|
 |glicino|Gly|G|$$\ce{C2H5NO2}$$|
@@ -37,6 +37,7 @@ La sekvajn dudek oni nomas *kanonaj proteinogenoj*.
 |triptofano|Trp|W|$$\ce{C11H12N2O2}$$|
 |tirozino|Tyr|Y|$$\ce{C9H11NO3}$$|
 |valino|Val|V|$$\ce{C5H11NO2}$$|
+
 
 Nekonanaj proteinogenoj estas
 
