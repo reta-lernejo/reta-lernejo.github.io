@@ -11,7 +11,7 @@ Ekzemploj de vitaminoj kaj ties koenzimoj:
 |-|-|-|-|
 |niacino|NAD+, NADP' | oksidigo | pelagro | 
 |niacino| NADH, NADPH | redukto ||
-|riboflavino (B2) | FAD, FMN |	oksidigo | haŭinflamo |
+|riboflavino (B2) | FAD, FMN |	oksidigo | haŭtinflamo |
 |riboflavino (B2) | FADH2, FMNH2 |	redukto ||	
 |tiamino (B1) |	TPP | du-karbon-transigo | beribero |
 |pantotenata acido| koenzimo A (CoASH) | acil-transigo |	– |
