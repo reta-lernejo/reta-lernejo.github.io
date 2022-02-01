@@ -8,14 +8,14 @@ XML kaj HTML estas normoj, kiuj specifas kiel esprimi hieraĥian (arb-strukturan
 Kiam oni volas trakti tian strukturon en programo oni iel devas do reformi (malseriigi) la hierarĥion legante tian tekston. La plej tradicia maniero estis, ke la analizilo dum legi la XML-tekston, ĉiam kiam ĝi renkontis elementon, atributon aŭ nurtekstan enhavon de elemento ekis iun eventon (aŭ revok-funkcion), per kiu programisto povis reagi kaj fari, kion necesis fari.
 
 Tamen por multaj taskoj oni volas arbitre salti tien kaj reen en la hierarĥio kaj ne procedi laŭ la seria ordo en la dokumento. Tiam necesas krei reprenzentaĵon (modelon) de la tuta dokumento en la memoro de la programo. La interfacon, t.e. la aron da funkcioj, por aliri tian modelon oni normigis sub la nomo 
-[DOM (Dokumenta Objekt-Modelo)](https://dom.spec.whatwg.org/#introduction-to-the-dom). La nomo eble estas iomete misgvida, ĉar ĝi fakte ne normigas la reprentadon kiel programa datumstrukturo mem, sed nur la interfacon, kiel aliri ĝin.
+[DOM (Dokumenta Objekt-Modelo)](https://dom.spec.whatwg.org/#introduction-to-the-dom). La nomo eble estas iomete misgvida, ĉar ĝi fakte ne normigas la reprezentadon kiel programa datumstrukturo mem, sed nur la interfacon, kiel aliri ĝin.
 
 ![DOM-arbo](dom.png)
 
 Realigoj de la DOM-normo ekzistas en multaj programlingvoj kiel Javoskripto, Javo, Perlo ktp. kaj eble ne ĉiuj tute strikte realigas la normon, sed iom adaptas ĝin al la stilo de la specifa programlingvo - mi ne ekspertas pri tio. Sed cetere ekzistas ankaŭ aliaj manieroj navigi en la dokumentstrukturo, plej konata estas XPath, ankaŭ normigita. Tie ĉi ni volas iom kompari plurajn manierojn navigi en la dokumentstrukturo de XML, HTML per pluraj lingvoj.
 
 
-(averto: la malsupraj kodekzemploj estas ankoraŭ ne reviziitaj kja enhavas certe erarojn!)
+(__averto__: la malsupraj kodekzemploj estas ankoraŭ ne reviziitaj kaj enhavas certe erarojn!)
 
 Ni eliru de koncizigita Revo-artikolo:
 
@@ -61,10 +61,10 @@ Nun ni volas eltrovi la markon kaj la kapvorton de la unua derivaĵo per diversa
 ### Javoskripto
 
 ```javascript
-
 // unue ni aliros la unua derivaĵon kaj ties atributo @mrk
 var drv = document.getElementsByName('drv')[0];
 console.log("mrk: " + drv.getAttribute('mrk'));
+
 // nun ni ankoraŭ bezonas la tekstan enhavon de la kapvorto
 var kap = drv.getElementsByName('kap')[0];
 console.log("kap: " + kap.textCountent());

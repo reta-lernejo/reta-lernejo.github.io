@@ -4,7 +4,7 @@ layout: home
 
 ![Korvo](corvus.jpg){: width="200px"}
 
-Ni volas tie ci kolekti lernmaterialon pri diversaj fakoj. 
+Ni volas tie ĉi kolekti lernmaterialon pri diversaj fakoj. 
 La projekto estas juna do bv. ne atendu jam multe da materialo.
 
 Kontribuantoj estas bonvenaj.
