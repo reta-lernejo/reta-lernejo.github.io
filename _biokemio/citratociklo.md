@@ -10,6 +10,8 @@ title: Citratociklo
           src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js">
   </script>
   
+  <!-- vd. pri baza ideo de diagramoj en md-teksto: https://www.jappoker.com/blog/2018/markdown-grammar/ -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
 <!-- uzeblaj TeX-komandoj en formuloj vd.
 http://docs.mathjax.org/en/latest/input/tex/macros/index.html 
@@ -38,11 +40,22 @@ $$
 $$
 -->
 
+## sueprrigardo
+
+![ciklo (tradukenda)](../assets/bld/TCA_cycle.svg)
+
+CC BY 3.0, TCA cycle; tricarboxylic acid cycle; Szent-Györgyi-Krebs cycle
+[Wikimedia: Yikrazuul, propra verko](https://commons.wikimedia.org/wiki/File:TCA_cycle.svg)
+
+## detala 
+
 ![skemo](https://upload.wikimedia.org/wikipedia/commons/1/14/TCACycle_WP78.png)
 de Alexander Pico, Thomas Kelder, Martijn van Iersel, Kristina Hanspers, Kdahlquist, Nick Fidelman
-el Wikiemdia, pemesilo CC3
+el Wikiemdia, pemesilo CC BY 3.0  
 
 ### Paŝoj
+
+
 
 1. Transformo de okzalacetato al citrato per la enzimo citrat-sintazo
 

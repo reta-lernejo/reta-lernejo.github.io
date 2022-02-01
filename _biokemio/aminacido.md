@@ -10,7 +10,7 @@ title: Aminacidoj
           src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js">
   </script>
 
-Aminacidoj estas estas la bazaj konstureroj de la proteinoj. Ili estas rekte koditaj per la genetika 
+Aminacidoj estas estas la bazaj konstrueroj de la [proteinoj](proteino). Ili estas rekte koditaj per la genetika 
 kodo.
 
 La sekvajn dudek oni nomas *kanonaj proteinogenoj*.
@@ -41,7 +41,7 @@ La sekvajn dudek oni nomas *kanonaj proteinogenoj*.
 
 Nekonanaj proteinogenoj estas
 
-|esperanta nomo|mallongigo|unulitera|formulo|
+|esperanta nomo|mallongigo|unulitera|sumformulo|
 |-|-|-|
 |pirolizino|Pyl|O|$$\ce{C12H21N3O3}$$|
 |selenocisteino|Sec|U|$$\ce{C3H7NO2Se}$$|
