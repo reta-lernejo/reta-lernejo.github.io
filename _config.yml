@@ -36,11 +36,15 @@ minima:
   date_format: "%Y-%m-%d"  
 
 collections:
-  biokemio:
-    output: true
   esperanto:
     output: true
+  kosmo:
+    output: true    
   programado:
+    output: true
+  biokemio:
+    output: true
+  matematiko:
     output: true
 
 # Exclude from processing.

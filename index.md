@@ -9,14 +9,6 @@ La projekto estas juna do bv. ne atendu jam multe da materialo.
 
 Kontribuantoj estas bonvenaj.
 
-## Biokemio
-
-{% assign bio = site.biokemio | sort: "title" %}
-{% for t in bio %}
-{% if t.title %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
 
 ## Esperanto
 
@@ -35,3 +27,22 @@ Kontribuantoj estas bonvenaj.
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
 {% endif %}  
 {% endfor %}
+
+## Matematiko
+
+{% assign mat = site.matematiko | sort: "title" %}
+{% for t in mat %}
+{% if t.title %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}
+
+
+## Biokemio
+
+{% assign bio = site.biokemio | sort: "title" %}
+{% for t in bio %}
+{% if t.title %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}  
