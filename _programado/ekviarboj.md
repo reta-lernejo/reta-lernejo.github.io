@@ -81,8 +81,9 @@ malfavora strukturo, en la plej malfavora kazo kvazaŭvica.
 
 <div class="mermaid">
   graph TD;
-    r(R) --> n1( ) & n2(n);
-	n2 --> n3( ) & n4(f);
+    r(R) --> n1( ) & n2(n1);
+	  n2 --> n3( ) & n4(n2);
+	  n4 --> n5( ) & n6(f);
 </div>
 maltaŭga arbo
 
@@ -135,6 +136,9 @@ de la subarboj relative al variablo $$a$$.
 
 (1)
 
+<table>
+<tr>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+2|n1(1);
@@ -144,10 +148,11 @@ de la subarboj relative al variablo $$a$$.
 	n2 -->|a|n4( );
 </div>
 antaŭ ekvilibrigo:
-alteco ŝanĝita  
-balanco(1)= 1  
-balanco(2)= 1  
-
+alteco ŝanĝita;  
+balanco(1)= 1;  
+balanco(2)= 0
+</td>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+2|n2(2);
@@ -157,14 +162,19 @@ balanco(2)= 1
 	n2 -->|a|n4( );
 </div>	
 post ekvilibrigo:
-alteco ŝanĝita  
-balanco(1)= 1  
-balanco(2)= 1  
-
+alteco ne ŝanĝita;  
+balanco(1)= 1;  
+balanco(2)= -1  
+</td>
+</tr>
+</table>
 
 
 (2)
 
+<table>
+<tr>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+3|n1(1);
@@ -176,6 +186,13 @@ balanco(2)= 1
 	n3 -->|a|ny(y);
 </div>
 
+antaŭ ekvilibrigo:
+alteco ŝanĝita;  
+balanco(1)= 1;  
+balanco(2)= -1;  
+balanco(3)= 1
+</td>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+2|n3(3);
@@ -187,10 +204,20 @@ balanco(2)= 1
 	n2 -->|a|n4( );
 </div>
 
+post ekvilibrigo:
+alteco ŝanĝita;  
+balanco(1)= -1;  
+balanco(2)= 0;  
+balanco(3)= 0
+</td>
+</tr>
+</table>
 
-<!-- -->
 (3)
 
+<table>
+<tr>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+3|n1(1);
@@ -202,6 +229,13 @@ balanco(2)= 1
 	n3 -->|a|ny(y);
 </div>
 
+antaŭ ekvilibrigo:
+alteco ŝanĝita;  
+balanco(1)= 1;  
+balanco(2)= -1;  
+balanco(3)= 0
+</td>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+2|n3(3);
@@ -213,8 +247,20 @@ balanco(2)= 1
 	n2 -->|a|n4( );
 </div>
 
+post ekvilibrigo:
+alteco ŝanĝita;  
+balanco(1)= 0;
+balanco(2)= 0;  
+balanco(3)= 0
+</td>
+</tr>
+</table>
+
 (4)
 
+<table>
+<tr>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+3|n1(1);
@@ -226,6 +272,13 @@ balanco(2)= 1
 	n3 -->|a-1|ny(y);
 </div>
 
+antaŭ ekvilibrigo:
+alteco ŝanĝita;  
+balanco(1)= 1;  
+balanco(2)= -1;  
+balanco(3)= -1
+</td>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+2|n3(3);
@@ -237,8 +290,20 @@ balanco(2)= 1
 	n2 -->|a|n4( );
 </div>
 
+post ekvilibrigo:
+alteco ŝanĝita;  
+balanco(1)= 0; 
+balanco(2)= 1;  
+balanco(3)= 0
+</td>
+</tr>
+</table>
+
 (5)
 
+<table>
+<tr>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+2|n1(1);
@@ -248,6 +313,12 @@ balanco(2)= 1
 	n2 -->|a|n4( );
 </div>
 
+antaŭ ekvilibrigo:
+alteco ŝanĝita;  
+balanco(1)= 1;  
+balanco(2)= 1
+</td>
+<td>
 <div class="mermaid">
   graph TD;
     r( ) -->|a+2|n2(2);
@@ -257,74 +328,14 @@ balanco(2)= 1
 	n2 -->|a|n4( );
 </div>	
 
-µ §
-
-
-
-
-µ §
-
-alteco ŝanĝita
-balanco(1)= 0
+post ekvilibrigo:
+alteco ne ŝanĝita;  
+balanco(1)= 0;  
 balanco(2)= 0
+</td>
+</tr>
+</table>
 
-µ §
-
-
-alteco ŝanĝita
-balanco(1)= 1
-balanco(2)= 0
-
-µ §
-
-alteco ne ŝanĝita
-balanco(1)= 1
-balanco(2)=-1
-
-µ §
-
-
-alteco ŝanĝita
-balanco(1)= 1
-balanco(2)=-1
-balanco(3)= 1
-
-µ §
-
-alteco ŝanĝita
-balanco(1)=-1
-balanco(2)= 0
-balanco(3)= 0
-
-µ §
-
-
-alteco ŝanĝita
-balanco(1)= 1
-balanco(2)=-1
-balanco(3)= 0
-
-µ §
-
-alteco ŝanĝita
-balanco(1)= 0
-balanco(2)= 0
-balanco(3)= 0
-
-µ §
-
-
-alteco ŝanĝita
-balanco(1)= 1
-balanco(2)=-1
-balanco(3)=-1
-
-µ §
-
-alteco ŝanĝita
-balanco(1)= 0
-balanco(2)= 1
-balanco(3)= 0
 
 Tabelo: Kazoj post estingo de nodo en la maldekstra 
 subarbo de  kaj maniero de reekvilibrigo

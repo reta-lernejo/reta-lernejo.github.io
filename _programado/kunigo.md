@@ -9,7 +9,10 @@ fari tion, sed ĉiuj nomas la koncepton per alia vorto, ekz-e
 SQL: *JOIN*, Excel: *VLOOKUP*, Prologo: *Unification* kaj en 
 multaj lingvoj oni devas aparte programi ĝin per *WHILE*-maŝo kaj komparo.
 
-Se ni havas ekzemple unu liston de ĉiuj paĝoj en Vikipedio kaj unu liston 
+Ni provas klarigi la koncepton uzante problemon el Reta Vortaro: ligi la artikolojn de la vortaro 
+al paĝoj en Vikipedio.
+
+Se ni prenas liston de ĉiuj paĝoj en Vikipedio kaj unu liston 
 kun ĉiuj kapvortoj de Revo kaj volas eltrovi, kiuj vortoj estas klarigitaj 
 kaj en Revo kaj en Vikipedio por aldoni referencojn, ni devos kompari kaj ekstrakti ilin per kunigo.
 Oni povas elŝuti tian [liston de duonmiliono da paĝonomoj 
@@ -77,8 +80,8 @@ Zywiec
 
 ### Brosado de la krudaj datumoj
 
-La Viki-liston ni devas unua malpaki per `gzip -d < eoviki.gz`
-kaj ĉe tiu okazo ni forigos ankaŭ ĉiujn listerojn, kiuj ne konsistas el nur literoj, streketoj kaj substrekoj. Substrekojn Vikipedio uzas kiel intervorta spaco. Ni ankaŭ forigos mallongigojn, kiuj havus majsuklon kiel dua litero: `grep -E "^[[:upper:]][-[:lower:]][-_[:alpha:]]*$"`. La paŝojn de la brosado ni konektas per tub-signoj: `|`. Laŭbezone ni povos ankoraŭ ennestigi la rezulton en XML-strukturon.
+La Viki-liston ni devas unue malpaki per `gzip -d < eoviki.gz`
+kaj ĉe tiu okazo ni forigos ankaŭ ĉiujn listerojn, kiuj ne konsistas el nur literoj, streketoj kaj substrekoj. Substrekojn Vikipedio uzas kiel intervorta spaco. Ni ankaŭ forigos mallongigojn, kiuj havus majusklon kiel dua litero: `grep -E "^[[:upper:]][-[:lower:]][-_[:alpha:]]*$"`. La paŝojn de la brosado ni konektas per tub-signoj: `|`. Laŭbezone ni povos ankoraŭ ennestigi la rezulton en XML-strukturon.
 
 ```bash
 echo '<?xml version="1.0"?><viki>'
@@ -145,7 +148,7 @@ regula(Neregula,Regula) :-
 
 #### Perlo
 
-Sen indeksi la komparliston daŭras eterne, do ni unue kreas asocian liston (haketmapon) el unu el la listo:    
+Sen indeksi la komparliston, tio daŭrus eterne. Do ni unue kreas asocian liston (haketmapon) el unu el la listoj:    
 
 ```perl
 my %drv_oj;
