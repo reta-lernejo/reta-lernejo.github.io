@@ -18,12 +18,12 @@ La sekvajn dudek oni nomas *kanonaj proteinogenoj*.
 |esperanta nomo|mallongigo|unulitera|sumformulo|
 |-|-|-|
 |alanino|Ala|A|$$\ce{C3H7NO2}$$|![alanino](../assets/kem/alanino.png)|
-|arginino|Arg|R|$$\ce{C6H14N4O2}$$|![arginino](../assets/kem/arginino.png)
-|asparagino|Asn|N|$$\ce{C4H8N2O3}$$|![asparagino](../assets/kem/asparagino.png)
-|aspartato|Asp|D|$$\ce{C4H7NO4}$$|![asparaginacido](../assets/kem/asparaginacido.png)
-|cisteino|Cys|C|$$\ce{C3H7NO2S}$$|![cisteino](../assets/kem/cisteino.png)
-|glutamino|Gln|Q|$$\ce{C5H10N2O3}$$|
-|glutamato|Glu|E|$$\ce{C5H9NO4}$$|
+|arginino|Arg|R|$$\ce{C6H14N4O2}$$|![arginino](../assets/kem/arginino.png)|
+|asparagino|Asn|N|$$\ce{C4H8N2O3}$$|![asparagino](../assets/kem/asparagino.png)|
+|aspartato|Asp|D|$$\ce{C4H7NO4}$$|![asparaginacido](../assets/kem/asparaginacido.png)|
+|cisteino|Cys|C|$$\ce{C3H7NO2S}$$|![cisteino](../assets/kem/cisteino.png)|
+|glutamino|Gln|Q|$$\ce{C5H10N2O3}$$|<script type="text/javascript" src="https://chemapps.stolaf.edu/jmol/jmol.php?model=glutamine&inline&height=200&width=300"></script>|
+|glutamato|Glu|E|$$\ce{C5H9NO4}$$|<a href="#" onclick="">3D</a>
 |glicino|Gly|G|$$\ce{C2H5NO2}$$|
 |histidino|His|H|$$\ce{C6H9N3O2}$$|
 |izoleŭcino|Ile|I|$$\ce{C6H13NO2}$$|

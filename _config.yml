@@ -39,11 +39,17 @@ minima:
 #  parse_block_html: true
 
 collections:
-  biokemio:
-    output: true
   esperanto:
     output: true
+  kosmo:
+    output: true    
   programado:
+    output: true
+  kemio:
+    output: true
+  biokemio:
+    output: true
+  matematiko:
     output: true
 
 # Exclude from processing.
