@@ -12,7 +12,7 @@ http://movb.de/jekyll-details-support.html -->
 
 {::options parse_block_html="true" /}
 
-<details>
+<details style="border-top: 1px dotted black">
   <summary markdown="span">
   La orbitaloj
 </summary>
@@ -28,16 +28,21 @@ povas esti identigita per tri nombroj *n*, *l* kaj *m* kun la sekvaj ecoj:
 
 ### kroma kvantumnombro *l*
 
-Ĝi indikas la *subŝelon* kaj varias inter 0 kaj *n* - 1. Oni nomas gin ankau azimuta momanto. La energinivelo de subŝelo kreskas laŭ la sumo *n + l*. Anstataŭ numeroj oni uzas minusklojn por nomi la subŝelon: s, p, d, f, g, h, i, j
+Ĝi indikas la *subŝelon* kaj varias inter 0 kaj *n* - 1. Oni nomas gin ankau azimuta momanto. La energinivelo de subŝelo kreskas laŭ la sumo *n + l*. Anstataŭ numeroj oni uzas minusklojn por nomi la subŝelon: s, p, d, f 
 
 ### magneta kvantumnombro *m*
 
 Ĝi varias inter *-l* kaj *l* kaj donas la orbitalon ene de subŝelo. Ĉiu orbitalo povas enhavi maksimume du elektronojn. Ili devas havi distingan *spinon*, kiu povas esti *supren* aŭ *malsupren*.
+
+
+Ĉar elektronoj estas fermionoj, ili obeas al la ekskluda principo de *Pauli*, do
+du en sama loko ne povas havi saman kvantuman staton kaj tiel klariĝas la distribuo de elektronoj
+en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo de elementoj.
 </details>
 
 
 
-<details>
+<details style="border-top: 1px dotted black">
   <summary markdown="span">
   Notacio laŭ <i>Pauling</i>
 </summary>
