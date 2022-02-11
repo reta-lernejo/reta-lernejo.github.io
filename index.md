@@ -38,6 +38,16 @@ Kontribuantoj estas bonvenaj.
 {% endfor %}
 
 
+## Kemio
+
+{% assign kem = site.kemio | sort: "title" %}
+{% for t in kem %}
+{% if t.title %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}  
+
+
 ## Biokemio
 
 {% assign bio = site.biokemio | sort: "title" %}

@@ -42,6 +42,8 @@ collections:
     output: true    
   programado:
     output: true
+  kemio:
+    output: true
   biokemio:
     output: true
   matematiko:
