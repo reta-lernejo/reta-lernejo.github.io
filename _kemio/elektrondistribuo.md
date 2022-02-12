@@ -202,3 +202,138 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 </script>
 
 </details>
+
+
+
+<details style="border-top: 1px dotted black">
+  <summary markdown="span">
+  Rilato al la perioda sistemo de elementoj
+</summary>
+
+## Rilato al la perioda sistemo de elementoj
+
+Energie ekvilibra stato estas atingita se ĉefa energinivelo estas plenigita per ok elektronoj, do se
+la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de noblaj gasoj. Ĉe heliumo tio estas escepte nur
+du elektronoj ĉar la unua energinivelo havas nur unu s-orbitalon kun kapacito de du elektronoj.
+
+Kun la elemento sekvanta noblan gason, kaj do ekplenigo de la s-orbitalo de la venonta ĉefa energinivelo
+komenciĝas nova periodo. Ni supre montris tion per horizontalaj linioj.
+
+La plenigo de la s-orbitaloj respondas al la unuaj du ĉefgrupoj en la perioda sistemo. La plenigo de la 
+tri p-orbitaloj al la 3a ĝis 8a ĉefgrupoj (resp. grupoj 13 ĝis 18 laŭ IUPAK).
+
+La kromgrupoj (grupoj 3 ĝis 12 laŭ IUPAK) respondas al plenigo de d-orbitaloj, 
+dek elektronoj respondas al dek kromgrupoj.
+La lantanidoj kaj aktinidoj al la plenigo de la f-orbitaloj (14 elektronoj).
+
+<style>
+    #perioda_sistemo {
+        display: grid; 
+        grid-template-rows: repeat(7,1.5em); 
+        grid-template-columns: repeat(19,1.5em);
+    }
+
+    #perioda_sistemo_f {
+        display: grid; 
+        grid-template-rows: repeat(2,1.5em); 
+        grid-template-columns: repeat(14,1.5em);
+        margin-left: 7.5em;
+        margin-top: 1em;
+    }    
+    
+    #perioda_sistemo span {
+        border: 1px solid black;
+    }
+
+    #perioda_sistemo .c_prd {
+        border: none;
+    }
+
+    #perioda_sistemo .c_s {
+        background-color: bisque;
+    }
+
+    #perioda_sistemo .c_p {
+        background-color: darksalmon;
+    }
+
+    #perioda_sistemo .c_d {
+        background-color: lightblue;
+    }
+
+    #perioda_sistemo_f .c_f {
+        background-color: moccasin;
+        border: 1px solid black;
+    }
+
+
+
+</style>
+<div id="perioda_sistemo"></div>
+<div id="perioda_sistemo_f"></div>
+
+<script>
+function perioda_sistemo() {
+    const ps = document.getElementById("perioda_sistemo");
+    const ps_f = document.getElementById("perioda_sistemo_f");
+
+    function cell(cls, content, style) {
+        const cell = document.createElement("span");
+        cell.classList.add(cls);
+        if (style) cell.setAttribute("style",style);
+        cell.textContent = content;
+        return cell;
+    }
+
+    const ss = atommodelo.subŝeloIteraciilo();
+    let result = ss.next();
+    
+    while (!result.done) {
+        const n = result.value[0];
+        const l = result.value[1];
+        // nombro de orbitaloj sur subŝelo estas
+        // 2 * l + 1, ĉar m: -l..+l
+        const n_ele = 2 * (2*l+1);
+        const subs = subŝeloj[l];
+
+        if (subs=='s') {
+            //komencu novan periodon
+            ps.append(cell('c_prd',n,"grid-column-start:1;grid-row-start:"+(n+1)));
+        }
+
+        // 1s - orbitalo
+        if (n==1 && subs=='s') {
+            ps.append(cell('c_s','1s',"grid-column-start:2;grid-row-start:2"));
+            ps.append(cell('c_s','1s',"grid-column-start:19;grid-row-start:2"));
+        // ceteraj s-orbitaloj
+        } else if (subs=='s') {
+            for (let i=0;i<n_ele;i++) {
+                ps.append(cell('c_s',n+subs,"grid-column-start:" + (i+2) + ";grid-row-start:" + (n+1)));
+            }
+        // p-orbitaloj
+        } else if (subs=='p') {
+            for (let i=0;i<n_ele;i++) {
+                ps.append(cell('c_p',n+subs,"grid-column-start:" + (i+14) + ";grid-row-start:" + (n+1)));
+            }
+        // d-orbitaloj
+        } else if (subs=='d') {
+            for (let i=0;i<n_ele;i++) {
+                ps.append(cell('c_d',n+subs,"grid-column-start:" + (i+4) + ";grid-row-start:" + (n+2)));
+            }        
+
+        // f-orbitaloj
+        } else if (subs=='f') {
+            for (let i=0;i<n_ele;i++) {
+                ps_f.append(cell('c_f',n+subs,"grid-column-start:" + (i+1) + ";grid-row-start:" + (n-3)));
+            }
+        }
+
+        result = ss.next();
+    }
+
+}
+
+perioda_sistemo();
+</script>
+
+</details>
