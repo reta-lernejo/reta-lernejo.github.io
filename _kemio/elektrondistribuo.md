@@ -1,7 +1,20 @@
 ---
 layout: page
 title: Distribuo de elektronoj en orbitaloj
+js: kemio-0a
 ---
+
+<!-- tion ni povus ŝovi al _layouts/laborfolio... -->
+{% if page.css %}
+  {% for stylesheet in page.css %}
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/{{ stylesheet }}.css" type="text/css">
+  {% endfor %}
+{% endif %}
+{% if page.js %}
+  {% for js_file in page.js %}
+  <script src='{{ site.baseurl }}/assets/js/{{ js_file }}.js' type="text/javascript"></script>
+  {% endfor %}
+{% endif %}
 
 La *atomoj* konsistas el kerno de *protonoj* kaj *neŭtronoj* kaj la *elektronoj* kiuj distribuiĝas ĉirkau la kerno.
 Neŭtrala atomo havas sammulte da elektronoj kaj protonoj.
@@ -49,20 +62,23 @@ en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo 
 
 ## Notacio laŭ *Pauling*
 
-<label for="protonnombro">nombro de protonoj:</label> <b><span id="pn_info">12</span></b><br>
-<input type="range" id="protonnombro" style="width: 50em; max-width: 80%" value="protonnombro" min="1" max="118" value="12" onchange="aktualigo()">
+<label for="protonnombro">elemento:</label> <b><span id="element_info">8 - oksigeno (O)</span></b><br>
+<input type="range" id="protonnombro" style="width: 50em; max-width: 80%" value="protonnombro" min="1" max="118" value="8" onchange="aktualigo()" oninput="aktualigo_info()">
 
 La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn. La subŝeloj en tiu notacio estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon ol la malsupraj.
 
 <div id="pauling_inf" style="font-weight: bold;"></div>
-<div id="pauling">
-</div>
+<div id="pauling"></div>
 
 <script>
+    function aktualigo_info() {
+        const nro = document.getElementById('protonnombro').value;
+        document.getElementById('element_info').textContent = nro + ' - ' + elemento.nomo_mlg(nro);
+    }
+
     function aktualigo() {
-        const n_proton = document.getElementById('protonnombro').value;
-        document.getElementById('pn_info').textContent = n_proton;
-        distribuo(+n_proton);
+        const nro = document.getElementById('protonnombro').value;
+        distribuo(+nro);
     }
 
     // kp https://www.seilnacht.com/Lexikon/psval.htm
@@ -72,126 +88,6 @@ La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn.
     // laŭ https://de.wikipedia.org/wiki/Elektronenkonfiguration
 
     const subŝeloj = "spdfghij";
-    const elementoj = [
-    'hidrogeno (H)',
-    'heliumo (He)',
-    'litio (Li)',
-    'berilio (Be)',
-    'boro (B)',
-    'karbono (C)',
-    'azoto (N)',
-    'oksigeno (O)',
-    'fluoro (F)',
-    'neono (Ne)',
-    'natrio (Na)',
-    'magnezio (Mg)',
-    'aluminio (Al)',
-    'silicio (Si)',
-    'fosforo (P)',
-    'sulfuro (S)',
-    'kloro (Cl)',
-    'argono (Ar)',
-    'kalio (K)',
-    'kalcio (Ca)',
-    'skandio (Sc)',
-    'titano (Ti)',
-    'vanado (V)',
-    'kromo (Cr)',
-    'mangano (Mn)',
-    'fero (Fe)',
-    'kobalto (Co)',
-    'nikelo (Ni)',
-    'kupro (Cu)',
-    'zinko (Zn)',
-    'galiumo (Ga)',
-    'germaniumo (Ge)',
-    'arseno (As)',
-    'seleno (Se)',
-    'bromo (Br)',
-    'kriptono (Kr)',
-    'rubidio (Rb)',
-    'stroncio (Sr)',
-    'itrio (Y)',
-    'zirkonio (Zr)',
-    'niobo (Nb)',
-    'molibdeno (Mo)',
-    'teknecio (Tc)',
-    'rutenio (Ru)',
-    'rodio (Rh)',
-    'paladio (Pd)',
-    'arĝento (Ag)',
-    'kadmio (Cd)',
-    'indio (In)',
-    'stano (Sn)',
-    'antimono (Sb)',
-    'teluro (Te)',
-    'jodo (I)',
-    'ksenono (Xe)',
-    'cezio (Cs)',
-    'bario (Ba)',
-    'lantano (La)',
-    'cerio (Ce)',
-    'prazeodimo (Pr)',
-    'neodimo (Nd)',
-    'prometio (Pm)',
-    'samario (Sm)',
-    'eŭropio (Eu)',
-    'gadolinio (Gd)',
-    'terbio (Tb)',
-    'disprozio (Dy)',
-    'holmio (Ho)',
-    'erbio (Er)',
-    'tulio (Tm)',
-    'iterbio (Yb)',
-    'lutecio (Lu)',
-    'hafnio (Hf)',
-    'tantalo (Ta)',
-    'volframo (W)',
-    'renio (Re)',
-    'osmio (Os)',
-    'iridio (Ir)',
-    'plateno (Pt)',
-    'oro (Au)',
-    'hidrargo (Hg)',
-    'talio (Tl)',
-    'plumbo (Pb)',
-    'bismuto (Bi)',
-    'polonio (Po)',
-    'astato (At)',
-    'radono (Rn)',
-    'franciumo (Fr)',
-    'radiumo (Ra)',
-    'aktiniumo (Ac)',
-    'torio (Th)',
-    'protaktinio (Pa)',
-    'uranio (U)',
-    'neptunio (Np)',
-    'plutonio (Pu)',
-    'americio (Am)',
-    'kuriumo (Cm)',
-    'berkelio (Bk)',
-    'kaliforniumo (Cf)',
-    'ejnŝtejnio (Es)',
-    'fermio (Fm)',
-    'mendelevio (Md)',
-    'nobelio (No)',
-    'laŭrencio (Lr)',
-    'ruterfordio (Rf)',
-    'dubnio (Db)',
-    'seborgio (Sg)',
-    'borio (Bh)',
-    'hasio (Hs)',
-    'mejtnerio (Mt)',
-    'darmŝtatio (Ds)',
-    'rentgenio (Rg)',
-    'kopernicio (Cn)',
-    'nihonio (Nh)',
-    'flerovio (Fl)',
-    'moskovio (Mc)',
-    'livermorio (Lv)',
-    'teneso (Ts)',
-    'oganesono (Og)'
-    ]; 
 
     const esceptoj = {
         24: "3d5 4s1", 42: "4d5 5s1",
@@ -204,33 +100,6 @@ La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn.
         }
 
     const pauling = document.getElementById("pauling");
-
-    function subŝeloIt() {
-        let nivelo = 1;
-        let n = 1;
-
-        // trakuras laŭ kreskanta energinivelo (n+l) la
-        // subŝeloj priskribitajn per kvantumnombroj n kaj l
-        const ssIterator = {
-
-            next: function() {
-                // aktuala subŝelo
-                const l = nivelo - n;  // energio: n + l = nivelo
-                const result = {value:  [n,l], done: (nivelo>8  )};
-
-                if ( n < Math.min(nivelo,7) ) {
-                    n++;
-                } else {
-                    // sekva energinivelo
-                    nivelo++;
-                    // l: [0..n-1], do n: [(nivelo+1)/2]..nivelo
-                    n = Math.trunc(nivelo/2)+1;
-                }
-                return result;
-            }
-        };
-        return ssIterator;
-    }
 
     // distribuo de elektronoj sur orbitaloj de unu subŝelo
     function distr_ss(ss, n_ele) {
@@ -260,7 +129,7 @@ La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn.
 
     // distribuu n_ele elektronojn laŭ la reguloj al orbitaloj
     function distribuo(n_ele) {
-        const ss = subŝeloIt();
+        const ss = atommodelo.subŝeloIteraciilo();
         let result = ss.next();
         let ele_rest = n_ele;
         
@@ -277,7 +146,7 @@ La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn.
             result = ss.next();
         }
 
-        document.getElementById("pauling_inf").textContent = elementoj[n_ele-1];
+        document.getElementById("pauling_inf").textContent = elemento.nomo_mlg(n_ele);
 
         // por esceptaj elementoj faru korektojn
         if (esceptoj[n_ele]) {
@@ -293,7 +162,7 @@ La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn.
     }
 
     // kreu la HTML-elementojn por la noticio laŭ Pauling
-    const ss = subŝeloIt();
+    const ss = atommodelo.subŝeloIteraciilo();
     let result = ss.next();
     
     while (!result.done) {
