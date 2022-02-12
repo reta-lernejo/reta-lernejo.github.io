@@ -1,20 +1,9 @@
 ---
-layout: page
+layout: laborfolio
 title: Distribuo de elektronoj en orbitaloj
 js: kemio-0a
 ---
 
-<!-- tion ni povus ŝovi al _layouts/laborfolio... -->
-{% if page.css %}
-  {% for stylesheet in page.css %}
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/{{ stylesheet }}.css" type="text/css">
-  {% endfor %}
-{% endif %}
-{% if page.js %}
-  {% for js_file in page.js %}
-  <script src='{{ site.baseurl }}/assets/js/{{ js_file }}.js' type="text/javascript"></script>
-  {% endfor %}
-{% endif %}
 
 La *atomoj* konsistas el kerno de *protonoj* kaj *neŭtronoj* kaj la *elektronoj* kiuj distribuiĝas ĉirkau la kerno.
 Neŭtrala atomo havas sammulte da elektronoj kaj protonoj.
