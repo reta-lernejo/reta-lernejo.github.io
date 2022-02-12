@@ -52,15 +52,16 @@ en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo 
 
 <details style="border-top: 1px dotted black">
   <summary markdown="span">
-  Notacio laŭ <i>Pauling</i>
+  Notado laŭ <i>Pauling</i>
 </summary>
 
-## Notacio laŭ *Pauling*
+## Notado laŭ *Pauling*
 
 <label for="protonnombro">elemento:</label> <b><span id="element_info">8 - oksigeno (O)</span></b><br>
 <input type="range" id="protonnombro" style="width: 50em; max-width: 80%" value="protonnombro" min="1" max="118" value="8" onchange="aktualigo()" oninput="aktualigo_info()">
 
-La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn. La subŝeloj en tiu notacio estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon ol la malsupraj.
+La notmaniero laŭ *Pauling* montras la distribuon de la elektronoj en la orbitalojn. La subŝeloj en 
+tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon ol la malsupraj.
 
 <div id="pauling_inf" style="font-weight: bold;"></div>
 <div id="pauling"></div>
@@ -172,8 +173,13 @@ La notacio de *Pauling* montras la distribuon de la elektronoj en la orbitalojn.
         // supre de la aliaj
         const ldiv = document.createElement("div");
         ldiv.setAttribute("id","p_" + n + subs);
+        // montru strekon super 1s kaj p-orbitaloj pro nobelgasaj distribuoj
+        if (subs == 'p' || n==1 && subs == 's') {
+            ldiv.setAttribute("style","border-top: 2px solid black;");
+        }
         const ll = document.createElement("span");
         ll.textContent = +n + subs;
+        let style = "width: 2em; display: inline-block;";        
         ll.setAttribute("style","width: 2em; display: inline-block");
         ldiv.append(ll);
 
