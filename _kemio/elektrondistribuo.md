@@ -220,11 +220,14 @@ Kun la elemento sekvanta noblan gason, kaj do ekplenigo de la s-orbitalo de la v
 komenciĝas nova periodo. Ni supre montris tion per horizontalaj linioj.
 
 La plenigo de la s-orbitaloj respondas al la unuaj du ĉefgrupoj en la perioda sistemo. La plenigo de la 
-tri p-orbitaloj al la 3a ĝis 8a ĉefgrupoj (resp. grupoj 13 ĝis 18 laŭ IUPAK).
+tri p-orbitaloj al la grupoj 13 ĝis 18.
 
-La kromgrupoj (grupoj 3 ĝis 12 laŭ IUPAK) respondas al plenigo de d-orbitaloj, 
+La grupoj 3 ĝis 12 respondas al plenigo de d-orbitaloj, 
 dek elektronoj respondas al dek kromgrupoj.
-La lantanidoj kaj aktinidoj al la plenigo de la f-orbitaloj (14 elektronoj).
+
+La lantanidoj kaj aktinidoj respondas al la plenigo de la f-orbitaloj (14 elektronoj). Tamen kelkaj el tiu serio
+havas iom devian distribuon, kelkaj elektronoj jam okupas la subŝelojn 5d resp. 6d antaŭ plenigi tute
+la subŝelojn 4f resp. 5f.
 
 <style>
     #perioda_sistemo {
@@ -237,7 +240,7 @@ La lantanidoj kaj aktinidoj al la plenigo de la f-orbitaloj (14 elektronoj).
         display: grid; 
         grid-template-rows: repeat(2,1.5em); 
         grid-template-columns: repeat(14,1.5em);
-        margin-left: 7.5em;
+        margin-left: 6em;
         margin-top: 1em;
     }    
     
