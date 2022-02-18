@@ -81,7 +81,7 @@ nete jare: +4 (atm)
         #s_lit {
             cx: 500px;
             cy: 3200px;
-            r: 2500px;
+            r: 2500px; /* √123000000 = 11090 estus tro granda por vidi kurbon ankoraŭ! */
             fill: gray;
         }
 
@@ -89,7 +89,7 @@ nete jare: +4 (atm)
             transform: translate(330px,760px);
         }
         #s_gas circle {
-            r: 12px;
+            r: 12px; /* √140 = 11.8 */
             fill: slategray;
         }
 
