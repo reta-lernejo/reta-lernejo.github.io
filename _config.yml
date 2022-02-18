@@ -49,6 +49,8 @@ collections:
     output: true
   biokemio:
     output: true
+  biogeokemio:
+    output: true
   matematiko:
     output: true
 

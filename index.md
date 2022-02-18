@@ -48,6 +48,15 @@ Kontribuantoj estas bonvenaj.
 {% endfor %}  
 
 
+## Biogeokemio
+
+{% assign bio = site.biogeokemio | sort: "title" %}
+{% for t in bio %}
+{% if t.title %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}  
+
 ## Biokemio
 
 {% assign bio = site.biokemio | sort: "title" %}
