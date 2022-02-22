@@ -17,17 +17,40 @@ title: Vektoradicio
 
 $$ \begin{bmatrix} 1 \cr 3 \end{bmatrix} + \begin{bmatrix} 2 \cr 2 \end{bmatrix} = ? $$
 
+
+
 <svg version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" 
+    class="kartezia"
     width="600" height="600" 
-    viewBox="0 0 10.0 10.0">
+    viewBox="0.0 -10.0 10.0 10.0">
+
+  <!-- https://stackoverflow.com/questions/3846015/flip-svg-coordinate-system -->
 
   <style type="text/css">
     <![CDATA[
+
+      svg.kartezia {
+        display:flex;
+      }
+
+      /* Flip the vertical axis in <g> to emulate cartesian. */
+      svg.kartezia > g {
+        transform: scaleY(-1);
+      }
+
+      /* Re-flip all <text> element descendants to their original side up. 
+      
+      svg.kartezia > g text {
+        transform: scaleY(-1) translate(0,-10);
+      }*/
+
         text {
-            font-size: 0.8px;
-            text-anchor: middle
+            font-size: 0.5px;
+            text-anchor: middle;
+            fill: black;
+            stroke: none;
         }
         path {
             stroke: black;
@@ -35,11 +58,16 @@ $$ \begin{bmatrix} 1 \cr 3 \end{bmatrix} + \begin{bmatrix} 2 \cr 2 \end{bmatrix}
             /*stroke-linecap: round;*/
             fill: none;
         }
-        line {
-            stroke: black;
+        #krado {
             fill: none;
             stroke-width: 0.01;
             stroke: gray;
+        }
+        #desegno {
+            stroke: black;
+            fill: none;
+            stroke-width: 0.05;
+            stroke-linecap: round;
         }
     ]]>
   </style> 
@@ -48,9 +76,20 @@ $$ \begin{bmatrix} 1 \cr 3 \end{bmatrix} + \begin{bmatrix} 2 \cr 2 \end{bmatrix}
     elkalkuli komencon kaj finon de la pado depende de radiusoj -->
 
     <defs>
-       <path id="vektoro" d="M0 0 L10 0 M9.6 0.2L10 0L9.6 -0.2 "></path>
+    <!-- ni kreos per JS 
+      <g id="vektoro">
+        <line x1="0" y1="0" x2="1" y2="0"/>
+        <line x1="1" y1="0" x2="0.96" y2="0.02"/>
+        <line x1="1" y1="0" x2="0.96" y2="-0.02"/>
+      </g> -->
+
+      <g id="pinto">
+        <line x1="-0.4" y1="0.1" x2="0" y2="0"/>
+        <line x1="-0.4" y1="-0.1" x2="0" y2="0"/>
+      </g>
     </defs> 
 
+<g id="krado">
     <line x1="0.01" y1="0" x2="0.01" y2="10"/>
     <line x1="1" y1="0" x2="1" y2="10"/>
     <line x1="2" y1="0" x2="2" y2="10"/>
@@ -74,9 +113,45 @@ $$ \begin{bmatrix} 1 \cr 3 \end{bmatrix} + \begin{bmatrix} 2 \cr 2 \end{bmatrix}
     <line y1="8" x1="0" y2="8" x2="10"/>
     <line y1="9" x1="0" y2="9" x2="10"/>
     <line y1="9.99" x1="0" y2="9.99" x2="10"/>
-
-    <use href="#vektoro"  transform="translate(0 10) rotate(-20) scale(.5)"/>
+</g>
+<g id="desegno">
+<!-- ni kreos per JS
+    <use href="#vektoro"  transform="rotate(20) scale(6)"/>
     <text x="3" y="8">A</text>
-    <use href="#vektoro"  transform="translate(0 10) rotate(-40) scale(.5)"/>
+    <use href="#vektoro"  transform="rotate(40) scale(5)"/>
     <text x="4" y="9">B</text>
+    -->
+</g>
  </svg>
+
+
+<script>
+  function vektoro(nomo,x,y,x0=0,y0=0) {
+    var ns = "http://www.w3.org/2000/svg";
+    const g = document.createElementNS(ns,"g");
+    const linio = document.createElementNS(ns,"line");
+    linio.setAttribute("x1",x0);
+    linio.setAttribute("y1",y0);
+    linio.setAttribute("x2",x+x0);
+    linio.setAttribute("y2",y+y0);
+
+    const teksto = document.createElementNS(ns,"text");
+    teksto.textContent = nomo;
+    teksto.setAttribute("x",x+x0-.2);
+    teksto.setAttribute("y",-y-y0-.1); // -y ĉar ni devos speguli la koordinasistemon
+    teksto.setAttribute("transform","scale(+1,-1)");
+
+    // por aldoni la pinton ni devas scii la angulon ĉirkaŭ kiu ni rotaciu
+    const a = Math.atan2(y, x) * 180 / Math.PI;
+    const pinto = document.createElementNS(ns,"use");
+    pinto.setAttribute("href","#pinto");
+    pinto.setAttribute("transform","translate("+(x+x0)+","+(y+y0)+") rotate("+a+")");
+    g.append(linio,teksto,pinto);
+    const svg = document.getElementById("desegno");
+    svg.append(g);
+  }
+
+  vektoro("A",1,3);
+  vektoro("B",2,2,1,3);
+  vektoro("A+B",3,5);
+</script>
