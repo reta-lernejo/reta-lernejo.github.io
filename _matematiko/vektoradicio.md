@@ -15,9 +15,84 @@ title: Vektoradicio
 
 <!-- https://tex.stackexchange.com/questions/526950/how-to-type-column-vectors-in-mathjax -->
 
-$$ \begin{bmatrix} 1 \cr 3 \end{bmatrix} + \begin{bmatrix} 2 \cr 2 \end{bmatrix} = ? $$
+<!-- $$ \begin{bmatrix} 1 \cr 3 \end{bmatrix} + \begin{bmatrix} 2 \cr 2 \end{bmatrix} = ? $$ -->
+
+<style>
+  #tasko {
+    display: grid;
+    grid-template-areas:
+      'k1 x1 k2 op k3 x2 k4 eg k5 x k6'
+      'k1 y1 k2 op k3 y2 k4 eg k5 y k6'
+  }
+
+  #k1,#k2,#k3,#k4,#k5,#k6,#op,#eg {
+    font-size: 200%;
+  }
+  
+  #k1 {
+    grid-area: k1;
+  }
+  #k2 {
+    grid-area: k2;
+  }
+  #k3 {
+    grid-area: k3;
+  }
+  #k4 {
+    grid-area: k4;
+  }
+  #k5 {
+    grid-area: k5;
+  }
+  #k6 {
+    grid-area: k6;
+  }
+
+  #op {
+    grid-area: op;
+  }
+  #eg {
+    grid-area: eg;
+  }
+
+  #x1 {
+    grid-area: x1;
+  }
+  #x2 {
+    grid-area: x2;
+  }
+  #y1 {
+    grid-area: y1;
+  }
+  #y2 {
+    grid-area: y2;
+  }
+  #x {
+    grid-area: x;
+  }
+  #y {
+    grid-area: y;
+  }
 
 
+</style>
+
+<div id="tasko">
+  <span id="k1">(</span>
+  <span id="x1">x1</span>
+  <span id="y1">y1</span>
+  <span id="k2">)</span>
+  <span id="op">+</span>
+  <span id="k3">(</span>
+  <span id="x2">x2</span>
+  <span id="y2">y2</span>
+  <span id="k4">)</span>
+  <span id="eg">=</span>
+  <span id="k5">(</span>
+  <input id="x" type="text" size="2" value="x">
+  <input id="y" type="text" size="2" value="y">
+  <span id="k6">)</span>
+</div>
 
 <svg version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
