@@ -11,8 +11,6 @@ title: Vektoradicio
   </script>
 
 
-(prilaborata...)
-
 <!-- https://tex.stackexchange.com/questions/526950/how-to-type-column-vectors-in-mathjax -->
 
 <!-- $$ \begin{bmatrix} 1 \cr 3 \end{bmatrix} + \begin{bmatrix} 2 \cr 2 \end{bmatrix} = ? $$ -->
@@ -20,9 +18,25 @@ title: Vektoradicio
 <style>
   #tasko {
     display: grid;
+    justify-items: center;
+    grid-template-columns: .5em 2em .5em 2em .5em 2em .5em 2em .5em 5em .5em;
     grid-template-areas:
       'k1 x1 k2 op k3 x2 k4 eg k5 x k6'
-      'k1 y1 k2 op k3 y2 k4 eg k5 y k6'
+      'k1 y1 k2 op k3 y2 k4 eg k5 y k6';
+  }
+
+  #tasko, #tasko input {
+    font-size: 16pt;
+  }
+
+  #butonoj input {
+    font-size: 16pt;
+    margin: .5em;
+    background-color: lightblue;
+  }
+
+  #butonoj input:first-of {
+    margin-left: 10em;
   }
 
   #k1,#k2,#k3,#k4,#k5,#k6,#op,#eg {
@@ -78,20 +92,25 @@ title: Vektoradicio
 </style>
 
 <div id="tasko">
-  <span id="k1">(</span>
-  <span id="x1">x1</span>
-  <span id="y1">y1</span>
-  <span id="k2">)</span>
+  <span id="k1">&#x27ee;</span>
+  <span id="x1">x₁</span>
+  <span id="y1">y₁</span>
+  <span id="k2">&#x27ef;</span>
   <span id="op">+</span>
-  <span id="k3">(</span>
-  <span id="x2">x2</span>
-  <span id="y2">y2</span>
-  <span id="k4">)</span>
+  <span id="k3">&#x27ee;</span>
+  <span id="x2">x₂</span>
+  <span id="y2">y₂</span>
+  <span id="k4">&#x27ef;</span>
   <span id="eg">=</span>
-  <span id="k5">(</span>
-  <input id="x" type="text" size="2" value="x">
-  <input id="y" type="text" size="2" value="y">
-  <span id="k6">)</span>
+  <span id="k5">&#x27ee;</span>
+  <input id="x" type="text" size="1" placeholder="x₁+x₂">
+  <input id="y" type="text" size="1" placeholder="y₁+y₂">
+  <span id="k6">&#x27ef;</span>
+</div>
+
+<div id="butonoj">
+  <input type="button" value="nova tasko" onclick="nova_tasko()"/>
+  <input type="button" value="kontrolu" onclick="kontrolu()"/>
 </div>
 
 <svg version="1.1" 
@@ -99,7 +118,7 @@ title: Vektoradicio
     xmlns:xlink="http://www.w3.org/1999/xlink" 
     class="kartezia"
     width="600" height="600" 
-    viewBox="0.0 -10.0 10.0 10.0">
+    viewBox="-1.0 -11.0 12.0 12.0">
 
   <!-- https://stackoverflow.com/questions/3846015/flip-svg-coordinate-system -->
 
@@ -139,11 +158,18 @@ title: Vektoradicio
             stroke: gray;
         }
         #desegno {
-            stroke: black;
+            stroke: #999;
             fill: none;
             stroke-width: 0.05;
             stroke-linecap: round;
         }
+        .malbona {
+          stroke: red;
+        }
+        .bona {
+          stroke: green;
+        }
+
     ]]>
   </style> 
 
@@ -201,7 +227,21 @@ title: Vektoradicio
 
 
 <script>
-  function vektoro(nomo,x,y,x0=0,y0=0) {
+  let v1 = {}, v2 = {};
+
+  function metu(kampo,valoro) {
+    document.getElementById(kampo).textContent = valoro;
+  }
+
+  function valoro(kampo) {
+    return document.getElementById(kampo).value;
+  }
+
+  function forigu(kampo) {
+    return document.getElementById(kampo).value='';
+  }
+
+  function vektoro(nomo,cls,x,y,x0=0,y0=0) {
     var ns = "http://www.w3.org/2000/svg";
     const g = document.createElementNS(ns,"g");
     const linio = document.createElementNS(ns,"line");
@@ -209,11 +249,14 @@ title: Vektoradicio
     linio.setAttribute("y1",y0);
     linio.setAttribute("x2",x+x0);
     linio.setAttribute("y2",y+y0);
+    if (cls) linio.classList.add(cls);
 
     const teksto = document.createElementNS(ns,"text");
+    const xl = x0 + x/2;
+    const yl = y0 + y/2;
     teksto.textContent = nomo;
-    teksto.setAttribute("x",x+x0-.2);
-    teksto.setAttribute("y",-y-y0-.1); // -y ĉar ni devos speguli la koordinasistemon
+    teksto.setAttribute("x",xl+.5);
+    teksto.setAttribute("y",-yl); // -y ĉar ni devos speguli la koordinasistemon
     teksto.setAttribute("transform","scale(+1,-1)");
 
     // por aldoni la pinton ni devas scii la angulon ĉirkaŭ kiu ni rotaciu
@@ -226,7 +269,50 @@ title: Vektoradicio
     svg.append(g);
   }
 
-  vektoro("A",1,3);
-  vektoro("B",2,2,1,3);
-  vektoro("A+B",3,5);
+  function nova_tasko() {
+    function n_arbitra(max) {
+      return Math.floor(Math.random()*max+0.51);
+    }
+    function v_arbitra(max_x=10,max_y=10) {
+      return {
+        x: n_arbitra(max_x),
+        y: n_arbitra(max_y)
+      }
+    }
+
+    v1 = v_arbitra();
+    v2 = v_arbitra(10-v1.x,10-v1.y);
+
+    metu("x1",v1.x);
+    metu("y1",v1.y);
+    metu("x2",v2.x);
+    metu("y2",v2.y);
+    forigu("x");
+    forigu("y");
+
+    metu("desegno",'');
+    vektoro("v₁",'',v1.x,v1.y);
+    vektoro("v₂",'',v2.x,v2.y);
+    /*
+    vektoro("v₂",v2.x,v2.y,v1.x,v1.y);
+    vektoro("v₁+v₂",v1.x+v2.x,v1.y+v2.y);
+    */
+  }
+
+  function kontrolu() {
+    metu("desegno",'');
+
+    // montru ambaŭ vektorojn konektitaj
+    vektoro("v₁",'',v1.x,v1.y);
+    vektoro("v₂",'',v2.x,v2.y,v1.x,v1.y);
+
+    // montru la donitan rezulton en komparo
+    const X = valoro("x");
+    const Y = valoro("y");
+    const devio = Math.abs(X - v1.x - v2.x) + Math.abs(Y - v1.y -v2.y);
+    const cls = devio < 0.1? 'bona' : 'malbona';
+    vektoro("v₁+v₂",cls,+X,+Y);
+  }
+
+  //nova_tasko();
 </script>
