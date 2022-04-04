@@ -11,6 +11,14 @@ const SVG = function() {
         p.append(...idoj);
     }
 
+    function malplenigu(parenco) {
+        let p = parenco;
+        if (typeof parenco === 'string') {
+            p = document.getElementById(parenco);
+        }
+        p.textContent='';  
+    }
+
     function linio(x1,y1,x2,y2) {
         const linio = document.createElementNS(ns,"line");
         linio.setAttribute("x1",x1);
@@ -20,7 +28,7 @@ const SVG = function() {
         return linio;
     }
 
-    function poligono(punktoj, transformo=null) {
+    function poligono(punktoj,transformo=null) {
         const poligono = document.createElementNS(ns,"polygon");
         poligono.setAttribute("points",punktoj);
         if (transformo) poligono.setAttribute("transform",transformo);
@@ -43,6 +51,16 @@ const SVG = function() {
         return teksto;
     }
 
+    function atributoj(objekto,atributoj) {
+        let obj = objekto;
+        if (typeof objekto === 'string') {
+            obj = document.getElementById(objekto);
+        }
+        for (const [atr,val] of Object.entries(atributoj)) {
+            obj.setAttribute(atr,val);
+        }
+    }
+
     function uzo(href,transform) {
         const pinto = document.createElementNS(ns,"use");
         pinto.setAttribute("href",href);
@@ -52,10 +70,12 @@ const SVG = function() {
 
     return {
         aldonu: aldonu,
+        malplenigu: malplenigu,
         grupo: grupo,
         linio: linio,
         poligono: poligono,
         teksto: teksto,
+        atributoj: atributoj,
         uzo: uzo
     }
 }();    
