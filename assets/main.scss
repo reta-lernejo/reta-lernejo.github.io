@@ -14,3 +14,11 @@ body {
 .site-footer {
   border-top: 1px solid gray;
 }
+
+summary {
+  font-size: 120%;
+  background-color: lightblue;
+  padding: .2em;
+  margin-bottom: .4em;
+  border-radius: .1em;
+}

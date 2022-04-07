@@ -19,7 +19,6 @@ http://movb.de/jekyll-details-support.html -->
   La orbitaloj
 </summary>
 
-# La orbitaloj
 
 La elektronoj distribuiĝas laŭ sia energinivelo en *orbitalojn*. Ĉiu orbitalo
 povas esti identigita per tri nombroj *n*, *l* kaj *m* kun la sekvaj ecoj:
@@ -55,7 +54,6 @@ en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo 
   Notado laŭ <i>Pauling</i>
 </summary>
 
-## Notado laŭ *Pauling*
 
 <label for="protonnombro">elemento:</label> <b><span id="element_info">8 - oksigeno (O)</span></b><br>
 <input type="range" id="protonnombro" style="width: 50em; max-width: 80%" value="protonnombro" min="1" max="118" value="8" onchange="aktualigo()" oninput="aktualigo_info()">
@@ -210,7 +208,6 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
   Rilato al la perioda sistemo de elementoj
 </summary>
 
-## Rilato al la perioda sistemo de elementoj
 
 Energie ekvilibra stato estas atingita se ĉefa energinivelo estas plenigita per ok elektronoj, do se
 la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de noblaj gasoj. Ĉe heliumo tio estas escepte nur
