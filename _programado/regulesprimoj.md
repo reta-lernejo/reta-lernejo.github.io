@@ -16,23 +16,19 @@ https://www.regextester.com/
 
 # Serĉado de signoj
 
-<script>
-    function re_apliku() {
-        const t = document.getElementById("teksto");
-        const re = document.getElementById("re").value;
-        const re_c = new RegExp(re);
-
-        const m = re_c.exec(t.textContent);
-        //console.log(m);
-        t.innerHTML = t.textContent.substring(0,m.index)+'<span class="em">'+m[0]+'</span>'
-            + t.textContent.substring(m.index + m[0].length);
-            //  replace(re_c,'<span class="emfaze">'+'xxxx'+'</span>');
-    }
-</script>
 
 <style>
-  fieldset input {
-    font-size: 120%
+
+
+
+  fieldset input, button {
+    font-size: 120%;
+    min-width: 2em;
+  }
+
+  .gr {
+    font-size: 160%;
+    font-weight: bold;
   }
 
   #teksto {
@@ -48,17 +44,87 @@ https://www.regextester.com/
   <i>provteksto</i>:
   <p id="teksto">
     Mia naskiĝtagfesto estas je la 15a de Aŭgusto
-  </p>  
-  <input type="text" id="re" size="50">
+  </p>
+  <p id="sgn_btn">
+    <button>.</button>
+    <button>*</button>
+    <button>+</button>
+    <button>?</button>
+    <button>\</button>
+    <button>[]</button>
+    <button>{}</button>
+    <button>()</button>
+    <button>|</button>
+    <button>^</button>
+    <button>$</button>
+  </p>
+  <p>
+    <span class="gr">/</span>
+    <input type="text" id="re" size="42">
+    <span class="gr">/</span>
+    <input type="text" id="flg" size="2">
+  </p>
   <input type="button" value="Apliku" onclick="re_apliku();">
+  <input type="button" value="Viŝu" onclick="re_vishu();">
 </fieldset>
+
+
+<script>
+    function signo(event) {
+      const btn = event.target;
+      if (btn.tagName == "BUTTON") {
+        const v = btn.textContent;
+        const re = document.getElementById("re");
+        
+        if (re.selectionStart || re.selectionStart == '0') {
+          var startPos = re.selectionStart;
+          var endPos = re.selectionEnd;
+          re.value = re.value.substring(0, startPos)
+              + v
+              + re.value.substring(endPos, re.value.length);
+        } else {
+          re.value += v;
+        }
+      }
+    }
+
+    document.getElementById("sgn_btn").addEventListener("click",signo);
+
+    function re_apliku() {
+        const t = document.getElementById("teksto");
+        const re = document.getElementById("re").value;
+        const flg = document.getElementById("flg").value;
+        const re_c = new RegExp(re,flg);
+
+        // se nenio troviĝas ni montras la nudan tekston
+        let markita_teksto = t.textContent.trim();
+
+        //if (const m = re_c.exec(t.textContent)) {
+        //  markita_teksto = t.textContent.substring(0,m.index)+'<span class="em">'+m[0]+'</span>'
+        //    + t.textContent.substring(m.index + m[0].length);
+        //    //  replace(re_c,'<span class="emfaze">'+'xxxx'+'</span>');
+
+        //}
+        markita_teksto = markita_teksto.replace(re_c,'<span class="em">$&</span>')
+
+        t.innerHTML = markita_teksto;
+    }
+
+    function re_vishu() {
+        const re = document.getElementById("re");
+        const t = document.getElementById("teksto");
+        re.value = '';
+        t.innerHTML = t.textContent;
+    }
+
+</script>
 
 {::options parse_block_html="true" /}
 
 <details style="border-top: 1px dotted black">
   <summary markdown="span">Leciono 1</summary>
 
-Regulesprimoj uzas ordinarajn literojn kaj signoj kaj specialsignojn. Literoj kaj ciferoj 
+Regulesprimoj uzas ordinarajn literojn kaj signojn kaj specialsignojn. Literoj kaj ciferoj 
 reprezentas sin mem, do ne estas specialsignoj. Ofte oni metas regulesprimon inter strekojn
 '/', sed tio iom varias laŭ programlingvo kaj redaktilo. Do `/e/` serĉas aperon de litero `e`.
 Se oni volas serĉi specialsignon oni devas antaŭmeti `\`.
@@ -68,11 +134,11 @@ serĉas ĉiujn aperojn de la serĉteksto: `/e/g`.
 
 Per la rektaj krampoj oni povas serĉi alternativajn signojn. Ekzemple `/[abc]/` serĉas pri
 aperoj de iu el la literoj `a`, `b` aŭ `c`. Se la serĉataj signoj reprezentas intervalon en la 
-kodo (Askio, do supersigna `ĉ` ne estas en la intervalo `a-d`). 
-Do ekzemple estas en alfabeta ordo oni povas uzi streketon por doni la intervalon:
+kodo (Askio, do supersigna `ĉ` ne estas en la intervalo `a-d`) - 
+do ekzemple estas en alfabeta ordo, oni povas uzi streketon por doni la intervalon:
 `/[a-d]/` serĉas pri la unuaj kvar literoj de la latina alfabeto. 
 
-Ĉar `[` kaj `]` estas specialsignoj, vi devas por serĉi rektajn krampojn skribi
+Ĉar `[` kaj `]` estas specialsignoj, por *serĉi* rektajn krampojn, vi devas skribi
 tiel: `\[` respektive `\]`.
 
 ### Taskoj
@@ -86,12 +152,12 @@ tiel: `\[` respektive `\]`.
 <details style="border-top: 1px dotted black">
   <summary markdown="span">Leciono 2</summary>
 
-Komencon oni sigas per specialsigno `^`, do `/^a/` trovas literon `a` en la komenco
-de tekto. Simile `$` signas finon de la teksto, ekz-e `/o$/`.
+Komencon oni sigas per specialsigno `^`, do `/^a/` trovas literon `a` nur, se ĝi aperas en la komenco
+de la teksto. Simile `$` signas finon de la teksto, ekz-e `/o$/`.
 
 ### Taskoj
 
-- Kontrolu, ĉu la teksto komenciĝas per konsonanto
+- Kontrolu, ĉu la teksto komenciĝas per iu el la literoj k, m aŭ n
 - Kontrolu, ĉu la teksto finiĝas per vokalo
 - Kontrolu ĉu la teksto komenciĝas per majusklo
 
