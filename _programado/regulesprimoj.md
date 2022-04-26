@@ -178,7 +178,7 @@ aŭ `1:1` aŭ `111`.
 ### Taskoj 
 
 - Trovu ĉiujn aperojn de vokalo sekvata eventuale de litero `g`
-- Trovu ĉiujn aperojn de vokalo sekvata sekvata de spaco
+- Trovu ĉiujn aperojn de vokalo sekvata de spaco
 - Trovu ĉiujn aperojn de du vokaloj kun iu ajn intera signo 
 
 </details>
