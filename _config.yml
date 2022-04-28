@@ -39,6 +39,8 @@ minima:
 #  parse_block_html: true
 
 collections:
+  iloj:
+    output: true
   esperanto:
     output: true
   kosmo:
