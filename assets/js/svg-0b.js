@@ -35,6 +35,13 @@ const SVG = function() {
         return poligono;
     }
 
+    function pado(difino,transformo=null) {
+        const pado = document.createElementNS(ns,"path");
+        pado.setAttribute("d",difino);
+        if (transformo) pado.setAttribute("transform",transformo);
+        return pado;
+    }
+
     function grupo(id,cls) {
         const g = document.createElementNS(ns,"g");
         if (id) g.id=id;
@@ -74,6 +81,7 @@ const SVG = function() {
         grupo: grupo,
         linio: linio,
         poligono: poligono,
+        pado: pado,
         teksto: teksto,
         atributoj: atributoj,
         uzo: uzo

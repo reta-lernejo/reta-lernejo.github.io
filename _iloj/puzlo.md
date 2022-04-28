@@ -1,6 +1,7 @@
 ---
-layout: page
+layout: laborfolio
 title: Puzlokreilo
+js: svg-0b
 ---
 
 <script type="text/javascript">
@@ -74,6 +75,7 @@ title: Puzlokreilo
       yn = # pecoj vertikale
     */
     var a, b, c, d, e, t, j, flip, xi, yi, xn, yn, vertical, offset, width, height, radius;
+    var ph = [], pv = [];
 
     function first() { 
         e = uniform(-j, j); 
@@ -157,11 +159,18 @@ title: Puzlokreilo
                 // bezier-kurbo kun kontrolpunktoj (p1l,p1w), (p2l,p2w) kaj celpunkto (p3l,p3w)
                 str += "C " + p1l() + " " + p1w() + " " + p2l() + " " + p2w() + " " + p3l() + " " + p3w() + " ";
                 str += "C " + p4l() + " " + p4w() + " " + p5l() + " " + p5w() + " " + p6l() + " " + p6w() + " ";
-                str += "C " + p7l() + " " + p7w() + " " + p8l() + " " + p8w() + " " + p9l() + " " + p9w() + " ";
+
+                p9 = p9l() + " " + p9w();
+                str += "C " + p7l() + " " + p7w() + " " + p8l() + " " + p8w() + " " + p9 + " ";
+
+                // sekurigu kaj komencu novan kurbon
+                ph[xi,yi] = str;
+                str = "M " + p9 + " ";
+
                 next();
             }
         }
-        return str;
+        //return str;
     }
         
     // pentru la vertikalajn liniojn
@@ -171,19 +180,26 @@ title: Puzlokreilo
         vertical = 1;
         
         for (xi = 1; xi < xn; ++xi)
-        {
-        yi = 0;
-        first();
-        str += "M " + p0w() + "," + p0l() + " ";
-        for (; yi < yn; ++yi)
-        {
-            str += "C " + p1w() + " " + p1l() + " " + p2w() + " " + p2l() + " " + p3w() + " " + p3l() + " ";
-            str += "C " + p4w() + " " + p4l() + " " + p5w() + " " + p5l() + " " + p6w() + " " + p6l() + " ";
-            str += "C " + p7w() + " " + p7l() + " " + p8w() + " " + p8l() + " " + p9w() + " " + p9l() + " ";
-            next();
+            {
+            yi = 0;
+            first();
+            str += "M " + p0w() + "," + p0l() + " ";
+            for (; yi < yn; ++yi)
+            {
+                str += "C " + p1w() + " " + p1l() + " " + p2w() + " " + p2l() + " " + p3w() + " " + p3l() + " ";
+                str += "C " + p4w() + " " + p4l() + " " + p5w() + " " + p5l() + " " + p6w() + " " + p6l() + " ";
+
+                p9 = p9w() + " " + p9l();
+                str += "C " + p7w() + " " + p7l() + " " + p8w() + " " + p8l() + " " + p9 + " ";
+
+                // sekurigu kaj komencu novan kurbon
+                pv[xi,yi] = str;
+                str = "M " + p9 + " ";
+
+                next();
+            }
         }
-        }
-        return str;
+        //return str;
     }
         
     // pentru la kadron
@@ -223,9 +239,22 @@ title: Puzlokreilo
         $("puzzlecontainer").setAttribute("height", height + 11);
         offset = 5.5;
         parse_input();
+
+        gen_dh();
+        gen_dv();
+        /*
         $("puzzlepath_h").setAttribute("d", gen_dh());
         $("puzzlepath_v").setAttribute("d", gen_dv());
         $("puzzlepath_b").setAttribute("d", gen_db());
+        */
+
+        for (xi=1; xi<xn-1; xi++) {
+            for (yi=1; yi<yn-1; yi++) {
+                let d = ph[xi,yi] + pv[xi+1,yi] + pv[xi,yi] + ph[xi,yi+1];
+                let p = SVG.pado(d);
+                SVG.aldonu("puzzlecontainer",p)
+            }
+        }
     }
     
     function generate()
@@ -238,6 +267,8 @@ title: Puzlokreilo
         
         var data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
         data += "width=\"" + width + "mm\" height=\"" + height + "mm\" viewBox=\"0 0 " + width + " " + height + "\">";
+
+        /*
         data += "<path fill=\"none\" stroke=\"DarkBlue\" stroke-width=\"0.1\" d=\"";
         data += gen_dh();
         data += "\"></path>";
@@ -247,6 +278,11 @@ title: Puzlokreilo
         data += "<path fill=\"none\" stroke=\"Black\" stroke-width=\"0.1\" d=\"";
         data += gen_db();
         data += "\"></path>";
+        */
+
+        gen_dh();
+        gen_dv();
+
         data += "</svg>";
         
         save("jigsaw.svg", data);
@@ -262,7 +298,7 @@ title: Puzlokreilo
     }
 
     // preparu semon
-    $('seed') = Math.random() * 10000; 
+    $('seed').value = Math.random() * 10000; 
     updateseed();
 
 </script>
@@ -301,7 +337,24 @@ title: Puzlokreilo
    </table>
 
    <svg id="puzzlecontainer">
-    <path id="puzzlepath_h" fill="none" stroke="DarkBlue"></path>
-    <path id="puzzlepath_v" fill="none" stroke="DarkRed"></path>
-    <path id="puzzlepath_b" fill="none" stroke="Black"></path>
+
+ version="1.1" 
+    id="puzzlecontainer"
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    class="kartezia"
+    width="600" height="400" 
+    viewBox="0 0 1.0 1.0">        
+     
+    <style type="text/css">
+    <![CDATA[
+
+        path {
+            stroke: black;
+            stroke-width: 0.5;
+            fill: none;
+        }
+
+    ]]>
+  </style> 
    </svg>
