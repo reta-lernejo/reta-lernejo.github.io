@@ -145,8 +145,9 @@ js: svg-0b
     // preparu la horizontalajn kurbojn
     function gen_dh()
     {
-        var str = "";
         vertical = 0;
+        ph = [];
+
         function add(x,y,s) {
             if (!ph[x]) ph[x] = [];
             ph[x][y] = s;
@@ -157,31 +158,34 @@ js: svg-0b
             first();
 
             // komenca punkto ĉe (p0l,pow)
-            str += "M " + p0l() + "," + p0w() + " ";
+            let P0 = [p0l(),p0w()];
             for (; xi < xn; ++xi)
             {
-                // bezier-kurbo kun kontrolpunktoj (p1l,p1w), (p2l,p2w) kaj celpunkto (p3l,p3w)
-                str += "C " + p1l() + " " + p1w() + " " + p2l() + " " + p2w() + " " + p3l() + " " + p3w() + " ";
-                str += "C " + p4l() + " " + p4w() + " " + p5l() + " " + p5w() + " " + p6l() + " " + p6w() + " ";
-
-                p9 = p9l() + " " + p9w();
-                str += "C " + p7l() + " " + p7w() + " " + p8l() + " " + p8w() + " " + p9 + " ";
-
-                // sekurigu kaj komencu novan kurbon
-                add(xi,yi,str);
-                str = "M " + p9 + " ";
-
+                // ni ĉiam kalkulas 4 punktojn por bezier-kurbo:
+                // komenca, kontrol1, kontrol2, fina punktoj
+                // tri tiaj kurboj priskribas la falnkon de puzlero
+                // la dua (meza) estas la langeto 
+                // la fina punkto samtempe estas la komencpunkto de la
+                // sekva, do ni bezonas sume nur 10 punktojn
+                const Pj = [
+                   P0, 
+                   [p1l(),p1w()], [p2l(),p2w()], [p3l(),p3w()],
+                   [p4l(),p4w()], [p5l(),p5w()], [p6l(),p6w()],
+                   [p7l(),p7w()], [p8l(),p8w()], [p9l(),p9w()]
+                ];
+                add(xi,yi,Pj);
+                P0 = Pj[9];
                 next();
             }
         }
-        //return str;
     }
         
     // preparu la vertikalajn kurbojn
     function gen_dv()
     {
-        var str = "";
         vertical = 1;
+
+        pv = [];
         function add(x,y,s) {
             if (!pv[x]) pv[x] = [];
             pv[x][y] = s;
@@ -191,23 +195,29 @@ js: svg-0b
             {
             yi = 0;
             first();
-            str += "M " + p0w() + "," + p0l() + " ";
+
+            // komenca punkto ĉe (p0w,pol)
+            let P0 = [p0w(),p0l()];
+
             for (; yi < yn; ++yi)
             {
-                str += "C " + p1w() + " " + p1l() + " " + p2w() + " " + p2l() + " " + p3w() + " " + p3l() + " ";
-                str += "C " + p4w() + " " + p4l() + " " + p5w() + " " + p5l() + " " + p6w() + " " + p6l() + " ";
-
-                p9 = p9w() + " " + p9l();
-                str += "C " + p7w() + " " + p7l() + " " + p8w() + " " + p8l() + " " + p9 + " ";
-
-                // sekurigu kaj komencu novan kurbon
-                add(xi,yi,str);
-                str = "M " + p9 + " ";
-
+                // ni ĉiam kalkulas 4 punktojn por bezier-kurbo:
+                // komenca, kontrol1, kontrol2, fina punktoj
+                // tri tiaj kurboj priskribas la falnkon de puzlero
+                // la dua (meza) estas la langeto 
+                // la fina punkto samtempe estas la komencpunkto de la
+                // sekva, do ni bezonas sume nur 10 punktojn
+                const Pj = [
+                    P0, 
+                    [p1w(),p1l()],[p2w(),p2l()],[p3w(),p3l()],
+                    [p4w(),p4l()],[p5w(),p5l()],[p6w(),p6l()],
+                    [p7w(),p7l()],[p8w(),p8l()],[p9w(),p9l()]
+                ];
+                add(xi,yi,Pj);
+                P0 = Pj[9];
                 next();
             }
         }
-        //return str;
     }
         
     // pentru la kadron
@@ -225,6 +235,63 @@ js: svg-0b
         str += "L " + (offset) + " " + (offset + radius) + " ";
         str += "A " + (radius) + " " + (radius) + " 0 0 1 " + (offset + radius) + " " + (offset) + " ";
         return str;
+    }
+
+    function puzlero(xi,yi) {
+        function pt(p) {
+            return p[0] + " " + p[1];
+        }
+        function bezier(p9) { // "M" + pt(p9[0]) + " "
+            return (
+                 "C" + pt(p9[1]) + " " + pt(p9[2]) + " " + pt(p9[3]) + " "
+                + "C" + pt(p9[4]) + " " + pt(p9[5]) + " " + pt(p9[6]) + " "
+                + "C" + pt(p9[7]) + " " + pt(p9[8]) + " " + pt(p9[9]));
+        }
+        function ibezier(p9) { // "M" + pt(p9[0]) + " "
+            return (
+                 "C" + pt(p9[8]) + " " + pt(p9[7]) + " " + pt(p9[6]) + " "
+                + "C" + pt(p9[5]) + " " + pt(p9[4]) + " " + pt(p9[3]) + " "
+                + "C" + pt(p9[2]) + " " + pt(p9[1]) + " " + pt(p9[0]));
+        }
+
+
+        let pd = "";
+        // supra eĝo
+        if (yi==0) {
+            const x1 = xi==0? offset : pv[xi][0][0][0]; // x-koordinato sur supra linio
+            const x2 = pv[xi+1][0][0][0]; 
+            pd += "M" + pt([offset+x1,offset]) + " "
+               + "L" + pt([offset+x2,offset]) + " ";
+        } else {
+            pd += "M" + pt(ph[xi][yi][0]) + " ";
+            pd += bezier(ph[xi][yi]) + " ";
+        }
+
+        // dekstra eĝo
+        if (xi==xn && yi!=yn) {
+            const y = ph[xn][yi][9][1];
+            pd += "L" + pt([offset+width,y]) + " ";
+        } else {
+            pd += bezier(pv[xi+1][yi]) + " "
+        }
+
+        // malsupra eĝo
+        if (yi==yn) {
+            const x = pv[xi][yn][0][0]; // x-koordinato sur malsupra linio
+            pd += "L" + pt([offset+x,offset+height]) + " ";
+        } else {
+            pd += ibezier(ph[xi][yi+1]) + " ";
+        }
+
+        // maldekstra eĝo
+        if (xi==0) {
+            const y = yi==0? offset : ph[0][yi][0][1];
+            pd += "L" + pt([offset,y]) + " ";
+        } else  {
+            pd += ibezier(pv[xi][yi+1])
+        }
+
+        return SVG.pado(pd);
     }
     
     function update()
@@ -248,20 +315,20 @@ js: svg-0b
         offset = 5.5;
         parse_input();
 
-        ph = [];
-        pv = [];
         gen_dh();
         gen_dv();
+        
+        
         /*
         $("puzzlepath_h").setAttribute("d", gen_dh());
         $("puzzlepath_v").setAttribute("d", gen_dv());
         $("puzzlepath_b").setAttribute("d", gen_db());
         */
 
-        for (xi=1; xi<xn-1; xi++) {
-            for (yi=1; yi<yn-1; yi++) {
-                let d = ph[xi][yi] + pv[xi+1][yi] + pv[xi][yi] + ph[xi][yi+1];
-                let p = SVG.pado(d);
+        SVG.malplenigu("puzzlecontainer");
+        for (xi=0; xi<xn; xi++) {
+            for (yi=0; yi<yn; yi++) {
+                const p = puzlero(xi,yi);
                 SVG.aldonu("puzzlecontainer",p)
             }
         }
