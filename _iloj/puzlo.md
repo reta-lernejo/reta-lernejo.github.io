@@ -75,7 +75,7 @@ js: svg-0b
       yn = # pecoj vertikale
     */
     var a, b, c, d, e, t, j, flip, xi, yi, xn, yn, vertical, offset, width, height, radius;
-    var ph = [], pv = [];
+    var ph, pv;
 
     function first() { 
         e = uniform(-j, j); 
@@ -142,11 +142,15 @@ js: svg-0b
         yn = parseInt($("yn").value);
     }
     
-    // pentru la horizontalajn liniojn
+    // preparu la horizontalajn kurbojn
     function gen_dh()
     {
         var str = "";
         vertical = 0;
+        function add(x,y,s) {
+            if (!ph[x]) ph[x] = [];
+            ph[x][y] = s;
+        } 
         
         for (yi = 1; yi < yn; ++yi) {
             xi = 0;
@@ -164,7 +168,7 @@ js: svg-0b
                 str += "C " + p7l() + " " + p7w() + " " + p8l() + " " + p8w() + " " + p9 + " ";
 
                 // sekurigu kaj komencu novan kurbon
-                ph[xi,yi] = str;
+                add(xi,yi,str);
                 str = "M " + p9 + " ";
 
                 next();
@@ -173,11 +177,15 @@ js: svg-0b
         //return str;
     }
         
-    // pentru la vertikalajn liniojn
+    // preparu la vertikalajn kurbojn
     function gen_dv()
     {
         var str = "";
         vertical = 1;
+        function add(x,y,s) {
+            if (!pv[x]) pv[x] = [];
+            pv[x][y] = s;
+        } 
         
         for (xi = 1; xi < xn; ++xi)
             {
@@ -193,7 +201,7 @@ js: svg-0b
                 str += "C " + p7w() + " " + p7l() + " " + p8w() + " " + p8l() + " " + p9 + " ";
 
                 // sekurigu kaj komencu novan kurbon
-                pv[xi,yi] = str;
+                add(xi,yi,str);
                 str = "M " + p9 + " ";
 
                 next();
@@ -240,6 +248,8 @@ js: svg-0b
         offset = 5.5;
         parse_input();
 
+        ph = [];
+        pv = [];
         gen_dh();
         gen_dv();
         /*
@@ -250,7 +260,7 @@ js: svg-0b
 
         for (xi=1; xi<xn-1; xi++) {
             for (yi=1; yi<yn-1; yi++) {
-                let d = ph[xi,yi] + pv[xi+1,yi] + pv[xi,yi] + ph[xi,yi+1];
+                let d = ph[xi][yi] + pv[xi+1][yi] + pv[xi][yi] + ph[xi][yi+1];
                 let p = SVG.pado(d);
                 SVG.aldonu("puzzlecontainer",p)
             }
@@ -279,6 +289,8 @@ js: svg-0b
         data += gen_db();
         data += "\"></path>";
         */
+        ph = [];
+        pv = [];
 
         gen_dh();
         gen_dv();
