@@ -6,9 +6,27 @@ js:
   - lite.render
 ---
 
+## Demandoj
+
+- Kial vivaĵoj bezonas nitrogenon?
+  - ili bezonas ĝin por spirado
+  - la organikaj molekuloj, el kiuj vivaĵoj konsistas, enhavas nitrogenon
+  - ...
+- Kial nur malmultaj uzas la nitrogenon de la atmosfero?
+  - ĉar ili ne kapablas flugi por kolekti sufiĉe
+  - ĉar tio kostus tro da energio
+  - ĉar ili povas pli facile ĝin akiri per radikoj/digestado
+- De kie originas la nitrogeno de la atmosfero?
+  - ĝi originas el la kosma gasnubo, el kiu poste fariĝis la planedo Tero
+  - ĝi eliĝis el vulkanoj dum la historio de la tero
+  - la plantoj kaj bestoj elspiras ĝin
+  - ĝi estiĝas kiam fungoj kaj bakterioj detruas organikajn substancojn
+
+<!--https://boxy-svg.com/ideas/123/jigsaw-puzzle-generator -->
+
 <pre id="graph" style="display: none">
     digraph {
-        N2 [label="atomsfera nitrogeno (N₂)"]
+        N2 [label="atomsfera\nnitrogeno (N₂)"]
         NH4 [label="NH₄⁺"]
         NO2 [label="NO₂⁻"]
         NO3 [label="NO₃⁻"]
