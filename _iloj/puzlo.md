@@ -259,39 +259,41 @@ js: svg-0b
         // supra eĝo
         if (yi==0) {
             const x1 = xi==0? offset : pv[xi][0][0][0]; // x-koordinato sur supra linio
-            const x2 = pv[xi+1][0][0][0]; 
-            pd += "M" + pt([offset+x1,offset]) + " "
-               + "L" + pt([offset+x2,offset]) + " ";
+            const x2 = xi==xn-1? offset+width : pv[xi+1][0][0][0]; 
+            pd += "M" + pt([x1,offset]) + " "
+               + "L" + pt([x2,offset]) + " ";
         } else {
             pd += "M" + pt(ph[xi][yi][0]) + " ";
             pd += bezier(ph[xi][yi]) + " ";
         }
 
         // dekstra eĝo
-        if (xi==xn && yi!=yn) {
-            const y = ph[xn][yi][9][1];
+        if (xi==xn-1) {
+            const y = yi==yn-1? offset+height : ph[xi][yi+1][9][1];
             pd += "L" + pt([offset+width,y]) + " ";
         } else {
             pd += bezier(pv[xi+1][yi]) + " "
         }
 
         // malsupra eĝo
-        if (yi==yn) {
-            const x = pv[xi][yn][0][0]; // x-koordinato sur malsupra linio
-            pd += "L" + pt([offset+x,offset+height]) + " ";
+        if (yi == yn-1) {
+            const x = xi==0? offset : pv[xi][yi][0][0]; // x-koordinato sur malsupra linio
+            pd += "L" + pt([x,offset+height]) + " ";
         } else {
             pd += ibezier(ph[xi][yi+1]) + " ";
         }
 
         // maldekstra eĝo
-        if (xi==0) {
+        if (xi == 0) {
             const y = yi==0? offset : ph[0][yi][0][1];
             pd += "L" + pt([offset,y]) + " ";
         } else  {
-            pd += ibezier(pv[xi][yi+1])
+            pd += ibezier(pv[xi][yi])
         }
 
-        return SVG.pado(pd);
+        const pado = SVG.pado(pd);
+        SVG.atributoj(pado,{id:"p-"+xi+"-"+yi});
+        return pado;
     }
     
     function update()
@@ -325,11 +327,11 @@ js: svg-0b
         $("puzzlepath_b").setAttribute("d", gen_db());
         */
 
-        SVG.malplenigu("puzzlecontainer");
+        SVG.malplenigu("puzleroj");
         for (xi=0; xi<xn; xi++) {
             for (yi=0; yi<yn; yi++) {
                 const p = puzlero(xi,yi);
-                SVG.aldonu("puzzlecontainer",p)
+                SVG.aldonu("puzleroj",p)
             }
         }
     }
@@ -345,6 +347,13 @@ js: svg-0b
         var data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
         data += "width=\"" + width + "mm\" height=\"" + height + "mm\" viewBox=\"0 0 " + width + " " + height + "\">";
 
+        data += "<style type=\"text/css\"><![CDATA["
+             +  "path { stroke: black; stroke-width: 0.5; fill: none; }"
+             +  "]]></style>";
+
+        data += "<g id=\"puzleroj\">"
+ 
+
         /*
         data += "<path fill=\"none\" stroke=\"DarkBlue\" stroke-width=\"0.1\" d=\"";
         data += gen_dh();
@@ -356,15 +365,20 @@ js: svg-0b
         data += gen_db();
         data += "\"></path>";
         */
-        ph = [];
-        pv = [];
 
         gen_dh();
         gen_dv();
 
-        data += "</svg>";
+        for (xi=0; xi<xn; xi++) {
+            for (yi=0; yi<yn; yi++) {
+                const p = puzlero(xi,yi);
+                data += p.outerHTML;
+            }
+        }
+
+        data += " </g></svg>";
         
-        save("jigsaw.svg", data);
+        save("puzlo_"+xn+"x"+yn+".svg", data);
     }
 
     // helpfunkcioj
@@ -436,4 +450,6 @@ js: svg-0b
 
     ]]>
   </style> 
+  <g id="puzleroj">
+  </g>
    </svg>
