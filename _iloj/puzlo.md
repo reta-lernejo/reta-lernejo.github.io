@@ -4,6 +4,13 @@ title: Puzlokreilo
 js: svg-0b
 ---
 
+<!-- 
+
+- travidebligi la fonon per masko: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/mask 
+- montri fonon kiel bildo/ornamo: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/pattern
+                                https://vanseodesign.com/web-design/svg-pattern-attributes/
+-->
+
 <script type="text/javascript">
     // adaptita el https://gist.github.com/Draradech/35d36347312ca6d0887aa7d55f366e30
 
@@ -220,7 +227,7 @@ js: svg-0b
         }
     }
         
-    // pentru la kadron
+    // pentru la kadron - anst. per puzlero()
     function gen_db()
     {
         var str = "";
@@ -253,15 +260,30 @@ js: svg-0b
                 + "C" + pt(p9[5]) + " " + pt(p9[4]) + " " + pt(p9[3]) + " "
                 + "C" + pt(p9[2]) + " " + pt(p9[1]) + " " + pt(p9[0]));
         }
+        function arko(sx,sy) {
+            return ("a " + (radius) + " " + (radius) + " 0 0 1 " + (sx*radius) + " " + (sy*radius));
+        }
 
 
         let pd = "";
         // supra eĝo
         if (yi==0) {
             const x1 = xi==0? offset : pv[xi][0][0][0]; // x-koordinato sur supra linio
-            const x2 = xi==xn-1? offset+width : pv[xi+1][0][0][0]; 
-            pd += "M" + pt([x1,offset]) + " "
-               + "L" + pt([x2,offset]) + " ";
+            const x2 = xi==xn-1? offset+width-radius : pv[xi+1][0][0][0]; 
+            // supra maldekstra angulo?
+            if (xi == 0) {
+                pd += "M" + pt([x1,offset+radius]) + " "
+                   + arko(1,-1) + " "
+                   + "L" + pt([x2,offset]) + " ";
+            // supra dekstra angulo
+            } else if (xi == xn-1) {
+                pd += "M" + pt([x1,offset]) + " "
+                   + "L" + pt([x2,offset]) + " "
+                   + arko(1,1)  + " ";
+            } else {
+                pd += "M" + pt([x1,offset]) + " "
+                   + "L" + pt([x2,offset]) + " ";
+            }
         } else {
             pd += "M" + pt(ph[xi][yi][0]) + " ";
             pd += bezier(ph[xi][yi]) + " ";
@@ -269,7 +291,7 @@ js: svg-0b
 
         // dekstra eĝo
         if (xi==xn-1) {
-            const y = yi==yn-1? offset+height : ph[xi][yi+1][9][1];
+            const y = yi==yn-1? offset+height-radius : ph[xi][yi+1][9][1];
             pd += "L" + pt([offset+width,y]) + " ";
         } else {
             pd += bezier(pv[xi+1][yi]) + " "
@@ -278,21 +300,34 @@ js: svg-0b
         // malsupra eĝo
         if (yi == yn-1) {
             const x = xi==0? offset : pv[xi][yi][0][0]; // x-koordinato sur malsupra linio
-            pd += "L" + pt([x,offset+height]) + " ";
+
+            // dekstra malsupra angulo
+            if (xi == xn-1) {
+                pd += arko(-1,1) + " "
+                   + "L" + pt([x,offset+height]) + " ";
+            } else if (xi == 0) {
+                pd += "L" + pt([x+radius,offset+height]) + " "
+                   + arko(-1,-1) + " ";
+            } else {
+                pd += "L" + pt([x,offset+height]) + " ";
+            }
         } else {
             pd += ibezier(ph[xi][yi+1]) + " ";
         }
 
         // maldekstra eĝo
         if (xi == 0) {
-            const y = yi==0? offset : ph[0][yi][0][1];
+            const y = yi==0? offset+radius : ph[0][yi][0][1];
             pd += "L" + pt([offset,y]) + " ";
         } else  {
             pd += ibezier(pv[xi][yi])
         }
 
+        // fermu
+        pd+="Z";
+
         const pado = SVG.pado(pd);
-        SVG.atributoj(pado,{id:"p-"+xi+"-"+yi});
+        SVG.atributoj(pado,{ id:"p-"+xi+"-"+yi, fill: "url(#bildo)" });
         return pado;
     }
     
@@ -312,14 +347,27 @@ js: svg-0b
             height = 600;
             width = height * ratio;
         }
-        $("puzzlecontainer").setAttribute("width", width + 11);
-        $("puzzlecontainer").setAttribute("height", height + 11);
         offset = 5.5;
-        parse_input();
 
-        gen_dh();
-        gen_dv();
+        const svg = SVG.elemento("#puzzlecontainer");
+        SVG.atributoj(svg,{
+            width: width + 2*offset,
+            height: height + 2*offset});
         
+        const defs = SVG.defs();
+        const pattern = SVG.pattern("bildo",0,0,width+2*offset,height+2*offset);
+        SVG.atributoj(pattern,{patternUnits: "userSpaceOnUse"});
+        const img = SVG.image($("bgimg").value,offset,offset,width,height);
+        SVG.atributoj(img,{preserveAspectRatio: "none"});
+
+        pattern.append(img);
+        defs.append(pattern);
+        SVG.forigu(svg,"defs"); // forigu malnovan antaŭ (re)aldoni
+        svg.prepend(defs);
+
+        parse_input();
+        gen_dh();
+        gen_dv();      
         
         /*
         $("puzzlepath_h").setAttribute("d", gen_dh());
@@ -331,6 +379,7 @@ js: svg-0b
         for (xi=0; xi<xn; xi++) {
             for (yi=0; yi<yn; yi++) {
                 const p = puzlero(xi,yi);
+                if (xi==0 && yi==0) SVG.atributoj(p,{ transform: "rotate(-2) translate(-3,2)" });
                 SVG.aldonu("puzleroj",p)
             }
         }
@@ -427,6 +476,10 @@ js: svg-0b
          <td><input id="width" type="text" value="300" size="4" onchange="update()"/> x <input id="height" type="text" value="200"  size="4" onchange="update()"/> mm</td>
          <td><button onclick="generate()">Elŝuto de SVG</button></td>
       </tr>
+      <tr>
+        <td>Fonbildo:</td>
+        <td><input id="bgimg" type="text" value="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png"/></td>
+      </tr>
    </table>
 
    <svg id="puzzlecontainer">
@@ -445,11 +498,24 @@ js: svg-0b
         path {
             stroke: black;
             stroke-width: 0.5;
-            fill: none;
+            /*fill: none; */
         }
 
     ]]>
   </style> 
+  <!--
+  <defs>
+    <pattern id="bildo" x="0" y="0" width="911" height="611" patternUnits="userSpaceOnUse" >
+        <image x="5.5" y="5.5" width="900" height="600" xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png" preserveAspectRatio="none"/>
+    </pattern>
+  </defs>
+  -->
+
+  <!-- rect x="0" y="0" width="911.0" height="611.0" fill="url(#bildo)"/ -->
+
+  <!--image x="5.5" y="5.5" width="900" height="600" xlink:href="https://commons.wikimedia.org/wiki/File:Cicle_del_nitrogen_de.svg" preserveAspectRatio="none"/-->
+
+  <!--image x="5.5" y="5.5" width="900" height="600" xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Cicle_del_nitrogen_de.svg/1024px-Cicle_del_nitrogen_de.svg.png" preserveAspectRatio="none"/-->
   <g id="puzleroj">
   </g>
    </svg>

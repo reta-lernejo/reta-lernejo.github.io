@@ -1,6 +1,7 @@
 
 const SVG = function() {
     const ns = "http://www.w3.org/2000/svg";
+    const xlink = "http://www.w3.org/1999/xlink";
 
     function aldonu(parenco,...idoj) {
         // parenco povas esti id aŭ Element
@@ -9,6 +10,20 @@ const SVG = function() {
             p = document.getElementById(parenco);
         }
         p.append(...idoj);
+    }
+
+    function elemento(spec) {
+        return document.querySelector(spec);
+    }
+
+    function forigu(parenco,idospec) {
+        let p = parenco;
+        if (typeof parenco === 'string') {
+            p = document.getElementById(parenco);
+        }
+        for (ido of p.querySelectorAll(idospec)) {
+            ido.remove();
+        }
     }
 
     function malplenigu(parenco) {
@@ -49,6 +64,30 @@ const SVG = function() {
         return g;
     }
 
+    function defs() {
+        return document.createElementNS(ns,"defs");
+    }
+
+    function pattern(id,x,y,width,height) {
+        const pattern = document.createElementNS(ns,"pattern");
+        pattern.id = id;
+        pattern.setAttribute("x",x);
+        pattern.setAttribute("y",y);
+        pattern.setAttribute("width",width);
+        pattern.setAttribute("height",height);
+        return pattern
+    }
+
+    function image(href,x,y,width,height) {
+        const image = document.createElementNS(ns,"image");
+        image.setAttributeNS(xlink,"href",href);
+        image.setAttribute("x",x);
+        image.setAttribute("y",y);
+        image.setAttribute("width",width);
+        image.setAttribute("height",height);
+        return image
+    }    
+
     function teksto(tx,x,y,sy=false) {
         const teksto = document.createElementNS(ns,"text");
         teksto.textContent = tx;
@@ -76,12 +115,17 @@ const SVG = function() {
     }
 
     return {
+        elemento: elemento,
         aldonu: aldonu,
+        forigu: forigu,
         malplenigu: malplenigu,
         grupo: grupo,
+        defs: defs,
         linio: linio,
         poligono: poligono,
         pado: pado,
+        pattern: pattern,
+        image: image,
         teksto: teksto,
         atributoj: atributoj,
         uzo: uzo
