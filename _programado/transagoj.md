@@ -43,13 +43,16 @@ Transagoj devas esti persistaj, t.e. post kiam transago estas finita kaj nova ko
 
 <!-- ĉu uzi IDBTransaction...?
 https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
-https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase/transaction -->
+https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase/transaction 
+https://www.html5rocks.com/en/tutorials/indexeddb/uidatabinding/
+-->
 
 |varo|prezo|stoko|
 |-|-|-|
 |pantalono|12,00|4|
 |ĉemizo|8,50|2|
 |ĉapo|9,00|3|
+{: #t_stoko}
 
 |pago-nro|valoro|
 |-|-|
@@ -64,19 +67,77 @@ https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase/transaction -->
 
 #### Vendo A:
 
-    - 2 pantalonoj
-    - 2 ĉemizoj
-    - 1 ĉapo
-    - pago: 50€
+- 2 pantalonoj
+- 2 ĉemizoj
+- 1 ĉapo
+- pago: 50€
+
+<button>Paŝu</button><button>Revoku</button>
+
 
 #### Vendo B:
 
-    - 1 ĉapo
-    - 1 ĉemizo
-    - 1 pantalono
-    - pago: 29,50€
+- 1 ĉapo
+- 1 ĉemizo
+- 1 pantalono
+- pago: 29,50€
 
-<button>Vendo A</button> <button>Vendo B</button> <button>Vendo A kaj B</button>
+<button>Paŝu</button><button>Revoku</button>
+
+<script>
+    if (!window.indexedDB) {
+        console.log("Via retumilo ne subtenas la integritan datumbazon.");
+    }
+    // konciza aliro de elemento per @id
+    function $(id) { return document.getElementById(id); }
+
+    function t_set(tabelo,id,kol,val) {
+        const tbl = $(tabelo);
+        for (const tr of t_stoko.querySelectorAll("tr")) {
+            const td1 = tr.querySelector("td:nth-of-type(1)");
+            if (td1 && td1.textContent == id) {
+                tr.querySelector("td:nth-of-type("+kol+")").textContent = val;
+            }
+        }
+    }
+
+    const stoko = [
+        { varo: "pantalono", prezo: "12.00", nombro: "4" },
+        { varo: "ĉemizo", prezo: "8.50", nombro: "2" }, 
+        { varo: "ĉapo", prezo: "9.00", nombro: "3" }
+    ];
+
+    var db;
+    var dbrequest = window.indexedDB.open("reta-lernejo-transagoj", 3);
+    dbrequest.onerror = event => {
+        alert("Ne eblas krei enretumilan datumbazon por la ekzerco!")
+    };
+    dbrequest.onsuccess = event => {
+        // teste ŝanĝu stokon en la tabelo...
+        //t_set("t_stoko","pantalono",3,12);
+    }
+
+    dbrequest.onupgradeneeded = event => {
+        db = event.target.result;
+        db.onerror = event => {
+            // Generic error handler for all errors targeted at this database's
+            // requests!
+            console.error("Eraro pri la datumbazo: " + event.target.errorCode);
+        };
+
+        var oStoko = db.createObjectStore("stoko", { keyPath: "varo" });
+        oStoko.transaction.oncomplete = event => {
+            // Plenigu la stokon kun la supra komenca enhavo
+            var tx = db.transaction("stoko", "readwrite").objectStore("stoko");
+            stoko.forEach(function(ero) {
+                tx.add(ero);
+            });
+        };
+
+
+    };
+
+</script>
 
 ### principo P-I-K-A
 
