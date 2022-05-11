@@ -43,6 +43,15 @@ const SVG = function() {
         return linio;
     }
 
+    function rektangulo(x,y,width,height) {
+        const rektangulo = document.createElementNS(ns,"rect");
+        rektangulo.setAttribute("x",x);
+        rektangulo.setAttribute("y",y);
+        rektangulo.setAttribute("width",width);
+        rektangulo.setAttribute("height",height);
+        return rektangulo;
+    }
+
     function poligono(punktoj,transformo=null) {
         const poligono = document.createElementNS(ns,"polygon");
         poligono.setAttribute("points",punktoj);
@@ -76,6 +85,17 @@ const SVG = function() {
         pattern.setAttribute("width",width);
         pattern.setAttribute("height",height);
         return pattern
+    }
+
+    function animacio(id,atr,de,al,dauro) {
+        const patteanimaciorn = document.createElementNS(ns,"animate");
+        animacio.id = id;
+        animacio.setAttribute("attributeType","XML");
+        animacio.setAttribute("attributeName",atr);
+        animacio.setAttribute("from",de);
+        animacio.setAttribute("to",al);
+        animacio.setAttribute("dur",dauro);
+        return animacio;
     }
 
     function image(href,x,y,width,height) {
@@ -122,9 +142,11 @@ const SVG = function() {
         grupo: grupo,
         defs: defs,
         linio: linio,
+        rektangulo: rektangulo,
         poligono: poligono,
         pado: pado,
         pattern: pattern,
+        animacio: animacio,
         image: image,
         teksto: teksto,
         atributoj: atributoj,

@@ -30,15 +30,14 @@ class Puzlo {
     */   
    
     gen_dh_dw(tabsize,jitter)
-    {
-
-        // helpaj variabloj
-        var a, b, c, d, e, t, j, flip, vertical, xi, yi;
-        
+    {    
         let self=this;
 
-        t = tabsize / 200.0;
-        j = jitter / 100.0;
+        const t = tabsize / 200.0;
+        const j = jitter / 100.0;
+
+        // helpaj variabloj
+        var a, b, c, d, e, flip, vertical, xi, yi;
 
      /**** helpaj funkcioj por kalkuladoj */
 
@@ -276,53 +275,225 @@ class Puzlo {
 
         return pd;
     }
+}
 
-    /*
-    generate() {
-        gen_dh();
-        gen_dv();
-    }
-    */
+class SVGPuzlo {
 
-
-        /*
-    generate()
+    constructor(svgElement,bgimg,seed,tabsize,jitter,
+        xn,yn,width,height,offset,radius)
     {
+        const ns = "http://www.w3.org/2000/svg";
+        const xlink = "http://www.w3.org/1999/xlink";
+    
+        function attr(objekto,atributoj) {
+            let obj = objekto;
+            if (typeof objekto === 'string') {
+                obj = document.getElementById(objekto);
+            }
+            for (const [atr,val] of Object.entries(atributoj)) {
+                obj.setAttribute(atr,val);
+            }
+        }
         
-        var data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
-        data += "width=\"" + width + "mm\" height=\"" + height + "mm\" viewBox=\"0 0 " + width + " " + height + "\">";
+        function puzlero_pos(puzlero) {
+            const p = puzlero.id.split("-");
+            return { x: +p[1], y: +p[2] };
+        }
+    
+        // movu puzleron sur la demetejon
+        function demetu(puzlero) {
+            // demetejo etendiĝas dekstre kaj malsupre je duonlarĝeco de la fono
+            const exc = 0.7; // evitu transŝovon sub la randon per tro grandaj
+                             // dissovoj!
+            const pos = puzlero_pos(puzlero);
+    
+            // la ordinata meza pozicio de la puzlero
+            const xm = (pos.x+0.5)*width/xn;
+            const ym = (pos.y+0.5)*height/yn;
+    
+            // la proksimuma grandeco de puzlero
+            const xp = (1+tabsize/100) * width/xn;
+            const yp = (1+tabsize/100) * height/yn;
+    
+            // arbitra rotacia angulo kaj loko kien meti la puzleron en la demetejo
+            const dekstre = (Math.random() > 0.5); // arbitra buleo
+            const xd = dekstre
+                ? offset + width + xp/2 + Math.random() * (0.5*width - xp)
+                : xp/2 + Math.random() * (1.5*width-xp); 
+            const yd = dekstre
+                ? yp/2 + Math.random() * (1.5*height - yp)
+                : offset + height + yp/2 + Math.random() * (0.5*height - yp); 
+            const rot = Math.random()*360;
+    
+            // movu la puzleron relative al ĝia ordinara mezpunkto
+            //const tx = width/2 - xm + (Math.random()-0.5)*width*exc;
+            //const ty = height + height/2 - ym + (Math.random()-0.5)*height*exc;
+            attr(puzlero,{ transform: `translate(${xd - xm} ${yd - ym}) rotate(${rot} ${xm} ${ym})` });
+        }
+    
+        function surmetu(puzlero,xi,yi) {
+            const pos = puzlero_pos(puzlero)
+    
+            const tx = (xi-pos.x) * width/xn;
+            const ty = (yi-pos.y) * height/yn;
+    
+            attr(puzlero,{ transform: `translate(${tx} ${ty})` });
+        }
+    
+        function kreu_puzleron(puzlo,xi,yi) {
+            const pado = SVG.pado(
+                    puzlo.puzlero(xi,yi)
+                );
+                attr(pado,{ 
+                id: `p-${xi}-${yi}`, 
+                class: "puzlero",
+                fill: "url(#bildo)" });
+    
+            // disĵetu la puzlerojn
+            demetu(pado);
+            return pado;
+        }
 
-        data += "<style type=\"text/css\"><![CDATA["
-             +  "path { stroke: black; stroke-width: 0.5; fill: none; }"
-             +  "]]></style>";
 
-        data += "<g id=\"puzleroj\">"
- 
+        let svg = svgElement;
+        if (typeof svg === 'string') {
+            svg = document.getElementById(svgElement);
+        }
+
+        // enŝovu grupon por la tabulo, eventuale forigu antaŭan
+        const malnova = document.getElementById("puzleroj");
+        if (malnova) malnova.remove();        
+        const puzleroj = document.createElementNS(ns,"g");
+        puzleroj.id="puzleroj";
+        svg.append(puzleroj);
+
+        // difinu la grandecon de la tabulo, dekstre kaj malsupre
+        // ni rezervas spacon kiel demetejo!
+        svg.setAttribute("width",1.5*width);
+        svg.setAttribute("height",1.5*height);
         
-        data += "<path fill=\"none\" stroke=\"DarkBlue\" stroke-width=\"0.1\" d=\"";
-        data += gen_dh();
-        data += "\"></path>";
-        data += "<path fill=\"none\" stroke=\"DarkRed\" stroke-width=\"0.1\" d=\"";
-        data += gen_dv();
-        data += "\"></path>";
-        data += "<path fill=\"none\" stroke=\"Black\" stroke-width=\"0.1\" d=\"";
-        data += gen_db();
-        data += "\"></path>";
+        // difinu fonbildon
+        const pattern = document.createElementNS(ns,"pattern");
+        attr(pattern,{
+                id: "bildo",
+                x: 0, y: 0,
+                width: width+2*offset,
+                height: height+2*offset,
+                patternUnits: "userSpaceOnUse"
+        });
+        const image = document.createElementNS(ns,"image");
+        image.setAttributeNS(xlink,"href",bgimg);
+        attr(image, {
+            x: offset, y: offset,
+            width: width,
+            height: height,
+            preserveAspectRatio: "none"
+        });
+        pattern.append(image);
+
+        // enmetu ĉiujn difinojn
+        const defs = document.createElementNS(ns,"defs");
+        defs.append(pattern);
+        // evtl. forigu malnovan antaŭ (re)aldoni
+        for (const d of svg.querySelectorAll("defs")) {
+            d.remove();
+        }
+        svg.prepend(defs);
+
+        // kreu la eĝojn de la puzleroj
+        const puzlo = new Puzlo(seed, xn, yn, height, width, offset, radius);
         
+        const tablo = document.createElementNS(ns,"rect");
+        attr(tablo, {
+            id: "tablo",
+            x: 0, y: 0,
+            width: 1.5*width,
+            height: 1.5*height,
+            rx: radius,
+            ry: radius
+        });
+            
+        const fono = document.createElementNS(ns,"rect");
+        attr(fono,{
+            id: "fono",
+            x: offset,
+            y: offset,
+            width: width,
+            height: height, 
+            rx: radius, 
+            ry: radius
+        });
 
-        // gen_dh();
-        // gen_dv();
-
-        for (xi=0; xi<xn; xi++) {
-            for (yi=0; yi<yn; yi++) {
-                const p = puzlero(xi,yi);
-                data += p.outerHTML;
+        puzleroj.append(tablo,fono);
+        
+        puzlo.gen_dh_dw(tabsize, jitter);
+        for (let xi=0; xi<xn; xi++) {
+            for (let yi=0; yi<yn; yi++) {
+                const pz = kreu_puzleron(puzlo,xi,yi);
+                puzleroj.append(pz);
             }
         }
 
-        data += " </g></svg>";
+        puzleroj.addEventListener("click",
+            function(event) {
+                event.preventDefault();
+                const trg = event.target; // elemento ene de g#puzleroj
+                const g = event.currentTarget; // g#puzleroj
+                if (trg.localName == "path") {
+                    if (trg.classList.contains("elektita")) {
+                        // malelektu
+                        trg.classList.remove("elektita");
+                    } else {
+                        // elektu tuŝitan, malelektu aliajn
+                        for (let p of g.querySelectorAll("path")) {
+                            p.classList.remove("elektita")
+                        };
+                        trg.classList.add("elektita");
+                    }
+                // fono tuŝita, metu elektitan puzleron al koncerna pozicio    
+                } else if (trg.id == "fono") {
+                    const puzlero = g.querySelector(".elektita");
+                    if (puzlero) {
+                        const xi = Math.floor(event.offsetX / width * xn);
+                        const yi = Math.floor(event.offsetY / height * yn);
+                        surmetu(puzlero,xi,yi);
+                    }
+                // nek fono nek puzlero tuŝita, se iu puzlero
+                // estas elektita demetu ĝin (malsupre de la fono)
+                } else {
+                    const puzlero = g.querySelector(".elektita");
+                    if (puzlero && (event.offsetY > height || event.offsetX > width)) {
+                        demetu(puzlero)
+                    }
+                }
+            });
 
-        return data;
+        puzleroj.addEventListener("dblclick",
+            function(event) {
+                event.preventDefault();
+                const trg = event.target; // elemento ene de g#puzleroj
+                if (trg.localName == "path") {
+                    demetu(trg);
+                }                    
+            });
     }
-    */
+    
+    svg_export()
+    {
+        const svg = SVG.elemento("puzzlecontainer");
+
+        /*
+        width = parseInt($("width").value);
+        height = parseInt($("height").value);
+        radius = parseFloat($("radius").value);
+        offset = 0.0;
+        parse_input();
+        
+        const puzlo = new Puzlo(seed, tabsize, jitter, xn, yn, height, width, offset, radius);
+
+        const data = puzlo.generate();       
+        */
+        save("puzlo_"+xn+"x"+yn+".svg", svg.outerHTML);
+    }
+
 }
