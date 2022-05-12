@@ -126,6 +126,7 @@ js:
             xn,yn,width,height,offset,radius);
     }
 
+/*
     // helpfunkcioj
     function metu(kampo,valoro) {
         document.getElementById(kampo).textContent = valoro;
@@ -134,18 +135,24 @@ js:
     function valoro(kampo) {
         return parseInt(document.getElementById(kampo).value,10);
     }
+    */
 
     window.onload = () => {
         // preparu semon
         $('seed').value = Math.random() * 10000; 
+        updateseed();
         if (parse_urlparams()) {
             update()
-        } else {
-            updateseed();
         }
     }
 
 </script>
+
+
+{::options parse_block_html="true" /}
+
+<details style="border-top: 1px dotted black">
+  <summary markdown="span">Agordo</summary>
 
    <table>
       <tr>
@@ -165,7 +172,7 @@ js:
       </tr>
       <tr>
          <td>Angulradiuso:</td>
-         <td><input id="radius" type="text" value="2.0" size="4" onchange="update()"/> mm</td>
+         <td><input id="radius" type="text" value="2.0" size="4" onchange="update()"/></td>
          <td></td>
       </tr>
       <tr>
@@ -175,14 +182,15 @@ js:
       </tr>
       <tr>
          <td>Formato:</td>
-         <td><input id="width" type="text" value="300" size="4" onchange="update()"/> x <input id="height" type="text" value="200"  size="4" onchange="update()"/> mm</td>
+         <td><input id="width" type="text" value="300" size="4" onchange="update()"/> x <input id="height" type="text" value="200"  size="4" onchange="update()"/></td>
       </tr>
       <tr>
         <td>Fonbildo:</td>
-        <td><input id="bgimg" type="text" value="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png"/></td>
+        <td><input id="bgimg" type="text" value="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png" onchange="update()"/></td>
         <!--  <td><button onclick="generate()">Elŝuto de SVG</button></td> -->
       </tr>
    </table>
+</details>
 
 <svg id="puzzlecontainer">
 
