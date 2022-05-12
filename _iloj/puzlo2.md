@@ -2,8 +2,7 @@
 layout: laborfolio
 title: Puzlokreilo
 js:
-    - svg-0b
-    - puzlo-0a
+    - puzlo-0b
 ---
 
 <!-- 
@@ -121,9 +120,9 @@ js:
 
         parse_input();
 
-        new SVGPuzlo("puzzlecontainer", $("bgimg").value,
-            seed,tabsize,jitter,
-            xn,yn,width,height,offset,radius);
+        const svgpuzlo = new SVGPuzlo("puzzlecontainer",
+            xn,yn,width,height,offset,radius,tabsize);
+        svgpuzlo.kreu($("bgimg").value,seed,jitter);
     }
 
 /*
@@ -192,15 +191,18 @@ js:
    </table>
 </details>
 
-<svg id="puzzlecontainer">
 
+  <svg width="500" height="500" version="1.1">
+    <use xlink:href="#s-1-1" class="puzlero" transform="translate(-100 -100)"></use>
+  </svg>
+
+<svg id="puzzlecontainer"
  version="1.1" 
     id="puzzlecontainer"
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" 
-    class="kartezia"
     width="600" height="400" 
-    viewBox="0 0 1.0 1.0">        
+    viewBox="0 0 1350 900">        
      
     <style type="text/css">
     <![CDATA[
@@ -229,6 +231,7 @@ js:
             stroke-dasharray: 5,1;
             fill: none; 
             */
+            fill: url(#bildo);
         }
 
         .puzlero:hover {
@@ -237,9 +240,11 @@ js:
         }
 
         .puzlero.elektita {
-            stroke-width: 3;
+            stroke-width: 4;
             stroke: #C44;
-            stroke-dasharray: 2,2;
+            stroke-dasharray: 3,2;
+            fill: url(#bld_elektita);
+            /*fill: gray;*/
         }
 
     ]]>
