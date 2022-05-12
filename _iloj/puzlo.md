@@ -85,6 +85,23 @@ js:
         yn = parseInt($("yn").value);
     }
 
+    function parse_urlparams() {
+        const params = new URLSearchParams(window.location.search);
+        let update = false;
+
+        function param(name) {
+            const val = params.get(name); 
+            if (val) { $(name).value = val;
+                update = true;
+            }
+        }
+
+        for (let name of ["xn","yn","seed","tabsize","jitter","bgimg","width","height","radius"])
+            param(name);
+
+        return update;
+    }
+
     function update() {
         width = parseInt($("width").value);
         height = parseInt($("height").value);
@@ -121,7 +138,11 @@ js:
     window.onload = () => {
         // preparu semon
         $('seed').value = Math.random() * 10000; 
-        updateseed();
+        if (parse_urlparams()) {
+            update()
+        } else {
+            updateseed();
+        }
     }
 
 </script>
@@ -155,11 +176,11 @@ js:
       <tr>
          <td>Formato:</td>
          <td><input id="width" type="text" value="300" size="4" onchange="update()"/> x <input id="height" type="text" value="200"  size="4" onchange="update()"/> mm</td>
-         <td><button onclick="generate()">Elŝuto de SVG</button></td>
       </tr>
       <tr>
         <td>Fonbildo:</td>
         <td><input id="bgimg" type="text" value="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png"/></td>
+        <!--  <td><button onclick="generate()">Elŝuto de SVG</button></td> -->
       </tr>
    </table>
 
