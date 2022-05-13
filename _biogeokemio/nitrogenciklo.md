@@ -20,8 +20,8 @@ js:
     id="puzzlecontainer"
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="600" height="400" 
-    viewBox="0 0 1350 900">        
+    width="900" height="600" 
+    >        
      
     <style type="text/css">
     <![CDATA[
@@ -29,7 +29,7 @@ js:
         #puzzlecontainer {
             /*width: 94vw;*/
             position: relative;
-            /*left: calc(-50vw + 20px + 50%);*/
+            left: calc(-50vw + 60%);
         }
 
         #tablo {

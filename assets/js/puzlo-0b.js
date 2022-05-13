@@ -405,6 +405,7 @@ class SVGPuzlo {
         // ni rezervas spacon kiel demetejo!
         this.svg.setAttribute("width",1.5*width);
         this.svg.setAttribute("height",1.5*height);
+        //this.svg.setAttribute("viewBox",`0 0  ${width} ${height}`);
         
         // difinu fonbildon
         const pattern = document.createElementNS(ns,"pattern");
@@ -526,16 +527,20 @@ class SVGPuzlo {
                 } else if (trg.id == "fono") {
                     const puzlero = g.querySelector(".elektita");
                     if (puzlero) {
-                        const xi = Math.floor(event.offsetX / width * xn);
-                        const yi = Math.floor(event.offsetY / height * yn);
+                        const box = trg.getBoundingClientRect();
+                        const xi = Math.floor(event.offsetX / box.width * xn);
+                        const yi = Math.floor(event.offsetY / box.height * yn);
                         surmetu(puzlero,xi,yi);
                     }
                 // nek fono nek puzlero tuŝita, se iu puzlero
-                // estas elektita demetu ĝin (malsupre de la fono)
+                // estas elektita demetu ĝin (sur la tablo ekster la fono)
                 } else {
                     const puzlero = g.querySelector(".elektita");
                     if (puzlero && (event.offsetY > height || event.offsetX > width)) {
-                        demetu(puzlero,event.offsetX,event.offsetY);
+                        const box = trg.getBoundingClientRect();
+                        demetu(puzlero,
+                            event.offsetX * width/box.width,
+                            event.offsetY * height/box.height);
                     }
                 }
             });
