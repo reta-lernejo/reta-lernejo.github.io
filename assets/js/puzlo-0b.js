@@ -1,3 +1,6 @@
+const ns = "http://www.w3.org/2000/svg";
+const xlink = "http://www.w3.org/1999/xlink";
+
 class Puzlo {
 
     constructor(seed, xn, yn, 
@@ -15,8 +18,6 @@ class Puzlo {
 
         //this.gen_dh_dw();
     }
-
-
 
        
     // generilo-parametroj / -funkcioj $
@@ -287,14 +288,24 @@ class SVGPuzlo {
         this.yn = yn;
         this.width = width;
         this.height = height;
+        this.viewBox = `0 0 ${width*1.5} ${height*1.5}`;
         this.tabsize = tabsize;
         this.offset = offset;
         this.radius = radius;
     }
 
+
+    _attr(objekto,atributoj) {
+        let obj = objekto;
+        if (typeof objekto === 'string') {
+            obj = document.getElementById(objekto);
+        }
+        for (const [atr,val] of Object.entries(atributoj)) {
+            obj.setAttribute(atr,val);
+        }
+    }
+
     kreu(bgimg,seed,jitter) {
-        const ns = "http://www.w3.org/2000/svg";
-        const xlink = "http://www.w3.org/1999/xlink";
 
         // pli facile aliru proprajn atributojn
         let self = this;
@@ -306,15 +317,6 @@ class SVGPuzlo {
         const offset = this.offset;
         const radius = this.radius;
     
-        function attr(objekto,atributoj) {
-            let obj = objekto;
-            if (typeof objekto === 'string') {
-                obj = document.getElementById(objekto);
-            }
-            for (const [atr,val] of Object.entries(atributoj)) {
-                obj.setAttribute(atr,val);
-            }
-        }
         
         function puzlero_pos(puzlero) {
             const p = puzlero.id.split("-");
@@ -322,12 +324,14 @@ class SVGPuzlo {
         }
     
         // movu puzleron sur la demetejon
-        function demetu(puzlero,x,y) {
+        function demetu(puzlero,xd=0,yd=0) {
             // demetejo etendiĝas dekstre kaj malsupre je duonlarĝeco de la fono
             const exc = 0.7; // evitu transŝovon sub la randon per tro grandaj
                              // dissovoj!
             const pos = puzlero_pos(puzlero);
             const bbox = self.enkadro(pos.x,pos.y);
+            // const bbox = puzlero.getBBox();
+
             /*
             // la ordinara meza pozicio de la puzlero
             const xm = (pos.x+0.5)*width/xn;
@@ -339,8 +343,8 @@ class SVGPuzlo {
             */
             const xm = bbox.x + bbox.width/2;
             const ym = bbox.y + bbox.height/2;
-            let xd = x||0;
-            let yd = y||0;
+            // let xd = x||0;
+            // let yd = y||0;
             let rot = 0;
     
             if (xd + yd == 0) {
@@ -358,7 +362,7 @@ class SVGPuzlo {
             // movu la puzleron relative al ĝia ordinara mezpunkto
             //const tx = width/2 - xm + (Math.random()-0.5)*width*exc;
             //const ty = height + height/2 - ym + (Math.random()-0.5)*height*exc;
-            attr(puzlero,{ transform: `translate(${xd-xm} ${yd-ym}) rotate(${rot} ${xm} ${ym})` });
+            self._attr(puzlero,{ transform: `translate(${xd-xm} ${yd-ym}) rotate(${rot} ${xm} ${ym})` });
         }
     
         function surmetu(puzlero,xi,yi) {
@@ -367,12 +371,12 @@ class SVGPuzlo {
             const tx = (xi-pos.x) * width/xn;
             const ty = (yi-pos.y) * height/yn;
     
-            attr(puzlero,{ transform: `translate(${tx} ${ty})` });
+            self._attr(puzlero,{ transform: `translate(${tx} ${ty})` });
         }
     
         function kreu_puzleron(puzlo,xi,yi) {
             const pado = document.createElementNS(ns,"path");
-            attr(pado, {
+            self._attr(pado, {
                 d: puzlo.puzlero(xi,yi) //,
                 //fill: "black",
                 //class: "puzlero",
@@ -383,11 +387,13 @@ class SVGPuzlo {
             const bbox = self.enkadro(xi,yi); 
     
             const sym = document.createElementNS(ns,"symbol");
-            attr(sym, {
-                id: `s-${xi}-${yi}`,
-                viewbox: `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`,
-                //width: bbox.width,
-                //height: bbox.height
+            self._attr(sym, {
+                id: `s-${xi}-${yi}` , 
+                viewBox: `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`,
+                width: bbox.width,
+                height: bbox.height,
+                x: bbox.x,
+                y: bbox.y
             });
             sym.append(pado);
 
@@ -409,7 +415,7 @@ class SVGPuzlo {
         
         // difinu fonbildon
         const pattern = document.createElementNS(ns,"pattern");
-        attr(pattern,{
+        this._attr(pattern,{
                 id: "bildo",
                 x: 0, y: 0,
                 width: width+2*offset,
@@ -418,7 +424,7 @@ class SVGPuzlo {
         });
         const image = document.createElementNS(ns,"image");
         image.setAttributeNS(xlink,"href",bgimg);
-        attr(image, {
+        this._attr(image, {
             x: offset, y: offset,
             width: width,
             height: height,
@@ -428,13 +434,13 @@ class SVGPuzlo {
 
         // difinu markitan puzleron (punktoj antaŭ la fono)
         const rastrumo = document.createElementNS(ns,"pattern");
-        attr(rastrumo, {
+        this._attr(rastrumo, {
             id: "dots", x: 2, y: 2,
             width: 6, height: 6,
             patternUnits: "userSpaceOnUse"
         });
         const cirklo = document.createElementNS(ns,"circle");
-        attr(cirklo, {
+        this._attr(cirklo, {
             cx: 1, cy: 1, r: 1, stroke: "none", fill: "#6a6"
         });
         rastrumo.append(cirklo); 
@@ -442,7 +448,7 @@ class SVGPuzlo {
         const elektita = pattern.cloneNode(true);
         elektita.id = "bld_elektita";
         const rekt = document.createElementNS(ns,"rect");
-        attr(rekt, {
+        this._attr(rekt, {
             x: offset, y: offset,
             width: width,
             height: height,
@@ -464,13 +470,13 @@ class SVGPuzlo {
 
                 const use = document.createElementNS(ns,"use"); 
                 use.setAttributeNS(xlink,"href",`#s-${xi}-${yi}`);
-                attr(use, {
+                this._attr(use, {
                     id: `p-${xi}-${yi}`,
                     class: "puzlero"
                     /*,
                     x: 0,
                     y: 0*/
-                })
+                });
                 // disĵetu la puzlerojn
                 demetu(use);
                 puzleroj.append(use);
@@ -485,7 +491,7 @@ class SVGPuzlo {
         this.svg.prepend(defs);
 
         const tablo = document.createElementNS(ns,"rect");
-        attr(tablo, {
+        this._attr(tablo, {
             id: "tablo",
             x: 0, y: 0,
             width: 1.5*width,
@@ -495,7 +501,7 @@ class SVGPuzlo {
         });
             
         const fono = document.createElementNS(ns,"rect");
-        attr(fono,{
+        this._attr(fono,{
             id: "fono",
             x: offset,
             y: offset,
@@ -539,8 +545,8 @@ class SVGPuzlo {
                     if (puzlero && (event.offsetY > height || event.offsetX > width)) {
                         const box = trg.getBoundingClientRect();
                         demetu(puzlero,
-                            event.offsetX * width/box.width,
-                            event.offsetY * height/box.height);
+                            event.offsetX, // * width/box.width,
+                            event.offsetY); // * height/box.height);
                     }
                 }
             });
@@ -559,9 +565,13 @@ class SVGPuzlo {
         // la ordinata meza pozicio de la puzlero
         const xm = this.offset + (xi+0.5)*this.width/this.xn;
         const ym = this.offset + (yi+0.5)*this.height/this.yn;
-        // la proksimuma grandeco de puzlero
-        const w = (1+this.tabsize/100) * this.width/this.xn;
-        const h = (1+this.tabsize/100) * this.height/this.yn;
+        // la proksimuma grandeco de puzlero, iom pli granda ol
+        // necese, sed ni devas eviti fortranĉon de lango
+        // por ekzaktaj limoj ni devus elkalkuli ilin el la pado
+        // aŭ unue pentri la puzleron ien kaj poste uzi .getBBox()
+        // sed ni ja bezonas la atributojn por 'symbol' antaŭ la pentrado!
+        const w = (1+3*this.tabsize/100) * this.width/this.xn;
+        const h = (1+3*this.tabsize/100) * this.height/this.yn;
 
         return ({
             x: xm-w/2,
@@ -588,5 +598,30 @@ class SVGPuzlo {
         */
         save("puzlo_"+xn+"x"+yn+".svg", this.svg.outerHTML);
     }
+
+    puzlero(svgId,xi,yi,attrs) {
+        const svg = document.getElementById(svgId);
+        /*
+        const kadro = this.enkadro(1,1);
+        svg.setAttribute("height",kadro.height);
+        svg.setAttribute("width",kadro.width);
+        svg.setAttribute("viewBox",`${kadro.x} ${kadro.y} ${kadro.width} ${kadro.height}`);
+        */
+        const p = document.getElementById(`p-${xi}-${yi}`);
+        const bbox = p.getBBox();
+
+        this._attr(svg,{
+            "height": bbox.height,
+            "width": bbox.width,
+            "viewBox": `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
+        });
+        if (attrs) this._attr(svg,attrs);
+       
+        const use = document.createElementNS(ns,"use");
+        use.setAttributeNS(xlink,"href",`#s-${xi}-${yi}`);
+        use.setAttribute("class","puzlero");
+
+        svg.append(use);
+    }  
 
 }
