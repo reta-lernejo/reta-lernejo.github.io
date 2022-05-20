@@ -3,12 +3,9 @@ layout: laborfolio
 title: Nitrogenciklo
 js:
   - puzlo-0b
+js-ext:
+  - mathjax3
 ---
-
-## Puzlo
-
-Por solvi la tutan puzlon mankas kelkaj puzleroj. 
-Trovu ilin per ĝustaj respondoj al la malsupraj [demandoj](#demandoj)!
 
 <script>
 
@@ -37,7 +34,7 @@ Trovu ilin per ĝustaj respondoj al la malsupraj [demandoj](#demandoj)!
 
   window.onload = () => {
     const bgimg = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png";
-    const svgpuzlo = new SVGPuzlo("puzzlecontainer",4,3,700,500,5,3,21.0);
+    const svgpuzlo = new SVGPuzlo("puzzlecontainer","puzzlepieces",4,3,700,500,5,3,21.0);
     svgpuzlo.kreu(bgimg,13,0.04);
 
    // aranĝu unuopajn disajn puzlerojn
@@ -47,17 +44,85 @@ Trovu ilin per ĝustaj respondoj al la malsupraj [demandoj](#demandoj)!
        const sp = document.getElementById(id);
        if (sp) {
          svgpuzlo.puzlero(id,xi,yi,{style: "display: none;"});
+         // kaŝu la unuopan puzleron en la tuta puzlo
          document.getElementById(`p-${xi}-${yi}`).classList.add('kashita');
        }
      }
    }
 
+   // post adapto de puzlero ni povas fermi la sekcion
+   // alternative ni povus krei la puzlerojn nur kiam malfermiĝas la sekcio
+   // atentante ke ni ne duobligas la enhavatajn puzlerojn
+   document.getElementById("demandoj").removeAttribute("open");
+
   }
 </script>
 
+<svg id="puzzlepieces"
+    version="1.1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0" viewbox="0 0 0 0"></svg>
+
+
+{::options parse_block_html="true" /}
+
+<details class="sekcio" id="bazaj-procezoj" open>
+  <summary markdown="span">
+  Bazaj procezoj
+</summary>
+
+
+Ĉiuj organismoj bezonas nitrogenon por siaj molekuloj kiel nukleacidoj, proteinoj k.a. Sed la plej multaj el ili ne povas uzi la molekulan nitrogenon de la atmosfero, ĉar pro la triobla elektronligo
+$$\ce{N#N}$$, necesas multe da energio por disrompo. Aparte plantoj kutime ne povantaj digesti aliajn organismojn bezonas do nitrogenon en alia energie pli favora formo, t.e. kiel amoni-jonoj
+$$\ce{NH4+}$$ aŭ nitrato $$\ce{NO3-}$$, kiuj estiĝas kaj en anorganikaj procezoj: sunlumo, fulmoj, vulkanoj kaj de mikroorganismoj.
+
+La bazajn procezojn de la nitrogenciklo oni nomas:
+
+ - [nitrogenfikso](#nitrogenfikso)
+ - [nitratigo](#nitratigo)
+ - [malnitratigo](#malnitratigo)
+ - [amonifikso](#amonifikso)
+
+<!-- https://studyflix.de/biologie/stickstoffkreislauf-2799 -->
+
+## Nitrogenfikso
+
+Ĉe la nitrogenfikso la triobla ligo de la nitrogenmolekuloj estas disrompata kaj la unupaj nitrogenatomoj ligitaj en molekuloj de amonijonoj aŭ nitrato:
+
+$$\ce{N#N->NH4+}$$
+
+$$\ce{N#N->NO3-}$$
+
+Tio povas okazi ekzemple pro efiko de sunlumo aŭ fulmoj.
+
+Ankaŭ nitrogenfiksaj mikroorganismoj, rizobioj, kapablas tion. Ili formas fortan simbiozon kun fabo, fazeolo, pizo, vicio, trifolio kaj aliaj samfamiliaj plantoj. Sidante ĉe iliaj radioj ili ricevas la bezonatan energion de la planto kaj redonas la transformitan nitrogenon.
+
+## Nitratigo
+
+$$\ce{NH4+ -> NO2- -> NO3–}$$
+
+$$\ce{NH3 + 2 O2 -> NO3- + H+ + H2O}$$
+
+## Malnitratigo
+
+$$\ce{NO3- -> NO2- -> NO + N2O -> N2}$$
+
+## Amonifikso
+
+</details>
+
+
+
+<details class="sekcio" id="puzlo">
+  <summary markdown="span">
+  Puzlo
+</summary>
+
+Por solvi la tutan puzlon mankas kelkaj puzleroj. 
+Trovu ilin per ĝustaj respondoj al la malsupraj [demandoj](#demandoj)!
+
 <svg id="puzzlecontainer"
- version="1.1" 
-    id="puzzlecontainer"
+    version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" 
     width="700" height="500" 
@@ -117,7 +182,13 @@ Trovu ilin per ĝustaj respondoj al la malsupraj [demandoj](#demandoj)!
   <g id="puzleroj"></g>
 </svg>
 
-## Demandoj
+</details>
+
+<details class="sekcio" id="demandoj" open>
+  <summary markdown="span">
+  Demandoj
+</summary>
+
 
 - Kial vivaĵoj bezonas nitrogenon?
   - [ili bezonas ĝin por spirado](#svg-2-1){: #h78475f61 onclick="respondo(event);"}
@@ -143,29 +214,6 @@ Trovu ilin per ĝustaj respondoj al la malsupraj [demandoj](#demandoj)!
   - [iuj mikroorganismoj transformas nitraton al molekula nitrogeno](#svg-3-1){: #hd2be8fb2 onclick="respondo(event);"}
 
   <svg id="svg-3-1" version="1.1"></svg>
-  <svg id="svg-3-2" version="1.1"></svg>
 
 
-<!--https://boxy-svg.com/ideas/123/jigsaw-puzzle-generator -->
-
-<pre id="graph" style="display: none">
-    digraph {
-        N2 [label="atomsfera\nnitrogeno (N₂)"]
-        NH4 [label="NH₄⁺"]
-        NO2 [label="NO₂⁻"]
-        NO3 [label="NO₃⁻"]
-
-        N2 -> NH4 [label="oksidigaj\nbakterioj"]
-        NH4 -> NO2 [label="nitratigaj\nbakterioj"]
-        NO2 -> NO3 [label="nitratigaj\nbakterioj"]
-        NO3 -> N2 [label="malnitratigaj\nbakterioj"]
-    }
-
-</pre>
-
-<div id="rend"></div>
-
-<!--
-    // OS [label="oksidigaj simbiontoj"]
-    //  NH₄⁺ NO₂⁻ NO₃⁻
--->
+</details>

@@ -37,6 +37,7 @@ Kontribuantoj estas bonvenaj.
 {% endif %}  
 {% endfor %}
 
+<!-- alternativa nomo elementoj & molekuloj -->
 
 ## Kemio
 
@@ -47,6 +48,7 @@ Kontribuantoj estas bonvenaj.
 {% endif %}  
 {% endfor %}  
 
+<!-- alternativa nomo: (sistemo) Tero -->
 
 ## Biogeokemio
 
@@ -56,6 +58,8 @@ Kontribuantoj estas bonvenaj.
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
 {% endif %}  
 {% endfor %}  
+
+<!-- alternativa nomo: vivo | organismoj -->
 
 ## Biokemio
 

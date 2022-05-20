@@ -280,10 +280,13 @@ class Puzlo {
 
 class SVGPuzlo {
 
-    constructor(svgElement,xn,yn,width,height,offset,radius,tabsize)
+    // svgElement estas la videbla puzlo, svgElementS enhavu la
+    // puzlerojn kiel elementoj <symbol> - tio povas esti la sama SVG!
+    constructor(svgElement,svgElementS,xn,yn,width,height,offset,radius,tabsize)
     {
 
         this.svg = typeof svgElement === 'string' ? document.getElementById(svgElement) : svgElement;
+        this.svgSym = typeof svgElementS === 'string' ? document.getElementById(svgElementS) : svgElementS;
         this.xn = xn;
         this.yn = yn;
         this.width = width;
@@ -488,7 +491,7 @@ class SVGPuzlo {
         for (const d of this.svg.querySelectorAll("defs")) {
             d.remove();
         }
-        this.svg.prepend(defs);
+        this.svgSym.prepend(defs);
 
         const tablo = document.createElementNS(ns,"rect");
         this._attr(tablo, {
@@ -607,21 +610,26 @@ class SVGPuzlo {
         svg.setAttribute("width",kadro.width);
         svg.setAttribute("viewBox",`${kadro.x} ${kadro.y} ${kadro.width} ${kadro.height}`);
         */
-        const p = document.getElementById(`p-${xi}-${yi}`);
-        const bbox = p.getBBox();
 
-        this._attr(svg,{
-            "height": bbox.height,
-            "width": bbox.width,
-            "viewBox": `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
-        });
-        if (attrs) this._attr(svg,attrs);
-       
+        // aldonu la puzleron per <use>
         const use = document.createElementNS(ns,"use");
         use.setAttributeNS(xlink,"href",`#s-${xi}-${yi}`);
         use.setAttribute("class","puzlero");
 
         svg.append(use);
+
+        // trovu la puzleron xi,yi kaj uzu ĝiajn dimensiojn
+        // por adapti la SVG-grafikon de la puzlero
+        //const p = document.getElementById(`p-${xi}-${yi}`);
+        const bbox = use.getBBox();
+
+        this._attr(svg,{
+            "height": bbox.height,
+            "width": bbox.width,
+            "viewBox": `${bbox.x-1} ${bbox.y-1} ${bbox.width+2} ${bbox.height+2}`
+        });
+        if (attrs) this._attr(svg,attrs);
+       
     }  
 
 }
