@@ -194,6 +194,8 @@ Trovu ilin per ĝustaj respondoj al la malsupraj [demandoj](#demandoj)!
   <g id="puzleroj"></g>
 </svg>
 
+<a title="Dario Aralezo, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Nitrogen_Cycle-eo.svg">ilustraĵo de la nitrogenciklo: Dario Aralezo, CC BY-SA 4.0, per Wikimedia Commons</a>
+
 </details>
 
 <details class="sekcio" id="demandoj" open>
