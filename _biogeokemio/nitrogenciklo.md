@@ -80,14 +80,14 @@ La bazajn procezojn de la nitrogenciklo oni nomas:
 
  - [nitrogenfikso](#nitrogenfikso)
  - [nitratigo](#nitratigo)
+ - [amoniigo](#amoniigo)
  - [malnitratigo](#malnitratigo)
- - [amonifikso](#amonifikso)
 
 <!-- https://studyflix.de/biologie/stickstoffkreislauf-2799 -->
 
 ## Nitrogenfikso
 
-Ĉe la nitrogenfikso la triobla ligo de la nitrogenmolekuloj estas disrompata kaj la unupaj nitrogenatomoj ligitaj en molekuloj de amonijonoj aŭ nitrato:
+Ĉe la nitrogenfikso la triobla ligo de la nitrogenmolekuloj estas disrompata kaj la unuopaj nitrogenatomoj ligitaj en molekuloj de amonijonoj aŭ nitrato:
 
 $$\ce{N#N->NH4+}$$
 
@@ -95,19 +95,31 @@ $$\ce{N#N->NO3-}$$
 
 Tio povas okazi ekzemple pro efiko de sunlumo aŭ fulmoj.
 
-Ankaŭ nitrogenfiksaj mikroorganismoj, rizobioj, kapablas tion. Ili formas fortan simbiozon kun fabo, fazeolo, pizo, vicio, trifolio kaj aliaj samfamiliaj plantoj. Sidante ĉe iliaj radioj ili ricevas la bezonatan energion de la planto kaj redonas la transformitan nitrogenon.
+Ankaŭ nitrogenfiksaj mikroorganismoj, rizobioj, kapablas tion. Ili formas fortan simbiozon kun fabo, fazeolo, pizo, vicio, trifolio kaj aliaj samfamiliaj plantoj. Sidante ĉe iliaj radikoj ili ricevas la bezonatan energion de la planto kaj redonas la transformitan nitrogenon.
+
 
 ## Nitratigo
 
+Se la grundo aŭ akvejo enhavas surfiĉe da oksigeno (aero), bakterioj povas transformi amonijonojn en du paŝoj al nitrato, kion vegetaĵoj preferas por sia nutrado:
+
 $$\ce{NH4+ -> NO2- -> NO3–}$$
+
+Ankaŭ amoniako estas transformebla la nitrato:
 
 $$\ce{NH3 + 2 O2 -> NO3- + H+ + H2O}$$
 
+
+## Amoniigo / Mineraligo
+
+Bestoj manĝas kaj digestas vegetaĵojn. La fekaĵo enhavas organikajn kombinaĵojn, kiujn putraj bakterioj kaj fungoj povas malkomponi ĉe kio estiĝas i.a. amoniako ($$\ce{NH3}$$), kiu povas plureagi al amonijonoj ($$\ce{NH4+}$$). Tio kune kun la nitratigo formas la mallongan "internan" ciklon.
+
+
 ## Malnitratigo
+
+Krom vegetaĵoj ankaŭ bakterioj uzas nitraton, aparte en grundo kun manko de aero (oksigeno). Ili reduktas nitraton al nitrito ($$\ce{NO2-}$$) kaj plu al nitrogena monooksido ($$\ce{NO}$$) kaj dinitrogenoksido ($$\ce{N2O}$$ - tiel nomata ridgaso) kaj eventuale eĉ finproduktas molekulan nitrogenon ($$\ce{N2}$$). Tio fermas la longan "eksteran" ciklon.
 
 $$\ce{NO3- -> NO2- -> NO + N2O -> N2}$$
 
-## Amonifikso
 
 </details>
 
