@@ -134,6 +134,8 @@ js:
         const g = a.tagName == "g"? a : a.closest("g");
 
         amino_emfazo(g);
+        document.querySelectorAll("#k1 g,#k2 g,#k3 g")
+          .forEach((el) => {el.classList.remove("emfazo")});
         amino_trioj(g.textContent.trim());
   }
 
@@ -196,6 +198,15 @@ js:
           })
           amino_emfazo(ag);
         }
+
+        nukle_trio(...kod.split(''));
+  }
+
+  function nukle_trio(k1,k2,k3) {
+      const t = trio(k1,k2,k3);
+      const trioj = document.getElementById("trioj");
+      SVG.malplenigu(trioj);
+      SVG.aldonu(trioj,t);
   }
 
   window.onload = () => {
