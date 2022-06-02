@@ -38,6 +38,9 @@ minima:
 #kramdown:
 #  parse_block_html: true
 
+### ideo pri malpli scienca divido
+# kosmo | tero | vivo | laboro
+
 collections:
   iloj:
     output: true
