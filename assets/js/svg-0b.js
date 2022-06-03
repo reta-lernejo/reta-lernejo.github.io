@@ -52,6 +52,15 @@ const SVG = function() {
         return rektangulo;
     }
 
+
+    function cirklo(cx,cy,r) {
+        const cirklo = document.createElementNS(ns,"circle");
+        cirklo.setAttribute("cx",cx);
+        cirklo.setAttribute("cy",cy);
+        cirklo.setAttribute("r",r);
+        return cirklo;
+    }
+
     function poligono(punktoj,transformo=null) {
         const poligono = document.createElementNS(ns,"polygon");
         poligono.setAttribute("points",punktoj);
@@ -143,6 +152,7 @@ const SVG = function() {
         defs: defs,
         linio: linio,
         rektangulo: rektangulo,
+        cirklo: cirklo,
         poligono: poligono,
         pado: pado,
         pattern: pattern,
