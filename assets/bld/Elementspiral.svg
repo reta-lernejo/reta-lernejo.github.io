@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="928" height="790.40002" viewBox="80 10 580 494" id="svg2" version="1.1" inkscape:version="0.92.0 r15299" sodipodi:docname="Elementspiral.svg">
+  <metadata id="metadata794">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs792"/>
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1680" inkscape:window-height="988" id="namedview790" showgrid="false" inkscape:zoom="0.90188553" inkscape:cx="199.49067" inkscape:cy="322.07926" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="svg2" showguides="true"/>
+  <path d="m 367.79,216.73 c 14.90208,14.75633 15.15296,15.80407 41.44937,9.53933 67,-17.95 132,-59.64 187.7,-67.75 15.3,-2.24 34.45063,38.93067 24.95063,49.17067 -23.6,25.4 -113.98229,42.79494 -125.06933,58.13067 -7.6,4.7 56.2699,21.83952 54.06933,4.36933 -1.3541,-10.75012 64.1,-28.4 80,-35.5 C 660,223.6 645.7,134 607.7,134 c -43.8,-3.3 -126.23933,45.75866 -190.20933,62.97866 -12.64291,2.65367 -24.16775,6.06911 -36.96786,-1.44024 -2.57838,4.56205 -6.89834,11.76484 -12.73281,21.19158 z" id="path4" inkscape:connector-curvature="0" style="fill:#ff99cc;fill-rule:evenodd;stroke:#ff99cc;stroke-width:0.25000001pt" sodipodi:nodetypes="cccccsccccc"/>
+  <path style="fill:#fbff8f;fill-opacity:1;fill-rule:evenodd;stroke:#e7ff8f;stroke-width:0.375pt" d="m 108.11523,214.46875 c -39.674996,32.265 -75.204371,103.48005 -81.984371,158.00505 34.421846,5.0253 192.046511,23.99148 221.293721,27.71112 1.69367,-7.10078 4.5358,-12.47701 9.1258,-17.76876 -14.5434,-16.76332 -99.90103,-112.93813 -148.43515,-167.94741 z" transform="matrix(0.66666667,0,0,0.66666667,80,10)" id="path6" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
+  <path d="m 329.07,316.1 c 0,0 119.61492,45.67164 144.6224,51.798 25.00748,6.12636 32.1776,-3.838 6.3676,-18.258 C 429.3,327.6 378.56,309.42 327.79,283.51 l 25.1,-40.3 c 11.54012,13.19328 58.6304,29.93919 90.71639,42.76841 -27.47078,-13.42803 1.98124,-18.00642 6.17601,-24.3848 l 101.29163,9.06975 c 2.36134,12.86008 10.6341,12.99882 37.5848,23.96259 12.69299,6.82161 17.82594,6.02265 18.84578,16.59866 -6.5,31.5 -13.57553,54.07652 -24.92862,91.30059 -11.3531,37.22407 -35.7316,76.93801 -50.5316,84.03801 C 513.61803,492.36084 499.33937,487.91 483.23937,484.31 466.63937,480.71 380.39,433.90486 359.79701,430.12826 349.82646,392.04643 339.60009,354.33525 329.07,316.1 Z" id="path8" inkscape:connector-curvature="0" style="fill:#ffc0c0;fill-rule:evenodd;stroke:#ffc0c0;stroke-width:0.91000003" sodipodi:nodetypes="czcccccccczcccc"/>
+  <path d="m 352.55798,242.22004 c 22.67913,18.28763 22.80546,18.80233 49.23601,10.95328 L 585.19,186.4 c 27.5,-5.17 32.22221,4.2396 9,17.42 -30.3,15.48 -109.04739,41.8014 -145.14739,57.9314 l 47.71273,3.99196 c 6.39834,-7.41996 39.65757,-18.92605 65.47007,-28.67605 25.8125,-9.75 51.7064,-19.37731 59.1564,-29.37731 12,-31.2 -7.69181,-54.7 -25.29181,-49.1 -30.8,1.2 -158.11597,61.09328 -186.91597,67.89328 -9.4294,2.5667 -17.7782,3.00975 -23.16834,2.89184 -5.39013,-0.11792 -7.82161,-0.7968 -18.22223,-12.49577 -2.63784,4.43519 -15.22548,25.34069 -15.22548,25.34069 z" id="path10" inkscape:connector-curvature="0" style="fill:#ffbfff;fill-rule:evenodd;stroke:#ffbfff;stroke-width:0.25000001pt" sodipodi:nodetypes="ccccccscccscc"/>
+  <path d="m 274.42601,312.27198 c 10.6813,-3.79858 16.72529,-10.48866 19.73529,-21.66866 l 18.53408,5.99601 c -2.95076,12.43747 -5.61127,16.87055 -12.47609,24.8634 12.99731,-5.5317 15.0768,-5.36564 28.21071,-5.37273 1.89613,7.0492 30.97,114.2 30.97,114.2 -16.93,-5.7 -40.9,10.7228 -54.27,12.6228 -44.5479,5.78409 -68.71273,0.90306 -100.68115,-9.32966 -31.96841,-10.23272 -69.70763,-45.40573 -81.34494,-65.74077 -23.274627,-40.67008 -28.680698,-67.97194 -25.597496,-109.61838 0.15,-1.1 30.920116,3.91716 30.920116,3.91716 l 27.43042,3.55722 C 156.10697,265.54837 226.22,377.73 226.35,377.4 l 9.86,-24.2 c -0.5,1.42 48.07601,1.33639 48.07601,1.33639 -3.86117,-13.70647 -7.33358,-30.58457 -9.86,-42.26441 z" id="path12" inkscape:connector-curvature="0" style="fill:#cccccc;fill-rule:evenodd;stroke:#cccccc;stroke-width:0.25000001pt" sodipodi:nodetypes="ccccccczsccccccc"/>
+  <path d="m 284.23,354.81 c -15.43,3.7 -32.15,2.8 -48.88,-1.9 l -7.98,25.8 C 170.22688,355.7474 152.01578,312.64981 156.09011,265.65157 l 26.36709,3.30404 c -2.2,17.6 0.338,35.47719 12.338,54.37719 l 19.52399,-12.5848 c 6.23,9.3 18.74596,18.73801 30.30642,22.1316 L 252.94,312.51 c 25.16,7.1 38.66739,-9.04038 40.65,-21.9 l -12.85439,-4.35439 c -2.2,6.9 -3.231,8.82517 -9.7462,11.41639 3.31181,14.66794 9.21022,38.5304 13.24059,57.138 z" id="path14" inkscape:connector-curvature="0" style="fill:#cccc99;fill-rule:evenodd;stroke:#cccc99;stroke-width:0.25000001pt" sodipodi:nodetypes="ccccccccccccc"/>
+  <path d="m 273.77265,273.44802 c 3.87,3 6.14004,7.03866 6.78004,12.63866 l 32.07735,10.38198 C 314.79004,288.72866 314.02,281.89 312.3,273.5 L 327.66269,283.8987 380.7,196.08 c -14.84,-12.05 -27.75,-31.2 -44.53,-40 z" id="path18" inkscape:connector-curvature="0" style="fill:#ffdead;fill-rule:evenodd;stroke:#ff80ff;stroke-width:0.25000001pt" sodipodi:nodetypes="cccccccc"/>
+  <path d="m 265.2,271.57 -5.8,2.58 L 152.21466,152.92206 C 188.42826,122.50174 220.02283,115.88237 253.58,109.61 l 11.62,162 z" id="path20" inkscape:connector-curvature="0" style="fill:#c0ffff;fill-rule:evenodd;stroke:#c0ffff;stroke-width:0.25000001pt" sodipodi:nodetypes="cccccc"/>
+  <path d="m 273.58,272.86 -8.38,-1.3 -9.52925,-130.06605 c 35.3438,-2.22395 54.64146,0.0958 80.98206,14.81977 L 273.58,272.91 Z" id="path22" inkscape:connector-curvature="0" style="fill:#ff6666;fill-rule:evenodd;stroke:#ff6666;stroke-width:0.25000001pt" sodipodi:nodetypes="cccccc"/>
+  <path d="m 119.89162,190.50679 c -10.23003,17.00505 -20.236324,43.33455 -22.466324,67.27455 9.073364,1.43799 22.206864,2.84025 30.906864,4.27025 5.16824,-36.05128 17.87845,-61.06074 44.87423,-85.43119 -6.65439,-7.338 -16.7207,-18.60874 -20.99942,-23.4847 -14.53501,12.67986 -22.08532,20.36604 -32.31535,37.37109 z" id="path772" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="zccccz"/>
+  <path d="m 97.698656,258.2153 c -3.1,37.5 5.330674,78.79209 26.050674,110.42209 6.66674,-4.45951 19.22927,-12.08361 24.9947,-15.99605 -16,-25.47 -24.69873,-51.51581 -20.49591,-90.42912 -16.31267,-2.32518 -21.20238,-2.66232 -30.549464,-3.99692 z" id="path766" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="ccccc"/>
+  <path d="m 123.60922,368.8076 c 24.50021,37.37803 50.00276,52.03637 81.37757,64.47879 3.66361,-9.4272 8.2996,-20.54078 11.9524,-30.49278 -33.38985,-9.05096 -50.15982,-26.73497 -68.1,-49.8 -9.15876,5.6877 -17.90167,10.54862 -25.22997,15.81399 z" id="path760" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="ccccc"/>
+  <path d="m 253.7834,109.8813 c -42.68632,6.87839 -74.2002,20.37878 -101.5002,43.07878 4.17616,5.17846 16.27747,18.52389 20.88546,23.52862 23.79136,-19.52626 46.60658,-29.91951 82.92806,-35.09668 -0.40352,-10.66442 -0.84637,-15.25271 -2.31332,-31.51072 z" id="path778" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="ccccc"/>
+  <path style="fill:#a1ffc3;stroke:#ffffff;stroke-width:0.13500001;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" d="m 269.07022,396.77667 c -2.25415,-2.62415 -9.98473,-11.58736 -12.35147,-14.26105 -3.68488,3.80464 -8.11408,13.2279 -9.13867,17.39844 -17.97954,-2.16319 -72.56853,-8.8812 -93.64649,-11.26562 -2.29875,17.13727 -3.22564,49.51654 18.80469,80.875 9.67837,-6.18877 19.08521,-13.26544 28.75586,-18.53906 14.91686,20.51199 28.37225,27.90427 45.4375,33.33984 2.48429,-6.24472 7.81386,-19.84953 12.76758,-32.29492 8.98218,2.6734 20.80414,4.66946 31.72656,1.625 -1.1202,-6.5886 -3.49805,-15.4993 -4.99805,-21.9043 28.97431,-10.03202 6.54365,-52.42144 -17.35751,-34.97333 z" transform="matrix(0.66666667,0,0,0.66666667,80,10)" id="path718" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccccccccc"/>
+  <path d="m 389.42864,410.63059 c 2.87,11.12 6.28668,24.75277 9.54668,35.73277 13.53,6.7 28.76407,14.87605 42.68808,20.98204 -3.03188,-10.31253 -7.88982,-27.315 -10.70737,-36.81344 -13.62683,-7.26385 -27.84806,-12.85062 -41.52739,-19.90137 z" id="path742" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="ccccc"/>
+  <path d="m 483.5076,484.36439 c 15.02,5.1 34.01278,9.04679 48.63119,2.17601 -5.91336,-11.36426 -12.37146,-24.51846 -17.57879,-35.26318 -16.4633,3.88807 -18.91561,2.35294 -43.01919,-4.20788 4.44771,13.95175 8.71272,26.84221 11.96679,37.29505 z" id="path730" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="ccccc"/>
+  <path d="m 441.96029,467.47067 c 12.67,5.73 27.89189,12.41712 41.04189,16.87712 -3.31245,-10.77726 -8.34051,-27.74394 -11.89609,-37.34458 -12.7,-4.5 -27.52547,-11.23979 -39.92547,-16.43979 2.97733,10.81946 8.26721,30.181 10.77967,36.90725 z" id="path736" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="ccccc"/>
+  <path d="m 322.30998,401.60962 c -7.94001,3.24 -14.8468,4.54679 -25.13076,6.70879 2.11172,11.35929 5.66776,24.5326 7.98118,34.46318 14.9057,-0.90607 26.32804,-11.05979 37.81243,-12.9072 7.15631,-0.98518 11.32997,-0.21639 16.70356,-0.0118 -3.2903,-12.00849 -6.24098,-23.89036 -9.54975,-35.01181 -15.34466,0.61401 -19.87666,3.51884 -27.81666,6.75884 z" id="path748" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="zcccccz"/>
+  <path d="m 204.8238,433.88994 c 43.65355,15.42826 71.33336,12.70434 100.22084,8.94164 -2.44334,-9.81449 -5.11061,-24.27616 -7.86542,-34.51317 -31.02805,5.61288 -52.03736,2.23811 -80.24003,-5.5248 -4.20253,9.92832 -9.16475,22.56862 -12.11539,31.09633 z" id="path760-9" inkscape:connector-curvature="0" style="fill:#e8e8e8;stroke:#ffffff;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.81999999" sodipodi:nodetypes="ccccc"/>
+  <g id="g24" style="stroke:#000000">
+    <path d="M 259.83,274.9 152.33,153.2" id="path28" inkscape:connector-curvature="0" style="fill:none"/>
+    <path d="M 273.62447,273.64742 350.42495,131.01509 M 280.34883,285.97227 312.62,296.69 m -41.85,0.6 34.27464,145.54158 m -46.12084,-146.04164 -54.1,137.1 M 247.6,289.59 123.73246,368.77013 M 245.02521,276.8718 96.96,258.1 m 214.7096,14.74739 c 5.4,18.04 -0.15528,36.28838 -11.52528,48.52838 m 72.1406,-64.52937 69.86,28.5 m -114.58641,-1.64303 53.10256,-88.11182 m -52.21186,120.82321 31.31273,113.49595 M 366.11,328.29 399.11631,446.51663 M 405.4,343.7 441.93137,467.53002 M 442.08,357.8 483.39794,484.36126 M 473.6,367.5 532.17,486.6 m -36.7,-119.73 87.2211,36.00249 m -103.59038,-53.0413 128.38086,-38.7147 M 441.36,333.47 l 59.9,-29.62 88.17369,-8.93652 M 402.74,317.37 l 40.67,-31 115.09739,-5.07635 M 367.11,302.54 l 34.2,-33.47 m 0.3,-15.42 16.1,-56.72 12.6,-28.12 m 8.1,72 9.7,-54.4 12.9,-28.7 m 4.4,72.3 9.7,-54.1 7.85438,-26.31727 M 493.01,219.71 l 8.4,-50.8 9.7,-29.6 m 4.5,72.1 6.5,-49.5 9.96012,-30.75186 M 538.11,203.37 c 0,-3.2 14.3848,-79.58539 14.3848,-79.58539 M 562.61,194.07 l 11.4,-55.5 m 12.4,47.9 21.1,-53.02 m 0.66,54.74 35.4,-10.94 M 592.70694,204.79539 646.07,210.06 m -70.26404,2.3112 55.85227,22.46233 M 552.67,221.64 603.01128,244.63051 M 528.8791,230.38866 578.31,253.79 m -82.71391,-11.15402 61.09171,21.19671 m -107.91656,-1.91438 102.30785,8.53924 M 401.45,175.1 l 28.9,-6.34 M 444,156.7 417.57,151 m 10.3,-13.88 24.37422,8.12474 M 462.7,131.97 438.86,123 m 8.3,-10.98 24.47,7.72 m 9,-11.52 -23.72,-7.8 m 8,-10.92 25.1,5.8 m 7.8,-11.15 -24,-6.9 m 8.6,-12.42 23.1,5.54 m -22.7,-25.3 11.26527,-18.743081 M 463.9,52.8 447.39319,33.749129 m 5.8457,30.840519 L 436.86,45.07 m 8.37,29.6 -15.99562,-19.981584 M 434.93,87.57 419.70571,67.891744 M 426.56,98.5 410.14567,81.433179 M 417.58,110.8 402.1,93.34 m 6.03336,29.7642 -14.58813,-18.23516 M 395.59,139.06 383.67771,118.54496 m -2.72805,37.7106 -9.58072,-24.2943 M 349.62,165.16 c 34.35,36.32 34.02123,38.68802 67.98403,31.74794" id="path32" inkscape:connector-curvature="0" style="fill:none" sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"/>
+    <path d="M 265.6453,271.37486 254.02,108.35 198.52,42.45 292.1,34 254.04,108.15" id="path30" inkscape:connector-curvature="0" style="fill:#5a005a;fill-rule:evenodd;stroke:#5a005a;stroke-width:2.5" sodipodi:nodetypes="ccccc"/>
+    <path d="m 173.44065,247.30134 c 2.65002,-1.8727 4.04365,-2.48567 6.18866,-2.70067 2.14501,-0.215 5.16917,0.0225 8.0734,1.63935 2.90422,1.61683 6.65262,6.86187 6.75263,12.44196 0.1,5.58008 -5.27939,10.97475 -9.61544,11.70472 -4.33604,0.72997 -8.3499,0.3633 -12.3499,-0.8167 -23.00419,-7.07542 -13.9931,-36.84817 5.8,-37.98 8.53203,-0.48789 9.03908,0.23315 15.47206,3.4147 6.43297,3.18155 16.55514,17.23419 14.41996,28.22795 -1.95612,10.07172 -8.94347,19.30818 -19.96981,21.93455 -7.75821,1.84793 -11.19764,2.16553 -21.16782,-0.65321 C 128.21353,273.53586 134.29,218.69 176.19,214.69 c 10.1,-1.4 17.6,-0.1 24.4,3.8 13,6.8 20.19359,16.97138 25.09359,27.27138 4.03741,2.91223 4.92588,4.15973 15.40641,10.72862 23.7,15.5 128.5,53.2 153.2,66.9 24.7,13.7 18.9,23 -6.4,17.3 -25.3,-5.7 -133,-50.7 -145.5,-51.5 -13.7,-0.9 -17.9,0.9 -25.7,3.8 -7.8,2.9 -8.7,8.8 -21.2,13.5 -9.4,3.4 -24,4.5 -36.7,-0.7 -56.7,-17.4 -54.2,-103 16.1,-113.97 14.1,-1.9 28.2,0.7 36,5.8 16.5,8.5 27.7,30.4 41.8,40.6 14.1,10.2 14.6,8.6 43.1,20.6 28.5,12 110.4,33.35 128.1,51.5 17.7,18.1 8.6,57.8 -21.9,57.3 -30.5,-0.56 -122,-43.5 -153.2,-54.74 -28,-4.2 -26.6,9.2 -47.7,14.14 -11.4,2.3 -25.7,5.44 -49.6,-1.96 -81.4,-19.06 -72.8,-148.6 21.9,-154.5 18.5,-2.7 41.1,0.72 49.5,6.4 19.8,9.44 31.4,28.1 42.32,36.86 6,5.7 10.87,10.5 20.94,15.8 9.43,1.5 5.6,5.1 37.14,-6.24 34.9,-11.7 146.10932,-54.39198 174.5,-63.7 30.4,-7.65 32.52458,5.5324 8.7158,17.9076 -22.4,12.68 -119.8158,43.8724 -144.4158,57.5224 -24.6,13.6 -19.2,15.1 -3.2,24.5 15.6,10.83 87.5,17.4 97.2,40.55 9.6,23.16 -6.06,91.7 -39.3,98.5 -33.2,6.8 -125,-50.15 -160.2,-57.9 -28.74,-7.1 -27.46,7.4 -50.85,11.6 -11.8,2.87 -32.2,8.56 -64.4,-1.96 -101.9,-31.2 -99.27,-186.1 28.3,-204.1 24.33,-3.1 51.84,0.9 65.02,8.4 22.2,11.3 31.6,23.5 47,34.7 10.8,7.9 7.14,18.7 45,9 37.88,-9.8 148.6,-64.6 182.2,-67.6 33.6,-3 35.2,38.2 25.77,50.8 -23.25,20.63 -56.7,24.85 -97.2,43.8 -17.94,7.3 -23.4,8.22 -27.06,13.5 -3.6,5.23 -7.5,9.63 5.2,18 12.7,8.37 68.6,4.3 70.8,32.2 2.1,27.86 -20.8,122.06 -58,135.15 -37.1,13.1 -129.1,-49.35 -164.8,-56.64 -26.1,1.7 -20.9,8.2 -49.6,12.8 -15.1,3.3 -42,7.7 -81.8,-4.5 C 5.7,340.9 5.7,138.5 168,114.4 c 36.47,-2.8 57.18,1.38 81.12,13.5 l 16.1,10.95 c 7.82,0 12,8.04 30.9,-10.95 18.87,-19 65.76,-87.98 82.4,-103 16.62,-15.02 27.78,-7.4 17.37,12.88 -10.5,20.3 -69.1,86.8 -79.9,108.8 -10.8,22 -0.7,19.6 15.4,23.2 34.2,-6.76 151.1,-67.1 189.9,-63.73 38.5,3.33 40.19086,65.37771 38.52269,76.69387 C 558.14451,194.06004 554.59,202.7 547.69,207.1 c -11,3.16 -45.4,15.66 -58,20.6 -12.6,4.93 -14,5.8 -18.1,8.37 -4.1,2.5 -6.9,3.8 -6.5,7 0.4,3.2 2.9,8.2 9,12.2 6.1,3.94 19.7,7.1 27.7,11.6 7.9,4.5 18.2,5.9 19.9,15.4 -0.2,10.2 -33.8,156.97 -75.3,177.04 -41.5,20.1 -136.8,-49.2 -173.8,-56.6 -24.8,-2.2 -16.9,2.5 -48.3,12.2 -14,2.1 -53.4,10.3 -103.7,-7.7 C -30.7,353.8 -35.5,112.7 166,82.8 c 51.8,-6 84.23,13.5 97.2,20.6 11.27,5.25 13.84,4.6 22.53,1.28 8.84,-3.37 57.83,-83.8 75.96,-98.5 C 379.9,-8.4 399.7,-6 409.4,-0.1 c 9.7,5.9 16.55,22.84 10.3,41.83 -6.2,19 -52.44,73.15 -62.4,88.8 -10,14.33 -25.23,13.85 2.56,5.16 27.8,-8.7 139.27,-53.6 164.16,-57.3 21,-4.4 33.34,1.9 38.07,10.9" transform="translate(86.024,27.198)" id="path26" inkscape:connector-curvature="0" style="fill:none;marker-end:url(#TriangleOutM)" sodipodi:nodetypes="czzzzcszsssccccsscsccccsscccccccccccccccccccccccscccscccccccccccscczcccscccccccccccsccccc"/>
+  </g>
+  <a xlink:href="http://en.wikipedia.org/wiki/Superactinides" id="a34" transform="translate(-2.6666666)">
+    <text x="192.92999" y="57.52" transform="matrix(0.602,-0.799,0.799,0.602,239.999,280.699)" font-size="12" id="text36" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="192.92999" y="57.52" id="tspan38" style="font-style:italic;fill:#808080;fill-opacity:1">SUPERAKTINIIDOJ</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Group_number_of_lanthanides_and_actinides" id="a40" transform="translate(15.999998,-6.6666665)">
+    <text x="32.849998" y="58.75" transform="matrix(0.934,-0.358,0.358,0.934,352.596,228.162)" font-size="12" id="text42" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="32.849998" y="58.75" id="tspan44">LANTANIDOJ &amp; AKTINIIDOJ</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Transition_metal" id="a46" transform="translate(0,-2.6666666)">
+    <text x="73.559998" y="69.779999" transform="matrix(0.94,0.342,-0.342,0.94,282.822,218.871)" font-size="12" id="text48" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="73.559998" y="69.779999" id="tspan50">TRANSIRMETALOJ</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Hydrogen" id="a52">
+    <text x="260.03" y="287.10001" font-size="12" id="text54" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="260.03" y="287.10001" id="tspan56">H</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Helium" id="a58">
+    <text x="255.04135" y="268.68066" font-size="7.68" id="text60" style="font-size:7.67999983px;font-family:'Times New Roman'">
+      <tspan x="255.04135" y="268.68066" id="tspan62">He</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Lithium" id="a64">
+    <text x="267.17334" y="267.69666" font-size="12" id="text66" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="267.17334" y="267.69666" id="tspan68" style="font-size:7.67999983px">Li</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Beryllium" id="a70">
+    <text x="280.12567" y="279.26831" font-size="12" id="text72" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="280.12567" y="279.26831" id="tspan74" style="font-size:7.67999983px">Be</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Boron" id="a76">
+    <text x="276.17001" y="305.17001" font-size="12" id="text78" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="276.17001" y="305.17001" id="tspan80">B</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Nitrogen" id="a82">
+    <text x="241.32001" y="304.51999" transform="translate(1.29)" font-size="12" id="text84" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="241.32001" y="304.51999" id="tspan86">N</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Oxygen" id="a88">
+    <text x="231" y="290.97" font-size="12" id="text90" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="231" y="290.97" id="tspan92">O</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Fluorine" id="a94">
+    <text x="232.92999" y="271.60999" transform="translate(2.581,-1.29)" font-size="12" id="text96" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="232.92999" y="271.60999" id="tspan98">F</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Neon" id="a100">
+    <text x="249.07001" y="257.42001" transform="translate(-3.226)" font-size="12" id="text102" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="249.07001" y="257.42001" id="tspan104">Ne</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Sodium" id="a106">
+    <text x="267.13" y="253.55" transform="translate(-1.936)" font-size="12" id="text108" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="267.13" y="253.55" id="tspan110">Na</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Magnesium" id="a112" transform="translate(-1.3333333,-1.3333333)">
+    <text x="292.29999" y="273.54999" transform="translate(0,1.29)" font-size="12" id="text114" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="292.29999" y="273.54999" id="tspan116">Mg</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Aluminium" id="a118">
+    <text x="281.32999" y="322.59" font-size="12" id="text120" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="281.32999" y="322.59" id="tspan122">Al</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Silicon" id="a124">
+    <text x="251.64999" y="330.32999" transform="translate(1.29)" font-size="12" id="text126" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="251.64999" y="330.32999" id="tspan128">Si</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Chlorine" id="a130">
+    <text x="211.64" y="263.22" font-size="12" id="text132" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="211.64" y="263.22" id="tspan134">Cl</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Argon" id="a136">
+    <text x="236.16" y="241.28999" font-size="12" id="text138" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="236.16" y="241.28999" id="tspan140">Ar</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Potassium" id="a142">
+    <text x="267.78" y="235.48" transform="translate(1.29,-1.29)" font-size="12" id="text144" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="267.78" y="235.48" id="tspan146">K</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Calcium" id="a148">
+    <text x="300.04001" y="255.48" font-size="12" id="text150" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="300.04001" y="255.48" id="tspan152">Ca</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Scandium" id="a154">
+    <text x="342.63" y="290.32999" font-size="12" id="text156" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="342.63" y="290.32999" id="tspan158">Sc</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Titanium" id="a160">
+    <text x="381.98999" y="305.81" font-size="12" id="text162" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="381.98999" y="305.81" id="tspan164">Ti</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Vanadium" id="a166">
+    <text x="421.98999" y="321.94" font-size="12" id="text168" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="421.98999" y="321.94" id="tspan170">V</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Chromium" id="a172">
+    <text x="463.92999" y="338.72" font-size="12" id="text174" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="463.92999" y="338.72" id="tspan176">Cr</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Manganese" id="a178">
+    <text x="495.54999" y="360.66" font-size="12" id="text180" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="495.54999" y="360.66" id="tspan182">Mn</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Iron" id="a184">
+    <text x="485.23001" y="388.39999" transform="translate(1.29,-2.581)" font-size="12" id="text186" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="485.23001" y="388.39999" id="tspan188">Fe</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Cobalt" id="a190">
+    <text x="454.89999" y="383.23999" font-size="12" id="text192" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="454.89999" y="383.23999" id="tspan194">Co</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Nickel" id="a196">
+    <text x="415.54001" y="371.63" transform="translate(3.226)" font-size="12" id="text198" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="415.54001" y="371.63" id="tspan200">Ni</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Copper" id="a202">
+    <text x="380.70001" y="354.20001" transform="translate(0,0.645)" font-size="12" id="text204" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="380.70001" y="354.20001" id="tspan206">Cu</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Zinc" id="a208">
+    <text x="342.63" y="340.01001" font-size="12" id="text210" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="342.63" y="340.01001" id="tspan212">Zn</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Gallium" id="a214">
+    <text x="290.35999" y="339.35999" font-size="12" id="text216" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="290.35999" y="339.35999" id="tspan218">Ga</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Germanium" id="a220">
+    <text x="248.42" y="352.91" font-size="12" id="text222" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="248.42" y="352.91" id="tspan224">Ge</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Arsenic" id="a226">
+    <text x="205.83" y="334.85001" font-size="12" id="text228" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="205.83" y="334.85001" id="tspan230">As</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Bromine" id="a232">
+    <text x="192.28" y="253.55" font-size="12" id="text234" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="192.28" y="253.55" id="tspan236">Br</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Krypton" id="a238">
+    <text x="227.77" y="222.57001" transform="translate(-3.226,-1.29)" font-size="12" id="text240" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="227.77" y="222.57001" id="tspan242">Kr</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Rubidium" id="a244">
+    <text x="266.48999" y="212.25" transform="translate(3.226)" font-size="12" id="text246" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="266.48999" y="212.25" id="tspan248">Rb</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Strontium" id="a250">
+    <text x="312.94" y="235.48" font-size="12" id="text252" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="312.94" y="235.48" id="tspan254">Sr</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Yttrium" id="a256">
+    <text x="352.95001" y="270.32001" transform="translate(3.226,0.645)" font-size="12" id="text258" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="352.95001" y="270.32001" id="tspan260">Y</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Zirconium" id="a262">
+    <text x="398.12" y="290.32999" font-size="12" id="text264" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="398.12" y="290.32999" id="tspan266">Zr</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Niobium" id="a268">
+    <text x="445.87" y="305.17001" font-size="12" id="text270" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="445.87" y="305.17001" id="tspan272">Nb</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Molybdenum" id="a274">
+    <text x="493.60999" y="325.17001" font-size="12" id="text276" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="493.60999" y="325.17001" id="tspan278">Mo</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Technetium" id="a280">
+    <text x="521.35999" y="360.66" font-size="12" id="text282" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="521.35999" y="360.66" id="tspan284">Tc</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Ruthenium" id="a286">
+    <text x="500.70999" y="409.04999" transform="translate(1.29,-1.29)" font-size="12" id="text288" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="500.70999" y="409.04999" id="tspan290">Ru</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Rhodium" id="a292">
+    <text x="466.51001" y="412.28" font-size="12" id="text294" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="466.51001" y="412.28" id="tspan296">Rh</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Palladium" id="a298">
+    <text x="426.51001" y="400.66" font-size="12" id="text300" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="426.51001" y="400.66" id="tspan302">Pd</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Silver" id="a304">
+    <text x="387.79001" y="380.66" font-size="12" id="text306" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="387.79001" y="380.66" id="tspan308">Ag</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Cadmium" id="a310">
+    <text x="349.07999" y="367.10999" font-size="12" id="text312" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="349.07999" y="367.10999" id="tspan314">Cd</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Indium" id="a316">
+    <text x="300.69" y="364.53" font-size="12" id="text318" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="300.69" y="364.53" id="tspan320">In</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Tin" id="a322">
+    <text x="244.55" y="376.79001" font-size="12" id="text324" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="244.55" y="376.79001" id="tspan326">Sn</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Antimony" id="a328">
+    <text x="190.35001" y="352.91" font-size="12" id="text330" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="190.35001" y="352.91" id="tspan332">Sb</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Tellurium" id="a334">
+    <text x="161.31" y="307.75" font-size="12" id="text336" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="161.31" y="307.75" id="tspan338">Te</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Iodine" id="a340">
+    <text x="172.28" y="245.16" font-size="12" id="text342" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="172.28" y="245.16" id="tspan344">I</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Xenon" id="a346">
+    <text x="212.28999" y="199.99001" font-size="12" id="text348" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="212.28999" y="199.99001" id="tspan350">Xe</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Caesium" id="a352">
+    <text x="266.48999" y="192.25" transform="translate(5.807,-1.29)" font-size="12" id="text354" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="266.48999" y="192.25" id="tspan356">Cs</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Barium" id="a358">
+    <text x="323.91" y="210.96001" font-size="12" id="text360" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="323.91" y="210.96001" id="tspan362">Ba</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Lanthanum" id="a364">
+    <text x="365.20999" y="245.8" font-size="12" id="text366" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="365.20999" y="245.8" id="tspan368">La</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Cerium" id="a370">
+    <text x="413.60001" y="245.16" transform="translate(0.645,-5.162)" font-size="12" id="text372" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="413.60001" y="245.16" id="tspan374">Ce</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Praseodymium" id="a376">
+    <text x="445.22" y="232.89999" transform="translate(0.645,-3.871)" font-size="12" id="text378" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="445.22" y="232.89999" id="tspan380">Pr</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Neodymium" id="a382">
+    <text x="471.67999" y="221.28" transform="translate(-0.645,-3.871)" font-size="12" id="text384" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="471.67999" y="221.28" id="tspan386">Nd</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Promethium" id="a388">
+    <text x="496.84" y="210.96001" transform="translate(0,-3.226)" font-size="12" id="text390" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="496.84" y="210.96001" id="tspan392">Pm</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Samarium" id="a394">
+    <text x="519.41998" y="203.22" transform="translate(-1.29,-4.517)" font-size="12" id="text396" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="519.41998" y="203.22" id="tspan398">Sm</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Europium" id="a400">
+    <text x="541.35999" y="193.53999" transform="translate(0.645,-3.226)" font-size="12" id="text402" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="541.35999" y="193.53999" id="tspan404">Eu</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Gadolinium" id="a406">
+    <text x="569.10999" y="183.86" transform="translate(-1.936,-1.936)" font-size="12" id="text408" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="569.10999" y="183.86" id="tspan410">Gd</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Terbium" id="a412">
+    <text x="596.84998" y="179.34" font-size="12" id="text414" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="596.84998" y="179.34" id="tspan416">Tb</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Dysprosium" id="a418">
+    <text x="607.17999" y="202.57001" font-size="12" id="text420" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="607.17999" y="202.57001" id="tspan422">Dy</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Holmium" id="a424">
+    <text x="593.63" y="216.77" font-size="12" id="text426" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="593.63" y="216.77" id="tspan428">Ho</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Erbium" id="a430">
+    <text x="570.40002" y="226.45" font-size="12" id="text432" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="570.40002" y="226.45" id="tspan434">Er</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Thulium" id="a436">
+    <text x="546.52002" y="235.48" font-size="12" id="text438" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="546.52002" y="235.48" id="tspan440">Tm</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Ytterbium" id="a442">
+    <text x="514.90997" y="247.09" font-size="12" id="text444" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="514.90997" y="247.09" id="tspan446">Yb</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Lutetium" id="a448">
+    <text x="477.48001" y="260.64001" font-size="12" id="text450" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="477.48001" y="260.64001" id="tspan452">Lu</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Hafnium" id="a454">
+    <text x="455.54001" y="281.29001" transform="translate(0,-2.581)" font-size="12" id="text456" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="455.54001" y="281.29001" id="tspan458">Hf</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Tantalum" id="a460">
+    <text x="484.57999" y="297.42001" font-size="12" id="text462" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="484.57999" y="297.42001" id="tspan464">Ta</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Tungsten" id="a466">
+    <text x="539.42999" y="317.42999" font-size="12" id="text468" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="539.42999" y="317.42999" id="tspan470">W</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Rhenium" id="a472">
+    <text x="547.16998" y="360.66" font-size="12" id="text474" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="547.16998" y="360.66" id="tspan476">Re</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Osmium" id="a478">
+    <text x="523.29999" y="424.54001" transform="translate(-0.645,1.936)" font-size="12" id="text480" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="523.29999" y="424.54001" id="tspan482">Os</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Iridium" id="a484">
+    <text x="475.54999" y="441.31" transform="translate(1.936,-1.29)" font-size="12" id="text486" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="475.54999" y="441.31" id="tspan488">Ir</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Platinum" id="a490">
+    <text x="436.82999" y="427.76001" font-size="12" id="text492" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="436.82999" y="427.76001" id="tspan494">Pt</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Gold" id="a496">
+    <text x="394.89001" y="408.41" transform="translate(-0.645,0.645)" font-size="12" id="text498" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="394.89001" y="408.41" id="tspan500">Au</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Mercury_%28element%29" id="a502" transform="translate(1.3333333)">
+    <text x="354.89001" y="392.26999" font-size="12" id="text504" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="354.89001" y="392.26999" id="tspan506">Hg</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Thallium" id="a508">
+    <text x="307.78" y="395.5" font-size="12" id="text510" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="307.78" y="395.5" id="tspan512">Tl</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Lead" id="a514">
+    <text x="240.03" y="401.95001" transform="translate(0.645)" font-size="12" id="text516" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="240.03" y="401.95001" id="tspan518">Pb</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Bismuth" id="a520">
+    <text x="170.99001" y="373.56" transform="translate(0,-0.645)" font-size="12" id="text522" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="170.99001" y="373.56" id="tspan524">Bi</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Polonium" id="a526">
+    <text x="135.5" y="316.13" transform="translate(-1.29,-2.581)" font-size="12" id="text528" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="135.5" y="316.13" id="tspan530">Po</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Radon" id="a532">
+    <text x="198.74001" y="174.83" font-size="12" id="text534" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="198.74001" y="174.83" id="tspan536">Rn</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Francium" id="a538">
+    <text x="274.88" y="161.92" font-size="12" id="text540" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="274.88" y="161.92" id="tspan542">Fr</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Radium" id="a544">
+    <text x="339.39999" y="186.44" font-size="12" id="text546" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="339.39999" y="186.44" id="tspan548">Ra</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Actinium" id="a550">
+    <text x="381.34" y="216.77" font-size="12" id="text552" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="381.34" y="216.77" id="tspan554">Ac</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Thorium" id="a556">
+    <text x="419.41" y="213.53999" font-size="12" id="text558" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="419.41" y="213.53999" id="tspan560">Th</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Protactinium" id="a562">
+    <text x="450.38" y="203.86" transform="translate(-1.29,-1.936)" font-size="12" id="text564" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="450.38" y="203.86" id="tspan566">Pa</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Uranium" id="a568">
+    <text x="477.48001" y="190.96001" font-size="12" id="text570" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="477.48001" y="190.96001" id="tspan572">U</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Neptunium" id="a574">
+    <text x="501.35999" y="183.21001" transform="translate(0,-3.871)" font-size="12" id="text576" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="501.35999" y="183.21001" id="tspan578">Np</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Plutonium" id="a580">
+    <text x="523.94" y="175.47" transform="translate(-0.645,-3.871)" font-size="12" id="text582" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="523.94" y="175.47" id="tspan584">Pu</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Americium" id="a586">
+    <text x="547.82001" y="161.28" font-size="12" id="text588" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="547.82001" y="161.28" id="tspan590">Am</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Curium" id="a592">
+    <text x="574.27002" y="154.82001" font-size="12" id="text594" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="574.27002" y="154.82001" id="tspan596">Cm</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Berkelium" id="a598">
+    <text x="611.04999" y="158.69" font-size="12" id="text600" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="611.04999" y="158.69" id="tspan602">Bk</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Californium" id="a604">
+    <text x="627.83002" y="199.99001" font-size="12" id="text606" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="627.83002" y="199.99001" id="tspan608">Cf</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Einsteinium" id="a610">
+    <text x="620.08002" y="224.50999" font-size="12" id="text612" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="620.08002" y="224.50999" id="tspan614">Es</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Fermium" id="a616">
+    <text x="595.56" y="237.41" font-size="12" id="text618" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="595.56" y="237.41" id="tspan620">Fm</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Mendelevium" id="a622">
+    <text x="569.10999" y="247.74001" font-size="12" id="text624" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="569.10999" y="247.74001" id="tspan626">Md</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Nobelium" id="a628">
+    <text x="543.29999" y="258.06" font-size="12" id="text630" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="543.29999" y="258.06" id="tspan632">No</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Lawrencium" id="a634">
+    <text x="518.78003" y="268.39001" transform="translate(1.29,-2.581)" font-size="12" id="text636" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="518.78003" y="268.39001" id="tspan638">Lr</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Rutherfordium" id="a640">
+    <text x="510.39001" y="280" font-size="12" id="text642" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="510.39001" y="280" id="tspan644">Rf</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Dubnium" id="a646">
+    <text x="545.22998" y="292.91" font-size="12" id="text648" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="545.22998" y="292.91" id="tspan650">Db</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Seaborgium" id="a652">
+    <text x="575.56" y="312.91" font-size="12" id="text654" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="575.56" y="312.91" id="tspan656">Sg</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Bohrium" id="a658">
+    <text x="571.69" y="361.95001" transform="translate(0,-1.29)" font-size="12" id="text660" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="571.69" y="361.95001" id="tspan662">Bh</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Hassium" id="a664">
+    <text x="540.07001" y="444.54001" font-size="12" id="text666" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="540.07001" y="444.54001" id="tspan668">Hs</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Ununbium" id="a670" transform="translate(2.6666666)">
+    <text x="360.56" y="425.17999" font-size="12" id="text672" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="360.56" y="425.17999" id="tspan674">Cn</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Alkali_metal" id="a676" transform="translate(0,-1.3333333)">
+    <text x="252.28999" y="76.059998" transform="matrix(0.966,0.259,-0.259,0.966,63.056,-45.99)" font-size="12" id="text678" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="252.28999" y="76.059998" id="tspan680">ALKALAJ</tspan>
+      <tspan x="252.28999" y="88.059998" id="tspan682">METALOJ</tspan>
+    </text>
+  </a>
+  <a xlink:href="http://en.wikipedia.org/wiki/Noble_gas" id="a684" transform="translate(-1.3333333,-1.3333333)">
+    <text x="129.69" y="74.769997" transform="matrix(0.927,-0.375,0.375,0.927,24.436,99.091)" font-size="12" id="text686" style="font-size:12px;font-family:'Times New Roman'">
+      <tspan x="129.69" y="74.769997" id="tspan688">NOBLAJ</tspan>
+      <tspan x="129.69" y="86.769997" id="tspan690">GASOJ</tspan>
+    </text>
+  </a>
+  <text x="212.7" y="72.650002" transform="rotate(-4.814)" font-size="12" id="text692" style="font-size:12px;font-family:'Times New Roman';fill:#5a005a;stroke:#ffffff;stroke-width:1.25">
+    <tspan x="212.7" y="72.650002" id="tspan694">PERIODA</tspan>
+    <tspan x="212.7" y="84.650002" dx="9.29" dy="0" id="tspan696">DIVIDO</tspan>
+  </text>
+  <path d="m 252.94,101.87 9.68,-18.07 -7.1,0.65 -1.3,-14.2 -7.1,0.65 1.95,14.2 -7.1,0.64 z" id="path698" inkscape:connector-curvature="0" style="fill:#ffffff;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.25000001pt"/>
+  <text x="141.39665" y="235.35002" font-size="12" id="text702" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="141.39665" y="235.35002" id="tspan704">At</tspan>
+  </text>
+  <text x="258.73999" y="310.32999" font-size="12" id="text708" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="258.73999" y="310.32999" id="tspan710">C</tspan>
+  </text>
+  <text x="225.84" y="319.35999" font-size="12" id="text714" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="225.84" y="319.35999" id="tspan716">P</tspan>
+  </text>
+  <text x="211" y="296.13" font-size="12" id="text720" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="211" y="296.13" id="tspan722">S</tspan>
+  </text>
+  <text x="186.48" y="301.94" font-size="12" id="text726" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="186.48" y="301.94" id="tspan728">Se</tspan>
+  </text>
+  <text x="485.87" y="472.28" font-size="12" id="text732" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="485.87" y="472.28" id="tspan734">Mt</tspan>
+  </text>
+  <text x="445.22" y="461.95999" font-size="12" id="text738" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="445.22" y="461.95999" id="tspan740">Ds</tspan>
+  </text>
+  <text x="404.57001" y="443.1633" font-size="12" id="text744" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="404.57001" y="443.1633" id="tspan746">Rg</tspan>
+  </text>
+  <text x="313.72003" y="427.07001" font-size="12" id="text750" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="313.72003" y="427.07001" id="tspan752">Nh</tspan>
+  </text>
+  <text x="235.52" y="429.64999" font-size="12" id="text756" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="235.52" y="429.64999" id="tspan758">Fl</tspan>
+  </text>
+  <text x="147.16333" y="393.56335" font-size="12" id="text762" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="147.16333" y="393.56335" id="tspan764">Mc</tspan>
+  </text>
+  <text x="105.21333" y="320.00336" font-size="12" id="text768" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="105.21333" y="320.00336" id="tspan770">Lv</tspan>
+  </text>
+  <text x="113.05" y="221.71669" font-size="12" id="text774" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="113.05" y="221.71669" id="tspan776">Ts</tspan>
+  </text>
+  <text x="185.23332" y="147.63667" font-size="12" id="text780" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="185.23332" y="147.63667" id="tspan782">Og</tspan>
+  </text>
+  <text x="277.3833" y="130.05" font-size="12" id="text786" style="font-size:12px;font-family:'Times New Roman'">
+    <tspan x="277.3833" y="130.05" id="tspan788" style="fill:#808080;fill-opacity:1">Uue</tspan>
+  </text>
+  <text style="font-size:12px;font-family:'Times New Roman'" id="text3732" font-size="12" y="155.59187" x="350.89316">
+    <tspan id="tspan3734" y="155.59187" x="350.89316" style="fill:#808080;fill-opacity:1">Ubn</tspan>
+  </text>
+  <a transform="rotate(-40,280.86533,277.17086)" id="a4546" xlink:href="https://eo.wikipedia.org/wiki/Nobla_gaso">
+    <text style="font-size:11.99972439px;font-family:'Times New Roman'" id="text4548" font-size="12" transform="rotate(-22.024846)" y="175.79146" x="115.17973">HALOGENOJ</text>
+  </a>
+<script xmlns=""/></svg>
