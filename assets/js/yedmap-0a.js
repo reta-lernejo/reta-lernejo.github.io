@@ -94,6 +94,11 @@ class YedMap {
         }
     }
 
+    url_nodo_info(url) {
+        const id = this.url_nodo(url);
+        return this.nodoj[id];
+    }
+
     metu_tekston_url(url,teksto) {
         const id = this.url_nodo(url);
         if (id) {
@@ -125,8 +130,6 @@ class YedMap {
      * la ŝildojn de la vojmontrilo akorde
      */
     iru_al(nodo_id) {
-        const vm_url = ["#dekstren","#maldekstren"];
-        let vm_n = 0;
 
         // kien ni iras en la mapo?
         const nun = this.nodoj[nodo_id];
@@ -142,17 +145,15 @@ class YedMap {
             // por ĉiuj eĝoj elirantaj de la nuna nodo, ni
             // trovu la celon
             this.vm_malplenigu();
+            let vm_n = 0;
 
             for (const e of Object.values(this.eghoj)) {
                 if (e[0] == nn) {
                     const celnodo = "y.node."+e[1].substring(1);
                     const info = this.nodoj[celnodo];
                     console.log(" --> "+JSON.stringify(info));
-                    // ni povas momente montri maksimume du vojmontrilojn
-                    if (vm_url[vm_n]) {
-                        this.vm_aktualigu(vm_url[vm_n],info.teksto,vm_n,idP[2]);
-                        vm_n++;
-                    }
+                    this.vm_aktualigu(vm_n,info.teksto,idP[2]);
+                    vm_n++;
                 }
             }
         }
@@ -175,20 +176,33 @@ class YedMap {
         for (const g of this.svg.querySelectorAll(".vm")) g.remove();
     }
 
-    vm_aktualigu(vm_url,teksto,vm_n,nn) {
+    vm_aktualigu(vm_n,teksto,nn) {
         const ns = "http://www.w3.org/2000/svg";
         const g = this.svg.querySelector(":scope>g"); // la ĉefa grupo
+
+        // plej supra kaj distanco inter vojmontriloj 
+        const yd = this.url_nodo_info('#dekstren').y;
+        const ym = this.url_nodo_info('#maldekstren').y;
+        const dy = Math.abs(ym - yd);
+        const y0 = Math.min(ym,yd);
+
+        // uzante Math.sin(vm_n+nn) kiel pseŭdo-arbitran nombron
+        // ni certigas ĉiam saman aspekton de vojmontriloj en unu stacio!
+        const arbitra = Math.sin(vm_n+nn); // -1..1
+        const a_var = 4; // max. 4° oblikve!
+        const vm_url = ['#dekstren','#maldekstren'][Math.trunc(arbitra*vm_n)%2];
         const vm_id = this.url_nodo(vm_url);
         if (vm_id) {
             //this.metu_tekston_url(vm_url,teksto);
             const info = this.nodoj[vm_id];
-            const vm = document.createElementNS(ns,"g");
-            // uzante Math.sin(vm_n+nn) kiel pseŭdo-arbitran nombron
-            // ni certigas ĉiam saman aspekton de vojmontriloj en unu stacio!
-            const a = Math.trunc(4*(Math.sin(vm_n+nn)-0.5)); 
+            const ŝovo = y0 + vm_n*dy - info.y;
+            // console.log(`n: ${vm_n} y0: ${y0} dy: ${dy} y: ${info.y} ŝ: ${ŝovo}`);
+            const vm = document.createElementNS(ns,"g");            
+            const a = Math.trunc(a_var*arbitra); 
                 //alternative normaldistribue: Math.trunc(5*7*(Math.exp(Math.sin(vm_n+nn)**2/-2)-0.8)); 
             const cx = Math.trunc(info.x + info.w/2) || info.x;
-            const tf = `rotate(${a} ${cx} ${info.y})`;
+            let tf = `rotate(${a} ${cx} ${info.y})`;
+            if (ŝovo) tf += ` translate(0 ${ŝovo})`;
             console.log("tf: "+tf);
             this.svg_attr(vm, {
                 "class": "vm",
@@ -208,8 +222,5 @@ class YedMap {
             vm.append(u,t); g.append(vm);
         }
     }
-
-
-
 
 }
