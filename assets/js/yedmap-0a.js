@@ -37,7 +37,7 @@ class YedMap {
             const id = n.id;
             if (id.startsWith('y.node')) {
                 // ni ekstraktas url + text
-                let url = '', text = [], x = 0, y = 0;
+                let url = '', text = [], x = 0, y = 0, w = 0;
                 // eltrovu la url en elmento a - per ĝi ni alternative identigos la nodojn
                 const a = n.querySelector("a");
                 if (a) {
@@ -48,6 +48,7 @@ class YedMap {
                 if (t) {
                     x = t.getAttribute("x");
                     y = t.getAttribute("y");
+                    w = t.getBBox().width;
                 }
                 // distingi inter stacioj kaj vojmontriloj
                 if (url == '#nun' || url == '#dekstren' || url == '#maldekstren' || url == '#vojmontrilo' ) {
@@ -60,7 +61,7 @@ class YedMap {
                         // ŝovu al defs
                         defs.append(n);
                     }
-                    this.nodoj[id] = {tip: 'montrilo', url: url, x: x, y: y};
+                    this.nodoj[id] = {tip: 'montrilo', url: url, x: x, y: y, w: w};
                 } else if (url != '#nun') {
                     // memoru la nodon kun url, teksto por posta pli facila traktado
                     for (const t of n.querySelectorAll("text")) {
@@ -149,7 +150,7 @@ class YedMap {
                     console.log(" --> "+JSON.stringify(info));
                     // ni povas momente montri maksimume du vojmontrilojn
                     if (vm_url[vm_n]) {
-                        this.vm_aktualigu(vm_url[vm_n],info.teksto);
+                        this.vm_aktualigu(vm_url[vm_n],info.teksto,vm_n,idP[2]);
                         vm_n++;
                     }
                 }
@@ -174,7 +175,7 @@ class YedMap {
         for (const g of this.svg.querySelectorAll(".vm")) g.remove();
     }
 
-    vm_aktualigu(vm_url,teksto) {
+    vm_aktualigu(vm_url,teksto,vm_n,nn) {
         const ns = "http://www.w3.org/2000/svg";
         const g = this.svg.querySelector(":scope>g"); // la ĉefa grupo
         const vm_id = this.url_nodo(vm_url);
@@ -182,10 +183,18 @@ class YedMap {
             //this.metu_tekston_url(vm_url,teksto);
             const info = this.nodoj[vm_id];
             const vm = document.createElementNS(ns,"g");
+            // uzante Math.sin(vm_n+nn) kiel pseŭdo-arbitran nombron
+            // ni certigas ĉiam saman aspekton de vojmontriloj en unu stacio!
+            const a = Math.trunc(4*(Math.sin(vm_n+nn)-0.5)); 
+                //alternative normaldistribue: Math.trunc(5*7*(Math.exp(Math.sin(vm_n+nn)**2/-2)-0.8)); 
+            const cx = Math.trunc(info.x + info.w/2) || info.x;
+            const tf = `rotate(${a} ${cx} ${info.y})`;
+            console.log("tf: "+tf);
             this.svg_attr(vm, {
                 "class": "vm",
                 "text-rendering": "geometricPrecision",
-                "font-family": "sans-serif"                
+                "font-family": "sans-serif",
+                "transform": tf
             }); 
             const u = document.createElementNS(ns,"use");
             const t = document.createElementNS(ns,"text");
