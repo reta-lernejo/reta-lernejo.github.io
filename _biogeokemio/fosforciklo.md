@@ -1,6 +1,8 @@
 ---
 layout: laborfolio
 title: Fosforciklo
+js:
+  - yedmap-0a
 js-ext:
   - mathjax3
 ---
@@ -30,7 +32,7 @@ mallonga rondvojo:
 
 // ni ekstraktis el la origina fosforciklo-detala.graphml 
 // per relo-biokemio/pro/trf/graphml2model.pl
-const edges = {
+const eĝoj = {
   "e0": ["n1", "n2" ],
   "e1": ["n2", "n3" ],
   "e10": ["n9", "n2" ],
@@ -46,119 +48,12 @@ const edges = {
   "e8": ["n5", "n8" ],
   "e9": ["n6", "n9" ]
 }
-
-const nodes = {}; // ni kolektos aŭtomate el la malsupra svg...
-
-function collect_nodes() {
-    for (const n of document.querySelectorAll("svg g[id]")) {
-        const id = n.id;
-        if (id.startsWith('y.node')) {
-            // ni ekstraktas url + text
-            let url = '', text = [];
-            const a = n.querySelector("a");
-            if (a) {
-                url = a.getAttribute("xlink:href");
-            }
-            for (const t of n.querySelectorAll("text")) {
-                text.push(t.textContent);
-            }
-            nodes[id] = {url: url, text: text};
-        }
-    }
-}
-
-function go_to(node_id) {
-    const vm_url = ["#dekstren","#maldekstren"];
-    let vm_n = 0;
-
-    const at = nodes[node_id];
-    console.log('@'+JSON.stringify(at));
-    set_text_by_url('#nun',at.text);
-    // ni supozas node_id = y.node.NN
-    const idP = node_id.split('.');
-    if (idP[1] == 'node') {
-        const node = "n"+idP[2];
-        // por ĉiuj eĝoj elirantaj de la nuna nodo, ni
-        // trovu la celon
-        for (const e of Object.values(edges)) {
-            if (e[0] == node) {
-                const target_node = "y.node."+e[1].substring(1);
-                const info = nodes[target_node];
-                console.log(" --> "+JSON.stringify(info));
-                // ni povas momente montri maksimume du vojmontrilojn
-                if (vm_url[vm_n]) {
-                    vojmontrilo(vm_url[vm_n],info.text,vm_n);
-                    vm_n++;
-                }
-            }
-        }
-    }
-}
-
-function vojmontrilo(vm_url,teksto,not_first) {
-    const ns = "http://www.w3.org/2000/svg";
-    const g = document.querySelector("svg>g"); // la ĉefa grupo
-    const vm_id = node_with_url(vm_url);
-    // forigu vojmontrilojn antaŭ aldoni novajn
-    if (!not_first) {
-        for (const use of document.querySelectorAll("svg>g use")) use.remove();
-    }
-    if (vm_id) {
-        set_text_by_url(vm_url,teksto);
-        const vm = document.createElementNS(ns,"use");
-        vm.setAttribute("href","#"+vm_id);
-        g.append(vm);
-    }
-}
-
-function node_with_url(url) {
-    for (const [id,info] of Object.entries(nodes)) {
-        if (info.url == url) {
-            return id;
-        }
-    }
-}
-
-function set_text_by_url(url,text) {
-    const id = node_with_url(url);
-    if (id) {
-        const node = document.getElementById(id);
-        const tn = node.querySelector("text");
-        if (tn) {
-            tn.textContent = text.join('\n');
-        }
-    }
-}
-
-function move_to_defs(node_id) {
-    const node = document.getElementById(node_id);
-    const defs = document.querySelector("svg defs");
-    if( node && defs) {
-        // node.remove();
-        defs.append(node);
-    }
-}
+let yedmap;
 
 window.onload = () => {
-    collect_nodes();
-
-    // la vojmontrilojn ni aldonos poste depende de la
-    // eblaj vojoj en la desegno!
-    move_to_defs(node_with_url("#maldekstren"));
-    move_to_defs(node_with_url("#dekstren"));
-
-    // iru al komenca nodo...
-    go_to(node_with_url("#mineraloj"));
-
-    //const svg = document.getElementsByTagName("svg")[0];
-    for (const a of document.querySelectorAll("svg a")) {
-        a.addEventListener("click",(event) => {
-            event.preventDefault();
-            const id = event.currentTarget.closest("g").id;
-            console.log(id);
-            go_to(id);
-        })
-    }
+  const yedSvg = document.querySelector("#y\\.node\\.0").closest("svg");
+  yedmap = new YedMap(yedSvg,eĝoj);
+  yedmap.preparu("#mineraloj");
 }
 </script>
 
