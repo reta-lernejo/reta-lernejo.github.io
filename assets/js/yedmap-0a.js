@@ -17,6 +17,8 @@
   per la skripto por faciligi la laboron de la desgnado.
  */
 
+const xlink = 'http://www.w3.org/1999/xlink';
+
 class YedMap {
 
     constructor(svg_elemento, eĝoj) {
@@ -76,9 +78,13 @@ class YedMap {
         for (const a of this.svg.querySelectorAll("a")) {
             a.addEventListener("click",(event) => {
                 event.preventDefault();
-                const id = event.currentTarget.closest("g").id;
+                //const id = event.currentTarget.closest("g").id;
                 // console.log(id);
-                this.navigo(id);
+                //this.navigo(id);
+                
+                const href = event.currentTarget.getAttributeNS(xlink, 'href') 
+                    || event.currentTarget.getAttribute("href");
+                this.iru_al_url(href);
             })
         }
 
@@ -112,20 +118,6 @@ class YedMap {
 
 
     /**
-     * Navigo eltrovas, ĉu elektiĝis vojmontrilo aŭ stacio kaj laŭ la
-     * tipo navigas al la venonta celo
-     */
-    navigo(nodo_id) {
-        const n = this.nodoj[nodo_id];
-        if (n.tip == 'stacio') {
-            this.iru_al(nodo_id);
-        } else if (n.tip == 'montrilo') {
-            // kien iri?
-            console.log('montrilo...');
-        }
-    }
-
-    /**
      * Iru al la stacio identigitan per nodo_id, aktualigas
      * la ŝildojn de la vojmontrilo akorde
      */
@@ -152,7 +144,7 @@ class YedMap {
                     const celnodo = "y.node."+e[1].substring(1);
                     const info = this.nodoj[celnodo];
                     console.log(" --> "+JSON.stringify(info));
-                    this.vm_aktualigu(vm_n,info.teksto,idP[2]);
+                    this.vm_aktualigu(vm_n,info,idP[2]);
                     vm_n++;
                 }
             }
@@ -176,7 +168,7 @@ class YedMap {
         for (const g of this.svg.querySelectorAll(".vm")) g.remove();
     }
 
-    vm_aktualigu(vm_n,teksto,nn) {
+    vm_aktualigu(vm_n,celo,nn) {
         const ns = "http://www.w3.org/2000/svg";
         const g = this.svg.querySelector(":scope>g"); // la ĉefa grupo
 
@@ -198,10 +190,10 @@ class YedMap {
             const ŝovo = y0 + vm_n*dy - info.y;
             // console.log(`n: ${vm_n} y0: ${y0} dy: ${dy} y: ${info.y} ŝ: ${ŝovo}`);
             const vm = document.createElementNS(ns,"g");            
-            const a = Math.trunc(a_var*arbitra); 
+            const alpha = Math.trunc(a_var*arbitra); 
                 //alternative normaldistribue: Math.trunc(5*7*(Math.exp(Math.sin(vm_n+nn)**2/-2)-0.8)); 
             const cx = Math.trunc(info.x + info.w/2) || info.x;
-            let tf = `rotate(${a} ${cx} ${info.y})`;
+            let tf = `rotate(${alpha} ${cx} ${info.y})`;
             if (ŝovo) tf += ` translate(0 ${ŝovo})`;
             console.log("tf: "+tf);
             this.svg_attr(vm, {
@@ -211,15 +203,25 @@ class YedMap {
                 "transform": tf
             }); 
             const u = document.createElementNS(ns,"use");
+            const a = document.createElementNS(ns,"a");
             const t = document.createElementNS(ns,"text");
+            this.svg_attr(a, {
+                href: celo.url
+            });
+            a.addEventListener("click",(event) => {
+                event.preventDefault();               
+                const href = event.currentTarget.getAttributeNS(xlink, 'href') 
+                    || event.currentTarget.getAttribute("href");
+                this.iru_al_url(href);
+            })            
             this.svg_attr(t, {
                     x: info.x,
                     y: info.y,
                     transform: "matrix(1,0,0,1,58,-32)"
                 });
-            t.textContent = teksto;
+            t.textContent = celo.teksto;
             u.setAttribute("href","#"+vm_id);
-            vm.append(u,t); g.append(vm);
+            a.append(t); vm.append(u,a); g.append(vm);
         }
     }
 
