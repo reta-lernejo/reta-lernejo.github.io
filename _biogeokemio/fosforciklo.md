@@ -23,11 +23,6 @@ Alie ol ĉe azoto, oksigeno, karbondioksido kaj akvovaporo, la atmosfero ne luda
 
 ## detala
 
-```
-mallonga rondvojo: 
-  mineraloj - fosfatjonoj - vegetaĵoj - bestoj - restaĵoj - fosfatjonoj
-```
-
 <script>
 
 // ni ekstraktis el la origina fosforciklo-detala.graphml 
@@ -48,12 +43,30 @@ const eĝoj = {
   "e8": ["n5", "n8" ],
   "e9": ["n6", "n9" ]
 }
+
+const rondvojo = [
+  '#mineraloj',
+  '#fosfato',
+  '#plantoj',
+  '#bestoj',
+  '#restoj',
+  '#fosfato'
+]
+
+function je_stacio(celo) {
+  if (celo[0] == '#') {
+    location.hash = celo;
+    const details = document.getElementById(celo.substring(1));
+    if (details && details.tagName.toLowerCase() === 'details') details.open = true;
+  }
+}
+
 let yedmap;
 
 window.onload = () => {
   const yedSvg = document.querySelector("#y\\.node\\.0").closest("svg");
-  yedmap = new YedMap(yedSvg,eĝoj);
-  yedmap.preparu("#mineraloj");
+  yedmap = new YedMap(yedSvg,eĝoj,je_stacio);
+  yedmap.preparu("#mineraloj",rondvojo);
 }
 </script>
 
@@ -382,7 +395,66 @@ window.onload = () => {
 
 
 
-### fosfatkaptilo
+<details class="sekcio" id="mineraloj">
+  <summary markdown="span">
+  mineraloj
+</summary>
+
+Mineraloj, unuavice apatito...
+
+</details>
+
+<details class="sekcio" id="fosfato">
+  <summary markdown="span">
+  fosfatjonoj
+</summary>
+
+</details>
+
+<details class="sekcio" id="ferofosfato">
+  <summary markdown="span">
+  ferofosfato
+</summary>
+
+</details>
+
+<details class="sekcio" id="plantoj">
+  <summary markdown="span">
+  Vegetaĵoj
+</summary>
+
+</details>
+
+<details class="sekcio" id="bestoj">
+  <summary markdown="span">
+  Bestoj
+</summary>
+
+</details>
+
+<details class="sekcio" id="restoj">
+  <summary markdown="span">
+  Restaĵoj
+</summary>
+
+</details>
+
+
+
+<details class="sekcio" id="detruantoj">
+  <summary markdown="span">
+  detruaj organismoj
+</summary>
+
+Detruaj organismoj nutras sin de la restaĵoj, kiujn lasas aliaj: kadavroj, ekrementoj ktp.
+<!-- https://de.wikipedia.org/wiki/Saprobiont#/media/Datei:Destruenten_im_Stoffkreislauf.svg -->
+
+</details>
+
+<details class="sekcio" id="fosfatkaptilo">
+  <summary markdown="span">
+  fosfatkaptilo
+</summary>
 
 Se la akvo de lago havas sufiĉe da oksigeno, fosfato sedimentiĝas en formo de $$\ce{Fe(III)PO4}$$. Fosfato en la supro de la lago estas enprenata de algoj. Post ties morto kaj sinkado, la fosfato en la profundo liberiĝas el la organika maso. Se tie troviĝas sufiĉa oksigeno, Fe(II)-jonoj povas oksidiĝi al Fe(III)-jonoj kaj precipiti kun la fosfato kiel $$\ce{Fe(III)PO4}$$ (ferofosfato).
 
@@ -391,6 +463,8 @@ $$\ce{Fe^3+ + PO4^3− → FePO4}$$
 Ĉe manko de grunda oksigeno la fero reduktiĝas kaj liberigas la fosfaton el la kaptilo. Kiam pro cirkulado de la akvo ĝi supriĝas, tio povas kaŭzi amasan kreskadon de algoj. La profundiĝanta biomaso siavice povas foruzi tiom da grunda oksigeno, ke la fosfatkaptilo daŭre ne plu funkcias. La ekvilibro de la lago "renversiĝas".
 
 Tiu renversiĝo estas favorata, se lago "sterkiĝas" per fosfato, kio per naturaj procezoj okazas tre malrapide, sed pro influo de la homo, kiam fosfatriĉa akvo el industrio kaj agrikulturo enfluas la lagon, povas okazi tre akcelate.
+
+</details>
 
 <!-- malseka grundo... 
 https://en.wikipedia.org/wiki/Eutrophication

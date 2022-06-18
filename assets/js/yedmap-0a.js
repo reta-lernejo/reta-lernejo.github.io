@@ -21,7 +21,7 @@ const xlink = 'http://www.w3.org/1999/xlink';
 
 class YedMap {
 
-    constructor(svg_elemento, eĝoj) {
+    constructor(svg_elemento, eĝoj, je_stacio) {
         // svg_elemento povas doniĝi kiel Node aŭ Node.id
         this.svg = svg_elemento;
         if (typeof svg_elemento === 'string') {
@@ -29,9 +29,13 @@ class YedMap {
         }
         this.eghoj = eĝoj;
         this.nodoj = [];
+        this.je_stacio = je_stacio;
     }
 
-    preparu(start_url) {
+    preparu(start_url,rondvojo) {
+        this.rondvojo = rondvojo;
+        this.rv_pos = 0;
+
         const defs = this.svg.querySelector("defs");
 
         // trovu kaj preparu la nodojn en la mapo distingante staciojn de vojmontriloj 
@@ -77,11 +81,7 @@ class YedMap {
         // reagoj al klakoj sur nodo
         for (const a of this.svg.querySelectorAll("a")) {
             a.addEventListener("click",(event) => {
-                event.preventDefault();
-                //const id = event.currentTarget.closest("g").id;
-                // console.log(id);
-                //this.navigo(id);
-                
+                event.preventDefault();               
                 const href = event.currentTarget.getAttributeNS(xlink, 'href') 
                     || event.currentTarget.getAttribute("href");
                 this.iru_al_url(href);
@@ -142,9 +142,9 @@ class YedMap {
             for (const e of Object.values(this.eghoj)) {
                 if (e[0] == nn) {
                     const celnodo = "y.node."+e[1].substring(1);
-                    const info = this.nodoj[celnodo];
-                    console.log(" --> "+JSON.stringify(info));
-                    this.vm_aktualigu(vm_n,info,idP[2]);
+                    const celo = this.nodoj[celnodo];
+                    console.log(" --> "+JSON.stringify(celo));
+                    this.vm_aktualigu(vm_n,celo,nodo_id);
                     vm_n++;
                 }
             }
@@ -152,6 +152,7 @@ class YedMap {
     }
 
     iru_al_url(url) {
+        if (je_stacio) je_stacio(url);
         const n = this.url_nodo(url);
         this.iru_al(n);
     }
@@ -162,36 +163,40 @@ class YedMap {
         }    
     }
 
-    vm_malplenigu() {
-        // forigu ĉiujn unuopajn vojmontrilojn
-        //for (const use of this.svg.querySelectorAll(":scope>g use")) use.remove();
-        for (const g of this.svg.querySelectorAll(".vm")) g.remove();
+    sur_rondvojo(nun,celo) {
+        for (let i=this.rv_pos; i<this.rondvojo.length-1; i++) {
+            if (nun.url == this.rondvojo[i] && celo.url == this.rondvojo[i+1]) {
+                // aktualigu la pozicion
+                this.rv_pos = (i == this.rondvojo.length-2 
+                    && this.rondvojo[0] == this.rondvojo[this.rondvojo.length-1])? 0 : i;
+                return true;
+            }
+        }
     }
 
-    vm_aktualigu(vm_n,celo,nn) {
+    /**
+     * Kreas vojmontrilon
+     * @param {*} url: #maldekstren | #dekstren | #rondvojo
+     * @param {*} celo - la celnodo
+     */
+    vm_kreu(vm_n,vm_url,pos,celo) {
         const ns = "http://www.w3.org/2000/svg";
         const g = this.svg.querySelector(":scope>g"); // la ĉefa grupo
 
-        // plej supra kaj distanco inter vojmontriloj 
-        const yd = this.url_nodo_info('#dekstren').y;
-        const ym = this.url_nodo_info('#maldekstren').y;
-        const dy = Math.abs(ym - yd);
-        const y0 = Math.min(ym,yd);
-
-        // uzante Math.sin(vm_n+nn) kiel pseŭdo-arbitran nombron
-        // ni certigas ĉiam saman aspekton de vojmontriloj en unu stacio!
-        const arbitra = Math.sin(vm_n+nn); // -1..1
         const a_var = 4; // max. 4° oblikve!
-        const vm_url = ['#dekstren','#maldekstren'][Math.trunc(arbitra*vm_n)%2];
+        // const vm_url = ['#dekstren','#maldekstren'][Math.trunc(arbitra*vm_n)%2];
         const vm_id = this.url_nodo(vm_url);
         if (vm_id) {
             //this.metu_tekston_url(vm_url,teksto);
             const info = this.nodoj[vm_id];
-            const ŝovo = y0 + vm_n*dy - info.y;
+            const ŝovo = pos.y0 + vm_n*pos.dy - info.y;
             // console.log(`n: ${vm_n} y0: ${y0} dy: ${dy} y: ${info.y} ŝ: ${ŝovo}`);
+
+            // kreu vojmontrilon kiel g-elemento kun use- (referencante al defs) kaj a-elementoj
             const vm = document.createElementNS(ns,"g");            
-            const alpha = Math.trunc(a_var*arbitra); 
-                //alternative normaldistribue: Math.trunc(5*7*(Math.exp(Math.sin(vm_n+nn)**2/-2)-0.8)); 
+            const alpha = Math.trunc(a_var*pos.arbitra); 
+                //alternative normaldistribue: 
+                // Math.trunc(5*7*(Math.exp(Math.sin(vm_n+nn)**2/-2)-0.8)); 
             const cx = Math.trunc(info.x + info.w/2) || info.x;
             let tf = `rotate(${alpha} ${cx} ${info.y})`;
             if (ŝovo) tf += ` translate(0 ${ŝovo})`;
@@ -208,12 +213,15 @@ class YedMap {
             this.svg_attr(a, {
                 href: celo.url
             });
+
+            // ĉar novkreitaj ni devas realdoni la klak-reagon
             a.addEventListener("click",(event) => {
                 event.preventDefault();               
                 const href = event.currentTarget.getAttributeNS(xlink, 'href') 
                     || event.currentTarget.getAttribute("href");
                 this.iru_al_url(href);
-            })            
+            })
+            // la surskribo   
             this.svg_attr(t, {
                     x: info.x,
                     y: info.y,
@@ -225,4 +233,31 @@ class YedMap {
         }
     }
 
+    vm_malplenigu() {
+        // forigu ĉiujn unuopajn vojmontrilojn
+        //for (const use of this.svg.querySelectorAll(":scope>g use")) use.remove();
+        for (const g of this.svg.querySelectorAll(".vm")) g.remove();
+    }
+
+    vm_aktualigu(vm_n,celo,nodo_id) {
+        // por posta poziciado ni bezonas
+        // la plej supran kaj distancon inter vojmontriloj 
+        const nn = nodo_id.split('.')[2];
+        const yd = this.url_nodo_info('#dekstren').y;
+        const ym = this.url_nodo_info('#maldekstren').y;
+        const pos = {
+            dy: Math.abs(ym - yd),
+            y0: Math.min(ym,yd),
+            arbitra: Math.sin(vm_n+nn) // -1..1
+               // uzante Math.sin(vm_n+nn) kiel pseŭdo-arbitran nombron
+               // ni certigas ĉiam saman aspekton de vojmontriloj en unu stacio!
+        }
+
+        // se la eĝo troviĝas sur rondvojo ni uzas la rondvojo-ŝildon
+        const nun = this.nodoj[nodo_id];
+        const rv = this.sur_rondvojo(nun,celo);
+
+        const vm_url = rv? '#rondvojo' : ['#dekstren','#maldekstren'][Math.trunc((pos.arbitra+1))%2];
+        this.vm_kreu(vm_n,vm_url,pos,celo);
+    }
 }
