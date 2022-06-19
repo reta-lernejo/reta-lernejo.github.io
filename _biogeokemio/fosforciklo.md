@@ -394,13 +394,25 @@ window.onload = () => {
 </svg>
 
 
+{::options parse_block_html="true" /}
 
 <details class="sekcio" id="mineraloj">
   <summary markdown="span">
   mineraloj
 </summary>
 
-Mineraloj, unuavice apatito...
+Fosforhavaj mineraloj estas unuavice apatitoj, grupo de mineraloj kun ĝeneraligita formulo:
+$$\ce{Ca5[(F,Cl,OH)|(PO4)3]}$$.
+Ili formiĝas en magmo aŭ per sedimentiĝo de organika materialo.
+
+Ostoĉeloj povas produkti el kalciaj kaj fosfataj jonoj la mineralon hidroksilapatito:
+$$\ce{Ca5[OH|(PO4)3]}$$.
+Tiel ostoj enhavas ĝin je duono, dentoj eĉ pli.  
+
+Oni minas apatiton i.a. por produktado de mineralaj [sterkoj](#sterkoj). 
+Erozio kaj vetero dissolvas la mineralon. 
+Tiel [fosfato](#fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj povas enpreni ĝin.
+
 
 </details>
 
@@ -408,33 +420,33 @@ Mineraloj, unuavice apatito...
   <summary markdown="span">
   fosfatjonoj
 </summary>
-
+xxxx
 </details>
 
 <details class="sekcio" id="ferofosfato">
   <summary markdown="span">
   ferofosfato
 </summary>
-
+xxxx
 </details>
 
 <details class="sekcio" id="plantoj">
   <summary markdown="span">
-  Vegetaĵoj
+  vegetaĵoj
 </summary>
 
 </details>
 
 <details class="sekcio" id="bestoj">
   <summary markdown="span">
-  Bestoj
+  bestoj
 </summary>
 
 </details>
 
 <details class="sekcio" id="restoj">
   <summary markdown="span">
-  Restaĵoj
+  restaĵoj
 </summary>
 
 </details>
@@ -449,6 +461,13 @@ Mineraloj, unuavice apatito...
 Detruaj organismoj nutras sin de la restaĵoj, kiujn lasas aliaj: kadavroj, ekrementoj ktp.
 <!-- https://de.wikipedia.org/wiki/Saprobiont#/media/Datei:Destruenten_im_Stoffkreislauf.svg -->
 
+</details>
+
+<details class="sekcio" id="sterkoj">
+  <summary markdown="span">
+  sterkoj
+</summary>
+... 
 </details>
 
 <details class="sekcio" id="fosfatkaptilo">
