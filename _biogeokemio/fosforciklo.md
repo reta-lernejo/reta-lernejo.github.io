@@ -56,6 +56,8 @@ const rondvojo = [
 ]
 
 function je_stacio(celo,node,ev_type) {
+  //console.debug(`url:${celo} id:${node?node.id:''} ev:${ev_type} cls:${node?node.parentElement.classList.item(0):''}`)
+
   if (celo[0] == '#') {
     // location.hash = celo;
     // fermu ĉiujn malfermitajn sekciojn sed malfermu la celitan...
@@ -70,8 +72,9 @@ function je_stacio(celo,node,ev_type) {
   // post klako sur la stacisildo de la vojmontrilo ni forlasas
   // la mapon kaj iras al la klarigo-sekcio
   if (node && ev_type != 'focus' 
-    && (node.id == 'vm_nun' || node.parentElement.classList.contains("nuna")))
-    location.href = celo;
+    && (node.id == 'vm_nun' || node.parentElement.classList.contains("nuna"))) {
+      location.href = celo;
+    }
 }
 
 /*

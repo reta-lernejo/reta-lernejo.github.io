@@ -17,7 +17,9 @@
   per la skripto por faciligi la laboron de la desgnado.
  */
 
-const xlink = 'http://www.w3.org/1999/xlink';
+const ns_xlink = 'http://www.w3.org/1999/xlink';
+const ns_svg = "http://www.w3.org/2000/svg";
+
 const ti_start = 10; // tabindex starto
 
 class YedMap {
@@ -52,7 +54,7 @@ class YedMap {
                     url = a.getAttribute("xlink:href");
                     // forigu target-atributojn montrantaj al alia fenestro!
                     a.removeAttribute("target");
-                    a.removeAttributeNS(xlink,"show");
+                    a.removeAttributeNS(ns_xlink,"show");
 
                     // metu tabindex-atributon
                     if (!a.getAttribute("tabindex")) {
@@ -116,9 +118,10 @@ class YedMap {
     }
 
     iru_evento(evento) {
-        if (evento.type != 'focus') evento.preventDefault(); 
+        //if (evento.type != 'focus') 
+            evento.preventDefault(); 
         const trg = evento.currentTarget;                     
-        const href = trg.getAttributeNS(xlink, 'href') 
+        const href = trg.getAttributeNS(ns_xlink, 'href') 
             || trg.getAttribute("href");
         this.iru_al_url(href,trg,evento.type);
     }
@@ -141,16 +144,39 @@ class YedMap {
         if (id) {
             const n = document.getElementById(id);
             const tn = n.querySelector("text");
+
             if (tn) {
-                tn.textContent = info.teksto.join('\n');
+                this.metu_tekston(tn,info.teksto,this.nodoj[id])
+                //tn.textContent = info.teksto.join('\n');
             }
             // la tabulo kun la nuna stacio sur la 
             // vojmontrilo ankaŭ havu aktualan url-on
             if (url == '#nun') {
                 const a = n.querySelector("a");
-                if (a) a.setAttributeNS(xlink,"href",info.url);
+                if (a) a.setAttributeNS(ns_xlink,"href",info.url);
             }
         }
+    }
+
+    metu_tekston(t,teksto,info) {
+        if (teksto.length == 1) {
+            // unulinia teksto
+            t.textContent = teksto;
+        } else {
+            t.textContent = ''; // malplenigu!
+            // plurlinia teksto per tspan...
+            let dy = -info.h/2;
+            for (const t1 of teksto) {
+                const tsp = document.createElementNS(ns_svg,"tspan");
+                tsp.textContent = t1;
+                this.svg_attr(tsp, {
+                    x: info.x,
+                    dy: dy
+                });
+                t.append(tsp);
+                dy += 1.5 * info.h;
+            }
+        }    
     }
 
 
@@ -251,7 +277,6 @@ class YedMap {
      * @param {*} celo - la celnodo
      */
     vm_kreu(vm_n,vm_url,pos,celo) {
-        const ns = "http://www.w3.org/2000/svg";
         const g = this.svg.querySelector(":scope>g"); // la ĉefa grupo
 
         const a_var = 4; // max. 4° oblikve!
@@ -269,7 +294,7 @@ class YedMap {
             // console.log(`n: ${vm_n} y0: ${y0} dy: ${dy} y: ${info.y} ŝ: ${ŝovo}`);
 
             // kreu vojmontrilon kiel g-elemento kun use- (referencante al defs) kaj a-elementoj
-            const vm = document.createElementNS(ns,"g");            
+            const vm = document.createElementNS(ns_svg,"g");            
             const alpha = Math.trunc(a_var*pos.arbitra); 
                 //alternative normaldistribue: 
                 // Math.trunc(5*7*(Math.exp(Math.sin(vm_n+nn)**2/-2)-0.8)); 
@@ -282,9 +307,9 @@ class YedMap {
                 "font-family": "sans-serif",
                 "transform": tf
             }); 
-            const u = document.createElementNS(ns,"use");
-            const a = document.createElementNS(ns,"a");
-            const t = document.createElementNS(ns,"text");
+            const u = document.createElementNS(ns_svg,"use");
+            const a = document.createElementNS(ns_svg,"a");
+            const t = document.createElementNS(ns_svg,"text");
             this.svg_attr(a, {
                 "class": "vm",
                 href: celo.url,
@@ -301,6 +326,8 @@ class YedMap {
                     stroke: "none",
                     transform: vm_tf
                 });
+            this.metu_tekston(t,celo.teksto,info);
+            /*
             if (celo.teksto.length == 1) {
                 // unulinia teksto
                 t.textContent = celo.teksto;
@@ -308,7 +335,7 @@ class YedMap {
                 // plurlinia teksto per tspan...
                 let dy = -info.h/2;
                 for (const t1 of celo.teksto) {
-                    const tsp = document.createElementNS(ns,"tspan");
+                    const tsp = document.createElementNS(ns_svg,"tspan");
                     tsp.textContent = t1;
                     this.svg_attr(tsp, {
                         x: info.x,
@@ -318,6 +345,7 @@ class YedMap {
                     dy += 1.5 * info.h;
                 }
             }
+            */
             u.setAttribute("href","#"+vm_id);
             // ni ĉirkaŭas la vojmontrilon (vm) per <a> por
             // havi pli grandan areon por alklaki"
