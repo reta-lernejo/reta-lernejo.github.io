@@ -14,7 +14,9 @@ detala diagramo:
 https://www.spektrum.de/lexikon/biologie-kompakt/phosphorkreislauf/8990
 -->
 
-Alie ol ĉe azoto, oksigeno, karbondioksido kaj akvovaporo, la atmosfero ne ludas gravan rolon en la transportado de la vivelemento fosforo. Do oni aparte konsideras la terenojn akvajn kaj terajn fosforciklojn.
+Alie ol ĉe azoto, oksigeno, karbondioksido kaj akvovaporo, la atmosfero ne ludas
+gravan rolon en la transportado de la vivelemento fosforo. Do oni aparte konsideras
+la terenojn akvajn kaj terajn fosforciklojn.
 
 ## surtera
 ![forsforciklo surtera](../assets/bld/fosforciklo.png)
@@ -53,7 +55,7 @@ const rondvojo = [
   '#fosfato'
 ]
 
-function je_stacio(celo,node) {
+function je_stacio(celo,node,ev_type) {
   if (celo[0] == '#') {
     // location.hash = celo;
     // fermu ĉiujn malfermitajn sekciojn sed malfermu la celitan...
@@ -67,7 +69,8 @@ function je_stacio(celo,node) {
   }
   // post klako sur la stacisildo de la vojmontrilo ni forlasas
   // la mapon kaj iras al la klarigo-sekcio
-  if (node && (node.id == 'vm_nun' || node.parentElement.classList.contains("nuna"))) 
+  if (node && ev_type != 'focus' 
+    && (node.id == 'vm_nun' || node.parentElement.classList.contains("nuna")))
     location.href = celo;
 }
 

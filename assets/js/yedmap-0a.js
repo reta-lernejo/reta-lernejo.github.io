@@ -18,6 +18,7 @@
  */
 
 const xlink = 'http://www.w3.org/1999/xlink';
+const ti_start = 10; // tabindex starto
 
 class YedMap {
 
@@ -35,8 +36,9 @@ class YedMap {
     preparu(start_url,rondvojo) {
         this.rondvojo = rondvojo;
         this.rv_pos = 0;
-
+        
         const defs = this.svg.querySelector("defs");
+        let ti = ti_start + Object.keys(this.rondvojo).length + 1;
 
         // trovu kaj preparu la nodojn en la mapo distingante staciojn de vojmontriloj 
         for (const n of this.svg.querySelectorAll("g[id]")) {
@@ -51,6 +53,12 @@ class YedMap {
                     // forigu target-atributojn montrantaj al alia fenestro!
                     a.removeAttribute("target");
                     a.removeAttributeNS(xlink,"show");
+
+                    // metu tabindex-atributon
+                    if (!a.getAttribute("tabindex")) {
+                        const rv = this.n_rondvojo(url);
+                        a.setAttribute("tabindex",rv? ti_start+rv : ti++);
+                    }
                 }
                 // eltrovu la pozicion de la unua text-elemento
                 const t = n.querySelector("text");
@@ -61,7 +69,8 @@ class YedMap {
                     w = bb.width;
                     h = bb.height;
                 }
-                // vojmontriloj iom manipulu por poste pli facile trakti ilin
+
+                // vojmontrilojn iom manipulu por poste pli facile trakti ilin
                 if (url == '#nun' || url == '#dekstren' || url == '#maldekstren' || url == '#rondvojo' ) {
                     // memoru la detalojn de la nodo
                     // vojmontrilojn ŝovu al def, foriginte <a>
@@ -96,21 +105,22 @@ class YedMap {
         // anst. donu al unuopaj nodoj (<a>) specifan numeron - plej bone al rondvojo-nodoj (?)
         // vd. https://wiki.selfhtml.org/wiki/SVG/Attribute/tabindex
 
-        // reagoj al klakoj sur nodo
+        // reagoj al klakoj kaj fokuso sur nodo
         for (const a of this.svg.querySelectorAll("a")) {
             a.addEventListener("click",(event) => this.iru_evento(event));
-        }
+            a.addEventListener("focus",(event) => this.iru_evento(event));
+        }       
 
         // iru al komenco de la migrado
         this.iru_al_url(start_url);
     }
 
-    iru_evento(event) {
-        event.preventDefault(); 
-        const trg = event.currentTarget;                     
+    iru_evento(evento) {
+        if (evento.type != 'focus') evento.preventDefault(); 
+        const trg = evento.currentTarget;                     
         const href = trg.getAttributeNS(xlink, 'href') 
             || trg.getAttribute("href");
-        this.iru_al_url(href,trg);
+        this.iru_al_url(href,trg,evento.type);
     }
 
     url_nodo(url) {
@@ -148,7 +158,7 @@ class YedMap {
      * Iru al la stacio identigitan per nodo_id, aktualigas
      * la ŝildojn de la vojmontrilo akorde
      */
-    iru_al(nodo_id) {
+    iru_al(nodo_id,ev_tip) {
 
         // kien ni iras en la mapo?
         const nun = this.nodoj[nodo_id];
@@ -163,7 +173,12 @@ class YedMap {
             // adaptu klason de la stacioj por montri la pozicion en la mapo
             const antaua = document.querySelector(".nuna");
             if (antaua) antaua.classList.remove("nuna");
-            document.getElementById(nodo_id).classList.add("nuna");
+            const nuna = document.getElementById(nodo_id);
+            nuna.classList.add("nuna");
+            
+            // sen ne jam havas, sendu fokuson tien
+            const nuna_a = nuna.querySelector("a");
+            if (nuna_a && ev_tip != 'focus') nuna_a.focus();
 
             const nn = "n"+idP[2];
             // por ĉiuj eĝoj elirantaj de la nuna nodo, ni
@@ -188,16 +203,24 @@ class YedMap {
      * @param url - la URL-o al kiu iri (t.e. la URL-o de la stacio, kutime komenciĝanta per #
      * @param t_id - la HTML-id de la klakita elemento (<a>), ni povas uzi ĝin por reagi depende cu stacio aŭ vojmontrilo ks.
      */
-    iru_al_url(url,target) {
+    iru_al_url(url,target,ev_tip) {
         const n = this.url_nodo(url);
-        if (je_stacio) je_stacio(url,target);
-        this.iru_al(n);
+        if (je_stacio) je_stacio(url,target,ev_tip);
+        this.iru_al(n,ev_tip);
     }
 
     svg_attr(obj,atributoj) {
         for (const [atr,val] of Object.entries(atributoj)) {
             obj.setAttribute(atr,val);
         }    
+    }
+
+    n_rondvojo(url) {
+        let i=1;
+        for (const r of this.rondvojo) {
+            if (r == url) return i;
+            i++;
+        }
     }
 
     sur_rondvojo(nun,celo) {
@@ -232,7 +255,8 @@ class YedMap {
         const g = this.svg.querySelector(":scope>g"); // la ĉefa grupo
 
         const a_var = 4; // max. 4° oblikve!
-        // const vm_url = ['#dekstren','#maldekstren'][Math.trunc(arbitra*vm_n)%2];
+        const ti = ti_start + Object.keys(this.nodoj).length + vm_n;
+
         const vm_id = this.url_nodo(vm_url);
         if (vm_id) {
             //this.metu_tekston_url(vm_url,teksto);
@@ -263,7 +287,8 @@ class YedMap {
             const t = document.createElementNS(ns,"text");
             this.svg_attr(a, {
                 "class": "vm",
-                href: celo.url
+                href: celo.url,
+                tabindex: ti
             });
 
             // ĉar novkreitaj ni devas realdoni la klak-reagon
