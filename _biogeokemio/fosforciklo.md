@@ -71,12 +71,12 @@ function je_stacio(celo,node) {
     location.href = celo;
 }
 
-<!-- 
+/*
 ĉu ni permesu navigadon ankaŭ per la sagoklavoj...?
 ni devos aldoni tabindex al la svg-elemento...:
 https://stackoverflow.com/questions/28323977/how-to-listen-keyboard-events-on-svg
 
--->
+*/
 
 let yedmap;
 
