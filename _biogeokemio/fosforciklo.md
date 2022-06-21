@@ -10,20 +10,22 @@ js-ext:
 <!-- 
 https://en.wikipedia.org/wiki/Phosphorus_cycle
 
+https://de.wikipedia.org/wiki/Phosphor#Im_Boden
+
 detala diagramo:
 https://www.spektrum.de/lexikon/biologie-kompakt/phosphorkreislauf/8990
 -->
 
 Alie ol ĉe azoto, oksigeno, karbondioksido kaj akvovaporo, la atmosfero ne ludas
-gravan rolon en la transportado de la vivelemento fosforo. Do oni aparte konsideras
-la terenojn akvajn kaj terajn fosforciklojn.
+gravan rolon en la transportado de la vivelemento fosforo. Do grundoj teraj kaj akvaj
+havas siajn apartajn ciklojn, kvankam okazas ankaŭ interŝanĝo inter ili per
+enfluo aŭ ellavo de materialo ktp.
 
-## surtera
+<!--
+- surtera
 ![forsforciklo surtera](../assets/bld/fosforciklo.png)
-
-## akva
-
-## detala
+- akva
+-->
 
 <script>
 
@@ -58,37 +60,40 @@ const rondvojo = [
 function je_stacio(celo,node,ev_type) {
   //console.debug(`url:${celo} id:${node?node.id:''} ev:${ev_type} cls:${node?node.parentElement.classList.item(0):''}`)
 
+  const s_id = 's_'+celo.substring(1);
+
   if (celo[0] == '#') {
     // location.hash = celo;
     // fermu ĉiujn malfermitajn sekciojn sed malfermu la celitan...
     for (d of document.querySelectorAll(".sekcio")) {
-      if (d.id == celo.substring(1)) {
+      if (d.id == s_id) {
         d.setAttribute("open","open");
       } else {
         d.removeAttribute("open");
       }
     }
   }
-  // post klako sur la stacisildo de la vojmontrilo ni forlasas
-  // la mapon kaj iras al la klarigo-sekcio
-  if (node && ev_type != 'focus' 
-    && (node.id == 'vm_nun' || node.parentElement.classList.contains("nuna"))) {
-      location.href = celo;
-    }
 }
 
-/*
-ĉu ni permesu navigadon ankaŭ per la sagoklavoj...?
-ni devos aldoni tabindex al la svg-elemento...:
-https://stackoverflow.com/questions/28323977/how-to-listen-keyboard-events-on-svg
+function al_sekcio(celo) {
+  const s_id = 's_'+celo.substring(1);
+  const sekcio = document.getElementById(s_id);
 
-*/
+  location.href = '#'+s_id;
+  // normale jam devas esti malfermita, sed eble tamen (re)fermita
+  if (sekcio) {
+    sekcio.setAttribute("open","open");
+    sekcio.scrollIntoView();
+  } else {
+    console.error("Mankas sekcio: "+s_id);
+  }
+}
 
 let yedmap;
 
 window.onload = () => {
   const yedSvg = document.querySelector("#y\\.node\\.0").closest("svg");
-  yedmap = new YedMap(yedSvg,eĝoj,je_stacio);
+  yedmap = new YedMap(yedSvg,eĝoj,je_stacio,al_sekcio);
   yedmap.preparu("#mineraloj",rondvojo);
 }
 </script>
@@ -119,13 +124,7 @@ window.onload = () => {
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath1">
         <path d="M0 0 L741 0 L741 464 L0 464 L0 0 Z"/>
       </clipPath>
-      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath2">
-        <path d="M-89 19 L652 19 L652 483 L-89 483 L-89 19 Z"/>
-      </clipPath>
     </defs>
-    <g fill="white" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="translate(89,-19)" stroke="white">
-      <rect x="-89" width="741" height="464" y="19" clip-path="url(#clipPath2)" stroke="none"/>
-    </g>
     <g id="y.node.0">
       <a target="_blank" xlink:type="simple" xlink:href="#mineraloj" xlink:show="new">
         <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,89,-19)" stroke="rgb(204,234,244)">
@@ -334,10 +333,10 @@ window.onload = () => {
     <g id="y.node.14">
       <a target="_blank" xlink:type="simple" xlink:href="#rondvojo" xlink:show="new">
         <g fill="rgb(153,204,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,89,-19)" stroke="rgb(153,204,0)">
-          <path d="M517 238.1367 L529 221.2167 L625 221.2167 L637 238.1367 L625 255.0566 L529 255.0566 Z" stroke="none" fill-rule="evenodd"/>
+          <path d="M517 238.1367 L529 221.2167 L625 221.2167 L637 238.1367 L625 255.0567 L529 255.0567 Z" stroke="none" fill-rule="evenodd"/>
         </g>
         <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,89,-19)" stroke-linecap="butt">
-          <path fill="none" d="M517 238.1367 L529 221.2167 L625 221.2167 L637 238.1367 L625 255.0566 L529 255.0566 Z" fill-rule="evenodd"/>
+          <path fill="none" d="M517 238.1367 L529 221.2167 L625 221.2167 L637 238.1367 L625 255.0567 L529 255.0567 Z" fill-rule="evenodd"/>
         </g>
         <g/>
         <g>
@@ -461,7 +460,7 @@ window.onload = () => {
 
 {::options parse_block_html="true" /}
 
-<details class="sekcio" id="mineraloj">
+<details class="sekcio" id="s_mineraloj">
   <summary markdown="span">
   mineraloj
 </summary>
@@ -474,42 +473,79 @@ Ostoĉeloj povas produkti el kalciaj kaj fosfataj jonoj la mineralon hidroksilap
 $$\ce{Ca5[OH|(PO4)3]}$$.
 Tiel ostoj enhavas ĝin je duono, dentoj eĉ pli.  
 
-Oni minas apatiton i.a. por produktado de mineralaj [sterkoj](#sterkoj). 
+Oni minas apatiton i.a. por produktado de mineralaj [sterkoj](#s_sterkoj). 
 Erozio kaj vetero dissolvas la mineralon. 
-Tiel [fosfato](#fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj povas enpreni ĝin.
+Tiel [fosfato](#s_fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj povas enpreni ĝin.
 
 
 </details>
 
-<details class="sekcio" id="fosfato">
+<details class="sekcio" id="s_fosfato">
   <summary markdown="span">
   fosfatjonoj
 </summary>
-xxxx
+
+<!-- https://de.wikipedia.org/wiki/Phosphor#Im_Boden -->
+
+La fosforo en la grundo devenas aŭ el eroziitaj [mineraloj](#mineraloj) kiel apatitoj aŭ el organikaj 
+[restaĵoj](#restoj). Homoj ankaŭ minas la mineralojn kaj produkas neorganikan sterkon. Simile bestaj ekstrekmentoj estas uzataj por sterkado kaj oni strebas regajni fosforon dum purigado de restakvoj, kiu alie perdiĝas en la restanta ŝlimo.
+
+La plej granda parto de fosforo en la grundo troviĝas en stabilaj kombinoj, kiel apatitoj kaj kalciaj fosfatoj,
+$$\ce{Ca3(PO4)2}$$, ne uzeblaj de vegetaĵoj, oni kalkulas je 3000 – 6000 kg/ha.
+
+La dua plej granda parto estas nestabilaj fosfor-kombinoj adsorbitaj al aluminiaj kaj feraj oksidoj kaj argilo. Oni kalkulas pri 500 - 900 kg/ha. Per maladsorbo el tiuj povas liberiĝi fosfato uzebla de vegetaĵoj.
+
+Oni kalkulas pri nur 1 - 2 kg/ha da solvita fosfato en la formo $$\ce{H2PO4^−}$$ aŭ $$\ce{HPO4^2−}$$, rekte uzebla de plantoj.
+
 </details>
 
-<details class="sekcio" id="ferofosfato">
+
+<details class="sekcio" id="s_ferofosfato">
   <summary markdown="span">
   ferofosfato
 </summary>
-xxxx
+
+Se la akvo de lago havas sufiĉe da oksigeno, fosfato sedimentiĝas en formo de $$\ce{Fe(III)PO4}$$. Tion oni nomas *fosfatkaptilo*. 
+
+Fosfato en la supro de la lago estas enprenata de algoj. Post ties morto kaj sinkado, la fosfato en la profundo liberiĝas el la organika maso. Se tie troviĝas sufiĉa oksigeno, Fe(II)-jonoj povas oksidiĝi al Fe(III)-jonoj kaj precipiti kun la fosfato kiel $$\ce{Fe(III)PO4}$$ (ferofosfato).
+
+$$\ce{Fe^3+ + PO4^3− → FePO4}$$
+
+Ĉe manko de grunda oksigeno la fero reduktiĝas kaj liberigas la fosfaton el la kaptilo. Kiam pro cirkulado de la akvo ĝi supriĝas, tio povas kaŭzi amasan kreskadon de algoj. La profundiĝanta biomaso siavice povas foruzi tiom da grunda oksigeno, ke la fosfatkaptilo ĉesas funkcii daŭre. La ekvilibro de la lago "renversiĝas".
+
+Tiu renversiĝo estas pli verŝajna, se lago "sterkiĝas" per fosfato, kio per naturaj procezoj okazas tre malrapide, sed pro influo de la homo, kiam fosfatriĉa akvo el industrio kaj agrikulturo enfluas la lagon, povas okazi tre akcelate.
+
 </details>
 
-<details class="sekcio" id="plantoj">
+<details class="sekcio" id="s_plantoj">
   <summary markdown="span">
   vegetaĵoj
 </summary>
 
+<!-- https://de.wikipedia.org/wiki/Phosphor#Im_Boden -->
+Vegetaĵoj enprenas fosfaton kaj biologie adsorbas ĝin en sia organismo.
+Ĉe la enpreno helpas enzimoj produktitaj de plantoj kaj mikroorganismoj, la fosfatazoj[^W1].
+
+Fosforo estas i.a. esenca parto de la genaj molekuloj (RNA kaj DNA) kaj 
+liveranto de energio per la molekulo ATP. La seka maso de surteraj
+vegetaĵoj enhavas 0,15 % ĝis 0,50 % da fosforo[^W1].
+
 </details>
 
-<details class="sekcio" id="bestoj">
+<details class="sekcio" id="s_bestoj">
   <summary markdown="span">
   bestoj
 </summary>
 
+Bestoj ricevas la bezonatan fosforon nutrante sind de vegetaĵoj kaj aliaj bestoj. Ili bezonas pli da fosforo
+ol vegetaĵoj, ĉar ĝi konsistigas konsiderindan parton de la ostoj kaj dentoj. La seka maso de
+mamuloj enhavas ĉirkau 4% da fosforo. Tiel ekzemple plenkreska homo portas en si 700g da fosforo, el kiuj 600g 
+estas parto de la ostoj. Ĉiutage por homo necesas enpreni averaĝe 0,75g i.a. per laktaĵoj, viando, fiŝaĵo, pano[^W1].
+
+
 </details>
 
-<details class="sekcio" id="restoj">
+<details class="sekcio" id="s_restoj">
   <summary markdown="span">
   restaĵoj
 </summary>
@@ -518,7 +554,7 @@ xxxx
 
 
 
-<details class="sekcio" id="detruantoj">
+<details class="sekcio" id="s_detruantoj">
   <summary markdown="span">
   detruaj organismoj
 </summary>
@@ -528,27 +564,26 @@ Detruaj organismoj nutras sin de la restaĵoj, kiujn lasas aliaj: kadavroj, ekre
 
 </details>
 
-<details class="sekcio" id="sterkoj">
+<details class="sekcio" id="s_sterko">
   <summary markdown="span">
   sterkoj
 </summary>
-... 
-</details>
 
-<details class="sekcio" id="fosfatkaptilo">
-  <summary markdown="span">
-  fosfatkaptilo
-</summary>
+Tradicie kiel fosforsterkoj estis uzataj bestaj ekskrementoj: aŭ rekte de la bredado aŭ kiel
+guano, birdaj ekskrementoj kolektiĝintaj sur rokoj de insuloj.
 
-Se la akvo de lago havas sufiĉe da oksigeno, fosfato sedimentiĝas en formo de $$\ce{Fe(III)PO4}$$. Fosfato en la supro de la lago estas enprenata de algoj. Post ties morto kaj sinkado, la fosfato en la profundo liberiĝas el la organika maso. Se tie troviĝas sufiĉa oksigeno, Fe(II)-jonoj povas oksidiĝi al Fe(III)-jonoj kaj precipiti kun la fosfato kiel $$\ce{Fe(III)PO4}$$ (ferofosfato).
+Por la industrie produktitaj fosfatsterkoj oni ekspluatas la [mineralojn](#s_mineraloj) el minoj, kiuj troviĝas en nur sep landoj: Maroko, Jordanio, 
+Usono, Rusujo, Sudafriko, Togolando kaj Ĉinujo[^W2]. Oni taksas, ke tiuj minoj elĉerpiĝos jam en la venontaj malmultaj jaroj.
+Cetere la mineraloj el tiuj minoj enhavas konsiderindajn kvantojn da kadmio kaj urano, kion oni ne deziras en sia nutraĵo.
 
-$$\ce{Fe^3+ + PO4^3− → FePO4}$$
-
-Ĉe manko de grunda oksigeno la fero reduktiĝas kaj liberigas la fosfaton el la kaptilo. Kiam pro cirkulado de la akvo ĝi supriĝas, tio povas kaŭzi amasan kreskadon de algoj. La profundiĝanta biomaso siavice povas foruzi tiom da grunda oksigeno, ke la fosfatkaptilo daŭre ne plu funkcias. La ekvilibro de la lago "renversiĝas".
-
-Tiu renversiĝo estas favorata, se lago "sterkiĝas" per fosfato, kio per naturaj procezoj okazas tre malrapide, sed pro influo de la homo, kiam fosfatriĉa akvo el industrio kaj agrikulturo enfluas la lagon, povas okazi tre akcelate.
+Tial necesas recikligi la fosforon el ekskrementoj, aparte tiuj kolektiĝantaj de la urboj en la ŝlimo de la
+akvopurigejoj.
 
 </details>
+
+[^W1]: [Vikipedio (de): Phosphor, Biologische Bedeutung (Fosforo, biologia signifo)](https://de.wikipedia.org/wiki/Phosphor#Biologische_Bedeutung)
+
+[^W2]: [Vikipedio (de): Phosphate, Gewinnung (Fosfatoj, produktado)](https://de.wikipedia.org/wiki/Phosphate#Gewinnung)
 
 <!-- malseka grundo... 
 https://en.wikipedia.org/wiki/Eutrophication
