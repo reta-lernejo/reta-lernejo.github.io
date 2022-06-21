@@ -24,7 +24,7 @@ const ti_start = 10; // tabindex starto
 
 class YedMap {
 
-    constructor(svg_elemento, eĝoj, je_stacio) {
+    constructor(svg_elemento, eĝoj, je_stacio, al_sekcio) {
         // svg_elemento povas doniĝi kiel Node aŭ Node.id
         this.svg = svg_elemento;
         if (typeof svg_elemento === 'string') {
@@ -33,6 +33,7 @@ class YedMap {
         this.eghoj = eĝoj;
         this.nodoj = [];
         this.je_stacio = je_stacio;
+        this.al_sekcio = al_sekcio;
     }
 
     preparu(start_url,rondvojo) {
@@ -109,21 +110,78 @@ class YedMap {
 
         // reagoj al klakoj kaj fokuso sur nodo
         for (const a of this.svg.querySelectorAll("a")) {
-            a.addEventListener("click",(event) => this.iru_evento(event));
-            a.addEventListener("focus",(event) => this.iru_evento(event));
+            a.addEventListener("click",(event) => this.klak_evento(event));
+            a.addEventListener("focus",(event) => this.fokus_evento(event));
         }       
 
         // iru al komenco de la migrado
-        this.iru_al_url(start_url);
+        ////this.iru_al_url(start_url);
+        const start_a = document.querySelector("a[*|href='"+start_url+"']");
+        start_a.focus();
     }
 
-    iru_evento(evento) {
+    fokus_evento(evento) {
         //if (evento.type != 'focus') 
-            evento.preventDefault(); 
+        evento.preventDefault(); 
         const trg = evento.currentTarget;                     
         const href = trg.getAttributeNS(ns_xlink, 'href') 
             || trg.getAttribute("href");
-        this.iru_al_url(href,trg,evento.type);
+
+        console.log(`ev:${evento.type} href:${href} nun:${this.nuna_stacio()}`)
+        // la evento okazas pro fokusado, kiu
+        // siavice povas okazi pro klako aŭ TAB-klavo
+        // ni evitu aliron, se ni jam estas tie,
+        // kien ni volas iri:
+        if (href != this.nuna_stacio()) {
+            this.paŝo = true;
+            this.iru_al_url(href,trg,evento.type);
+
+        // se uzanto klakas sur la aktivan nodon
+        // ni montras la koncernan sekcion
+        } else {
+            this.paŝo = false; // se temas pri klako kaj poste venas la klakevento
+                // ni devos scii cu efektive okazias paŝo. Se ne ni montras la sekcio
+                // pri la temo. - alternative ni eble povus rezigni tute pri la klakevento
+                // se ni certas, ke ciam venas fokus-evento (t.e. ĉiuj nodoj ests fokuseblaj)
+        }
+    }
+
+    klak_evento(evento) {
+        evento.preventDefault(); 
+        const trg = evento.currentTarget;                     
+        const href = trg.getAttributeNS(ns_xlink, 'href') 
+            || trg.getAttribute("href");
+
+        console.log(`ev:${evento.type} href:${href} nun:${this.nuna_stacio()} paŝ:${this.paŝo}}`);
+
+        // this.paŝo: ni ja venis al la nuna nodo per la fokus-reago, ni ne iru al la legsekcio jam
+        // !=: ne okazis fokusevento kaj la klakevento unue rimarkas la transiron (ekz-e vojmontrilo)...
+        if (href != this.nuna_stacio()) {
+            this.paŝo = true;
+            this.iru_al_url(href,trg,evento.type);
+        } else if (!this.paŝo) {
+            if (al_sekcio) al_sekcio(href);
+        }
+        
+        this.paŝo = false;
+
+        // if (href == this.nuna_stacio() && al_sekcio) {
+        //     al_sekcio(href);
+        // }
+    }
+
+    /**
+     * Redonas la URL-on de la nuna stacio
+     */
+    nuna_stacio() {
+        // ni povus aŭ rigardi, kie estas la fokuso / kiu havas la klason 'nuna'
+        // (aŭ rigardi, al kiu URL-o montras la supra (stacia) ŝildo de la vojmontrilo)
+        const nuna = document.getElementsByClassName('nuna')[0];
+        if (nuna) {
+            const a = nuna.querySelector("a");
+            if (a) return (a.getAttributeNS(ns_xlink, 'href') 
+                || a.getAttribute("href"));    
+        }
     }
 
     url_nodo(url) {
@@ -203,8 +261,8 @@ class YedMap {
             nuna.classList.add("nuna");
             
             // sen ne jam havas, sendu fokuson tien
-            const nuna_a = nuna.querySelector("a");
-            if (nuna_a && ev_tip != 'focus') nuna_a.focus();
+////            const nuna_a = nuna.querySelector("a");
+////            if (nuna_a && ev_tip != 'focus') nuna_a.focus();
 
             const nn = "n"+idP[2];
             // por ĉiuj eĝoj elirantaj de la nuna nodo, ni
@@ -231,8 +289,8 @@ class YedMap {
      */
     iru_al_url(url,target,ev_tip) {
         const n = this.url_nodo(url);
-        if (je_stacio) je_stacio(url,target,ev_tip);
         this.iru_al(n,ev_tip);
+        if (je_stacio) je_stacio(url,target,ev_tip);
     }
 
     svg_attr(obj,atributoj) {
@@ -316,8 +374,10 @@ class YedMap {
                 tabindex: ti
             });
 
-            // ĉar novkreitaj ni devas realdoni la klak-reagon
-            a.addEventListener("click",(event) =>  this.iru_evento(event));
+            // ĉar novkreitaj, ni devas realdoni la reagojn
+            a.addEventListener("click",(event) => this.klak_evento(event));
+            // fokuseventon ĉe vojmontrilo ni ne bezonas, la apriora konduto sufiĉas
+            // a.addEventListener("focus",(event) => this.fokus_evento(event));
 
             // la surskribo   
             this.svg_attr(t, {
