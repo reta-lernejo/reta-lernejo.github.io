@@ -521,7 +521,7 @@ Fosfato en la supro de la lago estas enprenata de algoj. Post ties morto kaj sin
 
 $$\ce{Fe^3+ + PO4^3− → FePO4}$$
 
-Ĉe manko de grunda oksigeno la fero reduktiĝas kaj liberigas la fosfaton el la kaptilo. Kiam pro cirkulado de la akvo ĝi supriĝas, tio povas kaŭzi amasan kreskadon de algoj. La profundiĝanta biomaso siavice povas foruzi tiom da grunda oksigeno, ke la fosfatkaptilo ĉesas funkcii daŭre. La ekvilibro de la lago "renversiĝas".
+Ĉe manko de grunda oksigeno la fero reduktiĝas kaj liberigas la fosfaton el la kaptilo. Kiam pro cirkulado de la akvo ĝi supriĝas, tio povas kaŭzi amasan kreskadon de algoj. La profundiĝanta biomaso siavice povas foruzi tiom da grunda oksigeno, ke la fosfatkaptilo ĉesas funkcii daŭre. La ekvilibro de la lago "renversiĝas"[^W6].
 
 Tiu renversiĝo estas pli verŝajna, se lago "sterkiĝas" per fosfato, kio per naturaj procezoj okazas tre malrapide, sed pro influo de la homo, kiam fosfatriĉa akvo el industrio kaj agrikulturo enfluas la lagon, povas okazi tre akcelate.
 
@@ -642,6 +642,8 @@ restakvo kaj homaj ekskrementoj en la akvopurigejoj.
 [^W4]: [(de) Vikipedio: Saprobiont](https://de.wikipedia.org/wiki/Saprobiont)
 
 [^W5]: [(de) Vikipedio: Phosphor im Boden (Fosforo en la grundo)](https://de.wikipedia.org/wiki/Phosphor#Im_Boden)
+
+[^W6]: [(de) Vikipedio: Phosphatfalle (fosfatkaptilo)](https://de.wikipedia.org/wiki/Phosphatfalle)
 
 
 [^S1]: [(de) Kompaktlexikon der Biologie: Phosphorkreislauf](https://www.spektrum.de/lexikon/biologie-kompakt/phosphorkreislauf/8990)
