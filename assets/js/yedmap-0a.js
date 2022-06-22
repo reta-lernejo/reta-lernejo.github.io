@@ -24,7 +24,7 @@ const ti_start = 10; // tabindex starto
 
 class YedMap {
 
-    constructor(svg_elemento, eĝoj, je_stacio, al_sekcio) {
+    constructor(svg_elemento, eĝoj, je_stacio, al_sekcio, movo_lau) {
         // svg_elemento povas doniĝi kiel Node aŭ Node.id
         this.svg = svg_elemento;
         if (typeof svg_elemento === 'string') {
@@ -34,6 +34,7 @@ class YedMap {
         this.nodoj = [];
         this.je_stacio = je_stacio;
         this.al_sekcio = al_sekcio;
+        this.movo_lau = movo_lau;
     }
 
     preparu(start_url,rondvojo) {
@@ -132,9 +133,10 @@ class YedMap {
         // siavice povas okazi pro klako aŭ TAB-klavo
         // ni evitu aliron, se ni jam estas tie,
         // kien ni volas iri:
-        if (href != this.nuna_stacio()) {
+        const nuna = this.nuna_stacio();
+        if (href != nuna) {
             this.paŝo = true;
-            this.iru_al_url(href,trg,evento.type);
+            this.iru_al_url(href,trg,nuna);
 
         // se uzanto klakas sur la aktivan nodon
         // ni montras la koncernan sekcion
@@ -156,10 +158,11 @@ class YedMap {
 
         // this.paŝo: ni ja venis al la nuna nodo per la fokus-reago, ni ne iru al la legsekcio jam
         // !=: ne okazis fokusevento kaj la klakevento unue rimarkas la transiron (ekz-e vojmontrilo)...
-        if (href != this.nuna_stacio()) {
+        const nuna = this.nuna_stacio();
+        if (href != nuna) {
             this.paŝo = true;
-            this.iru_al_url(href,trg,evento.type);
-        } else if (!this.paŝo) {
+            this.iru_al_url(href,trg,nuna);
+        } else if (!this.paŝo || trg.id == 'vm_nun') {
             if (al_sekcio) al_sekcio(href);
         }
         
@@ -181,6 +184,27 @@ class YedMap {
             const a = nuna.querySelector("a");
             if (a) return (a.getAttributeNS(ns_xlink, 'href') 
                 || a.getAttribute("href"));    
+        }
+    }
+
+    /**
+     * Redonas la eĝon, kiu kondukas de la nuna stacio al la nova,
+     * se tia ekzistas.
+     */
+    egho_al(url,nuna) {
+        // nodo-nomo de nuna stacio
+        const nun = this.url_nodo(nuna);
+        const nn = "n"+ nun.split('.')[2];
+        // nodo-nomo de celata stacio
+        const celo = this.url_nodo(url);
+        const nc = "n"+celo.split('.')[2];
+
+        if (nn && nc && nn != nc) {
+            for (const [e,n_n] of Object.entries(this.eghoj)) {
+                if (n_n[0] == nn && n_n[1] == nc) {
+                    return "y.edge." + e.substring(1);
+                }
+            }    
         }
     }
 
@@ -287,10 +311,20 @@ class YedMap {
      * @param url - la URL-o al kiu iri (t.e. la URL-o de la stacio, kutime komenciĝanta per #
      * @param t_id - la HTML-id de la klakita elemento (<a>), ni povas uzi ĝin por reagi depende cu stacio aŭ vojmontrilo ks.
      */
-    iru_al_url(url,target,ev_tip) {
+    iru_al_url(url,target,nuna) {
         const n = this.url_nodo(url);
-        this.iru_al(n,ev_tip);
-        if (je_stacio) je_stacio(url,target,ev_tip);
+        this.iru_al(n);
+        // ago/animacio de movo de nuna al cela stacio
+        if (movo_lau && nuna) {
+            const e = this.egho_al(url,nuna);
+            if (e) {
+                const egho = document.getElementById(e);
+                const pado = egho.querySelector("path");
+                if (egho) movo_lau(egho,pado);
+            }            
+        }
+        // ago ĉe alveno de stacio (ekz-e malfermo de sekcio...)
+        if (je_stacio) je_stacio(url,target);
     }
 
     svg_attr(obj,atributoj) {
