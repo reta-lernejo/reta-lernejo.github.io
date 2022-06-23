@@ -48,20 +48,16 @@ const rondvojo = [
 ]
 
 function je_stacio(celo,node) {
-  const s_id = 's_'+celo.substring(1);
-
   if (celo[0] == '#') {
-    // location.hash = celo;
     // fermu ĉiujn malfermitajn sekciojn sed malfermu la celitan...
-    malfermu_sekcion(s_id,true);
+    malfermu_sekcion(celo.substring(1),true);
   }
 }
 
 function al_sekcio(celo) {
-  const s_id = 's_'+celo.substring(1);
-  location.href = '#'+s_id;
+  location.href = celo;
   // normale jam devas esti malfermita, sed eble tamen (re)fermita
-  malfermu_sekcion(s_id);
+  malfermu_sekcion(celo.substring(1));
 }
 
 function movo_lau(egho,pado) {  
@@ -412,12 +408,12 @@ window.onload = () => {
 </svg>
 
 ## mineraloj
-{: .sekcio #s_mineraloj}
+{: .sekcio #mineraloj}
 
 gipso - akvohava kalcia sulfato - $$\ce{Ca[SO4]·2H2O}$$
 
 ## sulfatoj
-{: .sekcio #s_sulfatoj}
+{: .sekcio #sulfatoj}
 
 organikaj sulfur-molekuloj:
 
@@ -429,7 +425,7 @@ organikaj sulfur-molekuloj:
 ellaso de SO2
 
 ## atmosfera sulfuro
-{: .sekco #s_atmosfero}
+{: .sekco #atmosfero}
 
 - SO2
 - aerosolo
