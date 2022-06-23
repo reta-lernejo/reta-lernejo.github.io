@@ -497,7 +497,7 @@ Tiel [fosfato](#s_fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj po
 
 <!-- https://de.wikipedia.org/wiki/Phosphor#Im_Boden -->
 
-La fosforo en la grundo devenas aŭ el eroziitaj [mineraloj]s_mineraloj) kiel apatitoj aŭ el organikaj 
+La fosforo en la grundo devenas aŭ el eroziitaj [mineraloj](s_mineraloj) kiel apatitoj aŭ el organikaj 
 [restaĵoj](#s_restoj). Homoj ankaŭ minas la mineralojn kaj produkas neorganikan sterkon. Simile bestaj ekstrekmentoj estas uzataj por sterkado kaj oni strebas regajni fosforon dum purigado de restakvoj, kiu alie perdiĝas en la restanta ŝlimo.
 
 La plej granda parto de fosforo en la grundo troviĝas en stabilaj kombinoj, kiel apatitoj kaj kalciaj fosfatoj,
@@ -655,6 +655,7 @@ superrigardo:
 https://en.wikipedia.org/wiki/Phosphorus_cycle
 https://de.wikipedia.org/wiki/Phosphor#Im_Boden
 https://www.spektrum.de/lexikon/biologie-kompakt/phosphorkreislauf/8990
+http://lossl.de/_VO_951-309_19_PHOSPHOR.pdf
 
 pri malseka grundo:
 https://en.wikipedia.org/wiki/Eutrophication
