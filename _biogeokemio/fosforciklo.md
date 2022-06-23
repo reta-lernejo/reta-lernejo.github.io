@@ -53,19 +53,18 @@ const rondvojo = [
 ]
 
 function je_stacio(celo,node) {
-  const s_id = 's_'+celo.substring(1);
 
   if (celo[0] == '#') {
     // location.hash = celo;
     // fermu ĉiujn malfermitajn sekciojn sed malfermu la celitan...
-    malfermu_sekcion(s_id,true);
+    malfermu_sekcion(celo.substring(1),true);
   }
 }
 
 function al_sekcio(celo) {
-  const s_id = 's_'+celo.substring(1);
-  location.href = '#'+s_id;
+  location.href = celo;
   // normale jam devas esti malfermita, sed eble tamen (re)fermita
+  const s_id = celo.substring(1); //'s_'+celo.substring(1);
   malfermu_sekcion(s_id);
 }
 
@@ -470,7 +469,7 @@ window.onload = () => {
 
 {::options parse_block_html="true" /}
 
-<details class="sekcio" id="s_mineraloj">
+<details class="sekcio" id="mineraloj">
   <summary markdown="span">
   mineraloj
 </summary>
@@ -483,14 +482,14 @@ Ostoĉeloj povas produkti el kalciaj kaj fosfataj jonoj la mineralon hidroksilap
 $$\ce{Ca5[OH|(PO4)3]}$$.
 Tiel ostoj enhavas ĝin je duono, dentoj eĉ pli.  
 
-Oni minas apatiton i.a. por produktado de mineralaj [sterkoj](#s_sterko). 
+Oni minas apatiton i.a. por produktado de mineralaj [sterkoj](#sterko). 
 Erozio kaj vetero dissolvas la mineralon. 
-Tiel [fosfato](#s_fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj povas enpreni ĝin.
+Tiel [fosfato](#fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj povas enpreni ĝin.
 
 
 </details>
 
-<details class="sekcio" id="s_fosfato">
+<details class="sekcio" id="fosfato">
   <summary markdown="span">
   fosfatjonoj
 </summary>
@@ -498,7 +497,7 @@ Tiel [fosfato](#s_fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj po
 <!-- https://de.wikipedia.org/wiki/Phosphor#Im_Boden -->
 
 La fosforo en la grundo devenas aŭ el eroziitaj [mineraloj](s_mineraloj) kiel apatitoj aŭ el organikaj 
-[restaĵoj](#s_restoj). Homoj ankaŭ minas la mineralojn kaj produkas neorganikan sterkon. Simile bestaj ekstrekmentoj estas uzataj por sterkado kaj oni strebas regajni fosforon dum purigado de restakvoj, kiu alie perdiĝas en la restanta ŝlimo.
+[restaĵoj](#restoj). Homoj ankaŭ minas la mineralojn kaj produkas neorganikan sterkon. Simile bestaj ekstrekmentoj estas uzataj por sterkado kaj oni strebas regajni fosforon dum purigado de restakvoj, kiu alie perdiĝas en la restanta ŝlimo.
 
 La plej granda parto de fosforo en la grundo troviĝas en stabilaj kombinoj, kiel apatitoj kaj kalciaj fosfatoj,
 $$\ce{Ca3(PO4)2}$$, ne uzeblaj de vegetaĵoj, oni kalkulas je 3000 – 6000 kg/ha.
@@ -510,7 +509,7 @@ Oni kalkulas pri nur 1 - 2 kg/ha da solvita fosfato en la formo $$\ce{H2PO4^−}
 </details>
 
 
-<details class="sekcio" id="s_ferofosfato">
+<details class="sekcio" id="ferofosfato">
   <summary markdown="span">
   ferofosfato
 </summary>
@@ -527,7 +526,7 @@ Tiu renversiĝo estas pli verŝajna, se lago "sterkiĝas" per fosfato, kio per n
 
 </details>
 
-<details class="sekcio" id="s_plantoj">
+<details class="sekcio" id="plantoj">
   <summary markdown="span">
   vegetaĵoj
 </summary>
@@ -546,7 +545,7 @@ vegetaĵoj enhavas 0,15 % ĝis 0,50 % da fosforo[^W1].
 
 </details>
 
-<details class="sekcio" id="s_bestoj">
+<details class="sekcio" id="bestoj">
   <summary markdown="span">
   bestoj
 </summary>
@@ -563,7 +562,7 @@ homo necesas enpreni averaĝe 0,75g i.a. per laktaĵoj, viando, fiŝaĵo, pano[^
 
 </details>
 
-<details class="sekcio" id="s_restoj">
+<details class="sekcio" id="restoj">
   <summary markdown="span">
   restaĵoj
 </summary>
@@ -572,13 +571,13 @@ La organika fosforo estas parte ekskrementata kaj la cetero aperas en la restaĵ
 Iuj bakterioj kaj fitoplanktono havas enzimojn por hidrolizi organikajn fosforomolekulojn por regajni 
 ĝin kiel fosfatjonoj.
 
-La plej granda parto remineraliĝas, el kiu en maroj ĉirkaŭ 1% sedimentiĝas sur la marfundo[^W3]. Fiŝmanĝantaj birdoj lasas fosforhavajn ekskrementojn sur rokoj kiel [guano](#s_sterko).
+La plej granda parto remineraliĝas, el kiu en maroj ĉirkaŭ 1% sedimentiĝas sur la marfundo[^W3]. Fiŝmanĝantaj birdoj lasas fosforhavajn ekskrementojn sur rokoj kiel [guano](#sterko).
 
 </details>
 
 
 
-<details class="sekcio" id="s_detruantoj">
+<details class="sekcio" id="detruantoj">
   <summary markdown="span">
   detruaj organismoj
 </summary>
@@ -599,14 +598,14 @@ La alia grupo estas bestoj, kiuj diserigas kaj manĝas ekskrementojn kaj kadavro
 
 </details>
 
-<details class="sekcio" id="s_sterko">
+<details class="sekcio" id="sterko">
   <summary markdown="span">
   sterkoj
 </summary>
 
 Tradicie kiel fosforsterkoj estas uzataj bestaj ekskrementoj: aŭ rekte de la bredado aŭ, antaŭ la haveblo de minerlaj fosforsterkoj, kiel guano, birdaj ekskrementoj kolektiĝintaj sur rokoj de insuloj.
 
-Por la industrie produktitaj fosfatsterkoj oni ekspluatas la [mineralojn](#s_mineraloj) el minoj, kiuj troviĝas en nur sep landoj: Maroko, Jordanio, 
+Por la industrie produktitaj fosfatsterkoj oni ekspluatas la [mineralojn](#mineraloj) el minoj, kiuj troviĝas en nur sep landoj: Maroko, Jordanio, 
 Usono, Rusujo, Sudafriko, Togolando kaj Ĉinujo[^W2]. Oni taksas, ke tiuj minoj elĉerpiĝos jam en la venontaj malmultaj jaroj.
 Cetere la mineraloj el tiuj minoj enhavas konsiderindajn kvantojn da kadmio kaj urano, kion oni ne deziras en sia nutraĵo.
 
@@ -616,7 +615,7 @@ akvopurigejoj.
 </details>
 
 
-<details class="sekcio" id="s_konsumado">
+<details class="sekcio" id="konsumado">
   <summary markdown="span">
   konsumado
 </summary>
@@ -624,7 +623,7 @@ akvopurigejoj.
 Per rikolto, fiŝkaptado kaj bredado de bestoj kaj ties konsumado 
 la homoj transportas multe da fosforo el la naturaj kaj agrikulturaj 
 regionoj en la urbojn kaj devas anstataŭigi ĝin sur la 
-kampoj per [sterkado](#s_sterko).
+kampoj per [sterkado](#sterko).
 
 Ĉar la apatitminoj baldaŭ elĉerpiĝos oni strebas regajni fosforon el 
 restakvo kaj homaj ekskrementoj en la akvopurigejoj. 
