@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Sulfurciklo
 js:
+  - sekcio-0a
   - yedmap-0a
 js-ext:
   - mathjax3
@@ -50,14 +51,14 @@ const rondvojo = [
 function je_stacio(celo,node) {
   if (celo[0] == '#') {
     // fermu ĉiujn malfermitajn sekciojn sed malfermu la celitan...
-    malfermu_sekcion(celo.substring(1),true);
+    Sekcio.malfermu(celo.substring(1),true);
   }
 }
 
 function al_sekcio(celo) {
   location.href = celo;
   // normale jam devas esti malfermita, sed eble tamen (re)fermita
-  malfermu_sekcion(celo.substring(1));
+  Sekcio.malfermu(celo.substring(1));
 }
 
 function movo_lau(egho,pado) {  
@@ -79,35 +80,15 @@ function movo_lau(egho,pado) {
   movu();
 }
 
-function malfermu_sekcion(s_id,fermu_aliajn) {
-  const sekcio = document.getElementById(s_id);
-  for (d of document.querySelectorAll(".sekcio")) {
-    //  malfermu la celitan...
-    if (d.id == s_id) {
-        d.setAttribute("open","open");
-    } else if (fermu_aliajn) {
-      // fermu aliajn sekciojn 
-        d.removeAttribute("open");
-    }
-  }
-}
 
 let yedmap;
 
 window.onload = () => {
+  Sekcio.aranĝo();
+
   const yedSvg = document.querySelector("#y\\.node\\.0").closest("svg");
   yedmap = new YedMap(yedSvg,eĝoj,je_stacio,al_sekcio,movo_lau);
   yedmap.preparu("#mineraloj",rondvojo);
-
-  // kiam ni klakas ligon en unu el la sekcio, la celata sekcio devos malfermiĝi
-  for (const s of document.querySelectorAll(".sekcio a")) {
-    s.addEventListener("click", (event) => {
-      const a = event.currentTarget;
-      const href = a.getAttribute("href");
-      if (href[0] == '#')
-        malfermu_sekcion(href.substring(1));
-    })
-  }
 }
 </script>
 
@@ -413,7 +394,7 @@ window.onload = () => {
 gipso - akvohava kalcia sulfato - $$\ce{Ca[SO4]·2H2O}$$
 
 ## sulfatoj
-{: .sekcio #sulfatoj}
+{: .sekcio #sulfato}
 
 organikaj sulfur-molekuloj:
 
@@ -421,11 +402,14 @@ organikaj sulfur-molekuloj:
 - sulfokvinovozo ("glukozo kun sulfur-ligo", en: https://en.wikipedia.org/wiki/Sulfoquinovose)
 
 ## industrio
+{: .sekcio #industrio}
 
 ellaso de SO2
 
 ## atmosfera sulfuro
-{: .sekco #atmosfero}
+{: .sekcio #atmosfero}
+
+<!-- https://de.wikipedia.org/wiki/Dimethylsulfoniumpropionat -->
 
 - SO2
 - aerosolo

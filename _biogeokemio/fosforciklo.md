@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Fosforciklo
 js:
+  - sekcio-0a
   - yedmap-0a
 js-ext:
   - mathjax3
@@ -53,19 +54,16 @@ const rondvojo = [
 ]
 
 function je_stacio(celo,node) {
-
   if (celo[0] == '#') {
-    // location.hash = celo;
     // fermu ĉiujn malfermitajn sekciojn sed malfermu la celitan...
-    malfermu_sekcion(celo.substring(1),true);
+    Sekcio.malfermu(celo.substring(1),true);
   }
 }
 
 function al_sekcio(celo) {
   location.href = celo;
   // normale jam devas esti malfermita, sed eble tamen (re)fermita
-  const s_id = celo.substring(1); //'s_'+celo.substring(1);
-  malfermu_sekcion(s_id);
+  Sekcio.malfermu(celo.substring(1));
 }
 
 function movo_lau(egho,pado) {  
@@ -87,36 +85,16 @@ function movo_lau(egho,pado) {
   movu();
 }
 
-function malfermu_sekcion(s_id,fermu_aliajn) {
-  const sekcio = document.getElementById(s_id);
-  for (d of document.querySelectorAll(".sekcio")) {
-    //  malfermu la celitan...
-    if (d.id == s_id) {
-        d.setAttribute("open","open");
-    } else if (fermu_aliajn) {
-      // fermu aliajn sekciojn 
-        d.removeAttribute("open");
-    }
-  }
-}
-
 let yedmap;
 
 window.onload = () => {
+  Sekcio.aranĝo();
+
   const yedSvg = document.querySelector("#y\\.node\\.0").closest("svg");
   yedmap = new YedMap(yedSvg,eĝoj,je_stacio,al_sekcio,movo_lau);
   yedmap.preparu("#mineraloj",rondvojo);
-
-  // kiam ni klakas ligon en unu el la sekcio, la celata sekcio devos malfermiĝi
-  for (const s of document.querySelectorAll(".sekcio a")) {
-    s.addEventListener("click", (event) => {
-      const a = event.currentTarget;
-      const href = a.getAttribute("href");
-      if (href[0] == '#')
-        malfermu_sekcion(href.substring(1));
-    })
-  }
 }
+
 </script>
 
 <style>
@@ -465,14 +443,10 @@ window.onload = () => {
 </svg>
 
 
-
-
 {::options parse_block_html="true" /}
 
-<details class="sekcio" id="mineraloj">
-  <summary markdown="span">
-  mineraloj
-</summary>
+## mineraloj
+{: .sekcio #mineraloj}
 
 Fosforhavaj mineraloj estas unuavice apatitoj, grupo de mineraloj kun ĝeneraligita formulo:
 $$\ce{Ca5[(F,Cl,OH)|(PO4)3]}$$.
@@ -487,16 +461,13 @@ Erozio kaj vetero dissolvas la mineralon.
 Tiel [fosfato](#fosfato) atingas en la akvon kaj grundon, de kie vegetaĵoj povas enpreni ĝin.
 
 
-</details>
+## fosfatjonoj
+{: .sekcio #fosfato}
 
-<details class="sekcio" id="fosfato">
-  <summary markdown="span">
-  fosfatjonoj
-</summary>
 
 <!-- https://de.wikipedia.org/wiki/Phosphor#Im_Boden -->
 
-La fosforo en la grundo devenas aŭ el eroziitaj [mineraloj](s_mineraloj) kiel apatitoj aŭ el organikaj 
+La fosforo en la grundo devenas aŭ el eroziitaj [mineraloj](#mineraloj) kiel apatitoj aŭ el organikaj 
 [restaĵoj](#restoj). Homoj ankaŭ minas la mineralojn kaj produkas neorganikan sterkon. Simile bestaj ekstrekmentoj estas uzataj por sterkado kaj oni strebas regajni fosforon dum purigado de restakvoj, kiu alie perdiĝas en la restanta ŝlimo.
 
 La plej granda parto de fosforo en la grundo troviĝas en stabilaj kombinoj, kiel apatitoj kaj kalciaj fosfatoj,
@@ -506,13 +477,9 @@ La dua plej granda parto estas nestabilaj fosfor-kombinoj adsorbitaj al aluminia
 
 Oni kalkulas pri nur 1 - 2 kg/ha da solvita fosfato en la formo $$\ce{H2PO4^−}$$ aŭ $$\ce{HPO4^2−}$$, rekte uzebla de plantoj.[^W5]
 
-</details>
+## ferofosfato
+{: .sekcio #ferosfosfato}
 
-
-<details class="sekcio" id="ferofosfato">
-  <summary markdown="span">
-  ferofosfato
-</summary>
 
 Se la akvo de lago havas sufiĉe da oksigeno, fosfato sedimentiĝas en formo de $$\ce{Fe(III)PO4}$$. Tion oni nomas *fosfatkaptilo*. 
 
@@ -524,12 +491,9 @@ $$\ce{Fe^3+ + PO4^3− → FePO4}$$
 
 Tiu renversiĝo estas pli verŝajna, se lago "sterkiĝas" per fosfato, kio per naturaj procezoj okazas tre malrapide, sed pro influo de la homo, kiam fosfatriĉa akvo el industrio kaj agrikulturo enfluas la lagon, povas okazi tre akcelate.
 
-</details>
+## vegetaĵoj
+{: .sekcio #plantoj}
 
-<details class="sekcio" id="plantoj">
-  <summary markdown="span">
-  vegetaĵoj
-</summary>
 
 <!-- https://de.wikipedia.org/wiki/Phosphor#Im_Boden -->
 Vegetaĵoj enprenas fosfaton kaj biologie adsorbas ĝin en sia organismo.
@@ -543,12 +507,9 @@ liveranto de energio per la molekulo ATP. La seka maso de surteraj
 vegetaĵoj enhavas 0,15 % ĝis 0,50 % da fosforo[^W1].
 
 
-</details>
+## bestoj
+{: .sekcio #bestoj}
 
-<details class="sekcio" id="bestoj">
-  <summary markdown="span">
-  bestoj
-</summary>
 
 Bestoj (inkluzivante mikroorganismojn kiel la zooplanktonon de la maroj) 
 ricevas la bezonatan fosforon nutrante sind de vegetaĵoj kaj aliaj bestoj. 
@@ -560,12 +521,8 @@ en si 700g da fosforo, el kiuj 600g estas parto de la ostoj. Ĉiutage por
 homo necesas enpreni averaĝe 0,75g i.a. per laktaĵoj, viando, fiŝaĵo, pano[^W1].
 
 
-</details>
-
-<details class="sekcio" id="restoj">
-  <summary markdown="span">
-  restaĵoj
-</summary>
+## restaĵoj
+{: .sekcio #restoj}
 
 La organika fosforo estas parte ekskrementata kaj la cetero aperas en la restaĵoj de mortintaj organismoj.
 Iuj bakterioj kaj fitoplanktono havas enzimojn por hidrolizi organikajn fosforomolekulojn por regajni 
@@ -573,14 +530,8 @@ Iuj bakterioj kaj fitoplanktono havas enzimojn por hidrolizi organikajn fosforom
 
 La plej granda parto remineraliĝas, el kiu en maroj ĉirkaŭ 1% sedimentiĝas sur la marfundo[^W3]. Fiŝmanĝantaj birdoj lasas fosforhavajn ekskrementojn sur rokoj kiel [guano](#sterko).
 
-</details>
-
-
-
-<details class="sekcio" id="detruantoj">
-  <summary markdown="span">
-  detruaj organismoj
-</summary>
+## detruaj organismoj
+{: .sekcio #detruantoj}
 
 <!-- 
 https://www.spektrum.de/lexikon/biologie-kompakt/destruenten-saprophagen-nahrungkette/2990
@@ -596,12 +547,9 @@ Al la unua grupo apartenas putraj bakterioj (bezonantaj oksigenon) kaj fungoj, k
 La alia grupo estas bestoj, kiuj diserigas kaj manĝas ekskrementojn kaj kadavrojn de aliaj bestoj kaj tiel ebligas al la unua grupo pli larĝe aliri tiun materialon. Al tiu grupo apartenas pluraj insektoj (skaraboj, termitoj), krustacoj, vermoj, ... ankaŭ la vulturoj[^W4] [^S2].
 
 
-</details>
+## sterkoj
+{: .sekcio #sterko}
 
-<details class="sekcio" id="sterko">
-  <summary markdown="span">
-  sterkoj
-</summary>
 
 Tradicie kiel fosforsterkoj estas uzataj bestaj ekskrementoj: aŭ rekte de la bredado aŭ, antaŭ la haveblo de minerlaj fosforsterkoj, kiel guano, birdaj ekskrementoj kolektiĝintaj sur rokoj de insuloj.
 
@@ -612,13 +560,9 @@ Cetere la mineraloj el tiuj minoj enhavas konsiderindajn kvantojn da kadmio kaj 
 Tial necesas recikligi la fosforon el ekskrementoj, aparte tiuj kolektiĝantaj de la urboj en la ŝlimo de la
 akvopurigejoj.
 
-</details>
+## konsumado
+{: .sekcio #konsumado}
 
-
-<details class="sekcio" id="konsumado">
-  <summary markdown="span">
-  konsumado
-</summary>
 
 Per rikolto, fiŝkaptado kaj bredado de bestoj kaj ties konsumado 
 la homoj transportas multe da fosforo el la naturaj kaj agrikulturaj 
@@ -628,7 +572,6 @@ kampoj per [sterkado](#sterko).
 Ĉar la apatitminoj baldaŭ elĉerpiĝos oni strebas regajni fosforon el 
 restakvo kaj homaj ekskrementoj en la akvopurigejoj. 
 
-</details>
 
 ### fontoj
 
