@@ -91,8 +91,9 @@ window.onload = () => {
   Sekcio.aranĝo();
 
   const yedSvg = document.querySelector("#y\\.node\\.0").closest("svg");
-  yedmap = new YedMap(yedSvg,eĝoj,je_stacio,al_sekcio,movo_lau);
-  yedmap.preparu("#mineraloj",rondvojo);
+  yedmap = 
+    new YedMap(yedSvg,eĝoj,je_stacio,al_sekcio,movo_lau)
+    .preparu("#mineraloj",rondvojo);
 }
 
 </script>

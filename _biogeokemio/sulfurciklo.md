@@ -396,6 +396,11 @@ gipso - akvohava kalcia sulfato - $$\ce{Ca[SO4]·2H2O}$$
 ## sulfatoj
 {: .sekcio #sulfato}
 
+Sulfatoj estas saloj de la sulfata acido. La saloj enhavas la jonon 
+$$\ce{[SO4]^2−}$$ aŭ la jonon $$\ce{[HSO4]^−}$$.
+
+Metalsulfatoj troviĝas en [mineraloj](#mineraloj) kiel gipso. Sulfatoj krome troviĝas en organikaj restaĵoj, solvitaj en akvo kaj kiel aerosolo en la atmosfero.
+
 organikaj sulfur-molekuloj:
 
 - aminacidoj: metionino, cisteino
@@ -411,8 +416,19 @@ ellaso de SO2
 
 <!-- https://de.wikipedia.org/wiki/Dimethylsulfoniumpropionat -->
 
-- SO2
+En la atmosfero sulfuro aperas en pluraj kombinaĵoj:
+
+1. Kiel sulfura dioksido ($$\ce{SO2}$$) ĝi devenas el vulkanoj kaj fumo de la industrio. 
+Ĝi kaŭzas la acidan pluvon per oksidiĝo al sulfura trioksido ($$\ce{SO3}$$) kaj reago 
+kun akvo al sulfata acido ($$\ce{H2SO4}$$)[^W1].
+
+
 - aerosolo
 - H2S
 - DMS
+
+## fontoj
+{: .fontlisto}
+
+[^W1]: [(de) Vikipedio: Schwefeldioxid (sulfura dioksido)](https://de.wikipedia.org/wiki/Schwefeldioxid)
 

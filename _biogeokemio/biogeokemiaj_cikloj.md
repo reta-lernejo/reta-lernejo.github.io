@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Bioĥemiaj nutrocikloj
+title: Bioĥemiaj cikloj
 ---
 
 <!-- 
@@ -16,8 +16,13 @@ https://en.wikipedia.org/wiki/Metabolic_pathway
 
 -->
 
-- akvociklo
-- [azotociklo](azotciklo)
-- [fosforciklo](fosforciklo)
+## nutraĵociklo
+
+La *nutraĵociklo* temas pri la cirkulado de [vivesencaj elementoj](/biokemio/esencaj_elementoj) kiel kombiniĝo de malrapidaj neorganikaj kaj akcelitaj organikaj proczezoj:
+
 - [karbonciklo](karbonciklo)
+- hidrogenciklo
+- [azotociklo](azotciklo)
+- oksigenciklo
+- [fosforciklo](fosforciklo)
 - [sulfurciklo](sulfurciklo)

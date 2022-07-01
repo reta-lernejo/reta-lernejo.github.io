@@ -16,7 +16,15 @@ body {
 }
 
 .sekcio {
-  border-top: 1px dotted black;
+  /* border-top: 2px solid cornflowerblue;*/
+}
+
+H2.fontlisto {
+  font-size: 18px;
+  /*text-decoration: underline;*/
+  font-style: italic;
+  margin-bottom: 0.2em;
+  border-top: 1px solid black;
 }
 
 summary {
@@ -24,5 +32,10 @@ summary {
   background-color: lightblue;
   padding: .2em;
   margin-bottom: .4em;
+  border-top: 3px solid cornflowerblue;
   border-radius: .1em;
+  /*
+  border-bottom-left-radius: .1em;
+  border-bottom-right-radius: .1em;
+  */
 }
