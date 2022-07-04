@@ -391,7 +391,10 @@ window.onload = () => {
 ## mineraloj
 {: .sekcio #mineraloj}
 
-gipso - akvohava kalcia sulfato - $$\ce{Ca[SO4]·2H2O}$$
+Sulfuro troviĝas en minerloj kiel pirito, $$\ce{FeS2}$$, aŭ
+gipso -- akvohava kalcia sulfato -- $$\ce{Ca[SO4]·2H2O}$$.
+
+Per vulkana aktiveco kaj erozio la mineraloj dissolviĝas, precipe kiel sulfatjonoj en la oceano[^W2].
 
 ## sulfatoj
 {: .sekcio #sulfato}
@@ -418,17 +421,21 @@ ellaso de SO2
 
 En la atmosfero sulfuro aperas en pluraj kombinaĵoj:
 
-1. Kiel sulfura dioksido ($$\ce{SO2}$$) ĝi devenas el vulkanoj kaj fumo de la industrio. 
+1. Kiel sulfura dioksido ($$\ce{SO2}$$) ĝi devenas el vulkanoj, fumo de la industrio kaj DMS (vd. sub 3). 
 Ĝi kaŭzas la acidan pluvon per oksidiĝo al sulfura trioksido ($$\ce{SO3}$$) kaj reago 
-kun akvo al sulfata acido ($$\ce{H2SO4}$$)[^W1].
+kun akvo al $$\ce{H2SO4}$$, t.e. sulfata acido[^W1]. Kiel kondensĝermo ĝi grave kontribuas al formado
+de aerosolo kaj nuboj.
 
+3. Kelkaj organikaj procezoj kiel putrado produktas $$\ce{H2S}$$, venanan gason malbonodora kiel putrantaj ovoj[^W5].
 
-- aerosolo
-- H2S
-- DMS
+4. Dimetilsulfido (DMS), $$\ce{(CH3)2S}$$, originas el organikaj kombinaĵoj produktataj de fitoplanktono kaj bakterioj en la oceano kaj marĉoj kaj donas al la maroj ilian tipan odoron.
+Per oksidiĝo estiĝas sulfura dioksido[^W3] [^W4] (vd sub 1).
 
 ## fontoj
 {: .fontlisto}
 
 [^W1]: [(de) Vikipedio: Schwefeldioxid (sulfura dioksido)](https://de.wikipedia.org/wiki/Schwefeldioxid)
-
+[^W2]: [(en) Vikipedio: Sulfur sources and sinks (Sulfurfontoj kaj -malfontoj)](https://en.wikipedia.org/wiki/Sulfur_cycle#Sulfur_sources_and_sinks)
+[^W3]: [(de) Vikipedio: Dimethylsulfid (dimetilsulfido)](https://de.wikipedia.org/wiki/Dimethylsulfid)
+[^W4]: [(en) Vikipedio: CLAW hypothesis (hipotezo de CLAW)](https://en.wikipedia.org/wiki/CLAW_hypothesis)
+[^W5]: [(de) Vikipedio: Schwefelkreislauf (sulfurciklo)](https://de.wikipedia.org/wiki/Schwefelkreislauf)
