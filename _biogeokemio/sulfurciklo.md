@@ -3,7 +3,7 @@ layout: laborfolio
 title: Sulfurciklo
 js:
   - sekcio-0a
-  - yedmap-0a
+  - yedmap-0b
 js-ext:
   - mathjax3
 ---
@@ -26,21 +26,19 @@ https://www.spektrum.de/lexikon/geowissenschaften/schwefelkreislauf/14560
 // per relo-biokemio/pro/trf/graphml2model.pl
 const eĝoj = {
   "e0": ["n0", "n1" ],
-  "e1": ["n1", "n2" ],
-  "e2": ["n2", "n3" ],
-  "e3": ["n3", "n4" ],
-  "e4": ["n11", "n1" ],
-  "e5": ["n5", "n0" ],
-  "e6": ["n1", "n5" ],
-  "e7": ["n12", "n0" ],
-  "e8": ["n11", "n12" ],
-  "e9": ["n4", "n5" ]
+  "e1": ["n8", "n1" ],
+  "e2": ["n2", "n0" ],
+  "e3": ["n1", "n2" ],
+  "e4": ["n9", "n0" ],
+  "e5": ["n8", "n9" ],
+  "e6": ["n1", "n8" ],
+  "e7": ["n2", "n1" ]
 }
 
 const rondvojo = [
   '#mineraloj',
   '#sulfato',
-  '#mikroorganismoj',
+  '#organismoj',
   '#atmosfero',
   '#sulfato',
   '#mineraloj',
@@ -88,7 +86,7 @@ window.onload = () => {
 
   const yedSvg = document.querySelector("#y\\.node\\.0").closest("svg");
   yedmap = new YedMap(yedSvg,eĝoj,je_stacio,al_sekcio,movo_lau);
-  yedmap.preparu("#mineraloj",rondvojo);
+  yedmap.preparu("#mineraloj"); // , rondvojo
 }
 </script>
 
@@ -125,15 +123,15 @@ window.onload = () => {
     <g id="y.node.0">
       <a target="_blank" xlink:type="simple" xlink:href="#atmosfero" xlink:show="new">
         <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
-          <rect x="126.6" width="104" height="33.84" y="-0" stroke="none"/>
+          <rect x="91.7214" width="104" height="33.84" y="-0" stroke="none"/>
         </g>
         <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <rect fill="none" x="126.6" width="104" height="33.84" y="-0"/>
+          <rect fill="none" x="91.7214" width="104" height="33.84" y="-0"/>
         </g>
         <g>
           <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-            <text x="147.9818" xml:space="preserve" y="14.0899" stroke="none">atmosfera</text>
-            <text x="157.9516" xml:space="preserve" y="28.0587" stroke="none">sulfuro</text>
+            <text x="113.1032" xml:space="preserve" y="14.0899" stroke="none">atmosfera</text>
+            <text x="123.073" xml:space="preserve" y="28.0587" stroke="none">sulfuro</text>
           </g>
         </g>
       </a>
@@ -141,65 +139,20 @@ window.onload = () => {
     <g id="y.node.1">
       <a target="_blank" xlink:type="simple" xlink:href="#sulfato" xlink:show="new">
         <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
-          <rect x="126.6" width="104" height="33.84" y="92" stroke="none"/>
+          <rect x="91.7214" width="104" height="33.84" y="92" stroke="none"/>
         </g>
         <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <rect fill="none" x="126.6" width="104" height="33.84" y="92"/>
+          <rect fill="none" x="91.7214" width="104" height="33.84" y="92"/>
         </g>
         <g>
           <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-            <text x="158.1918" xml:space="preserve" y="113.0743" stroke="none">sulfato</text>
+            <text x="123.3132" xml:space="preserve" y="113.0743" stroke="none">sulfato</text>
           </g>
         </g>
       </a>
     </g>
     <g id="y.node.2">
-      <a target="_blank" xlink:type="simple" xlink:href="#plantoj" xlink:show="new">
-        <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
-          <rect x="11.64" width="104" height="33.84" y="198.96" stroke="none"/>
-        </g>
-        <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <rect fill="none" x="11.64" width="104" height="33.84" y="198.96"/>
-        </g>
-        <g>
-          <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-            <text x="35.8636" xml:space="preserve" y="220.0343" stroke="none">vegetaĵoj</text>
-          </g>
-        </g>
-      </a>
-    </g>
-    <g id="y.node.3">
-      <a target="_blank" xlink:type="simple" xlink:href="#bestoj" xlink:show="new">
-        <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
-          <rect x="126.6" width="104" height="30" y="305.92" stroke="none"/>
-        </g>
-        <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <rect fill="none" x="126.6" width="104" height="30" y="305.92"/>
-        </g>
-        <g>
-          <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-            <text x="160.2836" xml:space="preserve" y="325.0743" stroke="none">bestoj</text>
-          </g>
-        </g>
-      </a>
-    </g>
-    <g id="y.node.4">
-      <a target="_blank" xlink:type="simple" xlink:href="#restoj" xlink:show="new">
-        <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
-          <rect x="244.36" width="86.2" height="33.84" y="255.96" stroke="none"/>
-        </g>
-        <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <rect fill="none" x="244.36" width="86.2" height="33.84" y="255.96"/>
-        </g>
-        <g>
-          <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-            <text x="265.1416" xml:space="preserve" y="277.0343" stroke="none">restaĵoj</text>
-          </g>
-        </g>
-      </a>
-    </g>
-    <g id="y.node.5">
-      <a target="_blank" xlink:type="simple" xlink:href="#mikroorganismoj" xlink:show="new">
+      <a target="_blank" xlink:type="simple" xlink:href="#organismoj" xlink:show="new">
         <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
           <rect x="244.36" width="86.2" height="33.84" y="198.96" stroke="none"/>
         </g>
@@ -208,13 +161,12 @@ window.onload = () => {
         </g>
         <g>
           <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-            <text x="268.1709" xml:space="preserve" y="213.0499" stroke="none">mikro-</text>
-            <text x="254.0586" xml:space="preserve" y="227.0187" stroke="none">organismoj</text>
+            <text x="254.0586" xml:space="preserve" y="220.0343" stroke="none">organismoj</text>
           </g>
         </g>
       </a>
     </g>
-    <g id="y.node.6">
+    <g id="y.node.3">
       <g fill="rgb(153,51,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(153,51,0)">
         <path d="M427.2 335.92 L429.7 -6.5 L434.7 -6.5 L437.2 335.92 Z" stroke="none" fill-rule="evenodd"/>
       </g>
@@ -223,7 +175,7 @@ window.onload = () => {
       </g>
       <g/>
     </g>
-    <g id="y.node.7">
+    <g id="y.node.4">
       <a target="_blank" xlink:type="simple" xlink:href="#nun" xlink:show="new">
         <g fill="rgb(153,204,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(153,204,0)">
           <rect x="383.2" y="-0" width="104" rx="4" ry="4" height="43.5" stroke="none"/>
@@ -238,7 +190,7 @@ window.onload = () => {
         </g>
       </a>
     </g>
-    <g id="y.node.8">
+    <g id="y.node.5">
       <a target="_blank" xlink:type="simple" xlink:href="#dekstren" xlink:show="new">
         <g fill="rgb(204,255,153)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,255,153)">
           <path d="M383.2 49.13 L482.2 49.13 L493.2 66.05 L482.2 82.97 L383.2 82.97 L394.2 66.05 Z" stroke="none" fill-rule="evenodd"/>
@@ -253,7 +205,7 @@ window.onload = () => {
         </g>
       </a>
     </g>
-    <g id="y.node.9">
+    <g id="y.node.6">
       <a target="_blank" xlink:type="simple" xlink:href="#maldekstren" xlink:show="new">
         <g fill="rgb(204,255,153)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,255,153)">
           <path d="M379.2 88.6 L478.2 88.6 L467.2 105.52 L478.2 122.44 L379.2 122.44 L368.2 105.52 Z" stroke="none" fill-rule="evenodd"/>
@@ -268,13 +220,13 @@ window.onload = () => {
         </g>
       </a>
     </g>
-    <g id="y.node.10">
+    <g id="y.node.7">
       <a target="_blank" xlink:type="simple" xlink:href="#rondvojo" xlink:show="new">
         <g fill="rgb(153,204,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(153,204,0)">
-          <path d="M373.2 147.7167 L385.2 130.7966 L481.2 130.7966 L493.2 147.7167 L481.2 164.6367 L385.2 164.6367 Z" stroke="none" fill-rule="evenodd"/>
+          <path d="M373.2 147.7167 L385.2 130.7967 L481.2 130.7967 L493.2 147.7167 L481.2 164.6367 L385.2 164.6367 Z" stroke="none" fill-rule="evenodd"/>
         </g>
         <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <path fill="none" d="M373.2 147.7167 L385.2 130.7966 L481.2 130.7966 L493.2 147.7167 L481.2 164.6367 L385.2 164.6367 Z" fill-rule="evenodd"/>
+          <path fill="none" d="M373.2 147.7167 L385.2 130.7967 L481.2 130.7967 L493.2 147.7167 L481.2 164.6367 L385.2 164.6367 Z" fill-rule="evenodd"/>
         </g>
         <g/>
         <g>
@@ -285,7 +237,7 @@ window.onload = () => {
         </g>
       </a>
     </g>
-    <g id="y.node.11">
+    <g id="y.node.8">
       <a target="_blank" xlink:type="simple" xlink:href="#mineraloj" xlink:show="new">
         <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
           <rect x="-118" width="92" height="33.84" y="198.96" stroke="none"/>
@@ -300,93 +252,93 @@ window.onload = () => {
         </g>
       </a>
     </g>
-    <g id="y.node.12">
+    <g id="y.node.9">
       <a target="_blank" xlink:type="simple" xlink:href="#industrio" xlink:show="new">
         <g fill="rgb(204,234,244)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke="rgb(204,234,244)">
-          <rect x="-118" width="92" height="33.84" y="92" stroke="none"/>
+          <rect x="-118" width="92" height="33.84" y="-0" stroke="none"/>
         </g>
         <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <rect fill="none" x="-118" width="92" height="33.84" y="92"/>
+          <rect fill="none" x="-118" width="92" height="33.84" y="-0"/>
         </g>
         <g>
           <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-            <text x="-98.3643" xml:space="preserve" y="113.0743" stroke="none">industrio</text>
+            <text x="-98.3643" xml:space="preserve" y="21.0743" stroke="none">industrio</text>
           </g>
         </g>
       </a>
     </g>
     <g id="y.edge.0">
-      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" stroke-width="2" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M178.6 33.84 L178.6 83"/>
-        <path d="M178.6 92 L184.225 78.5 L178.6 81.875 L172.975 78.5 Z" stroke="none"/>
+      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
+        <path fill="none" d="M143.7214 33.84 L143.7214 84"/>
+        <path d="M143.7214 92 L148.7214 80 L143.7214 83 L138.7214 80 Z" stroke="none"/>
       </g>
       <g>
         <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <text x="192.1" xml:space="preserve" y="67.0743" stroke="none">pluvo</text>
+          <text x="157.2214" xml:space="preserve" y="67.0743" stroke="none">pluvo</text>
         </g>
-      </g>
-    </g>
-    <g id="y.edge.1">
-      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" stroke-width="2" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M126.6083 114.783 L125.0741 114.8148 L117.3048 115.2242 L109.8438 115.9375 L102.7525 117.0153 L96.0926 118.5185 L89.9258 120.5078 L84.3137 123.044 L79.3179 126.1878 L75 130 L71.4012 134.5211 L68.4803 139.7106 L66.1758 145.5078 L64.4259 151.8519 L63.1691 158.682 L62.3438 165.9375 L61.8882 173.5576 L61.7407 181.4815 L61.8398 189.6484 L61.8505 189.9629 L61.8553 190.0628"/>
-        <path d="M62.1735 199.0572 L67.3177 185.3668 L61.8156 188.9385 L56.0748 185.7645 Z" stroke="none"/>
-      </g>
-    </g>
-    <g id="y.edge.2">
-      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" stroke-width="2" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M62.5462 232.7999 L62.5039 240.0586 L62.6667 248.1481 L63.1107 256.012 L63.9062 263.5938 L65.1237 270.8369 L66.8333 277.6852 L69.1055 284.082 L72.0104 289.9711 L75.6185 295.2959 L80 300 L85.2018 304.0459 L91.1771 307.4711 L97.8555 310.332 L105.1667 312.6852 L113.0404 314.5869 L117.6927 315.4249 L117.7918 315.4381"/>
-        <path d="M126.6885 316.7979 L114.1934 309.1977 L116.6797 315.2681 L112.4936 320.3186 Z" stroke="none"/>
       </g>
     </g>
     <g id="y.edge.3">
-      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" stroke-width="2" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M230.575 324.2829 L235.8438 324.5 L244.3127 324.618 L252.2407 324.4445 L259.5508 323.9375 L266.1655 323.0555 L272.0077 321.757 L277 320 L281.091 317.757 L284.3322 315.0555 L286.8008 311.9375 L288.5741 308.4445 L289.7293 304.618 L290.3438 300.5 L290.4022 298.8074 L290.3954 298.7077"/>
-        <path d="M290.0556 289.7141 L284.9442 303.4168 L290.4378 299.8318 L296.1862 302.9921 Z" stroke="none"/>
-      </g>
-    </g>
-    <g id="y.edge.6">
-      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" stroke-width="2" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M178.6 125.8388 L178.6 167.748 L179.3654 179.0289 L181.6617 188.8058 L183.3839 193.1301 L185.4888 197.0784 L187.9764 200.6507 L190.8468 203.847 L194.0998 206.6672 L197.7355 209.1114 L206.1552 212.8717 L216.1057 215.1279 L227.587 215.88 L235.3386 215.88"/>
-        <path d="M244.3386 215.88 L230.8386 210.255 L234.2136 215.88 L230.8386 221.505 Z" stroke="none"/>
-      </g>
-    </g>
-    <g id="y.edge.9">
-      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" stroke-width="2" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M287.46 255.96 L287.46 241.8"/>
-        <path d="M287.46 232.8 L281.835 246.3 L287.46 242.925 L293.085 246.3 Z" stroke="none"/>
-      </g>
-    </g>
-    <g id="y.edge.5">
-      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" stroke-width="2" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M287.46 198.9689 L287.46 106.452 L286.6946 85.4679 L284.3983 67.2817 L282.6761 59.2379 L280.5712 51.8934 L278.0836 45.2485 L275.2133 39.303 L271.9602 34.057 L268.3244 29.5104 L264.306 25.6634 L259.9048 22.5157 L255.1209 20.0676 L249.9543 18.3189 L244.405 17.2697 L239.6086 16.9869 L239.5086 16.9869"/>
-        <path d="M230.5088 16.9192 L243.9661 22.6456 L240.6335 16.9954 L244.0508 11.396 Z" stroke="none"/>
-      </g>
-    </g>
-    <g id="y.edge.4">
       <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M-40.7356 198.9324 L-20.5 156.3109 L-17.465 150.5722 L-13.9848 145.2037 L-10.0596 140.2054 L-5.6894 135.5774 L-0.874 131.3196 L4.3864 127.4321 L10.0919 123.9148 L16.2425 120.7677 L22.8382 117.9909 L29.8789 115.5843 L45.2956 111.8819 L62.4927 109.6605 L81.47 108.92 L118.5729 108.92"/>
-        <path d="M126.5729 108.92 L114.5729 103.92 L117.5729 108.92 L114.5729 113.92 Z" stroke="none"/>
+        <path fill="none" d="M143.7214 125.8388 L143.7214 167.748 L143.9741 173.5765 L144.7321 179.0289 L145.9954 184.1054 L147.7641 188.8058 L150.0381 193.1301 L152.8174 197.0784 L156.102 200.6507 L159.892 203.847 L164.1873 206.6672 L168.988 209.1114 L174.2939 211.1796 L180.1052 212.8717 L193.2439 215.1279 L208.4038 215.88 L236.3419 215.88"/>
+        <path d="M244.3419 215.88 L232.3419 210.88 L235.3419 215.88 L232.3419 220.88 Z" stroke="none"/>
       </g>
       <g>
         <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-          <text x="-52.4257" xml:space="preserve" y="189.1299" stroke="none">erozio</text>
+          <text x="144.9167" xml:space="preserve" y="143.9787" stroke="none">asimilado</text>
         </g>
       </g>
     </g>
-    <g id="y.edge.8">
+    <g id="y.edge.2">
       <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M-72 198.96 L-72 133.84"/>
-        <path d="M-72 125.84 L-77 137.84 L-72 134.84 L-67 137.84 Z" stroke="none"/>
+        <path fill="none" d="M287.46 198.9689 L287.46 106.452 L287.2073 95.6102 L286.4493 85.4679 L285.186 76.0251 L283.4174 67.2817 L281.1433 59.2379 L278.364 51.8934 L275.0794 45.2485 L271.2894 39.303 L266.9941 34.057 L262.1935 29.5104 L256.8875 25.6634 L251.0762 22.5157 L244.7595 20.0676 L237.9376 18.3189 L230.6103 17.2697 L222.7776 16.92 L203.7179 16.92"/>
+        <path d="M195.7179 16.92 L207.7179 21.92 L204.7179 16.92 L207.7179 11.92 Z" stroke="none"/>
       </g>
     </g>
     <g id="y.edge.7">
       <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
-        <path fill="none" d="M-72 91.971 L-72 58.32 L-71.5595 53.3067 L-70.238 48.6169 L-68.0354 44.2505 L-64.9519 40.2075 L-60.9873 36.488 L-56.1417 33.0919 L-50.4151 30.0192 L-43.8075 27.27 L-36.3189 24.8442 L-27.9492 22.7419 L-8.5669 19.5075 L14.3395 17.5669 L40.77 16.92 L118.6109 16.92"/>
-        <path d="M126.6109 16.92 L114.6109 11.92 L117.6109 16.92 L114.6109 21.92 Z" stroke="none"/>
+        <path fill="none" d="M264.0353 198.9569 L264.0353 155.5906 L263.1894 144.6522 L262.1319 139.7299 L260.6515 135.1722 L258.7481 130.9792 L256.4217 127.1507 L253.6723 123.6869 L250.5 120.5876 L246.9047 117.853 L242.8864 115.4831 L233.5809 111.8369 L222.5834 109.6492 L209.8941 108.92 L203.7096 108.92"/>
+        <path d="M195.7096 108.92 L207.7096 113.92 L204.7096 108.92 L207.7096 103.92 Z" stroke="none"/>
+      </g>
+    </g>
+    <g id="y.edge.6">
+      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
+        <path fill="none" d="M106.1214 125.8145 L106.1214 171.159 L105.8083 176.5744 L104.869 181.6405 L103.3035 186.3572 L101.1117 190.7244 L98.2938 194.7424 L94.8497 198.4109 L90.7793 201.73 L86.0828 204.6998 L80.76 207.3201 L74.811 209.5911 L61.0344 213.0849 L44.753 215.1812 L25.9668 215.88 L-18.0302 215.88"/>
+        <path d="M-26.0302 215.88 L-14.0302 220.88 L-17.0302 215.88 L-14.0302 210.88 Z" stroke="none"/>
+      </g>
+      <g>
+        <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
+          <text x="47.7426" xml:space="preserve" y="190.0343" stroke="none">precipito</text>
+        </g>
+      </g>
+    </g>
+    <g id="y.edge.1">
+      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
+        <path fill="none" d="M-48 198.9324 L-48 156.3109 L-47.663 150.5722 L-46.652 145.2037 L-44.9669 140.2054 L-42.6078 135.5774 L-39.5747 131.3196 L-35.8676 127.4321 L-31.4865 123.9148 L-26.4313 120.7677 L-20.7022 117.9909 L-14.299 115.5843 L-7.2218 113.548 L0.5295 111.8819 L18.054 109.6605 L38.2746 108.92 L83.7446 108.92"/>
+        <path d="M91.7446 108.92 L79.7446 103.92 L82.7446 108.92 L79.7446 113.92 Z" stroke="none"/>
+      </g>
+      <g>
+        <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
+          <text x="-43.3256" xml:space="preserve" y="143.0743" stroke="none">erozio</text>
+        </g>
+      </g>
+    </g>
+    <g id="y.edge.5">
+      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
+        <path fill="none" d="M-72 198.96 L-72 41.84"/>
+        <path d="M-72 33.84 L-77 45.84 L-72 42.84 L-67 45.84 Z" stroke="none"/>
+      </g>
+    </g>
+    <g id="y.edge.4">
+      <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,133,22)" stroke-linecap="butt">
+        <path fill="none" d="M-26 16.92 L83.7214 16.92"/>
+        <path d="M91.7214 16.92 L79.7214 11.92 L82.7214 16.92 L79.7214 21.92 Z" stroke="none"/>
       </g>
     </g>
   </g>
 </svg>
+
+
 
 ## mineraloj
 {: .sekcio #mineraloj}
@@ -408,6 +360,75 @@ organikaj sulfur-molekuloj:
 
 - aminacidoj: metionino, cisteino
 - sulfokvinovozo ("glukozo kun sulfur-ligo", en: https://en.wikipedia.org/wiki/Sulfoquinovose)
+
+## organismoj
+{: .sekcio}
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill-opacity="1" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" width="272" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" height="321" font-family="'Dialog'" font-style="normal" stroke-linejoin="miter" font-size="12px" stroke-dashoffset="0" image-rendering="auto">
+  <!--Generated by ySVG 2.5-->
+  <defs id="genericDefs"/>
+  <g>
+    <defs id="defs1">
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath1">
+        <path d="M0 0 L272 0 L272 321 L0 321 L0 0 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath2">
+        <path d="M58 -1 L330 -1 L330 320 L58 320 L58 -1 Z"/>
+      </clipPath>
+    </defs>
+    <g fill="rgb(255,204,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke="rgb(255,204,0)">
+      <rect x="148" width="64" height="30" y="274.5" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke-linecap="butt">
+      <rect fill="none" x="148" width="64" height="30" y="274.5" clip-path="url(#clipPath2)"/>
+      <text x="173.7861" xml:space="preserve" y="293.6543" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">S⁰</text>
+    </g>
+    <g fill="rgb(255,204,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke="rgb(255,204,0)">
+      <rect x="148" width="64" height="30" y="190.5" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke-linecap="butt">
+      <rect fill="none" x="148" width="64" height="30" y="190.5" clip-path="url(#clipPath2)"/>
+      <text x="169.2744" xml:space="preserve" y="209.6543" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">H₂S</text>
+    </g>
+    <g fill="rgb(255,204,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke="rgb(255,204,0)">
+      <rect x="148" width="64" height="30" y="22.5" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke-linecap="butt">
+      <rect fill="none" x="148" width="64" height="30" y="22.5" clip-path="url(#clipPath2)"/>
+      <text x="163.4912" xml:space="preserve" y="41.6543" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">SO₄²⁻</text>
+    </g>
+    <g fill="rgb(153,204,0)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke="rgb(153,204,0)">
+      <rect x="148" width="64" height="30" y="106.5" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-58,1)" stroke-linecap="butt">
+      <rect fill="none" x="148" width="64" height="30" y="106.5" clip-path="url(#clipPath2)"/>
+      <text x="169.5146" xml:space="preserve" y="125.6543" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">-SH</text>
+      <path fill="none" d="M148 275.9615 L129.95 268.325 L120.9922 263.9445 L114.5938 259.4656 L112.3543 257.1893 L110.7547 254.8883 L109.7949 252.5627 L109.475 250.2125 L109.7949 247.8377 L110.7547 245.4383 L114.5938 240.5656 L120.9922 235.5945 L129.95 230.525 L142.8446 224.0777" clip-path="url(#clipPath2)"/>
+      <path d="M150 220.5 L137.0308 221.3944 L141.9501 224.5249 L141.5029 230.3387 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="75.0068" xml:space="preserve" y="261.3947" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">reduktiĝo</text>
+      <path fill="none" d="M180 220.5 L180 266.5" clip-path="url(#clipPath2)"/>
+      <path d="M180 274.5 L185 262.5 L180 265.5 L175 262.5 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="155.1064" xml:space="preserve" y="251.6543" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">oksidiĝo</text>
+      <path fill="none" d="M212 289.5 L254.25 289.5 L261.6064 289.057 L268.4883 287.7281 L274.8955 285.5133 L280.8281 282.4125 L286.2861 278.4258 L291.2695 273.5531 L295.7783 267.7945 L299.8125 261.15 L303.3721 253.6195 L306.457 245.2031 L309.0674 235.9008 L311.2031 225.7125 L312.8643 214.6383 L314.0508 202.6781 L314.7627 189.832 L315 176.1 L315 150.9 L314.7627 137.168 L314.0508 124.3219 L312.8643 112.3617 L311.2031 101.2875 L309.0674 91.0992 L306.457 81.7969 L303.3721 73.3805 L299.8125 65.85 L295.7783 59.2055 L291.2695 53.4469 L286.2861 48.5742 L280.8281 44.5875 L274.8955 41.4867 L268.4883 39.2719 L261.6064 37.943 L254.25 37.5 L220 37.5" clip-path="url(#clipPath2)"/>
+      <path d="M212 37.5 L224 42.5 L221 37.5 L224 32.5 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="235" xml:space="preserve" y="27.4287" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">oksidiĝo</text>
+      <path fill="none" d="M212 207.1449 L238.85 208.525 L244.6807 208.5197 L250.1352 207.8851 L255.2135 206.6213 L259.9156 204.7281 L264.2416 202.2057 L268.1914 199.0539 L271.765 195.2729 L274.9625 190.8625 L277.7838 185.8228 L280.2289 180.1539 L282.2979 173.8557 L283.9906 166.9281 L286.2477 151.1852 L287 132.925 L287 115.575 L286.2477 97.2762 L283.9906 81.4172 L282.2979 74.4026 L280.2289 67.998 L277.7838 62.2034 L274.9625 57.0187 L271.765 52.444 L268.1914 48.4793 L264.2416 45.1245 L259.9156 42.3797 L255.2135 40.2448 L250.1352 38.7199 L244.6807 37.805 L238.85 37.5 L220 37.5" clip-path="url(#clipPath2)"/>
+      <path d="M212 37.5 L224 42.5 L221 37.5 L224 32.5 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M148 39.413 L129.4 40.525 L124.3867 41.1016 L119.6969 42.2125 L115.3305 43.8578 L111.2875 46.0375 L107.568 48.7516 L104.1719 52 L101.0992 55.7828 L98.35 60.1 L95.9242 64.9516 L93.8219 70.3375 L90.5875 82.7125 L88.6469 97.225 L88 113.875 L88 129.625 L88.6469 146.2715 L90.5875 160.7734 L93.8219 173.1309 L95.9242 178.5054 L98.35 183.3438 L101.0992 187.646 L104.1719 191.4121 L107.568 194.6421 L111.2875 197.3359 L115.3305 199.4937 L119.6969 201.1152 L124.3867 202.2007 L129.4 202.75 L140.0118 203.3267" clip-path="url(#clipPath2)"/>
+      <path d="M148 203.7609 L136.289 198.117 L139.0133 203.2724 L135.7463 208.1023 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="99.0977" xml:space="preserve" y="68.43" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">sulfat-</text>
+      <text x="95.7754" xml:space="preserve" y="82.3988" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">spirado</text>
+      <path fill="none" d="M180 52.5 L180 98.5" clip-path="url(#clipPath2)"/>
+      <path d="M180 106.5 L185 94.5 L180 97.5 L175 94.5 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="151.1953" xml:space="preserve" y="83.6543" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">asimilado</text>
+      <path fill="none" d="M180 136.5 L180 182.5" clip-path="url(#clipPath2)"/>
+      <path d="M180 190.5 L185 178.5 L180 181.5 L175 178.5 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="156.4131" xml:space="preserve" y="167.6543" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">putrado</text>
+    </g>
+  </g>
+</svg>
+
+
+
 
 ## industrio
 {: .sekcio #industrio}
