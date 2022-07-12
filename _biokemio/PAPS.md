@@ -48,7 +48,7 @@ var Info = {
     
     // https://wiki.jmol.org/index.php/File_formats/Coordinates
     //https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info#Model_loading
-    src: "../assets/kem/PAPS_CID_10214.sdf",
+    src: "inc/PAPS_CID_10214.sdf",
 	readyFunction: jmol_isReady,
 	disableJ2SLoadMonitor: true,
     disableInitialConsole: true,
