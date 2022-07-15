@@ -40,6 +40,7 @@ var Info = {
 	width: 300,
 	height: 200,
   color: "#AFEEEE",
+  //language: "eo",
 	debug: false,
 	use: "HTML5",   // JAVA HTML5 WEBGL are all options
 	j2sPath: JsPath + "j2s", // this needs to point to where the j2s directory is.
@@ -65,12 +66,13 @@ var Info = {
 var jmolApplet_kondenso;
 
 $(document).ready(function() {
-  
+  /*
   for (aa of Object.keys(Files)) {
     const applet = Jmol.getAppletHtml("jmolApplet_"+aa, Object.assign(
       {src:"inc/"+Files[aa]},Info));
     if (applet) document.getElementById("jmol_"+aa).innerHTML = applet;
   }
+  */
   
 
   // montro de kondensreago
@@ -82,6 +84,7 @@ $(document).ready(function() {
     'load FILES "inc/metionino_CID_6137.sdf" "inc/alanino_CID_5950.sdf";set antialiasdisplay true;'
     + 'model all; select 1.1; translateSelected X -80; select 2.1; translateSelected X 80');
 
+  Jmol._persistentMenu = true;
 
     /*
     https://chemapps.stolaf.edu/jmol/docs/?ver=14.32#atomexpressions
@@ -193,3 +196,6 @@ https://en.wikipedia.org/wiki/Proteinogenic_amino_acid
 -->
 
 <div id="jmol_kondenso"></div>
+<!-- https://chemapps.stolaf.edu/jmol/docs/ -->
+<button onclick="Jmol.script(jmolApplet_kondenso,'console');">komandilo</button>
+<button onclick="Jmol.script(jmolApplet_kondenso,'menu');">menuo</button>
