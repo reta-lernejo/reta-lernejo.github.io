@@ -30,7 +30,7 @@ tiel formanta *(kun)valentan ligon*. La kunajon de tiel ligitaj atomoj oni nomas
 
 ...elektronegativeco, polaraj ligoj...
 
-Ekzemploj de molekuloj formantaj valentaj ligoj estas hidrogeno kun (kun)valenta elektronparo,
+Ekzemploj de molekuloj formantaj (kun)valentajn ligojn estas hidrogeno kun (kun)valenta elektronparo,
 oksigeno kun du (kun)valentaj paroj kaj nitrogeno kun tri (kun)valentaj paroj:
 
 <script>
