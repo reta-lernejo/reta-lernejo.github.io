@@ -23,16 +23,30 @@ La atomoj strebas al elektrondistribuo de noblaj gasoj kun plenaj eksteraj orbit
 estas energie favora stato. Ĉe hidrogeno tio estas du elektronoj ĉe aliaj elementoj ok. 
 Tial oni nomas ĝin la regulo de la ok.
 
-Ekzistas du bazaj rimedoj por atingi pli favaoran staton: atomo kun manko de elektronoj "pruntas"
-elektronon de atomo kun malmanko, tiel formantaj *jono*jn. Aŭ du atomoj uzas paron da elektronoj komune,
-tiel formanta *(kun)valentan ligon*. La kunajon de tiel ligitaj atomoj oni nomas *molekulo*.
-Ĉar noblaj gazoj troviĝas jam en favora stato ili tre malofte aperas en molekuloj.
+Por atingi tion atomoj ligiĝas inter si laŭ tri bazaj manieroj: 
 
-...elektronegativeco, polaraj ligoj...
+1. metaloj donas troajn elektronojn al nemetaloj, formas jonajn ligojn;
+   ekzemplo estas ordinara salo uzata en la kuirejo ($$\ce{NaCl}$$)
+2. nemetaloj uzas kelkajn eksterajn elektronparojn komune en kovalentaj ligoj tiel formante molekulojn; ekzemplo 
+   estas akvo ($$\ce{H2O}$$) aŭ oksigno ($$\ce{O2}$$)
+3. metaloj formas kradon de pozitivaj jonoj inter kiuj elektroj povas libere moviĝi
+
+Ĉar noblaj gasoj troviĝas jam en favora stato ili tre malofte aperas en molekuloj.
+
+<!--...elektronegativeco...
+
+- Kreu apartajn paĝojn por ĉiu ligotipo! 
+
+- pol(ar/usec)aj ligoj...: klarigu en aparta paĝo pri kovalenta ligo... 
+
+- NaCl per jmol: http://lampx.tugraz.at/~hadley/ss1/crystalstructure/structures/nacl/nacl.php
+
+-->
+
 
 ## Ekzemploj
 
-Kiel ekzemploj ni povas rigardi gasajn molekulojn, kiuj troviĝas en la atmosfero:
+Kiel ekzemploj de molekuloj kun kovalentaj ligoj ni povas rigardi gasajn molekulojn, kiuj troviĝas en la atmosfero:
 
 - [nitrogeno](#N2){: #N2 onclick="glewis(event);"}
 - [oksigeno](#O2){: #O2 onclick="glewis(event);"}
@@ -148,7 +162,7 @@ simbolas valentan elektronon, kiu ne partoprenas en molekula ligo.
 
 <!-- iuj jonoj solvitaj en oceano vd. https://en.wikipedia.org/wiki/Ocean#Residence_times_of_chemical_elements_and_ions -->
 
-Jonoj solvitaj en marakvo estas i.a.:
+Jonoj, solvitaj en marakvo, estas i.a.:
 
 - [hidroksido](#OH){: #OH onclick="jlewis(event);"}
 - [kloro](#Cl){: #Cl onclick="jlewis(event);"}
