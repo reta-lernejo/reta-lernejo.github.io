@@ -3,6 +3,7 @@ layout: laborfolio
 title: Jonligoj
 js:
   - lewis-0b
+  - jsmol/JSmol.min  
 js-ext:
   - mathjax3
 ---
@@ -20,12 +21,12 @@ js-ext:
       svg.removeChild(cl);
 
       // nun transformu al jonoj kaj pli proksimigu
-      lewis.animacio("j_Naplus",-20,0,-15,0,1);
+      lewis.animacio("j_Naplus",-18,0,-15,0,1);
       lewis.animacio("j_Clminus",15,0,10,0,1);
     }
 
     // unue proksimigu atomojn
-    lewis.animacio("j_Na",-25,0,-20,0,7);
+    lewis.animacio("j_Na",-22,0,-18,0,7);
     lewis.animacio("j_Cl",20,0,15,0,7,_jonigo2);
 
 /*
@@ -92,6 +93,68 @@ js-ext:
     xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="240" viewBox="-30 -30 60 60">    
 </svg>
 
+
+
+<script type="text/javascript">
+//Jmol._isAsync = true;
+
+JsPath = '../assets/js/jsmol/';
+Files = {
+  NaCl: "NaCl.pdb", // el https://www.worldofmolecules.com/3D/why-does-salt-have-a-cubic-crystal-structure.html https://www.worldofmolecules.com/3D/salt.pdb
+  TiO2: "TiO2.cif" // el https://materialsproject.org/materials/mp-390/#
+};
+
+// vd. https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info
+var Info = {
+	width: 300,
+	height: 200,
+  color: "#AFEEEE",
+  //language: "eo",
+	debug: false,
+	use: "HTML5",   // JAVA HTML5 WEBGL are all options
+	j2sPath: JsPath + "j2s", // this needs to point to where the j2s directory is.
+	//jarPath: JsPath + "jsmol/java",// this needs to point to where the java directory is.
+	//jarFile: JsPath + "jsmol/java/JmolAppletSigned.jar",
+	// isSigned: true,
+	//src: "chymotrypsin.pdb",
+	//script: "set background white; wireframe 40; spacefill 120",
+	//serverURL: JsPath + "jmol.php",
+  serverURL: '',
+    //serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+    //defaultModel: ':caffeine',
+    
+    // https://wiki.jmol.org/index.php/File_formats/Coordinates
+    //https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info#Model_loading
+    //src: "inc/PAPS_CID_10214.sdf",
+	  readyFunction: jmol_isReady,
+	  disableJ2SLoadMonitor: true,
+    disableInitialConsole: true,
+    allowJavaScript: true
+}
+//var jmolApplets = {};
+var jmolApplet_NaCl;
+var jmolApplet_TiO2;
+
+function jmol_isReady(applet) {
+  Jmol.script(applet,'spacefill 80%');
+}
+
+$(document).ready(function() {
+  for (aa of Object.keys(Files)) {
+    const applet = Jmol.getAppletHtml("jmolApplet_"+aa, Object.assign(
+      {src:"inc/"+Files[aa]},Info));
+    if (applet) document.getElementById("jmol_"+aa).innerHTML = applet;
+  }
+ 
+
+//  Jmol._persistentMenu = true;
+  
+})
+</script>
+
+<div id="jmol_NaCl"></div>
+
+<div id="jmol_TiO2"></div>
 
 <!-- 
 
