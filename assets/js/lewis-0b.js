@@ -223,8 +223,30 @@ class Lewis {
      * @param sek tiom da sekundoj entute daŭru
      * @param kiam_finita fine vokita
     */
-    animacio(id,x1,y1,x2,y2,sek,kiam_finita) {
+    animacio(id,x1,y1,dx,dy,sek,kiam_finita) {
         const ns = _L.ns;
+        
+        const ani = document.createElementNS(ns,"animateMotion");
+        ani.setAttribute("dur",sek+"s");
+        ani.setAttribute("repeatCount",1);
+        ani.setAttribute("fill","freeze");
+        ani.setAttribute("path",`M0,0 L${dx},${dy}`);
+
+        let j = this.svg.querySelector(`use[href='#${id}']`);
+        if (!j) { // se ankoraŭ ne videbla, nun montru!
+            this.montru(id,x1,y1);
+            j = this.svg.querySelector(`use[href='#${id}']`);
+        }
+        j.append(ani);
+
+        //ani.onend = kiam_finita;
+        setTimeout(kiam_finita,sek*1000);
+
+        ani.beginElement();
+
+
+/*
+        //const ns = _L.ns;
         const ti = _L.ti;
         let j = this.svg.querySelector(`use[href='#${id}']`);
         if (!j) { // se ankoraŭ ne videbla, nun montru!
@@ -256,6 +278,6 @@ class Lewis {
                 kiam_finita(id);
             }
         }
-
+*/
     }
 }

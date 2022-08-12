@@ -3,31 +3,49 @@ layout: laborfolio
 title: Jonligoj
 js:
   - lewis-0b
+  - jmol-0a
   - jsmol/JSmol.min  
 js-ext:
   - mathjax3
 ---
 
+Atomoj strebas al la favora elektron-distribuo de nobelaj gazoj. Por atingi tion, metalaj atomoj povas fordoni troajn valentajn elektronojn, dum nemetalaj povas akcepti ilin por kompletigi sian okopon.
 
+Per tio la metala atomo ricevas pozitivan ŝargon, t.e. fariĝas pozitiva jono dum la nemetala fariĝas negativa jono. Per elektrostatika forto ili tiriĝas unu al alia, tiel formante *jonan ligon*. Do jona ligo baziĝas sur transigo de elektrono kaj elektrostatika altirforto.
+
+La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj atomo de kloro formantaj NaCl t.e. kuirsalon. 
 
 <script>
   let svg, lewis;  
 
+  function forigu(href) {
+    const el = svg.querySelector(`[href='#${href}']`);
+    if (el) svg.removeChild(el);
+  }
+
   function jonigo() {
     function _jonigo2() {
+      forigu("j_Na");
+      forigu("j_Cl");
+/*
       const na = svg.querySelector("[href='#j_Na']");    
       const cl = svg.querySelector("[href='#j_Cl']");    
       svg.removeChild(na);
       svg.removeChild(cl);
+      */
 
       // nun transformu al jonoj kaj pli proksimigu
-      lewis.animacio("j_Naplus",-18,0,-15,0,1);
-      lewis.animacio("j_Clminus",15,0,10,0,1);
+      lewis.animacio("j_Naplus",-16,0,3,0,1);
+      lewis.animacio("j_Clminus",16,0,-3,0,1);
     }
 
-    // unue proksimigu atomojn
-    lewis.animacio("j_Na",-22,0,-18,0,7);
-    lewis.animacio("j_Cl",20,0,15,0,7,_jonigo2);
+    // kaŝu jonojn el ebla anaŭa animacio
+    forigu("j_Naplus");
+    forigu("j_Clminus");
+
+    // proksimigu atomojn
+    lewis.animacio("j_Na",-20,0,4,0,7);
+    lewis.animacio("j_Cl",20,0,-4,0,7,_jonigo2);
 
 /*
     const na = svg.querySelector("[href='#j_Na']");    
@@ -52,7 +70,7 @@ js-ext:
     lewis.montru("j_Na",-20,0);
     lewis.montru("j_Cl",20,0);
 
-    jonigo();
+    //jonigo();
   }
 
 </script>
@@ -87,74 +105,31 @@ js-ext:
   }
 </style>
 
+<button onclick="jonigo();">Ek!</button>
 <svg id="jlewis"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="240" viewBox="-30 -30 60 60">    
 </svg>
 
+En la realo interagas ne nur du atomoj sed multaj samtempe kaj ĉar elektrostatikaj fortoj efikas inter ĉiuj pozitivaj kaj negativaj jonoj formiĝas *jona krado* kiel montrita en la malsupra bildo.
 
-
+<div id="jmol_NaCl">
 <script type="text/javascript">
-//Jmol._isAsync = true;
-
-JsPath = '../assets/js/jsmol/';
-Files = {
-  NaCl: "NaCl.pdb", // el https://www.worldofmolecules.com/3D/why-does-salt-have-a-cubic-crystal-structure.html https://www.worldofmolecules.com/3D/salt.pdb
-  TiO2: "TiO2.cif" // el https://materialsproject.org/materials/mp-390/#
-};
-
-// vd. https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info
-var Info = {
-	width: 300,
-	height: 200,
-  color: "#AFEEEE",
-  //language: "eo",
-	debug: false,
-	use: "HTML5",   // JAVA HTML5 WEBGL are all options
-	j2sPath: JsPath + "j2s", // this needs to point to where the j2s directory is.
-	//jarPath: JsPath + "jsmol/java",// this needs to point to where the java directory is.
-	//jarFile: JsPath + "jsmol/java/JmolAppletSigned.jar",
-	// isSigned: true,
-	//src: "chymotrypsin.pdb",
-	//script: "set background white; wireframe 40; spacefill 120",
-	//serverURL: JsPath + "jmol.php",
-  serverURL: '',
-    //serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-    //defaultModel: ':caffeine',
-    
-    // https://wiki.jmol.org/index.php/File_formats/Coordinates
-    //https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info#Model_loading
-    //src: "inc/PAPS_CID_10214.sdf",
-	  readyFunction: jmol_isReady,
-	  disableJ2SLoadMonitor: true,
-    disableInitialConsole: true,
-    allowJavaScript: true
-}
-//var jmolApplets = {};
-var jmolApplet_NaCl;
-var jmolApplet_TiO2;
-
-function jmol_isReady(applet) {
-  Jmol.script(applet,'spacefill 80%');
-}
-
-$(document).ready(function() {
-  for (aa of Object.keys(Files)) {
-    const applet = Jmol.getAppletHtml("jmolApplet_"+aa, Object.assign(
-      {src:"inc/"+Files[aa]},Info));
-    if (applet) document.getElementById("jmol_"+aa).innerHTML = applet;
-  }
- 
-
-//  Jmol._persistentMenu = true;
-  
-})
+  Jmol._isAsync = true;
+  jmol_kesto("jmol_NaCl",
+    "inc/NaCl.pdb",
+    300,200,
+    (app) => { Jmol.script(app,
+      'set antialiasDisplay ON; spacefill 80%;'
+    )}
+  );
 </script>
+</div>
 
-<div id="jmol_NaCl"></div>
 
-<div id="jmol_TiO2"></div>
+Jonaj ligoj cetere povas formiĝi ne nur inter atomoj, sed ankaŭ inter molekuloj.
+
 
 <!-- 
 
