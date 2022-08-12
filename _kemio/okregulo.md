@@ -177,3 +177,16 @@ https://chemistry.stackexchange.com/questions/66033/in-the-carbonate-anion-which
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="240" viewBox="-30 -30 60 60">    
 </svg>
+
+
+<!-- https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/01review/review2.htm 
+
+# jona lewis desegno... MgO
+https://cnx.org/resources/3d947fe1453d06102e824653195aae5c/CG11C1_020.png
+# NaCl
+https://4.bp.blogspot.com/-jaAOIZ97HYM/VwUGn4KaVpI/AAAAAAAAArc/KUildrS-VB0-Hse5_6j_tGe8t6REfbsQg/s1600/772263_orig.jpeg
+# MgCl2
+https://www.nextgurukul.in/media/images/q2aanswers/1554099/Magnesium-Chloride-Formation_1401944529549.gif
+# NH4NO3
+http://ammoniumnitrate.weebly.com/uploads/9/8/2/0/9820288/500629623.png?371
+-->
