@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Aminacidoj
 js:
+  - jmol-0a
   - jsmol/JSmol.min
 js-ext:
   - mathjax3  
@@ -35,46 +36,28 @@ Files = {
   valino: "valino_CID_6287.sdf"
 };
 
-// vd. https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info
-var Info = {
-	width: 300,
-	height: 200,
-  color: "#AFEEEE",
-  //language: "eo",
-	debug: false,
-	use: "HTML5",   // JAVA HTML5 WEBGL are all options
-	j2sPath: JsPath + "j2s", // this needs to point to where the j2s directory is.
-	//jarPath: JsPath + "jsmol/java",// this needs to point to where the java directory is.
-	//jarFile: JsPath + "jsmol/java/JmolAppletSigned.jar",
-	// isSigned: true,
-	//src: "chymotrypsin.pdb",
-	//script: "set background white; wireframe 40; spacefill 120",
-	//serverURL: JsPath + "jmol.php",
-  serverURL: '',
-    //serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-    //defaultModel: ':caffeine',
-    
-    // https://wiki.jmol.org/index.php/File_formats/Coordinates
-    //https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info#Model_loading
-    //src: "inc/PAPS_CID_10214.sdf",
-	  //readyFunction: jmol_isReady,
-	  disableJ2SLoadMonitor: true,
-    disableInitialConsole: true,
-    allowJavaScript: true
-}
-//var jmolApplets = {};
-var jmolApplet_kondenso;
 
 $(document).ready(function() {
-  /*
-  for (aa of Object.keys(Files)) {
-    const applet = Jmol.getAppletHtml("jmolApplet_"+aa, Object.assign(
-      {src:"inc/"+Files[aa]},Info));
-    if (applet) document.getElementById("jmol_"+aa).innerHTML = applet;
-  }
-  */
-  
 
+  for (aa of Object.keys(Files)) {
+    const jhtml = jmol_html("jmolApplet_"+aa,
+      "inc/"+Files[aa],
+      300,200,
+      (app) => { Jmol.script(app,
+        'set antialiasDisplay ON'
+      )}
+    );
+
+    if (jhtml) document.getElementById("jmol_"+aa).innerHTML = jhtml;
+  }
+
+/*
+    https://chemapps.stolaf.edu/jmol/docs/?ver=14.32#atomexpressions
+    $ select 1.0 // ĉiuj atomoj de unua dosiero...
+    $ select _H,_O
+    $ translateSelected X -140.0
+    */
+/*
   // montro de kondensreago
   const apl2 = Jmol.getAppletHtml("jmolApplet_kondenso", Object.assign(
       {width: 1000, height: 600},Info));
@@ -85,15 +68,9 @@ $(document).ready(function() {
     + 'model all; select 1.1; translateSelected X -80; select 2.1; translateSelected X 80');
 
   Jmol._persistentMenu = true;
+*/
+});
 
-    /*
-    https://chemapps.stolaf.edu/jmol/docs/?ver=14.32#atomexpressions
-    $ select 1.0 // ĉiuj atomoj de unua dosiero...
-    $ select _H,_O
-    $ translateSelected X -140.0
-    */
-  
-})
 </script>
 
 Aminacidoj estas estas la bazaj konstrueroj de la [proteinoj](proteino). Dudek du el ili estas rekte koditaj per la genetika kodo, sed du el tiuj estas enkorpigitaj nur per aparta tradukmaniero. La dudek normalajn oni nomas *kanonaj proteinogenoj* (proteinkreaj).
@@ -197,5 +174,8 @@ https://en.wikipedia.org/wiki/Proteinogenic_amino_acid
 
 <div id="jmol_kondenso"></div>
 <!-- https://chemapps.stolaf.edu/jmol/docs/ -->
+
+<!--
 <button onclick="Jmol.script(jmolApplet_kondenso,'console');">komandilo</button>
 <button onclick="Jmol.script(jmolApplet_kondenso,'menu');">menuo</button>
+-->
