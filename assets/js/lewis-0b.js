@@ -172,7 +172,18 @@ class Lewis {
      */ 
 
     simbolo(id,smb,n_e,shargo) {
-        const ns = _L.ns;
+        const dstrb = [
+            [0,0,0,0],
+            [1,0,0,0],
+            [1,0,1,0],
+            [1,1,1,0],
+            [1,1,1,1],
+            [2,1,1,1],
+            [2,2,1,1],
+            [2,2,2,1],
+            [2,2,2,2]
+        ];
+        const ns = _L.ns;        
         const sym = document.createElementNS(ns,"g");
         sym.id = id;
 
@@ -180,16 +191,14 @@ class Lewis {
         sym.append(this._t(smb));
 
         // desegnu elektronojn ĉirkaŭe
-        let a = 0, e = n_e;
-        while (e>0) {
-            if (e>=2) {
+        let a = 0;
+        for (const e of dstrb[n_e]) {            
+            if (e==2) {
                 sym.append(this._e(-1,a),this._e(1,a));
-                e -= 2;
-                a += 90;
-            } else if (e>=1) {
+            } else if (e==1) {
                 sym.append(this._e(0,a));
-                e -= 1;
             }
+            a += 90;
         }
 
         // evtl. desegnu [..] kaj ŝargon apude
