@@ -106,7 +106,7 @@ class Lewis {
     molekulo(spec) {
         const ns = _L.ns;
 
-        for (atom of spec) {
+        for (const atom of spec) {
             // skribu elementnomon centre
             const g = document.createElementNS(ns,"g");
             g.append(this._t(atom[0]));
@@ -117,7 +117,7 @@ class Lewis {
             // valentstrekojn, sed tiuj estas notitaj ĉe la flankaj atomoj
             // de molekulo
             // Atentu, ke tiel ni momente ne subtenas kompleksajn molekulojn!
-            let Ax=0, Ay=0; dA = _l.dA;
+            let Ax = 0, Ay = 0, dA = _L.dA;
 
             // desegnu elektronojn / ligojn ĉirkaŭe
             if (atom.length>1) {

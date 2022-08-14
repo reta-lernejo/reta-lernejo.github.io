@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: La regulo de la ok
+title: La okopa regulo
 js:
   - lewis-0a
 js-ext:
@@ -17,7 +17,7 @@ la numero de la grupo (1 ĝis 8).
 Ĉe la transirmetaloj en la malĉefaj grupoj aldoniĝas la elektronoj de la
 d-orbitalo de la antaŭa ŝelo al la valento. 
 
-# La regulo de la ok
+# La okopa regulo
 
 La atomoj strebas al elektrondistribuo de noblaj gasoj kun plenaj eksteraj orbitaloj, kio
 estas energie favora stato. Ĉe hidrogeno tio estas du elektronoj ĉe aliaj elementoj ok. 
