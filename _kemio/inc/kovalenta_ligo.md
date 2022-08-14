@@ -26,11 +26,11 @@ La kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per dupunkto.
   let svg, lewis;  
 
   const gasoj = {
-    N2: [["N","0#4:"],["N","0:"]],
-    O2: [["O","0=3:5:"],["O","1:7:"]],
-    H2O:[["O","5:7:"],["H","7-"],["H","5-"]],
-    CO2:[["C",""],["O","0="],["O","4="]],
-    CH4:[["C",""],["H","1-"],["H","3-"],["H","5-"],["H","7-"]],
+    N2: [["N",">;:"],["N","<;:"]],
+    O2: [["O",">:::"],["O","<:::"]],
+    H2O:[["O",">..::"],["H","<."],["H","^.",1,90]],
+    CO2:[["O",">:::",-1],["C","<::"],["O","<:::"]],
+    CH4:[["H",">.",-1],["C","<...."],["H","<."],["H","v.",1,270],["H","^.",1,90]],
   }
 
   function glewis(event) {
@@ -48,8 +48,8 @@ La kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per dupunkto.
     lewis = new Lewis(svg);
 
     lewis.molekulo([
-      ["H","0-"],
-      ["H",""],
+      ["H",">."],
+      ["H","<.",1],
     ]);
   }
 
@@ -62,6 +62,22 @@ La kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per dupunkto.
     background-color: lightblue;
   }
   */
+
+  g.H * {
+    fill: gray;
+  }
+
+  g.O * {
+    fill: red;
+  }
+
+  g.N * {
+    fill: blue;
+  }
+
+  g.C * {
+    fill: black;
+  }
 
   text {
       font-family: helvetica, sans-serif;

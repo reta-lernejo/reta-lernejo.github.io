@@ -6,6 +6,7 @@ const _L = {
     re: .5, // radiuso de elektrono(punkto)
     lv: 5, // longeco de valentstreko
     dA: 19, // distanco inter atomoj
+    dM: 16, // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur puhktoj aŭ valentstrekojn!)
     ti: 200 // tempintervalo por animacio
 }
 
@@ -102,60 +103,74 @@ class Lewis {
     
     /**
      * desegni atomojn kaj molekulojn en elektronstruktura formulo laŭ Lewis kiel SVG-desegno
+     * 
+     * @param spec listo de atomoj donita kiel 4-opoj [simbolo^ŝargo,elektronoj,ŝovo,ŝovangulo]
+     * elementoj de la kvaropoj krom la unua estas forlaseblaj, la unua signo en elektronoj
+     * donas la flankon, kie komenci desegnadon en horloĝa direkto la elektronojn (>,<,^,v)
+     * eblaj valoroj estas .:; -=# (ĉu subteni ankaŭ kojnojn per vV?), valentstrekojn
+     * ni desgnas nur ĉe unu kaj en la alia donas spacsignon anstataŭe.
+     * 
+     * Ŝovoj estas aŭtomataj laŭ numero en la listo je unu loko, sed por nelinie
+     * skribitaj molekuloj povas esti donitaj per nombro de atomlokoj kaj angulo.
+     * Anguloj por ŝovi atomon ene de la molekulo estas tiel, ke 1,0 = dekstren je unu loko,
+     * 2,30 = du lokojn en direkto 30°.
+     * 
+     * Ekz-e por O2 ni donus ["O",">:::"], ["O","<:::",1] aŭ per valentstrekoj
+     * ["O",">=::"], ["O","< ::",1]
      */
     molekulo(spec) {
         const ns = _L.ns;
+        const dM = _L.dM;
+        let poz = -1;
 
         for (const atom of spec) {
+
+            const smb = atom[0];
+            const eltrj = atom[1];
+            const ŝovo = atom[2] || poz+1; 
+            poz = ŝovo; // se ŝovo ne estas donita ni ŝovas je unu pozicio de la lasta
+            const aŝov = atom[3] || 0;
+
             // skribu elementnomon centre
             const g = document.createElementNS(ns,"g");
+            g.setAttribute("class",atom[0].split('^'));
             g.append(this._t(atom[0]));
 
-            // se aperas valentstreko ni forŝovas la atomon
-            // en la kontraŭa direkto de la centro
-            // ni do antaŭsupozas, ke la centra atomo ne havas
-            // valentstrekojn, sed tiuj estas notitaj ĉe la flankaj atomoj
-            // de molekulo
-            // Atentu, ke tiel ni momente ne subtenas kompleksajn molekulojn!
-            let Ax = 0, Ay = 0, dA = _L.dA;
-
             // desegnu elektronojn / ligojn ĉirkaŭe
-            if (atom.length>1) {
-                const s1 = atom[1];
-                let i = 0;
-                while (i < s1.length) {
-                    // KOREKTU: ni uzu angulojn 30, 150, ktp. por oblikvaj lokoj (komparu chemfig)
-                    const a = parseInt(s1[i]) * 45; //* s1[i] % 2;
-                    const phi = (180+a)/180 * Math.PI;
+            if (eltrj) {
+                let a = {">": 0, "<": 180, "^": 270, "v": 90}[eltrj[0]];
+                const da = 360 / (eltrj.length-1);
+
+                for (const e of eltrj.slice(1)) {
         
-                    switch (s1[i+1]) {
+                    switch (e) {
                         case ".":
                             g.append(this._e(0,a));
                             break;
                         case ":":
                             g.append(this._e(-1,a),this._e(1,a));
                             break;
-                        case "-":
+                        case ";":
+                            g.append(this._e(-2,a),this._e(0,a),this._e(2,a));
+                            break;
+                            case "-":
                             g.append(this._l(0,a));
-                            Ax = dA * Math.cos(phi);
-                            Ay = dA * Math.sin(phi);
                             break;
                         case "=":
                             g.append(this._l(-1,a),this._l(1,a));
-                            Ax = dA * Math.cos(phi);
-                            Ay = dA * Math.sin(phi);
                             break;
                         case "#":
                             g.append(this._l(-2,a),this._l(0,a),this._l(2,a));
-                            Ax = dA * Math.cos(phi);
-                            Ay = dA * Math.sin(phi);
-                    } // ...switch
-                    i += 2;
-        
-                } // ...while
+                    } // ...switch  
+                    
+                    a += da;
+                } // ...for
             } // ...if
 
-            if (Ax || Ay) {
+            if (ŝovo) {
+                const phi = (aŝov)/180 * Math.PI;
+                const Ax = ŝovo * dM * Math.cos(phi);
+                const Ay = ŝovo * dM * Math.sin(phi);
                 g.setAttribute("transform",`translate(${Ax} ${Ay})`);
             }
             
