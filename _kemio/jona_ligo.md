@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: Jonligoj
+title: Jonaj ligoj
 js:
   - lewis-0b
   - jmol-0a
@@ -82,6 +82,16 @@ La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj ato
     background-color: lightblue;
   }
   */
+
+  /* koloroj vd. http://jmol.sourceforge.net/jscolors/#color_Na ... */
+
+  g.Na text, g.Na circle {
+    fill: #AB5CF2;
+  }
+
+  g.Cl text, g.Cl circle {
+    fill: #1FF01F;
+  }
 
   text {
       font-family: helvetica, sans-serif;

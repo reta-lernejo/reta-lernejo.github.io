@@ -19,7 +19,7 @@ Kiel ekzemploj ni povas rigardi kelkajn molekulojn troviĝantaj en nia atmosfero
 - [karbondioksido](#CO2){: #CO2 onclick="glewis(event);"}
 - [metano](#CH4){: #CH4 onclick="glewis(event);"}
 
-La kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per dupunkto.
+Noto: la kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per du punktoj.
 
 <script>
 
@@ -63,20 +63,22 @@ La kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per dupunkto.
   }
   */
 
+  /* koloroj vd. http://jmol.sourceforge.net/jscolors/#color_H ... */
+
   g.H * {
-    fill: gray;
+    fill: #777777;
   }
 
   g.O * {
-    fill: red;
+    fill: #FF0D0D;
   }
 
   g.N * {
-    fill: blue;
+    fill: #3050F8;
   }
 
   g.C * {
-    fill: black;
+    fill: #222222;
   }
 
   text {

@@ -201,6 +201,7 @@ class Lewis {
         const ns = _L.ns;        
         const sym = document.createElementNS(ns,"g");
         sym.id = id;
+        sym.setAttribute("class",smb.split('^'));
 
         // desegnu simbolon, evtl. kun ŝargo skribita post ^
         sym.append(this._t(smb));
