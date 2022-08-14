@@ -61,8 +61,44 @@ en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo 
 La notmaniero laŭ *Pauling* montras la distribuon de la elektronoj en la orbitalojn. La subŝeloj en 
 tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon ol la malsupraj.
 
+<style>
+
+    div.titolo {
+        font-weight: bold;
+    }
+
+    div.subŝelo {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    div.kaŝita {
+        display: none;
+    }
+
+    div.subŝelo>:first-child {
+        width: 2em; display: inline-block;
+    }
+
+    div.orbitaloj {
+        display: flex;
+        justify-content: center;
+        flex-grow: 2;        
+    }
+
+    span.orbital {
+        display: inline-block; 
+        width: 1.2em; 
+        text-align: center; 
+        border: 1px solid black; 
+        margin: 2px; 
+        padding: 0 .4em 3px;
+    }
+</style>
+
 <div id="pauling_inf" style="font-weight: bold;"></div>
-<div id="pauling"></div>
+<div id="pauling">    
+</div>
 
 <script>
     function aktualigo_info() {
@@ -101,6 +137,13 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
         const orbitaloj = ldiv.querySelectorAll('.orbital');
         let n_orb = orbitaloj.length;
 
+        // kaŝu malplenajn subŝelojn...
+        if (n_ele) {
+            ldiv.classList.remove("kaŝita");
+        } else {
+            ldiv.classList.add("kaŝita");
+        }
+
         for (let orb of orbitaloj) {
             // dum restas pli da elektronoj ol orbitaloj en la
             // aktuala subŝelo, ni disdonas po du
@@ -134,6 +177,7 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
             // ni havas 2*l+1 orbitaloj po suŝelo (m: -l..-l)
             let n_orbitaloj = 2 * l + 1;
             const subs = subŝeloj[l];
+
             ele_rest = distr_ss(+n+subs,ele_rest);
 
             // iru al sekva subŝelo
@@ -171,29 +215,40 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
         // supre de la aliaj
         const ldiv = document.createElement("div");
         ldiv.setAttribute("id","p_" + n + subs);
+        ldiv.classList.add("subŝelo");
         // montru strekon super 1s kaj p-orbitaloj pro nobelgasaj distribuoj
         if (subs == 'p' || n==1 && subs == 's') {
             ldiv.setAttribute("style","border-top: 2px solid black;");
         }
-        const ll = document.createElement("span");
+        const ll = document.createElement("div");
         ll.textContent = +n + subs;
-        let style = "width: 2em; display: inline-block;";        
-        ll.setAttribute("style","width: 2em; display: inline-block");
+        //let style = "width: 2em; display: inline-block;";        
+        //ll.setAttribute("style","width: 2em; display: inline-block");
         ldiv.append(ll);
+
+        const odiv = document.createElement("div");
+        odiv.classList.add("orbitaloj");
 
         // por ĉiu orbitalo sur tiu subŝelo ni alonas kesteton
         for (let o=0; o<n_orbitaloj; o++) {
             const osp = document.createElement("span");
             osp.textContent = '..';
             osp.classList.add('orbital');
-            osp.setAttribute("style","display: inline-block; width: 1.2em; text-align: center; border: 1px solid black; margin: 2px; padding: 0 .4em 3px;");
-            ldiv.append(osp);
+            //osp.setAttribute("style","display: inline-block; width: 1.2em; text-align: center; border: 1px solid black; margin: 2px; padding: 0 .4em 3px;");
+            odiv.append(osp);
         }
+        ldiv.append(odiv);
         pauling.prepend(ldiv);     
 
         // iru al sekva subŝelo
         result = ss.next();
     }
+
+    // aldonu titol-linion
+    const tit = document.createElement("div");
+    tit.innerHTML = '<div>n/l</div><div class="orbitaloj"><span>m</span></div>';
+    tit.classList.add("subŝelo","titolo");
+    pauling.prepend(tit);
 
     aktualigo();
 
