@@ -4,8 +4,9 @@ const _L = {
     de: 7, // distanco de elektronoj de atommezo
     dk: 10,// distanco de jonkrampoj
     re: .5, // radiuso de elektrono(punkto)
-    lv: 5, // longeco de valentstreko
-    dA: 19, // distanco inter atomoj
+    dv: 6, // distanco de valentstreko
+    lv: 4, // longeco de valentstreko
+    // dJ: 19, // distanco inter jonoj
     dM: 16, // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur puhktoj aŭ valentstrekojn!)
     ti: 200 // tempintervalo por animacio
 }
@@ -57,8 +58,8 @@ class Lewis {
      */ 
     _l(dy,a) {
         const p = document.createElementNS(_L.ns,"line");
-        p.setAttribute("x1",_L.de);
-        p.setAttribute("x2",_L.de+_L.lv);
+        p.setAttribute("x1",_L.dv);
+        p.setAttribute("x2",_L.dv+_L.lv);
         if (dy) {
             p.setAttribute("y1",dy);
             p.setAttribute("y2",dy)
@@ -161,6 +162,9 @@ class Lewis {
                             break;
                         case "#":
                             g.append(this._l(-2,a),this._l(0,a),this._l(2,a));
+                            break;
+                        case " ":
+                            break;
                     } // ...switch  
                     
                     a += da;

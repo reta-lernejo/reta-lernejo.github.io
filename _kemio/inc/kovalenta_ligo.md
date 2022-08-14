@@ -19,11 +19,12 @@ Kiel ekzemploj ni povas rigardi kelkajn molekulojn troviĝantaj en nia atmosfero
 - [karbondioksido](#CO2){: #CO2 onclick="glewis(event);"}
 - [metano](#CH4){: #CH4 onclick="glewis(event);"}
 
-Noto: la kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per du punktoj.
+Noto: la kovalentajn parojn oni kutimes desegnas [kiel streko](#streko){: #streko onclick="streko(event);"}
+anstataŭ per du punktoj.
 
 <script>
 
-  let svg, lewis;  
+  let svg, lewis, frm = "H2";  
 
   const gasoj = {
     N2: [["N",">;:"],["N","<;:"]],
@@ -33,14 +34,31 @@ Noto: la kovalentajn parojn oni kutimes desegnas kiel streko anstataŭ per du pu
     CH4:[["H",">.",-1],["C","<...."],["H","<."],["H","v.",1,270],["H","^.",1,90]],
   }
 
+  const gasoj2 = {
+    H2: [["H",">-"],["H"]],
+    N2: [["N",">#:"],["N","< :"]],
+    O2: [["O",">=::"],["O","< ::"]],
+    H2O:[["O",">--::"],["H"],["H","",1,90]],
+    CO2:[["O",">=::",-1],["C"],["O","<=::"]],
+    CH4:[["H","",-1],["C","<----"],["H"],["H","",1,270],["H","",1,90]],
+  }
+
   function glewis(event) {
     event.preventDefault();
-    const frm = event.target.id;
+    frm = event.target.id;
 
     // malplenigu
     svg.textContent = "";
     // desegnu Lewis-strukturon
     lewis.molekulo(gasoj[frm]);
+  }
+
+  function streko(event) {
+    event.preventDefault();
+    // malplenigu
+    svg.textContent = "";
+    // desegnu Lewis-strukturon
+    lewis.molekulo(gasoj2[frm]);
   }
 
   window.onload = () => {
