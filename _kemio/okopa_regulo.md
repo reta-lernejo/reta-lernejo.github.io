@@ -25,11 +25,11 @@ Tial oni nomas ĝin la regulo de la ok.
 
 Por atingi tion atomoj ligiĝas inter si laŭ tri bazaj manieroj: 
 
-1. metaloj donas troajn elektronojn al nemetaloj, formas jonajn ligojn;
+1. metaloj donas troajn elektronojn al nemetaloj, formas [jonajn ligojn](jona_ligo);
    ekzemplo estas ordinara salo uzata en la kuirejo ($$\ce{NaCl}$$)
-2. nemetaloj uzas kelkajn eksterajn elektronparojn komune en kovalentaj ligoj tiel formante molekulojn; ekzemplo 
+2. nemetaloj uzas kelkajn eksterajn elektronparojn komune en [kovalentaj ligoj](kovalenta_ligo) tiel formante molekulojn; ekzemplo 
    estas akvo ($$\ce{H2O}$$) aŭ oksigno ($$\ce{O2}$$)
-3. metaloj formas kradon de pozitivaj jonoj inter kiuj elektroj povas libere moviĝi
+3. metaloj formas kradon de pozitivaj jonoj inter kiuj elektroj povas libere moviĝi, kion oni nomas [metala ligado](metala_ligo)
 
 Ĉar noblaj gasoj troviĝas jam en favora stato ili tre malofte aperas en molekuloj.
 
@@ -43,6 +43,7 @@ Por atingi tion atomoj ligiĝas inter si laŭ tri bazaj manieroj:
 
 -->
 
+<!--
 
 ## Ekzemploj
 
@@ -57,11 +58,14 @@ Kiel ekzemploj de molekuloj kun kovalentaj ligoj ni povas rigardi gasajn molekul
 - [heliumo](#He){: #He onclick="glewis(event);"}
 - [metano](#CH4){: #CH4 onclick="glewis(event);"}
 - [kriptono](#Kr){: #Kr onclick="glewis(event);"}
+
+
+-->
 <!--
 Ekzemploj de molekuloj formantaj (kun)valentajn ligojn estas hidrogeno kun (kun)valenta elektronparo,
 oksigeno kun du (kun)valentaj paroj kaj nitrogeno kun tri (kun)valentaj paroj:
 -->
-
+<!--
 <script>
 
   const gasoj = {
@@ -159,9 +163,11 @@ oksigeno kun du (kun)valentaj paroj kaj nitrogeno kun tri (kun)valentaj paroj:
 
 En la formuloj streko simbolas (kun)valentan elektronparon, dum punkto 
 simbolas valentan elektronon, kiu ne partoprenas en molekula ligo.
+-->
 
 <!-- iuj jonoj solvitaj en oceano vd. https://en.wikipedia.org/wiki/Ocean#Residence_times_of_chemical_elements_and_ions -->
 
+<!--
 Jonoj, solvitaj en marakvo, estas i.a.:
 
 - [hidroksido](#OH){: #OH onclick="jlewis(event);"}
@@ -172,7 +178,7 @@ Jonoj, solvitaj en marakvo, estas i.a.:
 - [sulfato](#SO4){: #SO4 onclick="jlewis(event);"}
 - [kalcio](#Ca){: #Ca onclick="jlewis(event);"}
 - [karbonato](#CO3){: #CO3 onclick="jlewis(event);"}
-
+-->
 <!--
 // H+, OH-:
 - [akvo](#H2O){: #H2O onclick="jlewis(event);"}
@@ -185,13 +191,13 @@ https://chemistry.stackexchange.com/questions/66033/in-the-carbonate-anion-which
 // - [aluminio](#Al){: #Al onclick="glewis(event);"}
 // - [fero](#Fe){: #Fe onclick="glewis(event);"}
 -->
-
+<!--
 <svg id="jlewis"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="240" viewBox="-30 -30 60 60">    
 </svg>
-
+-->
 
 <!-- https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/01review/review2.htm 
 
