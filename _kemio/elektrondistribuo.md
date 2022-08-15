@@ -47,7 +47,19 @@ du en sama loko ne povas havi saman kvantuman staton kaj tiel klariĝas la distr
 en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo de elementoj.
 </details>
 
+<!-- 
+    #orbitaloj H2O 
+    http://www.bcbp.gu.se/~orjan/qc/h2o/ 
+    http://www.bcbp.gu.se/~orjan/qc/h2o/H2O_14_models_a_SV.xyz
 
+    # CO2
+    https://www.staff.ncl.ac.uk/bruce.tattershall/jmolapps/orbitalmethods.html
+    https://www.staff.ncl.ac.uk/bruce.tattershall/teaching/chy135/co2mo/co2.40
+
+    # aliaj 
+    http://www.bcbp.gu.se/~orjan/molorb/lessons.html
+    http://www.bcbp.gu.se/~orjan/molorb/intro/aos.jms
+-->
 
 <details style="border-top: 1px dotted black">
   <summary markdown="span">

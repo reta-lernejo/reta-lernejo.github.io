@@ -151,4 +151,8 @@ https://4.bp.blogspot.com/-jaAOIZ97HYM/VwUGn4KaVpI/AAAAAAAAArc/KUildrS-VB0-Hse5_
 https://www.nextgurukul.in/media/images/q2aanswers/1554099/Magnesium-Chloride-Formation_1401944529549.gif
 # NH4NO3
 http://ammoniumnitrate.weebly.com/uploads/9/8/2/0/9820288/500629623.png?371
+
+
+# pri jona kaj kovalenta ligo, orbitaloj ktp.
+https://chemistry.mcmaster.ca/esam/Chapter_7/intro.html
 -->
