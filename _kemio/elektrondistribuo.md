@@ -1,9 +1,16 @@
 ---
 layout: laborfolio
 title: Distribuo de elektronoj en orbitaloj
-js: kemio-0a
+js:
+  - sekcio-0b 
+  - kemio-0a
 ---
 
+<script>
+window.onload = () => {
+  Sekcio.aranĝo();
+}
+</script>
 
 La *atomoj* konsistas el kerno de *protonoj* kaj *neŭtronoj* kaj la *elektronoj* kiuj distribuiĝas ĉirkau la kerno.
 Neŭtrala atomo havas sammulte da elektronoj kaj protonoj.
@@ -14,10 +21,9 @@ http://movb.de/jekyll-details-support.html -->
 
 {::options parse_block_html="true" /}
 
-<details style="border-top: 1px dotted black">
-  <summary markdown="span">
-  La orbitaloj
-</summary>
+
+##  La orbitaloj
+{: .sekcio}
 
 
 La elektronoj distribuiĝas laŭ sia energinivelo en *orbitalojn*. Ĉiu orbitalo
@@ -25,7 +31,7 @@ povas esti identigita per tri nombroj *n*, *l* kaj *m* kun la sekvaj ecoj:
 
 ### precipa kvantumnombro *n*
 
-Ĝi indikas la *ŝelon* kaj estas natura nombro 1, 2, 3 ktp. Foje oni indikas ĝin ankaŭ per majusklo: K, L, M ktp.
+Ĝi indikas la *ŝelon* kaj estas natura nombro 1, 2, 3 ktp. (Foje oni indikas ĝin ankaŭ per majusklo: K, L, M ktp.)
 
 ### kroma kvantumnombro *l*
 
@@ -44,16 +50,24 @@ respektive *supren* aŭ *malsupren*.
 
 Ĉar elektronoj estas fermionoj, ili obeas al la ekskluda principo de *Pauli*, do
 du en sama loko ne povas havi saman kvantuman staton kaj tiel klariĝas la distribuo de elektronoj
-en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo de elementoj.
+en la orbitaloj de atomo. Kaj el tio estiĝas la konstruo de la perioda sistemo de elementoj (vidu  pli malsupre).
 
-<!--
-### ondofunkcio de orbitaloj
+## ondofunkcioj de orbitaloj
+{: .sekcio}
 
-La kvar nombroj estas parametroj de ondofunkcioj, kiuj priskribas la konduton de la elektronoj. Oni povas
-uzi analogion de tambura membrano por tiuj ĉi ondofunkcioj.
+Kie en la atomo troviĝas do la orbitaloj kun la elektronoj? Pli malpli "ĉie kaj nenie".
+La kvar supraj nombroj estas parametroj de ondofunkcioj, kiuj priskribas 
+la elektronojn kaj donas al ĉiu loko varian probablecon, ke elektrono troviĝas tie. 
+La ŝelo kaj subŝelo priskribas energinivelojn. Ju pli alta
+ĝi estas, des pli rapide averaĝe moviĝas elektrono kaj des pli verŝajne ĝi troviĝas 
+distance de la nukleo, t.e. la centro de la atomo.
+
+Oni povas uzi analogion de tambura membrano por tiuj ĉi ondofunkcioj.
 En tiu analogio la averaĝa distanco de la ripoza stato respondas al la verŝajneco, ke elektrono troviĝas
-tiom for de la centro.
+en tiu pozicio de la centro. La ventroj de staranta ondo membrana do respondas al la eksteraj formoj de la orbitaloj. 
 [^W1]
+
+
 
 <table>
 <tr>
@@ -105,9 +119,11 @@ tiom for de la centro.
 </td>
 </tr>
 </table>
--->
 
-</details>
+La membrano havas nur du dimensiojn (ĉar la tria donas la probablecon). Ĉe la atomoj aldoniĝas tria dimensio de spaco. Sed la tranĉbildoj de orbitalfunkcioj efektive tre similas al la ondbildoj de tambura membrano.
+
+Do oni povus imagi al si izolitan atomon kiel globforman tamburan membranon, kiu unufoje albatita en la centro, kie troviĝas la nukleo ne ĉesas soni. Koncedite, tio estas malfacile, sed eble pli bone ol neniu analogio.
+
 
 <!-- 
     #orbitaloj H2O 
@@ -123,10 +139,9 @@ tiom for de la centro.
     http://www.bcbp.gu.se/~orjan/molorb/intro/aos.jms
 -->
 
-<details style="border-top: 1px dotted black">
-  <summary markdown="span">
-  Notado laŭ <i>Pauling</i>
-</summary>
+
+##  Notado laŭ <i>Pauling</i>
+{: .sekcio}
 
 
 <label for="protonnombro">elemento:</label> <b><span id="element_info">8 - oksigeno (O)</span></b><br>
@@ -328,14 +343,10 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 
 </script>
 
-</details>
 
 
-
-<details style="border-top: 1px dotted black">
-  <summary markdown="span">
-  Rilato al la perioda sistemo de elementoj
-</summary>
+## Rilato al la perioda sistemo de elementoj
+{: .sekcio}
 
 
 Energie ekvilibra stato estas atingita se ĉefa energinivelo estas plenigita per ok elektronoj, do se
@@ -465,7 +476,6 @@ function perioda_sistemo() {
 perioda_sistemo();
 </script>
 
-</details>
 
 ### fontoj
 

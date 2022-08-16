@@ -19,12 +19,25 @@ https://en.wikipedia.org/wiki/Metallic_bonding
     let svg;
     const ns = "http://www.w3.org/2000/svg";
 
+    function movo(am) { // am: mezuro de arbitreco
+        const ani = document.createElementNS(ns,"animateMotion");
+        const dur = Math.floor(Math.random()*am/3);
+        ani.setAttribute("dur",dur+"s");
+        ani.setAttribute("repeatCount",50/dur);
+        let a=[];
+        for (i=0;i<12;i++) {
+            a[i] = (Math.random()-0.5) * am;
+        }
+        ani.setAttribute("path",`M0,0 C${a[0]},${a[1]} ${a[2]},${a[3]} ${a[4]},${a[5]} C${a[6]},${a[7]} ${a[8]},${a[9]} ${a[10]},${a[11]} z`);
+        return ani;
+    }
 
     function katjono(x,y) {
         const use = document.createElementNS(ns,"use");
         use.setAttribute("href","#katjono");
         use.setAttribute("x",x);
         use.setAttribute("y",y);
+        use.append(movo(3.5));
         svg.append(use);
     }
 
@@ -33,17 +46,7 @@ https://en.wikipedia.org/wiki/Metallic_bonding
         use.setAttribute("href","#elektrono");
         use.setAttribute("x",x);
         use.setAttribute("y",y);
-
-        const am = 50; // mezuro de arbitreco
-        const ani = document.createElementNS(ns,"animateMotion");
-        ani.setAttribute("dur",(Math.floor(Math.random()*am/3))+"s");
-        ani.setAttribute("repeatCount","10");
-        let a=[];
-        for (i=0;i<12;i++) {
-            a[i] = (Math.random()-0.5) * am;
-        }
-        ani.setAttribute("path",`M0,0 C${a[0]},${a[1]} ${a[2]},${a[3]} ${a[4]},${a[5]} C${a[6]},${a[7]} ${a[8]},${a[9]} ${a[10]},${a[11]} z`);
-        use.append(ani);
+        use.append(movo(50));
 
         svg.append(use);
     }
