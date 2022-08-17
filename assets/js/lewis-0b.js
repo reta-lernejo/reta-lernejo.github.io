@@ -127,10 +127,18 @@ class Lewis {
         for (const atom of spec) {
 
             const smb = atom[0];
-            const eltrj = atom[1];
+            let eltrj = atom[1];
             const ŝovo = atom[2] || poz+1; 
             poz = ŝovo; // se ŝovo ne estas donita ni ŝovas je unu pozicio de la lasta
             const aŝov = atom[3] || 0;
+
+            // evtl. lig-anguloj estas aparte donitaj
+            const espec = eltrj.split('['); 
+            let eang = [];
+            if(espec.length>1) {
+                eltrj = espec[0];
+                eang = espec[1].slice(0,-1).split(',');
+            }
 
             // skribu elementnomon centre
             const g = document.createElementNS(ns,"g");
@@ -138,8 +146,9 @@ class Lewis {
             g.append(this._t(atom[0]));
 
             // desegnu elektronojn / ligojn ĉirkaŭe
+            let ne = 0;
             if (eltrj) {
-                let a = {">": 0, "<": 180, "^": 270, "v": 90}[eltrj[0]];
+                let a = parseInt(eang[ne]) || {">": 0, "<": 180, "^": 270, "v": 90}[eltrj[0]];
                 const da = 360 / (eltrj.length-1);
 
                 for (const e of eltrj.slice(1)) {
@@ -167,7 +176,7 @@ class Lewis {
                             break;
                     } // ...switch  
                     
-                    a += da;
+                    a += parseInt(eang[++ne]) || da;
                 } // ...for
             } // ...if
 
