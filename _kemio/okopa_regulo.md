@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: La okopa regulo
+chapter: 2
 js:
   - lewis-0a
 js-ext:

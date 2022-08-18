@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Metala ligado
+chapter: 2.3
 js:
   - lewis-0b
   - jmol-0a

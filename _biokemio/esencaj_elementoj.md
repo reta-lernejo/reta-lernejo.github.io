@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: La ses elementoj esencaj por vivo
+chapter: 1
 js:
   - sekcio-0a
 ---

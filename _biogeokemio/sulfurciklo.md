@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Sulfurciklo
+chapter: 1.6
 js:
   - sekcio-0b
   - yedmap-0b

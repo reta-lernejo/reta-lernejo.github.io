@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Aminacidoj
+chapter: 2
 js:
   - jmol-0a
   - jsmol/JSmol.min

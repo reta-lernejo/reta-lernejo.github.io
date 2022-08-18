@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Jonaj ligoj
+chapter: 2.1
 js:
   - lewis-0b
   - jmol-0a

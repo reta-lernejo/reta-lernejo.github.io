@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Vitaminoj kaj derivitaj koenzimoj
+chapter: 3.2
 ---
 
 Ekzemploj de vitaminoj kaj ties koenzimoj:

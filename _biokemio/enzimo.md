@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Enzimoj
+chapter: 3.1
 ---
 
 Enzimoj katalizas ĥemiajn regaojn en vivaĵoj. Ili estas tre efikaj: la ĥemiaj reagoj en vivaĵoj okazas 
@@ -14,11 +15,13 @@ En la foresto de koenzimo, oni nomas enzimon ankaŭ apoenzimo; en la kunesto, do
 Koenzimoj ordinare estas [vitaminoj aŭ vitamin-derivaĵoj](vitamino).
 
 
-
+<!--
 
 
 Ekzemploj de gravaj enzimoj:
 
-## Citra-sintazo
+## Citrat-sintazo
 
 [angla priskribo](https://prosite.expasy.org/PDOC00422)
+
+-->

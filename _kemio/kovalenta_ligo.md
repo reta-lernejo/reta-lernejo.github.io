@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Kovalentaj ligoj
+chapter: 2.2
 js:
   - lewis-0b
   - jmol-0a

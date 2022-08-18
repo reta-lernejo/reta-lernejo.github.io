@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Distribuo de elektronoj en orbitaloj
+chapter: 1
 js:
   - sekcio-0b 
   - kemio-0a

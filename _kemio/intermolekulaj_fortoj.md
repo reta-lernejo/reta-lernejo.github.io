@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Intermolekulaj fortoj
+chapter: 2.5
 js:
   - sekcio-0b 
   - lewis-0b
