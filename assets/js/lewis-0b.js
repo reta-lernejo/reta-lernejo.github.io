@@ -2,10 +2,16 @@
 const _L = {
     ns: "http://www.w3.org/2000/svg",
     de: 7, // distanco de elektronoj de atommezo
-    dk: 10,// distanco de jonkrampoj
+    sy: 4, // dy de ŝargo relative al la elementsimbolo
+    dkr: 10,// distanco de jonkrampoj
     re: .5, // radiuso de elektrono(punkto)
     dv: 6, // distanco de valentstreko
     lv: 4, // longeco de valentstreko
+    dk: 4, // distanco de kojno
+    yk: 1, // duona larĝeco de kojno
+    lk: 5, // longeco de kojno
+    dh: 6, // distanco de hidrogenponto
+    lh: 10, // longeco de hidrogenponto
     // dJ: 19, // distanco inter jonoj
     dM: 16, // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur puhktoj aŭ valentstrekojn!)
     ti: 200 // tempintervalo por animacio
@@ -28,7 +34,7 @@ class Lewis {
         text.append(parts[0]);        
         if (parts.length>1) {
             const tspan = document.createElementNS(_L.ns,"tspan");
-            tspan.setAttribute("dy","-5");
+            tspan.setAttribute("dy",-_L.sy);
             tspan.setAttribute("class","sup");
             tspan.textContent = parts[1]
             text.append(tspan);
@@ -69,11 +75,42 @@ class Lewis {
     }
 
     /**
+     * helpfunkcio por desegni kojnon por ligo antaŭen/malantaŭen
+     * @param a  angulo ĉe kiu la linio aperu, 0 = dekstre, 270 = supre
+     * @param cls CSS-klaso por doni stilon
+     */ 
+     _k(a,cls) {
+        const p = document.createElementNS(_L.ns,"path");
+        p.setAttribute("d",`M${_L.dk},0 l${_L.lk},${-_L.yk} l0,${2*_L.yk} Z`);
+        if (cls) p.setAttribute("class",cls);
+        if (a) p.setAttribute("transform",`rotate(${a})`);   
+        return p;     
+    }
+
+    /**
+     * helpfunkcio por desegni linion por hidgrogenponto
+     * @param dy ŝovo supren aŭ malsupren de la origino (-1 / 1)
+     * @param a  angulo ĉe kiu la linio aperu, 0 = dekstre, 270 = supre
+     */ 
+     _h(dy,a) {
+        const p = document.createElementNS(_L.ns,"line");
+        p.setAttribute("x1",_L.dh);
+        p.setAttribute("x2",_L.dh+_L.lh);
+        p.setAttribute("class","hponto");
+        if (dy) {
+            p.setAttribute("y1",dy);
+            p.setAttribute("y2",dy)
+        }
+        if (a) p.setAttribute("transform",`rotate(${a})`);   
+        return p;     
+    }
+
+    /**
      * desegnu maldekstran krampon
      */
     _kl() {
         const pl = document.createElementNS(_L.ns,"polyline");
-        const dk = _L.dk;
+        const dk = _L.dkr;
         pl.setAttribute("points",`${-dk*.8},${-dk} ${-dk},${-dk} ${-dk},${dk} ${-dk*.8},${dk}`);
         pl.setAttribute("fill","none");
         return pl;
@@ -84,7 +121,7 @@ class Lewis {
      */
     _kr(shargo) {
         const pl = document.createElementNS(_L.ns,"polyline");
-        const dk = _L.dk;
+        const dk = _L.dkr;
         pl.setAttribute("points",`${dk*.7},${-dk} ${dk},${-dk} ${dk},${dk} ${dk*.7},${dk}`);
         pl.setAttribute("fill","none");
         return pl;
@@ -95,7 +132,7 @@ class Lewis {
      */
     _sh(shargo) {
         const text = document.createElementNS(_L.ns,"text");
-        const dk = _L.dk;
+        const dk = _L.dkr;
         text.textContent = shargo;
         text.setAttribute("x",dk*1.3);
         text.setAttribute("y",-dk*.9);
@@ -124,6 +161,8 @@ class Lewis {
         const dM = _L.dM;
         let poz = -1;
 
+        const mlk = document.createElementNS(ns,"g");
+
         for (const atom of spec) {
 
             const smb = atom[0];
@@ -133,7 +172,7 @@ class Lewis {
             const aŝov = atom[3] || 0;
 
             // evtl. lig-anguloj estas aparte donitaj
-            const espec = eltrj.split('['); 
+            const espec = eltrj? eltrj.split('[') : []; 
             let eang = [];
             if(espec.length>1) {
                 eltrj = espec[0];
@@ -142,8 +181,7 @@ class Lewis {
 
             // skribu elementnomon centre
             const g = document.createElementNS(ns,"g");
-            g.setAttribute("class",atom[0].split('^'));
-            g.append(this._t(atom[0]));
+            g.setAttribute("class",atom[0].split('^')[0]);
 
             // desegnu elektronojn / ligojn ĉirkaŭe
             let ne = 0;
@@ -163,7 +201,7 @@ class Lewis {
                         case ";":
                             g.append(this._e(-2,a),this._e(0,a),this._e(2,a));
                             break;
-                            case "-":
+                        case "-":
                             g.append(this._l(0,a));
                             break;
                         case "=":
@@ -171,6 +209,15 @@ class Lewis {
                             break;
                         case "#":
                             g.append(this._l(-2,a),this._l(0,a),this._l(2,a));
+                            break;
+                        case "K": // kojno antaŭen (plena)
+                            g.append(this._k(a,"kojno_plena"));
+                            break;
+                        case "k": // kojno antaŭen (streka)
+                            g.append(this._k(a,"kojno_streka"));
+                            break;
+                        case "h":
+                            g.append(this._h(0,a));
                             break;
                         case " ":
                             break;
@@ -180,6 +227,9 @@ class Lewis {
                 } // ...for
             } // ...if
 
+            // skribu la elementsimbolon centre
+            g.append(this._t(atom[0]));
+
             if (ŝovo) {
                 const phi = (aŝov)/180 * Math.PI;
                 const Ax = ŝovo * dM * Math.cos(phi);
@@ -187,8 +237,11 @@ class Lewis {
                 g.setAttribute("transform",`translate(${Ax} ${Ay})`);
             }
             
-            this.svg.append(g);
+            mlk.append(g);
         } // ...for
+
+        this.svg.append(mlk);
+        return mlk;
     }
 
     /**
