@@ -3,21 +3,13 @@ layout: laborfolio
 title: Intermolekulaj fortoj
 chapter: 2.5
 js:
+  - folio-0a
   - sekcio-0b 
-  - lewis-0b
+  - lewis-0c
   - jmol-0a
   - jsmol/JSmol.min
-js-ext:
-  - mathjax3
 ---
 
-
-<script>
-  window.onload = () => { 
-    Sekcio.aranĝo(); 
-    svg_fortoj();
-  }
-</script>
 
 ...agregataj statoj...
 
@@ -45,23 +37,59 @@ $$\ce{O−H \bond{~} :O}$$ (21 kJ/mol or 5.0 kcal/mol), illustrated water-water,
 $$\ce{N−H \bond{~} :N}$$ (13 kJ/mol or 3.1 kcal/mol), illustrated by ammonia-ammonia
 
 $$\ce{N−H \bond{~} :O}$$ (8 kJ/mol or 1.9 kcal/mol), illustrated water-amide
+
+
+https://pubs.acs.org/doi/10.1021/acsomega.0c04274
+Understanding the Hydrogen-Bonded Clusters of Ammonia (NH3)n (n = 3–6): Insights from the Electronic Structure Theory
+
+https://techiescientist.com/does-nh3-have-hydrogen-bonding/
+
 -->
 
+Ekzemploj:
+- [akvomoekuloj](#akvo){: #akvo onclick="ekzemplo(event);"}
+- [amoniakmolekuloj](#amoniako2){: #amoniako2 onclick="ekzemplo(event);"}
+- [inter akvo kaj amoniako](#amoniako){: #amoniako onclick="ekzemplo(event);"}
+
 <script>
-  function svg_fortoj() {
-    svg = document.getElementById("fortoj");
-    lewis = new Lewis(svg);
 
-    const H2O_1 = [["O^δ-",">--::[0,105,80,80]"],["H^δ+","< h"],["H^δ+","",1,105]];
-    const H2O_2 = [["O^δ-",">K-::[-30,100,110,85]"],["H^δ+","",1,105-37],["H^δ+","",1,-30]];
+  const H2O_1 = [["O^δ-","3-A-a:a:"],["H^δ+","3~"],["H^δ+","",1,90+105]];
+  const H2O_2 = [["O^δ-","2<A-9:y:"],["H^δ+","",1,90+105-37],["H^δ+","",1,60]];
+  const NH3_1 = [["N^δ-","3-5<7>y:"],["H^δ+","3~"],["H^δ+","",1,150],["H^δ+","",1,210]];
+  const NH3_2 = [["N^δ-","1-3<5>9:"],["H^δ+"],["H^δ+","",1,30],["H^δ+","",1,150]];
+
+  const ekz = {
+    akvo: [H2O_1,H2O_2],
+    amoniako: [H2O_1,NH3_2],
+    amoniako2: [NH3_1,NH3_2]
+  }
+
+
+  function ekzemplo(event) {
+    event.preventDefault();
+    frm = event.target.id;
+
+    // malplenigu
+    ĝi("#enhavo").textContent = "";
+
+    // desegnu Lewis-strukturon
+    svg_fortoj(frm);
+  }
+
+  function svg_fortoj(e) {
+    lewis = new Lewis(ĝi("#enhavo"));
+
     //const H2O_2 = [["O",">--::[-52,105,85,85]"],["H","",1,-52],["H","",1,52]];
+    const molekuloj = ekz[e];
 
-    lewis.molekulo(H2O_1);
-    const a2 = lewis.molekulo(H2O_2);
-    a2.setAttribute("transform","translate(42 0)");
+    lewis.molekulo(molekuloj[0]);
+    const m2 = lewis.molekulo(molekuloj[1]); 
+    m2.setAttribute("transform","translate(42 0)");
     //lewis.molekulo(H2O_2);
     
   }
+
+  lanĉe(()=>{svg_fortoj("akvo")});
 </script>
 
 <style>
@@ -117,11 +145,17 @@ $$\ce{N−H \bond{~} :O}$$ (8 kJ/mol or 1.9 kcal/mol), illustrated water-amide
       stroke-dasharray: .2,1.8;
       stroke-width: .6;
   }
-  path.kojno_plena {
+  path.akojno {
     stroke: black;
     stroke-linecap: round;
     stroke-width: .4;
     fill: black;
+  }
+  path.mkojno {
+    /*stroke: gray;
+    stroke-linecap: round;
+    stroke-width: 2;*/
+    fill: url(#strie);
   }
 </style>
 
@@ -129,7 +163,14 @@ $$\ce{N−H \bond{~} :O}$$ (8 kJ/mol or 1.9 kcal/mol), illustrated water-amide
 <svg id="fortoj"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="480" height="240" viewBox="-30 -30 120 60">  
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="480" height="240" viewBox="-30 -30 120 60">
+  <defs>
+     <pattern id="strie" viewBox="0,0,4,1" height="20%" width="20%">
+      <!--line x1="1" x2="1" y1="0" y2="1" stroke="black" stroke-linecap="square" stroke-width="2"/-->
+      <rect width="2" height="1" fill="black" stroke="black" stroke-width="0.6"/>
+    </pattern>
+  </defs>
+  <g id="enhavo"></g>
 </svg>
 
 La molekuloj de akvo tiel estas interligitaj per multnombraj hidrogenaj pontoj. Kiam flua akvo glaciiĝas per ĉi tiuj hidrogenpontoj formiĝas kristalo, en kiu po ses akvomelkuloj formas ringon kun la oksigenaj atomoj en la anguloj. Ĉe ĉiu oksigenatomo kuniĝas kvar tiaj ringoj. Neĝflokoj tial cetere havas ses radiojn. 

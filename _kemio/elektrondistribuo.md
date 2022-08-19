@@ -3,15 +3,11 @@ layout: laborfolio
 title: Distribuo de elektronoj en orbitaloj
 chapter: 1
 js:
+  - folio-0a
   - sekcio-0b 
   - kemio-0a
 ---
 
-<script>
-window.onload = () => {
-  Sekcio.aranĝo();
-}
-</script>
 
 La *atomoj* konsistas el kerno de *protonoj* kaj *neŭtronoj* kaj la *elektronoj* kiuj distribuiĝas ĉirkau la kerno.
 Neŭtrala atomo havas sammulte da elektronoj kaj protonoj.
@@ -146,7 +142,7 @@ Do oni povus imagi al si izolitan atomon kiel globforman tamburan membranon, kiu
 
 
 <label for="protonnombro">elemento:</label> <b><span id="element_info">8 - oksigeno (O)</span></b><br>
-<input type="range" id="protonnombro" style="width: 50em; max-width: 80%" value="protonnombro" min="1" max="118" value="8" onchange="aktualigo()" oninput="aktualigo_info()">
+<input type="range" id="protonnombro" style="width: 50em; max-width: 80%" min="1" max="118" value="8" onchange="aktualigo()" oninput="aktualigo_info()">
 
 La notmaniero laŭ *Pauling* montras la distribuon de la elektronoj en la orbitalojn. La subŝeloj en 
 tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon ol la malsupraj.
@@ -192,12 +188,12 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 
 <script>
     function aktualigo_info() {
-        const nro = document.getElementById('protonnombro').value;
-        document.getElementById('element_info').textContent = nro + ' - ' + elemento.nomo_mlg(nro);
+        const nro = ĝi('#protonnombro').value;
+        ĝi('#element_info').textContent = nro + ' - ' + elemento.nomo_mlg(nro);
     }
 
     function aktualigo() {
-        const nro = document.getElementById('protonnombro').value;
+        const nro = ĝi('#protonnombro').value;
         distribuo(+nro);
     }
 
@@ -219,11 +215,11 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
         64: "4f7 5d1 6s2", 96: "5f7 6d1 7s2" // , 103: "5f14 7s2 7p1"
         }
 
-    const pauling = document.getElementById("pauling");
+    const pauling = ĝi("#pauling");
 
     // distribuo de elektronoj sur orbitaloj de unu subŝelo
     function distr_ss(ss, n_ele) {
-        const ldiv = document.getElementById("p_"+ss);
+        const ldiv = ĝi("#p_"+ss);
         const orbitaloj = ldiv.querySelectorAll('.orbital');
         let n_orb = orbitaloj.length;
 
@@ -274,7 +270,7 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
             result = ss.next();
         }
 
-        document.getElementById("pauling_inf").textContent = elemento.nomo_mlg(n_ele);
+        ĝi("#pauling_inf").textContent = elemento.nomo_mlg(n_ele);
 
         // por esceptaj elementoj faru korektojn
         if (esceptoj[n_ele]) {
@@ -285,7 +281,7 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
               distr_ss(ss,ne);
             }
 
-            document.getElementById("pauling_inf").textContent += " - devia distribuo!"
+            ĝi("#pauling_inf").textContent += " - devia distribuo!"
         }
     }
 
@@ -303,25 +299,25 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 
         // n+l donas la subŝelon kiun ni montru en nova linio
         // supre de la aliaj
-        const ldiv = document.createElement("div");
+        const ldiv = kreu("div");
         ldiv.setAttribute("id","p_" + n + subs);
         ldiv.classList.add("subŝelo");
         // montru strekon super 1s kaj p-orbitaloj pro nobelgasaj distribuoj
         if (subs == 'p' || n==1 && subs == 's') {
             ldiv.setAttribute("style","border-top: 2px solid black;");
         }
-        const ll = document.createElement("div");
+        const ll = kreu("div");
         ll.textContent = +n + subs;
         //let style = "width: 2em; display: inline-block;";        
         //ll.setAttribute("style","width: 2em; display: inline-block");
         ldiv.append(ll);
 
-        const odiv = document.createElement("div");
+        const odiv = kreu("div");
         odiv.classList.add("orbitaloj");
 
         // por ĉiu orbitalo sur tiu subŝelo ni alonas kesteton
         for (let o=0; o<n_orbitaloj; o++) {
-            const osp = document.createElement("span");
+            const osp = kreu("span");
             osp.textContent = '..';
             osp.classList.add('orbital');
             //osp.setAttribute("style","display: inline-block; width: 1.2em; text-align: center; border: 1px solid black; margin: 2px; padding: 0 .4em 3px;");
@@ -335,7 +331,7 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
     }
 
     // aldonu titol-linion
-    const tit = document.createElement("div");
+    const tit = kreu("div");
     tit.innerHTML = '<div>n/l</div><div class="orbitaloj"><span>m</span></div>';
     tit.classList.add("subŝelo","titolo");
     pauling.prepend(tit);
@@ -415,11 +411,11 @@ la subŝelojn 4f resp. 5f.
 
 <script>
 function perioda_sistemo() {
-    const ps = document.getElementById("perioda_sistemo");
-    const ps_f = document.getElementById("perioda_sistemo_f");
+    const ps = ĝi("#perioda_sistemo");
+    const ps_f = ĝi("#perioda_sistemo_f");
 
     function cell(cls, content, style) {
-        const cell = document.createElement("span");
+        const cell = kreu("span");
         cell.classList.add(cls);
         if (style) cell.setAttribute("style",style);
         cell.textContent = content;

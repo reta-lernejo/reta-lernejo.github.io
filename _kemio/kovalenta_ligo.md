@@ -3,11 +3,10 @@ layout: laborfolio
 title: Kovalentaj ligoj
 chapter: 2.2
 js:
+  - folio-0a
   - lewis-0b
   - jmol-0a
   - jsmol/JSmol.min  
-js-ext:
-  - mathjax3
 ---
 
 Du nemetalaj atomoj interligiĝas alie ol metaloj kun nemetalaj atomoj. Ili ne plenigas sian okopan da elektronoj per transigo de unuopa elektrono, sed ili kunigas po unu el iliaj elektronoj al komuna paro. Tion oni nomas *kovalenta ligo*. Pluraj atomoj kunligitaj kovalente oni nomas *molekulo*.
@@ -62,15 +61,15 @@ anstataŭ per du punktoj.
     lewis.molekulo(gasoj2[frm]);
   }
 
-  window.onload = () => {
-    svg = document.getElementById("glewis");
+  lanĉe( () => {
+    svg = ĝi("#glewis");
     lewis = new Lewis(svg);
 
     lewis.molekulo([
       ["H",">."],
       ["H","<.",1],
     ]);
-  }
+  });
 
 </script>
 

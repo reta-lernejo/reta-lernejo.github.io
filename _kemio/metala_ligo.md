@@ -3,11 +3,8 @@ layout: laborfolio
 title: Metala ligado
 chapter: 2.3
 js:
-  - lewis-0b
-  - jmol-0a
-  - jsmol/JSmol.min  
-js-ext:
-  - mathjax3
+  - folio-0a
+  - svg-0c
 ---
 
 
@@ -18,43 +15,39 @@ https://en.wikipedia.org/wiki/Metallic_bonding
 
 <script>
     let svg;
-    const ns = "http://www.w3.org/2000/svg";
 
-    function movo(am) { // am: mezuro de arbitreco
-        const ani = document.createElementNS(ns,"animateMotion");
+    function movo(am) { // am: mezuro de arbitreco    
         const dur = Math.floor(Math.random()*am/3);
-        ani.setAttribute("dur",dur+"s");
-        ani.setAttribute("repeatCount",50/dur);
-        let a=[];
-        for (i=0;i<12;i++) {
-            a[i] = (Math.random()-0.5) * am;
-        }
-        ani.setAttribute("path",`M0,0 C${a[0]},${a[1]} ${a[2]},${a[3]} ${a[4]},${a[5]} C${a[6]},${a[7]} ${a[8]},${a[9]} ${a[10]},${a[11]} z`);
+        let a=[]; for (i=0;i<12;i++) { a[i] = (Math.random()-0.5) * am; }
+        const ani = SVG.movo('',
+            `M0,0 C${a[0]},${a[1]} ${a[2]},${a[3]} ${a[4]},${a[5]} C${a[6]},${a[7]} ${a[8]},${a[9]} ${a[10]},${a[11]} z`,
+            50/dur, dur)
         return ani;
     }
 
     function katjono(x,y) {
-        const use = document.createElementNS(ns,"use");
-        use.setAttribute("href","#katjono");
-        use.setAttribute("x",x);
-        use.setAttribute("y",y);
-        use.append(movo(3.5));
-        svg.append(use);
+        const k = SVG.uzo("#katjono");
+        SVG.atributoj(k, {
+            x: x,
+            y: y
+        });
+        SVG.aldonu(k,movo(3.5));
+        SVG.aldonu(svg,k);
     }
 
     function elektrono(x,y) {
-        const use = document.createElementNS(ns,"use");
-        use.setAttribute("href","#elektrono");
-        use.setAttribute("x",x);
-        use.setAttribute("y",y);
-        use.append(movo(50));
-
-        svg.append(use);
+        const e = SVG.uzo("#elektrono");
+        SVG.atributoj(e, {
+            x: x,
+            y: y
+        });
+        SVG.aldonu(e,movo(50));
+        SVG.aldonu(svg,e);
     }
 
 
-    window.onload = () => {
-        svg = document.getElementById("metalo");
+    lanĉe( () => {
+        svg = ĝi("#metalo");
         // kvar vicoj de po 5 atomoj
         const atomoj = 80; 
         const avico = 16;
@@ -71,7 +64,7 @@ https://en.wikipedia.org/wiki/Metallic_bonding
             const dy = (Math.random()-0.5)*de;
             elektrono(x+dx,y+dy);
         }
-    }
+    });
 </script>
 
 <svg id="metalo"

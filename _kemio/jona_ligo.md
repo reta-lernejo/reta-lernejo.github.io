@@ -3,11 +3,10 @@ layout: laborfolio
 title: Jonaj ligoj
 chapter: 2.1
 js:
+  - folio-0a
   - lewis-0b
   - jmol-0a
   - jsmol/JSmol.min  
-js-ext:
-  - mathjax3
 ---
 
 Atomoj strebas al la favora elektron-distribuo de nobelaj gazoj. Por atingi tion, metalaj atomoj povas fordoni troajn valentajn elektronojn, dum nemetalaj povas akcepti ilin por kompletigi sian okopon.
@@ -19,15 +18,16 @@ La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj ato
 <script>
   let svg, lewis;  
 
-  function forigu(href) {
-    const el = svg.querySelector(`[href='#${href}']`);
-    if (el) svg.removeChild(el);
-  }
 
   function jonigo() {
+
+    function _for(href) {
+      forigu(`svg use[href='#${href}']`);
+    }
+
     function _jonigo2() {
-      forigu("j_Na");
-      forigu("j_Cl");
+      _for("j_Na");
+      _for("j_Cl");
 /*
       const na = svg.querySelector("[href='#j_Na']");    
       const cl = svg.querySelector("[href='#j_Cl']");    
@@ -41,8 +41,8 @@ La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj ato
     }
 
     // kaŝu jonojn el ebla anaŭa animacio
-    forigu("j_Naplus");
-    forigu("j_Clminus");
+    _for("j_Naplus");
+    _for("j_Clminus");
 
     // proksimigu atomojn
     lewis.animacio("j_Na",-20,0,4,0,7);
@@ -59,8 +59,8 @@ La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj ato
     */
   }
 
-  window.onload = () => {
-    svg = document.getElementById("jlewis");
+  lanĉe( () => {
+    svg = ĝi("#jlewis");
     lewis = new Lewis(svg);
 
     lewis.simbolo("j_Na","Na",1);
@@ -72,7 +72,7 @@ La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj ato
     lewis.montru("j_Cl",20,0);
 
     //jonigo();
-  }
+  });
 
 </script>
 
