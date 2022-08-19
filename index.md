@@ -23,7 +23,7 @@ Kontribuantoj estas bonvenaj.
 
 <!-- alternativa nomo elementoj & molekuloj -->
 
-## Kemio
+## [Kemio](/kemio)
 
 {% assign kem = site.kemio | sort: "chapter" %}
 {% for t in kem %}
@@ -33,9 +33,19 @@ Kontribuantoj estas bonvenaj.
 {% endif %}  
 {% endfor %}  
 
+## [Biokemio](/biokemio)
+
+{% assign bio = site.biokemio | sort: "chapter" %}
+{% for t in bio %}
+{% assign c = t.chapter | prepend: "c" %}
+{% if t.title and c.size == 2 %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}  
+
 <!-- alternativa nomo: (sistemo) Tero -->
 
-## Biogeokemio
+## [Biogeokemio](/biogeokemio)
 
 {% assign bio = site.biogeokemio | sort: "chapter" %}
 {% for t in bio %}
@@ -47,15 +57,7 @@ Kontribuantoj estas bonvenaj.
 
 <!-- alternativa nomo: vivo | organismoj -->
 
-## Biokemio
 
-{% assign bio = site.biokemio | sort: "chapter" %}
-{% for t in bio %}
-{% assign c = t.chapter | prepend: "c" %}
-{% if t.title and c.size == 2 %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
 
 
 ## Matematiko
