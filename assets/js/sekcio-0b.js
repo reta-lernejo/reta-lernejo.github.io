@@ -1,3 +1,7 @@
+if (lanĉe && typeof(lanĉe) == "function") {
+    lanĉe(()=>Sekcio.aranĝo());
+}
+
 /**
  * subtenas faledeblajn sekciojn en laborfiloj
  * marku ilin per klaso sub la titoloj
