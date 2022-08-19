@@ -8,12 +8,12 @@
         ['He','heliumo',1,18,-0.17],
         ['Li','litio',2,1,1],
         ['Be','berilio',2,2,1.6],
-        ['B','boro',2,3,2],
+        ['B','boro',2,13,2],
         ['C','karbono',2,14,2.6],
         ['N','azoto',2,15,3],
         ['O','oksigeno',2,16,3.4],
         ['F','fluoro',2,17,4],
-        ['Ne','neono',2,18,0.84],
+        ['Ne','neono',2,18,-0.84],
         ['Na','natrio',3,1,0.9],
         ['Mg','magnezio',3,2,1.3],
         ['Al','aluminio',3,13,1.6],
@@ -89,15 +89,15 @@
         ['Bi','bismuto',6,15,2],
         ['Po','polonio',6,16,2],
         ['At','astato',6,17,2.2],
-        ['Rn','radono',7,18,-9.23],
+        ['Rn','radono',6,18,-9.23],
         ['Fr','franciumo',7,1,0.7],
-        ['Ra','radiumo',7,12,0.9],
+        ['Ra','radiumo',7,2,0.9],
         ['Ac','aktiniumo',7,-3,1.1],
         ['Th','torio',7,-4,1.3],
         ['Pa','protaktinio',7,-5,1.5],
         ['U','uranio',7,-6,1.4],
         ['Np','neptunio',7,-7,1.4],
-        ['Pu','plutonio',7,-8],1.3,
+        ['Pu','plutonio',7,-8,1.3],
         ['Am','americio',7,-9,1.3],
         ['Cm','kuriumo',7,-10,,1.3],
         ['Bk','berkelio',7,-11,1.3],
@@ -129,29 +129,30 @@ class Elemento {
     // elkalkulas la valenton el la gruponumero,
     // ni uzas negativajn grupojn por lantanidoj/aktinidoj, kiuj
     // ne havas oficialan grupnumeron
-    valento(g) {
+    static valento(g) {
         if (g<0) return -g;
         if (g>=13) return g-10;
         return g; 
     }
 
     // privata, transformas elemento-indikojn al objekto por pli facila uzo
-    _obj(e) {
-        const v = valento(e[3]);
+    static _obj(e) {
+        const v = Elemento.valento(e[3]);
         return {simbolo: e[0], nomo: e[1], periodo: e[2], grupo: e[3], valento: v, eneg: e[4]}
     }
 
     // elemento per ĝia numero
-    nro(n) {
+    static nro(n) {
         const e = elementoj[n-1];
-        return obj(e);
+        return Object.assign({nro: n},Elemento._obj(e));
     }
 
     // elemento per ĝia simbolo
-    smb(s) {
-        for (const e of elementoj) {
+    static smb(s) {
+        for (const n in elementoj) {
+            const e = elementoj[n];
             if (e[0] == s) {
-                return obj(e);
+                return Object.assign({nro: n+1},Elemento._obj(e));
             }
         }
     }
