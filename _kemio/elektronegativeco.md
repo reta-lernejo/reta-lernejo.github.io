@@ -80,7 +80,7 @@ js:
 
     for (let e=1; e<=118; e++) {
       const elm = Elemento.nro(e);
-      console.log(elm);
+      //console.log(elm);
       ps.append(erekt(elm));
     }
   });
@@ -114,6 +114,19 @@ js:
       dominant-baseline: central;
   }
 
+  .emfazo2 rect {
+    fill: orange;
+  }
+  .emfazo2 text.smb {
+    fill: blue;
+  }
+  .emfazo1 rect {
+    fill: yellow;
+  }
+  .emfazo3 rect {
+    fill: darkorange;
+  }
+
   text.nro {
     font-size: 2.4px;
     font-weight: bold;
@@ -132,15 +145,65 @@ js:
 </svg>
 
 <script>
-    function aktualigo_info() {
-        const nro = ĝi('#eneg_val').value;
-        ĝi('#eneg_info').textContent = nro;
+  const eneg = Elemento.laŭ_neg();
+  const lneg = Object.keys(eneg)
+    .sort(function(a,b) { return a - b;});
+
+  lanĉe(() =>{
+    let n1 = 1;
+    for (e in lneg) {
+      if (lneg[e] == 1.0) {
+        n1 = e;
+        break;
+      }
     }
 
-    function aktualigo() {
-        const nro = ĝi('#eneg_val').value;
-        //console.log(nro);
+    atributoj(ĝi("#eneg_val"),{
+      min: 0,
+      max: lneg.length-2, // ignoru NaN
+      value: n1
+    });
+
+    aktualigo();
+  })
+
+  function aktualigo_info() {
+      const nro = ĝi('#eneg_val').value;
+      ĝi('#eneg_info').textContent = lneg[nro];
+  }
+
+  function aktualigo() {
+    const val = ĝi('#eneg_val').value;
+    for (const q of document.querySelectorAll(".emfazo1")) {
+      q.classList.remove("emfazo1");
     }
+    for (const q of document.querySelectorAll(".emfazo2")) {
+      q.classList.remove("emfazo2");
+    }
+    for (const q of document.querySelectorAll(".emfazo3")) {
+      q.classList.remove("emfazo3");
+    }
+
+    const e2 = eneg[lneg[+val]];
+    for (const e of e2) {
+      ĝi(`#ps_${e}`).classList.add("emfazo2");
+    }
+
+    if (val>0) {
+      const e1 = eneg[lneg[+val-1]];
+      for (const e of e1) {
+        ĝi(`#ps_${e}`).classList.add("emfazo1");
+      }
+    }
+
+    if (val < lneg.length-2) {
+      const e3 = eneg[lneg[+val+1]];
+      for (const e of e3) {
+        ĝi(`#ps_${e}`).classList.add("emfazo3");
+      }
+    }
+    //console.log(nro);
+  }
 </script>
 
 <!-- 
@@ -150,4 +213,4 @@ js:
 -->
 
 <label for="eneg_info">elektronegativeco:</label> <b><span id="eneg_info">1</span></b><br>
-<input type="range" id="eneg_val" style="width: 50em; max-width: 80%" step="0.1" value="1.0" min="-9.0" max="4.0"  onchange="aktualigo()" oninput="aktualigo_info()">
+<input type="range" id="eneg_val" style="width: 50em; max-width: 80%" step="1" value="12" min="0" max="118"  onchange="aktualigo()" oninput="aktualigo_info()">

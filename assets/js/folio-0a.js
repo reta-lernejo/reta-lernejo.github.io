@@ -23,6 +23,22 @@ function kreu(nomo, atributoj) {
 }
 
 /**
+ * Aldonas aŭ ŝanĝas atributojn de HTML-DOM-elemento
+ * 
+ * @param elemento la DOM-elemento 
+ * @param atributoj objekto kies kampoj estas la atributnomoj kaj ties valoroj
+ * @returns 
+ */
+function atributoj(elemento, atributoj) {
+    if (atributoj) {
+        for (const [atr,val] of Object.entries(atributoj)) {
+            elemento.setAttribute(atr,val);
+        }
+    };
+    return elemento;
+}
+
+/**
  * Forigas HTML-elementon
  * @param elektilo CSS-elektilo por identigi la elementon
  */

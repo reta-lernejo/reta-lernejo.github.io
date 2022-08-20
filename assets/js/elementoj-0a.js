@@ -99,7 +99,7 @@
         ['Np','neptunio',7,-7,1.4],
         ['Pu','plutonio',7,-8,1.3],
         ['Am','americio',7,-9,1.3],
-        ['Cm','kuriumo',7,-10,,1.3],
+        ['Cm','kuriumo',7,-10,1.3],
         ['Bk','berkelio',7,-11,1.3],
         ['Cf','kaliforniumo',7,-12,1.3],
         ['Es','ejnŝtejnio',7,-13,1.3],
@@ -141,13 +141,17 @@ class Elemento {
         return {simbolo: e[0], nomo: e[1], periodo: e[2], grupo: e[3], valento: v, eneg: e[4]}
     }
 
-    // elemento per ĝia numero
+    /*
+    * Redonas elementon per ĝia numero
+    */
     static nro(n) {
         const e = elementoj[n-1];
         return Object.assign({nro: n},Elemento._obj(e));
     }
 
-    // elemento per ĝia simbolo
+    /**
+     * Redonas elementon per ĝia simbolo
+     */ 
     static smb(s) {
         for (const n in elementoj) {
             const e = elementoj[n];
@@ -155,5 +159,21 @@ class Elemento {
                 return Object.assign({nro: n+1},Elemento._obj(e));
             }
         }
+    }
+
+    /**
+     * Redonas la elementliston laŭ elektronegativeco
+     */
+    static laŭ_neg() {
+        let eneg = {}
+        for (const e of elementoj) {
+            const neg = e[4]
+            if (eneg[neg]) {
+                eneg[neg].push(e[0])
+            } else {
+                eneg[neg] = [e[0]];
+            }
+        } // for
+        return eneg;
     }
 }
