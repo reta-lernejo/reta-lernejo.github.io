@@ -8,7 +8,7 @@ js:
   - svg-0c
 ---
 
-*Elektronegativeco* de elemento estas mezuro pri la kapablo de ĝiaj atomoj altiri elektronojn al si. Tiel du atomoj de sama elektronegativeco prefere formas kovalentajn ligojn. Se la elektronegativeco diferencas la ligo ne estas egalmezura, t.e. *poluseca* kaj ĉe tre granda diferenco la
+*Elektronegativeco* de elemento estas mezuro pri la kapablo de ĝiaj atomoj altiri elektronojn al si. Tiel du atomoj kun sama elektronegativeco prefere formas kovalentajn ligojn. Se la elektronegativeco diferencas, la ligo ne estas egalmezura, t.e. *poluseca*. Sed ĉe tre granda diferenco la
 ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
 
@@ -144,7 +144,7 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
 -->
 
-<label for="eneg_info">elektronegativeco:</label> <b><span id="eneg_info">1</span></b><br>
+<label for="eneg_info">elektronegativeco (laŭ Paŭling):</label> <b><span id="eneg_info">1</span></b><br>
 <input type="range" id="eneg_val" style="width: 100%" step="1" value="12" min="0" max="118"  onchange="aktualigo()" oninput="aktualigo_info(); aktualigo();">
 
 
@@ -152,3 +152,7 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 ### fontoj
 
 [^W1]: [(en) Intermolecular Forces: Review Electronegativity](https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/01review/review4.htm)
+
+[^W2]: [(de) Elektronegativität](https://de.wikipedia.org/wiki/Elektronegativit%C3%A4t)
+
+<!-- https://www.chemie.de/lexikon/Elektronegativit%C3%A4t.html#Pauling-Skala -->
