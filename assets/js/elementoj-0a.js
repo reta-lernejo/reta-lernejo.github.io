@@ -218,6 +218,11 @@ class Elemento {
                 height: 10
             });
 
+            // elementnomo
+            const et = document.createElementNS(ns,"title");
+            et.textContent = elm.nomo;
+            //r.append(et);
+
             // elementsimbolo
             const sm = document.createElementNS(ns,"text");
             sm.textContent = elm.simbolo
@@ -248,7 +253,7 @@ class Elemento {
                 });    
             }
 
-            g.append(r,nr,en,sm);
+            g.append(et,r,nr,en,sm);
             return g;
         }
 

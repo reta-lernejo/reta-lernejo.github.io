@@ -8,7 +8,9 @@ js:
   - svg-0c
 ---
 
-... mezuro por... influas la specon de ligo...
+*Elektronegativeco* de elemento estas mezuro pri la kapablo de ĝiaj atomoj altiri elektronojn al si. Tiel du atomoj de sama elektronegativeco prefere formas kovalentajn ligojn. Se la elektronegativeco diferencas la ligo ne estas egalmezura, t.e. *poluseca* kaj ĉe tre granda diferenco la
+ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
+
 
 <script>
 
@@ -40,7 +42,7 @@ js:
   }
 
   text.smb {
-      font-size: 5px;
+      font-size: 4.8px;
       font-weight: bold;
       text-anchor: middle;
       dominant-baseline: central;
@@ -144,3 +146,9 @@ js:
 
 <label for="eneg_info">elektronegativeco:</label> <b><span id="eneg_info">1</span></b><br>
 <input type="range" id="eneg_val" style="width: 100%" step="1" value="12" min="0" max="118"  onchange="aktualigo()" oninput="aktualigo_info(); aktualigo();">
+
+
+
+### fontoj
+
+[^W1]: [(en) Intermolecular Forces: Review Electronegativity](https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/01review/review4.htm)
