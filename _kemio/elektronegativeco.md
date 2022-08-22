@@ -155,4 +155,10 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
 [^W2]: [(de) Elektronegativität](https://de.wikipedia.org/wiki/Elektronegativit%C3%A4t)
 
-<!-- https://www.chemie.de/lexikon/Elektronegativit%C3%A4t.html#Pauling-Skala -->
+<!-- 
+aliaj fontoj:
+https://pubchem.ncbi.nlm.nih.gov/periodic-table/#view=list
+https://www.chemie.de/lexikon/Elektronegativit%C3%A4t.html#Pauling-Skala 
+https://www.degruyter.com/document/doi/10.1515/ci-2020-0305/html
+https://www.cup.lmu.de/ac/kluefers/homepage/L/kc2/literature/iupac_oxidation_state_2016.pdf
+-->

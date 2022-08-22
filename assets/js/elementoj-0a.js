@@ -2,7 +2,8 @@
     // [simbolo,nomo,periodo,grupo,negativeco...]
     // grupo: por lantinidoj/aktinidoj, kiuj ne havas grupon laŭ IUPAC, ni uzas
     //   negativajn numerojn -3..-16, utilaj por eltrovi la valenton 3..16
-    // negativeco: elektronegativeco laŭ Paŭling, 0 = nekonata
+    // negativeco: elektronegativeco laŭ Paŭling, NaN = nekonata
+    // pli bone uzu: https://www.chemeurope.com/en/encyclopedia/Electronegativity.html
     const elementoj = [
         ['H','hidrogeno',1,1,2.2],
         ['He','heliumo',1,18,-0.17],
