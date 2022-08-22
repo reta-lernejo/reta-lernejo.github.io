@@ -8,6 +8,10 @@ function ĝi(elektilo) {
     return document.querySelector(elektilo); 
 }
 
+function ĉiuj(elektilo) {
+    return document.querySelectorAll(elektilo); 
+}
+
 /** Kreas HTML-elementon kun atributoj
  * @param nomo elementnomo, ekz-e 'div'
  * @param atributoj objekto kies kampoj estas la atributnomoj kaj ties valoroj

@@ -176,4 +176,125 @@ class Elemento {
         } // for
         return eneg;
     }
+
+
+    /**
+     * Desegnas periodan sistemon kiel SVG
+     * 
+     * @param svg la SVG-elemento, en kiun desegni
+     * @param eneg donu krom elementsimbolo kaj ordnuemrao ankaŭ elektronegativecon
+     * 
+     */
+    static periodsistemo(svg,eneg) {
+        const ns = "http://www.w3.org/2000/svg";
+
+        function atributoj(elemento, atributoj) {
+            if (atributoj) {
+                for (const [atr,val] of Object.entries(atributoj)) {
+                    elemento.setAttribute(atr,val);
+                }
+            };
+        }
+
+        function erekt(elm) {    
+
+            // apartaj koordinatoj por aktinidoj/lantanidoj
+            let gr = elm.grupo, pd = elm.periodo;
+            if (elm.grupo < 0) {
+                gr = -elm.grupo;
+                pd += 3;
+            }
+
+            const g = document.createElementNS(ns,"g");
+            atributoj(g, {
+                id: `ps_${elm.simbolo}`,
+                class: "elm",
+                transform: `translate(${10*gr} ${10*pd})`
+            });
+
+            const r = document.createElementNS(ns,"rect");
+            atributoj(r,{
+                width: 10,
+                height: 10
+            });
+
+            // elementsimbolo
+            const sm = document.createElementNS(ns,"text");
+            sm.textContent = elm.simbolo
+            atributoj(sm,{
+                x: 5,
+                y: 5,
+                class: "smb"
+            });
+
+            // elementnumero
+            const nr = document.createElementNS(ns,"text");
+            nr.textContent = elm.nro
+            atributoj(nr,{
+                x: .5,
+                y: .5,
+                class: "nro"
+            });
+
+            // elektronegativeco
+            let en = '';         
+            if (eneg) {
+                en = document.createElementNS(ns,"text");
+                en.textContent = isNaN(elm.eneg)? '?':elm.eneg;
+                atributoj(en,{
+                    x: 0.5,
+                    y: 9.5,
+                    class: "eneg"
+                });    
+            }
+
+            g.append(r,nr,en,sm);
+            return g;
+        }
+
+        // numeroj de la grupoj
+        function g_nro(g) {
+            let y = 0;
+            if (g == 2 || g>12 && g<18) y++;
+            if (g>=3 && g<=12) y+=3;
+            const nro = document.createElementNS(ns,"text");
+            nro.textContent = g;
+            atributoj(nro, {
+                x: 10*g+5,
+                y: 10*y+5,
+                class: "etikedo"
+            });
+            return nro;
+        }
+
+        // numeroj de la periodoj
+        function p_nro(p, offs=0) {
+            const pr = ["0","I","II","III","IV","V","VI","VII"][p];
+            const nro = document.createElementNS(ns,"text");
+            nro.textContent = pr;
+            SVG.atributoj(nro, {
+                x: 6.4*(offs)+5,
+                y: 10*(p+offs)+5,
+                class: "etikedo"
+            });
+            return nro;
+        }
+
+
+        // grupnumeroj
+        for (let g=1; g<=18; g++) {
+            svg.append(g_nro(g));
+        }
+        // periodnuemroj
+        for (let p=1; p<=7; p++) {
+            svg.append(p_nro(p));
+            if (p>=6) svg.append(p_nro(p,3)); // akt/lantan-idoj
+        }
+        // elementoj
+        for (let e=1; e<=118; e++) {
+            const elm = Elemento.nro(e);
+            //console.log(elm);
+            svg.append(erekt(elm));
+        }
+    }
 }
