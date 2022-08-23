@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: La okopa regulo
+title: Valento kaj atomaj fortoj
 chapter: 2
 js-ext:
   - mathjax3
