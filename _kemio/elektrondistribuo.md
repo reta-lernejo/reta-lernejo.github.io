@@ -6,6 +6,8 @@ js:
   - folio-0a
   - sekcio-0b 
   - kemio-0a
+  - jmol-0a
+  - jsmol/JSmol.min  
 ---
 
 
@@ -58,6 +60,108 @@ la elektronojn kaj donas al ĉiu loko varian probablecon, ke elektrono troviĝas
 La ŝelo kaj subŝelo priskribas energinivelojn. Ju pli alta
 ĝi estas, des pli rapide averaĝe moviĝas elektrono kaj des pli verŝajne ĝi troviĝas 
 distance de la nukleo, t.e. la centro de la atomo.
+
+<!-- vd. https://chemapps.stolaf.edu/jmol/docs/examples-11/surfacedemos.htm 
+
+donanten n=3,l=2,m=1
+isosurface phase atomicOrbital 3 2 1
+set axesMolecular;set axesScale 0.5;axes on
+moveto 1.0 { 462 -868 -180 47.18} 141
+-->
+
+### orbitaloj de hidrogenatomo
+
+Elektu valoron por n/l kaj m malsupre!
+<div id="jmol_orbital">
+<script type="text/javascript">
+  let jmol_orbital_ref;
+  Jmol._isAsync = true;
+  jmol_orbital_ref = jmol_kesto("jmol_orbital",
+    "",
+    600,600,
+    (app) => { Jmol.script(app,
+      'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141'
+    )}
+  );
+</script>
+</div>
+
+
+<script>
+lanĉe(() => {
+    const oe = ĝi("#orb_elekto_nl");
+    oe.append('subŝelo (n/l):');
+
+    const subŝeloj = "spdfghij";
+    const ss = atommodelo.subŝeloIteraciilo();
+    let result = ss.next();
+        
+    while (!result.done) {
+        const n = result.value[0];
+        const l = result.value[1];
+
+        const nl = ""+n+subŝeloj[l];
+        const inp = kreu("input", {type: "radio", id: `o_${n}${l}`, name: "o_nl", value: nl});
+        const lbl = kreu("label", {for: `o_${n}${l}`});
+        lbl.append(nl);
+
+        if (nl[1] == "s" && n>1) oe.append(" | ");
+        if (nl == "5s") oe.append(kreu("br"));
+        oe.append(inp,lbl);
+
+        inp.addEventListener("click",(event) => {
+            const val = event.target.value;
+            const l_ = {"s": 0, "p": 1, "d": 2, "f": 3}[val[1]];
+            const om = ĝi("#orb_elekto_m");
+            om.textContent = 'm: ';
+            // const let n_orbitaloj = 2 * l + 1;
+            for (let m_ = -l_; m_<= l_; m_++) {
+                const _inp = kreu("input", {type: "radio", id: `o_m${m_}`, name: "o_m", value: m_});
+                const _lbl = kreu("label", {for: `o_m${m_}`});
+                _lbl.append(""+m_);
+
+                _inp.addEventListener("click",orbitalo_elektita);
+
+                om.append(_inp,_lbl);
+            }
+        });
+        // ni havas 2*l+1 orbitaloj po suŝelo (m: -l..-l)
+        //const subs = subŝeloj[l];
+
+        // iru al sekva subŝelo
+        result = ss.next();
+    }
+
+    function orbitalo_elektita(event) {
+        const m = event.target.value;
+        const nl = ĝi("input[name='o_nl']:checked").value;
+
+        console.log("nl: "+nl+" m: "+m);
+
+        const n = nl[0];
+        const l =  {"s": 0, "p": 1, "d": 2, "f": 3}[nl[1]];
+
+        Jmol.script(jmol_orbital_ref,
+            `isosurface phase atomicOrbital ${n} ${l} ${m}; color isosurface translucent 0.6;`);
+    }
+
+/*
+    for (let n=1; n<8; n++) {
+        const i = kreu("input", {type: "radio", id: `o_n${n}`, name: "o_n", value: n});
+        const l = kreu("label", {for: `o_n${n}`});
+        l.append(n);
+        oe.append(i,l);
+    }
+    */
+});
+</script>
+
+<div id="orb_elekto_nl"/>
+<div id="orb_elekto_m"/>
+
+(En la supre prezento la surfacoj prezentas la spacon ene de kiu troviĝas elektrono de tiu
+orbitalo kun 95%-a probableco. En la blua areo la ondfunkcio estas pozitiva en la ruĝa negativa.
+La surfaco foje aperas iom anguleca pro limigo de la prezentoalgoritmo.)
 
 Oni povas uzi analogion de tambura membrano por tiuj ĉi ondofunkcioj.
 En tiu analogio la averaĝa distanco de la ripoza stato respondas al la verŝajneco, ke elektrono troviĝas
@@ -119,7 +223,7 @@ en tiu pozicio de la centro. La ventroj de staranta ondo membrana do respondas a
 
 La membrano havas nur du dimensiojn (ĉar la tria donas la probablecon). Ĉe la atomoj aldoniĝas tria dimensio de spaco. Sed la tranĉbildoj de orbitalfunkcioj efektive tre similas al la ondbildoj de tambura membrano.
 
-Do oni povus imagi al si izolitan atomon kiel globforman tamburan membranon, kiu unufoje albatita en la centro, kie troviĝas la nukleo ne ĉesas soni. Koncedite, tio estas malfacile, sed eble pli bone ol neniu analogio.
+Do oni povus imagi al si izolitan atomon kiel globforman tamburan membranon, fiksitan en la centro, kie troviĝas la nukleo kaj kiu ne ĉesas soni. Koncedite, tio estas malfacile, sed eble pli bone ol neniu analogio.
 
 
 <!-- 

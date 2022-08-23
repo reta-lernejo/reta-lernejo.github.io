@@ -56,7 +56,7 @@ function jmol_kesto(id,modelo,largho,alto,kiam_preta) {
     JsPath = '../assets/js/jsmol/';
 
     const info = jmol_info(id,modelo,largho,alto,kiam_preta)
-    Jmol.getApplet(id, info);
+    return Jmol.getApplet(id, info);
 }
 
 /**
