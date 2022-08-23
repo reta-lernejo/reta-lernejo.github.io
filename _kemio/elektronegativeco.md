@@ -6,9 +6,16 @@ js:
   - folio-0a
   - elementoj-0a
   - svg-0c
+  - jmol-0a
+  - jsmol/JSmol.min
+js-ext:
+  - mathjax3
 ---
 
-*Elektronegativeco* de elemento estas mezuro pri la kapablo de ĝiaj atomoj altiri elektronojn al si. Tiel du atomoj kun sama elektronegativeco prefere formas kovalentajn ligojn. Se la elektronegativeco diferencas, la ligo ne estas egalmezura, t.e. *poluseca*. Sed ĉe tre granda diferenco la
+*Elektronegativeco* de elemento estas mezuro pri la kapablo de ĝiaj atomoj altiri 
+ligajn elektronojn al si. Tiel du atomoj kun sama elektronegativeco formas 
+egalecajn kovalentajn ligojn. Se la elektronegativeco diferencas, la ligo ne estas egalmezura, 
+t.e. *poluseca*. Sed ĉe tre granda diferenco (2.0 aŭ pli) la
 ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
 
@@ -85,7 +92,7 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 </svg>
 
 <script>
-  const eneg = Elemento.laŭ_neg();
+  const eneg = Elemento.laŭ_neg(true);
   const lneg = Object.keys(eneg)
     .filter(a => {return ! isNaN(a)})
     .sort((a,b) => { return +a-b;});
@@ -147,7 +154,54 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 <label for="eneg_info">elektronegativeco (laŭ Paŭling):</label> <b><span id="eneg_info">1</span></b><br>
 <input type="range" id="eneg_val" style="width: 100%" step="1" value="12" min="0" max="118"  onchange="aktualigo()" oninput="aktualigo_info(); aktualigo();">
 
+### Polusecaj ligoj
 
+Se ni rigardas ekzemple molekulon de metanolo ni ricevas la sekvajn diferencojn
+por la unuopaj ligoj:
+
+$$\ce{C-H}: 2,55-2,20 = 0,35$$  
+$$\ce{C-O}: 3,44-2,55 = 0,89$$  
+$$\ce{O-H}: 3,44-2,20 = 1,24$$  
+
+Ĉiuj do estas kovalentaj, sed oksigeno pro sia alta elektronegativeco pli forte altiras la elektronojn de la hidrogena kaj karbona ligantoj. Tiel estiĝas poluseca ligo kiu rezultas en negativa parta ŝargo ĉe la oksigenatomo kaj pozitiva parta ŝargo ĉe la najbara hidrogenatomo.
+
+<!-- ![elektrostatika potencialo de metanolo](inc/metanolo_mep.png) -->
+
+
+<div id="jmol_metanolo">
+<script type="text/javascript">
+  Jmol._isAsync = true;
+ // 'isosurface resolution 6 molecular map mep; color isosurface translucent;'
+  jmol_kesto("jmol_metanolo",
+    "inc/metanolo.spt",
+    600,400,
+    (app) => { Jmol.script(app,
+      'set antialiasDisplay ON'
+    )}
+  );
+</script>
+</div>
+
+
+
+
+<!-- lig-preferoj...
+https://en.wikipedia.org/wiki/Periodic_table#Metallicity
+-->
+
+<!-- montro de elektrostatika potencialo...:
+https://chemapps.stolaf.edu/jmol/docs/examples-11/surfacedemos.htm
+https://chemapps.stolaf.edu/jmol/docs/examples-11/isosurface.htm
+https://wiki.jmol.org/index.php/File_formats/Surfaces
+https://www.poissonboltzmann.org/
+
+# konvertado...
+http://biochemlabsolutions.com/Molecule%20Docking/FORMATS/Formats%20PDB%20PDBQT%20SDF%20MOL.html
+
+superrigardon pri tiu kaj alia konceptoj donas la prezentaĵo:
+https://www.csus.edu/indiv/s/spencej/chem%2031%20summer%2014%20web/day%202%20lecture.pdf
+
+-->
 
 ### fontoj
 
