@@ -11,18 +11,31 @@ js:
 ---
 
 
-...agregataj statoj...
-
-- dipol-dipol
-- hidrogen-ponto
-- London-forto
-
 <!-- kp.
 https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/02imf/imf3.htm
 
 The especially strong intermolecular forces in ethanol are a result of a special class of dipole-dipole forces called hydrogen bonds. This term is misleading since it does not describe an actual bond. A hydrogen bond is the attraction between a hydrogen bonded to a highly electronegative atom and a lone electron pair on a fluorine, oxygen, or nitrogen atom. Because the hydrogen atom is very small, the partial positive charge that occurs because of the polarity of the bond between hydrogen and a very electronegative atom is concentrated in a very small volume. This allows the positive charge to come very close to a lone electron pair on an adjacent molecule and form an especially strong dipole-dipole force.
 
 -->
+
+## dipol-dipol-fortoj
+{: .sekcio}
+
+<div id="jmol_dms">
+<script type="text/javascript">
+  // au uzu inc/glacio_mep.spt kun isosurface off; 
+  Jmol._isAsync = true;
+  jmol_kesto("jmol_dms",
+    "inc/DMS_MEP.spt",
+    600,600,
+    (app) => { Jmol.script(app,
+      'set antialiasDisplay ON'
+    )}
+  );
+</script>
+</div>
+ 
+.
 
 ## hidrogenpontoj
 {: .sekcio}
@@ -184,6 +197,7 @@ aspektas en molekula skalo -->
 
 <div id="jmol_glacio">
 <script type="text/javascript">
+  // au uzu inc/glacio_mep.spt kun isosurface off; 
   Jmol._isAsync = true;
   jmol_kesto("jmol_glacio",
     "inc/glacio.pdb",
@@ -195,6 +209,13 @@ aspektas en molekula skalo -->
 </script>
 </div>
 
+
+## London-fortoj
+{: .sekcio}
+
+...
+
+<!-- klarigi rilaton al ...agregataj statoj...  ??? -->
 
 ## fontoj
 
