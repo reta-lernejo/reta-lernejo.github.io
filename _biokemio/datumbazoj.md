@@ -14,6 +14,7 @@ title: Datumbazoj por kemio kaj biokemio
 - Beilstein
 - Chemical Abstracts 
 - Organic Syntheses
+- [Zinc](https://zinc.docking.org/)
 
 - [Organic Chemistry Resources Worldwide](http://www.organicworldwide.net/)
 

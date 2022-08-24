@@ -1,13 +1,13 @@
 ---
 layout: laborfolio
-title: Valento kaj atomaj fortoj
+title: Interatomaj fortoj
 chapter: 2
 js-ext:
   - mathjax3
 ---
 
 En ĥemio rolas precipe la elektronoj de la eksteraj orbitaloj.
-Vidu la paĝon pri [elektrondistribuo](). Oni nomas ilin valentaj elektronoj.
+Vidu la paĝon pri [elektrondistribuo](elektrondistribuo). Oni nomas ilin valentaj elektronoj.
 
 Ĉe la elementoj de la ĉefaj grupoj en la perioda sistemo de elementoj
 tio estas la elektronoj de la p- kaj s-orbitaloj. Ilia nombro egalas al

@@ -1,11 +1,11 @@
 ---
 layout: laborfolio
-title: Distribuo de elektronoj en orbitaloj
-chapter: 1
+title: Distribuo de elektronoj
+chapter: 1.1
 js:
   - folio-0a
   - sekcio-0b 
-  - kemio-0a
+  - atomo-0a
   - jmol-0a
   - jsmol/JSmol.min  
 ---
@@ -80,7 +80,7 @@ Elektu valoron por n/l kaj m malsupre!
     "",
     600,600,
     (app) => { Jmol.script(app,
-      'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141'
+      'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141; spin on'
     )}
   );
 </script>
@@ -92,7 +92,6 @@ lanĉe(() => {
     const oe = ĝi("#orb_elekto_nl");
     oe.append('subŝelo (n/l):');
 
-    const subŝeloj = "spdfghij";
     const ss = atommodelo.subŝeloIteraciilo();
     let result = ss.next();
         
@@ -100,10 +99,10 @@ lanĉe(() => {
         const n = result.value[0];
         const l = result.value[1];
 
-        const nl = ""+n+subŝeloj[l];
-        const inp = kreu("input", {type: "radio", id: `o_${n}${l}`, name: "o_nl", value: nl});
-        const lbl = kreu("label", {for: `o_${n}${l}`});
-        lbl.append(nl);
+        const nl = atommodelo.subŝelo(result.value);
+        const inp = kreu("input", {type: "radio", id: `o_${nl}`, name: "o_nl", value: nl});
+        const lbl = kreu("label", {for: `o_${nl}`});
+        lbl.append(nl+" ");
 
         if (nl[1] == "s" && n>1) oe.append(" | ");
         if (nl == "5s") oe.append(kreu("br"));
@@ -111,22 +110,25 @@ lanĉe(() => {
 
         inp.addEventListener("click",(event) => {
             const val = event.target.value;
-            const l_ = {"s": 0, "p": 1, "d": 2, "f": 3}[val[1]];
+            const m_max = atommodelo.m_max(val[1]); // m_max = l!
             const om = ĝi("#orb_elekto_m");
             om.textContent = 'm: ';
             // const let n_orbitaloj = 2 * l + 1;
-            for (let m_ = -l_; m_<= l_; m_++) {
+            for (let m_ = -m_max; m_<= m_max; m_++) {
                 const _inp = kreu("input", {type: "radio", id: `o_m${m_}`, name: "o_m", value: m_});
                 const _lbl = kreu("label", {for: `o_m${m_}`});
-                _lbl.append(""+m_);
-
+                _lbl.append(""+m_+" ");
                 _inp.addEventListener("click",orbitalo_elektita);
 
                 om.append(_inp,_lbl);
+
+                if (m_ == 0) {
+                    _inp.checked = true;
+                    _inp.dispatchEvent(new MouseEvent("click"));
+                    //orbitalo_elektita();
+                }
             }
         });
-        // ni havas 2*l+1 orbitaloj po suŝelo (m: -l..-l)
-        //const subs = subŝeloj[l];
 
         // iru al sekva subŝelo
         result = ss.next();
@@ -139,27 +141,19 @@ lanĉe(() => {
         console.log("nl: "+nl+" m: "+m);
 
         const n = nl[0];
-        const l =  {"s": 0, "p": 1, "d": 2, "f": 3}[nl[1]];
+        const l = atommodelo.m_max(nl[1]); // m_max = l!
 
         Jmol.script(jmol_orbital_ref,
             `isosurface phase atomicOrbital ${n} ${l} ${m}; color isosurface translucent 0.6;`);
     }
 
-/*
-    for (let n=1; n<8; n++) {
-        const i = kreu("input", {type: "radio", id: `o_n${n}`, name: "o_n", value: n});
-        const l = kreu("label", {for: `o_n${n}`});
-        l.append(n);
-        oe.append(i,l);
-    }
-    */
 });
 </script>
 
 <div id="orb_elekto_nl"/>
 <div id="orb_elekto_m"/>
 
-(En la supre prezento la surfacoj prezentas la spacon ene de kiu troviĝas elektrono de tiu
+(En la supra diagramo la surfacoj prezentas la spacon ene de kiu troviĝas elektrono de tiu
 orbitalo kun 95%-a probableco. En la blua areo la ondfunkcio estas pozitiva en la ruĝa negativa.
 La surfaco foje aperas iom anguleca pro limigo de la prezentoalgoritmo.)
 
@@ -241,7 +235,7 @@ Do oni povus imagi al si izolitan atomon kiel globforman tamburan membranon, fik
 -->
 
 
-##  Notado laŭ <i>Pauling</i>
+##  Notado laŭ <i>Paŭling</i>
 {: .sekcio}
 
 
@@ -307,7 +301,7 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
     // krome montru elementonomojn, mallongigitajn notaciojn, periodon kaj blokon/grupon ktp.
     // laŭ https://de.wikipedia.org/wiki/Elektronenkonfiguration
 
-    const subŝeloj = "spdfghij";
+    //const subŝeloj = "spdfghij";
 
     const esceptoj = {
         24: "3d5 4s1", 42: "4d5 5s1",
@@ -366,9 +360,10 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 
             // ni havas 2*l+1 orbitaloj po suŝelo (m: -l..-l)
             let n_orbitaloj = 2 * l + 1;
-            const subs = subŝeloj[l];
+            //const subs = subŝeloj[l];
+            const nl = atommodelo.subŝelo([n,l])
 
-            ele_rest = distr_ss(+n+subs,ele_rest);
+            ele_rest = distr_ss(nl,ele_rest);
 
             // iru al sekva subŝelo
             result = ss.next();
@@ -399,19 +394,20 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
         // nombro de orbitaloj sur subŝelo estas
         // 2 * l + 1, ĉar m: -l..+l
         const n_orbitaloj = 2 * l + 1;
-        const subs = subŝeloj[l];
+        //const subs = subŝeloj[l];
+        const nl = atommodelo.subŝelo(result.value);
 
         // n+l donas la subŝelon kiun ni montru en nova linio
         // supre de la aliaj
         const ldiv = kreu("div");
-        ldiv.setAttribute("id","p_" + n + subs);
+        ldiv.setAttribute("id",`p_${nl}`);
         ldiv.classList.add("subŝelo");
         // montru strekon super 1s kaj p-orbitaloj pro nobelgasaj distribuoj
-        if (subs == 'p' || n==1 && subs == 's') {
+        if (nl[1] == 'p' || nl == "1s") {
             ldiv.setAttribute("style","border-top: 2px solid black;");
         }
         const ll = kreu("div");
-        ll.textContent = +n + subs;
+        ll.textContent = nl; //+n + subs;
         //let style = "width: 2em; display: inline-block;";        
         //ll.setAttribute("style","width: 2em; display: inline-block");
         ldiv.append(ll);
@@ -444,138 +440,8 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 
 </script>
 
-
-
-## Rilato al la perioda sistemo de elementoj
-{: .sekcio}
-
-
-Energie ekvilibra stato estas atingita se ĉefa energinivelo estas plenigita per ok elektronoj, do se
-la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de noblaj gasoj. Ĉe heliumo tio estas escepte nur
-du elektronoj ĉar la unua energinivelo havas nur unu s-orbitalon kun kapacito de du elektronoj.
-
-Kun la elemento sekvanta noblan gason, kaj do ekplenigo de la s-orbitalo de la venonta ĉefa energinivelo
-komenciĝas nova periodo. Ni supre montris tion per horizontalaj linioj.
-
-La plenigo de la s-orbitaloj respondas al la unuaj du ĉefgrupoj en la perioda sistemo. La plenigo de la 
-tri p-orbitaloj al la grupoj 13 ĝis 18.
-
-La grupoj 3 ĝis 12 respondas al plenigo de d-orbitaloj, 
-dek elektronoj respondas al dek kromgrupoj.
-
-La lantanidoj kaj aktinidoj respondas al la plenigo de la f-orbitaloj (14 elektronoj). Tamen kelkaj el tiu serio
-havas iom devian distribuon, kelkaj elektronoj jam okupas la subŝelojn 5d resp. 6d antaŭ plenigi tute
-la subŝelojn 4f resp. 5f.
-
-<style>
-    #perioda_sistemo {
-        display: grid; 
-        grid-template-rows: repeat(7,1.5em); 
-        grid-template-columns: repeat(19,1.5em);
-    }
-
-    #perioda_sistemo_f {
-        display: grid; 
-        grid-template-rows: repeat(2,1.5em); 
-        grid-template-columns: repeat(14,1.5em);
-        margin-left: 6em;
-        margin-top: 1em;
-    }    
-    
-    #perioda_sistemo span {
-        border: 1px solid black;
-    }
-
-    #perioda_sistemo .c_prd {
-        border: none;
-    }
-
-    #perioda_sistemo .c_s {
-        background-color: bisque;
-    }
-
-    #perioda_sistemo .c_p {
-        background-color: darksalmon;
-    }
-
-    #perioda_sistemo .c_d {
-        background-color: lightblue;
-    }
-
-    #perioda_sistemo_f .c_f {
-        background-color: moccasin;
-        border: 1px solid black;
-    }
-
-
-
-</style>
-<div id="perioda_sistemo"></div>
-<div id="perioda_sistemo_f"></div>
-
-<script>
-function perioda_sistemo() {
-    const ps = ĝi("#perioda_sistemo");
-    const ps_f = ĝi("#perioda_sistemo_f");
-
-    function cell(cls, content, style) {
-        const cell = kreu("span");
-        cell.classList.add(cls);
-        if (style) cell.setAttribute("style",style);
-        cell.textContent = content;
-        return cell;
-    }
-
-    const ss = atommodelo.subŝeloIteraciilo();
-    let result = ss.next();
-    
-    while (!result.done) {
-        const n = result.value[0];
-        const l = result.value[1];
-        // nombro de orbitaloj sur subŝelo estas
-        // 2 * l + 1, ĉar m: -l..+l
-        const n_ele = 2 * (2*l+1);
-        const subs = subŝeloj[l];
-
-        if (subs=='s') {
-            //komencu novan periodon
-            ps.append(cell('c_prd',n,"grid-column-start:1;grid-row-start:"+(n+1)));
-        }
-
-        // 1s - orbitalo
-        if (n==1 && subs=='s') {
-            ps.append(cell('c_s','1s',"grid-column-start:2;grid-row-start:2"));
-            ps.append(cell('c_s','1s',"grid-column-start:19;grid-row-start:2"));
-        // ceteraj s-orbitaloj
-        } else if (subs=='s') {
-            for (let i=0;i<n_ele;i++) {
-                ps.append(cell('c_s',n+subs,"grid-column-start:" + (i+2) + ";grid-row-start:" + (n+1)));
-            }
-        // p-orbitaloj
-        } else if (subs=='p') {
-            for (let i=0;i<n_ele;i++) {
-                ps.append(cell('c_p',n+subs,"grid-column-start:" + (i+14) + ";grid-row-start:" + (n+1)));
-            }
-        // d-orbitaloj
-        } else if (subs=='d') {
-            for (let i=0;i<n_ele;i++) {
-                ps.append(cell('c_d',n+subs,"grid-column-start:" + (i+4) + ";grid-row-start:" + (n+2)));
-            }        
-
-        // f-orbitaloj
-        } else if (subs=='f') {
-            for (let i=0;i<n_ele;i++) {
-                ps_f.append(cell('c_f',n+subs,"grid-column-start:" + (i+1) + ";grid-row-start:" + (n-3)));
-            }
-        }
-
-        result = ss.next();
-    }
-
-}
-
-perioda_sistemo();
-</script>
+La konstruo de atomoj kaj aparte la distribuo de la elektronoj influas la ĥemiajn ecojn de la elementoj
+kaj per tiuj ecoj oni enordigas ilin en la [periodan sistemon de elementoj](perioda_sistemo).
 
 
 ### fontoj
