@@ -198,6 +198,17 @@ class Elemento {
             };
         }
 
+        // redonas CSS-klaso-nomon por grupo, kiu
+        // identigas la plenigon de plej alta orbitalo
+        // negativa g estas por lantanidoj/aktinidoj
+        function g_cls(g,p) {
+            if (p==1 && g==18) return `s2` // escepto heliumo!
+            if (g<0) return `f${-g-2}`;
+            if (g<=2) return `s${g}`;
+            if (g<=12) return `d${g-2}`;
+            return `p${g-12}`;
+        }
+
         function erekt(elm) {    
 
             // apartaj koordinatoj por aktinidoj/lantanidoj
@@ -210,7 +221,7 @@ class Elemento {
             const g = document.createElementNS(ns,"g");
             atributoj(g, {
                 id: `ps_${elm.simbolo}`,
-                class: "elm",
+                class: `elm o_${g_cls(elm.grupo,elm.periodo)} p_${elm.periodo}`,
                 transform: `translate(${10*gr} ${10*pd})`
             });
 

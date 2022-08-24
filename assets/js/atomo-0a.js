@@ -165,7 +165,32 @@ const atommodelo = function () {
         return ssIterator;
     }
 
+    /**
+     * Redonas la nomon de subŝelo (1p, 2p, 2s ...)
+     * 
+     * @param [int,int] kvantumnumeroj n (ŝelo) kaj l (subŝelo) 
+     */
+    function subŝelo([n,l]) {
+        return ""+n+"spdfghij"[l];
+    }
+
+    /**
+     * Redonas la maksimumon de la kvantumnumero m. Ekz-e se
+     * maksimumo de m estas 3, ĝi povas nombriĝi de -3 ĝis 3
+     * 
+     * @param l kvantumnuermo l (subŝelo) donita kiel nombro aŭ litero (s,p,d,f...)
+     */
+    function m_max(l) {
+        if (typeof l == "integer") {
+            return l
+        } else {
+            return "spdfghij".indexOf(l);
+        }
+    }
+
     return {
-        subŝeloIteraciilo: subŝeloIteraciilo
+        subŝeloIteraciilo: subŝeloIteraciilo,
+        subŝelo: subŝelo,
+        m_max: m_max
     }
 }();

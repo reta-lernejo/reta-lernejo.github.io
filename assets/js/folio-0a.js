@@ -16,13 +16,14 @@ function ĉiuj(elektilo) {
  * @param nomo elementnomo, ekz-e 'div'
  * @param atributoj objekto kies kampoj estas la atributnomoj kaj ties valoroj
  */
-function kreu(nomo, atributoj) {
+function kreu(nomo, atributoj, teksto) {
     const el = document.createElement(nomo);
     if (atributoj) {
         for (const [atr,val] of Object.entries(atributoj)) {
             el.setAttribute(atr,val);
         }
     };
+    if (teksto) el.textContent = teksto;
     return el;
 }
 
