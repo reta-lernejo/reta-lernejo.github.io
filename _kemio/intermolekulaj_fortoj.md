@@ -22,7 +22,7 @@ The especially strong intermolecular forces in ethanol are a result of a special
 {: .sekcio}
 
 <div id="jmol_dms">
-<script type="text/javascript">
+<script type="text/javascript" async>
   // au uzu inc/glacio_mep.spt kun isosurface off; 
   Jmol._isAsync = true;
   jmol_kesto("jmol_dms",
@@ -196,7 +196,7 @@ La ringa strukturo ĉirkaŭas relative multe da malplena spaco inter la molekulo
 aspektas en molekula skalo -->
 
 <div id="jmol_glacio">
-<script type="text/javascript">
+<script type="text/javascript" async>
   // au uzu inc/glacio_mep.spt kun isosurface off; 
   Jmol._isAsync = true;
   jmol_kesto("jmol_glacio",

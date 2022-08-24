@@ -63,6 +63,7 @@ function malplenigu(elektilo) {
 
 
 let _lanĉtaskoj = [];
+document.body.style.cursor = 'progress';
 
 /**
  * Plenumas ciujn lanĉo-taskojn, kiujn vi aldonu per 
@@ -70,7 +71,13 @@ let _lanĉtaskoj = [];
  */
 window.onload = () => { 
     for (t of _lanĉtaskoj) { t(); }
+    document.body.style.cursor = 'default';
 }
+/*
+window.onload = () => { 
+    document.body.style.cursor = 'progress';
+}
+*/
 
 /**
  * Kolektas funkciojn, kiuj vokiĝo tuj post kiam la dokumento estas ŝargita.

@@ -126,7 +126,7 @@ La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj ato
 En la realo interagas ne nur du atomoj sed multaj samtempe kaj ĉar elektrostatikaj fortoj efikas inter ĉiuj pozitivaj kaj negativaj jonoj formiĝas *jona krado* kiel montrita en la malsupra bildo.
 
 <div id="jmol_NaCl">
-<script type="text/javascript">
+<script type="text/javascript" async>
   Jmol._isAsync = true;
   jmol_kesto("jmol_NaCl",
     "inc/NaCl.pdb",

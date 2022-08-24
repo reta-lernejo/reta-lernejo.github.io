@@ -169,9 +169,9 @@ $$\ce{O-H}: 3,44-2,20 = 1,24$$
 
 
 <div id="jmol_metanolo">
-<script type="text/javascript">
-  Jmol._isAsync = true;
- // 'isosurface resolution 6 molecular map mep; color isosurface translucent;'
+<script type="text/javascript" async>
+  //Jmol._isAsync = true;
+// 'isosurface resolution 6 molecular map mep; color isosurface translucent;'
   jmol_kesto("jmol_metanolo",
     "inc/metanolo.spt",
     600,400,

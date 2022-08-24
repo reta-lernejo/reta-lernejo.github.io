@@ -73,7 +73,7 @@ moveto 1.0 { 462 -868 -180 47.18} 141
 
 Elektu valoron por n/l kaj m malsupre!
 <div id="jmol_orbital">
-<script type="text/javascript">
+<script type="text/javascript" async>
   let jmol_orbital_ref;
   Jmol._isAsync = true;
   jmol_orbital_ref = jmol_kesto("jmol_orbital",
