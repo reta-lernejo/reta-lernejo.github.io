@@ -13,7 +13,7 @@ Atomoj strebas al la favora elektron-distribuo de nobelaj gazoj. Por atingi tion
 
 Per tio la metala atomo ricevas pozitivan ŝargon, t.e. fariĝas pozitiva jono dum la nemetala fariĝas negativa jono. Per elektrostatika forto ili tiriĝas unu al alia, tiel formante *jonan ligon*. Do jona ligo baziĝas sur transigo de elektrono kaj elektrostatika altirforto.
 
-La sekva skema desegnofilmeto montras tiun principon ĉe atomo de natrio kaj atomo de kloro formantaj NaCl t.e. kuirsalon. 
+La sekva skema movbildo montras tiun principon ĉe atomo de natrio kaj atomo de kloro formantaj NaCl t.e. kuirsalon. 
 
 <script>
   let svg, lewis;  
@@ -132,7 +132,7 @@ En la realo interagas ne nur du atomoj sed multaj samtempe kaj ĉar elektrostati
     "inc/NaCl.pdb",
     300,200,
     (app) => { Jmol.script(app,
-      'set antialiasDisplay ON; spacefill 80%;'
+      'set antialiasDisplay ON; spacefill 80%; rotate AXISANGLE {1 1 1 30};'
     )}
   );
 </script>

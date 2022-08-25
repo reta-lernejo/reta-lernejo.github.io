@@ -19,6 +19,15 @@ body {
   /* border-top: 2px solid cornflowerblue;*/
 }
 
+.sekcio[open] {
+  margin-bottom: .7em;
+}
+
+A[onclick] {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
 H2.fontlisto {
   font-size: 18px;
   /*text-decoration: underline;*/
@@ -31,7 +40,7 @@ summary {
   font-size: 120%;
   background-color: lightblue;
   padding: .2em;
-  margin-bottom: .4em;
+  margin-bottom: .2em;
   border-top: 3px solid cornflowerblue;
   border-radius: .1em;
   /*
