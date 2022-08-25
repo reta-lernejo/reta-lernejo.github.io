@@ -147,10 +147,10 @@ const SVG = function() {
     }
 
     function uzo(href,transform) {
-        const pinto = document.createElementNS(ns,"use");
-        pinto.setAttribute("href",href);
-        pinto.setAttribute("transform",transform);
-        return pinto;
+        const u = document.createElementNS(ns,"use");
+        u.setAttribute("href",href);
+        if (transform) u.setAttribute("transform",transform);
+        return u;
     }
 
     return {

@@ -1,4 +1,4 @@
-if (lanĉe && typeof(lanĉe) == "function") {
+if (typeof lanĉe === "function") {
     lanĉe(()=>Sekcio.aranĝo());
 }
 

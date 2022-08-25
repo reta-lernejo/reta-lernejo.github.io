@@ -31,7 +31,7 @@ https://en.wikipedia.org/wiki/Metallic_bonding
             x: x,
             y: y
         });
-        SVG.aldonu(k,movo(3.5));
+        //SVG.aldonu(k,movo(3.5));
         SVG.aldonu(svg,k);
     }
 
@@ -70,7 +70,7 @@ https://en.wikipedia.org/wiki/Metallic_bonding
 <svg id="metalo"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="520" height="180" viewBox="0 0 260 90">    
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="520" height="167" viewBox="5 5 250 80">    
     <defs>
         <g id="katjono">
             <circle r="5" fill="none" stroke="black"/>
