@@ -24,18 +24,19 @@ The especially strong intermolecular forces in ethanol are a result of a special
 <div id="jmol_dms">
 <script type="text/javascript">
   // au uzu inc/glacio_mep.spt kun isosurface off; 
-  Jmol._isAsync = true;
-  jmol_kesto("jmol_dms",
-    "inc/DMS_MEP.spt",
-    600,600,
-    (app) => { Jmol.script(app,
-      'set antialiasDisplay ON'
-    )}
-  );
+  //Jmol._isAsync = true;
+  lanĉe(()=>{
+    jmol_div("jmol_dms",
+      "inc/DMS_MEP.spt",
+      600,600,
+      (app) => { Jmol.script(app,
+        'set antialiasDisplay ON'
+      )}
+    );
+  })
 </script>
 </div>
- 
-.
+
 
 ## hidrogenpontoj
 {: .sekcio}

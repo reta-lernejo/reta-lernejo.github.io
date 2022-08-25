@@ -74,15 +74,32 @@ moveto 1.0 { 462 -868 -180 47.18} 141
 Elektu valoron por n/l kaj m malsupre!
 <div id="jmol_orbital">
 <script type="text/javascript">
-  let jmol_orbital_ref;
-  Jmol._isAsync = true;
-  jmol_orbital_ref = jmol_kesto("jmol_orbital",
-    "",
-    600,600,
-    (app) => { Jmol.script(app,
-      'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141; spin on'
-    )}
-  );
+
+    let jmol_orbital_ref;
+    lanĉe(() => {
+        jmol_orbital_ref = jmol_div("jmol_orbital",
+            "",
+            600,600,
+            (app) => { window.Jmol.script(app,
+            'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141; spin on'
+            )}
+        );
+    });
+
+    /*
+    lanĉe(() => {
+        const mi = ĝi("#jmol_orbital");
+        //window.Jmol._isAsync = true;
+        mi.innerHTML = jmol_html("jmol_orbital_ref",
+        "",
+        600,600,
+        (app) => { window.Jmol.script(app,
+        'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141; spin on'
+        )}
+    );
+  });
+  */
+
 </script>
 </div>
 
@@ -143,7 +160,7 @@ lanĉe(() => {
         const n = nl[0];
         const l = atommodelo.m_max(nl[1]); // m_max = l!
 
-        Jmol.script(jmol_orbital_ref,
+        Jmol.script(jmol_orbital_ref, // = jmol_orbital
             `isosurface phase atomicOrbital ${n} ${l} ${m}; color isosurface translucent 0.6;`);
     }
 
