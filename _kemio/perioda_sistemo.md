@@ -4,11 +4,23 @@ title: Perioda sistemo de elementoj
 chapter: 1.2
 js:
   - folio-0a
+  - sekcio-0b
   - elementoj-0b
   - atomo-0a
 ---
 
 Atomojn oni specigas laŭ ilia nombro da protonoj. Tiujn specojn oni nomas *elementoj*.
+
+## la elementoj
+{: .sekcio}
+
+Historiaj malkovroj pri la ĥemiaj elementoj[^C1].
+
+- Daniel Sennert (1618): leĝo pri la konservo de la elementoj: dum ĥemia reakcio elementoj nek perdiĝas nek nove kreiĝas.
+- Robert Boyle (1661): elementoj estas primitivaj kaj simplaj nemiksitaj korpoj, kiuj ne enhavas alian korpon. Ili estas ingrediencoj, el kiuj konsistas ĉiuj perfekte miksitaj korpoj.
+- Antoine Laurent de Lavoisier (1785): leĝo pri la konservo de la maso: La sumo de la masoj de la reakciantoj egalas al la sumo de la masoj de la reakciaj produktoj.
+
+
 Ĉiuj elementoj post ilia malkovro ricevis nomon kaj [simbolon](#simbolo){: #simbolo onclick="simbolo(event);"}.
 
 <script>
@@ -54,14 +66,16 @@ function simbolo(event) {
 H: hidrogeno, He: heliumo, Li: litio, Be: berilio, B: boro, C: karbono,
 N: nitrogeno, O: oksigeno, F: fluoro, Ne: neono ktp.
 
+
+
 ## perioda sistemo de elementoj
 {: .sekcio}
 
 Montriĝas ke elementoj kun ekvivalenta [distribuo de elektronoj](elektrondistribuo) en la plej altaj orbitaloj havas similajn ĥemiajn ecojn. Elementojn kun similantaj ecoj oni ordigas laŭ kolumnoj,
-tiel ricevante tabelon.
+la *grupoj*, tiel ricevante tabelon.
 
-La horizontalojn de tiu tabelo oni nomas periodoj, ĉar ili indikas periodan ripetigon
-de elementaj ecoj. La nombro de periodo (indikita per romia nombro) respondas al la plej alta okupita elektronŝelo, t.e. la kvantumnombro *n*.
+La horizontalojn de tiu tabelo oni nomas *periodoj*, ĉar ili indikas periodan ripetiĝon
+de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej alta okupita elektronŝelo, t.e. la kvantumnombro *n*.
 
 <style>
     #spdf {
@@ -168,7 +182,7 @@ de elementaj ecoj. La nombro de periodo (indikita per romia nombro) respondas al
 
 
 Energie ekvilibra stato estas atingita se ĉefa energinivelo estas plenigita per ok elektronoj, do se
-la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de noblaj gasoj. Ĉe heliumo tio estas escepte nur du elektronoj ĉar la unua energinivelo havas nur unu s-orbitalon kun kapacito de du elektronoj.
+la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de *noblaj gasoj*. (Ĉe heliumo tio estas escepte nur du elektronoj ĉar la unua energinivelo havas nur unu s-orbitalon kun kapacito de du elektronoj.)
 
 Kun la elemento sekvanta noblan gason, kaj do ekplenigo de la s-orbitalo de la venonta ĉefa energinivelo
 komenciĝas nova periodo. 
@@ -179,7 +193,8 @@ tri p-orbitaloj al la grupoj 13 ĝis 18.
 La grupoj 3 ĝis 12 respondas al plenigo de d-orbitaloj, 
 dek elektronoj respondas al dek kromgrupoj.
 
-La lantanidoj kaj aktinidoj respondas al la plenigo de la f-orbitaloj (14 elektronoj). Tamen kelkaj el tiu serio
+La lantanidoj kaj aktinidoj, ordigitaj en du vicoj sub la tabelo de la ceteraj elementoj, 
+respondas al la plenigo de la sep f-orbitaloj (14 elektronoj). Tamen kelkaj el tiu serio
 havas iom devian distribuon, kelkaj elektronoj jam okupas la subŝelojn 5d resp. 6d antaŭ plenigi tute
 la subŝelojn 4f resp. 5f.
 
@@ -294,3 +309,7 @@ function perioda_sistemo() {
 perioda_sistemo();
 </script>
 
+
+## fontoj
+
+[^C1]: [(de Atommodell)](https://www.chemie.de/lexikon/Atommodell.html#:~:text=Ein%20Atommodell%20ist%20ein%20Modell,erkl%C3%A4ren%2C%20wurden%20aber%20auch%20komplizierter.)
