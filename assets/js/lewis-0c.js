@@ -5,6 +5,7 @@ const _L = {
     sy: 4, // dy de ŝargo relative al la elementsimbolo
     dkr: 10,// distanco de jonkrampoj
     re: .5, // radiuso de elektrono(punkto)
+    rf: 2, // radiuso de formalŝargo-cirkleto
     dv: 6, // distanco de valentstreko
     lv: 4, // longeco de valentstreko
     dk: 4, // distanco de kojno
@@ -22,7 +23,7 @@ const _L = {
  * 0 (supre), 1 (30°), 2 (60°), 3 (90°), 4 (120°), 5 (150°), 6 (180°)
  * 7 (210°), 8 (240°), 9 (270°), x (300°), y (330°)
  * aŭ relative al la antaŭa:
- * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°)
+ * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°), o (okonocirklo, 45°)
  * A (akvo, 105°), a (85°), p (piramida/tetraedra, 109,5°), s (72°), S (144°)
  * 
  * elektronoj/ligoj:
@@ -60,7 +61,7 @@ class Lewis {
 
         // relativa angulo
         return aa + ({
-            d: 180, t: 120, k: 90, 
+            d: 180, t: 120, k: 90, o: 45,
             A: 105, a: 85, p: 109.5, s: 72, S: 144
         }[sgn] || def);
     }
@@ -95,7 +96,7 @@ class Lewis {
         e.setAttribute("r",_L.re);
         e.setAttribute("cx",_L.de);
         if (dy) e.setAttribute("cy",dy);
-        if (a) e.setAttribute("transform",`rotate(${a-90})`);
+        if (a != 90) e.setAttribute("transform",`rotate(${a-90})`);
         return e;
     }
 
@@ -112,7 +113,7 @@ class Lewis {
             p.setAttribute("y1",dy);
             p.setAttribute("y2",dy)
         }
-        if (a) p.setAttribute("transform",`rotate(${a-90})`);   
+        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
         return p;     
     }
 
@@ -124,7 +125,7 @@ class Lewis {
         const p = document.createElementNS(_L.ns,"path");
         p.setAttribute("d",`M${_L.dk},0 l${_L.lk},${-_L.yk} l0,${2*_L.yk} Z`);
         p.setAttribute("class","akojno");
-        if (a) p.setAttribute("transform",`rotate(${a-90})`);   
+        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
         return p;     
     }
 
@@ -137,7 +138,7 @@ class Lewis {
         p.setAttribute("d",`M${_L.dk},0 l${_L.lk},${-_L.yk} l0,${2*_L.yk} Z`);
         // p.setAttribute("d",`M${_L.dk},${-_L.yk} l${_L.lk},${_L.yk} L${_L.dk},${_L.yk} Z`);
         p.setAttribute("class","mkojno");
-        if (a) p.setAttribute("transform",`rotate(${a-90})`);   
+        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
         return p;     
     }
 
@@ -155,7 +156,7 @@ class Lewis {
             p.setAttribute("y1",dy);
             p.setAttribute("y2",dy)
         }
-        if (a) p.setAttribute("transform",`rotate(${a-90})`);   
+        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
         return p;     
     }
 
@@ -179,6 +180,25 @@ class Lewis {
         pl.setAttribute("points",`${dk*.7},${-dk} ${dk},${-dk} ${dk},${dk} ${dk*.7},${dk}`);
         pl.setAttribute("fill","none");
         return pl;
+    }
+
+    /**
+     * desegnu formalŝargon kiel cirklitan + aŭ -
+     */
+    _fs(a,plus) {
+        const g = document.createElementNS(_L.ns,"g");
+        g.setAttribute("class","shargo");
+        const c = document.createElementNS(_L.ns,"circle");
+        c.setAttribute("r",_L.rf);
+        c.setAttribute("cx",_L.de);
+        const p = document.createElementNS(_L.ns,"path");
+        const l = 3/4*_L.rf;
+        let d = `M${_L.de-l/2} 0L${_L.de+l/2} 0`;
+        if (plus) d+= `M${_L.de} ${-l/2}L${_L.de} ${l/2}`
+        p.setAttribute("d",d);
+        g.append(c,p);
+        if (a != 90) g.setAttribute("transform",`rotate(${a-90})`);
+        return g;     
     }
 
     /** 
@@ -291,6 +311,12 @@ class Lewis {
                             break;
                         case "~": // hidrogenponto / parta ligo
                             g.append(this._h(0,a));
+                            break;
+                        case "+": // formala ŝargo (+)
+                            g.append(this._fs(a,true));
+                            break;
+                        case "'": // formala ŝargo (-)
+                            g.append(this._fs(a,false));
                             break;
                         case " ":
                             break;
