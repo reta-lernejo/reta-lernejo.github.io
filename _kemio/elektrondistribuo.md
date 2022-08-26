@@ -74,17 +74,16 @@ moveto 1.0 { 462 -868 -180 47.18} 141
 Elektu valoron por n/l kaj m malsupre!
 <div id="jmol_orbital">
 <script type="text/javascript">
-
-    let jmol_orbital_ref;
-    lanĉe(() => {
-        jmol_orbital_ref = jmol_div("jmol_orbital",
-            "",
-            600,600,
-            (app) => { window.Jmol.script(app,
-            'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141; spin on'
-            )}
-        );
-    });
+  let jmol_orbital_ref;
+  lanĉe(()=>{
+    jmol_orbital_ref = jmol_div("jmol_orbital",
+        "",
+        600,600,
+        (app) => { Jmol.script(app,
+        'set antialiasDisplay ON; isosurface phase atomicOrbital 3 2 1; color isosurface translucent 0.6; set axesMolecular;set axesScale 0.5;axes on; moveto 1.0 { 462 -868 -180 47.18} 141; spin on'
+        )}
+    );
+  });
 </script>
 </div>
 
