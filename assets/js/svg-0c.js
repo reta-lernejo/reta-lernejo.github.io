@@ -12,6 +12,15 @@ const SVG = function() {
         p.append(...idoj);
     }
 
+    function enŝovu(parenco,...idoj) {
+        // parenco povas esti id aŭ Element
+        let p = parenco;
+        if (typeof parenco === 'string') {
+            p = document.getElementById(parenco);
+        }
+        p.prepend(...idoj);
+    }
+
     function elemento(spec) {
         return document.querySelector(spec);
     }
@@ -156,6 +165,7 @@ const SVG = function() {
     return {
         elemento: elemento,
         aldonu: aldonu,
+        enŝovu: enŝovu,
         forigu: forigu,
         malplenigu: malplenigu,
         grupo: grupo,
