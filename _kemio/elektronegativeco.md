@@ -8,6 +8,8 @@ js:
   - svg-0c
   - jmol-0a
   - jsmol/JSmol.min
+css:
+  - elementoj-0a  
 js-ext:
   - mathjax3
 ---
@@ -20,41 +22,26 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
 
 <script>
+  let emfazita_elemento;
 
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
     Elemento.periodsistemo(ps,true);
+    kiam_klako("#periodsistemo .elm",(event) => {
+      malemfazo(emfazita_elemento);
+      const g = event.target.closest("g");
+      if (g != emfazita_elemento) {
+        emfazita_elemento = g;
+        emfazo(emfazita_elemento);
+      } else {
+        emfazita_elemento = undefined;
+      }
+      aktualigo_info();
+    })
   });
 </script>
 
 <style>
-  rect {
-    fill: none;
-    stroke: black;
-    stroke-width: .3;
-  }
-
-  text {
-      font-family: helvetica, sans-serif;
-      /*
-      stroke: black;
-      stroke-width: 0.2px;
-      */
-  }
-
-  text.etikedo {
-      font-size: 4px;
-      text-anchor: middle;
-      dominant-baseline: central;
-  }
-
-  text.smb {
-      font-size: 4.8px;
-      font-weight: bold;
-      text-anchor: middle;
-      dominant-baseline: central;
-  }
-
   .emfazo1 rect {
     fill: #cceeFF;
   }
@@ -73,18 +60,14 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
   .emfazo5 rect {
     fill: #e0e0FF;
   }
-
-  text.nro {
-    font-size: 2.4px;
-    font-weight: bold;
-    dominant-baseline: hanging;
+  .emfazo rect {
+    fill: #000088 !important;
   }
-
-  text.eneg {
-    font-size: 2.4px;
-    dominant-baseline: text-bottom;
-  }
+  .emfazo text {
+    fill: white !important;
+  }  
 </style>
+
 <svg id="periodsistemo"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
@@ -117,7 +100,16 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
   function aktualigo_info() {
       const nro = ĝi('#eneg_val').value;
-      ĝi('#eneg_info').textContent = lneg[nro];
+
+      if (emfazita_elemento) {
+        const smb = emfazita_elemento.id.split('_')[1];
+        const eneg = Elemento.smb(smb).eneg;
+        ĝi('#eneg_lbl').textContent = `negativec-diferenco (${smb} - ${lneg[nro]}):`;
+        ĝi('#eneg_info').textContent = Math.round(Math.abs(eneg-lneg[nro])*100)/100;
+      } else {
+        ĝi('#eneg_lbl').textContent = `elektronegativeco (laŭ Paŭling):`;
+        ĝi('#eneg_info').textContent = lneg[nro];
+      }
   }
 
   function aktualigo() {
@@ -151,7 +143,7 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
 -->
 
-<label for="eneg_info">elektronegativeco (laŭ Paŭling):</label> <b><span id="eneg_info">1</span></b><br>
+<label id="eneg_lbl" for="eneg_info">elektronegativeco (laŭ Paŭling):</label> <b><span id="eneg_info">1</span></b><br>
 <input type="range" id="eneg_val" style="width: 100%" step="1" value="12" min="0" max="118"  onchange="aktualigo()" oninput="aktualigo_info(); aktualigo();">
 
 ### Polusecaj ligoj
@@ -172,17 +164,17 @@ $$\ce{O-H}: 3,44-2,20 = 1,24$$
 <script type="text/javascript" async>
   //Jmol._isAsync = true;
 // 'isosurface resolution 6 molecular map mep; color isosurface translucent;'
-  jmol_kesto("jmol_metanolo",
-    "inc/metanolo.spt",
-    600,400,
-    (app) => { Jmol.script(app,
-      'set antialiasDisplay ON'
-    )}
-  );
+  lanĉe(() => {
+      jmol_div("jmol_metanolo",
+      "inc/metanolo.spt",
+      600,400,
+      (app) => { Jmol.script(app,
+        'set antialiasDisplay ON'
+      )}
+    );
+  });
 </script>
 </div>
-
-
 
 
 <!-- lig-preferoj...

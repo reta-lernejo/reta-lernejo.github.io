@@ -7,6 +7,8 @@ js:
   - sekcio-0b
   - elementoj-0b
   - atomo-0a
+css:
+  - elementoj-0a  
 ---
 
 Atomojn oni specigas laŭ ilia nombro da protonoj. Tiujn specojn oni nomas *elementoj*.
@@ -129,49 +131,11 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
 </script>
 
 <style>
-  rect {
-    fill: none;
-    stroke: black;
-    stroke-width: .3;
-  }
-
-  text {
-      font-family: helvetica, sans-serif;
-      /*
-      stroke: black;
-      stroke-width: 0.2px;
-      */
-  }
-
-  text.etikedo {
-      font-size: 4px;
-      text-anchor: middle;
-      dominant-baseline: central;
-  }
-
-  text.smb {
-      font-size: 4.8px;
-      font-weight: bold;
-      text-anchor: middle;
-      dominant-baseline: central;
-  }
-
   .emfazo rect {
     fill: #5353FF; /* #9370DB */
   }
   .emfazo text.smb {
     fill: white;
-  }
-
-  text.nro {
-    font-size: 2.4px;
-    font-weight: bold;
-    dominant-baseline: hanging;
-  }
-
-  text.eneg {
-    font-size: 2.4px;
-    dominant-baseline: text-bottom;
   }
 </style>
 <svg id="periodsistemo"

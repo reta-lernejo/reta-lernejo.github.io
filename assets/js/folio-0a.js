@@ -12,6 +12,16 @@ function ĉiuj(elektilo) {
     return document.querySelectorAll(elektilo); 
 }
 
+function kiam(evento,elektilo,reago) {
+    for (const el of document.querySelectorAll(elektilo)) {
+        el.addEventListener(evento,reago);
+    } 
+}
+
+function kiam_klako(elektilo,reago) {
+    kiam("click",elektilo,reago)
+}
+
 /** Kreas HTML-elementon kun atributoj
  * @param nomo elementnomo, ekz-e 'div'
  * @param atributoj objekto kies kampoj estas la atributnomoj kaj ties valoroj
@@ -59,6 +69,20 @@ function forigu(elektilo) {
 function malplenigu(elektilo) {
     const el = document.querySelector(elektilo);
     if (el) el.textContent = '';   
+}
+
+/**
+ * Aldonas al DOM-elemento klason por emfazi ĝin
+ */
+function emfazo(elm,klaso="emfazo") {
+    elm.classList.add(klaso);
+}
+
+/**
+ * Forigas de DOM-elemento klason por emfazi ĝin
+ */
+ function malemfazo(elm,klaso="emfazo") {
+    if (elm) elm.classList.remove(klaso);
 }
 
 
