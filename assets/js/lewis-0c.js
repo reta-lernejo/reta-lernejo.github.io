@@ -26,6 +26,7 @@ const _L = {
  * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°), 
  * e (seponciriklo, 51,5°), o (okonocirklo, 45°), 
  * A (akvo, 105°), a (85°), p (piramida/tetraedra, 109,5°), s (72°), S (144°), z (36°), Z (42°)
+ * "m " - minusas la sekvantajn angulojn
  * 
  * elektronoj/ligoj:
  * . unuopa elektrono, : elektronparo, ; elektrontriopo
@@ -256,6 +257,7 @@ class Lewis {
             const ŝovo = atom[2] || poz+1; 
             poz = ŝovo; // se ŝovo ne estas donita ni ŝovas je unu pozicio de la lasta
             const aŝov = atom[3] || 90;
+            let af = 1; // -1, ŝaltebla per "m ", minusos angulojn
             
             // skribu elementnomon centre
             const g = document.createElementNS(ns,"g");
@@ -281,8 +283,12 @@ class Lewis {
                     let ee = eltrj[e];
                     // ĉu la aktuala signo estas angulo 0-9, A-z
                     if ((ee >= "0" && ee <= "9") || (ee >= "A" && ee <= "z")) {
-                        a = this._a(ee,a,da)
-                        ee = eltrj[++e];
+                        if (ee == "m") {
+                            af = -1*af;
+                        } else {
+                            a = af*this._a(ee,a,da)
+                        }
+                        ee = eltrj[++e];    
                     };
 
                     // nun ĉiuokaze ni atendas ligtipon
