@@ -80,6 +80,7 @@ La horizontalojn de tiu tabelo oni nomas *periodoj*, ĉar ili indikas periodan r
 de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej alta okupita elektronŝelo, t.e. la kvantumnombro *n*.
 
 <style>
+    /*
     #spdf {
         display: grid;
         grid-template-columns: repeat(4,2em);
@@ -89,26 +90,38 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
     #spdf .h {
         font-weight: bold;
     }
+    */
 </style>    
 <div id="spdf">
+<!--
   <span class="h">s</span><span class="h">p</span><span class="h">d</span><span class="h">f</span>
   <span id="o_s">1</span><span id="o_p">-</span><span id="o_d">-</span><span id="o_f">-</span>
+  -->
 </div>
 
 <input type="range" id="elektronoj" style="width: 20em; max-width: 80%" min="1" max="32" value="1" onchange="aktualigo()" oninput="aktualigo()">
 
 <script>
+    let valTab;
+
     function aktualigo() {
-        let n = ĝi('#elektronoj').value;
+        // distribuu elektronojn laŭ elektita valento regule en la orbitalojn f,d,p,s
+        const n = ĝi('#elektronoj').value;
+
+/*
+        // korektenda pro variado laŭ periodo kaj esceptoj...
         const f = Math.max(n-(2+6+10),0); n-=f;
         const d = Math.max(n-(2+6),0); n-=d;
         const p = Math.max(n-2,0); 
         const s=n-p;
+        // prezentu la rezulton en la tabelo
         ĝi("#o_s").textContent = s;
         ĝi("#o_p").textContent = p;
         ĝi("#o_d").textContent = d;
         ĝi("#o_f").textContent = f;
+*/
 
+/*
         let cls = "o_s1";
         if (f > 0) cls = `o_f${f}`
         else if (d > 0) cls = `o_d${d}`
@@ -120,13 +133,37 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
             if (cl.contains(cls)) cl.add("emfazo")
             else cl.remove("emfazo");
         }
+        */
+
+        for (const e of ĉiuj("#periodsistemo .emfazo")) {
+            malemfazo(e);
+        }
+
+        let ecfg = [];
+        for (const ev of valTab[n]) {
+            const smb = ev.Symbol;
+            emfazo(ĝi(`#ps_${smb}`));
+            ecfg.push(
+                "<span style='display: inline-block; width: 2em'>" + ev.Symbol + "</span>:\xa0" +
+                ev.ElectronConfiguration
+                .split(" ").join("\xa0")
+                .replace(/]\s*/,"]\xa0")
+                .replace(/\s*\(.*\)/,"")
+            );
+        }
+        ĝi("#spdf").innerHTML = ecfg.join("<br/>");
     }
 
 
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
     Elemento.periodsistemo(ps,false);
-    aktualigo();
+
+    // ŝargu apartan element-tabelon kun elektrondistribuoj...
+    Elemento.json_element_tabelo((elmTab) => {
+        valTab = Elemento.laŭ_val(elmTab);
+        aktualigo();
+    });
   });
 </script>
 

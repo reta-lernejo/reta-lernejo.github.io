@@ -179,6 +179,34 @@ class Elemento {
         return eneg;
     }
 
+    /**
+     * Redonas la elementliston laŭ nombro de valentelektronoj
+     * Tio aktuale baziĝas sur la PubChem-elementlisto
+     */
+    static laŭ_val(elmTab) {
+        let valentoj = [];
+        for (const e of elmTab) {
+            if (e) { // elemento 0 ne ekzistas!
+                let cfg = e.ElectronConfiguration;
+                // forigu evtl. komenton kaj prefikson de nobla elemento
+                if (cfg.indexOf("(")>-1) cfg = cfg.substring(0,cfg.indexOf("(")-1).trim();
+                if (cfg.indexOf("]")>-1) cfg = cfg.substring(cfg.indexOf("]")+1).trim();
+                // apartigu triopojn kaj nombru elektronojn...
+                const tri =  cfg.split(" ");
+                let v = 0;
+                for (t of tri) {
+                    v += parseInt(t.substring(2))
+                }
+                if (! valentoj[v]) {
+                    valentoj[v] = [e];
+                } else {
+                    valentoj[v].push(e);
+                }
+            }
+        }
+
+        return valentoj;
+    }
 
     /**
      * Desegnas periodan sistemon kiel SVG
@@ -314,4 +342,44 @@ class Elemento {
             svg.append(erekt(elm));
         }
     }
+
+    static json_element_tabelo(kiam_preta) {
+        const json_url = "/assets/kem/PubChemElements.json";  
+        let request = new XMLHttpRequest();
+       
+        request.open('GET', json_url , true);
+           
+        request.onload = function() {
+          if (request.status >= 200 && request.status < 400) {
+            // ŝargita!
+            var json = (JSON.parse(request.response));
+            let elementoj = [];
+            const kolj = json.Table.Columns.Column;
+            const elmj = json.Table.Row;
+            for (const c of elmj) {
+                const e = c.Cell;
+                let elm = {};
+                for (let i=0; i<e.length; i++) {
+                    elm[kolj[i]] = e[i]
+                }
+                //console.log(elm);
+                elementoj[elm.AtomicNumber] = elm;
+            }
+            if (kiam_preta) kiam_preta(elementoj);
+          } else {
+              // post konektiĝo okazis eraro
+              console.error('Eraro dum ŝargo de ' + url);  
+              if (onError) onError(request);
+          }
+        };
+        
+        request.onerror = function() {
+          // konekteraro
+          console.error('Eraro dum ŝargo de ' + url);
+        };
+        
+        //request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.send();  
+    }
+
 }
