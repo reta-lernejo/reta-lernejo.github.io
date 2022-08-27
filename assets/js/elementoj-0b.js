@@ -61,7 +61,7 @@
         ['Xe','ksenono',5,18,2.67],
         ['Cs','cezio',6,1,0.79],
         ['Ba','bario',6,2,0.9],
-        ['La','lantano',6,-3,1.1],
+        ['La','lantano',6,3,1.1],
         ['Ce','cerio',6,-4,1.12],
         ['Pr','prazeodimo',6,-5,1.13],
         ['Nd','neodimo',6,-6,1.14],
@@ -75,7 +75,7 @@
         ['Er','erbio',6,-14,1.24],
         ['Tm','tulio',6,-15,1.25],
         ['Yb','iterbio',6,-16,1.1],
-        ['Lu','lutecio',6,3,1.27],
+        ['Lu','lutecio',6,-17,1.27],
         ['Hf','hafnio',6,4,1.3],
         ['Ta','tantalo',6,5,1.5],
         ['W','volframo',6,6,2.36],
@@ -93,7 +93,7 @@
         ['Rn','radono',6,18,2.2],
         ['Fr','franciumo',7,1,0.7],
         ['Ra','radiumo',7,2,0.9],
-        ['Ac','aktiniumo',7,-3,1.1],
+        ['Ac','aktiniumo',7,3,1.1],
         ['Th','torio',7,-4,1.3],
         ['Pa','protaktinio',7,-5,1.5],
         ['U','uranio',7,-6,1.38],
@@ -107,7 +107,7 @@
         ['Fm','fermio',7,-14,1.3],
         ['Md','mendelevio',7,-15,1.3],
         ['No','nobelio',7,-16,1.3],
-        ['Lr','laŭrencio',7,3,1.29],
+        ['Lr','laŭrencio',7,-17,1.29],
         ['Rf','ruterfordio',7,4,NaN],
         ['Db','dubnio',7,5,NaN],
         ['Sg','seborgio',7,6,NaN],
@@ -319,7 +319,7 @@ class Elemento {
             const nro = document.createElementNS(ns,"text");
             nro.textContent = pr;
             atributoj(nro, {
-                x: 6.4*(offs)+5,
+                x: 10*(offs)+5,
                 y: 10*(p+offs)+5,
                 class: "etikedo"
             });
