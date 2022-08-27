@@ -8,6 +8,8 @@ js:
   - lewis-0c
   - jmol-0a
   - jsmol/JSmol.min
+css:
+  - lewis-0c  
 ---
 
 
@@ -97,90 +99,10 @@ Ekzemploj:
 </script>
 
 
-<style>
-/*
-  svg {
-    stroke-width: 0px;
-    background-color: lightblue;
-  }
-  */
-
-  /* koloroj vd. http://jmol.sourceforge.net/jscolors/#color_H ... */
-
-  g.H * {
-    fill: #777777;
-  }
-
-  g.O * {
-    fill: #FF0D0D;
-  }
-
-  g.N * {
-    fill: #3050F8;
-  }
-
-  g.C * {
-    fill: #222222;
-  }
-
-  text {
-      font-family: helvetica, sans-serif;
-      /*
-      stroke: black;
-      stroke-width: 0.2px;
-      */
-      font-size: 8px; /* iom pli malgranda ol kutima 10px pro aldono de ŝargoj! */
-      text-anchor: middle;
-      dominant-baseline: central;
-  }
-  tspan.sup {
-    font-size: 4px;
-    font-weight: bold;
-  }
-  circle {
-      fill: black;
-  }
-  line {
-      stroke: black;
-      stroke-width: .6;
-  }
-  line.hponto {
-      stroke: black;
-      stroke-linecap: round;
-      stroke-dasharray: .2,1.8;
-      stroke-width: .6;
-  }
-  path.akojno {
-    stroke: black;
-    stroke-linecap: round;
-    stroke-width: .4;
-    fill: black;
-  }
-  path.mkojno {
-    /*stroke: gray;
-    stroke-linecap: round;
-    stroke-width: 2;*/
-    fill: url(#strie);
-  }
-
-  .shargo circle, .shargo path {
-    fill: none;
-    stroke: currentColor;
-    stroke-dasharray: 1 0;
-    stroke-width: .3;
-  }
-</style>
-
 <svg id="dipolo"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="240" viewBox="-20 -30 150 60">
-  <defs>
-     <pattern id="strie" viewBox="0,0,4,1" height="20%" width="20%">
-      <!--line x1="1" x2="1" y1="0" y2="1" stroke="black" stroke-linecap="square" stroke-width="2"/-->
-      <rect width="2" height="1" fill="black" stroke="black" stroke-width="0.6"/>
-    </pattern>
-  </defs>
   <g id="dipolo_enhavo"></g>
 </svg>
 
@@ -196,6 +118,11 @@ Ekzemploj:
         'set antialiasDisplay ON'
       )}
     );
+
+    // provu manipuli lingvo-ŝargon de Jmol
+    //window.JV.Viewer.appletIdiomaBase = "/kemio/../assets/js/jsmol/xxx";
+  // 
+  // J.i18n.Language.getLanguageList()
   })
 </script>
 </div>
@@ -273,14 +200,23 @@ Ekzemploj:
 </script>
 
 
-
 <svg id="hponto"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" width="480" height="240" viewBox="-30 -30 120 60">
+ <style type="text/css">
+    <![CDATA[      
+      path.mkojno {
+        stroke: none;
+        fill: url(#strie);    
+      }
+    ]]>
+  </style>     
   <defs>
-     <pattern id="strie" viewBox="0,0,4,1" height="20%" width="20%">
-      <!--line x1="1" x2="1" y1="0" y2="1" stroke="black" stroke-linecap="square" stroke-width="2"/-->
+    <!-- https://jenkov.com/tutorials/svg/fill-patterns.html 
+    https://www.svgbackgrounds.com/svg-pattern-guide/#tile
+    -->
+    <pattern id="strie" viewBox="0,0,4,1" height="20%" width="20%">
       <rect width="2" height="1" fill="black" stroke="black" stroke-width="0.6"/>
     </pattern>
   </defs>
