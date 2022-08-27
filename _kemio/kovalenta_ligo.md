@@ -4,9 +4,11 @@ title: Kovalentaj ligoj
 chapter: 2.2
 js:
   - folio-0a
-  - lewis-0b
+  - lewis-0c
   - jmol-0a
-  - jsmol/JSmol.min  
+  - jsmol/JSmol.min
+css:
+  - lewis-0c  
 ---
 
 Du nemetalaj atomoj interligiĝas alie ol metaloj kun nemetalaj atomoj. Ili ne plenigas sian 
@@ -28,20 +30,20 @@ anstataŭ per du punktoj.
   let svg, lewis, frm = "H2";  
 
   const gasoj = {
-    N2: [["N",">;:"],["N","<;:"]],
-    O2: [["O",">:::"],["O","<:::"]],
-    H2O:[["O",">..::[37,105,85,85]"],["H","<.[217]",1,37],["H","^.[-37]",1,142]], // devus esti 104,5°, sed ni devas adapti lewis.molekulo()
-    CO2:[["O",">:::",-1],["C","<::"],["O","<:::"]],
-    CH4:[["H",">.",-1],["C","<...."],["H","<."],["H","v.",1,270],["H","^.",1,90]],
+    N2: [["N","3;9:"],["N","9;3:"]],
+    O2: [["O","3%:::"],["O","9%:::"]],
+    H2O:[["O","Z:a.A.a:"],["H","9 z.",1,130],["H","e.",1,231]],
+    CO2:[["O","3%:::",-1],["C","3:9:"],["O","9%:::"]],
+    CH4:[["H","3.",-1],["C","3%...."],["H","9."],["H","6.",1,360],["H","0.",1,180]],
   }
 
   const gasoj2 = {
-    H2: [["H",">-"],["H"]],
-    N2: [["N",">#:"],["N","< :"]],
-    O2: [["O",">=::"],["O","< ::"]],
-    H2O:[["O",">--::"],["H"],["H","",1,90]],
-    CO2:[["O",">=::",-1],["C"],["O","<=::"]],
-    CH4:[["H","",-1],["C","<----"],["H"],["H","",1,270],["H","",1,90]],
+    H2: [["H","3-"],["H"]],
+    N2: [["N","3#9:"],["N","3:"]],
+    O2: [["O","3%=::"],["O","9% ::"]],
+    H2O:[["O","3%--::"],["H"],["H","",1,180]],
+    CO2:[["O","3%=::",-1],["C"],["O","9%=::"]],
+    CH4:[["H","",-1],["C","9%----"],["H"],["H","",1,360],["H","",1,180]],
   }
 
   function glewis(event) {
@@ -67,60 +69,12 @@ anstataŭ per du punktoj.
     lewis = new Lewis(svg);
 
     lewis.molekulo([
-      ["H",">."],
-      ["H","<.",1],
+      ["H","3."],
+      ["H","9.",1],
     ]);
   });
 
 </script>
-
-<style>
-/*
-  svg {
-    stroke-width: 0px;
-    background-color: lightblue;
-  }
-  */
-
-  /* koloroj vd. http://jmol.sourceforge.net/jscolors/#color_H ... */
-
-  g.H * {
-    fill: #777777;
-  }
-
-  g.O * {
-    fill: #FF0D0D;
-  }
-
-  g.N * {
-    fill: #3050F8;
-  }
-
-  g.C * {
-    fill: #222222;
-  }
-
-  text {
-      font-family: helvetica, sans-serif;
-      /*
-      stroke: black;
-      stroke-width: 0.2px;
-      */
-      font-size: 10px;
-      text-anchor: middle;
-      dominant-baseline: central;
-  }
-  tspan.sup {
-    font-size: 8px;
-  }
-  circle {
-      fill: black;
-  }
-  line {
-      stroke: black;
-      stroke-width: .6;
-  }
-</style>
 
 <svg id="glewis"
     version="1.1" 
