@@ -204,8 +204,30 @@ class Elemento {
                 }
             }
         }
-
         return valentoj;
+    }
+
+    /**
+     * Redonas la elementliston laŭ la plej alta okupita ŝelo (t.e. Xs<n> en la e-distribuo)
+     */
+    static laŭ_ŝelo(elmTab) {
+        let ŝeloj = [];
+        const re = /\b([1-7])s[12]\b/;
+        for (const e of elmTab) {
+            if (e) { // elemento 0 ne ekzistas!
+                let cfg = e.ElectronConfiguration;
+                const m = re.exec(cfg);
+                if (m && m[1]) {
+                    const v = m[1];
+                    if (! ŝeloj[v]) {
+                        ŝeloj[v] = [e];
+                    } else {
+                        ŝeloj[v].push(e);
+                    }
+                } // if m
+            } // if e
+        } // for
+        return ŝeloj;
     }
 
     /**
