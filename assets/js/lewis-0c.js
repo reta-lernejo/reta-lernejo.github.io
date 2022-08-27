@@ -23,8 +23,9 @@ const _L = {
  * 0 (supre), 1 (30°), 2 (60°), 3 (90°), 4 (120°), 5 (150°), 6 (180°)
  * 7 (210°), 8 (240°), 9 (270°), x (300°), y (330°)
  * aŭ relative al la antaŭa:
- * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°), o (okonocirklo, 45°)
- * A (akvo, 105°), a (85°), p (piramida/tetraedra, 109,5°), s (72°), S (144°)
+ * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°), 
+ * e (seponciriklo, 51,5°), o (okonocirklo, 45°), 
+ * A (akvo, 105°), a (85°), p (piramida/tetraedra, 109,5°), s (72°), S (144°), z (36°), Z (42°)
  * 
  * elektronoj/ligoj:
  * . unuopa elektrono, : elektronparo, ; elektrontriopo
@@ -61,8 +62,9 @@ class Lewis {
 
         // relativa angulo
         return aa + ({
-            d: 180, t: 120, k: 90, o: 45,
-            A: 105, a: 85, p: 109.5, s: 72, S: 144
+            d: 180, t: 120, k: 90, e: 51.5, o: 45,
+            A: 105, a: 85, p: 109.5, 
+            s: 72, S: 144, z:36, Z: 42
         }[sgn] || def);
     }
 
@@ -275,7 +277,7 @@ class Lewis {
 
                 // ni trakuras la elektronaranĝon eltrj per
                 // kura variablo e ĝis la fino...
-                while (e < eltrj.length -1) {
+                while (e < eltrj.length) {
                     let ee = eltrj[e];
                     // ĉu la aktuala signo estas angulo 0-9, A-z
                     if ((ee >= "0" && ee <= "9") || (ee >= "A" && ee <= "z")) {
