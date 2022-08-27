@@ -12,10 +12,20 @@ function ĉiuj(elektilo) {
     return document.querySelectorAll(elektilo); 
 }
 
-function kiam(evento,elektilo,reago) {
-    for (const el of document.querySelectorAll(elektilo)) {
-        el.addEventListener(evento,reago);
-    } 
+/**
+ * Difinas reagon, kiam okazas iu evento
+ * @param {string} evento la nomo de la elemento, ekz-e "click"
+ * @param {*} elemento aŭ CSS-elektilo aŭ unuopa elemento
+ * @param {function} reago la reag-funkcio
+ */
+function kiam(evento,elemento,reago) {
+    if (typeof elemento === "string") {
+        for (const el of document.querySelectorAll(elemento)) {
+            el.addEventListener(evento,reago);
+        }    
+    } else {
+        elemento.addEventListener(evento,reago);
+    }
 }
 
 function kiam_klako(elektilo,reago) {
