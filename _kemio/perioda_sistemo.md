@@ -200,6 +200,17 @@ t.e. la kvantumnombro *n*.
         }
     }
 
+    function aktualigo_distrib(smb) {
+        if (smb) {
+            const nomo = Elemento.smb(smb).nomo;
+            const distrib = Elemento.e_distribuo(smb)
+                .replace(/([spdf])(\d\d?)/g,'$1<sup>$2</sup>');
+            ĝi("#e_distrib").innerHTML = `distribuo de <i>${nomo}</i> (<strong>${smb}</strong>): ${distrib}`
+        } else {
+            ĝi("#e_distrib").textContent = ''; // malplenigu
+        }
+    }
+
   let emfazita_elemento;
 
   lanĉe (() => {
@@ -216,10 +227,7 @@ t.e. la kvantumnombro *n*.
         emfazita_elemento = g;
         emfazo(emfazita_elemento,"emfazo_1");
         const smb = g.id.split('_')[1];
-        const nomo = Elemento.smb(smb).nomo;
-        const distrib = Elemento.e_distribuo(smb)
-            .replace(/([spdf])(\d\d?)/g,'$1<sup>$2</sup>');
-        ĝi("#e_distrib").innerHTML = `distribuo de <i>${nomo}</i> (<strong>${smb}</strong>): ${distrib}`
+        aktualigo_distrib(smb);
       } else {
         emfazita_elemento = undefined;
       }
@@ -262,6 +270,7 @@ t.e. la kvantumnombro *n*.
 
             const nsmb = Elemento.nro(ne).simbolo;
             malemfazo(e,"emfazo_1");
+            aktualigo_distrib(nsmb);
             const nova = ĝi(`#ps_${nsmb}`);
             emfazita_elemento = nova;
             emfazo(nova,"emfazo_1");
