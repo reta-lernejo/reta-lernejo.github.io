@@ -215,12 +215,57 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
         emfazo(emfazita_elemento,"emfazo_1");
         const smb = g.id.split('_')[1];
         const nomo = Elemento.smb(smb).nomo;
-        const distrib = Elemento.e_distribuo(smb);
+        const distrib = Elemento.e_distribuo(smb)
+            .replace(/([spdf])(\d\d?)/g,'$1<sup>$2</sup>');
         ĝi("#e_distrib").innerHTML = `distribuo de <i>${nomo}</i> (<strong>${smb}</strong>): ${distrib}`
       } else {
         emfazita_elemento = undefined;
       }
-    });    
+    });
+
+    // permesu navigi per sagoklavoj en la periodsistemo
+    kiam("keydown","#periodsistemo",(event) => {
+
+        if (event.keyCode >= 37 && event.keyCode <= 40) {
+            const e = ĝi("#periodsistemo .emfazo_1");
+            const smb = e.id.split('_')[1];
+            const elm = Elemento.smb(smb);
+
+            let ne = +elm.nro;
+
+            if (event.keyCode == '38') {
+                // supren
+                if (ne >= 71) ne -=32;
+                else if (ne >= 58) ne =39;
+                else if (ne >= 31) ne -=18;
+                else if (ne >= 21) ne =12;
+                else if (ne >= 10 ) ne -=8;
+                else if (ne>=3) ne = 1;
+            }
+            else if (event.keyCode == '40') {
+                // malsupren
+                if (ne == 1) ne += 2;
+                else if (ne <= 12) ne +=8;
+                else if (ne <= 39) ne += 18;
+                else if (ne <= 86) ne +=32;
+            }
+            else if (event.keyCode == '37') {
+                // maldekstren
+                if (ne>1) ne -= 1;
+            }
+            else if (event.keyCode == '39') {
+                // dekstren
+                if (ne<118) ne += 1;
+            }
+
+            const nsmb = Elemento.nro(ne).simbolo;
+            malemfazo(e,"emfazo_1");
+            const nova = ĝi(`#ps_${nsmb}`);
+            emfazita_elemento = nova;
+            emfazo(nova,"emfazo_1");
+        }
+
+    })
 
     // ŝargu apartan element-tabelon kun elektrondistribuoj...
     Elemento.json_element_tabelo((elmTab) => {
@@ -242,7 +287,10 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
 <svg id="periodsistemo"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 195 115">
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="100%"
+    viewBox="0 0 195 115"
+    tabindex="0">
 </svg>
 
 

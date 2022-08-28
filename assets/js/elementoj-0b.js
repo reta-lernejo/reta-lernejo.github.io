@@ -159,7 +159,7 @@ class Elemento {
         for (const n in elementoj) {
             const e = elementoj[n];
             if (e[0] == s) {
-                return Object.assign({nro: n+1},Elemento._obj(e));
+                return Object.assign({nro: +n+1},Elemento._obj(e));
             }
         }
     }
