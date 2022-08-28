@@ -420,6 +420,16 @@ class Elemento {
         }
     }
 
+    static e_distribuo(smb) {
+        const elm = Elemento.json_elemento(smb);
+        let distr = elm.ElectronConfiguration;
+        // forigu evtl. rimarkon (...) 
+        if (distr.indexOf("(")>-1) distr = distr.substring(0,distr.indexOf("(")-1).trim();
+        distr = distr.replace(/\]([^])/,'] $1'); // certigu spacon post ]
+        //if (distr.indexOf("]")>-1) distr = distr.substring(distr.indexOf("]")+1).trim();
+        return distr;
+    }
+
     /**
      * Eltrovas, ĉu la elektrondistribuo de elemento
      * havas elektronojn en plej alta ŝelo kaj subŝelo
@@ -431,6 +441,10 @@ class Elemento {
      * @returns 
      */
     static e_distr(e,ŝ,sŝ,ne) {
+        let k_s = true;
+        let k_ss = true;
+        let k_ne = true;
+
         const re_s = /\b([1-7])s[12]\b/;
         /*
         const a_ss = [
@@ -442,14 +456,12 @@ class Elemento {
         let distr = e.ElectronConfiguration;
         //console.debug(e.Symbol+": "+distr);
         // kontrolu koincidon de ŝelo (Xs)
-        let k_s = true;
         if (ŝ>0) {
             const m = re_s.exec(distr);
             k_s = (m && m[1] == ŝ);
         };
         // kontrolu koincidon de plej alta (lasta) subŝelo
         let tri;
-        let k_ss = true;
         if (sŝ!=0) {
             // forigu evtl. rimarkon (...) kaj noblan prefikson [...]
             if (distr.indexOf("(")>-1) distr = distr.substring(0,distr.indexOf("(")-1).trim();
@@ -460,11 +472,11 @@ class Elemento {
             //console.debug(e.Symbol+": "+tri);
             //k_ss = (a_ss[sŝ-1].indexOf(tri) > -1)
             k_ss = (tri[1] == sŝ);
-        }
-        // kontrolu nombron de elektronoj
-        let k_ne = true;
-        if (ne>0) {
-            k_ne = (parseInt(tri.substring(2)) == ne)
+
+            // kontrolu nombron de elektronoj
+            if (ne>0) {
+                k_ne = (parseInt(tri.substring(2)) == ne)
+            }
         }
         // redonu kombinitan rezulton
         return k_s && k_ss && k_ne;

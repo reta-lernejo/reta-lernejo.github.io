@@ -91,6 +91,14 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
         font-weight: bold;
     }
     */
+
+  .emfazo_1 rect {
+    fill: #000088 !important;
+  }
+  .emfazo_1 text {
+    fill: white !important;
+  }  
+
 </style>    
 <div id="spdf">
 <!--
@@ -106,6 +114,8 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
 <label for="elektronoj">elektronoj:</label> <b><span id="elektronoj_info">iom</span></b>
 <input type="range" id="elektronoj" style="width: 20em; max-width: 80%" min="0" max="32" value="1" onchange="aktualigo_ss()" oninput="aktualigo_ss()">
 
+<div id="e_distrib"></div>
+
 <script>
     let elementoj_tab = [];
 
@@ -118,7 +128,7 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
             if (ch !== ŝeloj.children.item(0)) {
                 const v = ch.textContent.trim();
                 const id = "ŝelo_"+v;
-                const checked = (v == "ajna")? "checked" : "";
+                const checked = (v == 1)? "checked" : "";
                 ch.innerHTML = `<input type="radio" id="${id}" name="ŝelo" value="${v}" ${checked}></input><label for="${id}">${v}</label>`;
                 kiam_klako(ch,aktualigo_ss);
             }
@@ -158,17 +168,23 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
             ŝv = ŝelo.value;
         }
         sŝv = (!sŝelo || sŝelo.value == "ajna")? 0 : sŝelo.value;
-
-        // console.log(ŝv+'-'+sŝv);
-        // nombro da elektronoj dependas de la subŝelo...
         const n_e = {0: 14, 's': 2, 'p': 6, 'd': 10, 'f': 14}[sŝv];
         const enro = ĝi("#elektronoj");
         const einf = ĝi("#elektronoj_info");
+
+        // console.log(ŝv+'-'+sŝv);
+        // nombro da elektronoj dependas de la subŝelo...
         // laŭbezone adaptu la maksimumon de elektrono-elektilo
         atributoj(enro,{
-            max: enro, 
-            value: Math.min(enro.value,n_e)
+            max: n_e, 
+            value: sŝv? Math.min(enro.value,n_e) : 0
         });
+        if (sŝv) {
+            enro.removeAttribute("disabled");
+        } else {
+            enro.setAttribute("disabled","disabled");
+        }
+
         einf.textContent = enro.value == 0? "iom" : enro.value;
 
         // trakuru elementojn kaj emfazu laŭ elekto
@@ -180,50 +196,31 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
                 malemfazo(e);
             }
         }
-/*
-        // unue forigu antaŭan emfazon
-        for (const e of ĉiuj("#periodsistemo .emfazo")) {
-            malemfazo(e);
-        }
-
-        // ni emfazos nun la sekvajn elementojn, ekz-e
-        ŝelo=ajna, ss = 1: ĉiuj elementoj kun e elektrojn en la Xs - orbitaloj
-        ŝelo=1, ss=ajna: ĉiuj elementoj de la una periodo (?) ĉu elekti nombron da elektrojn tiam?
-        ŝelo=2, ss=2: ĉiuj elementoj kun 2p<e> kiel lasta elemento de e-distribuo
-        ... ni ordigu la elementojn / e-distribuojn konvene: {1: ..., ... 7: ...}
-*/
-
     }
 
-/*
-    function aktualigo() {
-        // distribuu elektronojn laŭ elektita valento regule en la orbitalojn f,d,p,s
-        const n = ĝi('#elektronoj').value;
-
-        for (const e of ĉiuj("#periodsistemo .emfazo")) {
-            malemfazo(e);
-        }
-
-        let ecfg = [];
-        for (const ev of valTab[n]) {
-            const smb = ev.Symbol;
-            emfazo(ĝi(`#ps_${smb}`));
-            ecfg.push(
-                "<span style='display: inline-block; width: 2em'>" + ev.Symbol + "</span>:\xa0" +
-                ev.ElectronConfiguration
-                .split(" ").join("\xa0")
-                .replace(/]\s*             /,"]\xa0")
-                .replace(/\s*\(.*\)/,"")
-            );
-        }
-        ĝi("#spdf").innerHTML = ecfg.join("<br/>");
-    }
-*/
+  let emfazita_elemento;
 
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
     Elemento.periodsistemo(ps,false);
     tab_distrib();
+
+    // ebligu alklaki unuopan elementon
+    // por ricevi detalajn informojn pri ĝi (e-distribuon)
+    kiam_klako("#periodsistemo .elm",(event) => {
+      malemfazo(emfazita_elemento,"emfazo_1");
+      const g = event.target.closest("g");
+      if (g != emfazita_elemento) {
+        emfazita_elemento = g;
+        emfazo(emfazita_elemento,"emfazo_1");
+        const smb = g.id.split('_')[1];
+        const nomo = Elemento.smb(smb).nomo;
+        const distrib = Elemento.e_distribuo(smb);
+        ĝi("#e_distrib").innerHTML = `distribuo de <i>${nomo}</i> (<strong>${smb}</strong>): ${distrib}`
+      } else {
+        emfazita_elemento = undefined;
+      }
+    });    
 
     // ŝargu apartan element-tabelon kun elektrondistribuoj...
     Elemento.json_element_tabelo((elmTab) => {
