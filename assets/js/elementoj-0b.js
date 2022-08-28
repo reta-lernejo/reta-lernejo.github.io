@@ -368,10 +368,10 @@ class Elemento {
         // lig-linio por lantanidoj/aktinidoj
         const ll = document.createElementNS(ns,"line");
             atributoj(ll,{
-                x1: 39.7,
+                x1: 39.8,
                 y1: 60,
-                x2: 39.7,
-                y2: 110.2,
+                x2: 39.8,
+                y2: 110.1,
                 class: "l_xidoj"
         });
         svg.append(ll);
