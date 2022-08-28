@@ -73,11 +73,13 @@ N: nitrogeno, O: oksigeno, F: fluoro, Ne: neono ktp.
 ## perioda sistemo de elementoj
 {: .sekcio}
 
-Montriĝas ke elementoj kun ekvivalenta [distribuo de elektronoj](elektrondistribuo) en la plej altaj orbitaloj havas similajn ĥemiajn ecojn. Elementojn kun similantaj ecoj oni ordigas laŭ kolumnoj,
+Montriĝas ke elementoj kun simila [distribuo de elektronoj](elektrondistribuo) en la plej altaj orbitaloj 
+havas similajn ĥemiajn ecojn. Elementojn kun similantaj ecoj oni ordigas laŭ kolumnoj,
 la *grupoj*, tiel ricevante tabelon.
 
 La horizontalojn de tiu tabelo oni nomas *periodoj*, ĉar ili indikas periodan ripetiĝon
-de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej alta okupita elektronŝelo, t.e. la kvantumnombro *n*.
+de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej alta okupita elektronŝelo, 
+t.e. la kvantumnombro *n*.
 
 <style>
     /*
@@ -295,10 +297,11 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
 
 
 Energie ekvilibra stato estas atingita se ĉefa energinivelo estas plenigita per ok elektronoj, do se
-la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de *noblaj gasoj*. (Ĉe heliumo tio estas escepte nur du elektronoj ĉar la unua energinivelo havas nur unu s-orbitalon kun kapacito de du elektronoj.)
+la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de *noblaj gasoj*, plej dekstra kolumno de la grupo 18. 
+(Ĉe heliumo tio estas escepte nur du elektronoj ĉar la unua energinivelo havas nur unu s-orbitalon kun kapacito de du elektronoj.)
 
 Kun la elemento sekvanta noblan gason, kaj do ekplenigo de la s-orbitalo de la venonta ĉefa energinivelo
-komenciĝas nova periodo. 
+komenciĝas nova *periodo*. 
 
 La plenigo de la s-orbitaloj respondas al la unuaj du ĉefgrupoj en la perioda sistemo. La plenigo de la 
 tri p-orbitaloj al la grupoj 13 ĝis 18.
@@ -306,7 +309,8 @@ tri p-orbitaloj al la grupoj 13 ĝis 18.
 La grupoj 3 ĝis 12 respondas al plenigo de d-orbitaloj, 
 dek elektronoj respondas al dek kromgrupoj.
 
-La lantanidoj kaj aktinidoj, ordigitaj en du vicoj sub la tabelo de la ceteraj elementoj, 
+La lantanidoj kaj aktinidoj, ordigitaj (fakte por ne tro larĝigi la tabelon) 
+en du vicoj sub la tabelo de la ceteraj elementoj, 
 respondas al la plenigo de la sep f-orbitaloj (14 elektronoj). Tamen kelkaj el tiu serio
 havas iom devian distribuon, kelkaj elektronoj jam okupas la subŝelojn 5d resp. 6d antaŭ plenigi tute
 la subŝelojn 4f resp. 5f.
