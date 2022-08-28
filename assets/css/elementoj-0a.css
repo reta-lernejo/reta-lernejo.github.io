@@ -39,3 +39,8 @@ text.eneg {
     font-size: 2.4px;
     dominant-baseline: text-bottom;
 }
+
+line.l_xidoj {
+    stroke: black;
+    stroke-width: 0.6;
+}

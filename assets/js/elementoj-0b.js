@@ -365,6 +365,16 @@ class Elemento {
             //console.log(elm);
             svg.append(erekt(elm));
         }
+        // lig-linio por lantanidoj/aktinidoj
+        const ll = document.createElementNS(ns,"line");
+            atributoj(ll,{
+                x1: 39.7,
+                y1: 60,
+                x2: 39.7,
+                y2: 110.2,
+                class: "l_xidoj"
+        });
+        svg.append(ll);
     }
 
     static json_element_tabelo(kiam_preta) {
