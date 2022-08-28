@@ -8,7 +8,7 @@ js:
   - elementoj-0b
   - atomo-0a
 css:
-  - elementoj-0a  
+  - elementoj-0a
 ---
 
 Atomojn oni specigas laŭ ilia nombro da protonoj. Tiujn specojn oni nomas *elementoj*.
@@ -99,41 +99,106 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
   -->
 </div>
 
-<input type="range" id="elektronoj" style="width: 20em; max-width: 80%" min="1" max="32" value="1" onchange="aktualigo()" oninput="aktualigo()">
+|plej alta ŝelo     |ajna|1 |2 |3 |4 |5 |6 |7 |
+|plej alta subŝelo..|ajna|s|p|d|f|||| 
+{: #distrib}
+
+<label for="elektronoj">elektronoj:</label> <b><span id="elektronoj_info">iom</span></b>
+<input type="range" id="elektronoj" style="width: 20em; max-width: 80%" min="0" max="32" value="1" onchange="aktualigo_ss()" oninput="aktualigo_ss()">
 
 <script>
-    let valTab;
+    let elementoj_tab = [];
 
+    function tab_distrib() {
+        //const dtab = ĝi("#distrib");
+
+        // ebligu elekton de ŝelo
+        const ŝeloj = ĝi("#distrib tr:first-of-type");
+        for (const ch of ŝeloj.children) {
+            if (ch !== ŝeloj.children.item(0)) {
+                const v = ch.textContent.trim();
+                const id = "ŝelo_"+v;
+                const checked = (v == "ajna")? "checked" : "";
+                ch.innerHTML = `<input type="radio" id="${id}" name="ŝelo" value="${v}" ${checked}></input><label for="${id}">${v}</label>`;
+                kiam_klako(ch,aktualigo_ss);
+            }
+        }
+
+        // ebligu elekton de subŝelo
+        const sŝeloj = ĝi("#distrib tr:nth-of-type(2)");
+        for (const ch of sŝeloj.children) {
+            const v = ch.textContent.trim();
+            if (v && ch !== sŝeloj.children.item(0)) {
+                const id = "ss_" + v;
+                const checked = (v == "ajna")? "checked" : "";
+                ch.innerHTML = `<input type="radio" id="${id}" name="subŝelo" value="${v}" ${checked}></input><label for="${id}">${v}</label>`
+                kiam_klako(ch,aktualigo_ss);
+            }
+        }
+    }
+
+    function aktualigo_ss() {
+        const ŝelo = ĝi("input[name='ŝelo']:checked");
+        const sŝelo = ĝi("input[name='subŝelo']:checked");
+
+        function edistr(smb,ŝ,sŝ,ne) {
+            if (ŝ == 0 && sŝ==0) {
+                return true;
+            }
+
+            const elm = Elemento.json_elemento(smb);
+            return Elemento.e_distr(elm,ŝ,sŝ,ne);
+
+            // en ĉiu alia kazo
+            return false;
+        }
+
+        let ŝv = 0;
+        if (ŝelo && ŝelo.value >= 1 && ŝelo.value <=7) {
+            ŝv = ŝelo.value;
+        }
+        sŝv = (!sŝelo || sŝelo.value == "ajna")? 0 : sŝelo.value;
+
+        // console.log(ŝv+'-'+sŝv);
+        // nombro da elektronoj dependas de la subŝelo...
+        const n_e = {0: 14, 's': 2, 'p': 6, 'd': 10, 'f': 14}[sŝv];
+        const enro = ĝi("#elektronoj");
+        const einf = ĝi("#elektronoj_info");
+        // laŭbezone adaptu la maksimumon de elektrono-elektilo
+        atributoj(enro,{
+            max: enro, 
+            value: Math.min(enro.value,n_e)
+        });
+        einf.textContent = enro.value == 0? "iom" : enro.value;
+
+        // trakuru elementojn kaj emfazu laŭ elekto
+        for (const e of ĉiuj("#periodsistemo .elm")) {
+            const smb = e.id.split('_')[1];
+            if (edistr(smb,ŝv,sŝv,enro.value)) {
+                emfazo(e);
+            } else {
+                malemfazo(e);
+            }
+        }
+/*
+        // unue forigu antaŭan emfazon
+        for (const e of ĉiuj("#periodsistemo .emfazo")) {
+            malemfazo(e);
+        }
+
+        // ni emfazos nun la sekvajn elementojn, ekz-e
+        ŝelo=ajna, ss = 1: ĉiuj elementoj kun e elektrojn en la Xs - orbitaloj
+        ŝelo=1, ss=ajna: ĉiuj elementoj de la una periodo (?) ĉu elekti nombron da elektrojn tiam?
+        ŝelo=2, ss=2: ĉiuj elementoj kun 2p<e> kiel lasta elemento de e-distribuo
+        ... ni ordigu la elementojn / e-distribuojn konvene: {1: ..., ... 7: ...}
+*/
+
+    }
+
+/*
     function aktualigo() {
         // distribuu elektronojn laŭ elektita valento regule en la orbitalojn f,d,p,s
         const n = ĝi('#elektronoj').value;
-
-/*
-        // korektenda pro variado laŭ periodo kaj esceptoj...
-        const f = Math.max(n-(2+6+10),0); n-=f;
-        const d = Math.max(n-(2+6),0); n-=d;
-        const p = Math.max(n-2,0); 
-        const s=n-p;
-        // prezentu la rezulton en la tabelo
-        ĝi("#o_s").textContent = s;
-        ĝi("#o_p").textContent = p;
-        ĝi("#o_d").textContent = d;
-        ĝi("#o_f").textContent = f;
-*/
-
-/*
-        let cls = "o_s1";
-        if (f > 0) cls = `o_f${f}`
-        else if (d > 0) cls = `o_d${d}`
-        else if (p > 0) cls = `o_p${p}`
-        else cls = `o_s${s}`;
-
-        for (const e of ĉiuj("#periodsistemo .elm")) {
-            const cl = e.classList;
-            if (cl.contains(cls)) cl.add("emfazo")
-            else cl.remove("emfazo");
-        }
-        */
 
         for (const e of ĉiuj("#periodsistemo .emfazo")) {
             malemfazo(e);
@@ -147,22 +212,24 @@ de elementaj ecoj. La periodo (indikita per romia nombro) respondas al la plej a
                 "<span style='display: inline-block; width: 2em'>" + ev.Symbol + "</span>:\xa0" +
                 ev.ElectronConfiguration
                 .split(" ").join("\xa0")
-                .replace(/]\s*/,"]\xa0")
+                .replace(/]\s*             /,"]\xa0")
                 .replace(/\s*\(.*\)/,"")
             );
         }
         ĝi("#spdf").innerHTML = ecfg.join("<br/>");
     }
-
+*/
 
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
     Elemento.periodsistemo(ps,false);
+    tab_distrib();
 
     // ŝargu apartan element-tabelon kun elektrondistribuoj...
     Elemento.json_element_tabelo((elmTab) => {
-        valTab = Elemento.laŭ_val(elmTab);
-        aktualigo();
+        //valTab = Elemento.laŭ_ŝelo(elmTab);
+        elementoj_tab = elmTab;
+        aktualigo_ss();
     });
   });
 </script>

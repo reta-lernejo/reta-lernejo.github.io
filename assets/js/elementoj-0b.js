@@ -125,6 +125,8 @@
         ['Og','oganesono',7,18,NaN],
         ];
 
+let json_elementoj = [];        
+
 class Elemento {
 
     // elkalkulas la valenton el la gruponumero,
@@ -375,7 +377,6 @@ class Elemento {
           if (request.status >= 200 && request.status < 400) {
             // ŝargita!
             var json = (JSON.parse(request.response));
-            let elementoj = [];
             const kolj = json.Table.Columns.Column;
             const elmj = json.Table.Row;
             for (const c of elmj) {
@@ -385,9 +386,9 @@ class Elemento {
                     elm[kolj[i]] = e[i]
                 }
                 //console.log(elm);
-                elementoj[elm.AtomicNumber] = elm;
+                json_elementoj[elm.AtomicNumber] = elm;
             }
-            if (kiam_preta) kiam_preta(elementoj);
+            if (kiam_preta) kiam_preta(json_elementoj);
           } else {
               // post konektiĝo okazis eraro
               console.error('Eraro dum ŝargo de ' + url);  
@@ -402,6 +403,71 @@ class Elemento {
         
         //request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         request.send();  
+    }
+
+    /**
+     * Redonas elemnton el la Json-tabelo laŭ simbolo
+     * PLIBONIGU: tiu trakuro estas malrapida se ofte ripetita
+     *            pli bone kreu objekton kun la simbolo kiel ŝlosilo!
+     * @param {*} smb 
+     */
+    static json_elemento(smb) {
+        for (const e of json_elementoj) {
+            if (e // elemento 0 ne ekzistas!
+                && e.Symbol == smb) {
+                return e;
+            }
+        }
+    }
+
+    /**
+     * Eltrovas, ĉu la elektrondistribuo de elemento
+     * havas elektronojn en plej alta ŝelo kaj subŝelo
+     * donita.
+     * @param {*} e elemento (el Json-tabelo)
+     * @param {*} ŝ plej alta ŝelo (1..7 aŭ 0 por "egale")
+     * @param {*} sŝ plej alta subŝelo (1..4 aŭ 0 po "egale")
+     * @param {number} ne nombro de elektronoj
+     * @returns 
+     */
+    static e_distr(e,ŝ,sŝ,ne) {
+        const re_s = /\b([1-7])s[12]\b/;
+        /*
+        const a_ss = [
+            ['1s','2s','3s','4s','5s','6s','7s'],
+            ['2p','3p','3d','4d','4f','5f'],
+            ['4p','5p','5d','6d'],
+            ['6p','7p']];
+            */
+        let distr = e.ElectronConfiguration;
+        //console.debug(e.Symbol+": "+distr);
+        // kontrolu koincidon de ŝelo (Xs)
+        let k_s = true;
+        if (ŝ>0) {
+            const m = re_s.exec(distr);
+            k_s = (m && m[1] == ŝ);
+        };
+        // kontrolu koincidon de plej alta (lasta) subŝelo
+        let tri;
+        let k_ss = true;
+        if (sŝ!=0) {
+            // forigu evtl. rimarkon (...) kaj noblan prefikson [...]
+            if (distr.indexOf("(")>-1) distr = distr.substring(0,distr.indexOf("(")-1).trim();
+            if (distr.indexOf("]")>-1) distr = distr.substring(distr.indexOf("]")+1).trim();
+            // elprenu lastan triopon
+            const sp = distr.split(" ")
+            tri = sp[sp.length-1];
+            //console.debug(e.Symbol+": "+tri);
+            //k_ss = (a_ss[sŝ-1].indexOf(tri) > -1)
+            k_ss = (tri[1] == sŝ);
+        }
+        // kontrolu nombron de elektronoj
+        let k_ne = true;
+        if (ne>0) {
+            k_ne = (parseInt(tri.substring(2)) == ne)
+        }
+        // redonu kombinitan rezulton
+        return k_s && k_ss && k_ne;
     }
 
 }
