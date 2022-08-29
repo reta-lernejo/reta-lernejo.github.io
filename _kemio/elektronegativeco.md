@@ -4,7 +4,7 @@ title: Elektronegativeco
 chapter: 2.4
 js:
   - folio-0a
-  - elementoj-0a
+  - elementoj-0b
   - svg-0c
   - jmol-0a
   - jsmol/JSmol.min
@@ -22,22 +22,16 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
 
 <script>
-  let emfazita_elemento;
 
   lanĉe (() => {
+    // kreu SVG de perioda sistemo
     const ps = ĝi("#periodsistemo");
-    Elemento.periodsistemo(ps,true);
-    kiam_klako("#periodsistemo .elm",(event) => {
-      malemfazo(emfazita_elemento);
-      const g = event.target.closest("g");
-      if (g != emfazita_elemento) {
-        emfazita_elemento = g;
-        emfazo(emfazita_elemento);
-      } else {
-        emfazita_elemento = undefined;
-      }
-      aktualigo_info();
-    })
+    Elemento.periodsistemo(ps,true,
+      (de_smb,al_smb) => {
+          malemfazo(ĝi(`#ps_${de_smb}`));
+          if (al_smb) emfazo(ĝi(`#ps_${al_smb}`));
+          aktualigo_info();                
+      });
   });
 </script>
 
@@ -100,6 +94,7 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 
   function aktualigo_info() {
       const nro = ĝi('#eneg_val').value;
+      const emfazita_elemento = ĝi("#periodsistemo .emfazo");
 
       if (emfazita_elemento) {
         const smb = emfazita_elemento.id.split('_')[1];

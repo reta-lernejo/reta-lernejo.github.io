@@ -23,7 +23,7 @@ Historiaj malkovroj pri la ĥemiaj elementoj[^C1].
 - Antoine Laurent de Lavoisier (1785): leĝo pri la konservo de la maso: La sumo de la masoj de la reakciantoj egalas al la sumo de la masoj de la reakciaj produktoj.
 
 
-Ĉiuj elementoj post ilia malkovro ricevis nomon kaj [simbolon](#simbolo){: #simbolo onclick="simbolo(event);"}.
+Ĉiuj elementoj post ilia scienca [malkovro](#malkovroj){: #malkovroj onclick="malkovroj(event);"} ricevis nomon kaj simbolon (de Berzelius 1814).
 
 <script>
 lanĉe(()=>{
@@ -33,6 +33,28 @@ lanĉe(()=>{
     }
     el.append("...");
 });
+
+function malkovroj(event) {
+    const el = ĝi("#elisto");
+    const malkovroj = Elemento.laŭ_jaro();
+    const jaroj = Object.keys(malkovroj).sort();
+    let j=0, m=0;
+    for (e of el.children) {
+        let j_ = jaroj[j];
+        const mk_ = malkovroj[j_];
+        let elm;
+        if (m<mk_.length) {
+            elm = mk_[m];
+        } else {
+            j++; m=0;
+            j_ = jaroj[j];
+            elm = malkovroj[j_][0];
+        };
+        const nomo = Elemento.nro(elm.AtomicNumber).nomo;
+        e.innerHTML = `${j_}: <i>${nomo}</i> (<span class="simb">${elm.Symbol}</span>)`;
+        m++;
+    }
+}
 
 function simbolo(event) {
     const el = ĝi("#elisto");
@@ -54,9 +76,15 @@ function simbolo(event) {
 <style>
     #elisto .kadro {
         border: 1px solid black;
-        width: 3em;
+        background-color: #cce8ff;
+        /* width: 3em;*/
+        min-width: 2em;
         height: 2em;
         display: inline-block;
+        padding-left: .5em;
+        padding-right: .5em;
+        margin-right: .3em;
+        margin-bottom: .3em;
     }
     #elisto .simb {
         font-weight: bold;
@@ -64,10 +92,12 @@ function simbolo(event) {
     }
 </style>
 <div id="elisto"></div>
+(Ni donas la esperantajn nomojn, ne la latinajn.)
 
+<!--
 H: hidrogeno, He: heliumo, Li: litio, Be: berilio, B: boro, C: karbono,
 N: nitrogeno, O: oksigeno, F: fluoro, Ne: neono ktp.
-
+-->
 
 
 ## perioda sistemo de elementoj
@@ -211,72 +241,14 @@ t.e. la kvantumnombro *n*.
         }
     }
 
-  let emfazita_elemento;
-
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
-    Elemento.periodsistemo(ps,false);
-    tab_distrib();
-
-    // ebligu alklaki unuopan elementon
-    // por ricevi detalajn informojn pri ĝi (e-distribuon)
-    kiam_klako("#periodsistemo .elm",(event) => {
-      malemfazo(emfazita_elemento,"emfazo_1");
-      const g = event.target.closest("g");
-      if (g != emfazita_elemento) {
-        emfazita_elemento = g;
-        emfazo(emfazita_elemento,"emfazo_1");
-        const smb = g.id.split('_')[1];
-        aktualigo_distrib(smb);
-      } else {
-        emfazita_elemento = undefined;
-      }
+    Elemento.periodsistemo(ps,false,(de_smb,al_smb) => {
+        malemfazo(ĝi(`#ps_${de_smb}`),"emfazo_1");
+        aktualigo_distrib(al_smb);                
+        if (al_smb) emfazo(ĝi(`#ps_${al_smb}`),"emfazo_1");
     });
-
-    // permesu navigi per sagoklavoj en la periodsistemo
-    kiam("keydown","#periodsistemo",(event) => {
-
-        if (event.keyCode >= 37 && event.keyCode <= 40) {
-            const e = ĝi("#periodsistemo .emfazo_1");
-            const smb = e.id.split('_')[1];
-            const elm = Elemento.smb(smb);
-
-            let ne = +elm.nro;
-
-            if (event.keyCode == '38') {
-                // supren
-                if (ne >= 71) ne -=32;
-                else if (ne >= 58) ne =39;
-                else if (ne >= 31) ne -=18;
-                else if (ne >= 21) ne =12;
-                else if (ne >= 10 ) ne -=8;
-                else if (ne>=3) ne = 1;
-            }
-            else if (event.keyCode == '40') {
-                // malsupren
-                if (ne == 1) ne += 2;
-                else if (ne <= 12) ne +=8;
-                else if (ne <= 39) ne += 18;
-                else if (ne <= 86) ne +=32;
-            }
-            else if (event.keyCode == '37') {
-                // maldekstren
-                if (ne>1) ne -= 1;
-            }
-            else if (event.keyCode == '39') {
-                // dekstren
-                if (ne<118) ne += 1;
-            }
-
-            const nsmb = Elemento.nro(ne).simbolo;
-            malemfazo(e,"emfazo_1");
-            aktualigo_distrib(nsmb);
-            const nova = ĝi(`#ps_${nsmb}`);
-            emfazita_elemento = nova;
-            emfazo(nova,"emfazo_1");
-        }
-
-    })
+    tab_distrib();
 
     // ŝargu apartan element-tabelon kun elektrondistribuoj...
     Elemento.json_element_tabelo((elmTab) => {

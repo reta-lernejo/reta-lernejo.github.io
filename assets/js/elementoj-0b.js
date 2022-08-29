@@ -125,7 +125,8 @@
         ['Og','oganesono',7,18,NaN],
         ];
 
-let json_elementoj = [];        
+let json_elementoj = [];   
+let ps_emfazita_elemento;
 
 class Elemento {
 
@@ -181,13 +182,31 @@ class Elemento {
         return eneg;
     }
 
+    /** 
+     * Redonas elementliston laŭ jaro de malkovro
+     */
+    static laŭ_jaro() {
+        let jaroj = [];
+        for (const e of json_elementoj) {
+            if (e) { // elemento 0 ne ekzistas!
+                let j = e.YearDiscovered;
+                if (! jaroj[j]) {
+                    jaroj[j] = [e];
+                } else {
+                    jaroj[j].push(e);
+                }
+            }
+        }
+        return jaroj;
+    }
+
     /**
      * Redonas la elementliston laŭ nombro de valentelektronoj
      * Tio aktuale baziĝas sur la PubChem-elementlisto
      */
-    static laŭ_val(elmTab) {
+    static laŭ_val() {
         let valentoj = [];
-        for (const e of elmTab) {
+        for (const e of json_elementoj) {
             if (e) { // elemento 0 ne ekzistas!
                 let cfg = e.ElectronConfiguration;
                 // forigu evtl. komenton kaj prefikson de nobla elemento
@@ -212,10 +231,10 @@ class Elemento {
     /**
      * Redonas la elementliston laŭ la plej alta okupita ŝelo (t.e. Xs<n> en la e-distribuo)
      */
-    static laŭ_ŝelo(elmTab) {
+    static laŭ_ŝelo() {
         let ŝeloj = [];
         const re = /\b([1-7])s[12]\b/;
-        for (const e of elmTab) {
+        for (const e of json_elementoj) {
             if (e) { // elemento 0 ne ekzistas!
                 let cfg = e.ElectronConfiguration;
                 const m = re.exec(cfg);
@@ -239,7 +258,7 @@ class Elemento {
      * @param eneg donu krom elementsimbolo kaj ordnuemrao ankaŭ elektronegativecon
      * 
      */
-    static periodsistemo(svg,eneg) {
+    static periodsistemo(svg,eneg,kiam_navigo) {
         const ns = "http://www.w3.org/2000/svg";
 
         function atributoj(elemento, atributoj) {
@@ -250,16 +269,6 @@ class Elemento {
             };
         }
 
-        // redonas CSS-klaso-nomon por grupo, kiu
-        // identigas la plenigon de plej alta orbitalo
-        // negativa g estas por lantanidoj/aktinidoj
-        function g_cls(g,p) {
-            if (p==1 && g==18) return `s2` // escepto heliumo!
-            if (g<0) return `f${-g-2}`;
-            if (g<=2) return `s${g}`;
-            if (g<=12) return `d${g-2}`;
-            return `p${g-12}`;
-        }
 
         function erekt(elm) {    
 
@@ -270,10 +279,11 @@ class Elemento {
                 pd += 3;
             }
 
+            // la grupo, kiu enhavas la prezenton de unuopa elemento
             const g = document.createElementNS(ns,"g");
             atributoj(g, {
                 id: `ps_${elm.simbolo}`,
-                class: `elm o_${g_cls(elm.grupo,elm.periodo)} p_${elm.periodo}`,
+                class: `elm p_${elm.periodo}`,
                 transform: `translate(${10*gr} ${10*pd})`
             });
 
@@ -354,7 +364,7 @@ class Elemento {
         for (let g=1; g<=18; g++) {
             svg.append(g_nro(g));
         }
-        // periodnuemroj
+        // periodnumeroj
         for (let p=1; p<=7; p++) {
             svg.append(p_nro(p));
             if (p>=6) svg.append(p_nro(p,3)); // akt/lantan-idoj
@@ -375,6 +385,82 @@ class Elemento {
                 class: "l_xidoj"
         });
         svg.append(ll);
+
+        // permesu navigi per muso aŭ sagoklavoj en la periodsistemo
+        if (kiam_navigo) { 
+            // reago al musklakoj
+            svg.addEventListener("click", (event) => {
+                const g = event.target.closest("g");
+                if (g && g.id) {
+                    const smb = g.id.split('_')[1];
+                    if (smb && smb != ps_emfazita_elemento) {
+                        // informu la posedanton pri la navido de
+                        // aktuala al nova elemento
+                        kiam_navigo(ps_emfazita_elemento,smb);
+                        ps_emfazita_elemento = smb;
+                    } else {
+                        kiam_navigo(ps_emfazita_elemento,null);
+                        ps_emfazita_elemento = undefined;
+                    }
+                } else {
+                    kiam_navigo(ps_emfazita_elemento,null);
+                    ps_emfazita_elemento = undefined;
+                }
+            });
+
+            // reago al sagklavoj
+            svg.setAttribute("tabindex",0); // PLIBONIGU: ĉu ni devas fari 
+                                    // tion nur, se ne jam tabindex havas alian valoron?
+            svg.addEventListener("keydown",(event) => {
+
+            // eltrovas la novan elementon, baze de la nuna elemento ne
+            // kaj la premita klavo-kodo kc
+            function nav(ne,kc) {
+                if (kc == '38') {
+                    // supren
+                    if (ne >= 71) ne -=32;
+                    else if (ne >= 58) ne =39;
+                    else if (ne >= 31) ne -=18;
+                    else if (ne >= 21) ne =12;
+                    else if (ne >= 10 ) ne -=8;
+                    else if (ne>=3) ne = 1;
+                }
+                else if (kc == '40') {
+                    // malsupren
+                    if (ne == 1) ne += 2;
+                    else if (ne <= 12) ne +=8;
+                    else if (ne <= 39) ne += 18;
+                    else if (ne <= 86) ne +=32;
+                }
+                else if (kc == '37') {
+                    // maldekstren
+                    if (ne>1) ne -= 1;
+                }
+                else if (kc == '39') {
+                    // dekstren
+                    if (ne<118) ne += 1;
+                }
+                return ne;
+            }
+
+            if (event.keyCode >= 37 && event.keyCode <= 40) {
+                let ne = 1; // apriore elektu hidrogenon
+                if (ps_emfazita_elemento) {
+                    const elm = Elemento.smb(ps_emfazita_elemento);    
+                    ne = nav(elm.nro,event.keyCode); // numero de la nova elemento
+                }
+
+                const nova = Elemento.nro(ne);
+
+                // informu la posedanton pri la navido de
+                // aktuala al nova elemento
+                kiam_navigo(ps_emfazita_elemento,nova.simbolo)
+
+                ps_emfazita_elemento = nova.simbolo;
+
+            }});
+        }
+
     }
 
     static json_element_tabelo(kiam_preta) {
