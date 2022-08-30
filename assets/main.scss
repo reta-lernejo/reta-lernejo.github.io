@@ -51,10 +51,13 @@ summary {
 
 .sekva_folio {
   float: right;
-  border-radius: .5em;
-  background-color: lightblue;
+  border-top-left-radius: .5em;
+  border-bottom-left-radius: .5em;
+  /*background-color: lightblue;*/
   padding: .3em .5em;
   border-top: 2px dotted cornflowerblue;
+  border-bottom: 2px dotted cornflowerblue;
+  border-left: 2px dotted cornflowerblue;
 }
 .sekva_folio::after {
   content: " ➤";
