@@ -23,7 +23,8 @@ Historiaj malkovroj pri la ĥemiaj elementoj[^C1].
 - Antoine Laurent de Lavoisier (1785): leĝo pri la konservo de la maso: La sumo de la masoj de la reakciantoj egalas al la sumo de la masoj de la reakciaj produktoj.
 
 
-Ĉiuj elementoj post ilia scienca [malkovro](#malkovroj){: #malkovroj onclick="malkovroj(event);"} ricevis nomon kaj simbolon (de Berzelius 1814).
+Ĉiuj elementoj post ilia scienca [malkovro](#malkovroj){: #malkovroj onclick="malkovro_jaroj(event);"} ricevis 
+nomon kaj simbolon (de Berzelius 1814).
 
 <script>
 lanĉe(()=>{
@@ -34,27 +35,36 @@ lanĉe(()=>{
     el.append("...");
 });
 
-function malkovroj(event) {
+
+function malkovro_jaroj() {
     const el = ĝi("#elisto");
-    const malkovroj = Elemento.laŭ_jaro();
-    const jaroj = Object.keys(malkovroj).sort();
-    let j=0, m=0;
+    const malkovroj = Elemento.laŭ_jaro().entries();
     for (e of el.children) {
-        let j_ = jaroj[j];
-        const mk_ = malkovroj[j_];
-        let elm;
-        if (m<mk_.length) {
-            elm = mk_[m];
-        } else {
-            j++; m=0;
-            j_ = jaroj[j];
-            elm = malkovroj[j_][0];
-        };
-        const nomo = Elemento.nro(elm.AtomicNumber).nomo;
-        e.innerHTML = `${j_}: <i>${nomo}</i> (<span class="simb">${elm.Symbol}</span>)`;
-        m++;
+        const mk = malkovroj.next().value[1];
+        e.innerHTML = `${mk[0]}: <b>?</b>`;
+        atributoj(e, { "data": mk[1] });
+        kiam_klako(e, (event) => {
+            const d = event.currentTarget;
+            //const s = d.getAttribute("data");
+            const elm = Elemento.smb(mk[1]);
+            d.innerHTML = `${mk[0]}: <i>${elm.nomo}</i> (<span class="simb">${elm.simbolo}</span>)`;
+        }); // ...klako
+    } // for
+}
+
+/*
+function malkovro_elementoj() {
+    const el = ĝi("#elisto");
+    const malkovroj = Elemento.laŭ_jaro().entries();
+    for (e of el.children) {
+        const mk = malkovroj.next().value;
+        e.innerHTML = `${j}: <b>?>/b>`;
+        const nomo = Elemento.smb(mk[1]).nomo;
+        e.innerHTML = `${mk[0]}: <i>${nomo}</i> (<span class="simb">${mk[1]}</span>)`;
     }
 }
+*/
+
 
 function simbolo(event) {
     const el = ĝi("#elisto");
@@ -179,6 +189,7 @@ t.e. la kvantumnombro *n*.
         }
     }
 
+    // aktualigu la emfazon de elementoj elektitaj per ŝelo, subŝelo, elektronnombro
     function aktualigo_ss() {
         const ŝelo = ĝi("input[name='ŝelo']:checked");
         const sŝelo = ĝi("input[name='subŝelo']:checked");
@@ -230,6 +241,7 @@ t.e. la kvantumnombro *n*.
         }
     }
 
+    // aktualigu la informon pri la elektron-distribu de elektita elemento (teksto)
     function aktualigo_distrib(smb) {
         if (smb) {
             const nomo = Elemento.smb(smb).nomo;
@@ -240,6 +252,7 @@ t.e. la kvantumnombro *n*.
             ĝi("#e_distrib").textContent = ''; // malplenigu
         }
     }
+
 
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
@@ -276,6 +289,7 @@ t.e. la kvantumnombro *n*.
     tabindex="0">
 </svg>
 
+### klarigoj 
 
 Energie ekvilibra stato estas atingita se ĉefa energinivelo estas plenigita per ok elektronoj, do se
 la subŝeloj s kaj p estas plenokupitaj. Tio estas la distribuo de *noblaj gasoj*, plej dekstra kolumno de la grupo 18. 
@@ -294,7 +308,7 @@ La lantanidoj kaj aktinidoj, ordigitaj (fakte por ne tro larĝigi la tabelon)
 en du vicoj sub la tabelo de la ceteraj elementoj, 
 respondas al la plenigo de la sep f-orbitaloj (14 elektronoj). Tamen kelkaj el tiu serio
 havas iom devian distribuon, kelkaj elektronoj jam okupas la subŝelojn 5d resp. 6d antaŭ plenigi tute
-la subŝelojn 4f resp. 5f.
+la subŝelojn 4f respektive 5f.
 
 <style>
     #perioda_sistemo {
@@ -306,8 +320,8 @@ la subŝelojn 4f resp. 5f.
     #perioda_sistemo_f {
         display: grid; 
         grid-template-rows: repeat(2,1.5em); 
-        grid-template-columns: repeat(14,1.5em);
-        margin-left: 6em;
+        grid-template-columns: repeat(15,1.5em);
+        margin-left: 4.5em;
         margin-top: 1em;
     }    
     
@@ -315,8 +329,28 @@ la subŝelojn 4f resp. 5f.
         border: 1px solid black;
     }
 
-    #perioda_sistemo .c_prd {
+    #perioda_sistemo span.c_prd,
+    #perioda_sistemo_f span.c_prd  {
         border: none;
+        text-align: center;
+        padding-right: .5em;
+    }
+
+    #perioda_sistemo span.c_grp {
+        border: none;
+        text-align: center;
+    }
+
+    /* noblaj gasoj */
+    #perioda_sistemo .c_ng {
+        border-left: 2px dotted black;
+        border-right: 2px dotted black;
+    }
+    #perioda_sistemo .c_s.c_ng {
+        border-top: 2px dotted black;
+    }
+    #perioda_sistemo span:last-child.c_ng {
+        border-bottom: 2px dotted black;
     }
 
     #perioda_sistemo .c_s {
@@ -346,14 +380,16 @@ la subŝelojn 4f resp. 5f.
 function perioda_sistemo() {
     const ps = ĝi("#perioda_sistemo");
     const ps_f = ĝi("#perioda_sistemo_f");
+    const romia = (n) => { return ['0','I','II','III','IV','V','VI','VII'][n] };
 
-    function cell(cls, content, style) {
-        const cell = kreu("span");
-        cell.classList.add(cls);
-        if (style) cell.setAttribute("style",style);
-        cell.textContent = content;
-        return cell;
-    }
+    // grupnumeroj
+    for (let g =1; g<=18; g++) {
+        const r = (g==1 || g==18)? 1 : ((g>2 && g<13)? 4 : 2);
+        ps.append(kreu("span",{
+                class: 'c_grp',
+                style: `grid-column-start:${g+1};grid-row-start:${r}`
+            }, g));
+    } 
 
     const ss = atommodelo.subŝeloIteraciilo();
     let result = ss.next();
@@ -369,39 +405,65 @@ function perioda_sistemo() {
 
         if (l==0) { // Xs
             //komencu novan periodon
-            ps.append(cell('c_prd',n,"grid-column-start:1;grid-row-start:"+(n+1)));
+            ps.append(kreu("span",{
+                class: 'c_prd',
+                style: "grid-column-start:1;grid-row-start:"+(n+1)
+            }, romia(n)));
         }
 
         // 1s - orbitalo
         if (nl == "1s") {
-            ps.append(cell('c_s','1s',"grid-column-start:2;grid-row-start:2"));
-            ps.append(cell('c_s','1s',"grid-column-start:19;grid-row-start:2"));
+            ps.append(kreu("span",{
+                class: "c_s",
+                style: "grid-column-start:2;grid-row-start:2"
+            }, "1s"));
+            ps.append(kreu("span",{
+                class: "c_s c_ng",
+                style: "grid-column-start:19;grid-row-start:2"
+            }, "1s"));
         // ceteraj s-orbitaloj
         } else if (l==0) { // Xs
-            for (let i=0;i<n_ele;i++) {
-                ps.append(cell('c_s',nl,"grid-column-start:" + (i+2) + ";grid-row-start:" + (n+1)));
-            }
+            for (let i=0; i<n_ele; i++) {
+                ps.append(kreu("span",{
+                    class: 'c_s',
+                    style: "grid-column-start:" + (i+2) + ";grid-row-start:" + (n+1)
+                }, nl));
+            } // for
         // p-orbitaloj
         } else if (l==1) { // Xp
-            for (let i=0;i<n_ele;i++) {
-                ps.append(cell('c_p',nl,"grid-column-start:" + (i+14) + ";grid-row-start:" + (n+1)));
+            for (let i=0; i<n_ele; i++) {
+                ps.append(kreu("span",{
+                    class: i+1 == 6? 'c_p c_ng' : 'c_p',
+                    style: "grid-column-start:" + (i+14) + ";grid-row-start:" + (n+1)
+                }, nl));
             }
         // d-orbitaloj
         } else if (l==2) { // Xd
-            for (let i=0;i<n_ele;i++) {
-                ps.append(cell('c_d',nl,"grid-column-start:" + (i+4) + ";grid-row-start:" + (n+2)));
+            for (let i=0; i<n_ele; i++) {
+                ps.append(kreu("span",{
+                    class: 'c_d',
+                    style: "grid-column-start:" + (i+4) + ";grid-row-start:" + (n+2)
+                }, nl));
             }        
 
         // f-orbitaloj
         } else if (l==3) { // Xf
-            for (let i=0;i<n_ele;i++) {
-                ps_f.append(cell('c_f',nl,"grid-column-start:" + (i+1) + ";grid-row-start:" + (n-3)));
+            // periodo
+            ps_f.append(kreu("span",{
+                class: 'c_prd',
+                style: "grid-column-start:1;grid-row-start:" + (n-3)
+            }, romia(n+2)));
+
+            for (let i=0; i<n_ele; i++) {
+                ps_f.append(kreu("span",{
+                    class: 'c_f',
+                    style: "grid-column-start:" + (i+2) + ";grid-row-start:" + (n-3)
+                }, nl));
             }
         }
 
         result = ss.next();
     }
-
 }
 
 perioda_sistemo();

@@ -189,15 +189,10 @@ class Elemento {
         let jaroj = [];
         for (const e of json_elementoj) {
             if (e) { // elemento 0 ne ekzistas!
-                let j = e.YearDiscovered;
-                if (! jaroj[j]) {
-                    jaroj[j] = [e];
-                } else {
-                    jaroj[j].push(e);
-                }
+                jaroj.push([e.YearDiscovered,e.Symbol]);
             }
         }
-        return jaroj;
+        return jaroj.sort((a,b) => { return +a[0]-b[0]});
     }
 
     /**
