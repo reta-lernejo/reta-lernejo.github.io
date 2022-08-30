@@ -444,8 +444,11 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 La konstruo de atomoj kaj aparte la distribuo de la elektronoj influas la ĥemiajn ecojn de la elementoj
 kaj per tiuj ecoj oni enordigas ilin en la [periodan sistemon de elementoj](perioda_sistemo).
 
+<h2></h2>
+[perioda sistemo de elementoj](perioda_sistemo){: .sekva_folio}
 
-### fontoj
+## fontoj
+{: .fontoj}
 
 [^W1]: [(en) Vikipedio: Atomic orbitals, shapes (Atomaj orbitaloj)](https://en.wikipedia.org/wiki/Atomic_orbital#Qualitative_understanding_of_shapes)
 

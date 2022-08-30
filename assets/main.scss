@@ -48,3 +48,20 @@ summary {
   border-bottom-right-radius: .1em;
   */
 }
+
+.sekva_folio {
+  float: right;
+  border-radius: .5em;
+  background-color: lightblue;
+  padding: .3em .5em;
+  border-top: 2px dotted cornflowerblue;
+}
+.sekva_folio::after {
+  content: " ➤";
+}
+
+.fontoj {
+  font-size: 24px !important;
+  text-decoration: underline;
+  font-style: italic;
+}

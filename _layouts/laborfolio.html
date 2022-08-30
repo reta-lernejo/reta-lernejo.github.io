@@ -37,5 +37,11 @@ layout: default
     <div class="post-content">
       {{ content }}
     </div>
+
+    <!-- tio ne funkcias, ĉar ni devus ordigi laŭ "chapter"
+{% if page.next.url and page.next.chapter %}
+<a class="sekva_folio" href="{{page.next.url}}">&raquo; {{page.next.title}} &raquo;</a>
+{% endif %}
+-->
   
 </article>

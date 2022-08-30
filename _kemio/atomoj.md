@@ -22,7 +22,7 @@ Neŭtralaj atomoj havas sammulte da protonoj kaj elektronoj tiel, ke la ŝargoj 
 
 Atomoj kombiniĝas al la diversaj substancoj de la materio pere de elektromagnetaj fortoj efikantaj inter ili. Tiuj fortoj estas difinitaj per la [distribuo de la elektronoj](elektrondistribuo).
 
-### evoluo de la atommodelo
+## evoluo de la atommodelo
 {: .sekcio}
 
 La atommodelo evoluiĝis kun la progreso de la scienco ekde la antikvo ĝis nuntempo.[^C1]
@@ -34,5 +34,13 @@ La atommodelo evoluiĝis kun la progreso de la scienco ekde la antikvo ĝis nunt
 - 1928: orbitalmodelo: la orbitaloj de elektronoj kiel solvoj de la ekvacio de Schrödinger priskribas probablecojn pri kie elektronoj povas troviĝi  
 
 
+<h2></h2>
+[distribuo de elektronoj](elektrondistribuo){: .sekva_folio}
 
+
+## fontoj
+{: .fontoj}
 [^C1]: [(de) Atommodell](https://www.chemie.de/lexikon/Atommodell.html#:~:text=Ein%20Atommodell%20ist%20ein%20Modell,erkl%C3%A4ren%2C%20wurden%20aber%20auch%20komplizierter.)
+
+
+

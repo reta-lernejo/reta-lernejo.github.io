@@ -157,3 +157,6 @@ http://ammoniumnitrate.weebly.com/uploads/9/8/2/0/9820288/500629623.png?371
 # pri jona kaj kovalenta ligo, orbitaloj ktp.
 https://chemistry.mcmaster.ca/esam/Chapter_7/intro.html
 -->
+
+<h3></h3>
+[kovalentaj fortoj](kovalenta_ligo){: .sekva_folio}

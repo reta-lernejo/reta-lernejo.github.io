@@ -119,7 +119,12 @@ Ekzemploj:
 <svg id="dipolo"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="240" viewBox="-20 -30 150 60">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="140" viewBox="-20 -10 150 35">
+  <style>
+    <![CDATA[ 
+      #dipolo_enhavo line.hponto { stroke: silver; stroke-width: .5; stroke-dasharray: .5 2; } 
+    ]]>
+  </style>
   <g id="dipolo_enhavo"></g>
 </svg>
 
@@ -233,7 +238,7 @@ Ekzemploj:
 <svg id="hponto"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="480" height="240" viewBox="-30 -30 120 60">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="480" height="160" viewBox="-20 -20 120 40">
  <style type="text/css">
     <![CDATA[      
       path.mkojno {
@@ -290,7 +295,9 @@ Grandaj atomoj kaj grandaj molekuloj kun multaj elektronoj pli facile polusiĝas
 
 <!-- klarigi rilaton al ...agregataj statoj...  ??? -->
 
+
 ## fontoj
+{: .fontoj}
 
 [^W1]: [(de) Eis, Modifikation (glacio, variaĵoj)](https://de.wikipedia.org/wiki/Eis#Modifikationen)
 [^N1]: [(en) ChemPages, Intermolecular Forces (intermolekulaj fortoj)](https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/02imf/imf3.htm)

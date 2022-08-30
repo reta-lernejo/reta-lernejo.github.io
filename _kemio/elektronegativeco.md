@@ -4,6 +4,7 @@ title: Elektronegativeco
 chapter: 2.4
 js:
   - folio-0a
+  - sekcio-0b
   - elementoj-0b
   - svg-0c
   - jmol-0a
@@ -141,7 +142,8 @@ ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
 <label id="eneg_lbl" for="eneg_info">elektronegativeco (laŭ Paŭling):</label> <b><span id="eneg_info">1</span></b><br>
 <input type="range" id="eneg_val" style="width: 100%" step="1" value="12" min="0" max="118"  onchange="aktualigo()" oninput="aktualigo_info(); aktualigo();">
 
-### Polusecaj ligoj
+## Polusecaj ligoj
+{: .sekcio}
 
 Se ni rigardas ekzemple molekulon de metanolo ni ricevas la sekvajn diferencojn
 por la unuopaj ligoj:
@@ -190,7 +192,12 @@ https://www.csus.edu/indiv/s/spencej/chem%2031%20summer%2014%20web/day%202%20lec
 
 -->
 
-### fontoj
+<h2></h2>
+[intermolekulaj fortoj](intermolekulaj_fortoj){: .sekva_folio}
+
+
+## fontoj
+{: .fontoj}
 
 [^W1]: [(en) Intermolecular Forces: Review Electronegativity](https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/01review/review4.htm)
 

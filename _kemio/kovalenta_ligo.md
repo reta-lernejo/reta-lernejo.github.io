@@ -79,5 +79,8 @@ anstataŭ per du punktoj.
 <svg id="glewis"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="240" viewBox="-30 -30 60 60">    
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="240" viewBox="-30 -20 60 40">    
 </svg>
+
+<h3></h3>
+[metala ligado](metala_ligo){: .sekva_folio}

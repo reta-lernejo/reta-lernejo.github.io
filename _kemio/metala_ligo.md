@@ -140,3 +140,6 @@ Do metala ligado estas unuflanke karakterizita per translokiĝo de elektronoj
 kiel ĉe [jona ligado](jona_ligo) kaj aliflanke elektronoj estas komunigitaj 
 kiel ĉe [kovalenta ligado](kovalenta_ligo). Sekve metala krado estas fenomeno
 dunatura havanta ecojn kaj de jona krado kaj de grandega molekulo.
+
+<h3></h3>
+[elektronegativeco](elektronegativeco){: .sekva_folio}
