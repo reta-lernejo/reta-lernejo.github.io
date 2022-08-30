@@ -150,11 +150,17 @@ t.e. la kvantumnombro *n*.
 </div>
 
 |plej alta ŝelo     |ajna|1 |2 |3 |4 |5 |6 |7 |
-|plej alta subŝelo..|ajna|s|p|d|f|||| 
-{: #distrib}
+{: #distrib_shelo}
 
 <label for="elektronoj">elektronoj:</label> <b><span id="elektronoj_info">iom</span></b>
 <input type="range" id="elektronoj" style="width: 20em; max-width: 80%" min="0" max="32" value="1" onchange="aktualigo_ss()" oninput="aktualigo_ss()">
+
+|subŝelo okupita|s|egale jes ne|
+|               |p|egale jes ne|
+|               |d|egale jes ne|
+|               |f| egale jes ne|
+{: #distrib_subshelo}
+
 
 <div id="e_distrib"></div>
 
@@ -165,7 +171,7 @@ t.e. la kvantumnombro *n*.
         //const dtab = ĝi("#distrib");
 
         // ebligu elekton de ŝelo
-        const ŝeloj = ĝi("#distrib tr:first-of-type");
+        const ŝeloj = ĝi("#distrib_shelo tr:first-of-type");
         for (const ch of ŝeloj.children) {
             if (ch !== ŝeloj.children.item(0)) {
                 const v = ch.textContent.trim();
@@ -176,31 +182,40 @@ t.e. la kvantumnombro *n*.
             }
         }
 
+
         // ebligu elekton de subŝelo
-        const sŝeloj = ĝi("#distrib tr:nth-of-type(2)");
-        for (const ch of sŝeloj.children) {
-            const v = ch.textContent.trim();
-            if (v && ch !== sŝeloj.children.item(0)) {
-                const id = "ss_" + v;
-                const checked = (v == "ajna")? "checked" : "";
-                ch.innerHTML = `<input type="radio" id="${id}" name="subŝelo" value="${v}" ${checked}></input><label for="${id}">${v}</label>`
-                kiam_klako(ch,aktualigo_ss);
-            }
-        }
+        const sŝeloj = ĉiuj("#distrib_subshelo td:nth-child(2)");        
+        for (const ch of sŝeloj) {
+            const v = ch.textContent;
+            ch1 = ch.nextElementSibling;
+            let html = '';
+            for (opt of ['egale','jes','ne']) {
+                const checked = (opt == 'egale')? "checked" : "";
+                html += `<input type="radio" id="ss_${v}_${opt}" name="ss_${v}" value="${opt}" ${checked}></input>`
+                html += `<label for="ss_${v}_${opt}">${opt}</label>`
+            } // for opt
+            ch1.innerHTML = html;
+        } // for ch
+        kiam_klako("#distrib_subshelo input",aktualigo_ss);                    
     }
+    
 
     // aktualigu la emfazon de elementoj elektitaj per ŝelo, subŝelo, elektronnombro
     function aktualigo_ss() {
         const ŝelo = ĝi("input[name='ŝelo']:checked");
-        const sŝelo = ĝi("input[name='subŝelo']:checked");
+        const ss_s = ĝi("input[name='ss_s']:checked");
+        const ss_p = ĝi("input[name='ss_p']:checked");
+        const ss_d = ĝi("input[name='ss_d']:checked");
+        const ss_f = ĝi("input[name='ss_f']:checked");
 
         function edistr(smb,ŝ,sŝ,ne) {
-            if (ŝ == 0 && sŝ==0) {
+            if (ŝ == 0 && ne==0 
+                && ss_s.value == 'egale' && ss_p.value == 'egale'
+                && ss_d.value == 'egale' && ss_f.value == 'egale') { 
                 return true;
             }
 
-            const elm = Elemento.json_elemento(smb);
-            return Elemento.e_distr(elm,ŝ,sŝ,ne);
+            return Elemento.e_distr(smb,ŝ,sŝ,ne);
 
             // en ĉiu alia kazo
             return false;
@@ -210,8 +225,9 @@ t.e. la kvantumnombro *n*.
         if (ŝelo && ŝelo.value >= 1 && ŝelo.value <=7) {
             ŝv = ŝelo.value;
         }
-        sŝv = (!sŝelo || sŝelo.value == "ajna")? 0 : sŝelo.value;
-        const n_e = {0: 14, 's': 2, 'p': 6, 'd': 10, 'f': 14}[sŝv];
+
+        // nombro da maksimuma elektronoj dependas de la ŝelo/periodo 
+        const n_e = [32,2,8,8,18,18,32,32][ŝv];
         const enro = ĝi("#elektronoj");
         const einf = ĝi("#elektronoj_info");
 
@@ -220,15 +236,25 @@ t.e. la kvantumnombro *n*.
         // laŭbezone adaptu la maksimumon de elektrono-elektilo
         atributoj(enro,{
             max: n_e, 
-            value: sŝv? Math.min(enro.value,n_e) : 0
+            value: Math.min(enro.value,n_e)
         });
+        /*
         if (sŝv) {
             enro.removeAttribute("disabled");
         } else {
             enro.setAttribute("disabled","disabled");
         }
+        */
 
         einf.textContent = enro.value == 0? "iom" : enro.value;
+
+        // valoroj por subŝeloj 0: egale, jes: 1, ne: -1
+        const ss_val = {jes: 1, ne: -1, egale:0};
+        const sŝv = [
+            ss_val[ss_s.value],
+            ss_val[ss_p.value],
+            ss_val[ss_d.value],
+            ss_val[ss_f.value]];        
 
         // trakuru elementojn kaj emfazu laŭ elekto
         for (const e of ĉiuj("#periodsistemo .elm")) {
@@ -469,7 +495,10 @@ function perioda_sistemo() {
 perioda_sistemo();
 </script>
 
+<h2></h2>
+[interatomaj fortoj](atomaj_fortoj){: .sekva_folio}
 
 ## fontoj
+{: .fontoj}
 
 [^C1]: [(de Atommodell)](https://www.chemie.de/lexikon/Atommodell.html#:~:text=Ein%20Atommodell%20ist%20ein%20Modell,erkl%C3%A4ren%2C%20wurden%20aber%20auch%20komplizierter.)

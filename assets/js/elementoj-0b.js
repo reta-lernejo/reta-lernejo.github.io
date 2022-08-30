@@ -511,14 +511,15 @@ class Elemento {
         }
     }
 
-    static e_distribuo(smb) {
+    static e_distribuo(smb,sen_ng) {
         const elm = Elemento.json_elemento(smb);
         let distr = elm.ElectronConfiguration;
         // forigu evtl. rimarkon (...) 
-        if (distr.indexOf("(")>-1) distr = distr.substring(0,distr.indexOf("(")-1).trim();
+        if (distr.indexOf("(")>-1) distr = distr.substring(0,distr.indexOf("(")-1);
         distr = distr.replace(/\]([^])/,'] $1'); // certigu spacon post ]
-        //if (distr.indexOf("]")>-1) distr = distr.substring(distr.indexOf("]")+1).trim();
-        return distr;
+        if (sen_ng && distr.indexOf("]")>-1) 
+            distr = distr.substring(distr.indexOf("]")+1);
+        return distr.trim();
     }
 
     /**
@@ -531,12 +532,17 @@ class Elemento {
      * @param {number} ne nombro de elektronoj
      * @returns 
      */
-    static e_distr(e,ŝ,sŝ,ne) {
+    static e_distr(smb,ŝ,sŝ,ne) {
         let k_s = true;
         let k_ss = true;
         let k_ne = true;
 
-        const re_s = /\b([1-7])s[12]\b/;
+        const re_ss = [
+            /\b([1-7])s[12]\b/, // s
+            /\b([1-7])p[1-6]\b/, // p
+            /\b([1-7])d1?[0-9]\b/, // d
+            /\b([1-7])f1?[0-9]\b/ // f
+        ];
         /*
         const a_ss = [
             ['1s','2s','3s','4s','5s','6s','7s'],
@@ -544,31 +550,39 @@ class Elemento {
             ['4p','5p','5d','6d'],
             ['6p','7p']];
             */
-        let distr = e.ElectronConfiguration;
+        const distr = Elemento.e_distribuo(smb,true);
         //console.debug(e.Symbol+": "+distr);
         // kontrolu koincidon de ŝelo (Xs)
-        if (ŝ>0) {
-            const m = re_s.exec(distr);
+        if (ŝ > 0) {
+            const m = re_ss[0].exec(distr);
             k_s = (m && m[1] == ŝ);
+            // escepto de Pd kun (5s0) d410
+            if (smb == 'Pd' && ŝ == 4) k_s = true;
         };
-        // kontrolu koincidon de plej alta (lasta) subŝelo
-        let tri;
-        if (sŝ!=0) {
-            // forigu evtl. rimarkon (...) kaj noblan prefikson [...]
-            if (distr.indexOf("(")>-1) distr = distr.substring(0,distr.indexOf("(")-1).trim();
-            if (distr.indexOf("]")>-1) distr = distr.substring(distr.indexOf("]")+1).trim();
-            // elprenu lastan triopon
-            const sp = distr.split(" ")
-            tri = sp[sp.length-1];
-            //console.debug(e.Symbol+": "+tri);
-            //k_ss = (a_ss[sŝ-1].indexOf(tri) > -1)
-            k_ss = (tri[1] == sŝ);
 
-            // kontrolu nombron de elektronoj
-            if (ne>0) {
-                k_ne = (parseInt(tri.substring(2)) == ne)
+        // kontrolu sumon de elektronoj
+        if (k_s && ne > 0) {
+            let v = 0;
+            for (t of distr.split(" ")) {
+                v += parseInt(t.substring(2))
             }
+            k_ne = (v == ne)
+        }        
+        // por ĉiu subŝelo kun valoro != 0 testu, ĉu
+        // gi aperas en la elektron-distribuo aŭ ne
+        if (k_s && k_ne) {
+            k_ss = sŝ.every((x,i) => {
+                // egale
+                if (!x) return true;
+                // ne egale
+                const m = re_ss[i].exec(distr);
+                if (x==1) return (m);
+                if (x==-1) return (!m)
+            });    
         }
+
+        // console.debug(`${smb} ${k_s} ${k_ne} ${k_ss}`)
+
         // redonu kombinitan rezulton
         return k_s && k_ss && k_ne;
     }
