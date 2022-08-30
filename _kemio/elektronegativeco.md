@@ -154,7 +154,6 @@ $$\ce{O-H}: 3,44-2,20 = 1,24$$
 
 <!-- ![elektrostatika potencialo de metanolo](inc/metanolo_mep.png) -->
 
-
 <div id="jmol_metanolo">
 <script type="text/javascript" async>
   //Jmol._isAsync = true;
@@ -170,6 +169,7 @@ $$\ce{O-H}: 3,44-2,20 = 1,24$$
   });
 </script>
 </div>
+elektrostatika potencialo de metanolo
 
 
 <!-- lig-preferoj...

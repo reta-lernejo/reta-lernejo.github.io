@@ -12,6 +12,11 @@ css:
   - lewis-0c  
 ---
 
+Inter molekuloj kaj atomoj efikas ankaŭ fortoj malpli grandaj ol tiuj de kovalentaj aŭ jonaj ligoj,
+tiel nomataj *vandervalsaj fortoj* (nomitaj laŭ la fizikisto Johannes Diderik van der Waals). Ili
+malfortiĝas proksimume proporcie de la distanco kun la sesa potenco, alivorte efikas nur mallongdistance.
+
+Ekzemple teniĝas gekoj ĉe surfacoj helpe de kombinitaj elektrostatikaj kaj vandervalsaj fortoj.[^W3]
 
 <!-- kp.
 https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/02imf/imf3.htm
@@ -33,6 +38,18 @@ CO 0,11
 
 ## dipol-dipol-fortoj
 {: .sekcio}
+
+Se molekuloj enhavas polusecajn ligojn pro diferencaj elektronegativecoj de ĝiaj atomoj
+estiĝas partaj ŝargoj: negativa ĉe la pli elektronegativa atomo kaj pozitiva ĉe la alia.
+En simetria molekulo tiuj partaj ŝargoj ekvilibriĝas, sed en aliaj ĝi ŝanĝas la densecon
+de la elektronoj en la molekulo kiel tuto tiel, ke estiĝas dipolo.
+
+Inter pluraj molekuloj, kiuj formas tian dipolon do estiĝas elektrostatika forto,
+t.e. inter la pozitiva parta ŝargo de unu molekulo kaj la negativa parta ŝargo de 
+najbara molekulo. Oni nomas tiun forton do dipol-dipol-forto. Ĝi estas malpli forta
+ol la enmolekulaj lig-fortoj, sed ja influas la strukturon de substancoj el tiaj molekuloj, 
+ekz. la temperaturo, kiam fluaĵo de tiu substanco gasiĝas. Ju pli fortaj etas dipol-dipol-fortoj,
+des pli alta estas la gasiĝas temperaturo.
 
 
 Ekzemploj:
@@ -106,6 +123,7 @@ Ekzemploj:
   <g id="dipolo_enhavo"></g>
 </svg>
 
+Elektrostatika potencialo de dimetilsulfido:
 <div id="jmol_dms">
 <script type="text/javascript" async>
   // au uzu inc/glacio_mep.spt kun isosurface off; 
@@ -113,7 +131,7 @@ Ekzemploj:
   lanĉe(()=>{
     jmol_div("jmol_dms",
       "inc/DMS_MEP.spt",
-      600,600,
+      500,300,
       (app) => { Jmol.script(app,
         'set antialiasDisplay ON'
       )}
@@ -130,6 +148,18 @@ Ekzemploj:
 
 ## hidrogenpontoj
 {: .sekcio}
+
+La elektronegativeco de oksigeno, nitrogeno kaj fluoro aparte diferencaj
+de tiu de hidrogeno, kiu siavice estas tre malgranda atomo. Tiel ke la
+elektrono de hidrogeno ligita en kovalenta paro kun iu el tiuj tri elementoj
+lokiĝas tre distance de la hidrogena nukleo (protono). Tiu ĉi do eksponiĝas
+kiel tre forta pozitiva ŝargo. Kiam efikas dipol-dipol-forto inter tiu
+pozitiva ŝargo kaj la negativa ŝargo de libera elektronparo de najbara molekulo
+(aŭ ĉe grandaj molekuloj, alia parto de la sama molekulo), oni nomas tion hidrogenponto.
+
+Tiaj hidrogenpontoj pro sia forteco povas tre stabiligi molekulan strukturon.
+Ili grave rolas ekzemple en la stabila spirala formo de DNA aŭ en la spiralaj kaj faldfoliaj 
+strukturoj de peptidoj (proteinoj).
 
 <!--
 $$\ce{F−H \bond{~} :F}$$ (161.5 kJ/mol or 38.6 kcal/mol), illustrated uniquely by HF2−, bifluoride
@@ -151,7 +181,7 @@ https://techiescientist.com/does-nh3-have-hydrogen-bonding/
 -->
 
 Ekzemploj:
-- [akvomoekuloj](#akvo){: #akvo onclick="ekz_hponto(event);"}
+- [akvomolekuloj](#akvo){: #akvo onclick="ekz_hponto(event);"}
 - [amoniakmolekuloj](#amoniako2){: #amoniako2 onclick="ekz_hponto(event);"}
 - [inter akvo kaj amoniako](#amoniako){: #amoniako onclick="ekz_hponto(event);"}
 
@@ -223,11 +253,11 @@ Ekzemploj:
   <g id="hponto_enhavo"></g>
 </svg>
 
-La molekuloj de akvo tiel estas interligitaj per multnombraj hidrogenaj pontoj. Kiam flua akvo glaciiĝas per ĉi tiuj hidrogenpontoj formiĝas kristalo, en kiu po ses akvomelkuloj formas ringon kun la oksigenaj atomoj en la anguloj. Ĉe ĉiu oksigenatomo kuniĝas kvar tiaj ringoj. Neĝflokoj tial cetere havas ses radiojn. 
+La molekuloj de akvo tiel estas interligitaj per multnombraj hidrogenaj pontoj. Kiam flua akvo glaciiĝas per ĉi tiuj hidrogenpontoj formiĝas kristalo, en kiu po ses akvomelkuloj formas ringon kun la oksigenaj atomoj en la anguloj. 
+(Neĝflokoj tial cetere havas ses radiojn.) Ĉe ĉiu oksigenatomo kuniĝas kvar tiaj ringoj.
+(En pli malvarmaj kondiĉoj, sub -22°C formiĝas ankaŭ aliaj strukturoj.)[^W1]
 
-En pli malvarmaj kondiĉoj, sub -22°C formiĝas ankaŭ aliaj strukturoj.[^W1]
-
-La ringa strukturo ĉirkaŭas relative multe da malplena spaco inter la molekuloj. Kiam glacio degelas, rompiĝas proksimume 15% el la hidrogenpontoj.[^N1] Ili estas tiom fortaj, ke la degelado efektive konsumas multe da energio. Tiam akvomolekuloj povas eniĝi en la antaŭe malplenan spacon, pro kio flua akvo estas 8% pli densa ol glacio. Tio klarigas la unikan econ de glacio naĝi surface de lagoj kaj disrompi konstruaĵojn, kiam flua akvo eniĝas en krevetojn kaj poste glaciiĝas. 
+La ringa strukturo ĉirkaŭas relative multe da malplena spaco inter la molekuloj. Kiam glacio degelas, rompiĝas proksimume 15% el la hidrogenpontoj.[^N1] Ili estas tiom fortaj, ke la degelado efektive konsumas multe da energio. Tiam akvomolekuloj povas eniĝi en la antaŭe malplenan spacon, pro kio flua akvo estas 8% pli densa ol glacio. Tio klarigas la unikan econ de glacio naĝi surface de lagoj; aŭ krevigi konstruaĵojn, kiam flua akvo eniĝas en fendetojn kaj poste glaciiĝas. 
 
 <!-- DEZIRO: modelo, kiu montrus por diversaj temperautroj/premoj/fazoj, kiel akvo
 aspektas en molekula skalo -->
@@ -250,11 +280,19 @@ aspektas en molekula skalo -->
 ## London-fortoj
 {: .sekcio}
 
-...
+Dipolaj molekuloj en kontakto kun nepolusecaj molekuloj ankaŭ influas ties elektrondensecon. En proksima kontakto la elektronoj evitas la pozitivan partan ŝargon de la dipolo. Tiel la nepoluseca molekulo mem fariĝas dipolo pro indukto. 
+Tia induktita dipol-molekulo siavice povas indukti dipolecon en alia nepoluseca molekulo.
+
+Tiele efikas malgrandaj elektrostatikaj fortoj eĉ inter apriore nepolusecaj molekuloj. Tiajn malgrandajn intemolekulajn fortojn oni nomas London-fortoj laŭ la fizikisto
+Fritz London.[^W2]
+
+Grandaj atomoj kaj grandaj molekuloj kun multaj elektronoj pli facile polusiĝas kaj aperigas do pli grandajn London-fortojn ol malgrandaj atomoj kaj molekuloj kun malmultaj nukleproksimaj elektronoj.[^N1]
 
 <!-- klarigi rilaton al ...agregataj statoj...  ??? -->
 
 ## fontoj
 
 [^W1]: [(de) Eis, Modifikation (glacio, variaĵoj)](https://de.wikipedia.org/wiki/Eis#Modifikationen)
-[^N1]: [(en) 	ChemPages, Intermolecular Forces (intermolekulaj fortoj)](https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/02imf/imf3.htm)
+[^N1]: [(en) ChemPages, Intermolecular Forces (intermolekulaj fortoj)](https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/intermolecular_forces/02imf/imf3.htm)
+[^W2]: [(de) London-Kraft](https://de.wikipedia.org/wiki/London-Kraft)
+[^W3]: [(de) Van-der-Waals-Kräfte](https://de.wikipedia.org/wiki/Van-der-Waals-Kr%C3%A4fte)
