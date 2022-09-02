@@ -1,3 +1,32 @@
+/**
+ * JSON-strukturo de formuloj, ekz-e CH4 + 2 O2 -> CO2 + 2 H2O
+ * 
+ *  m: {
+ * // molekuloj
+ * CH4: {
+ *   // atomoj
+ *   a: { c: "C", h1: "H", h2: "H", h3: "H", h4: "H" }, // mlg. eble: "CH4" kreas la antaŭan strukturon...
+ *   // ligoj
+ *   l: { c: "0-h1 3-h2 6-h3 9-h4"} // pli mallonge eble: "-% h1 h2 h3 h4"
+ *  }
+ *  O2: {
+ *   a: { o1: "O", o2: "O" } // mlg. "O2"
+ *   l: { o1: "3=o2" }
+ *   }
+ *  ...
+ * }
+ * // formulo:
+ *   f: ["CH4","+","2","O2",...] // mlg.: "CH4 + 2 O2 ..." nomoj kun komenca litero referencas al supraj difinoj...
+ * }
+ * 
+ * kompleksaj molekuloj ankaŭ povas enhavi grupojn difinendaj per g: {...}
+ * kie en la strukturo ni difinu elktron(par)ojn, ŝargojn, oksidnombroj k.c.?
+ * verŝajne plej bone tiam anstataŭ "C" ni aldonu strukturon {s: "C", o: "+2", e: "2:"}
+ * aŭ post a kaj l donu per ŝlosilo e: {c: ..., h1: ... } pliajn informojn pri la elektronoj de la atomoj
+ * ĉi-lasta estas verŝajne pli fleksebla kaj legebla solvo, krome tio permesus ŝovi tiujn informojn de la grupo
+ * al la molekulo aŭ eĉ formulo!
+ */
+
 
 const _L = {
     ns: "http://www.w3.org/2000/svg",
@@ -216,47 +245,51 @@ class Lewis {
         text.setAttribute("y",-dk*.9);
         return text;
     }
-    
-    /**
-     * desegni atomojn kaj molekulojn en elektronstruktura formulo laŭ Lewis kiel SVG-desegno
-     * 
-     * @param spec listo de atomoj donita kiel 4-opoj [simbolo^ŝargo,elektronoj,ŝovo,ŝovangulo]
-     * elementoj de la kvaropoj krom la unua estas forlaseblaj, la unua signo en elektronoj
-     * donas la flankon, kie komenci desegnadon en horloĝa direkto la elektronojn (>,<,^,v)
-     * eblaj valoroj estas .:; -=# (ĉu subteni ankaŭ kojnojn per vV?), valentstrekojn
-     * ni desgnas nur ĉe unu kaj en la alia donas spacsignon anstataŭe.
-     * 
-     * Ŝovoj estas aŭtomataj laŭ numero en la listo je unu loko, sed por nelinie
-     * skribitaj molekuloj povas esti donitaj per nombro de atomlokoj kaj angulo.
-     * Anguloj por ŝovi atomon ene de la molekulo estas tiel, ke 1,0 = dekstren je unu loko,
-     * 2,30 = du lokojn en direkto 30°.
-     * 
-     * Ekz-e por O2 ni donus ["O",">:::"], ["O","<:::",1] aŭ per valentstrekoj
-     * ["O","3%=::"], ["O","< ::",1]
-     * 
-     * IDEOJ: eble pli bone anst. angulaj ŝovoj de centro, kiuj malfaciliĝas ĉe pli kompleksaj
-     * molekuloj, ni ŝanĝu la strukturon tiel, ke ni permesu ingigi la ligantojn 
-     * kaj donu la angulojn per samajn rimedoj kiel la elektronŝargojn:
-     * ekz-e por H2O ["O","3-A-a:a:",[3,["H"],A,["H"]], aŭ mallongigite
-     * ["O","3-A-a:a:","3H,AH"]
-     * Alia maniero estas doni unue liston de ĉiuj atomoj kaj poste
-     * montru la strukturon per aparta signaro:
-     * atomoj: [["O","3-A-a:a:"],"H","H"]
-     * strukturo: ["1-2","1-3"] aŭ {1: [2,3]}
-     */
-    molekulo(spec) {
-        const mlk = _molekulo(spec);
-        this.svg.append(mlk);
-    }
 
-    _molekulo(spec) {
+    /** se atomoj estas donitaj kiel signaro ni transformas tion al objekto */
+    _atomoj(a) {        
+        if (typeof a === "object") return a;
+        if (typeof a === "string") {
+            const re = /^([A-Z][a-z]?)([1-9]?[0-9]?)/g;
+            let obj = {};
+            // ni havas komence de la signaro ĉiam majusklan elementnomon evtl. sekvita de nombro!
+            let m;
+            while ((m = re.exec(a))) {
+                const e = m[1];
+                const el = e.toLowerCase();
+                const n = m[2];
+                if (!n) {
+                    // unu atomo
+                    obj[el] = e;                    
+                } else {
+                    for (let n_=1; n_<=n; n_++) {
+                        obj[`${el}${n_}`] = e;
+                    }
+                }
+            }
+            return obj;
+        }
+    }
+    
+     /**
+     * kreas molekulon kiel SVG-g-elementon kaj redonas tiun
+     * @param {*} molekulo ojekto kun la difino de la molekulo
+     * @param {*} grupoj se donita, povas enhavi grupoj kiel partoj de la molekulo, ekz -OH aŭ -COOH grupo povas doniĝi tiel
+     * @returns 
+     */
+    _molekulo(molekulo,grupoj) {
         const ns = _L.ns;
         const dM = _L.dM;
         let poz = -1;
 
         const mlk = document.createElementNS(ns,"g");
 
-        for (const atom of spec) {
+        // atomoj povas doniĝi kiel objekto aŭ signaro, se donita kiel signaro ni devas ankoraŭ krei
+        // la objekton
+        const atomoj = this._atomoj(molekulo.a);
+
+        /*
+        for (const atom of atomoj) {
 
             const smb = atom[0];
             let eltrj = atom[1];
@@ -353,10 +386,42 @@ class Lewis {
             
             mlk.append(g);
         } // ...for
-
+*/
         //this.svg.append(mlk);
         return mlk;
     }
+
+   /**
+     * desegni atomojn kaj molekulojn en elektronstruktura formulo laŭ Lewis kiel SVG-desegno
+     * 
+     * @param spec listo de atomoj donita kiel 4-opoj [simbolo^ŝargo,elektronoj,ŝovo,ŝovangulo]
+     * elementoj de la kvaropoj krom la unua estas forlaseblaj, la unua signo en elektronoj
+     * donas la flankon, kie komenci desegnadon en horloĝa direkto la elektronojn (>,<,^,v)
+     * eblaj valoroj estas .:; -=# (ĉu subteni ankaŭ kojnojn per vV?), valentstrekojn
+     * ni desgnas nur ĉe unu kaj en la alia donas spacsignon anstataŭe.
+     * 
+     * Ŝovoj estas aŭtomataj laŭ numero en la listo je unu loko, sed por nelinie
+     * skribitaj molekuloj povas esti donitaj per nombro de atomlokoj kaj angulo.
+     * Anguloj por ŝovi atomon ene de la molekulo estas tiel, ke 1,0 = dekstren je unu loko,
+     * 2,30 = du lokojn en direkto 30°.
+     * 
+     * Ekz-e por O2 ni donus ["O",">:::"], ["O","<:::",1] aŭ per valentstrekoj
+     * ["O","3%=::"], ["O","< ::",1]
+     * 
+     * IDEOJ: eble pli bone anst. angulaj ŝovoj de centro, kiuj malfaciliĝas ĉe pli kompleksaj
+     * molekuloj, ni ŝanĝu la strukturon tiel, ke ni permesu ingigi la ligantojn 
+     * kaj donu la angulojn per samajn rimedoj kiel la elektronŝargojn:
+     * ekz-e por H2O ["O","3-A-a:a:",[3,["H"],A,["H"]], aŭ mallongigite
+     * ["O","3-A-a:a:","3H,AH"]
+     * Alia maniero estas doni unue liston de ĉiuj atomoj kaj poste
+     * montru la strukturon per aparta signaro:
+     * atomoj: [["O","3-A-a:a:"],"H","H"]
+     * strukturo: ["1-2","1-3"] aŭ {1: [2,3]}
+     */
+    molekulo(molekulo,grupoj) {
+        const mlk = this._molekulo(molekulo,grupoj);
+        this.svg.append(mlk);
+    }    
 
     /**
      * Tradukas liston de termoj (molekuloj aŭ kombinaj signoj) al kombinita formulo
