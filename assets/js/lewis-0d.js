@@ -245,6 +245,11 @@ class Lewis {
      * strukturo: ["1-2","1-3"] aŭ {1: [2,3]}
      */
     molekulo(spec) {
+        const mlk = _molekulo(spec);
+        this.svg.append(mlk);
+    }
+
+    _molekulo(spec) {
         const ns = _L.ns;
         const dM = _L.dM;
         let poz = -1;
@@ -349,8 +354,30 @@ class Lewis {
             mlk.append(g);
         } // ...for
 
-        this.svg.append(mlk);
+        //this.svg.append(mlk);
         return mlk;
+    }
+
+    /**
+     * Tradukas liston de termoj (molekuloj aŭ kombinaj signoj) al kombinita formulo
+     * 
+     * @param termoj listo de termoj kiuj povas esti aŭ specifo kiel por la funkcio "molekulo" aŭ simplaj signaroj ('+', '->' k.s.)
+     */
+    formulo(termoj) {
+        const frm = document.createElementNS(_L.ns,"g");
+        let ŝovo = 0;
+        for (const t of termoj) {
+            const m = this._molekulo(t);
+            // ĝi jam estas aldonita al svg, sed ni povas ankoaŭ ŝovi ĝin
+            if (ŝovo) {
+                m.setAttribute("transform",`translate(${ŝovo} 0)`);
+                ŝovo += 20; // plibonigenda...
+            }
+            frm.append(m);
+        }
+
+        this.svg.append(frm);
+        return frm;
     }
 
     /**
