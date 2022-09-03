@@ -48,8 +48,8 @@ const molekulo = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone ie
   H2:  { a: "H2", l: { h1: "3-h2" } }, // l: angulo, ligtipo, celatomo
   O2:  { a: "O2", l: { o1: "3=o2" }, e: { o1: "7:y:", o2: "1:5:" } }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
   N2:  { a: "N2", l: { n1: "3#n2" }, e: { n1: "9:", n2: "3:" } },
-  H2O: { a: "OH2", l: { o: "dme-h1 A-h2" }, e: "mZ:a:" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
-  CO2: { a: "CO2", l: { c: "3=o1 9=o2" } },
+  H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
+  CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } },
   CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
   HCO_OH: { a: "CHO", l: { c: "9-h 1=o 5-OH" }, e: { o: "5:x:" }}, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
   DMS: { a: "S", l: { s: "3o-_CH3 k-CH3_" }}, // fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
@@ -87,7 +87,7 @@ function ekz_on(event) {
 <svg id="oksidnro"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="-20 -20 150 60">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="-30 -20 150 60">
   <g id="on_enhavo"></g>
 </svg>
 
