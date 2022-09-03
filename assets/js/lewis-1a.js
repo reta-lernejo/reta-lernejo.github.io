@@ -440,16 +440,19 @@ class Lewis {
             
             // resto estas nomo de alia atomo aŭ grupo
             const ref = ligo.substring(l+1);
-            const pos = this.atomoj[atm].pos || {x:0, y:0};
+            //const pos = this.atomoj[atm].pos || {x:0, y:0};
             const phi = (a-90)/180 * Math.PI; // -90°, ĉar 0° ĉe ni estas supre kaj ne dekstre!
-            const Ax = pos.x + dM * Math.cos(phi);
-            const Ay = pos.y + dM * Math.sin(phi);
+            const Ax = dM * Math.cos(phi);
+            const Ay = dM * Math.sin(phi);
 
+            // ĉar ni ne scias en kiu ordo la atomoj kaj grupoj
+            // traktiĝas kaj ĉu do nuna atm jam havas validan pozicion,
+            // ni notas la pozicion relative al nuna atomo atm
             if (ref && this.atomoj[ref]) {
                 // pozicio de referencita atomo estas relativa al la nuna pozicio per angulo 180-a
-                this.atomoj[ref].pos = {x:Ax,y:Ay}
+                this.atomoj[ref].pos = {x:Ax,y:Ay,p:atm}
             } else if (ref && this.atomoj[ref]) {
-                this.grupoj[ref].pos = {x:Ax,y:Ay};
+                this.grupoj[ref].pos = {x:Ax,y:Ay,p:atm};
             }
     
         } // for
@@ -517,6 +520,12 @@ class Lewis {
 
         // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
         // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
+        // KOREKTU: ni uzas la relativajn poziciojn momente kvazaŭ ili estus
+        // absolutaj, sed ni devas kalkuli ankoraŭ absolutajn el relativaj
+        // pozicioj. Ĉe ringaj strukturoj tio kaŭzos problemon,
+        // do unu atomon en la molekulo ni devas difini kiel origino
+        // tio povas esti la unua nomita en a: "X..." aŭ aliokaze aparte
+        // specifita!
         for (const a_ of Object.keys(gj)) {
             const pos = this.atomoj[a_].pos;
             if (pos.x || pos.y) {
