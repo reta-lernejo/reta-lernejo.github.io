@@ -1,6 +1,8 @@
 /**
  * JSON-strukturo de formuloj, ekz-e CH4 + 2 O2 -> CO2 + 2 H2O
  * 
+ * KOREKTU: se ni donas atomojn kiel objekto ni ankoraŭ devas difini, kies pozicio estas en (0,0)!
+ * 
  *  m: {
  * // molekuloj
  * CH4: {
@@ -291,7 +293,7 @@ class Lewis {
         } else if (typeof a === "string") {
             const re = /([A-Z][a-z]?)([1-9]?[0-9]?)/g;
             // ni havas komence de la signaro ĉiam majusklan elementnomon evtl. sekvita de nombro!
-            let m;
+            let m, first=true;
             while ((m = re.exec(a))) {
                 const e = m[1];
                 const el = e.toLowerCase();
@@ -299,14 +301,40 @@ class Lewis {
                 if (!n) {
                     // unu atomo
                     obj[el] = {smb: e};
+                    if (first) obj[el].pos = {x: 0, y:0}
                 } else {
                     for (let n_=1; n_<=n; n_++) {
-                        obj[`${el}${n_}`] = {smb: e};
+                        const en = `${el}${n_}`;
+                        obj[en] = {smb: e};
+                        if (first) obj[en].pos = {x: 0, y:0}
                     }
                 }
+                first = false;
             }
         }
         return obj;
+    }
+
+    /** Redonas la pozicion de atomo. Se ekzistas absoluta, tiun, se
+     * estas relativa ĝi kalkulas la absoluton el la relativa
+     * @param atm la ŝlosilo de la atomo, ekz-e h1
+     * @param rikuro ni permesas maksimume 10 rikurojn por eviti etenre kuri en cikloj!
+     */
+    _pos(atm, rik=0) {
+        if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${atm}.`;
+        const a = this.atomoj[atm];
+        const pos = a.pos;
+        if ('x' in pos && 'y' in pos) {
+            return pos;
+        } else {
+            if (! 'p' in pos && 'dx' in pos && 'dy' in pos) 
+                throw `Atomo ${atm} havas nek absolutan nek relativan pozicion.`
+            const ppos = this._pos(pos.p,rik++)
+            pos.x = ppos.x + pos.dx;
+            pos.y = ppos.y + pos.dy;
+            this.atomoj[atm].pos = pos; // aktualigu la pozicion de la atomo per la absoluta
+            return pos;
+        }
     }
 
     /**
@@ -450,9 +478,9 @@ class Lewis {
             // ni notas la pozicion relative al nuna atomo atm
             if (ref && this.atomoj[ref]) {
                 // pozicio de referencita atomo estas relativa al la nuna pozicio per angulo 180-a
-                this.atomoj[ref].pos = {x:Ax,y:Ay,p:atm}
+                this.atomoj[ref].pos = {dx:Ax,dy:Ay,p:atm}
             } else if (ref && this.atomoj[ref]) {
-                this.grupoj[ref].pos = {x:Ax,y:Ay,p:atm};
+                this.grupoj[ref].pos = {dx:Ax,dy:Ay,p:atm};
             }
     
         } // for
@@ -500,34 +528,18 @@ class Lewis {
 
         let gj = {};
         for (const atm of Object.keys(this.atomoj)) {
-            if (!this.atomoj[atm].pos) this.atomoj[atm].pos = {x:0, y:0}; // apriora pozicio, ŝovita dum trakuro de ligoj
+            //if (!this.atomoj[atm].pos) this.atomoj[atm].pos = {x:0, y:0}; // apriora pozicio, ŝovita dum trakuro de ligoj
             const smb = this.atomoj[atm].smb;
             const elektronoj = molekulo.e && molekulo.e[atm] ? molekulo.e[atm] : null;
             const ligoj = molekulo.l && molekulo.l[atm] ? molekulo.l[atm] : null;
             const g = this._atomo(atm,smb,elektronoj,ligoj);
-            gj[atm] = g;
-
-/*
-
-            if (ŝovo) {
-                const phi = (aŝov-90)/180 * Math.PI;
-                const Ax = ŝovo * dM * Math.cos(phi);
-                const Ay = ŝovo * dM * Math.sin(phi);
-                g.setAttribute("transform",`translate(${Ax} ${Ay})`);
-            }
-*/            
+            gj[atm] = g;   
         } // ...for
 
         // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
         // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
-        // KOREKTU: ni uzas la relativajn poziciojn momente kvazaŭ ili estus
-        // absolutaj, sed ni devas kalkuli ankoraŭ absolutajn el relativaj
-        // pozicioj. Ĉe ringaj strukturoj tio kaŭzos problemon,
-        // do unu atomon en la molekulo ni devas difini kiel origino
-        // tio povas esti la unua nomita en a: "X..." aŭ aliokaze aparte
-        // specifita!
         for (const a_ of Object.keys(gj)) {
-            const pos = this.atomoj[a_].pos;
+            const pos = this._pos(a_);
             if (pos.x || pos.y) {
                 const g_ = gj[a_];
                 g_.setAttribute("transform",`translate(${pos.x} ${pos.y})`);    
