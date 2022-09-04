@@ -98,6 +98,19 @@ lanĉe (() => {
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="-30 -20 150 60">
+ <style type="text/css">
+    <![CDATA[
+      path.mkojno {
+        stroke: none;
+        fill: url(#strie);
+      }
+    ]]>
+  </style>
+  <defs>
+    <pattern id="strie" viewBox="0,0,4,1" height="20%" width="20%">
+      <rect width="2" height="1" fill="black" stroke="black" stroke-width="0.6"/>
+    </pattern>
+  </defs>
   <g id="on_enhavo"></g>
 </svg>
 

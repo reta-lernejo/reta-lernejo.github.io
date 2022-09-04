@@ -63,7 +63,7 @@ class Lewis {
         this.svg = svg;
         this.atomoj = {}; // atomoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
         this.grupoj = []; // nomoj (id/href) de konataj grupoj uzeblaj en molekulo
-        this.grupo_ref = {}; // referencoj al grupoj el de atomo, al kiu ĝi ligiĝas
+        // this.grupo_ref = {}; // referencoj al grupoj el de atomo, al kiu ĝi ligiĝas
     }
 
 
