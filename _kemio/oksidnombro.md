@@ -14,6 +14,15 @@ css:
   - elementoj-0a
 ---
 
+<!--
+vd.
+https://de.wikipedia.org/wiki/Oxidationszahl
+https://de.wikipedia.org/wiki/Liste_der_Oxidationsstufen_der_chemischen_Elemente#FN_*
+https://en.wikipedia.org/wiki/Oxidation_state
+https://en.wikipedia.org/wiki/Oxidation_state#List_of_oxidation_states_of_the_elements
+
+-->
+
 Ekzemploj:
 - [hidrogeno](#){: #hidrogeno onclick="ekz_on(event);"}
 - [nitrogeno](#){: #nitrogeno onclick="ekz_on(event);"}
@@ -114,7 +123,7 @@ lanĉe (() => {
 
 
 <label for="oksidnombroj">oksidnombroj:</label> <b><span id="oksidnombroj_info">0</span></b>
-<input type="range" id="oksidnombroj" style="width: 20em; max-width: 80%" min="-4" max="9" value="0" onchange="aktualigo()" oninput="aktualigo()">
+<input type="range" id="oksidnombroj" style="width: 20em; max-width: 80%" min="-4" max="9" value="0" onchange="aktualigo_ps()" oninput="aktualigo_ps()">
 
 <div id="oksidnombroj_elemento"></div>
 
@@ -135,6 +144,20 @@ lanĉe (() => {
 
   function aktualigo_ps() {
     console.log("akt ps");
+    const v = ĝi("#oksidnombroj").value;
+    const vv = (v>0)? "+"+v : v;
+    ĝi("#oksidnombroj_info").textContent = vv;
+
+    for (const e of ĉiuj("#periodsistemo .elm")) {
+      // forigu ĉiujn emfazojn antaŭ aktualigo...
+      const smb = e.id.split('_')[1];
+      const on = Elemento.oksid_nro(smb);
+      const cl = e.classList;
+
+      if (on.indexOf(vv)>-1) cl.add("emfazo")
+      else cl.remove("emfazo")
+    }
+
   }
 
   lanĉe (() => {
@@ -165,7 +188,7 @@ lanĉe (() => {
   .emfazo_1 rect {
     fill: #000088 !important;
   }
-  
+
   .emfazo_1 text {
     fill: white !important;
   }  

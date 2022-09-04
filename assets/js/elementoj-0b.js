@@ -528,8 +528,11 @@ class Elemento {
      */
     static oksid_nro(smb) {
         const elm = Elemento.json_elemento(smb);
-        let on = elm.OxidationStates;
-        return on.split(/, ?/);
+        let on = elm.OxidationStates; //.replace(/\b([1-9])/g,'+$1');
+        return on.split(/, ?/).map((x) => { 
+            // ĉe kelkaj pozitivaj mankas la konvencia "+"!
+            return (("_123456789".indexOf(x) > 0)? `+${x}` : x )
+        });
     }
 
     /**
