@@ -20,6 +20,8 @@ Ekzemploj:
 - [karbondioksido](#){: #CO2 onclick="ekz_on(event);"}
 - [metano](#){: #CH4 onclick="ekz_on(event);"}
 - [metanacido (formikacido)](#){: #HCOOH onclick="ekz_on(event);"}
+- [acetacido](#){: #C2H4O2 onclick="ekz_on(event);"}
+- [etanolo](#){: #C2H5OH onclick="ekz_on(event);"}
 - [dimetilsulfido](#){: #DMS onclick="ekz_on(event);"}
 
 <script>
@@ -27,6 +29,7 @@ Ekzemploj:
 
 const grupoj = {
   OH: { a: "OH", l: { o: "3)-h" }, on: "-2 +1" },
+  CH3: { a: "CH3", l: { c: "x)-h1 7)>h2 5)<h3" }, on: "-3 +1 +1 +1" }, // angulo al samebena H: pmo = 109°(-45°)
   _CH3: { a: "CH3", l: { c: "pmo)-h1 5)<h2 7)>h3" }, on: "-2 +1 +1 +1" }, // angulo al samebena H: pmo = 109°(-45°)
   CH3_: { a: "CH3", l: { c: "omp)-h1 7)>h2 5)<h3" }, on: "-2 +1 +1 +1" } // angulo al samebena H: omp = (45°)-109°
 }
@@ -42,6 +45,8 @@ const molekulo = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone ie
   CH4: { a: "CH4", l: { c: "0)-h1 3)-h2 6)-h3 9)-h4"}, on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
   HCO_OH: { a: "CHO", l: { c: "9)-h 1(=o 5(-OH" }, e: { o: "3:y:" }, on: "+2 +1 -2" }, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
   DMS: { a: "S", l: { s: "3o)-_CH3 k)-CH3_" }, on: "-2" }, // fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
+  C2H5OH: { a: "CH3O", l: { c: "4(-o 8|-CH3 y)>h1 1)<h2", o: "2)-h3" }, e: { o: "5:7:" }, on: "-1 +1 +1 +1 -2"},
+  C2H4O2: { a: "CO2H", l: { c: "0(=o1 4(-o2 8|-CH3", o2: "2)-h" }, e: { o1: "x:2:", o2: "5:7:" }, on: "+3 -2 -2 +1"}
 }
 
 const molekuloj = {
@@ -52,6 +57,8 @@ const molekuloj = {
     CO2: molekulo.CO2,
     CH4: molekulo.CH4,
     HCOOH: molekulo.HCO_OH,
+    C2H4O2: molekulo.C2H4O2,
+    C2H5OH: molekulo.C2H5OH,
     DMS: molekulo.DMS // (CH₃)₂S
 }
   
@@ -85,7 +92,7 @@ lanĉe (() => {
 <svg id="oksidnro"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="-30 -30 150 60">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="-35 -30 150 60">
  <style type="text/css">
     <![CDATA[
       path.mkojno {

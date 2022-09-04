@@ -414,15 +414,16 @@ class Lewis {
                     obj[el] = {smb: e};
                     if (on && n_on < on.length) obj[el].on = on[n_on];
                     if (first) obj[el].pos = {x: 0, y:0}
+                    n_on++;
                 } else {
                     for (let n_=1; n_<=n; n_++) {
                         const en = `${el}${n_}`;
                         obj[en] = {smb: e};
                         if (on && n_on < on.length) obj[en].on = on[n_on];
                         if (first) obj[en].pos = {x: 0, y:0}
+                        n_on++;
                     }
                 }
-                n_on++;
                 first = false;
             }
         }
