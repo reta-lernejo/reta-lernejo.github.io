@@ -1,7 +1,8 @@
 /**
  * JSON-strukturo de formuloj, ekz-e CH4 + 2 O2 -> CO2 + 2 H2O
- * 
+ * -----------------------------------------------------------------
  * KOREKTU: se ni donas atomojn kiel objekto ni ankoraŭ devas difini, kies pozicio estas en (0,0)!
+ * ĉe signaro ĉiam la unua atomo estas la centra ĉe (0,0) per difino.
  * 
  *  m: {
  * // molekuloj
@@ -27,12 +28,10 @@
  * aŭ post a kaj l donu per ŝlosilo e: {c: ..., h1: ... } pliajn informojn pri la elektronoj de la atomoj
  * ĉi-lasta estas verŝajne pli fleksebla kaj legebla solvo, krome tio permesus ŝovi tiujn informojn de la grupo
  * al la molekulo aŭ eĉ formulo!
- */
-
-
-
-/**
- * Angulojn vi povas doni absolute, laŭ la horloĝo:
+ *
+ * Angulsignoj por elektron- kaj ligaranĝoj ĉikaŭ la elementsimbolo:
+ * -----------------------------------------------------------------
+ * angulojn vi povas doni absolute, laŭ la horloĝo:
  * 0 (supre), 1 (30°), 2 (60°), 3 (90°), 4 (120°), 5 (150°), 6 (180°)
  * 7 (210°), 8 (240°), 9 (270°), x (300°), y (330°)
  * aŭ relative al la antaŭa:
@@ -68,6 +67,8 @@ class Lewis {
 
 
     // parametroj por distantcoj ktp. de la desegno
+    // PLIBONIGU: donu al la variabloj longajn nomojn
+    // kaj difinu rekte kiel static dist_e = 7;  ktp.
     static _L = {
         de: 7, // distanco de elektronoj de atommezo
         sy: 4, // dy de ŝargo relative al la elementsimbolo
@@ -79,6 +80,7 @@ class Lewis {
         dk: 4, // distanco de kojno
         yk: 1, // duona larĝeco de kojno
         lk: 5, // longeco de kojno
+        la: 8, // alteco (dy) de e-atribua arko
         dh: 6, // distanco de hidrogenponto
         lh: 10, // longeco de hidrogenponto
         // dJ: 19, // distanco inter jonoj
@@ -203,6 +205,46 @@ class Lewis {
         });   
         return p;     
     }
+
+    /**
+     * helpfunkcio por desegni arkon de elektron-atribuo 
+     * por oksidnombroj (al la pli e-negativa atomo aŭ samdivide)
+     * @param at arktipo ( | )
+     * @param a  angulo ĉe kiu la arko aperu, 0 = supre, 270 = maldekstre
+     */ 
+     _ea(at,a) {
+        const dv = Lewis._L.dv;
+        const lv = Lewis._L.lv;
+        const la = Lewis._L.la;
+        let p;
+        switch (at) {
+        case "|": 
+            p = this._kreu("line", {
+                class: "e-atr",
+                x1: dv+lv/2,
+                x2: dv+lv/2,
+                y1: -la/2,
+                y2: +la/2
+            });
+            break;
+        case "(":
+            p = this._kreu("path", {
+                class: "e-atr",
+                d: `M${dv+lv/2} ${-la/2}A${lv/2} ${la/2} 0 0 0 ${dv+lv/2} ${la/2}`
+            });
+            break;
+        case ")":
+            p = this._kreu("path", {
+                class: "e-atr",
+                d: `M${dv+lv/2} ${-la/2}A${lv/2} ${la/2} 0 0 1 ${dv+lv/2} ${la/2}`
+            });
+            break;
+        }
+        if (a != 90) this._atr(p, {
+            transform: `rotate(${a-90})`
+        });   
+        return p;
+     }
 
     /**
      * helpfunkcio por desegni kojnon por ligo antaŭen
@@ -482,6 +524,9 @@ class Lewis {
                     } else {
                         a = this._a(ll,a,da,af)
                     }
+                } else if ("(|)".indexOf(ll) > -1) {
+                    // temas pri elektron-atribua arko (por formala kalkulo de oksidnombroj)
+                    g.append(this._ea(ll,a));
                 } else {
                     // nun ni atendas ligtipon
                     switch (ll) {
