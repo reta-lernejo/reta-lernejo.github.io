@@ -522,6 +522,16 @@ class Elemento {
         return distr.trim();
     }
 
+    /** 
+     * Redonas oksidnumerojn de elemento
+     * 
+     */
+    static oksid_nro(smb) {
+        const elm = Elemento.json_elemento(smb);
+        let on = elm.OxidationStates;
+        return on.split(/, ?/);
+    }
+
     /**
      * Eltrovas, ĉu la elektrondistribuo de elemento
      * havas elektronojn en plej alta ŝelo kaj subŝelo

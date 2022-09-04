@@ -116,19 +116,32 @@ lanĉe (() => {
 <label for="oksidnombroj">oksidnombroj:</label> <b><span id="oksidnombroj_info">0</span></b>
 <input type="range" id="oksidnombroj" style="width: 20em; max-width: 80%" min="-4" max="9" value="0" onchange="aktualigo()" oninput="aktualigo()">
 
+<div id="oksidnombroj_elemento"></div>
 
 <script>
   let elementoj_tab = [];
 
-  function aktualigo() {
-    console.log("akt");
+  function aktualigo_on(smb) {
+    // console.log("akt on");
+    if (smb) {
+        const nomo = Elemento.smb(smb).nomo;
+        const on = Elemento.oksid_nro(smb);
+        ĝi("#oksidnombroj_elemento").innerHTML = `oksidnombroj de <i>${nomo}</i> (<strong>${smb}</strong>): ${on.join(', ')}`
+    } else {
+        ĝi("#oksidnombroj_elemento").textContent = ''; // malplenigu
+    }
+
+  }
+
+  function aktualigo_ps() {
+    console.log("akt ps");
   }
 
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
     Elemento.periodsistemo(ps,false,(de_smb,al_smb) => {
         malemfazo(ĝi(`#ps_${de_smb}`),"emfazo_1");
-        //aktualigo_distrib(al_smb);                
+        aktualigo_on(al_smb);              
         if (al_smb) emfazo(ĝi(`#ps_${al_smb}`),"emfazo_1");
     });
     
@@ -136,7 +149,7 @@ lanĉe (() => {
     Elemento.json_element_tabelo((elmTab) => {
         //valTab = Elemento.laŭ_ŝelo(elmTab);
         elementoj_tab = elmTab;
-        // aktualigo();
+        aktualigo_ps();
     });
   });
 </script>
@@ -148,6 +161,14 @@ lanĉe (() => {
   .emfazo text.smb {
     fill: white;
   }
+
+  .emfazo_1 rect {
+    fill: #000088 !important;
+  }
+  
+  .emfazo_1 text {
+    fill: white !important;
+  }  
 </style>
 <svg id="periodsistemo"
     version="1.1" 
