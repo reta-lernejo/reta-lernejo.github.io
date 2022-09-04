@@ -81,6 +81,7 @@ class Lewis {
         yk: 1, // duona larĝeco de kojno
         lk: 5, // longeco de kojno
         la: 8, // alteco (dy) de e-atribua arko
+        dO: 5.2, // distanco de oksidnombro
         dh: 6, // distanco de hidrogenponto
         lh: 10, // longeco de hidrogenponto
         // dJ: 19, // distanco inter jonoj
@@ -145,6 +146,7 @@ class Lewis {
     /**
      * helfunkcio por krei tekston kun evtl. supra indico (ekz-e ŝargo)
      * @param tx: la texto, supra indico estu apartigita per '^'
+     * @param on oksidnombro (super la simbolo)
      */ 
     _t(tx) {
         const parts = tx.split('^');
@@ -157,6 +159,18 @@ class Lewis {
             }, parts[1]);
             text.append(tspan);
         }
+        return text;
+    }
+
+    /**
+     * helpfunkcio por krei oksidnombron super la elementsimbolo
+     */
+    _on(on) {
+        const dO = Lewis._L.dO;
+        const text = this._kreu("text",{
+            class: "o-nro",
+            y: -dO
+        }, (on == "0"? "±0": on));
         return text;
     }
 
@@ -374,8 +388,13 @@ class Lewis {
         return text;
     }
 
-    /** se atomoj estas donitaj kiel signaro ni transformas tion al objekto */
-    _a_obj(a) {  
+    /** 
+     * Atomojn donitajn kiel signaro ni transformas tion al objekto 
+     * 
+     * @param a atomoj kiel signaro (ekz. "OH2" - O estas la cetnra atomo ĉe origino (0,0), aŭ kiel objekto {<atomid>: <simbolo>,...})
+     * @param on oksidnombro en la vicordo de kreotaj atomoj; KOREKTU: tio momente nur funkcias ĉe signaro, en la alia kazo donu jam en la objekto 
+     */
+    _a_obj(a, on) {  
         let obj = {};      
         if (typeof a === "object") {
             for (const [a_, smb] of Object.entries(a)) {
@@ -383,6 +402,7 @@ class Lewis {
             }
         } else if (typeof a === "string") {
             const re = /([A-Z][a-z]?)([1-9]?[0-9]?)/g;
+            let n_on = 0; // indekso de oksidnombroj
             // ni havas komence de la signaro ĉiam majusklan elementnomon evtl. sekvita de nombro!
             let m, first=true;
             while ((m = re.exec(a))) {
@@ -392,14 +412,17 @@ class Lewis {
                 if (!n) {
                     // unu atomo
                     obj[el] = {smb: e};
+                    if (on && n_on < on.length) obj[el].on = on[n_on];
                     if (first) obj[el].pos = {x: 0, y:0}
                 } else {
                     for (let n_=1; n_<=n; n_++) {
                         const en = `${el}${n_}`;
                         obj[en] = {smb: e};
+                        if (on && n_on < on.length) obj[en].on = on[n_on];
                         if (first) obj[en].pos = {x: 0, y:0}
                     }
                 }
+                n_on++;
                 first = false;
             }
         }
@@ -603,8 +626,12 @@ class Lewis {
        
         // skribu elementnomon centre
         const g = this._kreu("g", { class: smb });
-
         g.append(this._t(smb))
+
+        // oksidnombro
+        if (this.atomoj[atm].on) {
+            g.append(this._on(this.atomoj[atm].on));
+        }
 
         // desegnu elektronojn / ligojn ĉirkaŭe
         let ne = 0;
@@ -623,7 +650,8 @@ class Lewis {
         const dM = Lewis._L.dM;
         let poz = -1;
         // atomoj povas doniĝi kiel objekto aŭ signaro, tiam ni devas ankoraŭ krei la objekton
-        this.atomoj = this._a_obj(molekulo.a);
+        const on = molekulo.on? molekulo.on.split(' ') : null
+        this.atomoj = this._a_obj(molekulo.a, on);
         const mlk = this._kreu("g");
 
         let gj = {};
