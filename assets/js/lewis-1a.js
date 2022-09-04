@@ -61,12 +61,14 @@ class Lewis {
 
     constructor(svg) {
         this.svg = svg;
+        this.atomoj = {}; // atomoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
+        this.grupoj = []; // nomoj (id/href) de konataj grupoj uzeblaj en molekulo
+        this.grupo_ref = {}; // referencoj al grupoj el de atomo, al kiu ĝi ligiĝas
     }
 
 
     // parametroj por distantcoj ktp. de la desegno
     static _L = {
-        ns: "http://www.w3.org/2000/svg",
         de: 7, // distanco de elektronoj de atommezo
         sy: 4, // dy de ŝargo relative al la elementsimbolo
         dkr: 10,// distanco de jonkrampoj
@@ -82,6 +84,39 @@ class Lewis {
         // dJ: 19, // distanco inter jonoj
         dM: 16, // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur puhktoj aŭ valentstrekojn!)
         ti: 200 // tempintervalo por animacio
+    }
+
+
+    /** Kreas SVG-elementon kun atributoj
+     * @param nomo elementnomo, ekz-e 'div'
+     * @param atributoj objekto kies kampoj estas la atributnomoj kaj ties valoroj
+     */
+    _kreu(nomo, atributoj, teksto) {
+        const ns = "http://www.w3.org/2000/svg";
+        const el = document.createElementNS(ns, nomo);
+        if (atributoj) {
+            for (const [atr,val] of Object.entries(atributoj)) {
+                el.setAttribute(atr,val);
+            }
+        };
+        if (teksto) el.textContent = teksto;
+        return el;
+    }
+
+    /**
+     * Aldonas aŭ ŝanĝas atributojn de SVG-DOM-elemento
+     * 
+     * @param elemento la DOM-elemento 
+     * @param atributoj objekto kies kampoj estas la atributnomoj kaj ties valoroj
+     * @returns 
+     */
+    _atr(elemento, atributoj) {
+        if (atributoj) {
+            for (const [atr,val] of Object.entries(atributoj)) {
+                elemento.setAttribute(atr,val);
+            }
+        };
+        return elemento;
     }
 
     /** Elkalkulas la sekvan angulon surbaze de donita signo, antaŭa kaj apriora angulo 
@@ -111,15 +146,13 @@ class Lewis {
      */ 
     _t(tx) {
         const parts = tx.split('^');
-        const ns = Lewis._L.ns;
         const sy = Lewis._L.sy;
-        const text = document.createElementNS(ns,"text");
-        text.append(parts[0]);        
+        const text = this._kreu("text",{},parts[0]);
         if (parts.length>1) {
-            const tspan = document.createElementNS(ns,"tspan");
-            tspan.setAttribute("dy",-sy);
-            tspan.setAttribute("class","sup");
-            tspan.textContent = parts[1]
+            const tspan = this._kreu("tspan", {
+                dy: -sy,
+                class: "sup"
+            }, parts[1]);
             text.append(tspan);
         }
         return text;
@@ -132,14 +165,18 @@ class Lewis {
      * @param a  angulo ĉe kiu la punkto aperu, 0 = supre, 270 = maldekstre
      */ 
     _e(dy=0,a=0) {
-        const ns = Lewis._L.ns;
         const re = Lewis._L.re;
         const de = Lewis._L.de;
-        const e = document.createElementNS(ns,"circle");
-        e.setAttribute("r",re);
-        e.setAttribute("cx",de);
-        if (dy) e.setAttribute("cy",dy);
-        if (a != 90) e.setAttribute("transform",`rotate(${a-90})`);
+        const e = this._kreu("circle", {
+            r: re,
+            cx: de
+        });
+        if (dy) this._atr(e,{
+            cy: dy
+        });
+        if (a != 90) this._atr(e, {
+            transform: `rotate(${a-90})`
+        });
         return e;
     }
 
@@ -149,17 +186,21 @@ class Lewis {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     _l(dy,a) {
-        const ns = Lewis._L.ns;
         const dv = Lewis._L.dv;
         const lv = Lewis._L.lv;
-        const p = document.createElementNS(ns,"line");
-        p.setAttribute("x1",dv);
-        p.setAttribute("x2",dv+lv);
+        const p = this._kreu("line", {
+            x1: dv,
+            x2: dv+lv
+        });
         if (dy) {
-            p.setAttribute("y1",dy);
-            p.setAttribute("y2",dy)
+            this._atr(p, {
+                y1: dy,
+                y2: dy
+            });
         }
-        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
+        if (a != 90) this._atr(p, {
+            transform: `rotate(${a-90})`
+        });   
         return p;     
     }
 
@@ -168,15 +209,17 @@ class Lewis {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
      _ka(a) {
-        const ns = Lewis._L.ns;
         const lk = Lewis._L.lk;
         const yk = Lewis._L.yk;
         const dk = Lewis._L.dk;
 
-        const p = document.createElementNS(ns,"path");
-        p.setAttribute("d",`M${dk},0 l${lk},${-yk} l0,${2*yk} Z`);
-        p.setAttribute("class","akojno");
-        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
+        const p = this._kreu("path", {
+            d: `M${dk},0 l${lk},${-yk} l0,${2*yk} Z`,
+            class: "akojno"
+        });
+        if (a != 90) this._atr(p, {
+            transform: `rotate(${a-90})`
+        });   
         return p;     
     }
 
@@ -185,16 +228,17 @@ class Lewis {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
      _km(a) {
-        const ns = Lewis._L.ns;
         const lk = Lewis._L.lk;
         const dk = Lewis._L.dk;
         const yk = Lewis._L.yk;
 
-        const p = document.createElementNS(ns,"path");
-        p.setAttribute("d",`M${dk},0 l${lk},${-yk} l0,${2*yk} Z`);
-        // p.setAttribute("d",`M${_L.dk},${-_L.yk} l${_L.lk},${_L.yk} L${_L.dk},${_L.yk} Z`);
-        p.setAttribute("class","mkojno");
-        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
+        const p = this._kreu("path", {
+            d: `M${dk},0 l${lk},${-yk} l0,${2*yk} Z`,
+            class: "mkojno"
+        });
+        if (a != 90) this._atr(p, {
+            transform: `rotate(${a-90})`
+        });   
         return p;     
     }
 
@@ -204,19 +248,22 @@ class Lewis {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
      _h(dy,a) {
-        const ns = Lewis._L.ns;
-        const dh = Lewis._L.dh;
         const lh = Lewis._L.lh;
 
-        const p = document.createElementNS(ns,"line");
-        p.setAttribute("x1",dh);
-        p.setAttribute("x2",dh+lh);
-        p.setAttribute("class","hponto");
+        const p = this._kreu("line", {
+            x1: dh,
+            x2: dh+lh,
+            class: "hponto"
+        });
         if (dy) {
-            p.setAttribute("y1",dy);
-            p.setAttribute("y2",dy)
+            this._atr(p, {
+                y1: dy,
+                y2: dy
+            })
         }
-        if (a != 90) p.setAttribute("transform",`rotate(${a-90})`);   
+        if (a != 90) this._atr(p, {
+            transform: `rotate(${a-90})`
+        });   
         return p;     
     }
 
@@ -224,12 +271,12 @@ class Lewis {
      * desegnu maldekstran krampon
      */
     _kl() {
-        const ns = Lewis._L.ns;
         const dk = Lewis._L.dkr;
 
-        const pl = document.createElementNS(s,"polyline");
-        pl.setAttribute("points",`${-dk*.8},${-dk} ${-dk},${-dk} ${-dk},${dk} ${-dk*.8},${dk}`);
-        pl.setAttribute("fill","none");
+        const pl = this._kreu("polyline", {
+            points: `${-dk*.8},${-dk} ${-dk},${-dk} ${-dk},${dk} ${-dk*.8},${dk}`,
+            fill: "none"
+        });
         return pl;
     }
 
@@ -237,12 +284,12 @@ class Lewis {
      * desegnu dekstran krampon
      */
     _kr(shargo) {
-        const ns = Lewis._L.ns;
         const dk = Lewis._L.dkr;
 
-        const pl = document.createElementNS(ns,"polyline");
-        pl.setAttribute("points",`${dk*.7},${-dk} ${dk},${-dk} ${dk},${dk} ${dk*.7},${dk}`);
-        pl.setAttribute("fill","none");
+        const pl = this._kreu("polyline", {
+            points: `${dk*.7},${-dk} ${dk},${-dk} ${dk},${dk} ${dk*.7},${dk}`,
+            fill: "none"
+        });
         return pl;
     }
 
@@ -250,22 +297,25 @@ class Lewis {
      * desegnu formalŝargon kiel cirklitan + aŭ -
      */
     _fs(a,plus) {
-        const ns = Lewis._L.ns;
         const de = Lewis._L.de;
         const rf = Lewis._L.rf;
 
-        const g = document.createElementNS(ns,"g");
-        g.setAttribute("class","shargo");
-        const c = document.createElementNS(ns,"circle");
-        c.setAttribute("r",rf);
-        c.setAttribute("cx",de);
-        const p = document.createElementNS(ns,"path");
+        const g = this._kreu("g", {
+            class: "shargo"
+        });
+        const c = this._kreu("circle", {
+            r: rf,
+            cx: de
+        });
+        const p = this._kreu("path");
         const l = 3/4*rf;
         let d = `M${de-l/2} 0L${de+l/2} 0`;
         if (plus) d+= `M${de} ${-l/2}L${de} ${l/2}`
-        p.setAttribute("d",d);
+        this._atr(p, {d: d});
         g.append(c,p);
-        if (a != 90) g.setAttribute("transform",`rotate(${a-90})`);
+        if (a != 90) this._atr(g, {
+            transform: `rotate(${a-90})`
+        });
         return g;     
     }
 
@@ -273,13 +323,12 @@ class Lewis {
      * desegnu ŝargon apud jonkrampo
      */
     _sh(shargo) {
-        const ns = Lewis._L.ns;
         const dk = Lewis._L.dkr;
 
-        const text = document.createElementNS(ns,"text");
-        text.textContent = shargo;
-        text.setAttribute("x",dk*1.3);
-        text.setAttribute("y",-dk*.9);
+        const text = this._kreu("text", {
+            x: dk*1.3,
+            y: -dk*.9
+        }, shargo);
         return text;
     }
 
@@ -479,8 +528,19 @@ class Lewis {
             if (ref && this.atomoj[ref]) {
                 // pozicio de referencita atomo estas relativa al la nuna pozicio per angulo 180-a
                 this.atomoj[ref].pos = {dx:Ax,dy:Ay,p:atm}
-            } else if (ref && this.atomoj[ref]) {
-                this.grupoj[ref].pos = {dx:Ax,dy:Ay,p:atm};
+            } else if (ref && this.grupoj.indexOf(ref)>=0) {
+                // temas pri referencebla grupo, ni kreu instancon
+                // por tiu ĉi atomo... (ĉu oni povu havi plurajn samajn grupojn
+                // ĉe unu atomo? tio momente ne funkcius, oni devus aldoni ligon por identigo...)
+                const grp_ref = `${atm}_${ref}`;
+                // this.grupo_ref[grp_ref] = {ref: ref, pos: {dx:Ax, dy:Ay, p:atm}}
+                const use = this._kreu("use", {
+                    id: grp_ref,
+                    href: `#${ref}`,
+                    x: Ax,
+                    y: Ay
+                });
+                g.append(use);
             }
     
         } // for
@@ -495,11 +555,9 @@ class Lewis {
      * @param {*} ligoj 
      */
     _atomo(atm,smb,elektronoj,ligoj) {
-        const ns = Lewis._L.ns;
        
         // skribu elementnomon centre
-        const g = document.createElementNS(ns,"g");
-        g.setAttribute("class",smb);
+        const g = this._kreu("g", { class: smb });
 
         g.append(this._t(smb))
 
@@ -514,17 +572,14 @@ class Lewis {
      /**
      * kreas molekulon kiel SVG-g-elementon kaj redonas tiun
      * @param {*} molekulo ojekto kun la difino de la molekulo
-     * @param {*} grupoj se donita, povas enhavi grupoj kiel partoj de la molekulo, ekz -OH aŭ -COOH grupo povas doniĝi tiel
      * @returns 
      */
-    _molekulo(molekulo,grupoj) {
-        const ns = Lewis._L.ns;
+    _molekulo(molekulo) {
         const dM = Lewis._L.dM;
         let poz = -1;
-        this.grupoj = grupoj;
         // atomoj povas doniĝi kiel objekto aŭ signaro, tiam ni devas ankoraŭ krei la objekton
         this.atomoj = this._a_obj(molekulo.a);
-        const mlk = document.createElementNS(Lewis._L.ns,"g");
+        const mlk = this._kreu("g");
 
         let gj = {};
         for (const atm of Object.keys(this.atomoj)) {
@@ -542,7 +597,9 @@ class Lewis {
             const pos = this._pos(a_);
             if (pos.x || pos.y) {
                 const g_ = gj[a_];
-                g_.setAttribute("transform",`translate(${pos.x} ${pos.y})`);    
+                const x = Math.round(pos.x*100)/100;
+                const y = Math.round(pos.y*100)/100;
+                g_.setAttribute("transform",`translate(${x} ${y})`);    
             }
             //mlk.append(g_);
         }
@@ -579,10 +636,30 @@ class Lewis {
      * atomoj: [["O","3-A-a:a:"],"H","H"]
      * strukturo: ["1-2","1-3"] aŭ {1: [2,3]}
      */
-    molekulo(molekulo,grupoj) {
-        const mlk = this._molekulo(molekulo,grupoj);
+    molekulo(molekulo) {
+        const mlk = this._molekulo(molekulo);
         this.svg.append(mlk);
-    }    
+    }
+
+    /**
+     * Kreas SVG-simbolon por grupo (-COOH k.s.) uzeblan poste en molekulformulo
+     * per use@href
+     * @param {*} grupo 
+     */
+    grupo(id,grupo) {
+        const g = this._molekulo(grupo);
+        g.id = id;
+
+        let defs = this.svg.querySelector("defs");
+        if (!defs) {
+            defs = this._kreu("defs");
+            this.svg.prepend(defs);
+        }
+        defs.append(g);
+
+        // memoru la nomoj de referenceblaj grupoj
+        this.grupoj.push(id);
+    }
 
     /**
      * Tradukas liston de termoj (molekuloj aŭ kombinaj signoj) al kombinita formulo
@@ -590,7 +667,7 @@ class Lewis {
      * @param termoj listo de termoj kiuj povas esti aŭ specifo kiel por la funkcio "molekulo" aŭ simplaj signaroj ('+', '->' k.s.)
      */
     formulo(termoj) {
-        const frm = document.createElementNS(Lewis._L.ns,"g");
+        const frm = this._kreu("g");
         let ŝovo = 0;
         for (const t of termoj) {
             const m = this._molekulo(t);
@@ -626,10 +703,10 @@ class Lewis {
             [2,2,2,1],
             [2,2,2,2]
         ];
-        const ns = Lewis._L.ns;        
-        const sym = document.createElementNS(ns,"g");
-        sym.id = id;
-        sym.setAttribute("class",smb.split('^'));
+        const sym = this._kreu("g", {
+            id: id,
+            class: smb.split('^')
+        });
 
         // desegnu simbolon, evtl. kun ŝargo skribita post ^
         sym.append(this._t(smb));
@@ -652,7 +729,7 @@ class Lewis {
 
         let defs = this.svg.querySelector("defs");
         if (!defs) {
-            defs = document.createElementNS(ns,"defs");
+            defs = this._kreu("defs");
             this.svg.prepend(defs);
         }
         defs.append(sym);
@@ -662,11 +739,11 @@ class Lewis {
      * desegnu simbolon id ĉe (x,y)
      */
     montru(id,x,y) {
-        const ns = Lewis._L.ns;
-        const use = document.createElementNS(ns,"use");
-        use.setAttribute("href","#"+id);
-        use.setAttribute("x",x);
-        use.setAttribute("y",y);
+        const use = this._kreu("use", {
+            href: "#"+id,
+            x: x,
+            y: y
+        });
         this.svg.append(use);
     }
 
@@ -677,13 +754,13 @@ class Lewis {
      * @param kiam_finita fine vokita
     */
     animacio(id,x1,y1,dx,dy,sek,kiam_finita) {
-        const ns = Lewis._L.ns;
         
-        const ani = document.createElementNS(ns,"animateMotion");
-        ani.setAttribute("dur",sek+"s");
-        ani.setAttribute("repeatCount",1);
-        ani.setAttribute("fill","freeze");
-        ani.setAttribute("path",`M0,0 L${dx},${dy}`);
+        const ani = this._kreu("animateMotion", {
+            dur: sek+"s",
+            repeatCount: 1,
+            fill: "freeze",
+            path: `M0,0 L${dx},${dy}`
+        });
 
         let j = this.svg.querySelector(`use[href='#${id}']`);
         if (!j) { // se ankoraŭ ne videbla, nun montru!

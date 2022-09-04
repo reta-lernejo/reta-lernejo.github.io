@@ -79,8 +79,18 @@ function ekz_on(event) {
 
     // desegnu formulon kiel Lewis-strukturon   
     const molekulo = molekuloj[frm];
-    lewis.molekulo(molekulo,grupoj);
+    lewis.grupoj = Object.keys(grupoj);
+    lewis.molekulo(molekulo);
 }
+
+lanĉe (() => {
+    const lgrp = new Lewis(ĝi("#oksidnro"));
+
+    // difinu atomgrupojn uzeblajn en molekuloj kiel tuto
+    for ([id,grp] of Object.entries(grupoj)) {
+      lgrp.grupo(id,grp);
+    }
+})
 
 </script>
 
