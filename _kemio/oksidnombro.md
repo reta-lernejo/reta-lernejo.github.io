@@ -6,10 +6,12 @@ js:
   - folio-0a
   - sekcio-0b
   - lewis-1a
+  - elementoj-0b
 js-ext:
   - mathjax3
 css:
   - lewis-1a
+  - elementoj-0a
 ---
 
 Ekzemploj:
@@ -75,7 +77,8 @@ function ekz_on(event) {
     // desegnu formulon kiel Lewis-strukturon   
     const molekulo = molekuloj[frm];
     lewis.grupoj = Object.keys(grupoj);
-    lewis.molekulo(molekulo);
+    const mol_g = lewis.molekulo(molekulo);
+    if (frm == 'DMS') atributoj(mol_g,{ transform: "translate(0 -10)"});
 }
 
 lanĉe (() => {
@@ -109,4 +112,49 @@ lanĉe (() => {
   <g id="on_enhavo"></g>
 </svg>
 
+
+<label for="oksidnombroj">oksidnombroj:</label> <b><span id="oksidnombroj_info">0</span></b>
+<input type="range" id="oksidnombroj" style="width: 20em; max-width: 80%" min="-4" max="9" value="0" onchange="aktualigo()" oninput="aktualigo()">
+
+
+<script>
+  let elementoj_tab = [];
+
+  function aktualigo() {
+    console.log("akt");
+  }
+
+  lanĉe (() => {
+    const ps = ĝi("#periodsistemo");
+    Elemento.periodsistemo(ps,false,(de_smb,al_smb) => {
+        malemfazo(ĝi(`#ps_${de_smb}`),"emfazo_1");
+        //aktualigo_distrib(al_smb);                
+        if (al_smb) emfazo(ĝi(`#ps_${al_smb}`),"emfazo_1");
+    });
+    
+    // ŝargu apartan element-tabelon kun oksidnombroj...
+    Elemento.json_element_tabelo((elmTab) => {
+        //valTab = Elemento.laŭ_ŝelo(elmTab);
+        elementoj_tab = elmTab;
+        // aktualigo();
+    });
+  });
+</script>
+
+<style>
+  .emfazo rect {
+    fill: #5353FF; /* #9370DB */
+  }
+  .emfazo text.smb {
+    fill: white;
+  }
+</style>
+<svg id="periodsistemo"
+    version="1.1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="100%"
+    viewBox="0 0 195 115"
+    tabindex="0">
+</svg>
 

@@ -23,7 +23,7 @@ g.C * {
 fill: #222222;
 }
 
-text {
+.elemento text {
     font-family: helvetica, sans-serif;
     /*
     stroke: black;

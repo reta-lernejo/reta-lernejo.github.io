@@ -626,7 +626,7 @@ class Lewis {
     _atomo(atm,smb,elektronoj,ligoj) {
        
         // skribu elementnomon centre
-        const g = this._kreu("g", { class: smb });
+        const g = this._kreu("g", { class: `elemento ${smb}` });
         g.append(this._t(smb))
 
         // oksidnombro
@@ -713,6 +713,7 @@ class Lewis {
     molekulo(molekulo) {
         const mlk = this._molekulo(molekulo);
         this.svg.append(mlk);
+        return mlk;
     }
 
     /**
