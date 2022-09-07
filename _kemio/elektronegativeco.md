@@ -17,9 +17,11 @@ js-ext:
 
 *Elektronegativeco* de elemento estas mezuro pri la kapablo de ĝiaj atomoj altiri 
 ligajn elektronojn al si. Tiel du atomoj kun sama elektronegativeco formas 
-egalecajn kovalentajn ligojn. Se la elektronegativeco diferencas, la ligo ne estas egalmezura, 
+egalecajn kovalentajn ligojn. Se la elektronegativeco diferencas (pli ol 0,5), la ligo ne estas egalmezura, 
 t.e. *poluseca*. Sed ĉe tre granda diferenco (2.0 aŭ pli) la
 ligo estas jona, ĉar elektrono komplete transiras de unu atomo al alia.[^W1]
+
+La intervalon de 1,7 ĝis 2,0 oni foje nomas jona transiro, ĉar foje necesas pli detale esplori, ĉu tiam temas pri poluseca aŭ jona ligo.
 
 
 <script>

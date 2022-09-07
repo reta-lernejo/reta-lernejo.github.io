@@ -21,6 +21,11 @@ https://de.wikipedia.org/wiki/Liste_der_Oxidationsstufen_der_chemischen_Elemente
 https://en.wikipedia.org/wiki/Oxidation_state
 https://en.wikipedia.org/wiki/Oxidation_state#List_of_oxidation_states_of_the_elements
 
+
+Toward a comprehensive definition of oxidation state (IUPAC Technical Report)
+https://www.degruyter.com/document/doi/10.1515/pac-2013-0505/html
+
+
 -->
 
 Ekzemploj:
@@ -121,6 +126,19 @@ lanĉe (() => {
   <g id="on_enhavo"></g>
 </svg>
 
+<!-- aldonaj notoj:
+
+- Kiam oni kalkulas oksidnombrojn de transirmetaloj en molekul-kompleksoj
+  aperas la malfacilaĵo, ke la valento por transirmetaloj ne estas difinita. Kutime oni alkalkulas la
+  elektronojn de la d-orbitalo. Iuj enkalkulas ciujn lektronojn superantaj
+  la antaŭan nobelgasan distribuon. Uzante la saman difinon por desegni la Lewis-formulon
+  kaj la kalkuladon de la oksidnombro, oni ricevas koheran (ĉiam saman) rezulton.
+- Ekzistas pluraj difinoj kaj sur tiuj bazitaj skaloj de elektronegativeco: difino de Paŭling, Mullikan, Allen k.a.
+  La skaloj de Paŭling kaj Mullikan k.a. havas la malavantaĝon ke estas certa interdependo de ilia
+  difino kaj la difino de oksidnombroj. Do oni ofte preferas la skalon de Allen, car ĝi baziĝas
+  sur spektroskopa mezurado de neligitaj atomoj kaj do evitas tian interdependecon. Krome montriĝas, ke en kelkaj limkazoj la skalo de Allen donas rezulton pli koheron kun realaj observoj.[^i1]
+ -->
+
 
 <label for="oksidnombroj">oksidnombroj:</label> <b><span id="oksidnombroj_info">0</span></b>
 <input type="range" id="oksidnombroj" style="width: 20em; max-width: 80%" min="-4" max="9" value="0" onchange="aktualigo_ps()" oninput="aktualigo_ps()">
@@ -202,3 +220,8 @@ lanĉe (() => {
     tabindex="0">
 </svg>
 
+
+### fontoj
+{: .fontoj}
+
+[^i1]: [Toward a comprehensive definition of oxidation state (IUPAC Technical Report), Appendix B](https://www.degruyter.com/document/doi/10.1515/pac-2013-0505/html)

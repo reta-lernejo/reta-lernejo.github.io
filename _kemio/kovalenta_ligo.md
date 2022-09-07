@@ -12,7 +12,7 @@ css:
 ---
 
 Du nemetalaj atomoj interligiĝas alie ol metaloj kun nemetalaj atomoj. Ili ne plenigas sian 
-eksteran okopon da elektronoj per transigo de unuopa elektrono, sed ili kunigas po unu el siaj elektronoj al komuna paro. Tion oni nomas *kovalenta ligo*. Pluraj atomoj kunligitaj kovalente oni nomas *molekulo*.
+eksteran okopon da elektronoj per transigo de unuopa elektrono, sed ili kunigas po unu el siaj elektronoj al komuna paro. Tion oni nomas *kovalenta ligo* aŭ *atoma ligo*. Pluraj atomoj kunligitaj kovalente oni nomas *molekulo*.
 
 Kiel ekzemploj ni povas rigardi kelkajn molekulojn troviĝantaj en nia atmosfero:
 
