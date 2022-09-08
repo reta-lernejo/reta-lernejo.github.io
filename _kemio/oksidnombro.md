@@ -48,6 +48,7 @@ Ekzemploj:
 - [karbondioksido](#){: #CO2 onclick="ekz_on(event);"}
 - [karbonmonoksido](#){: #CO onclick="ekz_on(event);"}
 - [sulfatjono](#){: #SO4 onclick="ekz_on(event);"}
+- [nitratjono](#){: #NO3 onclick="ekz_on(event);"}
 - [metano](#){: #CH4 onclick="ekz_on(event);"}
 - [metanacido (formikacido)](#){: #HCOOH onclick="ekz_on(event);"}
 - [acetacido](#){: #C2H4O2 onclick="ekz_on(event);"}
@@ -73,9 +74,16 @@ const molekulo = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone ie
   H2O: { a: "OH2", l: { o: "dme)-h1 mA)-h2" }, e: { o: "Z:ma:" }, on: "-2 +1 +1" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
   CO2: { a: "CO2", l: { c: "3(=o2 9(=o1" }, e: { o1: "7:y:", o2: "1:5:" }, on: "+4 -2 -2" },
   CO: { a: "CO", l: { c: "3(#o" }, e: { c: "9:", o: "3:" }, on: "+2 -2" },
+  /*
   SO4: { a: "SO4", l: { s: "0(=o1 p(>o2 s(<o3 s(=o4" },
          s: { _: "2-", o2: "1-", o3: "1-" },
          e: { o1: "x:2:", o2: "s:s:s:", o3: "3:6:9:", o4: "6:x:" }, on: "+6 -2 -2 -2 -2" },
+         */
+  SO4: { a: "SO4", l: { s: "0(-o1 3(=o2 6(-o3 9(=o4" },
+         s: { _: "2-", o1: "-", o3: "-" },
+         e: { o1: "9:0:3:", o2: "1:5:", o3: "3:6:9:", o4: "7:y:" }, on: "+6 -2 -2 -2 -2" },
+  NO3: { a: "NO3", l: { n: "x(=o1 2(-o2 6(-o3" }, s: {_: "-", n:"+", o2: "-", o3: "-" },
+        e: {o1: "8:0:", o2: "y:2:5:", o3: "3:6:9:"}, on: "+5 -2 -2 -2"},
   CH4: { a: "CH4", l: { c: "0)-h1 3)-h2 6)-h3 9)-h4"}, on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
   HCOOH: { a: "CHO", l: { c: "9)-h 1(=o 5(-OH" }, e: { o: "3:y:" }, on: "+2 +1 -2" }, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
   DMS: { a: "S", l: { s: "3o)-_CH3 k)-CH3_" }, on: "-2" }, // (CH₃)₂S, fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
