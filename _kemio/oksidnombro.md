@@ -25,15 +25,29 @@ https://en.wikipedia.org/wiki/Oxidation_state#List_of_oxidation_states_of_the_el
 Toward a comprehensive definition of oxidation state (IUPAC Technical Report)
 https://www.degruyter.com/document/doi/10.1515/pac-2013-0505/html
 
-
 -->
 
+Por pli bone kompreni multajn ĥemiajn reakciojn, kie atomoj de unu reakcianto donas elektronojn (oksidiĝas) kaj
+atomoj de alia akceptas elektronojn (reduktiĝas), montriĝis avantaĝe enkonduki formalismon de oksidnombroj por
+distingi la diversajn statojn de la reakciantoj kaj la reakciaj produktoj.
+
+Tia *oksidnombro* reprezentas *hipotezan ŝargon* de atomo, se ĉiuj ĝiaj ligoj al aliaj atomoj en la kombinaĵo estus plene jonaj. Ĝi ne reprezentas veran ŝargon aŭ alian atoman econ, sed estas nura formalismo, sed kun
+praktika utilo en la bilancado de ĥemiaj reakcioj.
+
+Por atribui oksidnombrojn al atomoj de kombinaĵo oni eliras de la Luiz-diagramo de tiu kombinaĵo. Por la kalkulo oni bezonas de ĉiu atomo la valenton kaj ĝian elektronegativecon.
+
+La valento, resp. nombro de valentaj elektronoj, por elementoj de la ĉefgrupoj estas difinita kiel la nombro de elektronoj en la s- kaj p-orbitaloj de la plej alta okupita ŝelo. Tio estas unu respektive du por la grupoj unukaj du de la perioda sistemo kaj 3 ĝis 8 por la grupoj 13 ĝis 18.
+
+Por la kalkulado de oksidnombro, ĉe ĉiu ligo en la Luiz-diagramo oni atribuas ĉiujn kovalentajn elektronojn al la pli elektronegativa atomo. Por ligoj inter samspecaj atomoj oni egale dividas la elektronojn. La oksidnombro de ĉiu atomo tiam rezultiĝas kiel la diferenco inter la valento kaj la tiel atribuitaj elektronoj. 
+
 Ekzemploj:
-- [hidrogeno](#){: #hidrogeno onclick="ekz_on(event);"}
-- [nitrogeno](#){: #nitrogeno onclick="ekz_on(event);"}
-- [oksigeno](#){: #oksigeno onclick="ekz_on(event);"}
-- [akvo](#){: #akvo onclick="ekz_on(event);"}
+- [hidrogeno](#){: #H2 onclick="ekz_on(event);"}
+- [nitrogeno](#){: #N2 onclick="ekz_on(event);"}
+- [oksigeno](#){: #O2 onclick="ekz_on(event);"}
+- [akvo](#){: #H2O onclick="ekz_on(event);"}
 - [karbondioksido](#){: #CO2 onclick="ekz_on(event);"}
+- [karbonmonoksido](#){: #CO onclick="ekz_on(event);"}
+- [sulfatjono](#){: #SO4 onclick="ekz_on(event);"}
 - [metano](#){: #CH4 onclick="ekz_on(event);"}
 - [metanacido (formikacido)](#){: #HCOOH onclick="ekz_on(event);"}
 - [acetacido](#){: #C2H4O2 onclick="ekz_on(event);"}
@@ -58,40 +72,34 @@ const molekulo = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone ie
   N2:  { a: "N2", l: { n1: "3|#n2" }, e: { n1: "9:", n2: "3:" }, on: "0 0" },
   H2O: { a: "OH2", l: { o: "dme)-h1 mA)-h2" }, e: { o: "Z:ma:" }, on: "-2 +1 +1" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
   CO2: { a: "CO2", l: { c: "3(=o2 9(=o1" }, e: { o1: "7:y:", o2: "1:5:" }, on: "+4 -2 -2" },
+  CO: { a: "CO", l: { c: "3(#o" }, e: { c: "9:", o: "3:" }, on: "+2 -2" },
+  SO4: { a: "SO4", l: { s: "0(=o1 p(>o2 s(<o3 s(=o4" },
+         s: { _: "2-", o2: "1-", o3: "1-" },
+         e: { o1: "x:2:", o2: "s:s:s:", o3: "3:6:9:", o4: "6:x:" }, on: "+6 -2 -2 -2 -2" },
   CH4: { a: "CH4", l: { c: "0)-h1 3)-h2 6)-h3 9)-h4"}, on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
-  HCO_OH: { a: "CHO", l: { c: "9)-h 1(=o 5(-OH" }, e: { o: "3:y:" }, on: "+2 +1 -2" }, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
-  DMS: { a: "S", l: { s: "3o)-_CH3 k)-CH3_" }, on: "-2" }, // fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
+  HCOOH: { a: "CHO", l: { c: "9)-h 1(=o 5(-OH" }, e: { o: "3:y:" }, on: "+2 +1 -2" }, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
+  DMS: { a: "S", l: { s: "3o)-_CH3 k)-CH3_" }, on: "-2" }, // (CH₃)₂S, fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
   C2H5OH: { a: "CH3O", l: { c: "4(-o 8|-CH3 y)>h1 1)<h2", o: "2)-h3" }, e: { o: "5:7:" }, on: "-1 +1 +1 +1 -2"},
   C2H4O2: { a: "CO2H", l: { c: "0(=o1 4(-o2 8|-CH3", o2: "2)-h" }, e: { o1: "x:2:", o2: "5:7:" }, on: "+3 -2 -2 +1"}
-}
-
-const molekuloj = {
-    hidrogeno: molekulo.H2,
-    nitrogeno: molekulo.N2,
-    oksigeno: molekulo.O2,
-    akvo: molekulo.H2O,
-    CO2: molekulo.CO2,
-    CH4: molekulo.CH4,
-    HCOOH: molekulo.HCO_OH,
-    C2H4O2: molekulo.C2H4O2,
-    C2H5OH: molekulo.C2H5OH,
-    DMS: molekulo.DMS // (CH₃)₂S
 }
   
 
 function ekz_on(event) {
     event.preventDefault();
     frm = event.target.id;
+    desegno(frm);
+}
 
+function desegno(frm) {
     // malplenigu
     const on = ĝi("#on_enhavo");
     on.textContent = "";
     const lewis = new Lewis(on);
 
     // desegnu formulon kiel Lewis-strukturon   
-    const molekulo = molekuloj[frm];
+    const mlk = molekulo[frm];
     lewis.grupoj = Object.keys(grupoj);
-    const mol_g = lewis.molekulo(molekulo);
+    const mol_g = lewis.molekulo(mlk);
     if (frm == 'DMS') atributoj(mol_g,{ transform: "translate(0 -10)"});
 }
 
@@ -102,6 +110,8 @@ lanĉe (() => {
     for ([id,grp] of Object.entries(grupoj)) {
       lgrp.grupo(id,grp);
     }
+
+    desegno("H2O")
 })
 
 </script>
@@ -116,6 +126,17 @@ lanĉe (() => {
         stroke: none;
         fill: url(#strie);
       }
+
+      .elemento text.shargo, .jonkrampo text {
+        fill: SeaGreen;
+        font-weight: bold;
+      }
+
+      text.o-nro {
+          font-size: 3.5px;
+          font-weight: bold;
+      }
+
     ]]>
   </style>
   <defs>
@@ -126,21 +147,9 @@ lanĉe (() => {
   <g id="on_enhavo"></g>
 </svg>
 
-<!-- aldonaj notoj:
-
-- Kiam oni kalkulas oksidnombrojn de transirmetaloj en molekul-kompleksoj
-  aperas la malfacilaĵo, ke la valento por transirmetaloj ne estas difinita. Kutime oni alkalkulas la
-  elektronojn de la d-orbitalo. Iuj enkalkulas ciujn lektronojn superantaj
-  la antaŭan nobelgasan distribuon. Uzante la saman difinon por desegni la Lewis-formulon
-  kaj la kalkuladon de la oksidnombro, oni ricevas koheran (ĉiam saman) rezulton.
-- Ekzistas pluraj difinoj kaj sur tiuj bazitaj skaloj de elektronegativeco: difino de Paŭling, Mullikan, Allen k.a.
-  La skaloj de Paŭling kaj Mullikan k.a. havas la malavantaĝon ke estas certa interdependo de ilia
-  difino kaj la difino de oksidnombroj. Do oni ofte preferas la skalon de Allen, car ĝi baziĝas
-  sur spektroskopa mezurado de neligitaj atomoj kaj do evitas tian interdependecon. Krome montriĝas, ke en kelkaj limkazoj la skalo de Allen donas rezulton pli koheron kun realaj observoj.[^i1]
- -->
 
 
-<label for="oksidnombroj">oksidnombroj:</label> <b><span id="oksidnombroj_info">0</span></b>
+<label for="oksidnombroj">oksidnombro:</label> <b><span id="oksidnombroj_info">0</span></b>
 <input type="range" id="oksidnombroj" style="width: 20em; max-width: 80%" min="-4" max="9" value="0" onchange="aktualigo_ps()" oninput="aktualigo_ps()">
 
 <div id="oksidnombroj_elemento"></div>
@@ -153,9 +162,9 @@ lanĉe (() => {
     if (smb) {
         const nomo = Elemento.smb(smb).nomo;
         const on = Elemento.oksid_nro(smb);
-        ĝi("#oksidnombroj_elemento").innerHTML = `oksidnombroj de <i>${nomo}</i> (<strong>${smb}</strong>): ${on.join(', ')}`
+        ĝi("#oksidnombroj_elemento").innerHTML = `tipaj oksidnombroj de <i>${nomo}</i> (<strong>${smb}</strong>)  en kombinaĵoj: ${on.join(', ')}`
     } else {
-        ĝi("#oksidnombroj_elemento").textContent = ''; // malplenigu
+        ĝi("#oksidnombroj_elemento").textContent = '--'; // malplenigu
     }
 
   }
@@ -180,7 +189,7 @@ lanĉe (() => {
 
   lanĉe (() => {
     const ps = ĝi("#periodsistemo");
-    Elemento.periodsistemo(ps,false,(de_smb,al_smb) => {
+    Elemento.periodsistemo(ps,true,(de_smb,al_smb) => {
         malemfazo(ĝi(`#ps_${de_smb}`),"emfazo_1");
         aktualigo_on(al_smb);              
         if (al_smb) emfazo(ĝi(`#ps_${al_smb}`),"emfazo_1");
@@ -219,6 +228,19 @@ lanĉe (() => {
     viewBox="0 0 195 115"
     tabindex="0">
 </svg>
+
+
+### aldonaj notoj
+
+- Oni povas tiel ankaŭ elkakluli oksidnombrojn de transirmetaloj en molekul-kompleksoj, sed tie
+  aperas la malfacilaĵo, ke la valento por transirmetaloj ne estas unuece difinita. Kutime oni alkalkulas la
+  elektronojn de la d-orbitalo. Iuj enkalkulas ĉiujn elektronojn superantaj
+  la antaŭan nobelgasan distribuon. Uzante la saman difinon por desegni la Luiz-diagramon
+  kaj por la kalkulado de la oksidnombro, oni tamen ricevas koheran rezulton.
+- Ekzistas pluraj difinoj kaj sur tiuj bazitaj skaloj de elektronegativeco: tiu de Paŭling, de Mulliken, de Allen k.a.
+  La skaloj de Paŭling, Mulliken k.a. havas la malavantaĝon ke estas certa interdependeco de ilia
+  difino surbaze de ligfortoj en molekuloj kaj la difino de oksidnombroj. Do oni iom preferas la skalon de Allen, 
+  kiu baziĝas sur spektroskope mezurebla joniga energio de elektronoj en neligitaj atomoj kaj do evitas tian interdependecon. Krome montriĝis, ke en kelkaj limkazoj la skalo de Allen donas rezulton pli koheron kun realaj observoj.[^i1]
 
 
 ### fontoj

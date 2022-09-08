@@ -62,6 +62,18 @@ path.akojno {
     fill: black;
 }
 
+.jonkrampo path {
+    fill: none;
+    stroke: black;
+    stroke-width: .2;
+}
+.jonkrampo text {
+    font-family: helvetica, sans-serif;
+    font-size: 4px; /* iom pli malgranda ol kutima 10px pro aldono de ŝargoj! */
+    text-anchor: left;
+    dominant-baseline: hanging;
+}
+
 
 path.mkojno {
     fill: gray; /* url(#strie); ajnas ke referenco al SVG-pattern necesas
@@ -76,6 +88,14 @@ path.e-atr {
     fill: none;
 }
 
+.elemento text.shargo {
+    font-family: helvetica, sans-serif;
+    font-size: 3px; /* iom pli malgranda ol kutima 10px pro aldono de ŝargoj! */
+    text-anchor: left;
+    font-weight: bold;
+    /*fill: black;*/
+    /*dominant-baseline: hanging;*/
+}
 
 .shargo circle, .shargo path {
     fill: none;

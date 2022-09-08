@@ -73,6 +73,8 @@ class Lewis {
         de: 7, // distanco de elektronoj de atommezo
         sy: 4, // dy de ŝargo relative al la elementsimbolo
         dkr: 10,// distanco de jonkrampoj
+        lkr: 12, // longeco de angula jon-streko
+        dsh: 1.5, // distanco de ŝargindiko rilate al jonkrampo 
         re: .5, // radiuso de elektrono(punkto)
         rf: 2, // radiuso de formalŝargo-cirkleto
         dv: 6, // distanco de valentstreko
@@ -81,7 +83,7 @@ class Lewis {
         yk: 1, // duona larĝeco de kojno
         lk: 5, // longeco de kojno
         la: 8, // alteco (dy) de e-atribua arko
-        dO: 5.2, // distanco de oksidnombro
+        dO: 5, // distanco de oksidnombro
         dh: 6, // distanco de hidrogenponto
         lh: 10, // longeco de hidrogenponto
         // dJ: 19, // distanco inter jonoj
@@ -146,7 +148,6 @@ class Lewis {
     /**
      * helfunkcio por krei tekston kun evtl. supra indico (ekz-e ŝargo)
      * @param tx: la texto, supra indico estu apartigita per '^'
-     * @param on oksidnombro (super la simbolo)
      */ 
     _t(tx) {
         const parts = tx.split('^');
@@ -324,7 +325,7 @@ class Lewis {
     }
 
     /**
-     * desegnu maldekstran krampon
+     * desegnu maldekstran jonkrampon apud unuopa atomo
      */
     _kl() {
         const dk = Lewis._L.dkr;
@@ -337,7 +338,7 @@ class Lewis {
     }
 
     /**
-     * desegnu dekstran krampon
+     * desegnu dekstran jonkrampon apud unuopa atomo
      */
     _kr(shargo) {
         const dk = Lewis._L.dkr;
@@ -375,8 +376,23 @@ class Lewis {
         return g;     
     }
 
+
     /** 
-     * desegnu ŝargon apud jonkrampo
+     * desegnu ŝargon apud unuopan atomon (elementsimbolon)
+     */
+     _ash(shargo) {
+        const sy = Lewis._L.sy;
+
+        const text = this._kreu("text", {
+            class: "shargo",
+            x: sy,
+            y: -sy
+        }, shargo);
+        return text;
+    }
+
+    /** 
+     * desegnu ŝargon apud jonkrampo de unuopa atomo
      */
     _sh(shargo) {
         const dk = Lewis._L.dkr;
@@ -623,11 +639,16 @@ class Lewis {
      * @param {*} elektronoj 
      * @param {*} ligoj 
      */
-    _atomo(atm,smb,elektronoj,ligoj) {
+    _atomo(atm,smb,elektronoj,ligoj,shargo) {
        
         // skribu elementnomon centre
         const g = this._kreu("g", { class: `elemento ${smb}` });
-        g.append(this._t(smb))
+        g.append(this._t(smb));
+
+        // shargo
+        if (shargo) {
+            g.append(this._ash(shargo));
+        }    
 
         // oksidnombro
         if (this.atomoj[atm].on) {
@@ -661,7 +682,8 @@ class Lewis {
             const smb = this.atomoj[atm].smb;
             const elektronoj = molekulo.e && molekulo.e[atm] ? molekulo.e[atm] : null;
             const ligoj = molekulo.l && molekulo.l[atm] ? molekulo.l[atm] : null;
-            const g = this._atomo(atm,smb,elektronoj,ligoj);
+            const shargo = molekulo.s && molekulo.s[atm] ? molekulo.s[atm] : null;
+            const g = this._atomo(atm,smb,elektronoj,ligoj,shargo);
             gj[atm] = g;   
         } // ...for
 
@@ -680,6 +702,29 @@ class Lewis {
 
         //this.svg.append(mlk);
         mlk.append(...Object.values(gj));
+
+        // se la molekulo havas ŝargon ĝi estas jono kaj bezonas jonindikon
+        if (molekulo.s && molekulo.s._) {
+            const mm = this.kadro();
+            const jg = this._kreu("g", {
+                class: "jonkrampo"
+            });
+            const lkr = Lewis._L.lkr;
+            const dkr = 2; // Lewis._L.dkr;
+            const dsh = 2; // Lewis._L.dkr;
+            const jk = this._kreu("path", {
+                d: `M${mm.max_x - lkr + dkr} ${mm.min_y - dkr}`
+                 + `L${mm.max_x + dkr} ${mm.min_y - dkr}` 
+                 + `L${mm.max_x + dkr} ${mm.min_y + lkr - dkr}` 
+            })
+            const jt = this._kreu("text",{
+                x: mm.max_x + dkr + dsh,
+                y: mm.min_y - dkr - dsh,
+            },molekulo.s._);
+            jg.append(jk,jt);
+            mlk.append(jg);
+        }
+
         return mlk;
     }
 
@@ -714,6 +759,30 @@ class Lewis {
         const mlk = this._molekulo(molekulo);
         this.svg.append(mlk);
         return mlk;
+    }
+
+    /**
+     * Kalkulas la koordinatojn de la kadro ĉirkaŭanta la antaŭe kreitan molekulon
+     */
+    kadro() {
+        let min_x = Number.MAX_VALUE, min_y = Number.MAX_VALUE, 
+            max_x = Number.MIN_VALUE, max_y = Number.MIN_VALUE;
+        for (const a of Object.values(this.atomoj)) {
+            const x = a.pos.x;
+            const y = a.pos.y;
+            min_x = Math.min(min_x,x);
+            max_x = Math.max(max_x,x);
+            min_y = Math.min(min_y,y);
+            max_y = Math.max(max_y,y);
+        }
+        // KOREKTU, se la atomo enhavas grupojn ni devas trarigardi ankaŭ tiujn...!
+
+        const de = Lewis._L.de;
+        return { 
+            min_x: min_x-de, 
+            max_x: max_x+de, 
+            min_y: min_y-de, 
+            max_y: max_y+de}
     }
 
     /**
