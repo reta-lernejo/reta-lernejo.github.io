@@ -240,7 +240,7 @@ lanĉe (() => {
 
 ### aldonaj notoj
 
-- Oni povas tiel ankaŭ elkakluli oksidnombrojn de transirmetaloj en molekul-kompleksoj, sed tie
+- Oni povas tiel ankaŭ elkakluli oksidnombrojn de transirmetaloj en kunordigaj kompleksoj, sed tie
   aperas la malfacilaĵo, ke la valento por transirmetaloj ne estas unuece difinita. Kutime oni alkalkulas la
   elektronojn de la d-orbitalo. Iuj enkalkulas ĉiujn elektronojn superantaj
   la antaŭan nobelgasan distribuon. Uzante la saman difinon por desegni la Luiz-diagramon
