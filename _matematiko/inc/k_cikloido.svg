@@ -1,0 +1,154 @@
+
+
+<svg version="1.1" 
+  xmlns="http://www.w3.org/2000/svg"
+  width="400" height="400"
+  viewBox="-200 -200 400 400"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  preserveAspectRatio="xMaxYMax meet"
+  onload="start(evt,200)">
+
+<!-- DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd" [
+  <!ENTITY minus_epsilon "40">
+  <!ENTITY scale_half "100">
+  <!ENTITY scale "200">
+  <!ENTITY scale_2 "400">
+] -->
+
+  <title>Cikloido</title>
+  <desc></desc>
+  
+  <defs>
+    <script type="text/javascript"><![CDATA[
+      function start(evt, scale=200, parm=1) {
+        const scale_xy = 25;
+        const t0 = -4*Math.PI, t1 = 4*Math.PI;
+        const svgdoc = evt.target.ownerDocument;
+
+        // parametra funkcio por la cikloida kurbo 
+        // (x kaj y-koordinatoj depende de cirkla turnangulo t)
+        const xx = (t) => parm*(t - Math.sin(t));
+        const yy = (t) => parm*(1 - Math.cos(t));
+
+        // utilfunkcioj por trovo kaj kreo de elementoj
+        const _e = (id) => svgdoc.getElementById(id);
+        function _atr(elemento, atributoj) {
+            for (const [atr,val] of Object.entries(atributoj)) {
+                elemento.setAttribute(atr,val);
+            }
+            return elemento;
+        }
+        
+        function path_data(f, g, t0, t1, nb_points, scale_xy) {
+          var d = "M "; 
+          var inc = (t1-t0)/nb_points;
+          for (var t=t0; t<=t1; t+=inc) {
+            if (!(Math.abs(f(t)) > scale/scale_xy) &&
+              !(Math.abs(g(t)) > scale/scale_xy)) {
+              d += " " + scale_xy*f(t) + " " + (-scale_xy)*g(t) 
+            }
+          }
+          return d;
+        }
+
+        // Montri la aksojn
+        _atr(_e("x_akso_pinto"), {
+            points: 0.95*scale + " " + (-0.015*scale) + " " + 
+                    0.999*scale + " 0 " + 0.95*scale + " " + 0.015*scale
+        });
+
+        _atr(_e("x_akso_indiko"), {
+          x: 0.95*scale,
+          y: 0.10*scale
+        });
+        _atr(_e("y_akso_indiko"), {
+          x: 0.05*scale/2,
+          y: -0.90*scale/2
+        });
+
+        // desegni la kurbon
+        _atr(_e("kurbo1"), {
+          d: path_data(xx, yy, t0, t1, 1000, scale_xy)
+        });
+
+        // Elementoj de konstruo
+        function konstruelementoj(numero, theta) {
+          //  Ruliĝanta cirklo
+          _atr(_e("konstrucirklo_"+numero), {
+            r: scale_xy*parm,
+            cx: scale_xy*xx(theta),
+            cy: -scale_xy*1,
+            "stroke-dashoffset": -25*theta % 100 // -25*xx(theta) % 100
+          });
+
+          //  naskanta punkto
+          _atr(_e("naskanto_"+numero), {
+            cx: scale_xy*xx(theta),
+            cy: -scale_xy*yy(theta)
+          })
+        }
+        g_k = konstruelementoj;
+        
+        // konstruelementoj("1", 3.50);
+        g_theta = -7.5; loop();
+      }
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      function loop () {
+        if (g_theta<1.0) {
+          g_k("1",g_theta);
+          g_theta += 0.05
+          sleep(500).then(requestAnimationFrame(loop));
+        // malrapidigante...
+        } else if (g_theta<3.48) {
+          g_k("1",g_theta);
+          g_theta += 0.01*(3.5-g_theta)
+          sleep(500).then(requestAnimationFrame(loop));
+        // halto
+        } else {
+          g_k("1",g_theta);
+        }
+      }
+
+    ]]></script>
+  </defs>
+
+  <!--
+    Aksoj kaj titolo
+  -->
+  <g id="x_akso">
+    <path class="akso" d="M -200 0 H 200"/>
+    <polygon id="x_akso_pinto" class="pinto" points=""/>
+    <text id="x_akso_indiko" class="akso" x="" y="">x</text>
+  </g>
+
+  <g id="y_akso">
+    <path class="akso" d="M 0 -100 V 100"/>
+    <use xlink:href="#x_akso_pinto" transform="rotate(-90) translate(-100,0)"/> 
+    <text id="y_akso_indiko" class="akso" x="" y="">y</text>
+  </g>
+
+  <!--
+    Kurbo
+  -->
+
+  <path id="kurbo1" class="kurbo" d=""/>
+  <text class="parametro" dy="-5">
+    <textPath xlink:href="#kurbo1" startOffset="30%">
+      <tspan class="greka">λ</tspan>=1
+    </textPath>
+  </text>
+
+  <!--
+    Elementoj de konstruo
+  -->
+
+  <circle id="konstrucirklo_1" cx="0" cy="0" r="" 
+    style="fill:none; stroke-width:2" class="streketita"/>
+  <circle id="naskanto_1" cx="" cy="" r="4" class="konstrupunkto"/>
+
+</svg>
