@@ -77,9 +77,9 @@
           //  Ruliĝanta cirklo
           _atr(_e("konstrucirklo_"+numero), {
             r: scale_xy*parm,
-            cx: scale_xy*xx(theta),
-            cy: -scale_xy*1,
-            "stroke-dashoffset": -25*theta % 100 // -25*xx(theta) % 100
+            cx: scale_xy*theta*parm, // la cirklo moviĝas laŭ sia perimetro
+            cy: -scale_xy*parm,
+            "stroke-dashoffset": - scale_xy*theta % 100 //-25*theta % 100 // -25*xx(theta) % 100
           });
 
           //  naskanta punkto
