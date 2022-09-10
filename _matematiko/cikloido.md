@@ -9,11 +9,14 @@ css:
 ---
 
 Cikloido estas ebena kurbo, naskita de punkto apartenanta al cirklo, kiu ruliĝas sur fiksa rekto.
-Kiel parametra ekvacio oni povas doni ĝin kiel:
+Kiel parametra ekvacio oni povas doni ĝin kun ($$\lambda=1$$) kiel:
 
-$$x=r(\theta-\sin(\theta))$$; $$y=r(1-\cos(\theta))$$
+$$x=r(\theta-\lambda\sin{\theta})$$; $$y=r(1-\lambda\cos{\theta})$$
 
-La parametro $$r$$ estas la radiuso de la cirklo kaj $$\theta$$ donas la angulon je kiu la ciklo turniĝis.
+La parametro $$r$$ estas la radiuso de la cirklo kaj $$\theta$$ donas la angulon je kiu la cirklo turniĝis. Ĉar la cirklo
+ruliĝas laŭ sia perimetro sur la x-akso, la rulita distanco (t.e. la x-koordinato de la cirkla centro kaj la punkto,
+kie la cirklo tuŝas la x-akson) mezuras $$\theta r$$ kaj la periodo $$2\pi r$$.
+
 
 {% include_relative inc/k_cikloido.svg %}
 
