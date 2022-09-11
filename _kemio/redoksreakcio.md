@@ -38,8 +38,8 @@ const molekuloj = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone i
   H2:  { a: "H2", l: { h1: "3-h2" }, on: "0 0" }, // l: angulo, ligtipo, celatomo
   O2:  { a: "O2", l: { o1: "3=o2" }, e: { o1: "7:y:", o2: "1:5:" }, on: "0 0" }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
   N2:  { a: "N2", l: { n1: "3#n2" }, e: { n1: "9:", n2: "3:" }, on: "0 0" },
-  H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" }, on: "-2 +1 +1" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
-  CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" }, on: "+4 -2 -2" },
+  H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, //, on: "-2 +1 +1" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
+  CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } }, //, on: "+4 -2 -2" },
   CO: { a: "CO", l: { c: "3#o" }, e: { c: "9:", o: "3:" }, on: "+2 -2" },
   CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"}, on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
 }
@@ -69,7 +69,7 @@ function desegno(frm) {
     lewis.grupoj = Object.keys(grupoj);
     const mol_g = lewis.molekulo(mlk,{
       // kalkulu kaj montru oksidnombrojn
-      oksidnombro: true,
+      on_fŝ: true,
       // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
       on_arkoj: true,
       // funkcio, kiu redonas la elektronegativecon de elemento

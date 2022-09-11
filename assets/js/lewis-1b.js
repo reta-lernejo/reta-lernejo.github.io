@@ -56,9 +56,10 @@
  * 
  * Opcioj por prezentado de molekuloj:
  * --------------------------------------
- * - oksidnombro: kalkulu kaj montru oksidnombrojn de atomoj en la molekulo
  * - eneg: funkcio redonante la elektronegativecon de elemento por sia simbolo, ekz-e eneg('H') -> 2.2
- * - on#angulorkoj: kalkulu kaj montru arkojn de elektronatribuo (por difini oksidnombrojn)
+ * - on_arkoj: kalkulu kaj montru arkojn de elektronatribuo (por difini oksidnombrojn)
+ * - on_fŝ: kalkulu oksidnombrojn helpe de formala ŝargoj (pli facila, sed ncecesas doni ŝargojn en la molekul-specifo per sh: {...})
+ * - on_val: kalkulu oksidnombrojn pere de valentoj (ne jam realigita, necesas doni elementliston aŭ valent-funkcion...)
  */
 
 
@@ -83,7 +84,7 @@ class Lewis {
         lkr: 12, // longeco de angula jon-streko
         dsh: 1.5, // distanco de ŝargindiko rilate al jonkrampo 
         re: .5, // radiuso de elektrono(punkto)
-        rf: 2, // radiuso de formalŝargo-cirkleto
+        rf: 1.2, // radiuso de formalŝargo-cirkleto
         dv: 6, // distanco de valentstreko
         lv: 4, // longeco de valentstreko
         dk: 4, // distanco de kojno
@@ -175,10 +176,12 @@ class Lewis {
      */
     #oksidnombro(on) {
         const dO = Lewis._L.dO;
+        // on nepre havu antaŭsignon!
+        const on_ = on == "0"? "±0" : (on > 0 && on[0] != '+'? '+'+on : on);
         const text = this.#kreu("text",{
             class: "o-nro",
             y: -dO
-        }, (on == "0"? "±0": on));
+        }, on_);
         return text;
     }
 
@@ -357,10 +360,12 @@ class Lewis {
         return pl;
     }
 
+
     /**
      * desegnu formalŝargon kiel cirklitan + aŭ -
      */
-    _fs(a,plus) {
+    /*
+    _fs(plus) {
         const de = Lewis._L.de;
         const rf = Lewis._L.rf;
 
@@ -372,7 +377,7 @@ class Lewis {
             cx: de
         });
         const p = this.#kreu("path");
-        const l = 3/4*rf;
+        const l = 5/6*rf;
         let d = `M${de-l/2} 0L${de+l/2} 0`;
         if (plus) d+= `M${de} ${-l/2}L${de} ${l/2}`
         this.#atr(p, {d: d});
@@ -382,12 +387,13 @@ class Lewis {
         });
         return g;     
     }
+    */
 
 
     /** 
      * desegnu ŝargon apud unuopan atomon (elementsimbolon)
-     */
-     #angulosh(shargo) {
+     */    
+     #ash(shargo) {
         const sy = Lewis._L.sy;
 
         const text = this.#kreu("text", {
@@ -397,6 +403,31 @@ class Lewis {
         }, shargo);
         return text;
     }
+    
+
+    /**
+     * desegnu formalŝargon kiel cirklitan + aŭ - apud atomon
+     */
+     #fsh(sgn) {
+        const rf = Lewis._L.rf;
+        const sy = Lewis._L.sy;
+
+        const g = this.#kreu("g", {
+            class: "shargo"
+        });
+        const c = this.#kreu("circle", {
+            r: rf
+        });
+        const p = this.#kreu("path");
+        const l = 5/6*rf;
+        let d = `M${-l/2} 0L${+l/2} 0`;
+        if (sgn == '+') d+= `M0 ${-l/2}L0 ${l/2}`
+        this.#atr(p, {d: d});
+        g.append(c,p);
+        this.#atr(g, {transform: `translate(${sy} ${-sy})`});
+        return g;     
+    }
+    
 
     /** 
      * desegnu ŝargon apud jonkrampo de unuopa atomo
@@ -519,12 +550,14 @@ class Lewis {
                         break;
                     */
                     // ni permesas ankaŭ indiki formalajn ŝargojn inter "elektronoj"
+                    /*
                     case "+": // formala ŝargo (+)
-                        g.append(this._fs(a,true));
+                        g.append(this.#fsh(a,true));
                         break;
                     case "'": // formala ŝargo (-)
-                        g.append(this._fs(a,false));
+                        g.append(this.#fsh(a,false));
                         break;
+                        */
                     case " ":
                         break;
                 } // ...switch  
@@ -544,6 +577,13 @@ class Lewis {
         const dM = Lewis._L.dM;
 
         let af = 1; // ŝaltebla per "m " al -1, tio minusos postajn relativajn angulojn
+        let ne = 0; // nombro de alordigitaj elektronoj per negativeco (redonota valoro)
+
+        const a_ne = (_a,_ne) => { // adlonu elektronojn al .ne de atomo _a
+            const atm = this.atomoj[_a];
+            if (!atm.ne) atm.ne = 0;
+            atm.ne += _ne;
+        }
 
         // se lig-anguloj ne estas aparte donitaj ni proporcie distribuas
         let a = 0, da = 0; // aktuala kaj diferenca anguloj
@@ -563,6 +603,7 @@ class Lewis {
         // ni trakuras la ligojn ĝis la fino...
         for (const ligo of aligj) {
             let l = 0; // montrilo en la signaron de unuopa ligo
+            let lv = 0; // opeco de la ligo (0..3)
             while (l<ligo.length) {
                 let ll = ligo[l];
                 // ĉu la aktuala signo estas angulo 0-9, A-z
@@ -580,18 +621,23 @@ class Lewis {
                     switch (ll) {
                         case "-":
                             g.append(this.#ligo(0,a));
+                            lv = 1;
                             break;
                         case "=":
                             g.append(this.#ligo(-1,a),this.#ligo(1,a));
+                            lv = 2;
                             break;
                         case "#":
                             g.append(this.#ligo(-2,a),this.#ligo(0,a),this.#ligo(2,a));
+                            lv = 3;
                             break;
                         case "<": // kojno antaŭen (plena)
                             g.append(this.#a_kojno(a));
+                            lv = 1;
                             break;
                         case ">": // kojno malantaŭen (streka)
                             g.append(this.#m_kojno(a));
+                            lv = 1;
                             break;
                         case "~": // hidrogenponto / parta ligo
                             g.append(this.#h_ponto(0,a));
@@ -627,9 +673,18 @@ class Lewis {
                 if (this.opcioj.on_arkoj && this.opcioj.eneg) {
                     const en1 = this.opcioj.eneg(this.atomoj[atm].smb);
                     const en2 = this.opcioj.eneg(this.atomoj[ref].smb);
-                    g.append(this.#e_arko(
-                        en1>en2? ")" : en1<en2? "(" : "|",
-                        a));
+                    if (en1 > en2) {
+                        g.append(this.#e_arko(")",a));                        
+                        ne += lv; // por opcioj.on_val estus ne += 2*lv;
+                        a_ne(ref,-lv);
+                    } else if (en1 < en2) {
+                        g.append(this.#e_arko("(",a));
+                        ne -= lv; // valida por opicoj.on_fŝ, por on_val tio devus esti 0
+                        a_ne(ref,+lv);
+                    } else {
+                        g.append(this.#e_arko("|",a));
+                        // por opcioj.on_val ni aldonus ne += lv;
+                    }
                 }
             } else if (ref && this.grupoj.indexOf(ref)>=0) {
                 // temas pri referencebla grupo, ni kreu instancon de la grupo
@@ -644,10 +699,11 @@ class Lewis {
                     y: Ay
                 });
                 g.append(use);
-            }
-    
+            }    
         } // for
 
+        // memoru nombron de aloridigtaj elektronoj
+        a_ne(atm,ne);
     } // #ligoj
 
     /**
@@ -665,18 +721,23 @@ class Lewis {
 
         // shargo
         if (shargo) {
-            g.append(this.#angulosh(shargo));
+            if (shargo == '-' || shargo == '+') {}
+            g.append(this.#fsh(shargo));
+        } else {
+            g.append(this.#ash(shargo));
         }    
 
         // desegnu elektronojn / ligojn ĉirkaŭe
-        let ne = 0;
         if (elektronoj) this.#elektronoj(g,elektronoj);
         if (ligoj) this.#ligoj(atm,g,ligoj);
 
         // oksidnombro
         if (this.atomoj[atm].on) {
             g.append(this.#oksidnombro(this.atomoj[atm].on));
-        }
+        } /* ni devas unue trakti la tutan molekulon!...
+        else if (this.opcioj.on_fŝ) {
+            g.append(this.#oksidnombro(ne + shargo));
+        } */
 
         return g;
     }
@@ -709,18 +770,31 @@ class Lewis {
             gj[atm] = g;   
         } // ...for
 
-        // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
-        // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
+        // nur post trakto de ĉiuj atomoj ni nun povas elkakluli
+        // absslutajn poziciojn kaj oksidnombrojn de la atomoj/grupoj
         for (const a_ of Object.keys(gj)) {
+            const g_ = gj[a_];
+            // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
+            // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
             const pos = this.#pos(a_);
             if (pos.x || pos.y) {
-                const g_ = gj[a_];
                 const x = Math.round(pos.x*100)/100;
                 const y = Math.round(pos.y*100)/100;
                 g_.setAttribute("transform",`translate(${x} ${y})`);    
             }
             //mlk.append(g_);
-        }
+
+            // kalkulu oksidnombron el formala ŝargo kaj alordigitaj elektronoj
+            if (this.opcioj.on_fŝ) {
+                const atomo = this.atomoj[a_];
+                if (atomo && ! atomo.on) {
+                    const sh = molekulo.s && molekulo.s[a_] ? molekulo.s[a_] : 0;
+                    const shargo = (sh == '-' || sh == '+') ? sh+1 : sh;
+                    atomo.on = atomo.ne? shargo - atomo.ne : shargo;
+                    g_.append(this.#oksidnombro(atomo.on));
+                }    
+            }
+        } // for
 
         //this.svg.append(mlk);
         mlk.append(...Object.values(gj));

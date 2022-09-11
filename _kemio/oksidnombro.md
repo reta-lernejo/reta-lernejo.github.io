@@ -5,8 +5,8 @@ chapter: 1.1
 js:
   - folio-0a
   - sekcio-0b
-  - lewis-1a
-  - elementoj-0b
+  - lewis-1b
+  - elementoj-0c
 js-ext:
   - mathjax3
 css:
@@ -68,27 +68,27 @@ const grupoj = {
 // kalkuli oksidnombrojn vd. https://www.periodni.com/de/oxidationszahlen_rechner.php
 
 const molekulo = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone iel malloke por povi ŝalti la prezenton de la tuta formulo facile 
-  H2:  { a: "H2", l: { h1: "3|-h2" }, on: "0 0" }, // l: angulo, ligtipo, celatomo
-  O2:  { a: "O2", l: { o1: "3|=o2" }, e: { o1: "7:y:", o2: "1:5:" }, on: "0 0" }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
-  N2:  { a: "N2", l: { n1: "3|#n2" }, e: { n1: "9:", n2: "3:" }, on: "0 0" },
-  H2O: { a: "OH2", l: { o: "dme)-h1 mA)-h2" }, e: { o: "Z:ma:" }, on: "-2 +1 +1" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
-  CO2: { a: "CO2", l: { c: "3(=o2 9(=o1" }, e: { o1: "7:y:", o2: "1:5:" }, on: "+4 -2 -2" },
-  CO: { a: "CO", l: { c: "3(#o" }, e: { c: "9:", o: "3:" }, on: "+2 -2" },
+  H2:  { a: "H2", l: { h1: "3-h2" } }, //on: "0 0" }, // l: angulo, ligtipo, celatomo
+  O2:  { a: "O2", l: { o1: "3=o2" }, e: { o1: "7:y:", o2: "1:5:" } }, //on: "0 0" }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
+  N2:  { a: "N2", l: { n1: "3#n2" }, e: { n1: "9:", n2: "3:" } }, //on: "0 0" },
+  H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, //on: "-2 +1 +1" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
+  CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } }, //on: "+4 -2 -2" },
+  CO: { a: "CO", l: { c: "3#o" }, e: { c: "9:", o: "3:" }, s: { c: "-", o: "+" } }, //on: "+2 -2" },
   /*
   SO4: { a: "SO4", l: { s: "0(=o1 p(>o2 s(<o3 s(=o4" },
          s: { _: "2-", o2: "1-", o3: "1-" },
          e: { o1: "x:2:", o2: "s:s:s:", o3: "3:6:9:", o4: "6:x:" }, on: "+6 -2 -2 -2 -2" },
          */
-  SO4: { a: "SO4", l: { s: "0(-o1 3(=o2 6(-o3 9(=o4" },
+  SO4: { a: "SO4", l: { s: "0-o1 3=o2 6-o3 9=o4" },
          s: { _: "2-", o1: "-", o3: "-" },
-         e: { o1: "9:0:3:", o2: "1:5:", o3: "3:6:9:", o4: "7:y:" }, on: "+6 -2 -2 -2 -2" },
-  NO3: { a: "NO3", l: { n: "x(=o1 2(-o2 6(-o3" }, s: {_: "-", n:"+", o2: "-", o3: "-" },
-        e: {o1: "8:0:", o2: "y:2:5:", o3: "3:6:9:"}, on: "+5 -2 -2 -2"},
-  CH4: { a: "CH4", l: { c: "0)-h1 3)-h2 6)-h3 9)-h4"}, on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
-  HCOOH: { a: "CHO", l: { c: "9)-h 1(=o 5(-OH" }, e: { o: "3:y:" }, on: "+2 +1 -2" }, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
-  DMS: { a: "S", l: { s: "3o)-_CH3 k)-CH3_" }, on: "-2" }, // (CH₃)₂S, fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
-  C2H5OH: { a: "CH3O", l: { c: "4(-o 8|-CH3 y)>h1 1)<h2", o: "2)-h3" }, e: { o: "5:7:" }, on: "-1 +1 +1 +1 -2"},
-  C2H4O2: { a: "CO2H", l: { c: "0(=o1 4(-o2 8|-CH3", o2: "2)-h" }, e: { o1: "x:2:", o2: "5:7:" }, on: "+3 -2 -2 +1"}
+         e: { o1: "9:0:3:", o2: "1:5:", o3: "3:6:9:", o4: "7:y:" } }, //on: "+6 -2 -2 -2 -2" },
+  NO3: { a: "NO3", l: { n: "x=o1 2-o2 6-o3" }, s: {_: "-", n:"+", o2: "-", o3: "-" },
+        e: {o1: "8:0:", o2: "y:2:5:", o3: "3:6:9:"} }, //on: "+5 -2 -2 -2"},
+  CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
+  HCOOH: { a: "CHO", l: { c: "9-h 1=o 5-OH" }, e: { o: "3:y:" } }, // on: "+2 +1 -2" }, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
+  DMS: { a: "S", l: { s: "3o-_CH3 k-CH3_" } }, //on: "-2" }, // (CH₃)₂S, fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
+  C2H5OH: { a: "CH3O", l: { c: "4-o 8-CH3 y>h1 1<h2", o: "2-h3" }, e: { o: "5:7:" } }, //on: "-1 +1 +1 +1 -2"},
+  C2H4O2: { a: "CO2H", l: { c: "0=o1 4-o2 8-CH3", o2: "2-h" }, e: { o1: "x:2:", o2: "5:7:" } } //, on: "+3 -2 -2 +1"}
 }
   
 
@@ -103,11 +103,20 @@ function desegno(frm) {
     const on = ĝi("#on_enhavo");
     on.textContent = "";
     const lewis = new Lewis(on);
+    const elementoj = Elemento.listo();
 
     // desegnu formulon kiel Lewis-strukturon   
     const mlk = molekulo[frm];
     lewis.grupoj = Object.keys(grupoj);
-    const mol_g = lewis.molekulo(mlk);
+    const mol_g = lewis.molekulo(mlk,
+    {
+      // kalkulu kaj montru oksidnombrojn
+      on_fŝ: true,
+      // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
+      on_arkoj: true,
+      // funkcio, kiu redonas la elektronegativecon de elemento
+      eneg: (smb) => elementoj[smb].eneg 
+    });
     if (frm == 'DMS') atributoj(mol_g,{ transform: "translate(0 -10)"});
 }
 
@@ -136,7 +145,7 @@ lanĉe (() => {
       }
 
       .elemento text.shargo, .jonkrampo text {
-        fill: SeaGreen;
+        /*fill: SeaGreen;*/
         font-weight: bold;
       }
 
