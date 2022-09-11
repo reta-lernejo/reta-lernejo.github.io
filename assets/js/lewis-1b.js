@@ -493,6 +493,7 @@ class Lewis {
         if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${atm}.`;
         const a = this.atomoj[atm];
         const pos = a.pos;
+        if (!pos) throw `Atomo ${atm} ne havas pozicion, ĉu eraro en la molekuldifino?`
         if ('x' in pos && 'y' in pos) {
             return pos;
         } else {

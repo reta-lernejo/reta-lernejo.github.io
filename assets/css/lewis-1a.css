@@ -23,6 +23,10 @@ g.C * {
 fill: #222222;
 }
 
+g.S * {
+    fill: #aa9900; /* #FFC832;*/
+}
+
 .elemento text {
     font-family: helvetica, sans-serif;
     /*

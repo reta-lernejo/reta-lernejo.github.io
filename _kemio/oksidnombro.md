@@ -50,20 +50,22 @@ Ekzemploj:
 - [sulfatjono](#){: #SO4 onclick="ekz_on(event);"}
 - [nitratjono](#){: #NO3 onclick="ekz_on(event);"}
 - [metano](#){: #CH4 onclick="ekz_on(event);"}
-- [metanacido (formikacido)](#){: #HCOOH onclick="ekz_on(event);"}
+- [metanacido (formikacido)](#){: #CH2O2 onclick="ekz_on(event);"}
 - [acetacido](#){: #C2H4O2 onclick="ekz_on(event);"}
-- [etanolo](#){: #C2H5OH onclick="ekz_on(event);"}
+- [etanolo](#){: #C2H6O onclick="ekz_on(event);"}
 - [dimetilsulfido](#){: #DMS onclick="ekz_on(event);"}
 
 <script>
 
-
+/* aŭtomata kalkulo de oksidnombroj momente ne funkcias kun grupoj... ĉar tio dependas, 
+  kun kiu atomo ili estas ligitaj...!
 const grupoj = {
   OH: { a: "OH", l: { o: "3)-h" }, on: "-2 +1" },
   CH3: { a: "CH3", l: { c: "x)-h1 7)>h2 5)<h3" }, on: "-3 +1 +1 +1" }, // angulo al samebena H: pmo = 109°(-45°)
   _CH3: { a: "CH3", l: { c: "pmo)-h1 5)<h2 7)>h3" }, on: "-2 +1 +1 +1" }, // angulo al samebena H: pmo = 109°(-45°)
   CH3_: { a: "CH3", l: { c: "omp)-h1 7)>h2 5)<h3" }, on: "-2 +1 +1 +1" } // angulo al samebena H: omp = (45°)-109°
 }
+*/
 
 // kalkuli oksidnombrojn vd. https://www.periodni.com/de/oxidationszahlen_rechner.php
 
@@ -85,10 +87,20 @@ const molekulo = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone ie
   NO3: { a: "NO3", l: { n: "x=o1 2-o2 6-o3" }, s: {_: "-", n:"+", o2: "-", o3: "-" },
         e: {o1: "8:0:", o2: "y:2:5:", o3: "3:6:9:"} }, //on: "+5 -2 -2 -2"},
   CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
+  /*
   HCOOH: { a: "CHO", l: { c: "9-h 1=o 5-OH" }, e: { o: "3:y:" } }, // on: "+2 +1 -2" }, // OH referencas al grupoj, e-paroj de O-atomo: ĉe horloĝciferoj 5 kaj 10 (x)
-  DMS: { a: "S", l: { s: "3o-_CH3 k-CH3_" } }, //on: "-2" }, // (CH₃)₂S, fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
-  C2H5OH: { a: "CH3O", l: { c: "4-o 8-CH3 y>h1 1<h2", o: "2-h3" }, e: { o: "5:7:" } }, //on: "-1 +1 +1 +1 -2"},
+  */
+  CH2O2: { a: "CH2O2", l: { c: "9-h1 1=o1 5-o2", o2: "3-h2" }, e: { o1: "3:y:", o2: "8:5:" } }, // on: "+2 +1 -2" }
+  /*
   C2H4O2: { a: "CO2H", l: { c: "0=o1 4-o2 8-CH3", o2: "2-h" }, e: { o1: "x:2:", o2: "5:7:" } } //, on: "+3 -2 -2 +1"}
+  C2H5OH: { a: "CH3O", l: { c: "4-o 8-CH3 y>h1 1<h2", o: "2-h3" }, e: { o: "5:7:" } }, //on: "-1 +1 +1 +1 -2"},
+  */
+  C2H4O2: { a: "C2H4O2", l: { c1: "0=o1 4-o2 8-c2", o2: "2-h1", c2: "x-h2 7>h3 5<h4" }, e: { o1: "x:2:", o2: "5:7:" } }, //, on: "+3 -2 -2 +1"}
+  C2H6O: { a: "C2H6O", l: { c1: "4-o 8-c2 y>h1 1<h2", o: "2-h3", c2: "x-h4 7>h5 5<h6" }, e: { o: "5:7:" } }, //on: "-1 +1 +1 +1 -2"},
+  /*
+  DMS: { a: "S", l: { s: "3o-_CH3 k-CH3_" } }, //on: "-2" }, // (CH₃)₂S, fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
+  */
+  DMS: { a: "SC2H6", l: { s: "3o-c1 k-c2", c1: "pmo-h1 5<h2 7>h3", c2: "omp-h4 7>h5 5<h6" }, e: { s: "9o:k:" } } //on: "-2" }, // (CH₃)₂S, fakte angulo S-C-C estas 99°, sed ni simpligas al 90°
 }
   
 
@@ -107,7 +119,7 @@ function desegno(frm) {
 
     // desegnu formulon kiel Lewis-strukturon   
     const mlk = molekulo[frm];
-    lewis.grupoj = Object.keys(grupoj);
+    //lewis.grupoj = Object.keys(grupoj);
     const mol_g = lewis.molekulo(mlk,
     {
       // kalkulu kaj montru oksidnombrojn
@@ -124,9 +136,11 @@ lanĉe (() => {
     const lgrp = new Lewis(ĝi("#oksidnro"));
 
     // difinu atomgrupojn uzeblajn en molekuloj kiel tuto
+    /*
     for ([id,grp] of Object.entries(grupoj)) {
       lgrp.grupo(id,grp);
     }
+    */
 
     desegno("H2O")
 })
