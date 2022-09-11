@@ -158,6 +158,12 @@ lanĉe (() => {
         fill: url(#strie);
       }
 
+      rect.mkojno {
+        fill: black;
+        stroke: black;
+        stroke-width: 0.6;
+      }
+
       .elemento text.shargo, .jonkrampo text {
         /*fill: SeaGreen;*/
         font-weight: bold;
@@ -172,7 +178,7 @@ lanĉe (() => {
   </style>
   <defs>
     <pattern id="strie" viewBox="0,0,4,1" height="20%" width="20%">
-      <rect width="2" height="1" fill="black" stroke="black" stroke-width="0.6"/>
+      <rect class="mkojno" width="2" height="1"/>
     </pattern>
   </defs>
   <g id="on_enhavo"></g>
