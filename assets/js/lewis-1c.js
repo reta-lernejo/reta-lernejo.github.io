@@ -87,10 +87,8 @@ class LewisSVG {
     static #dist_onr = 5; // distanco de oksidnombro
     //static #dh = 6; // ---> dist_hpo? distanco de hidrogenponto
     static #long_hpo = 10; // longeco de hidrogenponto
-    // static =#dJ: 19; // distanco inter jonoj
-    static #dist_atm = 16; // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur punktoj aŭ valentstrekojn!)
-    //static #ti = 200; // ---> temp_int? tempintervalo por animacio
 
+    static dist_ele = () => LewisSVG.#dist_ele;
 
     /** Kreas SVG-elementon kun atributoj
      * @param nomo elementnomo, ekz-e 'div'
@@ -162,7 +160,7 @@ class LewisSVG {
      */ 
     teksto(tx) {
         const parts = tx.split('^');
-        const sy = LewisSVG.dist_ŝrg;
+        const sy = LewisSVG.#dist_ŝrg;
         const text = this.kreu("text",{},parts[0]);
         if (parts.length>1) {
             const tspan = this.kreu("tspan", {
@@ -178,7 +176,7 @@ class LewisSVG {
      * helpfunkcio por krei oksidnombron super la elementsimbolo
      */
     oksidnombro(on) {
-        const dO = LewisSVG.dist_onr;
+        const dO = LewisSVG.#dist_onr;
         // on nepre havu antaŭsignon!
         const on_ = on == "0"? "±0" : (on > 0 && on[0] != '+'? '+'+on : on);
         const text = this.kreu("text",{
@@ -195,8 +193,8 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la punkto aperu, 0 = supre, 270 = maldekstre
      */ 
     elektrono(dy=0,a=0) {
-        const re = LewisSVG.rad_ele;
-        const de = LewisSVG.dist_ele;
+        const re = LewisSVG.#rad_ele;
+        const de = LewisSVG.#dist_ele;
         const e = this.kreu("circle", {
             r: re,
             cx: de
@@ -216,8 +214,8 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     ligo(dy,a) {
-        const dv = LewisSVG.dist_lig;
-        const lv = LewisSVG.long_lig;
+        const dv = LewisSVG.#dist_lig;
+        const lv = LewisSVG.#long_lig;
         const p = this.kreu("line", {
             x1: dv,
             x2: dv+lv
@@ -241,9 +239,9 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la arko aperu, 0 = supre, 270 = maldekstre
      */ 
     e_arko(at,a) {
-        const dv = LewisSVG.dist_lig;
-        const lv = LewisSVG.long_lig;
-        const la = LewisSVG.long_ark;
+        const dv = LewisSVG.#dist_lig;
+        const lv = LewisSVG.#long_lig;
+        const la = LewisSVG.#long_ark;
         let p;
         switch (at) {
         case "|": 
@@ -279,9 +277,9 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     a_kojno(a) {
-        const lk = LewisSVG.long_kjn;
-        const yk = LewisSVG.larĝ_kjn;
-        const dk = LewisSVG.dist_kjn;
+        const lk = LewisSVG.#long_kjn;
+        const yk = LewisSVG.#larĝ_kjn;
+        const dk = LewisSVG.#dist_kjn;
 
         const p = this.kreu("path", {
             d: `M${dk},0 l${lk},${-yk} l0,${2*yk} Z`,
@@ -298,9 +296,9 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     m_kojno(a) {
-        const lk = LewisSVG.long_kjn;
-        const dk = LewisSVG.dist_kjn;
-        const yk = LewisSVG.larĝ_kjn;
+        const lk = LewisSVG.#long_kjn;
+        const dk = LewisSVG.#dist_kjn;
+        const yk = LewisSVG.#larĝ_kjn;
 
         const p = this.kreu("path", {
             d: `M${dk},0 l${lk},${-yk} l0,${2*yk} Z`,
@@ -318,7 +316,7 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     h_ponto(dy,a) {
-        const lh = LewisSVG.long_hpo;
+        const lh = LewisSVG.#long_hpo;
 
         const p = this.kreu("line", {
             x1: dh,
@@ -341,7 +339,7 @@ class LewisSVG {
      * desegnu maldekstran jonkrampon apud unuopa atomo
      */
     jkr_maldekstra() {
-        const dk = LewisSVG.dist_jkr;
+        const dk = LewisSVG.#dist_jkr;
 
         const pl = this.kreu("polyline", {
             points: `${-dk*.8},${-dk} ${-dk},${-dk} ${-dk},${dk} ${-dk*.8},${dk}`,
@@ -354,7 +352,7 @@ class LewisSVG {
      * desegnu dekstran jonkrampon apud unuopa atomo
      */
     jkr_dekstra(shargo) {
-        const dk = LewisSVG.dist_jkr;
+        const dk = LewisSVG.#dist_jkr;
 
         const pl = this.kreu("polyline", {
             points: `${dk*.7},${-dk} ${dk},${-dk} ${dk},${dk} ${dk*.7},${dk}`,
@@ -371,9 +369,9 @@ class LewisSVG {
         const jg = this.kreu("g", {
             class: "jonkrampo"
         });
-        const lkr = LewisSVG.long_jkr;
-        const dkr = LewisSVG.dist_jkr;
-        const dsh = LewisSVG.dist_jnŝ;
+        const lkr = LewisSVG.#long_jkr;
+        const dkr = LewisSVG.#dist_jkr;
+        const dsh = LewisSVG.#dist_jnŝ;
         const jk = this.kreu("path", {
             d: `M${mm.max_x - lkr + dkr} ${mm.min_y - dkr}`
             + `L${mm.max_x + dkr} ${mm.min_y - dkr}` 
@@ -393,7 +391,7 @@ class LewisSVG {
      * desegnu ŝargon apud unuopa atomo (t.e. elementsimbolo)
      */    
     a_shargo(shargo) {
-        const sy = LewisSVG.dist_ŝrg;
+        const sy = LewisSVG.#dist_ŝrg;
 
         const text = this.kreu("text", {
             class: "shargo",
@@ -408,8 +406,8 @@ class LewisSVG {
      * desegnu formalŝargon kiel cirklitan + aŭ - apud atomon
      */
     f_shargo(sgn) {
-        const rf = LewisSVG.rad_ŝrg;
-        const sy = LewisSVG.dist_ŝrg;
+        const rf = LewisSVG.#rad_ŝrg;
+        const sy = LewisSVG.#dist_ŝrg;
 
         const g = this.kreu("g", {
             class: "shargo"
@@ -431,7 +429,7 @@ class LewisSVG {
      * desegnu ŝargon apud jonkrampo de unuopa atomo
      */
     j_shargo(shargo) {
-        const dk = LewisSVG.dist_jkr;
+        const dk = LewisSVG.#dist_jkr;
 
         const text = this.kreu("text", {
             x: dk*1.3,
@@ -445,6 +443,11 @@ class LewisSVG {
 
 
 class Lewis {
+
+    // static =#dJ: 19; // distanco inter jonoj
+    static #dist_atm = 16; // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur punktoj aŭ valentstrekojn!)
+    //static #ti = 200; // ---> temp_int? tempintervalo por animacio
+    
 
     constructor(svg) {
         this.desegno = new LewisSVG(svg);
@@ -611,7 +614,7 @@ class Lewis {
      * @param {*} ligoj la specifo de la ligoj (spacapartigitaj signaroj de angulo, speco kaj referencita atomo/grupo)
      */
     #ligoj(atm,g,ligoj) {
-        const dM = LewisSVG.dist_atm;
+        const dM = Lewis.#dist_atm;
 
         let af = 1; // ŝaltebla per "m " al -1, tio minusos postajn relativajn angulojn
         let ne = 0; // nombro de alordigitaj elektronoj per negativeco (redonota valoro)
@@ -765,12 +768,13 @@ class Lewis {
 
         // shargo
         if (shargo) {
-            if (shargo == '-' || shargo == '+') {}
-            g.append(this.desegno.f_shargo(shargo));
-        } else {
-            g.append(this.desegno.f_shargo(shargo));
-        }    
-
+            if (shargo == '-' || shargo == '+') {
+                g.append(this.desegno.f_shargo(shargo));
+            } else {
+                g.append(this.desegno.f_shargo(shargo));
+            }    
+        }
+        
         // desegnu elektronojn / ligojn ĉirkaŭe
         if (elektronoj) this.#elektronoj(g,elektronoj);
         if (ligoj) this.#ligoj(atm,g,ligoj);
@@ -793,7 +797,7 @@ class Lewis {
      * @returns 
      */
     #molekulo(molekulo, opcioj) {
-        const dM = LewisSVG.dist_atm;
+        // const dM = Lewis.#dist_atm;
         let poz = -1;
         // atomoj povas doniĝi kiel objekto aŭ signaro, tiam ni devas ankoraŭ krei la objekton
         const on = molekulo.on? molekulo.on.split(' ') : null
@@ -881,7 +885,7 @@ class Lewis {
         }
         // KOREKTU, se la atomo enhavas grupojn ni devas trarigardi ankaŭ tiujn...!
 
-        const de = LewisSVG.dist_ele;
+        const de = LewisSVG.dist_ele();
         return { 
             min_x: min_x-de, 
             max_x: max_x+de, 
