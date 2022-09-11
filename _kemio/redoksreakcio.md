@@ -5,7 +5,7 @@ chapter: 1.1
 js:
   - folio-0a
   - sekcio-0b 
-  - lewis-1b
+  - lewis-1c
   - elementoj-0c
 js-ext:
   - mathjax3
@@ -16,6 +16,9 @@ css:
 ekzemploj:  
   - kompleta forbruliĝo de metano: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
   - nekompleta forbruliĝo de metano: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
+  - sintezo de metano: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
+  - sintezo de amoniako: $$\ce{N2 + 3 H2 -> 2NH3}$$
+  - kompleta forbruligo de glukozo: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
 
 teste...:
 - [karbondioksido](#){: #CO2 onclick="ekz_on(event);"}
