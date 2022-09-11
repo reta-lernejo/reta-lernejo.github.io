@@ -1,7 +1,6 @@
 ---
 layout: laborfolio
 title: Redoksreakcio
-chapter: 1.1
 js:
   - folio-0a
   - sekcio-0b 
