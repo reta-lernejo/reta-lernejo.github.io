@@ -722,11 +722,12 @@ class Lewis {
 
         // shargo
         if (shargo) {
-            if (shargo == '-' || shargo == '+') {}
-            g.append(this.#fsh(shargo));
-        } else {
-            g.append(this.#ash(shargo));
-        }    
+            if (shargo == '-' || shargo == '+') {
+                g.append(this.#fsh(shargo));
+            } else {
+                g.append(this.#ash(shargo));
+            }
+        }
 
         // desegnu elektronojn / ligojn ĉirkaŭe
         if (elektronoj) this.#elektronoj(g,elektronoj);
