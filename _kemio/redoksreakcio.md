@@ -6,7 +6,7 @@ js:
   - folio-0a
   - sekcio-0b 
   - lewis-1b
-  - elementoj-0b
+  - elementoj-0c
 js-ext:
   - mathjax3
 css:
@@ -62,14 +62,18 @@ function desegno(frm) {
     const svg = ĝi("#redoks_enhavo");
     svg.textContent = "";
     const lewis = new Lewis(svg);
+    const elementoj = Elemento.listo();
 
-    // desegnu formulon kiel Lewis-strukturon   
+    // desegnu formulon kiel Lewis-strukturon
     const mlk = molekuloj[frm];
     lewis.grupoj = Object.keys(grupoj);
-    const mol_g = lewis.molekulo(mlk,{      
-      oksidnombro: true, // kalkulu kaj montru oksidnombrojn
-      on_arkoj: true, // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
-      eneg: (smb) => Elemento.smb(smb).eneg // funkcio, kiu redonas la elektronegativecon de elemento
+    const mol_g = lewis.molekulo(mlk,{
+      // kalkulu kaj montru oksidnombrojn
+      oksidnombro: true,
+      // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
+      on_arkoj: true,
+      // funkcio, kiu redonas la elektronegativecon de elemento
+      eneg: (smb) => elementoj[smb].eneg 
     });
     if (frm == 'DMS') atributoj(mol_g,{ transform: "translate(0 -10)"});
 }
