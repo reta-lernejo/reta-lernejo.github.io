@@ -89,6 +89,7 @@ class LewisSVG {
     static #long_hpo = 10; // longeco de hidrogenponto
 
     static dist_ele = () => LewisSVG.#dist_ele;
+    static long_lig = () => LewisSVG.#long_lig;
 
     /** Kreas SVG-elementon kun atributoj
      * @param nomo elementnomo, ekz-e 'div'
@@ -129,6 +130,15 @@ class LewisSVG {
         return this.svg.querySelector(elektilo)
     }
 
+    /** 
+     * Ŝovas elementon uzante atributon transform al nova pozicio (dx,dy)
+     */
+    ŝovu(elm, x, y=0) {
+        if (x || y)
+            this.atr(elm, {transform: `translate(${x} ${y})`});
+    }
+
+
     /**
      * desegnu simbolon id ĉe (x,y) 
      */
@@ -158,10 +168,11 @@ class LewisSVG {
      * helfunkcio por krei tekston kun evtl. supra indico (ekz-e ŝargo)
      * @param tx: la texto, supra indico estu apartigita per '^'
      */ 
-    teksto(tx) {
+    teksto(tx,cls) {
         const parts = tx.split('^');
         const sy = LewisSVG.#dist_ŝrg;
         const text = this.kreu("text",{},parts[0]);
+        if (cls) this.atr(text,{class: cls});
         if (parts.length>1) {
             const tspan = this.kreu("tspan", {
                 dy: -sy,
@@ -212,13 +223,14 @@ class LewisSVG {
      * helpfunkcio por desegni linion por ligo
      * @param dy ŝovo supren aŭ malsupren de la origino (-1 / 1)
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
+     * @param f faktoro (2 = duobla longeco)
      */ 
-    ligo(dy,a) {
+    ligo(dy,a,f=1) {
         const dv = LewisSVG.#dist_lig;
         const lv = LewisSVG.#long_lig;
         const p = this.kreu("line", {
             x1: dv,
-            x2: dv+lv
+            x2: dv+f*lv
         });
         if (dy) {
             this.atr(p, {
@@ -416,7 +428,7 @@ class LewisSVG {
             r: rf
         });
         const p = this.kreu("path");
-        const l = 5/6*rf;
+        const l = 1.4*rf;
         let d = `M${-l/2} 0L${+l/2} 0`;
         if (sgn == '+') d+= `M0 ${-l/2}L0 ${l/2}`
         this.atr(p, {d: d});
@@ -447,7 +459,7 @@ class Lewis {
     // static =#dJ: 19; // distanco inter jonoj
     static #dist_atm = 16; // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur punktoj aŭ valentstrekojn!)
     //static #ti = 200; // ---> temp_int? tempintervalo por animacio
-    
+    static #ekv_isp = 5; // aldona spaco inter termoj de ekvacio
 
     constructor(svg) {
         this.desegno = new LewisSVG(svg);
@@ -615,6 +627,7 @@ class Lewis {
      */
     #ligoj(atm,g,ligoj) {
         const dM = Lewis.#dist_atm;
+        const lv = LewisSVG.long_lig;
 
         let af = 1; // ŝaltebla per "m " al -1, tio minusos postajn relativajn angulojn
         let ne = 0; // nombro de alordigitaj elektronoj per negativeco (redonota valoro)
@@ -644,6 +657,7 @@ class Lewis {
         for (const ligo of aligj) {
             let l = 0; // montrilo en la signaron de unuopa ligo
             let lv = 0; // opeco de la ligo (0..3)
+            let lf = 1; // faktoro de longeco (2=suobla longeco)
             while (l<ligo.length) {
                 let ll = ligo[l];
                 // ĉu la aktuala signo estas angulo 0-9, A-z
@@ -660,20 +674,23 @@ class Lewis {
                     // nun ni atendas ligtipon
                     switch (ll) {
                         case "-":
-                            g.append(this.desegno.ligo(0,a));
+                            if (ligo[l+1] == '-') { lf = 2; l++ } // duobla longeco!                               
+                            g.append(this.desegno.ligo(0,a,lf));
                             lv = 1;
                             break;
                         case "=":
+                            if (ligo[l+1] == '=') { lf = 2; l++ } // duobla longeco!  
                             g.append(
-                                this.desegno.ligo(-1,a),
-                                this.desegno.ligo(1,a));
+                                this.desegno.ligo(-1,a,lf),
+                                this.desegno.ligo(+1,a,lf));
                             lv = 2;
                             break;
                         case "#":
+                            if (ligo[l+1] == '#') { lf = 2; l++ } // duobla longeco!  
                             g.append(
-                                this.desegno.ligo(-2,a),
-                                this.desegno.ligo(0,a),
-                                this.desegno.ligo(2,a));
+                                this.desegno.ligo(-2,a,lf),
+                                this.desegno.ligo(0,a,lf),
+                                this.desegno.ligo(2,a,lf));
                             lv = 3;
                             break;
                         case "<": // kojno antaŭen (plena)
@@ -704,8 +721,9 @@ class Lewis {
             const ref = ligo.substring(l+1);
             //const pos = this.atomoj[atm].pos || {x:0, y:0};
             const phi = (a-90)/180 * Math.PI; // -90°, ĉar 0° ĉe ni estas supre kaj ne dekstre!
-            const Ax = dM * Math.cos(phi);
-            const Ay = dM * Math.sin(phi);
+            const distM = lf == 2? dM + 2.5*lv : dM;
+            const Ax = distM * Math.cos(phi);
+            const Ay = distM * Math.sin(phi);
 
             // ĉar ni ne scias en kiu ordo la atomoj kaj grupoj
             // traktiĝas kaj ĉu do nuna atm jam havas validan pozicion,
@@ -793,16 +811,14 @@ class Lewis {
      /**
      * kreas molekulon kiel SVG-g-elementon kaj redonas tiun
      * @param {object} molekulo ojekto kun la difino de la molekulo
-     * @param {object} opcioj opcioj por prezentado
      * @returns 
      */
-    #molekulo(molekulo, opcioj) {
+    #molekulo(molekulo) {
         // const dM = Lewis.#dist_atm;
         let poz = -1;
         // atomoj povas doniĝi kiel objekto aŭ signaro, tiam ni devas ankoraŭ krei la objekton
         const on = molekulo.on? molekulo.on.split(' ') : null
         this.atomoj = this.#angulo_obj(molekulo.a, on);
-        if (opcioj) this.opcioj = opcioj;
         const mlk = this.desegno.kreu("g");
 
         let gj = {};
@@ -864,7 +880,8 @@ class Lewis {
      * @param {object} opcioj opcioj por prezentado
      */
     molekulo(molekulo, opcioj) {
-        const mlk = this.#molekulo(molekulo, opcioj);
+        if (opcioj) this.opcioj = opcioj;
+        const mlk = this.#molekulo(molekulo);
         this.desegno.svg.append(mlk);
         return mlk;
     }
@@ -910,25 +927,55 @@ class Lewis {
     }
 
     /**
-     * Tradukas liston de termoj (molekuloj aŭ kombinaj signoj) al kombinita formulo
+     * Desegnas ekvacion (molekuloj aŭ kombinaj signoj) 
      * 
-     * @param termoj listo de termoj kiuj povas esti aŭ specifo kiel por la funkcio "molekulo" aŭ simplaj signaroj ('+', '->' k.s.)
+     * @param {string} ekvacio listo de termoj apartigitaj per spacoj, kiuj povas esti aŭ nomo de molekulo el mspec aŭ simplaj signaroj ('+', '->', '<->' k.s.)
+     * @param {object} mspec specifoj de molekuloj/atomoj referencitaj en la ekvacio
      */
-    formulo(termoj) {
-        const frm = this.desegno.kreu("g");
+    ekvacio(ekvacio,mspec,opcioj) {
+        const isp = Lewis.#ekv_isp;
+
+        if (opcioj) this.opcioj = opcioj;
+        const ekv = this.desegno.kreu("g");
+        this.desegno.svg.append(ekv); // getBBox() nur funkcias, kiam la elementoj jam estas aldonitaj al la desegno!
+
+        const termoj = ekvacio.split(/ /).reduce((arr,x) => {
+            const x_ = x.split('*');
+            if (x_.length == 2) arr.push(x_[0],'*',x_[1]);
+            else if (x_.length == 1) arr.push(x_[0]);
+            else throw "Ekvacio nevalida, mankas spacsigno inter la termoj de "+x;
+            return arr;
+        },[]);
+        const sgn = {
+            '+': "+",
+            '*': '\u00b7',
+            '->': "\u27f6",
+            '<->': "\u27f7"
+        };
+
         let ŝovo = 0;
         for (const t of termoj) {
-            const m = this.#molekulo(t);
-            // ĝi jam estas aldonita al svg, sed ni povas ankoaŭ ŝovi ĝin
-            if (ŝovo) {
-                m.setAttribute("transform",`translate(${ŝovo} 0)`);
-                ŝovo += 20; // plibonigenda...
+            if (sgn[t] || !isNaN(t)) {
+                const s = sgn[t]? sgn[t] : t;
+                const t_ = this.desegno.teksto(s,'e-sgn');
+                ekv.append(t_);
+                this.desegno.ŝovu(t_, ŝovo);
+                const bb = t_.getBBox();
+                ŝovo += bb.width + (!isNaN(t)? isp/2 : isp);
+            } else if (t.trim() != "") {
+                const sp = mspec[t];
+                if (!sp) throw `Mankas specifo de ${t}.`;
+                const m = this.#molekulo(sp);
+                const mm = this.kadro();
+                // ĝi jam estas aldonita al svg, sed ni povas ankoaŭ ŝovi ĝin
+                this.desegno.ŝovu(m, ŝovo - mm.min_x);
+                ŝovo += mm.max_x - mm.min_x + isp;
+                ekv.append(m);
             }
-            frm.append(m);
+            console.log(`${t} ${ŝovo}`);
         }
 
-        this.desegno.svg.append(frm);
-        return frm;
+        return ekv;
     }
 
     /**

@@ -9,41 +9,52 @@ js:
 js-ext:
   - mathjax3
 css:
-  - lewis-1a  
+  - lewis-1c 
 ---
 
 ekzemploj:  
-  - kompleta forbruliĝo de metano: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
-  - nekompleta forbruliĝo de metano: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
-  - sintezo de metano: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
-  - sintezo de amoniako: $$\ce{N2 + 3 H2 -> 2NH3}$$
-  - kompleta forbruligo de glukozo: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
-
-teste...:
-- [karbondioksido](#){: #CO2 onclick="ekz_on(event);"}
-- [metano](#){: #CH4 onclick="ekz_on(event);"}
-
+  - [kompleta forbruliĝo de metano](#){: #metano_1 onclick="ekz_on(event);"}: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
+  - [nekompleta forbruliĝo de metano](#){: #metano_2 onclick="ekz_on(event);"}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
+  - [sintezo de metano](#){: #metano_3 onclick="ekz_on(event);"}: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
+  - [sintezo de amoniako](#){: #amoniako_1 onclick="ekz_on(event);"}: $$\ce{N2 + 3H2 -> 2NH3}$$
+  - [kompleta forbruligo de glukozo](#){: #glukozo_1 onclick="ekz_on(event);"}: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
 
 
 <script>
 
-const grupoj = {
-  OH: { a: "OH", l: { o: "3)-h" }, on: "-2 +1" },
-  CH3: { a: "CH3", l: { c: "x)-h1 7)>h2 5)<h3" }, on: "-3 +1 +1 +1" }, // angulo al samebena H: pmo = 109°(-45°)
-  _CH3: { a: "CH3", l: { c: "pmo)-h1 5)<h2 7)>h3" }, on: "-2 +1 +1 +1" }, // angulo al samebena H: pmo = 109°(-45°)
-  CH3_: { a: "CH3", l: { c: "omp)-h1 7)>h2 5)<h3" }, on: "-2 +1 +1 +1" } // angulo al samebena H: omp = (45°)-109°
-}
-
 // kalkuli oksidnombrojn vd. https://www.periodni.com/de/oxidationszahlen_rechner.php
 
 const molekuloj = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone iel malloke por povi ŝalti la prezenton de la tuta formulo facile 
-  H2:  { a: "H2", l: { h1: "3-h2" }, on: "0 0" }, // l: angulo, ligtipo, celatomo
-  O2:  { a: "O2", l: { o1: "3=o2" }, e: { o1: "7:y:", o2: "1:5:" }, on: "0 0" }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
-  N2:  { a: "N2", l: { n1: "3#n2" }, e: { n1: "9:", n2: "3:" }, on: "0 0" },
-  H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, //, on: "-2 +1 +1" }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
-  CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } }, //, on: "+4 -2 -2" },
-  CO: { a: "CO", l: { c: "3#o" }, e: { c: "9:", o: "3:" }, on: "+2 -2" },
-  CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"}, on: "-4 +1 +1 +1 +1" }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
+  H2:  { a: "H2", l: { h1: "3-h2" } }, // l: angulo, ligtipo, celatomo
+  O2:  { a: "O2", l: { o1: "3=o2" }, e: { o1: "7:y:", o2: "1:5:" } }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
+  N2:  { a: "N2", l: { n1: "3#n2" }, e: { n1: "9:", n2: "3:" } },
+  H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
+  CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } }, 
+  CO: { a: "CO", l: { c: "3#o" }, e: { c: "9:", o: "3:" }, s: { c: "-", o: "+" } },
+  NH3: { a: "NH3", l: { n: "1-h1 3-h2 5-h3" }, e: {n: "9:" }},
+  CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
+    // https://en.wikipedia.org/wiki/Glucose#/media/File:Alpha_glucose_views.svg
+  C6H12O6: { a: "C6H12O6", l: {  
+    c1: "0-h1 3-h2 6-c2 9-o1",
+    o1: "9-h3",
+    c2: "3==o6 5-h4 7--c3",
+    c3: "y-h5 5--c4 7-o2",
+    o2: "9-h6",
+    c4: "0-o3 3--c5 6-h7",
+    o3: "3-h8",
+    c5: "0-h9 1--c6 6-o4",
+    o4: "3-h10",
+    c6: "1-h11 5-o5 y==o6",
+    o5: "3-h12"
+  } }
+}
+
+const ekvacioj = {
+  metano_1: "CH4 + 2*O2 -> CO2 + 2*H2O",
+  metano_2: "2*CH4 + 3 * O2 -> 2*CO + 4*H2O",
+  metano_3: "CO2 + 4*H2 -> CH4 + 2*H2O",
+  amoniako_1: "N2 + 3*H2 -> 2*NH3",
+  glukozo_1: "C6H12O6 + 6*O2 -> 6*CO2 + 6*H2O"
 }
 
 /*
@@ -67,9 +78,7 @@ function desegno(frm) {
     const elementoj = Elemento.listo();
 
     // desegnu formulon kiel Lewis-strukturon
-    const mlk = molekuloj[frm];
-    lewis.grupoj = Object.keys(grupoj);
-    const mol_g = lewis.molekulo(mlk,{
+    lewis.ekvacio(ekvacioj[frm], molekuloj, {
       // kalkulu kaj montru oksidnombrojn
       on_fŝ: true,
       // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
@@ -77,18 +86,12 @@ function desegno(frm) {
       // funkcio, kiu redonas la elektronegativecon de elemento
       eneg: (smb) => elementoj[smb].eneg 
     });
-    if (frm == 'DMS') atributoj(mol_g,{ transform: "translate(0 -10)"});
 }
 
 lanĉe (() => {
     const lgrp = new Lewis(ĝi("#redokso"));
 
-    // difinu atomgrupojn uzeblajn en molekuloj kiel tuto
-    for ([id,grp] of Object.entries(grupoj)) {
-      lgrp.grupo(id,grp);
-    }
-
-    desegno("H2O")
+    desegno("metano_1")
 })
 
 </script>
@@ -96,7 +99,7 @@ lanĉe (() => {
 <svg id="redokso"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="-35 -30 150 60">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-5 -30 320 160">
  <style type="text/css">
     <![CDATA[
       path.mkojno {
