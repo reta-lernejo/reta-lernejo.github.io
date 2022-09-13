@@ -34,6 +34,7 @@ const molekuloj = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone i
   NH3: { a: "NH3", l: { n: "1-h1 3-h2 5-h3" }, e: {n: "9:" }},
   CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
     // https://en.wikipedia.org/wiki/Glucose#/media/File:Alpha_glucose_views.svg
+    /*
   C6H12O6: { a: "C6H12O6", l: {  
     c1: "0-h1 3-h2 6-c2 9-o1",
     o1: "9-h3",
@@ -46,7 +47,14 @@ const molekuloj = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone i
     o4: "3-h10",
     c6: "1-h11 5-o5 y==o6",
     o5: "3-h12"
-  } }
+  } }*/
+  C6H12O6: { a: "C6O", g: { a: "OH", on: "-2 +1" }, l: { 
+    c1: "x-o 2>OH 6-c2", 
+    c2: "4>OH 7:c3",
+    c3: "6<OH x-o4",
+    c4: "8>OH 0-c5",
+    c5: "x<c6 2-o",
+    c6: "0-OH" }, on "+1 0 0 0 0 -1" }
 }
 
 const ekvacioj = {
