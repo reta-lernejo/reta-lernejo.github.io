@@ -37,6 +37,10 @@ g.S * {
     text-anchor: middle;
     dominant-baseline: central;
 }
+.grupo text {
+    text-anchor: start; /* ĉe grupoj la maldekstra elementnomo estas la ligata... */
+    margin-left: -4px;
+}
 tspan.sup {
     font-size: 4px;
     font-weight: bold;

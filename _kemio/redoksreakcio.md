@@ -48,13 +48,19 @@ const molekuloj = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone i
     c6: "1-h11 5-o5 y==o6",
     o5: "3-h12"
   } }*/
-  C6H12O6: { a: "C6O", g: { a: "OH", on: "-2 +1" }, l: { 
-    c1: "x-o 2>OH 6-c2", 
-    c2: "4>OH 7:c3",
-    c3: "6<OH x-o4",
-    c4: "8>OH 0-c5",
-    c5: "x<c6 2-o",
-    c6: "0-OH" }, on "+1 0 0 0 0 -1" }
+  C6H12O6: { a: "C6O", 
+    g: { 
+      "OH": { a: "OH", on: "-2 +1" } 
+    }, 
+    l: { 
+      c1: "x-o 2>OH 6-c2", 
+      c2: "4>OH 8-c3",
+      c3: "6<OH x-c4",
+      c4: "8>OH 0-c5",
+      c5: "x<c6 2-o",
+      c6: "0-OH" }, 
+    on: "+1 0 0 0 0 -1 -2" 
+  }
 }
 
 const ekvacioj = {
