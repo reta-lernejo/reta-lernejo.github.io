@@ -154,6 +154,9 @@ lanĉe(() => {
 <div id="orb_elekto_nl"/>
 <div id="orb_elekto_m"/>
 
+<!-- pli detalaj klarigoj:
+https://chemistry.stackexchange.com/questions/95969/what-red-and-blue-area-represent-in-a-orbital-software -->
+
 (En la supra diagramo la surfacoj prezentas la spacon ene de kiu troviĝas elektrono de tiu
 orbitalo kun 95%-a probableco. En la blua areo la ondfunkcio estas pozitiva en la ruĝa negativa.
 La surfaco foje aperas iom anguleca pro limigo de la prezentoalgoritmo.)
