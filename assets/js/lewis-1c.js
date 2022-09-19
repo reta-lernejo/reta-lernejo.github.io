@@ -466,9 +466,8 @@ class Lewis {
         this.atomoj = {}; // atomoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
         this.grupoj = []; // nomoj (id/href) de konataj grupoj uzeblaj en molekulo
         this.opcioj = {};
-        // this.grupo_ref = {}; // referencoj al grupoj el de atomo, al kiu ĝi ligiĝas
+        this.grupo_ref = {}; // referencoj al grupoj el de atomo, al kiu ĝi ligiĝas
     }
-
 
     /** Elkalkulas la sekvan angulon surbaze de donita signo, antaŭa kaj apriora angulo 
      * 
@@ -536,7 +535,7 @@ class Lewis {
     /** Redonas la pozicion de atomo. Se ekzistas absoluta, tiun, se
      * estas relativa ĝi kalkulas la absoluton el la relativa
      * @param atm la ŝlosilo de la atomo, ekz-e h1
-     * @param rikuro ni permesas maksimume 10 rikurojn por eviti etenre kuri en cikloj!
+     * @param rikuro ni permesas maksimume 10 rikurojn por eviti eterne kuri en cikloj!
      */
     #pos(atm, rik=0) {
         if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${atm}.`;
@@ -548,13 +547,37 @@ class Lewis {
         } else {
             if (! 'p' in pos && 'dx' in pos && 'dy' in pos) 
                 throw `Atomo ${atm} havas nek absolutan nek relativan pozicion.`
-            const ppos = this.#pos(pos.p,rik++)
+            const ppos = this.#pos(pos.p,rik++);
             pos.x = ppos.x + pos.dx;
             pos.y = ppos.y + pos.dy;
             this.atomoj[atm].pos = pos; // aktualigu la pozicion de la atomo per la absoluta
             return pos;
         }
     }
+
+    /** Redonas la pozicion de grupo. Se ekzistas absoluta, tiun, se
+     * estas relativa ĝi kalkulas la absoluton el la relativa
+     * @param g_ref la ŝlosilo de la grupo, ekz-e c1_OH
+     * @param rikuro ni permesas maksimume 10 rikurojn por eviti eterne kuri en cikloj!
+     */
+    /*
+    #g_pos(g_ref, rik=0) {
+        if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${g_ref}.`;
+        const g = this.grupo_ref[g_ref];
+        const pos = g.pos;
+        if (!pos) throw `Grupo ${g_ref} ne havas pozicion, ĉu eraro en la molekuldifino?`
+        if ('x' in pos && 'y' in pos) {
+            return pos;
+        } else {
+            if (! 'p' in pos && 'dx' in pos && 'dy' in pos) 
+                throw `Grupo ${g_ref} havas nek absolutan nek relativan pozicion.`
+            const ppos = this.#pos(pos.p,rik++); // pozicio relative al la liganta atomo 
+            pos.x = ppos.x + pos.dx;
+            pos.y = ppos.y + pos.dy;
+            this.grupo_ref[g_ref].pos = pos; // aktualigu la pozicion de la atomo per la absoluta
+            return pos;
+        }
+    }    */
 
     /**
      * Ornamas SVG-grupon g de atomsimbolo per elektronoj ĉirkaŭe
@@ -749,19 +772,26 @@ class Lewis {
                         // por opcioj.on_val ni aldonus ne += lv;
                     }
                 }
-            } else if (ref && this.grupoj.indexOf(ref)>=0) {
+            } else if (ref && this.grupoj[ref]) {
                 // temas pri referencebla grupo, ni kreu instancon de la grupo
                 // por tiu ĉi atomo... (ĉu oni povu havi plurajn samajn grupojn
                 // ĉe unu atomo? tio momente ne funkcius, oni devus aldoni ligon por identigo...)
                 const grp_ref = `${atm}_${ref}`;
-                // this.grupo_ref[grp_ref] = {ref: ref, pos: {dx:Ax, dy:Ay, p:atm}}
+                const g_pos = {dx:Ax, dy:Ay, p:atm};
+                const grp = this.#grupo(ref,grp_ref,g_pos);
+                // ni memoras la relativan pozicion de la grupo al la
+                // atomo por poste kalkuli la absolutan pozicion
+                this.grupo_ref[grp_ref] = {ref: ref, pos: g_pos};
+
+                /*
                 const use = this.desegno.kreu("use", {
                     id: grp_ref,
                     href: `#${ref}`,
                     x: Ax,
                     y: Ay
                 });
-                g.append(use);
+                */
+                g.append(grp);
             }    
         } // for
 
@@ -807,6 +837,29 @@ class Lewis {
 
         return g;
     }
+
+    /**
+     * Kreas SVG-elementojn por grupo (-OH, -COOH k.s.) koncizigante la molekulprezenton
+     * @param {string} id nomo de la grupo (en la specifo) 
+     * @param {string} g_ref referencilo de la grupo <atomo>_<grupo>
+     */
+    #grupo(id,g_ref,pos) {
+        const grp = this.grupoj[id];
+
+        const x = Math.round((pos.dx - Lewis.#dist_atm/5) * 100)/100 ;
+        const y = Math.round(pos.dy*100)/100;
+               
+        // skribu elementnomojn centre
+        const g = this.desegno.kreu("g", { 
+            id: g_ref,
+            class: `grupo ${grp.a}`,
+            transform: `translate(${x} ${y})`
+        });
+        g.append(this.desegno.teksto(grp.a));
+
+        return g;
+    }
+
     
      /**
      * kreas molekulon kiel SVG-g-elementon kaj redonas tiun
@@ -817,8 +870,10 @@ class Lewis {
         // const dM = Lewis.#dist_atm;
         let poz = -1;
         // atomoj povas doniĝi kiel objekto aŭ signaro, tiam ni devas ankoraŭ krei la objekton
-        const on = molekulo.on? molekulo.on.split(' ') : null
+        const on = molekulo.on? molekulo.on.split(' ') : null;
         this.atomoj = this.#angulo_obj(molekulo.a, on);
+        this.grupoj = molekulo.g;
+        this.grupo_ref = {}; // PLIBONIGU: forĵetu klason Lewis post unufoja uzo, ĉu?
         const mlk = this.desegno.kreu("g");
 
         let gj = {};
@@ -835,7 +890,7 @@ class Lewis {
         } // ...for
 
         // nur post trakto de ĉiuj atomoj ni nun povas elkakluli
-        // absslutajn poziciojn kaj oksidnombrojn de la atomoj/grupoj
+        // absslutajn poziciojn kaj oksidnombrojn de la atomoj
         for (const a_ of Object.keys(gj)) {
             const g_ = gj[a_];
             // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
@@ -860,14 +915,38 @@ class Lewis {
             }
         } // for
 
+        // same ni kalkulas la absolutajn poziciojn de la grupoj
+        /*
+        for (const g_ref of Object.keys(this.grupo_ref)) {
+            const pos = this.#g_pos(g_ref);
+            if (pos.x || pos.y) {
+                const x = Math.round(pos.x*100)/100;
+                const y = Math.round(pos.y*100)/100;
+                //const grp_ = document.getElementById(g_ref);
+                const grp_ = this.grupo_ref[g_ref].svg;
+                grp_.setAttribute("transform",`translate(${x} ${y})`);    
+            }
+        }
+        */
+
         //this.svg.append(mlk);
         mlk.append(...Object.values(gj));
 
         // se la molekulo havas ŝargon ĝi estas jono kaj bezonas jonindikon
         if (molekulo.s && molekulo.s._) {
+            
             const mm = this.kadro();
             const jg = this.desegno.jono(molekulo.s._,mm);
-            mlk.append(jg);
+            /*
+            // tio estus tro frue, alternative ni povus aldoni jg sub <defs> por uzi getBBox()
+            // aŭ provizore aldoni kaj poste ŝovi ĝustaloken...
+            // vd https://stackoverflow.com/questions/28282295/getbbox-of-svg-when-hidden
+           const bb = mlk.getBBox();
+           const jg = this.desegno.jono(molekulo.s._,{
+                min_x: bb.x, min_y: bb.y, 
+                max_x: bb.x+bb.width, max_y: bb.y+bb.height});
+                */
+           mlk.append(jg);
         }
 
         return mlk;
@@ -887,7 +966,7 @@ class Lewis {
     }
 
     /**
-     * Kalkulas la koordinatojn de la kadro ĉirkaŭanta la antaŭe kreitan molekulon
+     * Kalkulas la koordinatojn de la kadro ĉirkaŭanta la antaŭe kreitan molekulon.
      */
     kadro() {
         let min_x = Number.MAX_VALUE, min_y = Number.MAX_VALUE, 
@@ -900,7 +979,18 @@ class Lewis {
             min_y = Math.min(min_y,y);
             max_y = Math.max(max_y,y);
         }
-        // KOREKTU, se la atomo enhavas grupojn ni devas trarigardi ankaŭ tiujn...!
+        // se la atomo enhavas grupojn ni devas trarigardi ankaŭ tiujn...!
+        for (const g of Object.values(this.grupo_ref)) {
+            const g_pos = g.pos;
+            console.log(`pos ${g.ref} ${g_pos.p}...`)
+            const a_pos = this.atomoj[g_pos.p].pos;
+            const x = a_pos.x+g_pos.dx;
+            const y = a_pos.y+g_pos.dy;
+            min_x = Math.min(min_x,x);
+            max_x = Math.max(max_x,x);
+            min_y = Math.min(min_y,y);
+            max_y = Math.max(max_y,y);
+        }
 
         const de = LewisSVG.dist_ele();
         return { 
@@ -909,22 +999,17 @@ class Lewis {
             min_y: min_y-de, 
             max_y: max_y+de}
     }
+    
 
     /**
-     * Kreas SVG-simbolon por grupo (-COOH k.s.) uzeblan poste en molekulformulo
-     * per use@href
-     * @param {*} grupo 
+     * Redonas la kadron de la SVG-elemento uzante getBBox...
      */
-    grupo(id,grupo) {
-        const g = this.#molekulo(grupo);
-        g.id = id;
+    /*
+    svg_kadro(elemento) {
 
-        let defs = this.desegno.difinoj();
-        defs.append(g);
-
-        // memoru la nomoj de referenceblaj grupoj
-        this.grupoj.push(id);
     }
+    */
+
 
     /**
      * Desegnas ekvacion (molekuloj aŭ kombinaj signoj) 
@@ -955,6 +1040,7 @@ class Lewis {
 
         let ŝovo = 0;
         for (const t of termoj) {
+            // temas pri ekvacia signo aŭ nombro
             if (sgn[t] || !isNaN(t)) {
                 const s = sgn[t]? sgn[t] : t;
                 const t_ = this.desegno.teksto(s,'e-sgn');
@@ -962,14 +1048,22 @@ class Lewis {
                 this.desegno.ŝovu(t_, ŝovo);
                 const bb = t_.getBBox();
                 ŝovo += bb.width + (!isNaN(t)? isp/2 : isp);
+
+            // temas pri molekulo
             } else if (t.trim() != "") {
                 const sp = mspec[t];
                 if (!sp) throw `Mankas specifo de ${t}.`;
                 const m = this.#molekulo(sp);
+                
+                // ŝovu la termon horizontale en sian lokon
                 const mm = this.kadro();
-                // ĝi jam estas aldonita al svg, sed ni povas ankoaŭ ŝovi ĝin
                 this.desegno.ŝovu(m, ŝovo - mm.min_x);
                 ŝovo += mm.max_x - mm.min_x + isp;
+                /* tio estus tro frue, alternative oni povus enigi m en SVG, ekz-e sub defs...
+                const bb = m.getBBox();
+                this.desegno.ŝovu(m, ŝovo - bb.x);
+                ŝovo += bb.width + isp;
+                */
                 ekv.append(m);
             }
             console.log(`${t} ${ŝovo}`);
