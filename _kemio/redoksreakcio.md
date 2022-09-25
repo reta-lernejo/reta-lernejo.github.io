@@ -13,6 +13,18 @@ css:
 ---
 
 ekzemploj:  
+  - [redukto de hematito per CO](#){: #hematito_1 onclick="ekz_on(event);"}: $$\ce{3Fe2O3 + CO -> 2Fe3O4 + CO2}$$
+  - [redukto de hematito per H₂](#){: #hematito_2 onclick="ekz_on(event);"}: $$\ce{3Fe2O3 + H2 -> 2Fe3O4 + H2O}$$
+  - [rekta redukto de hematito](#){: #hematito_3 onclick="ekz_on(event);"}: $$\ce{3Fe2O3 + C -> 2Fe3O4 + CO}$$
+
+  - [redukto de magnetito per CO](#){: #hematito_1 onclick="ekz_on(event);"}: $$\ce{Fe3O4 + CO -> 3FeO + CO2}$$
+  - [redukto de magnetito per H₂](#){: #hematito_2 onclick="ekz_on(event);"}: $$\ce{Fe3O4 + H2 -> 3FeO + H2O}$$
+  - [rekta redukto de magnetito](#){: #hematito_3 onclick="ekz_on(event);"}: $$\ce{Fe3O4 + C -> 3FeO + CO}$$
+
+  - [redukto de vustito per CO](#){: #hematito_1 onclick="ekz_on(event);"}: $$\ce{FeO + CO -> Fe + CO2}$$
+  - [redukto de vustito per H₂](#){: #hematito_2 onclick="ekz_on(event);"}: $$\ce{FeO + H2 -> Fe + H2O}$$
+  - [rekta redukto de vustito](#){: #hematito_3 onclick="ekz_on(event);"}: $$\ce{FeO + C -> Fe + CO}$$
+
   - [kompleta forbruliĝo de metano](#){: #metano_1 onclick="ekz_on(event);"}: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
   - [nekompleta forbruliĝo de metano](#){: #metano_2 onclick="ekz_on(event);"}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
   - [sintezo de metano](#){: #metano_3 onclick="ekz_on(event);"}: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
@@ -31,6 +43,9 @@ const molekuloj = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone i
   H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
   CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } }, 
   CO: { a: "CO", l: { c: "3#o" }, e: { c: "9:", o: "3:" }, s: { c: "-", o: "+" } },
+  Fe2O3: { j: ["O2-","Fe3+","O2-","Fe3+","O2-"], e: { o1: "0:3:6:9:", o2: "0:3:6:9:", o3: "0:3:6:9:" } },
+  Fe3O4: { j: ["O2-","Fe3+","O2-","Fe2+","O2-","Fe3+"], e: { o1: "0:3:6:9:", o2: "0:3:6:9:", o3: "0:3:6:9:", o4: "0:3:6:9:" } },
+  FeO: { j: ["O2-","Fe2+"], e: { o1: "0:3:6:9:"} },
   NH3: { a: "NH3", l: { n: "1-h1 3-h2 5-h3" }, e: {n: "9:" }},
   CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
     // https://en.wikipedia.org/wiki/Glucose#/media/File:Alpha_glucose_views.svg
@@ -68,7 +83,16 @@ const ekvacioj = {
   metano_2: "2*CH4 + 3 * O2 -> 2*CO + 4*H2O",
   metano_3: "CO2 + 4*H2 -> CH4 + 2*H2O",
   amoniako_1: "N2 + 3*H2 -> 2*NH3",
-  glukozo_1: "C6H12O6 + 6*O2 -> 6*CO2 + 6*H2O"
+  glukozo_1: "C6H12O6 + 6*O2 -> 6*CO2 + 6*H2O",
+  hematito_1: "3*Fe2O3 + CO -> 2*Fe3O4 + CO2",
+  hematito_2: "3*Fe2O3 + H2 -> 2*Fe3O4 + H2O",
+  hematito_3: "3*Fe2O3 + C -> 2*Fe3O4 + CO",
+  magnetito_1: "Fe3O4 + CO -> 3*FeO + CO2",
+  magnetito_2: "Fe3O4 + H2 -> 3*FeO + H2O",
+  magnetito_3: "Fe3O4 + C -> 3*FeO* + CO",
+  vustito_1: "FeO + CO -> Fe + CO2",
+  vustito_2: "FeO + H2 -> Fe + H2O",
+  vustito_3: "FeO + C -> Fe + CO"
 }
 
 /*
