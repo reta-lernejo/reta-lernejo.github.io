@@ -17,12 +17,19 @@ energio konsumiĝas - endoterma. Ekzoterma redoksreakcio nomiĝas ankaŭ bruliĝ
 
 La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oksidilo. La alia reakcianto, kiu oksidiĝas reduktante la duan, estas nomata reduktilo.
 
+
+|Fe |0|--|2+|--|3+|
+|kun| |  |  |  |  |
+|C  | | [→](#){: .ref #test} |  |  |  |
+|CO | |  | [←](#){: .ref #test} |  |  |  
+|H  | |  |  |  |  |  
+
 <!-- https://mhchem.github.io/MathJax-mhchem/ -->
 
 ekzemploj:
   - [hidrogenkorodo de fero](#){: .ref #h_korodo}: $$\ce{Fe + 2H+ <=> Fe^2+ + H2}$$
   - [oksigenkorodo de fero](#){: .ref #o_korodo}: $$\ce{2Fe^2+ +4(OH)- + 1/2 O2 + H2O -> 2Fe(OH)3}$$
-  
+
   - [redukto de hematito per CO](#){: .ref #hematito_1}: $$\ce{3Fe2O3 + CO -> 2Fe3O4 + CO2}$$
   - [redukto de hematito per H₂](#){: .ref #hematito_2}: $$\ce{3Fe2O3 + H2 -> 2Fe3O4 + H2O}$$
   - [rekta redukto de hematito](#){: .ref #hematito_3}: $$\ce{3Fe2O3 + C -> 2Fe3O4 + CO}$$
@@ -124,12 +131,6 @@ const ekvacioj = {
   metankreo: [CO2,'+',4*H2,'->',CH4,'+',2*H2O]
 }
 */
-
-function ekz_on(event) {
-    event.preventDefault();
-    frm = event.target.id;
-    desegno(frm);
-}
 
 function desegno(frm) {
     // malplenigu
