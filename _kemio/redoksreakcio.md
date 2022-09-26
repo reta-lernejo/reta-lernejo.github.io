@@ -12,6 +12,11 @@ css:
   - lewis-1c 
 ---
 
+Se dum redoksa reakcio sume liberiĝas energio en formo de varmo aŭ lumo, oni nomas ĝin ekzoterma, se kontraŭe
+energio konsumiĝas - endoterma. Ekzoterma redoksreakcio nomiĝas ankaŭ bruliĝo. Foje oni nomas bruliĝon ankaŭ nur tian ekzoterman reakcion, kiu postlasas kiel reakciaj produktoj nur akvon kaj karbondioksidon.
+
+La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oksidilo. La alia reakcianto, kiu oksidiĝas reduktante la duan, estas nomata reduktilo.
+
 ekzemploj:  
   - [kompleta forbruliĝo de metano](#){: #metano_1 onclick="ekz_on(event);"}: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
   - [nekompleta forbruliĝo de metano](#){: #metano_2 onclick="ekz_on(event);"}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
