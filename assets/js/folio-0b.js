@@ -106,13 +106,41 @@ document.body.style.cursor = 'progress';
 window.onload = () => {
     // plenumu ĉiujn lanĉ-taskojn
     for (t of _lanĉtaskoj) { t(); }
-    document.body.style.cursor = 'default';
 
     // trovu ĉiujn lokojn markitajn per klaso .ref
     // kaj registru reftaskojn
-    for (r of document.querySelectorAll(".ref")) {
-        r.addEventListener("click", _plenumu_reftaskojn);
+    if (_reftaskoj) {
+        for (r of document.querySelectorAll(".ref")) {
+            r.addEventListener("click", _plenumu_reftaskojn);
+        }
     }
+
+    if (_elektotasko) {
+        const re = /([\(\[])(x?)([\)\]])([^ ,;.])/;
+        for (e of document.querySelectorAll(".elekto")) {
+            let tc = e.textContent;
+            let html = '', n=0;
+            console.log (e.textContent);
+            // konvertu tekstoj (x?)blabla al <input type="radio"><label for="..."> 
+            while ((m = re.exec(tc))) {
+                //debugger;
+                const de = m.index;
+                const l = m.length;
+                const x = m[2];
+                const pri = m[4];
+                const val = pri; // PLIBONIGU: eble permesu doni pli koncizas voloron ene de (jes:x), (ne)
+                html = html + tc.slice(0,de) 
+                    + `<input type="radio" id="${e.id}_${n}" name="${e.id}" value="${val}" ${x?'checked':''}>`
+                    + `<label for="${e.id}_${n}">${pri}</label>`;
+                tc = tc.slice(de+l);
+                n++;
+            }
+            e.innerHTML = html;
+            e.addEventListener("click", _plenumu_elektotaskon);
+        }
+    }
+
+    document.body.style.cursor = 'default';
 }
 /*
 window.onload = () => { 
@@ -144,4 +172,23 @@ function _plenumu_reftaskojn(evento) {
         ref = evento.target.id;
         rt(ref,evento);
     }
+}
+
+/** 
+ * Plenumas elekto taskon kiam klakiĝis elemento radio/checkbox
+ * 
+ */
+ function _plenumu_elektotaskon(evento) {
+    evento.preventDefault();
+    const elekto = evento.target.name;
+    const valoro = evento.target.value;
+    _elektotasko(elekto,valoro,evento);
+}
+
+/**
+ * Registras elekton (input@type=radio, input@type=checkbox)
+ * kaj koncernan reagon
+ */
+function elekte(tasko) {
+    _elektotasko = tasko; // ni detaligos post ŝargo kaj trakribro de la dokumento (.onload)
 }

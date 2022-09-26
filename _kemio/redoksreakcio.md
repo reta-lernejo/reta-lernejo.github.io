@@ -18,8 +18,11 @@ energio konsumiĝas - endoterma. Ekzoterma redoksreakcio nomiĝas ankaŭ bruliĝ
 
 La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oksidilo. La alia reakcianto, kiu oksidiĝas reduktante la duan, estas nomata reduktilo.
 
-|oksidilo (e-akceptanto)|(x)O|()N|()H|
-|reduktilo (e-donanto)|(x)C|()Fe|()S|()H|
+oksidilo (e-akceptanto): (x)O ()N ()H
+{: .elekto #oksidilo}
+
+reduktilo (e-donanto): (x)C ()Fe ()S ()H
+{: .elekto #reduktilo}
 
 <!-- https://mhchem.github.io/MathJax-mhchem/ -->
 
@@ -41,8 +44,8 @@ ekzemploj:
 
   - [oksidigo de H₂S](#){: .ref #h2s_oksidigo}: $$\ce{H2S + 3O2 -> 2SO2 + 2H2O}$$
 
-  - [kompleta forbruliĝo de metano](#){: .ref #metano_1}: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
-  - [nekompleta forbruliĝo de metano](#){: .ref #metano_2}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
+  - [kompleta forbrulo de metano](#){: .ref #metano_1}: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
+  - [nekompleta forbrulo de metano](#){: .ref #metano_2}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
   - [sintezo de metano](#){: .ref #metano_3}: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
   - [sintezo de amoniako](#){: .ref #amoniako_1}: $$\ce{N2 + 3H2 -> 2NH3}$$
   - [kompleta forbrulo de glukozo](#){: .ref #glukozo_1}: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
@@ -109,6 +112,10 @@ lanĉe(() => {
 
 reference((ref) => {
   desegno(ref);
+});
+
+elekte((elekto,valoro) => {
+  console.log(elekto+':'+valoro);
 });
 
 </script>
