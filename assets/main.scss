@@ -23,7 +23,7 @@ body {
   margin-bottom: .7em;
 }
 
-A[onclick] {
+A[onclick], .ref {
   text-decoration: underline;
   text-decoration-style: dotted;
 }
