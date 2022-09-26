@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Redoksreakcio
 js:
-  - folio-0a
+  - folio-0b
   - sekcio-0b 
   - lewis-1c
   - elementoj-0c
@@ -20,25 +20,26 @@ La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oks
 <!-- https://mhchem.github.io/MathJax-mhchem/ -->
 
 ekzemploj:
-  - [hidrogenkorodo de fero](#){: #h_korodo onclick="ekz_on(event);"}: $$\ce{Fe + 2H+ <=> Fe^2+ + H2}$$
-  - [oksigenkorodo de fero](#){: #o_korodo onclick="ekz_on(event);"}: $$\ce{2Fe^2+ +4(OH)- + 1/2 O2 + H2O -> 2Fe(OH)3}$$
-  - [redukto de hematito per CO](#){: #hematito_1 onclick="ekz_on(event);"}: $$\ce{3Fe2O3 + CO -> 2Fe3O4 + CO2}$$
-  - [redukto de hematito per H₂](#){: #hematito_2 onclick="ekz_on(event);"}: $$\ce{3Fe2O3 + H2 -> 2Fe3O4 + H2O}$$
-  - [rekta redukto de hematito](#){: #hematito_3 onclick="ekz_on(event);"}: $$\ce{3Fe2O3 + C -> 2Fe3O4 + CO}$$
+  - [hidrogenkorodo de fero](#){: .ref #h_korodo}: $$\ce{Fe + 2H+ <=> Fe^2+ + H2}$$
+  - [oksigenkorodo de fero](#){: .ref #o_korodo}: $$\ce{2Fe^2+ +4(OH)- + 1/2 O2 + H2O -> 2Fe(OH)3}$$
+  
+  - [redukto de hematito per CO](#){: .ref #hematito_1}: $$\ce{3Fe2O3 + CO -> 2Fe3O4 + CO2}$$
+  - [redukto de hematito per H₂](#){: .ref #hematito_2}: $$\ce{3Fe2O3 + H2 -> 2Fe3O4 + H2O}$$
+  - [rekta redukto de hematito](#){: .ref #hematito_3}: $$\ce{3Fe2O3 + C -> 2Fe3O4 + CO}$$
 
-  - [redukto de magnetito per CO](#){: #magnetito_1 onclick="ekz_on(event);"}: $$\ce{Fe3O4 + CO -> 3FeO + CO2}$$
-  - [redukto de magnetito per H₂](#){: #magnetito_2 onclick="ekz_on(event);"}: $$\ce{Fe3O4 + H2 -> 3FeO + H2O}$$
-  - [rekta redukto de magnetito](#){: #magnetito_3 onclick="ekz_on(event);"}: $$\ce{Fe3O4 + C -> 3FeO + CO}$$
+  - [redukto de magnetito per CO](#){: .ref #magnetito_1}: $$\ce{Fe3O4 + CO -> 3FeO + CO2}$$
+  - [redukto de magnetito per H₂](#){: .ref #magnetito_2}: $$\ce{Fe3O4 + H2 -> 3FeO + H2O}$$
+  - [rekta redukto de magnetito](#){: .ref #magnetito_3}: $$\ce{Fe3O4 + C -> 3FeO + CO}$$
 
-  - [redukto de vustito per CO](#){: #vustito_1 onclick="ekz_on(event);"}: $$\ce{FeO + CO -> Fe + CO2}$$
-  - [redukto de vustito per H₂](#){: #vustito_2 onclick="ekz_on(event);"}: $$\ce{FeO + H2 -> Fe + H2O}$$
-  - [rekta redukto de vustito](#){: #vustito_3 onclick="ekz_on(event);"}: $$\ce{FeO + C -> Fe + CO}$$
+  - [redukto de vustito per CO](#){: .ref #vustito_1}: $$\ce{FeO + CO -> Fe + CO2}$$
+  - [redukto de vustito per H₂](#){: .ref #vustito_2}: $$\ce{FeO + H2 -> Fe + H2O}$$
+  - [rekta redukto de vustito](#){: .ref #vustito_3}: $$\ce{FeO + C -> Fe + CO}$$
 
-  - [kompleta forbruliĝo de metano](#){: #metano_1 onclick="ekz_on(event);"}: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
-  - [nekompleta forbruliĝo de metano](#){: #metano_2 onclick="ekz_on(event);"}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
-  - [sintezo de metano](#){: #metano_3 onclick="ekz_on(event);"}: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
-  - [sintezo de amoniako](#){: #amoniako_1 onclick="ekz_on(event);"}: $$\ce{N2 + 3H2 -> 2NH3}$$
-  - [kompleta forbruligo de glukozo](#){: #glukozo_1 onclick="ekz_on(event);"}: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
+  - [kompleta forbruliĝo de metano](#){: .ref #metano_1}: $$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
+  - [nekompleta forbruliĝo de metano](#){: .ref #metano_2}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
+  - [sintezo de metano](#){: .ref #metano_3}: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
+  - [sintezo de amoniako](#){: .ref #amoniako_1}: $$\ce{N2 + 3H2 -> 2NH3}$$
+  - [kompleta forbruligo de glukozo](#){: .ref #glukozo_1}: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
 
 
 <script>
@@ -152,11 +153,15 @@ function desegno(frm) {
     });
 }
 
-lanĉe (() => {
+lanĉe(() => {
     const lgrp = new Lewis(ĝi("#redokso"));
     //desegno("test");
     desegno("metano_1");
-})
+});
+
+reference((ref) => {
+  desegno(ref);
+});
 
 </script>
 
