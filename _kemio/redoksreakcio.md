@@ -18,12 +18,8 @@ energio konsumiĝas - endoterma. Ekzoterma redoksreakcio nomiĝas ankaŭ bruliĝ
 
 La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oksidilo. La alia reakcianto, kiu oksidiĝas reduktante la duan, estas nomata reduktilo.
 
-
-|Fe |0|--|2+|--|3+|
-|kun| |  |  |  |  |
-|C  | | [→](#){: .ref #test} |  |  |  |
-|CO | |  | [←](#){: .ref #test} |  |  |  
-|H  | |  |  |  |  |  
+|oksidilo (e-akceptanto)|(x)O|()N|()H|
+|reduktilo (e-donanto)|(x)C|()Fe|()S|()H|
 
 <!-- https://mhchem.github.io/MathJax-mhchem/ -->
 
@@ -49,75 +45,31 @@ ekzemploj:
   - [nekompleta forbruliĝo de metano](#){: .ref #metano_2}: $$\ce{2CH4 + 3O2 -> 2CO + 4H2O}$$
   - [sintezo de metano](#){: .ref #metano_3}: $$\ce{CO2 + 4H2 -> CH4 + 2H2O}$$
   - [sintezo de amoniako](#){: .ref #amoniako_1}: $$\ce{N2 + 3H2 -> 2NH3}$$
-  - [kompleta forbruligo de glukozo](#){: .ref #glukozo_1}: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
+  - [kompleta forbrulo de glukozo](#){: .ref #glukozo_1}: $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
 
 
 <script>
 
 // kalkuli oksidnombrojn vd. https://www.periodni.com/de/oxidationszahlen_rechner.php
 
-/*
-const molekuloj = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone iel malloke por povi ŝalti la prezenton de la tuta formulo facile 
-  H2:  { a: "H2", l: { h1: "3-h2" } }, // l: angulo, ligtipo, celatomo
-  H_p:  { j: "H+" }, 
-  O2:  { a: "O2", l: { o1: "3=o2" }, e: { o1: "7:y:", o2: "1:5:" } }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
-  N2:  { a: "N2", l: { n1: "3#n2" }, e: { n1: "9:", n2: "3:" } },
-  H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
-  "OH^-": { a: "OH", l: { o: "3-h" }, e: { o: "0:6:9:"}, s: { _: "-", o: "-"} },
-  C: { a: "C", e: { c: "0.3.6.9." } },
-  CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } }, 
-  CO: { a: "CO", l: { c: "3#o" }, e: { c: "9:", o: "3:" }, s: { c: "-", o: "+" } },
-  Fe: { a: "Fe" },
-  "Fe^2+": { j: "Fe2+" },
-  Fe2O3: { j: ["O2-","Fe3+","O2-","Fe3+","O2-"], e: { o1: "0:3:6:9:", o2: "0:3:6:9:", o3: "0:3:6:9:" } },
-  Fe3O4: { j: ["O2-","Fe3+","O2-","Fe2+","O2-","Fe3+","O2-"], e: { o1: "0:3:6:9:", o2: "0:3:6:9:", o3: "0:3:6:9:", o4: "0:3:6:9:" } },
-  "Fe(OH)3": { a: "Fe", 
-    g: { "OH": { a: "OH", on: "-2 +1" } }, 
-    l: { fe: "0-OH 4-OH 8-OH" }, 
-    on: "+3"
-  },
-  FeO: { j: ["O2-","Fe2+"], e: { o: "0:3:6:9:"} },
-  H2S: { a: "SH2", l: { s: "1A-h1 k-h2" }, e: { s: "x:2:" } },
-  SO2: { a: "SO2", l: { s: "4=o1 8=o2" }, e: { s: "0:", o1: "2:6:", o2: "6:x:" } },
-  NH3: { a: "NH3", l: { n: "1-h1 3-h2 5-h3" }, e: {n: "9:" }},
-  CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
-    // https://en.wikipedia.org/wiki/Glucose#/media/File:Alpha_glucose_views.svg
-    
-  C6H12O6: { a: "C6O", 
-    g: { 
-      "OH": { a: "OH", on: "-2 +1" } 
-    }, 
-    l: { 
-      c1: "x-o 2>OH 6-c2", 
-      c2: "4>OH 8-c3",
-      c3: "6<OH x-c4",
-      c4: "8>OH 0-c5",
-      c5: "x<c6 2-o",
-      c6: "0-OH" }, 
-    on: "+1 0 0 0 0 -1 -2" 
-  }
-}
-*/
-
 const ekvacioj = {
-  h_korodo: "Fe + 2*H^+ <-> Fe^2+ + H2",
-  o_korodo: "2*Fe^2+ + 4*OH^- + ½*O2 + H2O -> 2*Fe(OH)3",
-  metano_1: "CH4 + 2*O2 -> CO2 + 2*H2O",
-  metano_2: "2*CH4 + 3 * O2 -> 2*CO + 4*H2O",
-  metano_3: "CO2 + 4*H2 -> CH4 + 2*H2O",
-  amoniako_1: "N2 + 3*H2 -> 2*NH3",
-  glukozo_1: "C6H12O6 + 6*O2 -> 6*CO2 + 6*H2O",
-  hematito_1: "3*Fe2O3 + CO -> 2*Fe3O4 + CO2",
-  hematito_2: "3*Fe2O3 + H2 -> 2*Fe3O4 + H2O",
-  hematito_3: "3*Fe2O3 + C -> 2*Fe3O4 + CO",
-  magnetito_1: "Fe3O4 + CO -> 3*FeO + CO2",
-  magnetito_2: "Fe3O4 + H2 -> 3*FeO + H2O",
-  magnetito_3: "Fe3O4 + C -> 3*FeO + CO",
-  vustito_1: "FeO + CO -> Fe + CO2",
-  vustito_2: "FeO + H2 -> Fe + H2O",
-  vustito_3: "FeO + C -> Fe + CO",
-  h2s_oksidigo: "2*H2S + 3*O2 -> 2*SO2 + 2*H2O",
-  test: "Fe2O3"
+  h_korodo:    {Fe:[0,2],  H:[1,0],  _:"Fe + 2*H^+ <-> Fe^2+ + H2"},
+  o_korodo:    {Fe:[2,3],  O:[0,-2], _:"2*Fe^2+ + 4*OH^- + ½*O2 + H2O -> 2*Fe(OH)3"},
+  metano_1:    { C:[-4,4], O:[0,-2], _:"CH4 + 2*O2 -> CO2 + 2*H2O"},
+  metano_2:    { C:[-4,2], O:[0,-2], _:"2*CH4 + 3 * O2 -> 2*CO + 4*H2O"},
+  metano_3:    { C:[4,-4], H:[0,1],  _:"CO2 + 4*H2 -> CH4 + 2*H2O"},
+  amoniako_1:  { N:[0,-3], H:[0,1],  _:"N2 + 3*H2 -> 2*NH3"},
+  glukozo_1:   { C:[0,-4], O:[0,-2], _:"C6H12O6 + 6*O2 -> 6*CO2 + 6*H2O"},
+  hematito_1:  {Fe:[3,2],  C:[2,4],  _:"3*Fe2O3 + CO -> 2*Fe3O4 + CO2"},
+  hematito_2:  {Fe:[3,2],  H:[0,1],  _:"3*Fe2O3 + H2 -> 2*Fe3O4 + H2O"},
+  hematito_3:  {Fe:[3,2],  C:[0,2],  _:"3*Fe2O3 + C -> 2*Fe3O4 + CO"},
+  magnetito_1: {Fe:[3,2],  C:[2,4],  _:"Fe3O4 + CO -> 3*FeO + CO2"},
+  magnetito_2: {Fe:[3,2],  H:[0,1],  _:"Fe3O4 + H2 -> 3*FeO + H2O"},
+  magnetito_3: {Fe:[3,2],  C:[0,2],  _:"Fe3O4 + C -> 3*FeO + CO"},
+  vustito_1:   {Fe:[3,0],  C:[2,4],  _:"FeO + CO -> Fe + CO2"},
+  vustito_2:   {Fe:[3,0],  H:[0,1],  _:"FeO + H2 -> Fe + H2O"},
+  vustito_3:   {Fe:[3,0],  C:[0,2],  _:"FeO + C -> Fe + CO"},
+  h2s_oksidigo:{ S:[-2,4], O:[0,-2], _:"2*H2S + 3*O2 -> 2*SO2 + 2*H2O"}
 }
 
 /*
@@ -135,7 +87,7 @@ function desegno(frm) {
     const elementoj = Elemento.listo();
 
     // desegnu formulon kiel Lewis-strukturon
-    lewis.ekvacio(ekvacioj[frm], kkombinoj, {
+    lewis.ekvacio(ekvacioj[frm]._, kkombinoj, {
       // kalkulu kaj montru oksidnombrojn
       on_fŝ: true,
       // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
