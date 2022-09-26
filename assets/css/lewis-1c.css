@@ -27,6 +27,11 @@ g.S * {
     fill: #aa9900; /* #FFC832;*/
 }
 
+g.Fe * {
+    fill: brown; /*#E06633;*/
+}
+
+
 .elemento text {
     font-family: helvetica, sans-serif;
     /*
@@ -38,6 +43,7 @@ g.S * {
     dominant-baseline: central;
 }
 .grupo text {
+    fill: black;
     text-anchor: start; /* ĉe grupoj la maldekstra elementnomo estas la ligata... */
     margin-left: -4px;
 }
@@ -74,15 +80,18 @@ path.akojno {
     fill: black;
 }
 
-.jonkrampo path {
+.jonkrampo path,
+polyline.jonkrampo {
     fill: none;
     stroke: black;
     stroke-width: .2;
 }
-.jonkrampo text {
+
+.jonkrampo text, 
+text.jonshargo {
     font-family: helvetica, sans-serif;
     font-size: 4px; /* iom pli malgranda ol kutima 10px pro aldono de ŝargoj! */
-    text-anchor: left;
+    text-anchor: start;
     dominant-baseline: hanging;
 }
 
@@ -103,7 +112,7 @@ path.e-atr {
 .elemento text.shargo {
     font-family: helvetica, sans-serif;
     font-size: 3px; /* iom pli malgranda ol kutima 10px pro aldono de ŝargoj! */
-    text-anchor: left;
+    text-anchor: start;
     font-weight: bold;
     /*fill: black;*/
     /*dominant-baseline: hanging;*/
