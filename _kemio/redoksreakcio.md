@@ -4,13 +4,13 @@ title: Redoksreakcio
 js:
   - folio-0b
   - sekcio-0b 
-  - lewis-1c
   - elementoj-0c
-  - kkombinoj-0a
+  - k_kombinoj-0a
+  - k_formuloj-0a
 js-ext:
   - mathjax3
 css:
-  - lewis-1c 
+  - k_formuloj-0a 
 ---
 
 Se dum redoksa reakcio sume liberiĝas energio en formo de varmo aŭ lumo, oni nomas ĝin ekzoterma, se kontraŭe
@@ -72,7 +72,8 @@ const ekvacioj = {
   vustito_1:   {Fe:[3,0],  C:[2,4],  _:"FeO + CO -> Fe + CO2"},
   vustito_2:   {Fe:[3,0],  H:[0,1],  _:"FeO + H2 -> Fe + H2O"},
   vustito_3:   {Fe:[3,0],  C:[0,2],  _:"FeO + C -> Fe + CO"},
-  h2s_oksidigo:{ S:[-2,4], O:[0,-2], _:"2*H2S + 3*O2 -> 2*SO2 + 2*H2O"}
+  h2s_oksidigo:{ S:[-2,4], O:[0,-2], _:"2*H2S + 3*O2 -> 2*SO2 + 2*H2O"},
+  test: {_: "Fe(OH)3"}
 }
 
 /*
@@ -86,11 +87,9 @@ function desegno(frm) {
     // malplenigu
     const svg = ĝi("#redoks_enhavo");
     svg.textContent = "";
-    const lewis = new Lewis(svg);
-    const elementoj = Elemento.listo();
 
-    // desegnu formulon kiel Lewis-strukturon
-    lewis.ekvacio(ekvacioj[frm]._, kkombinoj, {
+    const elementoj = Elemento.listo();
+    const kform = new KformEkvacio(svg,{
       // kalkulu kaj montru oksidnombrojn
       on_fŝ: true,
       // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
@@ -102,12 +101,15 @@ function desegno(frm) {
       // tro longajn ekvaciojn aranĝu dulinie...
       dulinie: frm.startsWith("hematito") || frm.startsWith("magnetito")
     });
+
+    // desegnu formulon kiel Lewis-strukturon
+    kform.ekvacio(ekvacioj[frm]._, kkombinoj, );
 }
 
 lanĉe(() => {
-    const lgrp = new Lewis(ĝi("#redokso"));
-    //desegno("test");
-    desegno("metano_1");
+    const lgrp = new KformEkvacio(ĝi("#redokso"));
+    desegno("test");
+    //desegno("metano_1");
 });
 
 reference((ref) => {
@@ -123,7 +125,7 @@ elekte((elekto,valoro) => {
 <svg id="redokso"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-5 -30 320 160">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-5 -35 325 160">
  <style type="text/css">
     <![CDATA[
       path.mkojno {

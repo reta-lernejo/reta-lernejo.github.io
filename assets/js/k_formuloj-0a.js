@@ -29,16 +29,6 @@
  * ĉi-lasta estas verŝajne pli fleksebla kaj legebla solvo, krome tio permesus ŝovi tiujn informojn de la grupo
  * al la molekulo aŭ eĉ formulo!
  *
- * Angulsignoj por elektron- kaj ligaranĝoj ĉikaŭ la elementsimbolo:
- * -----------------------------------------------------------------
- * angulojn vi povas doni absolute, laŭ la horloĝo:
- * 0 (supre), 1 (30°), 2 (60°), 3 (90°), 4 (120°), 5 (150°), 6 (180°)
- * 7 (210°), 8 (240°), 9 (270°), x (300°), y (330°)
- * aŭ relative al la antaŭa:
- * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°), 
- * e (seponciriklo, 51,5°), o (okonocirklo, 45°), 
- * A (akvo, 105°), a (85°), p (piramida/tetraedra, 109,5°), s (72°), S (144°), z (36°), Z (42°)
- * "m " - minusas la sekvantajn angulojn
  * 
  * elektronoj/ligoj:
  * . unuopa elektrono, : elektronparo, ; elektrontriopo
@@ -62,36 +52,97 @@
  * - on_val: kalkulu oksidnombrojn pere de valentoj (ne jam realigita, necesas doni elementliston aŭ valent-funkcion...)
  */
 
-class LewisSVG {
-    
-    constructor(svg) {
-        this.svg = svg;
-    }
+/**
+ * longoj, distancoj por la aranĝo de elementoj, elektronoj, ŝargoj, jonanguloj ktp.
+ */
+class Kform {
+    static dist_jon = 24; // distanco inter jonoj, PROBLEMO: por krampoj [...] necesus pli (28)!
+    static dist_atm = 16; // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur punktoj aŭ valentstrekojn!)   
 
     // parametroj por distantcoj ktp. de la desegno
     // PLIBONIGU: donu al la variabloj longajn nomojn
     // dist_elktr = 7;  ktp.
-    static #dist_ele = 7; // distanco de elektronoj de atommezo
-    static #dist_ŝrg = 4; // distanco de (formala) ŝargo relative al la elementsimbolo
-    static #dist_jkr = 2;// distanco de jonkrampoj
-    static #duon_jkr = 10; // distanco/duonlongeco de jonkrampo ĉirkaŭ unuopa atomo [O]²-
-    static #long_jkr = 12; // longeco de angula jon-streko ĉe angulo
-    static #dist_jnŝ = 1.5; // distanco de ŝargindiko rilate al jonkrampo 
-    static #rad_ele = .5; // radiuso de elektrono(punkto)
-    static #rad_ŝrg = 1.2; // radiuso de formalŝargo-cirkleto
-    static #dist_lig = 6; // distanco de valentstreko
-    static #long_lig = 4; // longeco de valentstreko
-    static #dist_kjn = 4; // distanco de kojno
-    static #larĝ_kjn = 1; // duona larĝeco de kojno
-    static #long_kjn = 5; // longeco de kojno
-    static #long_ark = 8; // alteco (dy) de e-atribua arko
-    static #dist_onr = 5; // distanco de oksidnombro
+    static dist_ele = 7; // distanco de elektronoj de atommezo
+    static dist_ŝrg = 4; // distanco de (formala) ŝargo relative al la elementsimbolo
+    static dist_jkr = 2;// distanco de jonkrampoj
+    static duon_jkr = 10; // distanco/duonlongeco de jonkrampo ĉirkaŭ unuopa atomo [O]²-
+    static long_jkr = 12; // longeco de angula jon-streko ĉe angulo
+    static dist_jnŝ = 1.5; // distanco de ŝargindiko rilate al jonkrampo 
+    static rad_ele = .5; // radiuso de elektrono(punkto)
+    static rad_ŝrg = 1.2; // radiuso de formalŝargo-cirkleto
+    static dist_lig = 6; // distanco de valentstreko
+    static long_lig = 4; // longeco de valentstreko
+    static dist_kjn = 4; // distanco de kojno
+    static larĝ_kjn = 1; // duona larĝeco de kojno
+    static long_kjn = 5; // longeco de kojno
+    static long_ark = 8; // alteco (dy) de e-atribua arko
+    static dist_onr = 5; // distanco de oksidnombro
     //static #dh = 6; // ---> dist_hpo? distanco de hidrogenponto
-    static #long_hpo = 10; // longeco de hidrogenponto
+    static long_hpo = 10; // longeco de hidrogenponto
 
-    static dist_ele = () => LewisSVG.#dist_ele;
-    static duon_jkr = () => LewisSVG.#duon_jkr;
-    static long_lig = () => LewisSVG.#long_lig;
+
+    /** 
+     * Helpfunkcio por elkalkuli angulon de elektron- kaj ligaranĝoj
+     * ĉikaŭ la elementsimbolo surbaze de donita signo, antaŭa kaj apriora angulo.
+     * 
+     * Angulsignoj:
+     * 
+     * angulojn vi povas doni _absolute_, laŭ la horloĝo:
+     * 0 (supre), 1 (30°), 2 (60°), 3 (90°), 4 (120°), 5 (150°), 
+     * 6 (180°), 7 (210°), 8 (240°), 9 (270°), x (300°), y (330°)
+     * 
+     * aŭ _relative_ al la antaŭa:
+     * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°), 
+     * e (seponciriklo, 51,5°), o (okonocirklo, 45°), 
+     * A (akvo, 105°), a (85°), p (piramida/tetraedra, 109,5°), 
+     * s (72°), S (144°), z (36°), Z (42°)
+     * m minusas la sekvantajn angulojn
+     * 
+     * @param sgn la angulsigno, unu el la supraj literoj au ciferoj
+     * @param aa  la antaŭa angulo, necesa por kalkuli relativajn angulojn
+     * @param def apriora angulo, se la signo ne donas validan angulon
+     * @param af  faktoro per kiu ni multiplikas relativan angulon
+     * 
+    */
+    static angulo(sgn,aa,def,af=1) {
+        // absoluta angulo
+        if (sgn >= "0" && sgn <= "9") {
+            return 30 * (sgn - "0")
+        };
+        
+        if (sgn == "x") return 300;
+        if (sgn == "y") return 330;
+
+        // relativa angulo
+        return aa + af*({
+            d: 180, t: 120, k: 90, e: 51.5, o: 45,
+            A: 105, a: 85, p: 109.5, 
+            s: 72, S: 144, z:36, Z: 42
+        }[sgn] || def);
+    }
+
+    /**
+     * Redonas 'true' se temas pri valida signo de angulo (cifero aŭ litero)
+     */
+    static angulsigno(sgn) {
+        return (sgn >= "0" && sgn <= "9") 
+            || (sgn >= "a" && sgn <= "z")
+            || (sgn >= "A" && sgn <= "Z");
+    }
+
+    /**
+     * Redonas la angulfaktoron, depende, ĉu signo estas 'm'
+     */
+    static angulfaktoro(sgn) {
+        return (sgn == "m")? -1 : 1;
+    }
+}
+
+class KformSVG {
+    
+    constructor(svg) {
+        this.svg = svg;
+    }
 
     /** Kreas SVG-elementon kun atributoj
      * @param nomo elementnomo, ekz-e 'div'
@@ -140,7 +191,6 @@ class LewisSVG {
             this.atr(elm, {transform: `translate(${x} ${y})`});
     }
 
-
     /**
      * desegnu simbolon id ĉe (x,y) 
      */
@@ -172,7 +222,7 @@ class LewisSVG {
      */ 
     teksto(tx,cls) {
         const parts = tx.split('^');
-        const sy = LewisSVG.#dist_ŝrg;
+        const sy = Kform.dist_ŝrg;
         const text = this.kreu("text",{},parts[0]);
         if (cls) this.atr(text,{class: cls});
         if (parts.length>1) {
@@ -189,7 +239,7 @@ class LewisSVG {
      * helpfunkcio por krei oksidnombron super la elementsimbolo
      */
     oksidnombro(on) {
-        const dO = LewisSVG.#dist_onr;
+        const dO = Kform.dist_onr;
         // on nepre havu antaŭsignon!
         const on_ = on == "0"? "±0" : (on > 0 && on[0] != '+'? '+'+on : on);
         const text = this.kreu("text",{
@@ -206,8 +256,8 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la punkto aperu, 0 = supre, 270 = maldekstre
      */ 
     elektrono(dy=0,a=0) {
-        const re = LewisSVG.#rad_ele;
-        const de = LewisSVG.#dist_ele;
+        const re = Kform.rad_ele;
+        const de = Kform.dist_ele;
         const e = this.kreu("circle", {
             r: re,
             cx: de
@@ -228,8 +278,8 @@ class LewisSVG {
      * @param f faktoro (2 = duobla longeco)
      */ 
     ligo(dy,a,f=1) {
-        const dv = LewisSVG.#dist_lig;
-        const lv = LewisSVG.#long_lig;
+        const dv = Kform.dist_lig;
+        const lv = Kform.long_lig;
         const p = this.kreu("line", {
             x1: dv,
             x2: dv+f*lv
@@ -253,9 +303,9 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la arko aperu, 0 = supre, 270 = maldekstre
      */ 
     e_arko(at,a) {
-        const dv = LewisSVG.#dist_lig;
-        const lv = LewisSVG.#long_lig;
-        const la = LewisSVG.#long_ark;
+        const dv = Kform.dist_lig;
+        const lv = Kform.long_lig;
+        const la = Kform.long_ark;
         let p;
         switch (at) {
         case "|": 
@@ -291,9 +341,9 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     a_kojno(a) {
-        const lk = LewisSVG.#long_kjn;
-        const yk = LewisSVG.#larĝ_kjn;
-        const dk = LewisSVG.#dist_kjn;
+        const lk = Kform.long_kjn;
+        const yk = Kform.larĝ_kjn;
+        const dk = Kform.dist_kjn;
 
         const p = this.kreu("path", {
             d: `M${dk},0 l${lk},${-yk} l0,${2*yk} Z`,
@@ -310,9 +360,9 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     m_kojno(a) {
-        const lk = LewisSVG.#long_kjn;
-        const dk = LewisSVG.#dist_kjn;
-        const yk = LewisSVG.#larĝ_kjn;
+        const lk = Kform.long_kjn;
+        const dk = Kform.dist_kjn;
+        const yk = Kform.larĝ_kjn;
 
         const p = this.kreu("path", {
             d: `M${dk},0 l${lk},${-yk} l0,${2*yk} Z`,
@@ -330,7 +380,7 @@ class LewisSVG {
      * @param a  angulo ĉe kiu la linio aperu, 0 = supre, 270 = maldekstre
      */ 
     h_ponto(dy,a) {
-        const lh = LewisSVG.#long_hpo;
+        const lh = Kform.long_hpo;
 
         const p = this.kreu("line", {
             x1: dh,
@@ -353,7 +403,7 @@ class LewisSVG {
      * desegnu maldekstran jonkrampon apud unuopa atomo
      */
     jkr_maldekstra() {
-        const dk = LewisSVG.#duon_jkr; 
+        const dk = Kform.duon_jkr; 
 
         const pl = this.kreu("polyline", {
             points: `${-dk*.8},${-dk} ${-dk},${-dk} ${-dk},${dk} ${-dk*.8},${dk}`,
@@ -366,7 +416,7 @@ class LewisSVG {
      * desegnu dekstran jonkrampon apud unuopa atomo
      */
     jkr_dekstra() {
-        const dk = LewisSVG.#duon_jkr;
+        const dk = Kform.duon_jkr;
 
         const pl = this.kreu("polyline", {
             points: `${dk*.7},${-dk} ${dk},${-dk} ${dk},${dk} ${dk*.7},${dk}`,
@@ -383,9 +433,9 @@ class LewisSVG {
         const jg = this.kreu("g", {
             class: "jonkrampo"
         });
-        const lkr = LewisSVG.#long_jkr;
-        const dkr = LewisSVG.#dist_jkr;
-        const dsh = LewisSVG.#dist_jnŝ;
+        const lkr = Kform.long_jkr;
+        const dkr = Kform.dist_jkr;
+        const dsh = Kform.dist_jnŝ;
         const jk = this.kreu("path", {
             d: `M${mm.max_x - lkr + dkr} ${mm.min_y - dkr}`
             + `L${mm.max_x + dkr} ${mm.min_y - dkr}` 
@@ -405,7 +455,7 @@ class LewisSVG {
      * desegnu ŝargon apud unuopa atomo (t.e. elementsimbolo)
      */    
     a_shargo(shargo) {
-        const sy = LewisSVG.#dist_ŝrg;
+        const sy = Kform.dist_ŝrg;
 
         const text = this.kreu("text", {
             class: "shargo",
@@ -420,8 +470,8 @@ class LewisSVG {
      * desegnu formalŝargon kiel cirklitan + aŭ - apud atomon
      */
     f_shargo(sgn) {
-        const rf = LewisSVG.#rad_ŝrg;
-        const sy = LewisSVG.#dist_ŝrg;
+        const rf = Kform.rad_ŝrg;
+        const sy = Kform.dist_ŝrg;
 
         const g = this.kreu("g", {
             class: "shargo"
@@ -443,7 +493,7 @@ class LewisSVG {
      * desegnu ŝargon apud jonkrampo de unuopa atomo
      */
     j_shargo(shargo) {
-        const dk = LewisSVG.#duon_jkr;
+        const dk = Kform.duon_jkr;
 
         const text = this.kreu("text", {
             x: dk*1.3,
@@ -456,46 +506,203 @@ class LewisSVG {
 
 }
 
+/**
+ * Grafo helpanta pri la geometria aranĝo de partoj de formuloj (atomoj, jonoj, grupoj).
+ * (La nodoj enhavas precipe la poziciojn kaj simbolojn. Specifaj nodoj povas enteni 
+ * pliajn informojn kiel ŝargo, oksidnombro k.s.)
+ */
+class KformGraf {
 
-class Lewis {
-
-    static #dist_jon = 24; // distanco inter jonoj, PROBLEMO: por krampoj [...] necesus pli (28)!
-    static #dist_atm = 16; // distanco inter atomoj ĉe molekuloj (? - problemo estas ĉu ni uzas nur punktoj aŭ valentstrekojn!)
-    //static #ti = 200; // ---> temp_int? tempintervalo por animacio
-    static #ekv_isp = 5; // aldona spaco inter termoj de ekvacio
-
-    constructor(svg) {
-        this.desegno = new LewisSVG(svg);
-        this.atomoj = {}; // atomoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
-        this.jonoj = {}; // jonoj kaj ilia pozicioj aranĝataj dum kreo de jonaro
-        this.grupoj = []; // nomoj (id/href) de konataj grupoj uzeblaj en molekulo
-        this.opcioj = {};
-        this.grupo_ref = {}; // referencoj al grupoj el de atomo, al kiu ĝi ligiĝas
+    constructor() {
+        this.nodoj = {};
     }
-
-    /** Elkalkulas la sekvan angulon surbaze de donita signo, antaŭa kaj apriora angulo 
-     * 
-    */
-   #angulo(sgn,aa,def,af=1) {
-        // absoluta angulo
-        if (sgn >= "0" && sgn <= "9") {
-            return 30 * (sgn - "0")
-        };
-        
-        if (sgn == "x") return 300;
-        if (sgn == "y") return 330;
-
-        // relativa angulo
-        return aa + af*({
-            d: 180, t: 120, k: 90, e: 51.5, o: 45,
-            A: 105, a: 85, p: 109.5, 
-            s: 72, S: 144, z:36, Z: 42
-        }[sgn] || def);
-    }
-
 
     /** 
-     * Atomojn donitajn kiel signaro ni transformas al objekto 
+     * Kreu nodon per tipo, simbolo kaj eventuala pozicio de la centro 
+     * @param {string} smb la simbolo, ekz-e Si, Fe2+, OH
+     * @param {string} tip la tipo atomo, jono, grupo
+     * @param {object} pos pozicio povas esti absoluta donita per x,y aŭ relativa al parenco p, donita per dx, dy)
+     */
+    nova(n_id, tip, smb, pos = {}) {
+        const nodo = {
+            tip: tip,
+            smb: smb,
+            pos: pos
+        }
+        this.nodoj[n_id] = nodo;
+    }
+
+    /**
+     * Ŝanĝas la ŝlosilon de nodo
+     */
+    alinomu(n_id,n_id_nova) {
+        this.nodoj[n_id_nova] = this.nodoj[n_id];
+        delete this.nodoj[n_id];
+    }
+
+    /**
+     * Metu nodon en relativan aŭ absolutan pozicion
+     */
+    metu(n_id,pos) {
+        this.nodoj[n_id].pos = pos;
+    }
+
+    /** metu kadron per anguloj supra-maldekstra kaj malsupra-dekstra */
+    kadru(n_id,su_md,ms_de) {
+        const nodo = this.nodoj[n_id];
+        nodo.su_md = su_md;
+        nodo.ms_de = ms_de;
+    }
+
+    /**
+     * Difinas la pozicion relative al parenca nodo
+     * @param {string} n_id la nodo, kies pozicion ni metas relative al parenca nodo
+     * @param {string} par la parenca nodo
+     * @param {number} dist la distanco
+     * @param {number} ang la angulo en gradoj
+     */
+    metu_relative(n_id,par,dist,ang) {
+        const nodo = this.nodoj[n_id];
+
+        const phi = (ang-90)/180 * Math.PI; // -90°, ĉar 0° ĉe ni estas supre kaj ne dekstre!
+        let Ax = dist * Math.cos(phi);
+        const Ay = dist * Math.sin(phi);
+
+        if (nodo.tip == 'grupo')
+            Ax -= Kform.dist_atm/5;
+
+        // ĉar ni ne scias en kiu ordo la atomoj kaj grupoj
+        // traktiĝas kaj ĉu do nuna nodo jam havas validan pozicion,
+        // ni notas la pozicion relative al nodo par
+        
+        nodo.pos = { dx:Ax, dy:Ay, par: par };
+    }
+
+    /** Redonas la pozicion de la grupo. Se ekzistas absoluta, tiun, se
+     * estas relativa ĝi kalkulas la absoluton el la relativa
+     * @param rikuro ni permesas maksimume 10 rikurojn por eviti eterne kuri en cikloj!
+     */
+    pozicio(n_id,rik=0) {
+        if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${n_id}.`;
+        const nodo = this.nodoj[n_id];
+        if ('x' in nodo.pos && 'y' in nodo.pos) {
+            return nodo.pos;
+        } else if ('par' in nodo && 'dx' in nodo.pos && 'dy' in nodo.pos) {
+            const ppos = this.pozcio(nodo.par,rik++);
+            // aktualigu la pozicion de la atomo per la absoluta
+            nodo.pos.x = ppos.x + nodo.pos.dx;
+            nodo.pos.y = ppos.y + nodo.pos.dy;
+            
+            return nodo.pos;
+        } else {
+            throw `${n_id} ne havas pozicion absolutan aŭ relativan, ĉu eraro en la formul-specifo?`
+        }
+    }
+
+
+    /**
+     * Kalkulas la koordinatojn de la kadro ĉirkaŭanta la tutan kombinaĵon.
+     */
+    kadro() {
+        const de = Kform.dist_ele;
+        const dj = Kform.duon_jkr;
+        let min_x = Number.MAX_VALUE, min_y = Number.MAX_VALUE, 
+            max_x = Number.MIN_VALUE, max_y = Number.MIN_VALUE;
+
+        for (const g of Object.values(this.nodoj)) {
+            // PLIBONIGU: uzu la kadron g.su_md, g.ms_de...!
+            const x = g.pos.x;
+            const y = g.pos.y;
+            min_x = Math.min(min_x,x-de);
+            max_x = Math.max(max_x,x)+de;
+            min_y = Math.min(min_y,y-de);
+            max_y = Math.max(max_y,y+de);    
+        }
+        /*
+        if (this.jonoj && this.jonoj._vic) {
+            for (const ji of this.jonoj._vic) {
+                const j = this.jonoj[ji];
+                const x = j.pos.x;
+                const y = j.pos.y;
+                min_x = Math.min(min_x,x-dj);
+                max_x = Math.max(max_x,x+dj);
+                min_y = Math.min(min_y,y-dj);
+                max_y = Math.max(max_y,y+dj);
+            }
+        }
+        // se la molekulo/jonaro enhavas grupojn ni devas trarigardi ankaŭ tiujn...!
+        for (const g of Object.values(this.grupo_ref)) {
+            const g_pos = g.pos;
+            console.log(`pos ${g.ref} ${g_pos.p}...`);
+            const a_j = this.atomoj[g_pos.p] || this.jonoj[g_pos.p];
+            const a_pos = a_j.pos;
+            const x = a_pos.x+g_pos.dx;
+            const y = a_pos.y+g_pos.dy;
+            min_x = Math.min(min_x,x);
+            max_x = Math.max(max_x,x);
+            min_y = Math.min(min_y,y);
+            max_y = Math.max(max_y,y);
+        }
+        */
+
+        return { 
+            min_x: min_x, 
+            max_x: max_x, 
+            min_y: min_y, 
+            max_y: max_y}
+    }
+}
+
+/**
+ * Kreas el specifo kemian kombinon (molekulon, jonon, jonaron)
+ */
+
+class KformKombino {
+
+
+    //static #ti = 200; // ---> temp_int? tempintervalo por animacio
+    #vico; #grafo;
+
+    constructor(svg, opcioj) {
+        this.desegno = new KformSVG(svg);
+        this.opcioj = opcioj;
+        this.#grafo = new KformGraf; // atomoj/jonoj/grupoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
+        this.grupspec = {};
+        this.#vico = [];
+        this.opcioj = {};
+
+         /**
+         * Redonas peranto-objekton por ebligi aliri la nodoj per this.nodoj[..] anstataŭ
+         * pli longa this.grafo.nodoj[..]
+         */           
+        this.nodoj = new Proxy(this.#grafo, {
+            get: function(target, prop, receiver) {
+                if (typeof prop === 'string') {
+                    if ( prop in target) {
+                        return Reflect.get(...arguments);
+                    } else {
+                        return target.nodoj[prop];
+                    }
+                } else {
+                    return Reflect.get(...arguments);
+                }
+                /*
+                const value = target[prop];
+                if (value instanceof Function) {
+                    return function (...args) {
+                        return value.apply(this === receiver ? target : this, args);
+                    };
+                }
+                return value;
+                */
+            }
+        });
+    }
+
+   
+
+    /** 
+     * Atomojn donitajn kiel signaro ni transformas al graf-nodoj
      * 
      * @param a atomoj kiel signaro (ekz. "OH2" - O estas la centra atomo ĉe origino (0,0), aŭ kiel objekto {<atomid>: <simbolo>,...})
      * @param on oksidnombro en la vicordo de kreotaj atomoj; KOREKTU: tio momente nur funkcias ĉe signaro, en la alia kazo donu jam en la objekto 
@@ -504,7 +711,7 @@ class Lewis {
         let obj = {};      
         if (typeof a === "object") {
             for (const [a_, smb] of Object.entries(a)) {
-                obj[a_] = {smb: smb};
+                this.nodoj.nova(a_,'atomo',smb);
             }
         } else if (typeof a === "string") {
             const re = /([A-Z][a-z]?)([1-9]?[0-9]?)/g;
@@ -517,23 +724,21 @@ class Lewis {
                 const n = m[2];
                 if (!n) {
                     // unu atomo
-                    obj[el] = {smb: e};
-                    if (on && n_on < on.length) obj[el].on = on[n_on];
-                    if (first) obj[el].pos = {x: 0, y:0}
+                    this.nodoj.nova(el,'atomo',e,first?{x:0,y:0}:{});
+                    if (on && n_on < on.length) this.nodoj[el].on = on[n_on];
                     n_on++;
                 } else {
+                    // n atomoj, ekz-e O2
                     for (let n_=1; n_<=n; n_++) {
                         const en = `${el}${n_}`;
-                        obj[en] = {smb: e};
-                        if (on && n_on < on.length) obj[en].on = on[n_on];
-                        if (first) obj[en].pos = {x: 0, y:0}
+                        this.nodoj.nova(en,'atomo',e,first?{x:0,y:0}:{});
+                        if (on && n_on < on.length) this.nodoj[en].on = on[n_on];
                         n_on++;
                     }
                 }
                 first = false;
             }
         }
-        return obj;
     }
 
 
@@ -564,73 +769,24 @@ class Lewis {
                 const el = e.toLowerCase() + n; // e-ŝlosilo
 
                 // se la elemento aperas duan fojon ni devas ankoraŭ renomi <e> al <e1>
-                // iom neelegante solvita: eble pli bone unue eltrovu la nombrojn de unuopaj elementoj!
+                // iom neelegante solvita: eble pli bone unue eltrovu la nombrojn de unuopaj elementoj!?
                 if (n==2) {
-                    obj[e.toLowerCase()+'1'] = obj[e.toLowerCase()];
-                    delete obj[e.toLowerCase()];
-                    const i = obj["_vic"].indexOf(e.toLowerCase())
-                    obj["_vic"][i] = e.toLowerCase()+'1';
+                    this.nodoj.alinomu(e.toLowerCase(),e.toLowerCase()+'1');
+                    const i = this.#vico.indexOf(e.toLowerCase());
+                    this.#vico[i] = e.toLowerCase()+'1';
                 }
 
                 const sh = m[2]; // jonŝargo
-                obj[el] = {smb: e, sh: sh};
+                const _jg = this.nodoj.nova(el,'jono',e,jn==0?{x:0,y:0}:{});
+                this.nodoj[el].sh = sh;
                 // vicordo de jonoj
-                obj["_vic"][jn] = el;
-                // pozicio de la unua jono
-                if (jn==0) obj[el].pos = {x: 0, y:0}
+                this.#vico[jn] = el;
 
                 jn++;
             }
         }
-        return obj;
     }
 
-    /** Redonas la pozicion de atomo. Se ekzistas absoluta, tiun, se
-     * estas relativa ĝi kalkulas la absoluton el la relativa
-     * @param atm la ŝlosilo de la atomo, ekz-e h1
-     * @param rikuro ni permesas maksimume 10 rikurojn por eviti eterne kuri en cikloj!
-     */
-    #pos(atm, rik=0) {
-        if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${atm}.`;
-        const a = this.atomoj[atm];
-        const pos = a.pos;
-        if (!pos) throw `Atomo ${atm} ne havas pozicion, ĉu eraro en la molekuldifino?`
-        if ('x' in pos && 'y' in pos) {
-            return pos;
-        } else {
-            if (! 'p' in pos && 'dx' in pos && 'dy' in pos) 
-                throw `Atomo ${atm} havas nek absolutan nek relativan pozicion.`
-            const ppos = this.#pos(pos.p,rik++);
-            pos.x = ppos.x + pos.dx;
-            pos.y = ppos.y + pos.dy;
-            this.atomoj[atm].pos = pos; // aktualigu la pozicion de la atomo per la absoluta
-            return pos;
-        }
-    }
-
-    /** Redonas la pozicion de grupo. Se ekzistas absoluta, tiun, se
-     * estas relativa ĝi kalkulas la absoluton el la relativa
-     * @param g_ref la ŝlosilo de la grupo, ekz-e c1_OH
-     * @param rikuro ni permesas maksimume 10 rikurojn por eviti eterne kuri en cikloj!
-     */
-    /*
-    #g_pos(g_ref, rik=0) {
-        if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${g_ref}.`;
-        const g = this.grupo_ref[g_ref];
-        const pos = g.pos;
-        if (!pos) throw `Grupo ${g_ref} ne havas pozicion, ĉu eraro en la molekuldifino?`
-        if ('x' in pos && 'y' in pos) {
-            return pos;
-        } else {
-            if (! 'p' in pos && 'dx' in pos && 'dy' in pos) 
-                throw `Grupo ${g_ref} havas nek absolutan nek relativan pozicion.`
-            const ppos = this.#pos(pos.p,rik++); // pozicio relative al la liganta atomo 
-            pos.x = ppos.x + pos.dx;
-            pos.y = ppos.y + pos.dy;
-            this.grupo_ref[g_ref].pos = pos; // aktualigu la pozicion de la atomo per la absoluta
-            return pos;
-        }
-    }    */
 
     /**
      * Ornamas SVG-grupon g de atomsimbolo per elektronoj ĉirkaŭe
@@ -645,7 +801,7 @@ class Lewis {
         let a = 0, da = 0; // aktuala kaj diferenca anguloj
         if (elektronoj && elektronoj.indexOf('%') >= 0) {
             const pj = elektronoj.split('%');
-            a = this.#angulo(pj[0],0,0);
+            a = Kform.angulo(pj[0],0,0);
             da = 360 / pj[1].length;
             e = elektronoj.indexOf('%')+1;
         };
@@ -655,11 +811,12 @@ class Lewis {
         while (e < elektronoj.length) {
             const ee = elektronoj[e];
             // la aktuala signo estas angulo, se la signo estas el 0-9, A-z
-            if ((ee >= "0" && ee <= "9") || (ee >= "A" && ee <= "z")) {
-                if (ee == "m") {
-                    af = -1*af;
+            if (Kform.angulsigno(ee)) {
+                const _f = Kform.angulfaktoro(ee);
+                if (_f < 0) {
+                    af = _f * af;
                 } else {
-                    a = this.#angulo(ee,a,da,af)
+                    a = Kform.angulo(ee,a,da,af)
                 }
             } else {
                 // aliaj signoj donas la elektron-specon (unuopa, paro k.s.)
@@ -672,22 +829,9 @@ class Lewis {
                             this.desegno.elektrono(-1,a),
                             this.desegno.elektrono(1,a));
                         break;
-                    /*
-                    case ";": // triopo (ekz. N2)
-                        g.append(this.#elktr(-2,a),this.#elktr(0,a),this.#elktr(2,a));
-                        break;
-                    */
-                    // ni permesas ankaŭ indiki formalajn ŝargojn inter "elektronoj"
-                    /*
-                    case "+": // formala ŝargo (+)
-                        g.append(this.#fsh(a,true));
-                        break;
-                    case "'": // formala ŝargo (-)
-                        g.append(this.#fsh(a,false));
-                        break;
-                        */
                     case " ":
-                        break;
+                    case "_":
+                            break;
                 } // ...switch  
                 a += da; // ĉe proporcia aranĝo da>0!
             } // else
@@ -702,15 +846,15 @@ class Lewis {
      * @param {*} ligoj la specifo de la ligoj (spacapartigitaj signaroj de angulo, speco kaj referencita atomo/grupo)
      */
     #ligoj(atm,g,ligoj) {
-        const dM = Lewis.#dist_atm;
-        const lv = LewisSVG.long_lig;
+        const dM = Kform.dist_atm;
+        const lv = Kform.long_lig;
 
         let af = 1; // ŝaltebla per "m " al -1, tio minusos postajn relativajn angulojn
         let ne = 0; // nombro de alordigitaj elektronoj per negativeco (redonota valoro)
 
         // funkcio por aldoni nombron de elektronoj al .ne de atomo _a
         const a_ne = (_a,_ne) => { 
-            const a1 = this.atomoj[_a];
+            const a1 = this.nodoj[_a];
             if (a1) {
                 if (!a1.ne) a1.ne = 0;
                 a1.ne += _ne;
@@ -725,7 +869,7 @@ class Lewis {
         // ni post % lasas al la programo dividi la angulojn sammezure
         if (ligoj.indexOf('%') >= 0) {
             const pj = ligoj.split('%');
-            a = this.#angulo(pj[0],0,0);
+            a = Kform.angulo(pj[0],0,0);
             aligj = pj[1].split(" ");
             da = 360 / alig.length;
         } else {
@@ -739,13 +883,15 @@ class Lewis {
             let lf = 1; // faktoro de longeco (2=suobla longeco)
             while (l<ligo.length) {
                 let ll = ligo[l];
-                // ĉu la aktuala signo estas angulo 0-9, A-z
-                if ((ll >= "0" && ll <= "9") || (ll >= "A" && ll <= "Z") || (ll >= "a" && ll <= "z")) {
-                    if (ll == "m") {
-                        af = -1*af;
+
+                if (Kform.angulsigno(ll)) {
+                    const _f = Kform.angulfaktoro(ll);
+                    if (_f < 0) {
+                        af = _f * af;
                     } else {
-                        a = this.#angulo(ll,a,da,af)
+                        a = Kform.angulo(ll,a,da,af)
                     }
+    
                 } else if ("(|)".indexOf(ll) > -1) {
                     // temas pri elektron-atribua arko (por formala kalkulo de oksidnombroj)
                     g.append(this.desegno.e_arko(ll,a));
@@ -798,65 +944,56 @@ class Lewis {
             
             // resto estas nomo de alia atomo aŭ grupo
             // ni kalkulas ties relativan pozicion per la angulo
-            const ref = ligo.substring(l+1);
-            //const pos = this.atomoj[atm].pos || {x:0, y:0};
-            const phi = (a-90)/180 * Math.PI; // -90°, ĉar 0° ĉe ni estas supre kaj ne dekstre!
-            const distM = lf == 2? dM + 2.5*lv : dM;
-            const Ax = distM * Math.cos(phi);
-            const Ay = distM * Math.sin(phi);
+            let ref = ligo.substring(l+1);
 
-            // ĉar ni ne scias en kiu ordo la atomoj kaj grupoj
-            // traktiĝas kaj ĉu do nuna atm jam havas validan pozicion,
-            // ni notas la pozicion relative al nuna atomo atm
-            if (ref && this.atomoj[ref]) {
-                // pozicio de referencita atomo estas relativa al la nuna pozicio per angulo 180-a
-                this.atomoj[ref].pos = {dx:Ax,dy:Ay,p:atm}
-                // se e-arkoj ne estas rekte donitaj sed kalkuliĝu
-                // per elektronegativeco...:
-                if (this.opcioj.on_arkoj && this.opcioj.eneg) {
-                    const en1 = this.opcioj.eneg(this.atomoj[atm].smb);
-                    const en2 = this.opcioj.eneg(this.atomoj[ref].smb);
-                    if (en1 > en2) {
-                        g.append(this.desegno.e_arko(")",a));                        
-                        ne += lv; // por opcioj.on_val estus ne += 2*lv;
-                        a_ne(ref,-lv);
-                    } else if (en1 < en2) {
-                        g.append(this.desegno.e_arko("(",a));
-                        ne -= lv; // valida por opicoj.on_fŝ, por on_val tio devus esti 0
-                        a_ne(ref,+lv);
-                    } else {
-                        g.append(this.desegno.e_arko("|",a));
-                        // por opcioj.on_val ni aldonus ne += lv;
-                    }
-                }
-            } else if (ref && this.grupoj[ref]) {
+            if (!ref) throw `Eraro en la ligo-specifo de ${atm}`;
+
+            if (this.grupspec[ref]) {
                 // temas pri referencebla grupo, ni kreu instancon de la grupo
                 // por tiu ĉi atomo... (ĉu oni povu havi plurajn samajn grupojn
                 // ĉe unu atomo? tio momente ne funkcius, oni devus aldoni ligon por identigo...)
 
-                // necesas pli granda distanco por jonoj... pro la angulo/ŝargo
-                const fD = this.jonoj[atm]? 1.5:1; 
-
                 const grp_ref = `${atm}_${ref}`;
-                const g_pos = {dx:fD*Ax, dy:fD*Ay, p:atm};
-                const grp = this.#grupo(ref,grp_ref,g_pos);
+                // const g_pos = { dx:fD*Ax, dy:fD*Ay, p:atm };
+                const grp = this.#grupo(ref,grp_ref); //,g_pos);
+                g.append(grp);
+
                 // ni memoras la relativan pozicion de la grupo al la
                 // atomo por poste kalkuli la absolutan pozicion
-                this.grupo_ref[grp_ref] = {ref: ref, pos: g_pos};
+                this.nodoj.nova(grp_ref,'grupo',ref); //,g_pos);
+                this.nodoj[grp_ref].ref = ref;
+                ref = grp_ref;
+            }             
 
-                /*
-                const use = this.desegno.kreu("use", {
-                    id: grp_ref,
-                    href: `#${ref}`,
-                    x: Ax,
-                    y: Ay
-                });
-                */
-                g.append(grp);
-            } else if (ref && this.jonoj[ref]) {
-                // necesas pli granda distanco por jonoj... pro la angulo/ŝargo
-                this.jonoj[ref].pos = {dx:1.5*Ax,dy:1.5*Ay,p:atm}
-            }            
+            const distM = lf == 2? dM + 2.5*lv : dM;
+            // necesas pli granda distanco por jonoj... pro la angulo/ŝargo
+            const fD = this.nodoj[atm].tip == 'jono'
+                || this.nodoj[ref].tip == 'jono' ? 1.5 : 1;
+
+            this.nodoj.metu_relative(ref,atm,fD*distM,a);
+
+            // por atomoj de molekulo ni eventuale pentru ankoraŭ elektron-arkon
+            // traktiĝas kaj ĉu do nuna atm jam havas validan pozicion,
+            // ni notas la pozicion relative al nuna atomo atm
+            if (this.opcioj.on_arkoj && this.opcioj.eneg && this.nodoj[ref].tip == 'atomo') {
+                // se e-arkoj ne estas rekte donitaj sed kalkuliĝu
+                // per elektronegativeco...:
+                const en1 = this.opcioj.eneg(this.nodoj[atm].smb);
+                const en2 = this.opcioj.eneg(this.nodoj[ref].smb);
+                if (en1 > en2) {
+                    g.append(this.desegno.e_arko(")",a));                        
+                    ne += lv; // por opcioj.on_val estus ne += 2*lv;
+                    a_ne(ref,-lv);
+                } else if (en1 < en2) {
+                    g.append(this.desegno.e_arko("(",a));
+                    ne -= lv; // valida por opicoj.on_fŝ, por on_val tio devus esti 0
+                    a_ne(ref,+lv);
+                } else {
+                    g.append(this.desegno.e_arko("|",a));
+                    // por opcioj.on_val ni aldonus ne += lv;
+                }
+                
+            };        
             
         } // for
 
@@ -893,8 +1030,8 @@ class Lewis {
         if (ligoj) this.#ligoj(atm,g,ligoj);
 
         // oksidnombro
-        if (this.atomoj[atm].on) {
-            g.append(this.desegno.oksidnombro(this.atomoj[atm].on));
+        if (this.nodoj[atm].on) {
+            g.append(this.desegno.oksidnombro(this.nodoj[atm].on));
         } /* ni devas unue trakti la tutan molekulon!...
         else if (this.opcioj.on_fŝ) {
             g.append(this.#oksidnombro(ne + shargo));
@@ -926,7 +1063,7 @@ class Lewis {
 
         // angulo aŭ krampo kun jonŝargo
         if (this.opcioj.jon_angulo) {
-            const de = LewisSVG.dist_ele();
+            const de = Kform.dist_ele();
             const mm = {min_x: -de, min_y: -de, max_x: de, max_y: de};
             g.append(this.desegno.jon_angulo(ŝargo,mm));
         } else {
@@ -944,24 +1081,27 @@ class Lewis {
      * @param {string} id nomo de la grupo (en la specifo) 
      * @param {string} g_ref referencilo de la grupo <atomo>_<grupo>
      */
-    #grupo(id,g_ref,pos) {
-        const grp = this.grupoj[id];
+    #grupo(id,g_ref) { //},pos) {
+        const dA = Kform.dist_atm;
+        const grp = this.grupspec[id];
 
-        const x = Math.round((pos.dx - Lewis.#dist_atm/5) * 100)/100 ;
+        /*
+        const x = Math.round((pos.dx - dA/5) * 100)/100 ;
         const y = Math.round(pos.dy*100)/100;
+        */
                
         // skribu elementnomojn centre
         const g = this.desegno.kreu("g", { 
             id: g_ref,
-            class: `grupo ${grp.a}`,
-            transform: `translate(${x} ${y})`
+            class: `grupo ${grp.a}`
+            //transform: `translate(${x} ${y})`
         });
         g.append(this.desegno.teksto(grp.a));
 
         if (grp.s && grp.s._) {
             
             // provizora kadro.. ni bezonos pli ekzaktan algoritmon
-            const mm = {min_x: 0, min_y: -Lewis.#dist_atm/2, max_x: grp.a.length*Lewis.#dist_atm/2, max_y: Lewis.#dist_atm};
+            const mm = {min_x: 0, min_y: -dA/2, max_x: grp.a.length*dA/2, max_y: dA};
             const jg = this.desegno.jon_angulo(grp.s._,mm);
             /*
             // tio estus tro frue, alternative ni povus aldoni jg sub <defs> por uzi getBBox()
@@ -980,14 +1120,14 @@ class Lewis {
 
     /**
      * Nuligas helpstrukturojn antaŭ kreo de nova molekulo aŭ jonaro...
-     * alternative forĵetu klason Lewis post unufoja uzo, sed tio eble
+     * alternative forĵetu klason post unufoja uzo, sed tio eble
      * ĝenas en kreado de ekacioj...
      */
     nulu() {
-        this.atomoj = {};
-        this.jonoj = {};
-        this.grupoj = [];
-        this.grupo_ref = {}; 
+        this.graf = new KformGraf; // atomoj/jonoj/grupoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
+        this.grupspec = {};
+        this.#vico = [];
+        this.opcioj = {};
     }
 
     
@@ -998,25 +1138,25 @@ class Lewis {
      */
     #molekulo(molekulo) {
         this.nulu();
-        // const dM = Lewis.#dist_atm;
         let poz = -1;
         // atomoj povas doniĝi kiel objekto aŭ signaro, tiam ni devas ankoraŭ krei la objekton
         const on = molekulo.on? molekulo.on.split(' ') : null;
-        this.atomoj = this.#a_obj(molekulo.a, on);
-        this.grupoj = molekulo.g;
+        this.#a_obj(molekulo.a, on);
+        this.grupspec = molekulo.g;
         const mlk = this.desegno.kreu("g");
 
         let gj = {};
         // trakuri ĉiujn atomojn de la molekulo
-        for (const atm of Object.keys(this.atomoj)) {
-            //if (!this.atomoj[atm].pos) this.atomoj[atm].pos = {x:0, y:0}; // apriora pozicio, ŝovita dum trakuro de ligoj
-            const smb = this.atomoj[atm].smb;
-            const elektronoj = molekulo.e && molekulo.e[atm] ? molekulo.e[atm] : null;
-            const ligoj = molekulo.l && molekulo.l[atm] ? molekulo.l[atm] : null;
-            const shargo = molekulo.s && molekulo.s[atm] ? molekulo.s[atm] : null;
-            // kreu la SVG-strukturon por la atomoj kun elektronoj, ligoj kc
-            const g = this.#atomo(atm,smb,elektronoj,ligoj,shargo);
-            gj[atm] = g;   
+        for (const atm of Object.keys(this.nodoj)) {
+            if (atm.tip == 'atomo') {
+                const smb = this.nodoj[atm].smb;
+                const elektronoj = molekulo.e && molekulo.e[atm] ? molekulo.e[atm] : null;
+                const ligoj = molekulo.l && molekulo.l[atm] ? molekulo.l[atm] : null;
+                const shargo = molekulo.s && molekulo.s[atm] ? molekulo.s[atm] : null;
+                // kreu la SVG-strukturon por la atomoj kun elektronoj, ligoj kc
+                const g = this.#atomo(atm,smb,elektronoj,ligoj,shargo);
+                gj[atm] = g;   
+            }
         } // ...for
 
         // nur post trakto de ĉiuj atomoj ni nun povas elkakluli
@@ -1025,7 +1165,7 @@ class Lewis {
             const g_ = gj[a_];
             // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
             // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
-            const pos = this.#pos(a_);
+            const pos = this.nodoj[_a].pozicio();
             if (pos.x || pos.y) {
                 const x = Math.round(pos.x*100)/100;
                 const y = Math.round(pos.y*100)/100;
@@ -1035,7 +1175,7 @@ class Lewis {
 
             // kalkulu oksidnombron el formala ŝargo kaj alordigitaj elektronoj
             if (this.opcioj.on_fŝ) {
-                const atomo = this.atomoj[a_];
+                const atomo = this.nodoj[a_];
                 if (atomo && ! atomo.on) {
                     const sh = molekulo.s && molekulo.s[a_] ? molekulo.s[a_] : 0;
                     const shargo = (sh == '-' || sh == '+') ? sh+1 : sh;
@@ -1045,19 +1185,6 @@ class Lewis {
             }
         } // for
 
-        // same ni kalkulas la absolutajn poziciojn de la grupoj
-        /*
-        for (const g_ref of Object.keys(this.grupo_ref)) {
-            const pos = this.#g_pos(g_ref);
-            if (pos.x || pos.y) {
-                const x = Math.round(pos.x*100)/100;
-                const y = Math.round(pos.y*100)/100;
-                //const grp_ = document.getElementById(g_ref);
-                const grp_ = this.grupo_ref[g_ref].svg;
-                grp_.setAttribute("transform",`translate(${x} ${y})`);    
-            }
-        }
-        */
 
         //this.svg.append(mlk);
         mlk.append(...Object.values(gj));
@@ -1065,7 +1192,7 @@ class Lewis {
         // se la molekulo havas ŝargon ĝi estas jono kaj bezonas jonindikon
         if (molekulo.s && molekulo.s._) {
             
-            const mm = this.kadro();
+            const mm = this.nodoj.kadro();
             const jg = this.desegno.jon_angulo(molekulo.s._,mm);
             /*
             // tio estus tro frue, alternative ni povus aldoni jg sub <defs> por uzi getBBox()
@@ -1083,13 +1210,12 @@ class Lewis {
     }
 
    /**
-     * desegni atomojn kaj molekulojn en elektronstruktura formulo laŭ Lewis kiel SVG-desegno
+     * desegni atomojn kaj molekulojn en formulo (laŭbezono kun elektronoj laŭ Lewis) kiel SVG-desegno
      * 
      * @param {object} molekulo specifo de molekulo (vd. supre...)
      * @param {object} opcioj opcioj por prezentado
      */
-    molekulo(molekulo, opcioj) {
-        if (opcioj) this.opcioj = opcioj;
+    molekulo(molekulo) {
         const mlk = this.#molekulo(molekulo);
         this.desegno.svg.append(mlk);
         return mlk;
@@ -1104,28 +1230,26 @@ class Lewis {
     #jonaro(jonspec) {
         this.nulu();
 
-        // const dM = Lewis.#dist_atm;
         let poz = -1;
-        this.jonoj = this.#j_obj(jonspec.j);
-        this.grupoj = jonspec.g;
+        this.#j_obj(jonspec.j);
+        this.grupspec = jonspec.g;
         const jnr = this.desegno.kreu("g");
 
         let gj = {}, x = 0;
         // trakuri ĉiujn jonojn
-        for (const jn of this.jonoj._vic) {
-            //if (!this.atomoj[atm].pos) this.atomoj[atm].pos = {x:0, y:0}; // apriora pozicio, ŝovita dum trakuro de ligoj
-            const smb = this.jonoj[jn].smb;
+        for (const jn of this.#vico) {
+            const smb = this.nodoj[jn].smb;
             const elektronoj = jonspec.e && jonspec.e[jn] ? jonspec.e[jn] : null;
             // ligoj: ne temas pri kovalentaj ligoj, sed la geometria aranĝo de jonligoj
             const ligoj = jonspec.l && jonspec.l[jn] ? jonspec.l[jn] : null;
-            const ŝargo = this.jonoj[jn].sh
+            const ŝargo = this.nodoj[jn].sh
             //const shargo = jonspec.s && jonspec.s[jn] ? jonspec.s[jn] : null;
             // kreu la SVG-strukturon por la atomoj kun elektronoj, ligoj kc
             const g = this.#jono(jn,smb,elektronoj,ligoj,ŝargo);
 
-            this.jonoj[jn].pos = { x: x, y: 0};
+            this.nodoj[jn].pos = { x: x, y: 0};
             this.desegno.atr(g,{transform: `translate(${x} 0)`});
-            x += Lewis.#dist_jon;
+            x += Kform.dist_jon;
 
             gj[jn] = g;
         } // ...for
@@ -1180,150 +1304,13 @@ class Lewis {
      * @param {object} jonspec specifo de jonaro 
      * @param {object} opcioj opcioj por prezentado
      */
-    jonaro(jonspec, opcioj) {
-        if (opcioj) this.opcioj = opcioj;
-        const jnr = this.#jonaro(jonaro);
+    jonaro(jonspec) {
+        const jnr = this.#jonaro(jonspec);
         this.desegno.svg.append(jnr);
         return jnr;
     }
 
-    /**
-     * Kalkulas la koordinatojn de la kadro ĉirkaŭanta la antaŭe kreitan molekulon.
-     */
-    kadro() {
-        const de = LewisSVG.dist_ele();
-        const dj = LewisSVG.duon_jkr();
-        let min_x = Number.MAX_VALUE, min_y = Number.MAX_VALUE, 
-            max_x = Number.MIN_VALUE, max_y = Number.MIN_VALUE;
-
-        if (this.atomoj) {
-            for (const a of Object.values(this.atomoj)) {
-                const x = a.pos.x;
-                const y = a.pos.y;
-                min_x = Math.min(min_x,x-de);
-                max_x = Math.max(max_x,x)+de;
-                min_y = Math.min(min_y,y-de);
-                max_y = Math.max(max_y,y+de);    
-            }
-        }
-        if (this.jonoj && this.jonoj._vic) {
-            for (const ji of this.jonoj._vic) {
-                const j = this.jonoj[ji];
-                const x = j.pos.x;
-                const y = j.pos.y;
-                min_x = Math.min(min_x,x-dj);
-                max_x = Math.max(max_x,x+dj);
-                min_y = Math.min(min_y,y-dj);
-                max_y = Math.max(max_y,y+dj);
-            }
-        }
-        // se la molekulo/jonaro enhavas grupojn ni devas trarigardi ankaŭ tiujn...!
-        for (const g of Object.values(this.grupo_ref)) {
-            const g_pos = g.pos;
-            console.log(`pos ${g.ref} ${g_pos.p}...`);
-            const a_j = this.atomoj[g_pos.p] || this.jonoj[g_pos.p];
-            const a_pos = a_j.pos;
-            const x = a_pos.x+g_pos.dx;
-            const y = a_pos.y+g_pos.dy;
-            min_x = Math.min(min_x,x);
-            max_x = Math.max(max_x,x);
-            min_y = Math.min(min_y,y);
-            max_y = Math.max(max_y,y);
-        }
-
-        return { 
-            min_x: min_x, 
-            max_x: max_x, 
-            min_y: min_y, 
-            max_y: max_y}
-    }
     
-
-    /**
-     * Redonas la kadron de la SVG-elemento uzante getBBox...
-     */
-    /*
-    svg_kadro(elemento) {
-
-    }
-    */
-
-
-    /**
-     * Desegnas ekvacion (molekuloj aŭ kombinaj signoj) 
-     * 
-     * @param {string} ekvacio listo de termoj apartigitaj per spacoj, kiuj povas esti aŭ nomo de molekulo el mspec aŭ simplaj signaroj ('+', '->', '<->' k.s.)
-     * @param {object} tspec specifoj de molekuloj/jonoj/atomoj referencitaj en la ekvacio
-     */
-    ekvacio(ekvacio,tspec,opcioj) {
-        const isp = Lewis.#ekv_isp;
-        let maxY = 30; // provizore, aktualigu per terma kadro...
-
-        if (opcioj) this.opcioj = opcioj;
-        const ekv = this.desegno.kreu("g");
-        this.desegno.svg.append(ekv); // getBBox() nur funkcias, kiam la elementoj jam estas aldonitaj al la desegno!
-
-        const termoj = ekvacio.split(/ /).reduce((arr,x) => {
-            const x_ = x.split('*');
-            if (x_.length == 2) arr.push(x_[0],'*',x_[1]);
-            else if (x_.length == 1) arr.push(x_[0]);
-            else throw "Ekvacio nevalida, mankas spacsigno inter la termoj de "+x;
-            return arr;
-        },[]);
-        const sgn = {
-            '+': "+",
-            '*': '\u00d7', //\u00b7
-            '->': "\u27f6",
-            '<->': "\u27f7",
-            '<=>': "\u27fa",
-            '½': '½'
-        };
-
-        let ŝovo = {x: 0, y:0};
-        for (const t of termoj) {
-            // temas pri ekvacia signo aŭ nombro
-            if (sgn[t] || !isNaN(t)) {
-                const s = sgn[t]? sgn[t] : t;
-                const t_ = this.desegno.teksto(s,'e-sgn');
-                ekv.append(t_);
-
-                if (this.opcioj.dulinie && t.endsWith('->')) {
-                    ŝovo.x = 0;
-                    ŝovo.y += maxY;
-                    //maxY = 0;
-                }
-
-                this.desegno.ŝovu(t_, ŝovo.x, ŝovo.y);
-                const bb = t_.getBBox();
-                ŝovo.x += bb.width + (!isNaN(t)? isp/2 : isp);
-
-            // temas pri molekulo/jonoj/atomoj
-            } else if (t.trim() != "") {
-                const sp = tspec[t];
-                if (!sp) throw `Mankas specifo de ${t}.`;
-                let termo;
-                if (sp.a) {
-                    termo = this.#molekulo(sp);
-                } else if (sp.j) {
-                    termo = this.#jonaro(sp);
-                }
-                
-                // ŝovu la termon horizontale en sian lokon
-                const mm = this.kadro();
-                this.desegno.ŝovu(termo, ŝovo.x - mm.min_x, ŝovo.y);
-                ŝovo.x += mm.max_x - mm.min_x + isp;
-                /* tio estus tro frue, alternative oni povus enigi m en SVG, ekz-e sub defs...
-                const bb = m.getBBox();
-                this.desegno.ŝovu(m, ŝovo - bb.x, sovo.y);
-                ŝovo += bb.width + isp;
-                */
-                ekv.append(termo);
-            }
-            console.log(`${t} ${ŝovo}`);
-        }
-
-        return ekv;
-    }
 
     /**
      * Kreas neŭtralan atomon aŭ jonon kiel simbolo, poste desegnebla per <use>...
@@ -1333,7 +1320,7 @@ class Lewis {
      * @param shargo ŝargo, se donita tiel aperas apud [..]
      */ 
 
-    simbolo(id,smb,n_e,shargo) {
+     simbolo(id,smb,n_e,shargo) {
         const dstrb = [
             [0,0,0,0],
             [1,0,0,0],
@@ -1413,5 +1400,96 @@ class Lewis {
 
         ani.beginElement();
     }
+
+}
+
+/**
+ * Kreas ekvacion el pluraj termoj kiuj povas esti aŭ signoj aŭ kemiaj kombinaĵoj
+ */
+class KformEkvacio {
+
+    static #ekv_isp = 5; // aldona spaco inter termoj de ekvacio
+
+    constructor(svg,opcioj) {
+        this.desegno = new KformSVG(svg);
+        this.opcioj = opcioj;
+    }
+
+    /**
+     * Desegnas ekvacion (molekuloj aŭ kombinaj signoj) 
+     * 
+     * @param {string} ekvacio listo de termoj apartigitaj per spacoj, kiuj povas esti aŭ nomo de molekulo el mspec aŭ simplaj signaroj ('+', '->', '<->' k.s.)
+     * @param {object} tspec specifoj de molekuloj/jonoj/atomoj referencitaj en la ekvacio
+     */
+    ekvacio(ekvacio,tspec,opcioj) {
+        const isp = KformEkvacio.#ekv_isp;
+        let maxY = 30; // provizore, aktualigu per terma kadro...
+
+        const ekv = this.desegno.kreu("g");
+        this.desegno.svg.append(ekv); // getBBox() nur funkcias, kiam la elementoj jam estas aldonitaj al la desegno!
+
+        const termoj = ekvacio.split(/ /).reduce((arr,x) => {
+            const x_ = x.split('*');
+            if (x_.length == 2) arr.push(x_[0],'*',x_[1]);
+            else if (x_.length == 1) arr.push(x_[0]);
+            else throw "Ekvacio nevalida, mankas spacsigno inter la termoj de "+x;
+            return arr;
+        },[]);
+        const sgn = {
+            '+': "+",
+            '*': '\u00d7', //\u00b7
+            '->': "\u27f6",
+            '<->': "\u27f7",
+            '<=>': "\u27fa",
+            '½': '½'
+        };
+
+        let ŝovo = {x: 0, y:0};
+        for (const t of termoj) {
+            // temas pri ekvacia signo aŭ nombro
+            if (sgn[t] || !isNaN(t)) {
+                const s = sgn[t]? sgn[t] : t;
+                const t_ = this.desegno.teksto(s,'e-sgn');
+                ekv.append(t_);
+
+                if (this.opcioj.dulinie && t.endsWith('->')) {
+                    ŝovo.x = 0;
+                    ŝovo.y += maxY;
+                    //maxY = 0;
+                }
+
+                this.desegno.ŝovu(t_, ŝovo.x, ŝovo.y);
+                const bb = t_.getBBox();
+                ŝovo.x += bb.width + (!isNaN(t)? isp/2 : isp);
+
+            // temas pri molekulo/jonoj/atomoj
+            } else if (t.trim() != "") {
+                const sp = tspec[t];
+                if (!sp) throw `Mankas specifo de ${t}.`;
+                let termo;
+                const kombin = new KformKombino(this.desegno.svg,this.opcioj);
+                if (sp.a) {
+                    termo = kombin.molekulo(sp);
+                } else if (sp.j) {
+                    termo = kombin.jonaro(sp);
+                }
+                
+                // ŝovu la termon horizontale en sian lokon
+                const mm = kombin.nodoj.kadro();
+                this.desegno.ŝovu(termo, ŝovo.x - mm.min_x, ŝovo.y);
+                ŝovo.x += mm.max_x - mm.min_x + isp;
+                /* tio estus tro frue, alternative oni povus enigi m en SVG, ekz-e sub defs...
+                const bb = m.getBBox();
+                this.desegno.ŝovu(m, ŝovo - bb.x, sovo.y);
+                ŝovo += bb.width + isp;
+                */
+                ekv.append(termo);
+            }
+            console.log(`${t} ${ŝovo}`);
+        }
+
+        return ekv;
+    }
+
 }
 
