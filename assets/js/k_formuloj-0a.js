@@ -517,6 +517,10 @@ class KformGraf {
         this.nodoj = {};
     }
 
+    ŝlosiloj() {
+        return Object.keys(this.nodoj);
+    }
+
     /** 
      * Kreu nodon per tipo, simbolo kaj eventuala pozicio de la centro 
      * @param {string} smb la simbolo, ekz-e Si, Fe2+, OH
@@ -575,25 +579,39 @@ class KformGraf {
         // traktiĝas kaj ĉu do nuna nodo jam havas validan pozicion,
         // ni notas la pozicion relative al nodo par
         
-        nodo.pos = { dx:Ax, dy:Ay, par: par };
+        nodo.pos = { dx:Ax, dy:Ay };
+        nodo.par = par;
     }
 
     /** Redonas la pozicion de la grupo. Se ekzistas absoluta, tiun, se
      * estas relativa ĝi kalkulas la absoluton el la relativa
      * @param rikuro ni permesas maksimume 10 rikurojn por eviti eterne kuri en cikloj!
      */
-    pozicio(n_id,rik=0) {
+    pozicio(n_id,rnd=1,rik=0) {
         if (rik>10) throw `Tro da rikuroj (ĉu ciklo?) ĉe ${n_id}.`;
+
+        const ronda = (pos) => {
+            if (rnd>1) {
+                pos.x = Math.round(pos.x*100)/100;
+                pos.y = Math.round(pos.y*100)/100;
+                if (pos.dx) pos.dx = Math.round(pos.dx*100)/100;
+                if (pos.dy) pos.dy = Math.round(pos.dy*100)/100;
+            }
+            return pos;
+        }
+
         const nodo = this.nodoj[n_id];
         if ('x' in nodo.pos && 'y' in nodo.pos) {
+            return ronda(nodo.pos);
+        } else if (nodo.tip=='grupo' && 'dx' in nodo.pos && 'dy' in nodo.pos) {
             return nodo.pos;
         } else if ('par' in nodo && 'dx' in nodo.pos && 'dy' in nodo.pos) {
-            const ppos = this.pozcio(nodo.par,rik++);
+            const ppos = this.pozicio(nodo.par,1,rik++);
             // aktualigu la pozicion de la atomo per la absoluta
             nodo.pos.x = ppos.x + nodo.pos.dx;
             nodo.pos.y = ppos.y + nodo.pos.dy;
             
-            return nodo.pos;
+            return ronda(nodo.pos);
         } else {
             throw `${n_id} ne havas pozicion absolutan aŭ relativan, ĉu eraro en la formul-specifo?`
         }
@@ -610,13 +628,15 @@ class KformGraf {
             max_x = Number.MIN_VALUE, max_y = Number.MIN_VALUE;
 
         for (const g of Object.values(this.nodoj)) {
-            // PLIBONIGU: uzu la kadron g.su_md, g.ms_de...!
-            const x = g.pos.x;
-            const y = g.pos.y;
-            min_x = Math.min(min_x,x-de);
-            max_x = Math.max(max_x,x)+de;
-            min_y = Math.min(min_y,y-de);
-            max_y = Math.max(max_y,y+de);    
+            if (g.tip != 'grupo') { // ignoru tipon 'grupo', tiuj estas relative poziciitaj
+                // PLIBONIGU: uzu la kadron g.su_md, g.ms_de...!
+                const x = g.pos.x;
+                const y = g.pos.y;
+                min_x = Math.min(min_x,x-de);
+                max_x = Math.max(max_x,x)+de;
+                min_y = Math.min(min_y,y-de);
+                max_y = Math.max(max_y,y+de);    
+            }
         }
         /*
         if (this.jonoj && this.jonoj._vic) {
@@ -669,7 +689,7 @@ class KformKombino {
         this.#grafo = new KformGraf; // atomoj/jonoj/grupoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
         this.grupspec = {};
         this.#vico = [];
-        this.opcioj = {};
+        this.opcioj = opcioj;
 
          /**
          * Redonas peranto-objekton por ebligi aliri la nodoj per this.nodoj[..] anstataŭ
@@ -863,7 +883,7 @@ class KformKombino {
 
         // se lig-anguloj ne estas aparte donitaj ni proporcie distribuas
         let a = 0, da = 0; // aktuala kaj diferenca anguloj
-        let aligj = [];
+        let aligj = [], n = 1;
 
         // anstataŭ doni ĉiujn angulojn unuope
         // ni post % lasas al la programo dividi la angulojn sammezure
@@ -948,20 +968,22 @@ class KformKombino {
 
             if (!ref) throw `Eraro en la ligo-specifo de ${atm}`;
 
-            if (this.grupspec[ref]) {
+            let grp;
+            if (this.grupspec && this.grupspec[ref]) {
                 // temas pri referencebla grupo, ni kreu instancon de la grupo
                 // por tiu ĉi atomo... (ĉu oni povu havi plurajn samajn grupojn
                 // ĉe unu atomo? tio momente ne funkcius, oni devus aldoni ligon por identigo...)
 
-                const grp_ref = `${atm}_${ref}`;
+                const grp_ref = `${atm}_${ref}_${n}`; n++;
                 // const g_pos = { dx:fD*Ax, dy:fD*Ay, p:atm };
-                const grp = this.#grupo(ref,grp_ref); //,g_pos);
+                grp = this.#grupo(ref,grp_ref); //,g_pos);
                 g.append(grp);
 
                 // ni memoras la relativan pozicion de la grupo al la
                 // atomo por poste kalkuli la absolutan pozicion
                 this.nodoj.nova(grp_ref,'grupo',ref); //,g_pos);
                 this.nodoj[grp_ref].ref = ref;
+
                 ref = grp_ref;
             }             
 
@@ -971,6 +993,12 @@ class KformKombino {
                 || this.nodoj[ref].tip == 'jono' ? 1.5 : 1;
 
             this.nodoj.metu_relative(ref,atm,fD*distM,a);
+
+            if (grp) {
+                // ni ŝovas la grupoj relative al la atomo...
+                const g_pos = this.nodoj.pozicio(ref,100);
+                this.desegno.atr(grp,{transform: `translate(${g_pos.dx} ${g_pos.dy})`});
+            }
 
             // por atomoj de molekulo ni eventuale pentru ankoraŭ elektron-arkon
             // traktiĝas kaj ĉu do nuna atm jam havas validan pozicion,
@@ -1063,7 +1091,7 @@ class KformKombino {
 
         // angulo aŭ krampo kun jonŝargo
         if (this.opcioj.jon_angulo) {
-            const de = Kform.dist_ele();
+            const de = Kform.dist_ele;
             const mm = {min_x: -de, min_y: -de, max_x: de, max_y: de};
             g.append(this.desegno.jon_angulo(ŝargo,mm));
         } else {
@@ -1126,8 +1154,7 @@ class KformKombino {
     nulu() {
         this.graf = new KformGraf; // atomoj/jonoj/grupoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
         this.grupspec = {};
-        this.#vico = [];
-        this.opcioj = {};
+        this.#vico = [];        
     }
 
     
@@ -1147,9 +1174,10 @@ class KformKombino {
 
         let gj = {};
         // trakuri ĉiujn atomojn de la molekulo
-        for (const atm of Object.keys(this.nodoj)) {
-            if (atm.tip == 'atomo') {
-                const smb = this.nodoj[atm].smb;
+        for (const atm of this.nodoj.ŝlosiloj()) {
+            const atomo = this.nodoj[atm];
+            if (atomo.tip == 'atomo') {
+                const smb = atomo.smb;
                 const elektronoj = molekulo.e && molekulo.e[atm] ? molekulo.e[atm] : null;
                 const ligoj = molekulo.l && molekulo.l[atm] ? molekulo.l[atm] : null;
                 const shargo = molekulo.s && molekulo.s[atm] ? molekulo.s[atm] : null;
@@ -1165,11 +1193,9 @@ class KformKombino {
             const g_ = gj[a_];
             // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
             // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
-            const pos = this.nodoj[_a].pozicio();
+            const pos = this.nodoj.pozicio(a_,100);
             if (pos.x || pos.y) {
-                const x = Math.round(pos.x*100)/100;
-                const y = Math.round(pos.y*100)/100;
-                g_.setAttribute("transform",`translate(${x} ${y})`);    
+                this.desegno.atr(g_,{transform: `translate(${pos.x} ${pos.y})`});    
             }
             //mlk.append(g_);
 
@@ -1236,6 +1262,7 @@ class KformKombino {
         const jnr = this.desegno.kreu("g");
 
         let gj = {}, x = 0;
+
         // trakuri ĉiujn jonojn
         for (const jn of this.#vico) {
             const smb = this.nodoj[jn].smb;
@@ -1248,39 +1275,23 @@ class KformKombino {
             const g = this.#jono(jn,smb,elektronoj,ligoj,ŝargo);
 
             this.nodoj[jn].pos = { x: x, y: 0};
-            this.desegno.atr(g,{transform: `translate(${x} 0)`});
+            if (x) this.desegno.atr(g,{transform: `translate(${x} 0)`});
             x += Kform.dist_jon;
 
             gj[jn] = g;
         } // ...for
 
-        /*
-        // nur post trakto de ĉiuj atomoj ni nun povas elkakluli
-        // absolutajn poziciojn kaj oksidnombrojn de la atomoj
+        // nur post trakto de ĉiuj, ni nun elkakluli
+        // poziciojn kaj ŝovas ĝustaloke...
         for (const a_ of Object.keys(gj)) {
             const g_ = gj[a_];
             // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
             // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
-            const pos = this.#pos(a_);
+            const pos = this.nodoj.pozicio(a_,100);
             if (pos.x || pos.y) {
-                const x = Math.round(pos.x*100)/100;
-                const y = Math.round(pos.y*100)/100;
-                g_.setAttribute("transform",`translate(${x} ${y})`);    
-            }
-            //mlk.append(g_);
-
-            // kalkulu oksidnombron el formala ŝargo kaj alordigitaj elektronoj
-            if (this.opcioj.on_fŝ) {
-                const atomo = this.atomoj[a_];
-                if (atomo && ! atomo.on) {
-                    const sh = molekulo.s && molekulo.s[a_] ? molekulo.s[a_] : 0;
-                    const shargo = (sh == '-' || sh == '+') ? sh+1 : sh;
-                    atomo.on = atomo.ne? shargo - atomo.ne : shargo;
-                    g_.append(this.desegno.oksidnombro(atomo.on));
-                }    
+                this.desegno.atr(g_,{transform:`translate(${pos.x} ${pos.y})`});
             }
         } // for
-*/
 
         //this.svg.append(mlk);
         jnr.append(...Object.values(gj));
@@ -1409,6 +1420,14 @@ class KformKombino {
 class KformEkvacio {
 
     static #ekv_isp = 5; // aldona spaco inter termoj de ekvacio
+    static sgn = {
+        '+': "+",
+        '*': '\u00d7', //\u00b7
+        '->': "\u27f6",
+        '<->': "\u27f7",
+        '<=>': "\u27fa",
+        '½': '½'
+    };
 
     constructor(svg,opcioj) {
         this.desegno = new KformSVG(svg);
@@ -1435,20 +1454,14 @@ class KformEkvacio {
             else throw "Ekvacio nevalida, mankas spacsigno inter la termoj de "+x;
             return arr;
         },[]);
-        const sgn = {
-            '+': "+",
-            '*': '\u00d7', //\u00b7
-            '->': "\u27f6",
-            '<->': "\u27f7",
-            '<=>': "\u27fa",
-            '½': '½'
-        };
 
-        let ŝovo = {x: 0, y:0};
+
+        let ŝovo = {x:0, y:0};
         for (const t of termoj) {
-            // temas pri ekvacia signo aŭ nombro
-            if (sgn[t] || !isNaN(t)) {
-                const s = sgn[t]? sgn[t] : t;
+            // temas pri ekvacia signo aŭ nombro...
+            const sgn = KformEkvacio.sgn[t];
+            if (sgn || !isNaN(t)) {
+                const s = sgn? sgn : t;
                 const t_ = this.desegno.teksto(s,'e-sgn');
                 ekv.append(t_);
 

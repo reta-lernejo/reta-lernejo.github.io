@@ -39,7 +39,7 @@ const kkombinoj = {
 
     // kombinaĵoj/jonoj kun S
     H2S: { a: "SH2", l: { s: "1A-h1 k-h2" }, e: { s: "x:2:" } },
-    SO2: { a: "SO2", l: { s: "4=o1 8=o2" }, e: { s: "0:", o1: "2:6:", o2: "6:x:" } },
+    SO2: { a: "SO2", l: { s: "ko=o1 k=o2" }, e: { s: "0:", o1: "2:6:", o2: "6:x:" } },
 
     
     // https://en.wikipedia.org/wiki/Glucose#/media/File:Alpha_glucose_views.svg
