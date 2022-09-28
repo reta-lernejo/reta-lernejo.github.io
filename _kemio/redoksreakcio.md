@@ -4,11 +4,10 @@ title: Redoksreakcio
 js:
   - folio-0b
   - sekcio-0b 
+  - mathjax/es5/tex-chtml
   - elementoj-0c
   - k_kombinoj-0a
   - k_formuloj-0a
-js-ext:
-  - mathjax3
 css:
   - k_formuloj-0a 
 ---
@@ -17,6 +16,11 @@ Se dum redoksa reakcio sume liberiĝas energio en formo de varmo aŭ lumo, oni n
 energio konsumiĝas - endoterma. Ekzoterma redoksreakcio nomiĝas ankaŭ bruliĝo. Foje oni nomas bruliĝon ankaŭ nur tian ekzoterman reakcion, kiu postlasas kiel reakciaj produktoj nur akvon kaj karbondioksidon.
 
 La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oksidilo. La alia reakcianto, kiu oksidiĝas reduktante la duan, estas nomata reduktilo.
+
+<!-- klarigu duon-reakciojn... 
+https://en.wikipedia.org/wiki/Half-reaction
+https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/electrochemistry/02half_reactions/18_21.htm
+-->
 
 oksidilo (e-akceptanto): (x)O ()N ()H
 {: .elekto #oksidilo}
@@ -125,7 +129,7 @@ elekte((elekto,valoro) => {
 <svg id="redokso"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-5 -35 325 160">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-5 -35 325 80">
  <style type="text/css">
     <![CDATA[
       path.mkojno {
@@ -158,3 +162,39 @@ elekte((elekto,valoro) => {
   </defs>
   <g id="redoks_enhavo"></g>
 </svg>
+
+## hidrogenkorodo de fero
+{: #s_hidrogenkorodo}
+
+$$\ce{Fe + 2H+ <=> Fe^2+ + H2}$$
+
+duon-reakcioj:
+
+$$\ce{Fe -> Fe^2+ + 2e-}$$  
+$$\ce{2H+ + 2e- -> H2}$$
+
+## redukto de hematito per CO
+{: #s_hematito_1}
+
+$$\ce{3Fe2O3 + CO -> 2Fe3O4 + CO2}$$
+
+duon-reakcioj:
+
+$$\ce{6Fe^3+ 8O^2- +2e- -> 4Fe^3+ +2Fe^2+ + 4O2}$$  
+$$\ce{CO + O^2- ->  CO2 + 2e-}$$
+
+<!--
+## oksidigo de H₂S
+
+$$\ce{H2S + 3O2 -> 2SO2 + 2H2O}$$
+
+duon-reakcioj:
+
+$$\ce{2S^2- + 2O2 -> 2S^4+ + 4O^2- + 4e-}$$  
+$$\ce{4H+ + 3O2 + 4e- -> 2H2O}$$
+
+
+## kompleta forbrulo de metano
+
+$$\ce{CH4 + 2O2 -> CO2 + 2H2O}$$
+-->
