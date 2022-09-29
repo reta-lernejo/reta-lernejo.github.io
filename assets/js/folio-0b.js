@@ -96,7 +96,9 @@ function emfazo(elm,klaso="emfazo") {
 }
 
 
-let _lanĉtaskoj = [], _reftaskoj = [];
+let _lanĉtaskoj = []; 
+let _reftaskoj = [];
+let _elektotasko;
 document.body.style.cursor = 'progress';
 
 /**
