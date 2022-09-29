@@ -173,8 +173,8 @@ en tiu pozicio de la centro. La ventroj de staranta ondo membrana do respondas a
 <td>
 <a 
   title="MichaelE, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" 
-  href="https://commons.wikimedia.org/wiki/File:Phi_1s.gif">
-  <img width="200" alt="Phi 1s" src="https://upload.wikimedia.org/wikipedia/commons/3/33/Phi_1s.gif">
+  href="inc/Phi_1s.gif">
+  <img width="248" alt="Phi 1s" src="https://upload.wikimedia.org/wikipedia/commons/3/33/Phi_1s.gif">
   n=1, l=s
 </a>
 </td>
@@ -184,16 +184,16 @@ en tiu pozicio de la centro. La ventroj de staranta ondo membrana do respondas a
 <td>
 <a 
   title="MichaelE, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" 
-  href="https://commons.wikimedia.org/wiki/File:Phi_2s.gif">
-  <img width="200" alt="Phi 2s" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Phi_2s.gif">
+  href="inc/Phi_2s.gif">
+  <img width="248" alt="Phi 2s" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Phi_2s.gif">
   n=2, l=s
 </a>
 </td>
 <td>
 <a 
   title="MichaelE, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" 
-  href="https://commons.wikimedia.org/wiki/File:Phi_2p.gif">
-  <img width="200" alt="Phi 2p" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Phi_2p.gif">
+  href="inc/Phi_2p.gif">
+  <img width="248" alt="Phi 2p" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Phi_2p.gif">
   n=2, l=p
 </a>  
 </td>
@@ -203,16 +203,16 @@ en tiu pozicio de la centro. La ventroj de staranta ondo membrana do respondas a
 <td>
 <a 
   title="MichaelE, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" 
-  href="https://commons.wikimedia.org/wiki/File:Phi_3s.gif">
-  <img width="200" alt="Phi 3s" src="https://upload.wikimedia.org/wikipedia/commons/4/44/Phi_3s.gif">
+  href="inc/Phi_3s.gif">
+  <img width="248" alt="Phi 3s" src="https://upload.wikimedia.org/wikipedia/commons/4/44/Phi_3s.gif">
   n=3, l=s
 </a>
 </td>
 <td>
 <a 
   title="MichaelE, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" 
-  href="https://commons.wikimedia.org/wiki/File:Phi_3p.gif">
-  <img width="200" alt="Phi 3p" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Phi_3p.gif">
+  href="inc/Phi_3p.gif">
+  <img width="248" alt="Phi 3p" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Phi_3p.gif">
   n=3, l=p
   </a>
 </td>

@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Valento
 js:
-  - folio-0a
+  - folio-0b
 ---
 
 <!--

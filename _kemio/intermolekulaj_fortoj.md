@@ -258,7 +258,7 @@ Ekzemploj:
   <g id="hponto_enhavo"></g>
 </svg>
 
-La molekuloj de akvo tiel estas interligitaj per multnombraj hidrogenaj pontoj. Kiam flua akvo glaciiĝas per ĉi tiuj hidrogenpontoj formiĝas kristalo, en kiu po ses akvomelkuloj formas ringon kun la oksigenaj atomoj en la anguloj. 
+La molekuloj de akvo tiel estas interligitaj per multnombraj hidrogenaj pontoj. Kiam flua akvo glaciiĝas per ĉi tiuj hidrogenpontoj formiĝas kristalo, en kiu po ses akvomolekuloj formas ringon kun la oksigenaj atomoj en la anguloj. 
 (Neĝflokoj tial cetere havas ses radiojn.) Ĉe ĉiu oksigenatomo kuniĝas kvar tiaj ringoj.
 (En pli malvarmaj kondiĉoj, sub -22°C formiĝas ankaŭ aliaj strukturoj.)[^W1]
 
@@ -295,6 +295,8 @@ Grandaj atomoj kaj grandaj molekuloj kun multaj elektronoj pli facile polusiĝas
 
 <!-- klarigi rilaton al ...agregataj statoj...  ??? -->
 
+<h2></h2>
+[Statoj de materio](materistato){: .sekva_folio}
 
 ## fontoj
 {: .fontoj}

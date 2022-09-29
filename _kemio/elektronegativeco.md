@@ -5,14 +5,13 @@ chapter: 2.4
 js:
   - folio-0a
   - sekcio-0b
+  - mathjax/es5/tex-chtml
   - elementoj-0b
   - svg-0c
   - jmol-0a
   - jsmol/JSmol.min
 css:
   - elementoj-0a  
-js-ext:
-  - mathjax3
 ---
 
 *Elektronegativeco* de elemento estas mezuro pri la kapablo de ĝiaj atomoj altiri 

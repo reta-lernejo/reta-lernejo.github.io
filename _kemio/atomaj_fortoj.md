@@ -2,8 +2,8 @@
 layout: laborfolio
 title: Interatomaj fortoj
 chapter: 2
-js-ext:
-  - mathjax3
+js:
+  - mathjax/es5/tex-chtml
 ---
 
 En ĥemio rolas precipe la elektronoj de la eksteraj orbitaloj.

@@ -1,15 +1,14 @@
 ---
 layout: laborfolio
 title: Oksidnombroj
+chapter: 3.3.1
 js:
-  - folio-0a
+  - folio-0b
   - sekcio-0b
-  - lewis-1b
+  - k_formuloj-0a
   - elementoj-0c
-js-ext:
-  - mathjax3
 css:
-  - lewis-1a
+  - k_formuloj-0a
   - elementoj-0a
 ---
 
@@ -40,19 +39,19 @@ La valento, resp. nombro de valentaj elektronoj, por elementoj de la ĉefgrupoj 
 Por la kalkulado de oksidnombro, ĉe ĉiu ligo en la Luiz-diagramo oni atribuas ĉiujn kovalentajn elektronojn al la pli elektronegativa atomo. Por ligoj inter samspecaj atomoj oni egale dividas la elektronojn. La oksidnombro de ĉiu atomo tiam rezultiĝas kiel la diferenco inter la valento kaj la tiel atribuitaj elektronoj. 
 
 Ekzemploj:
-- [hidrogeno](#){: #H2 onclick="ekz_on(event);"}
-- [nitrogeno](#){: #N2 onclick="ekz_on(event);"}
-- [oksigeno](#){: #O2 onclick="ekz_on(event);"}
-- [akvo](#){: #H2O onclick="ekz_on(event);"}
-- [karbondioksido](#){: #CO2 onclick="ekz_on(event);"}
-- [karbonmonoksido](#){: #CO onclick="ekz_on(event);"}
-- [sulfatjono](#){: #SO4 onclick="ekz_on(event);"}
-- [nitratjono](#){: #NO3 onclick="ekz_on(event);"}
-- [metano](#){: #CH4 onclick="ekz_on(event);"}
-- [metanacido (formikacido)](#){: #CH2O2 onclick="ekz_on(event);"}
-- [acetacido](#){: #C2H4O2 onclick="ekz_on(event);"}
-- [etanolo](#){: #C2H6O onclick="ekz_on(event);"}
-- [dimetilsulfido](#){: #DMS onclick="ekz_on(event);"}
+- [hidrogeno](#){: .ref #H2}
+- [nitrogeno](#){: .ref #N2}
+- [oksigeno](#){: .ref #O2}
+- [akvo](#){: .ref #H2O}
+- [karbondioksido](#){: .ref #CO2}
+- [karbonmonoksido](#){: .ref #CO}
+- [sulfatjono](#){: .ref #SO4}
+- [nitratjono](#){: .ref #NO3}
+- [metano](#){: .ref #CH4}
+- [metanacido (formikacido)](#){: .ref #CH2O2}
+- [acetacido](#){: .ref #C2H4O2}
+- [etanolo](#){: .ref #C2H6O}
+- [dimetilsulfido](#){: .ref #DMS}
 
 <script>
 
@@ -103,24 +102,11 @@ const molekulo = { // kiel ni difinu prezenton de ligoj kiel paroj? plej bone ie
 }
   
 
-function ekz_on(event) {
-    event.preventDefault();
-    frm = event.target.id;
-    desegno(frm);
-}
-
 function desegno(frm) {
     // malplenigu
     const on = ĝi("#on_enhavo");
     on.textContent = "";
-    const lewis = new Lewis(on);
-    const elementoj = Elemento.listo();
-
-    // desegnu formulon kiel Lewis-strukturon   
-    const mlk = molekulo[frm];
-    //lewis.grupoj = Object.keys(grupoj);
-    const mol_g = lewis.molekulo(mlk,
-    {
+    const lewis = new KformKombino(on,{
       // kalkulu kaj montru oksidnombrojn
       on_fŝ: true,
       // kalkulu kaj montru arkojn de elektron-atributo (por oksidnombroj)
@@ -128,21 +114,23 @@ function desegno(frm) {
       // funkcio, kiu redonas la elektronegativecon de elemento
       eneg: (smb) => elementoj[smb].eneg 
     });
+    const elementoj = Elemento.listo();
+
+    // desegnu formulon kiel Lewis-strukturon   
+    const mlk = molekulo[frm];
+    //lewis.grupoj = Object.keys(grupoj);
+    const mol_g  = lewis.molekulo(mlk);
     if (frm == 'DMS') atributoj(mol_g,{ transform: "translate(0 -10)"});
 }
 
 lanĉe (() => {
-    const lgrp = new Lewis(ĝi("#oksidnro"));
-
-    // difinu atomgrupojn uzeblajn en molekuloj kiel tuto
-    /*
-    for ([id,grp] of Object.entries(grupoj)) {
-      lgrp.grupo(id,grp);
-    }
-    */
-
+    const lgrp = new KformKombino(ĝi("#oksidnro"));
     desegno("H2O")
-})
+});
+
+reference((ref) => {
+  desegno(ref);
+});
 
 </script>
 
