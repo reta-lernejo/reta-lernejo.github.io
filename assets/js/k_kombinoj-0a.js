@@ -5,6 +5,8 @@ const kkombinoj = {
     O2:  { a: "O2", l: { o1: "3=o2" }, e: { o1: "7:y:", o2: "1:5:" } }, // e-paroj de unua O: ĉe horloĝ-ciferoj 7 kaj 11 (y), de dua O: ĉe ciferoj 1 kaj 5
     H2O: { a: "OH2", l: { o: "dme-h1 mA-h2" }, e: { o: "Z:ma:" } }, // anguloj de H: dme = 180°-51,5° A = +105°, anguloj de e-paroj: mZ = -42° a = +85°
     "OH^-": { a: "OH", l: { o: "3-h" }, e: { o: "0:6:9:"}, s: { _: "-", o: "-"} },
+    "H3O^+": { a: "OH3", l: { o: "0-h1 4-h2 8-h3" }, e: { o: "x:" },
+        s: { _: "+", o: "+"} },
 
     // kombinaĵoj/jonoj kun N
     N2:  { a: "N2", l: { n1: "3#n2" }, e: { n1: "9:", n2: "3:" } },
@@ -15,6 +17,13 @@ const kkombinoj = {
     CO2: { a: "CO2", l: { c: "3=o2 9=o1" }, e: { o1: "7:y:", o2: "1:5:" } }, 
     CO: { a: "CO", l: { c: "3#o" }, e: { c: "9:", o: "3:" }, s: { c: "-", o: "+" } },
     CH4: { a: "CH4", l: { c: "0-h1 3-h2 6-h3 9-h4"} }, // l: pli mallonge eble: "-% h1 h2 h3 h4"
+    H2CO3: { a: "CO3H2", l: { c: "0=o2 4-o3 8-o1", o1: "x-h1", o3: "2-h2" },
+        e: { o2: "x:2:", o1: "5:7:", o3: "5:7:"}},
+    "HCO3^-": { a: "CO3H", l: { c: "0=o1 4-o2 8-o3", o2: "2-h" }, 
+        e: {o1: "x:2:", o2: "4:7:", o3: "4:7:x:"}, s: {_:"-", o3: "-"}},
+    "CO3^2-": { a: "CO3", l: { c: "0=o1 4-o2 8-o3" }, 
+        e: {o1: "x:2:", o2: "1:4:7:", o3: "4:7:x:"}, s: {_:"2-", o2: "-", o3: "-"}},
+
 
     // kombinaĵoj / jonoj kun Fe
     Fe: { a: "Fe" },

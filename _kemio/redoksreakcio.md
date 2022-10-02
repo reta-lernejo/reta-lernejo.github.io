@@ -20,6 +20,8 @@ La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oks
 <!-- klarigu duon-reakciojn... 
 https://en.wikipedia.org/wiki/Half-reaction
 https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/electrochemistry/02half_reactions/18_21.htm
+https://de.serlo.org/chemie/127701/die-teilgleichungen-oxidation-und-reduktion
+https://de.serlo.org/chemie/129021/%C3%BCbungsaufgaben-teilgleichungen
 -->
 
 oksidilo (e-akceptanto): (x)O ()N ()H
@@ -107,7 +109,7 @@ function desegno(frm) {
     });
 
     // desegnu formulon kiel Lewis-strukturon
-    kform.ekvacio(ekvacioj[frm]._, kkombinoj, );
+    kform.ekvacio(ekvacioj[frm]._, kkombinoj);
 }
 
 lanĉe(() => {
