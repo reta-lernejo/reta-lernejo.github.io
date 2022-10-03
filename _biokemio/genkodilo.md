@@ -140,6 +140,7 @@ js:
     return tj;
   }
 
+  // emfazu starto-sekvencon
   function starto() {
     const k1 = document.getElementById("k1");
     const k2 = document.getElementById("k2");
@@ -153,6 +154,8 @@ js:
     const trioj = document.getElementById("trioj");
     SVG.malplenigu(trioj);
     SVG.aldonu(trioj,t);
+
+    document.getElementById("aminacidoj").textContent = 'Met ';
   }
 
   function trio(k1,k2,k3) {
@@ -172,17 +175,21 @@ js:
     return g;
   }
 
+  // rago al elekto de aminacido / kvadrato den la kodilo
   function amino_elekto(event) {      
         const a = event.target;
         if (a.id=="amino") return; // ne permesu elekti la tuton, nur unopajn kvadratojn!
         const g = a.tagName == "g"? a : a.closest("g");
 
+        // emfazu la elektitan aminacidon
         amino_emfazo(g);
         document.querySelectorAll("#k1 g,#k2 g,#k3 g")
           .forEach((el) => {el.classList.remove("emfazo")});
+        // montru triopojn respondajn al la aminacido
         amino_trioj(g.textContent.trim());
   }
 
+  // montra la nukleacid-triopojn de aminacido L
   function amino_trioj(L) {
     const tj = kodon_trioj(L);
 
@@ -195,7 +202,7 @@ js:
     }
   }
 
-  // aminacido en la malsupra kardo elektita...
+  // emfazu elektitan aminacidon kaj ŝanĝu ankaŭ la 3d-modelon
   function amino_emfazo(g) {
     // emfazu
     const amino = document.getElementById("amino");
@@ -212,18 +219,25 @@ js:
     aa_nomo.textContent=kodon[1];
     aa_mlg.textContent=kodon[0];
 
-    montru_aa_3d(kodon[1]);
+    // aldonu la aminacidon
+    document.getElementById("aminacidoj").textContent += kodon[0] + ' ';
+
+    // ŝanĝu la 3d-modelon
+    montru_aa_3d(kodon[1]);    
   }
 
+  // reago al elekto de nukleacido
   function nukle_elekto(event) {
         const a = event.target;
         if (a.id=="k1" || a.id=="k2" || a.id=="k3") return; // ne permesu elekti la tuton, nur unopajn kvadratojn!
         const g = a.tagName == "g"? a : a.closest("g");
         // emfazu
         const kg = event.currentTarget;
+        // emfazu la elektitan nukleacidon
         nukle_emfazo(kg,g);
   }
 
+  // emfazu elektitan nukleacidon kaj evtl. respondan aminacidon
   function nukle_emfazo(kg,g) {
         kg.querySelectorAll("g").forEach((el) => {el.classList.remove("emfazo")});
         g.classList.add("emfazo");
@@ -243,10 +257,9 @@ js:
           amino.childNodes.forEach((el) => {
             if (el.textContent.trim() == L) ag=el;
           })
+          // emfazo de aminacido kaj triopoj
           amino_emfazo(ag);
           nukle_trio(...kod.split(''));
-
-          //montru_aa_3d(kodon[3]);
         }
 
   }
@@ -269,7 +282,9 @@ js:
       SVG.aldonu(trioj,t);
   }
 
+  // farendaĵoj en la komenco
   lanĉe (() => {
+    // belaranĝu la genkodon kiel triopoj
     let t = ĝi("#genkodo").textContent.replace(/\s/g,'');
     let i = 3;
     while (i<t.length) {
@@ -280,6 +295,7 @@ js:
     }
     ĝi("#genkodo").textContent = t;
 
+    // instalu reagojn al klakoj
     document.getElementById("amino").addEventListener("click",amino_elekto);
     document.getElementById("k1").addEventListener("click",nukle_elekto);
     document.getElementById("k2").addEventListener("click",nukle_elekto);
