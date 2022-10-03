@@ -5,6 +5,8 @@ chapter: 4
 js:
   - folio-0b
   - svg-0b
+  - jmol-0a
+  - jsmol/JSmol.min
 ---
 
 <!-- % https://en.wikipedia.org/wiki/DNA_and_RNA_codon_tables -->
@@ -77,6 +79,44 @@ js:
   ['GGA','G','Gly','glicino'],
   ['GGG','G','Gly','glicino']
   ];
+
+
+  JsPath = '../assets/js/jsmol/';
+  Files = {
+    alanino: "alanino_CID_5950.sdf",
+    arginino: "arginino_CID_6322.sdf",
+    asparagino: "asparagino_CID_6267.sdf",
+    aspartato: "aspartato_CID_5960.sdf",
+    cisteino: "cisteino_CID_5862.sdf",
+    glutamino: "glutamino_CID_5961.sdf",
+    glutamato: "glutamato_CID_33032.sdf",
+    glicino: "glicino_CID_750.sdf",
+    histidino: "histidino_CID_6274.sdf",
+    fenilalanino: "fenilalanino_CID_6140.sdf",
+    izoleŭcino: "izoleucino_CID_791.sdf",
+    leŭcino: "leucino_CID_6106.sdf",
+    lizino: "lizino_CID_866.sdf",
+    starto: "metionino_CID_6137.sdf",
+    metionino: "metionino_CID_6137.sdf",
+    prolino: "prolino_CID_145742.sdf",
+    serino: "serino_CID_5951.sdf",
+    treonino: "treonino_CID_6288.sdf",
+    triptofano: "triptofano_CID_6305.sdf",
+    tirozino: "tirozino_CID_6057.sdf",
+    valino: "valino_CID_6287.sdf"
+  };
+
+  let jmol_ref;
+  lanĉe(()=>{
+    jmol_ref = jmol_div("jmol_aminacido",
+        "inc/"+Files["metionino"],
+        300,200,
+        (app) => { Jmol.script(app,
+        'set antialiasDisplay ON'
+        )}
+    );
+  });
+
 
   function kodon_mlg(L) {
     for (let k of kodonoj) {
@@ -200,6 +240,16 @@ js:
           })
           amino_emfazo(ag);
           nukle_trio(...kod.split(''));
+
+          // montru 3d-modelon
+          const k3 = kodon[3];
+          // PLIBONIGU: ŝargu nur kiam efektive ŝanĝiĝas la aminacido/dosiero!
+          if (Files[k3]) {
+            const dosiero = "inc/"+Files[k3];
+            console.log(`ŝargas ${dosiero}...`);
+            Jmol.script(jmol_ref, 
+              `load ${dosiero};`);
+          }
         }
 
   }
@@ -212,21 +262,21 @@ js:
   }
 
   lanĉe (() => {
-      let t = ĝi("#genkodo").textContent.replace(/\s/g,'');
-      let i = 3;
-      while (i<t.length) {
-        //const sep = (i%36 == 0)? "\n":" ";
-        const sep = " ";
-        t = t.slice(0,i) + sep + t.slice(i);
-        i +=4;
-      }
-      ĝi("#genkodo").textContent = t;
+    let t = ĝi("#genkodo").textContent.replace(/\s/g,'');
+    let i = 3;
+    while (i<t.length) {
+      //const sep = (i%36 == 0)? "\n":" ";
+      const sep = " ";
+      t = t.slice(0,i) + sep + t.slice(i);
+      i +=4;
+    }
+    ĝi("#genkodo").textContent = t;
 
-      document.getElementById("amino").addEventListener("click",amino_elekto);
-      document.getElementById("k1").addEventListener("click",nukle_elekto);
-      document.getElementById("k2").addEventListener("click",nukle_elekto);
-      document.getElementById("k3").addEventListener("click",nukle_elekto);
-      starto();
+    document.getElementById("amino").addEventListener("click",amino_elekto);
+    document.getElementById("k1").addEventListener("click",nukle_elekto);
+    document.getElementById("k2").addEventListener("click",nukle_elekto);
+    document.getElementById("k3").addEventListener("click",nukle_elekto);
+    starto();
   });
 
 </script>
@@ -523,3 +573,5 @@ SA -->
     </g>
   </g>
 </svg>
+
+<div id="jmol_aminacido"></div>
