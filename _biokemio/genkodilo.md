@@ -3,6 +3,7 @@ layout: laborfolio
 title: Genkodilo
 chapter: 4
 js:
+  - folio-0b
   - svg-0b
 ---
 
@@ -210,13 +211,23 @@ js:
       SVG.aldonu(trioj,t);
   }
 
-  window.onload = () => {
+  lanĉe (() => {
+      let t = ĝi("#genkodo").textContent.replace(/\s/g,'');
+      let i = 3;
+      while (i<t.length) {
+        //const sep = (i%36 == 0)? "\n":" ";
+        const sep = " ";
+        t = t.slice(0,i) + sep + t.slice(i);
+        i +=4;
+      }
+      ĝi("#genkodo").textContent = t;
+
       document.getElementById("amino").addEventListener("click",amino_elekto);
       document.getElementById("k1").addEventListener("click",nukle_elekto);
       document.getElementById("k2").addEventListener("click",nukle_elekto);
       document.getElementById("k3").addEventListener("click",nukle_elekto);
       starto();
-  };
+  });
 
 </script>
 
