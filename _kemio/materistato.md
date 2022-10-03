@@ -57,4 +57,4 @@ Oni povas resumi bazajn ecojn de la tri bazaj materistatoj tiel:
 
 
 <h2></h2>
-[Solvaĵoj](solvaĵo){: .sekva_folio}
+[Solvaĵoj](solvajho){: .sekva_folio}
