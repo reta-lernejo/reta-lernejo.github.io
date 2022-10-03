@@ -87,9 +87,11 @@ js:
     arginino: "arginino_CID_6322.sdf",
     asparagino: "asparagino_CID_6267.sdf",
     aspartato: "aspartato_CID_5960.sdf",
+    asparaginacido: "aspartato_CID_5960.sdf",
     cisteino: "cisteino_CID_5862.sdf",
     glutamino: "glutamino_CID_5961.sdf",
     glutamato: "glutamato_CID_33032.sdf",
+    glutaminacido: "glutamato_CID_33032.sdf",
     glicino: "glicino_CID_750.sdf",
     histidino: "histidino_CID_6274.sdf",
     fenilalanino: "fenilalanino_CID_6140.sdf",
@@ -193,21 +195,24 @@ js:
     }
   }
 
+  // aminacido en la malsupra kardo elektita...
   function amino_emfazo(g) {
-        // emfazu
-        const amino = document.getElementById("amino");
-        amino.querySelectorAll("g").forEach((el) => {el.classList.remove("emfazo")});
-        g.classList.add("emfazo");
+    // emfazu
+    const amino = document.getElementById("amino");
+    amino.querySelectorAll("g").forEach((el) => {el.classList.remove("emfazo")});
+    g.classList.add("emfazo");
 
-        // montru nomon kaj mlg de aminacido
-        const kodilo = document.getElementById("genkodilo");
-        const L = g.textContent.trim();
-        // kiu kodono?
-        const kodon = kodon_mlg(L);
-        const aa_nomo = kodilo.querySelector("#nomo_mlg .aa_nomo text");
-        const aa_mlg = kodilo.querySelector("#nomo_mlg .aa_mlg text");
-        aa_nomo.textContent=kodon[1];
-        aa_mlg.textContent=kodon[0];
+    // montru nomon kaj mlg de aminacido
+    const kodilo = document.getElementById("genkodilo");
+    const L = g.textContent.trim();
+    // kiu kodono?
+    const kodon = kodon_mlg(L);
+    const aa_nomo = kodilo.querySelector("#nomo_mlg .aa_nomo text");
+    const aa_mlg = kodilo.querySelector("#nomo_mlg .aa_mlg text");
+    aa_nomo.textContent=kodon[1];
+    aa_mlg.textContent=kodon[0];
+
+    montru_aa_3d(kodon[1]);
   }
 
   function nukle_elekto(event) {
@@ -241,17 +246,20 @@ js:
           amino_emfazo(ag);
           nukle_trio(...kod.split(''));
 
-          // montru 3d-modelon
-          const k3 = kodon[3];
-          // PLIBONIGU: ŝargu nur kiam efektive ŝanĝiĝas la aminacido/dosiero!
-          if (Files[k3]) {
-            const dosiero = "inc/"+Files[k3];
-            console.log(`ŝargas ${dosiero}...`);
-            Jmol.script(jmol_ref, 
-              `load ${dosiero};`);
-          }
+          //montru_aa_3d(kodon[3]);
         }
 
+  }
+
+  // montru 3d-modelon de aminacido
+  function montru_aa_3d(aa) {
+    // PLIBONIGU: ŝargu nur kiam efektive ŝanĝiĝas la aminacido/dosiero!
+    if (Files[aa]) {
+      const dosiero = "inc/"+Files[aa];
+      console.log(`ŝargas ${dosiero}...`);
+      Jmol.script(jmol_ref, 
+        `load ${dosiero};`);
+    }
   }
 
   function nukle_trio(k1,k2,k3) {
