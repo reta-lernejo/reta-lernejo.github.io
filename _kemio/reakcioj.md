@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Kemiaj reakcioj
-chapter: 3
+chapter: "3"
 js:
   - folio-0b
   - sekcio-0b 

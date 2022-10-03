@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Interatomaj fortoj
-chapter: 2
+chapter: "2"
 js:
   - mathjax/es5/tex-chtml
 ---

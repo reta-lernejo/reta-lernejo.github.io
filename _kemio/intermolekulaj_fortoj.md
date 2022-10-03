@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Intermolekulaj fortoj
-chapter: 2.5
+chapter: "2.5"
 js:
   - folio-0a
   - sekcio-0b 

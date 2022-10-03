@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Metala ligado
-chapter: 2.3
+chapter: "2.3"
 js:
   - folio-0a
   - svg-0c

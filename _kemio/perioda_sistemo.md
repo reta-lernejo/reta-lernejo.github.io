@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Perioda sistemo de elementoj
-chapter: 1.2
+chapter: "1.2"
 js:
   - folio-0a
   - sekcio-0b

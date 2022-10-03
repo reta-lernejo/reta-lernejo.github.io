@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Elektronegativeco
-chapter: 2.4
+chapter: "2.4"
 js:
   - folio-0a
   - sekcio-0b

@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Statoj de materio
-chapter: 2.6
+chapter: "2.6"
 js:
   - folio-0b
 ---

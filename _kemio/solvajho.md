@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
-title: Solvaĵoj
-chapter: 2.7
+title: "Solvaĵoj"
+chapter: "2.7"
 js:
   - folio-0b
   - sekcio-0b 

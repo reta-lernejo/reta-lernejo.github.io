@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Atomoj kaj elementoj
-chapter: 1
+chapter: "1"
 js:
   - folio-0a
   - sekcio-0b
