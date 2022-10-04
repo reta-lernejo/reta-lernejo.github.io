@@ -95,7 +95,7 @@ class Kform {
      * d (duoncirklo, 180°), t (trioncirklo, 120°), k (kvaroncirklo, 90°), 
      * e (seponciriklo, 51,5°), o (okonocirklo, 45°), 
      * A (akvo, 105°), a (85°), p (piramida/tetraedra, 109,5°), 
-     * s (72°), S (144°), z (36°), Z (42°)
+     * s (kvinoncirklo, 72°), S (144°), z (dekoncirklo, 36°), Z (42°)
      * m minusas la sekvantajn angulojn
      * 
      * @param sgn la angulsigno, unu el la supraj literoj au ciferoj
@@ -524,7 +524,7 @@ class KformGraf {
     /** 
      * Kreu nodon per tipo, simbolo kaj eventuala pozicio de la centro 
      * @param {string} smb la simbolo, ekz-e Si, Fe2+, OH
-     * @param {string} tip la tipo atomo, jono, grupo
+     * @param {string} tip la tipo atomo, jono, grupo, centro, ligando
      * @param {object} pos pozicio povas esti absoluta donita per x,y aŭ relativa al parenco p, donita per dx, dy)
      */
     nova(n_id, tip, smb, pos = {}) {
@@ -681,12 +681,16 @@ class KformKombino {
 
 
     //static #ti = 200; // ---> temp_int? tempintervalo por animacio
-    #vico; #grafo;
+    #vico; #grafo; #kgraf;
 
     constructor(svg, opcioj) {
         this.desegno = new KformSVG(svg);
         this.opcioj = opcioj;
         this.#grafo = new KformGraf; // atomoj/jonoj/grupoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
+        // por kompleksoj ni bezonas apartan grafon, ĉar la apriora uziĝas
+        // por la unuopaj ligandoj kaj intere foriĝas!
+        this.#kgraf = new KformGraf();
+
         this.grupspec = {};
         this.#vico = [];
         this.opcioj = opcioj;
@@ -900,10 +904,11 @@ class KformKombino {
         for (const ligo of aligj) {
             let l = 0; // montrilo en la signaron de unuopa ligo
             let lv = 0; // opeco de la ligo (0..3)
-            let lf = 1; // faktoro de longeco (2=suobla longeco)
+            let lf = 1; // faktoro de longeco (2=duobla longeco)
             while (l<ligo.length) {
                 let ll = ligo[l];
 
+                // unue ni atendas angulsigno(j)n
                 if (Kform.angulsigno(ll)) {
                     const _f = Kform.angulfaktoro(ll);
                     if (_f < 0) {
@@ -911,7 +916,8 @@ class KformKombino {
                     } else {
                         a = Kform.angulo(ll,a,da,af)
                     }
-    
+                    
+                // elektron-arko-signo?
                 } else if ("(|)".indexOf(ll) > -1) {
                     // temas pri elektron-atribua arko (por formala kalkulo de oksidnombroj)
                     g.append(this.desegno.e_arko(ll,a));
@@ -993,7 +999,7 @@ class KformKombino {
             this.nodoj.metu_relative(ref,atm,fD*distM,a);
 
             if (grp) {
-                // ni ŝovas la grupoj relative al la atomo...
+                // ni ŝovas la grupon relative al la atomo...
                 const g_pos = this.nodoj.pozicio(ref,100);
                 this.desegno.atr(grp,{transform: `translate(${g_pos.dx} ${g_pos.dy})`});
             }
@@ -1028,11 +1034,121 @@ class KformKombino {
     } // #ligoj
 
     /**
+     * Ornamas SVG-grupon g de centra jono per ligandoj ĉirkaŭe
+     * @param {string} jon identigilo de la atomo, al kiu desegni la ligojn (ekz-e h2 por dua hidrogeno)
+     * @param {*} g la SVG-grupo al kiu aldoni grafikajn elementojn
+     * @param {*} ligandoj la specifo de la ligandoj (spacapartigitaj signaroj de angulo, speco kaj referencita grupo)
+     */
+     #ligandoj(ligandoj, distancoj) {
+        const dM = Kform.dist_jon;
+
+        let af = 1; // ŝaltebla per "m " al -1, tio minusos postajn relativajn angulojn
+
+        // se lig-anguloj ne estas aparte donitaj ni proporcie distribuas
+        let a = 0, da = 0; // aktuala kaj diferenca anguloj
+        let aligj = [], n = 1;
+
+        // anstataŭ doni ĉiujn angulojn unuope
+        // ni post % lasas al la programo dividi la angulojn sammezure
+        if (ligandoj.indexOf('%') >= 0) {
+            const pj = ligoj.split('%');
+            a = Kform.angulo(pj[0],0,0);
+            aligj = pj[1].split(" ");
+            da = 360 / alig.length;
+        } else {
+            aligj = ligandoj.split(' ');
+        }
+
+        // ni trakuras la ligojn ĝis la fino...
+        for (const ligo of aligj) {
+            let l = 0; // montrilo en la signaron de unuopa ligo
+            let lv = 0; // opeco de la ligo (0..3)
+            let lf = 1; // faktoro de longeco (2=suobla longeco)
+            while (l<ligo.length) {
+                let ll = ligo[l];
+
+                // unue ni atendas angulsigno(j)n
+                if (Kform.angulsigno(ll)) {
+                    const _f = Kform.angulfaktoro(ll);
+                    if (_f < 0) {
+                        af = _f * af;
+                    } else {
+                        a = Kform.angulo(ll,a,da,af)
+                    }
+    
+                // nun ni atendas ligtipon
+                } else {
+                    switch (ll) {
+                        case "-":
+                            if (ligo[l+1] == '-') { lf = 2; l++ } // duobla longeco!                               
+                            g.append(this.desegno.ligo(0,a,lf));
+                            lv = 1;
+                            break;
+                        case "=":
+                            if (ligo[l+1] == '=') { lf = 2; l++ } // duobla longeco!  
+                            g.append(
+                                this.desegno.ligo(-1,a,lf),
+                                this.desegno.ligo(+1,a,lf));
+                            lv = 2;
+                            break;
+                        case "#":
+                            if (ligo[l+1] == '#') { lf = 2; l++ } // duobla longeco!  
+                            g.append(
+                                this.desegno.ligo(-2,a,lf),
+                                this.desegno.ligo(0,a,lf),
+                                this.desegno.ligo(2,a,lf));
+                            lv = 3;
+                            break;
+                        case "<": // kojno antaŭen (plena)
+                            g.append(this.desegno.a_kojno(a));
+                            lv = 1;
+                            break;
+                        case ">": // kojno malantaŭen (streka)
+                            g.append(this.desegno.m_kojno(a));
+                            lv = 1;
+                            break;
+                        case "~": // hidrogenponto / parta ligo
+                            g.append(this.desegno.h_ponto(0,a));
+                            break;
+                        case " ":
+                        case "_":
+                            break;
+                    } // ...switch
+                    a += da; // ĉe proporcia aranĝo da>0!
+
+                    // post ligsigno devas veni referenco al atomo aŭ grupo, ni do forlasas
+                    // la while-maŝon
+                    break;
+                } // else
+                l++;
+            } // ...while
+            
+            // resto estas nomo de alia atomo aŭ grupo
+            // ni kalkulas ties relativan pozicion per la angulo
+            let ref = ligo.substring(l+1);
+
+            if (!ref) throw `Eraro en la ligo-specifo de komplekso kun centro ${this.#kgraf._centro.smb}`;
+
+            let fD = 1.0;
+            if (distancoj && distancoj[ref]) fD = distancoj[ref]; //  ligand-specifa distanc-faktoro
+            else if (distancoj && distancoj._) fD = distancoj._; // komleks-specifa distanc-faktoro
+            const distM = fD * lf * dM;
+
+            this.#kgraf.metu_relative(ref,'_centro',distM,a);
+            // ni ŝovas la ligandogrupon relative al la centro...
+            const grp = this.#kgraf.nodoj[ref].g;
+            const g_pos = this.#kgraf.pozicio(ref,100);
+            this.desegno.atr(grp,{transform: `translate(${g_pos.dx} ${g_pos.dy})`}); 
+        } // for
+
+    } // #ligandoj
+
+    /**
      * Kreas elementsimbolon kun ĉirkaŭaj elektronoj kaj ligoj ktp. kiel SVG-grupo
-     * @param {*} atm 
-     * @param {*} elemento 
-     * @param {*} elektronoj 
-     * @param {*} ligoj 
+     * @param {string} atm ŝlosilnomo de la atomo en la grafo, ekz-e "c1"
+     * @param {string} elemento elementsimbolo, ekzemple "C"
+     * @param {string} elektronoj elektronaranĝo (alternaj angulo- kaj elektronspecifoj)
+     * @param {string} ligoj ligaranĝo al aliaj atomoj de la molekulo
      */
     #atomo(atm,smb,elektronoj,ligoj,shargo) {
        
@@ -1069,10 +1185,10 @@ class KformKombino {
 
     /**
      * Kreas elementsimbolon kun ĉirkaŭaj elektronoj kaj jonŝargo kiel SVG-grupo
-     * @param {*} jn 
-     * @param {*} elemento 
-     * @param {*} elektronoj
-     * @param {*} ŝargo 
+     * @param {string} jn ŝlosilo de la jono en la grafo, ekzemple "na"
+     * @param {string} smb elementsimbolo
+     * @param {string} elektronoj elektronaranĝo ĉirkaŭ la atomo/jono
+     * @param {string} ŝargo ŝargo de la jono
      */
     #jono(jn,smb,elektronoj,ligoj,ŝargo) {
        
@@ -1150,7 +1266,7 @@ class KformKombino {
      * ĝenas en kreado de ekacioj...
      */
     nulu() {
-        this.graf = new KformGraf; // atomoj/jonoj/grupoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
+        this.#grafo = new KformGraf(); // atomoj/jonoj/grupoj kaj ilia pozicioj aranĝataj dum kreo de molekulprezento
         this.grupspec = {};
         this.#vico = [];        
     }
@@ -1321,79 +1437,58 @@ class KformKombino {
 
 
      /**
-     * kreas komplekson kiel SVG-g-elementon kaj redonas tiun
-     * @param {object} kompleksspec ojekto kun la difino de la komplekso kun centro "c" kaj ligandoj "g"
+     * kreas kunordigan komplekson kiel SVG-g-elementon kaj redonas tiun
+     * @param {object} kspec ojekto kun la difino de la komplekso kun centro "c" kaj ligandoj "g"
      * @returns 
      */
-      #komplekso(kompleksspec) {
+    #komplekso(kspec) {
         this.nulu();
 
-        /*
-        let poz = -1;
-        this.#j_obj(kompleksspec.c);
-        this.grupspec = kompleksspec.g;
-        */
         const kmpl = this.desegno.kreu("g");
 
-        let gj = {}, x = 0;
-
         // trakuri ĉiujn ligandojn kaj kreu la resp. molekulojn
-        let ligandoj = [];
-        for (const lg of Object.keys(kompleksspec.g)) {
-            const l = this.#molekulo(lg);
-            ligandoj.push(l);
+        const ligspec = kspec.g;
+        for (const lg of Object.keys(ligspec)) {
+            const lspec = ligspec[lg];
+            // kreu molekulgrupon (SVG g) kaj aldonu al la grafo kiel ligando
+            this.#kgraf.nova(lg,'ligando',lspec.a);
+            const g = this.#molekulo(lspec);
+            g.id = lg;
+            this.#kgraf.nodoj[lg].g = g;
         }
 
-        // krei la centran jonon
-        const cj = this.#jono(kompleksspec.c);
-
-        // trakuri la ligandaranĝon
-        for (const lg of komleksspec.c.l.split(" ")) {
-            // ĉu ni uzu this.#ligoj anstataŭe...?
-            const x = 0;
-            /*            
-            this.nodoj[jn].pos = { x: x, y: 0};
-            if (x) this.desegno.atr(g,{transform: `translate(${x} 0)`});
-            x += Kform.dist_jon;
-            */
-        };
-
-/*        // nur post trakto de ĉiuj, ni nun elkaklulas
-        // poziciojn kaj ŝovas ĝustaloke...
-        for (const a_ of Object.keys(gj)) {
-            const g_ = gj[a_];
-            // dum la procedo ni notis ĉiujn poziciojn de atomoj kaj grupoj
-            // ni devos ankoraŭ ŝovi la g-elementojn al tiuj pozicioj!
-            const pos = this.nodoj.pozicio(a_,100);
-            if (pos.x || pos.y) {
-                this.desegno.atr(g_,{transform:`translate(${pos.x} ${pos.y})`});
-            }
-        } // for
-        */
-
-        //this.svg.append(mlk);
-        kmpl.append(...Object.values(cj,ligandoj));
-
-        /*
-        // se la jonoj havas ŝargon ĝi estas jono kaj bezonas jonindikon
-        if (jonaro.s && jonaro.s._) {
-            
-            const mm = this.kadro();
-            const jg = this.desegno.jono(molekulo.s._,mm);
-           mlk.append(jg);
+        // krei la centran jonon kaj aldonu al la grafo...
+        const jspec = kspec.c.j;
+        // jondifinoj konsistas el elementnomo kaj ŝargo
+        const re = /([A-Z][a-z]?)([1-9]?[+-])/;
+        const m = re.exec(jspec);
+        let jsmb = jspec, jsh = ''; // se regulesprimo fiaskos..., ĉu anstataŭe ĵeti escepton?
+        if (m) {
+            jsmb = m[1]; // elementsimbolo
+            jsh = m[2]; // ŝargo
         }
-        */
+        this.#kgraf.nova("_centro",'centro',jsmb,{x:0,y:0});
+        this.#kgraf.nodoj._centro.g = this.#jono('_centro',jsmb,null,null,jsh);
+
+        // aranĝi la ligandojn
+        const alig = kspec.c.l;
+        this.#ligandoj(alig, kspec.c.d);
+
+        // aldonu ĉiujn grupojn al la desegno
+        const gj = Object.values(this.#kgraf.nodoj).map((x) => x.g); 
+        kmpl.append(...gj);
 
         return kmpl;
     }
 
     /**
-     * desegni komplekson el centra jono kun ĉirkaŭaj molekuloj
+     * desegni kunordigan komplekson el centra jono kun ĉirkaŭaj ligandoj
+     * @param {object} kspec objekto specifanta la komplekson, ĝi devas enhavi ŝolsilojn c (centro) kaj g (ligandoj)
      */
-    komplekso(kompleksspec) {
-        const kmp = this.#komplekso(kompleksspec);
-        this.desegno.svg.append(kmp);
-        return kmp;
+    komplekso(kspec) {
+        const kmpl = this.#komplekso(kspec);
+        this.desegno.svg.append(kmpl);
+        return kmpl;
     }
     
 
@@ -1405,7 +1500,7 @@ class KformKombino {
      * @param shargo ŝargo, se donita tiel aperas apud [..]
      */ 
 
-     simbolo(id,smb,n_e,shargo) {
+    simbolo(id,smb,n_e,shargo) {
         const dstrb = [
             [0,0,0,0],
             [1,0,0,0],
