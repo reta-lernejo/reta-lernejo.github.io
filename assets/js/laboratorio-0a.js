@@ -171,26 +171,51 @@ class Lab {
             class: "plasto"
         });
 
-        // enhavo
-        let enhavo = '';
+        // enhavo        
+        let enhavo = '', cenh, clip;
         if (pleno) {
+            const c_id = etikedo; // provizore...
+            clip = Lab.e("clipPath",{
+                id: c_id,
+                clipPathUnits: "userSpaceOnUse"
+            });
+            const cpath = Lab.e("path",{
+                d: bordo
+            });
+            clip.append(cpath);
+
             //enhavo = Lab.rurekt(40,pleno,5,5,0,-pleno);
             enhavo = Lab.e("path",
             {
-                d: `M0,0 L0,-${pleno} L100,-${pleno} L100,0 Z`,
-                //"clip-path": `path('${bordo}')`,
-                "clip-path": `path('M0,0 L0,100 L40,100 L40,0z')`,
-                //class: "likvo"
-                fill: "red"
-            })
+                d: `M-50,50 L-50,${-pleno} L110,${-pleno} L110,50 Z`,
+                class: "likvo"
+            });
+            cenh = Lab.e("g",{
+                "clip-path": `url(#${c_id})`,
+            });
+            cenh.append(enhavo);
         }
         // surskribo
         const surskribo = Lab.e("text", {
                 x: 3, y: -60
             }, etikedo
         );
-        g.append(enhavo,ujo,kovrilo,surskribo);
-        return g;
+        if (angulo) {
+            const tx = 40-40*pleno/100;
+            if (angulo % 360 <= 90 || angulo % 360 >= 270) {
+                Lab.a(enhavo,{transform: `rotate(${-angulo} ${tx} ${-pleno})`});
+                const ty = -pleno;
+                Lab.a(g,{transform: `rotate(${angulo} ${tx} ${ty})`});
+            } else {
+                Lab.a(enhavo,{transform: `rotate(${180-angulo} ${tx} ${-pleno}) rotate(180 20 -50)`});
+                const ty = -pleno;
+                Lab.a(g,{transform: `rotate(${angulo} ${tx} ${ty})`});
+                //Lab.a(g,{transform: `rotate(${angulo-180} ${tx} ${ty}) rotate(180 20 -50)`});
+            }
+        }
+        g.append(clip,cenh,ujo,kovrilo,surskribo);
+        const u = Lab.e("g"); u.append(g);
+        return u;
     }
 }
 

@@ -22,12 +22,17 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
 
   lanĉe(()=>{
     lab = new Laboratorio(ĝi("#eksperimento"));
-    const glaso = Lab.glaso();
+    //const glaso = Lab.glaso();
+    //lab.metu(glaso,200,500);
     const NaCl = Lab.gutbotelo("NaCl",70);
-    const AgNO3 = Lab.gutbotelo("AgNO₃",15);
-    lab.metu(glaso,200,500);
-    lab.metu(NaCl,50,500);
-    lab.metu(AgNO3,350,500);
+    lab.metu(NaCl,0,500);
+    for (let i=0; i<5; i++) {
+      const b = Lab.gutbotelo(i,15,i*45);
+      lab.metu(b,100+i*60,500);
+    }
+
+    //const AgNO3 = Lab.gutbotelo("AgNO₃",15,170);
+    //lab.metu(AgNO3,350,500);
   })
 </script>
 
