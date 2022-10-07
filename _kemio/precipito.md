@@ -18,9 +18,136 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
 -->
 
 <script>
+  // solvebloj, true: bone solvebla, false: malbone solvebla
+  function solvebla(katjono,anjono) {
+    // 1)
+    if (['Li+','Na+','K+','Rb+','NH4+'].indexOf(katjono)>=0) return true;
+
+    // 2)
+    if (['Cl-','Br-','I-'].indexOf(anjono)>=0) {
+      if (['Ag+','Pb2+','Hg2+','Cu+'].indexOf(katjono)>=0) return false;
+      else return true;
+    }
+
+    // 3) - parte jam kovrita de (1)
+    if ('OH-' == anjono) {
+      if (['Li+','Na+','K+','Rb+','NH4+','Sr2+','Ba2+'].indexOf(katjono)>=0) return true
+      else return false;
+    }
+
+    // 4)
+    if ('NO3-' == anjono) return true;
+
+    // 5) fakte jam kovrita de (1)
+    if (['PO43-','CO32-'].indexOf(anjono)>=0) {
+      if (['Li+','Na+','K+','Rb+','NH4+'].indexOf(katjono)>=0) return true;
+      else return false;
+    }
+
+    // 6)
+    if ('SO42-' == anjono) {
+      if (['Ca2+','Sr2+','Ba2+','Pb2+'].indexOf(katjono)>=0) return false;
+      else return true;
+    }
+
+    throw `Neniu regulo por solveblo de ${katjono} | ${anjono}!`;
+  }
+
+  const jonoj = {
+    "NaCl": ['Na+','Cl-'],
+    "KI": ['K+','I-'],
+    "Na₂CO₃": ['Na+','CO32-'],
+    "CuSO₄": ['Cu2+','SO42-'],
+    "AgNO₃": ['Ag+','NO3-'],
+    "Ba(NO₃)₂": ['Ba2+','NO3-'],
+    "Pb(NO₃)₂": ['Pb2+','NO3-'],
+    "NaOH": ['Na+','OH-']
+  }
+    
+  function s_testo() {
+    // solveblo de 'reakciantoj'
+    for (const j in jonoj) {
+      const j_ = jonoj[j];
+      console.log(`${solvebla(...j_)?'solvebla':'nesolvebla'} ${j}`);
+    }
+    // solveblo de produktoj (rekombinoj)
+    const jj = Object.keys(jonoj);
+    for (let n1 = 0; n1<jj.length-1; n1++) {
+      for (let n2 = n1+1; n2<jj.length; n2++) {
+        const j1 = jj[n1], jj1 = jonoj[j1];
+        const j2 = jj[n2], jj2 = jonoj[j2];
+  
+        console.log(`${solvebla(jj1[0],jj2[1])?'solvebla':'nesolvebla'} ${jj1[0]} ${jj2[1]}`);
+        console.log(`${solvebla(jj2[0],jj1[1])?'solvebla':'nesolvebla'} ${jj2[0]} ${jj1[1]}`);
+      }
+    } 
+  }
+
+  const substancoj = [
+    "NaCl",
+    "KI",
+    "Na₂CO₃",
+    "CuSO₄",
+    "AgNO₃",
+    "Ba(NO₃)₂",
+    "Pb(NO₃)₂",
+    "NaOH"
+  ];
+
+  let boteloj = [];
+
+  /**
+  * Kreu botelon en difinita situacio
+  * @param {number} nro numero de la substanco
+  * @param {boolean} maldekstre true:maldekstre, false:dekstre
+  * @param {number} stato 0: staranta malsupre, 1: levita supren, 2: elverŝo
+  */
+  function botelo(nro) {
+    const binfo = boteloj[nro];
+    const subst = substancoj[nro];
+
+    // preparu parametrojn laŭ stato
+    let x=0, y=0, ra=0;
+    // staranta
+    if (binfo.stato == 0) {
+      const x_ŝovo = binfo.maldekstre? 10 : 130;
+      x = x_ŝovo + nro*45 + Math.random()*3;
+      y = 497 + Math.random()*5;
+
+    // levita
+    } else if (binfo.stato == 1) {
+      x = binfo.maldekstre? 150:350;
+      y = 150;
+      ra = binfo.maldekstre? 70:-70; // klinangulo
+
+    // elverŝo
+    } else {
+      x = binfo.maldekstre? 210:260;
+      y = binfo.maldekstre? 150:100;
+      ra = binfo.maldekstre? 170:-170; // klinangulo
+    }
+
+    // kreu la botelon
+    const botl = Lab.gutbotelo(`subst_${nro}`,subst+"\n(aq)",binfo.enhavo,ra);
+    kiam_klako(botl,(event) => { // reago al klako
+      const b = event.currentTarget;
+      const nro = b.id.split(/_/)[1];
+      const subst = substancoj[nro];
+      console.log(subst);
+      // forigu la botelon kaj metu en novan staton
+      b.remove();
+      // aktualigu la botelon
+      boteloj[nro].stato = ++binfo.stato%3;
+      botelo(nro);
+    });
+    lab.metu(botl,x,y);
+  }
+
   let lab;
 
   lanĉe(()=>{
+    s_testo();
+
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",500,510);
     // preparu erojn por precipito
     lab.ero_smb("ero_1",3);
@@ -35,13 +162,18 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     const glaso = Lab.glaso("glaso",precipito);
     lab.metu(glaso,200,500);
 
-    // substanco unu
-    const NaCl = Lab.gutbotelo("nacl","NaCl",70);
-    lab.metu(NaCl,10,500);
-
-    // substanco 2
-    const AgNO3 = Lab.gutbotelo("agno3","AgNO₃",15,190);
-    lab.metu(AgNO3,300,150);
+    // boteloj kun substancoj
+    for (nro = 0; nro<substancoj.length; nro++) {
+      // plenigu   
+      const maldekstre = nro<4;
+      boteloj[nro] = { 
+        maldekstre: maldekstre,
+        enhavo: maldekstre? 50+Math.random()*40 : 15+Math.random()*30,
+        stato: 0
+      }
+      // starigu
+      botelo(nro);
+    }
 
     // faligu erojn
     for (const a of ĝi("#eksperimento").querySelectorAll("animateMotion")) {
@@ -57,14 +189,16 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
  <style type="text/css">
     <![CDATA[
       #fono {
-        fill: #AFEEFF;
+        fill: #DDF8FF;
       }
 
       .likvo {
-        fill: #eeeeee;
+        fill: #88aaff;
+        fill-opacity: 0.3;
+        /*
         stroke: gray;
         stroke-width: 0.1;
-        fill-opacity: 0.2;
+        */
       }
 
       #ero_1 {
@@ -76,13 +210,23 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       }
 
       .vitro {
-        fill: none;
+        /*fill: none;*/
         stroke: black;
         stroke-width: 1.0;
+        fill: url(#vitro);
+      }
+
+      .ombro {
+        fill: url(#r_gradiento_ombro);
       }
 
       .ujo text {
-        font-size: 10px;
+        font-size: 9px;
+      }
+
+      .ujo tspan:first-child {
+        font-stretch: extra-condensed;
+        font-weight: bold;
       }
 
 
@@ -96,5 +240,18 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="white" stop-opacity="0"/>
     </radialGradient>    
+    <radialGradient id="r_gradiento_ombro" fx="60%" fy="10%">
+      <stop offset="0%" stop-color="black" stop-opacity="0.1"/>
+      <stop offset="60%" stop-color="black" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="black" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vitro">
+      <stop offset="0%" stop-color="#00A" stop-opacity="0.5"/>
+      <stop offset="7%" stop-color="#09F" stop-opacity="0.2"/>
+      <stop offset="8%" stop-color="white" stop-opacity="0.6"/>
+      <stop offset="48%" stop-color="white" stop-opacity="0"/>
+      <stop offset="90%" stop-color="#AEF" stop-opacity="0"/>
+      <stop offset="98%" stop-color="black" stop-opacity="0.7"/>
+    </linearGradient>     
   </defs>
 </svg>

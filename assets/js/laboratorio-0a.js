@@ -219,7 +219,7 @@ class Lab {
             }      
         }
 
-        g.append(Lab.likvo("likvo",w,h));        
+        g.append(Lab.likvo("likvo",w,h));
         eroj(ero1);
         eroj(ero2);
 
@@ -237,7 +237,8 @@ class Lab {
      */
     static glaso(id="glaso", enhavo, w=100, h=300) {
         const g = Lab.e("g", { id: id, class: "ujo glaso" });
-        const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,0 L 95,0 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
+        const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,0 Q50,4 95,0 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
+
         const ujo = Lab.e("path",{
             d: bordo,
             class: "vitro"
@@ -248,6 +249,11 @@ class Lab {
             class: "likvo"
         });
         */
+        const ombro = Lab.e("ellipse",{
+            cx: 60, rx: 60, ry: 8,
+            class: "ombro"
+        });
+        g.append(ombro);
 
         let enh = enhavo;
         if (enhavo) {
@@ -288,10 +294,16 @@ class Lab {
         const g = Lab.e("g", { class: "ujo gutbotelo" });
 
         // bordo de la vitrujo (kaj do ankaŭ limo de enhavo)
-        const bordo = "M0,-100 L0,-4 Q0,0 4,0 L36,0 Q40,0 40,-4 L40,-100 Z";
+        const bordo = "M0,-100 L0,-4 Q0,0 4,0 Q20,3 36,0 Q40,0 40,-4 L40,-100 Z";
         let tf = '';
         const a = angulo % 360;
-        if (a<90) {
+        if (a == 0) {
+            const ombro = Lab.e("ellipse",{
+                cx: 25, rx: 25, ry: 5,
+                class: "ombro"
+            });
+            g.append(ombro);
+        } else if (a<90) {
             const tx = 40-40*pleno/100;
             tf = `rotate(${a} ${tx} ${-pleno})`;
         } else if (a<180) {
@@ -311,14 +323,20 @@ class Lab {
             class: "vitro"
         });
         const kovrilo = Lab.e("polyline",{
-            points: "-2,-100 -2,-105 10,-108 18,-130 22,-130 30,-108 42,-105 42,-100 -2,-100",
+            points: "-2,-100 -2,-105 10,-108 18,-130 22,-130 30,-108 42,-105 42,-100 30,-99.5 20,-99.3 10,-99.5 -2,-100",
             class: "plasto"
         });
-            // surskribo
-            const surskribo = Lab.e("text", {
-                x: 3, y: -60
-            }, etikedo
+        // surskribo
+        const surskribo = Lab.e("text", {
+            x: 20, y: -60,
+            "text-anchor": "middle",
+            }
         );
+        for (const t of etikedo.split(/\n/)) {
+            surskribo.append(Lab.e("tspan",{
+                x: 20, dy: 10
+            },t))
+        }
         g.append(ujo,kovrilo,surskribo);
         if (tf) Lab.a(g,{transform: tf});
 
@@ -341,7 +359,7 @@ class Lab {
             // de klino, kio estus sufiĉe ambicia entrepreno :-)
             enhavo = Lab.e("path",
             {
-                d: `M-50,50 L-50,${-pleno} L110,${-pleno} L110,50 Z`,
+                d: `M-110,80 L-110,${-pleno} L110,${-pleno} L110,80 Z`,
                 //d: `M-10,10 L-10,${-pleno} L110,${-pleno} L110,10 Z`,
                 "clip-path": `url(#${c_id})`,
                 class: "likvo"
