@@ -120,51 +120,38 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     return botl;
   }
 
-  function levita_botelo(nro) {
-    const botl = lab.iloj[nro];
+  function botel_levo(botl) {
+    // kontrolu, ĉu la loko estas libera ankoraŭ
+    // plibonigu: se ne jam elverŝita ni ankaŭ povus
+    // anstatŭigi tiun botelon - necesos funkcio por restarigo...!
+    const L = botl.maldekstre? "M":"D";
+    if (lab.okupita(`L${L}`) || lab.okupita(`V${L}`)) {
+      console.log("Levita loko jam okupita!");
+      return;
+    }
 
     // rekreu klinitan botelon
-    const subst = substancoj[nro];
+    const subst = substancoj[botl.id];
     ra = botl.maldekstre? 70:-70; // klinangulo
-    const nova = Lab.gutbotelo(nro,subst+"\n(aq)",botl.pleno,ra);
+    const nova = Lab.gutbotelo(botl.id,subst+"\n(aq)",botl.pleno,ra);
 
     nova.stato = 1; // levita
     nova.maldekstre = botl.maldekstre;
+    lab.klak_reago(nova,botel_verŝo);
 
     lab.movu(botl,botl.maldekstre?"LM":"LD",nova)
   }
 
-  function verŝa_botelo(nro) {
-    const botl = lab.iloj[nro];
-
+  function botel_verŝo(botl) {
     // rekreu klinitan botelon
-    const subst = substancoj[nro];
+    const subst = substancoj[botl.id];
     ra = botl.maldekstre? 170:-170; // klinangulo
-    const nova = Lab.gutbotelo(nro,subst+"\n(aq)",botl.pleno,ra);
+    const nova = Lab.gutbotelo(botl.id,subst+"\n(aq)",botl.pleno,ra);
 
     nova.stato = 2; // verŝa
     nova.maldekstre = botl.maldekstre;
     lab.movu(botl,botl.maldekstre?"VM":"VD",nova)
   }
-
-
-  function botel_tuŝo(b) {
-    const nro = b.id;
-    const subst = substancoj[nro];
-    console.log(subst);
-    // metu en novan staton
-    const nova_stato = (1+b.stato)%3;
-    // ni devas rekrei la botelon kun ĝusta klino!
-    if (nova_stato == 0) {
-      const b_nova = botelo(nro, maldekstre, 
-        maldekstre? 50+Math.random()*40 : 15+Math.random()*30);
-
-    } else if (nova_stato == 1) {
-      levita_botelo(b.id);
-    } else if (nova_stato==2) {
-      verŝa_botelo(b.id);
-    };
-  };
 
 
   let lab;
@@ -193,7 +180,7 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       const botl = stara_botelo(nro, maldekstre, 
         maldekstre? 50+Math.random()*40 : 15+Math.random()*30);
 
-      lab.klak_reago(botl,botel_tuŝo);
+      lab.klak_reago(botl,botel_levo);
     }
 
     // aldonu lokojn levitajn kaj verŝajn
@@ -203,7 +190,7 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     lab.nova_loko({id: "LM", x: 150, y: 150});
     lab.nova_loko({id: "LD", x: 350, y: 150});
     lab.nova_loko({id: "VM", x: 210, y: 150});
-    lab.nova_loko({id: "VD", x: 260, y: 100});
+    lab.nova_loko({id: "VD", x: 290, y: 120});
 
     // faligu erojn
     /*

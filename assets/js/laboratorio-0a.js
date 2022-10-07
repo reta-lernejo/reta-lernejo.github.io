@@ -427,7 +427,7 @@ class Laboratorio extends LabSVG {
      * @param {string} _ilo 
      */
     #okupu(_loko,_ilo) {
-        if (typeof this.lokoj[_loko]._ilo !== 'undefined') {
+        if (this.okupita(_loko)) {
             throw "Loko ${_loko} jam estas okupita!"
         } else {
             this.lokoj[_loko]._ilo = _ilo;
@@ -462,10 +462,16 @@ class Laboratorio extends LabSVG {
         const i = (typeof ilo === "object")? ilo : this.iloj[_ilo];
         i.g.addEventListener("click", (event) =>
         {
-            reago(ilo,event);
+            reago(i,event);
         })
     }
 
+    /**
+     * Kontrolas, ĉu iu loko estas jam okupita
+     */
+    okupita(_loko) {
+        return (typeof this.lokoj[_loko]._ilo !== 'undefined');
+    }
 
     /** Metas novajn ilon en la aranĝon de la laboratorio,
      * @param {object} ilo la ilo, kreita per ujo() k.s.
@@ -496,7 +502,7 @@ class Laboratorio extends LabSVG {
      */
     movu(ilo,loko_al,nova_ilo) {
         // ni povas okupi nur malplenan lokon
-        if (typeof this.lokoj[loko_al]._ilo !== 'undefined') {
+        if (this.okupita(loko_al)) {
             throw `Loko ${loko_al} estas jam okupita!`;
         }
 
