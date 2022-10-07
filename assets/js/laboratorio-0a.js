@@ -265,7 +265,7 @@ class Lab {
                 "clip-path": `url(#${c_id})`
             });
  
-            if (typeof enhavo == "number") {
+            if (typeof enhavo === "number") {
                 const alto = h*enhavo/100;
                 enh = Lab.e("rect",{
                     width: 100,
@@ -280,7 +280,7 @@ class Lab {
         }
 
         g.append(ujo);
-        return(g);
+        return({g: g, id: id, tipo: "glaso"});
     }
 
     /**
@@ -296,7 +296,7 @@ class Lab {
         // bordo de la vitrujo (kaj do ankaŭ limo de enhavo)
         const bordo = "M0,-100 L0,-4 Q0,0 4,0 Q20,3 36,0 Q40,0 40,-4 L40,-100 Z";
         let tf = '';
-        const a = angulo % 360;
+        const a = (angulo+360)%360; // tolerante negativajn angulojn
         if (a == 0) {
             const ombro = Lab.e("ellipse",{
                 cx: 25, rx: 25, ry: 5,
@@ -367,7 +367,7 @@ class Lab {
         }
         //g.append(clip,cenh,ujo,kovrilo,surskribo);
         const u = Lab.e("g", {id: id}); u.append(limigo,enhavo,g);
-        return u;
+        return {g:u, id: id, tipo: "gutbotelo", pleno: pleno, klino: a};
     }
 }
 
@@ -387,36 +387,112 @@ class Laboratorio extends LabSVG {
         }
 
         this.svg.append(g);
+
+        this.lokoj = {};
+        this.iloj = {};
     }
+
+    /**
+     * Registru novan lokon
+     * @param {*} loko 
+     */
+    #nova_loko(loko) {
+        this.lokoj[loko.id] = loko;
+        return loko.id;
+    }
+
+    /**
+     * Registru novan ilon
+     * @param {*} ilo 
+     */
+    #nova_ilo(ilo) {
+        this.iloj[ilo.id] = ilo;
+        // aldonu al desegno
+        this.aranĝo.append(ilo.g);        
+        return ilo.id;
+    }
+
+    /**
+     * Okupas lokon per ilo, plendante se jam estas okupita
+     * @param {string} _loko 
+     * @param {string} _ilo 
+     */
+    #okupu(_loko,_ilo) {
+        if (this.lokoj[_loko].ilo) {
+            throw "Loko ${_loko} jam estas okupita!"
+        } else {
+            this.lokoj[_loko].ilo = _ilo;
+
+            // ŝovu la ilon al tiu loko
+            const l = this.lokoj[_loko];
+            const i = this.iloj[_ilo];
+            const X = l.x||0;
+            const Y = l.y||0;
+            Lab.a(i.g, {
+                transform: `translate(${X} ${Y})`
+            });
+        }
+    }
+
+    /**
+     * Forigas ilon de loko (sen aktualigi la desegnon, por ŝovi ilon al nova loko poste voku #okupu!)
+     * @param {*} _loko 
+     * @param {*} _ilo 
+     */
+    #malokupu(_loko,_ilo) {
+        this.lokoj[_loko].ilo = undefined
+    }
+
 
     /** Metas novajn ilon en la aranĝon de la laboratorio,
      * @param {object} ilo la ilo, kreita per ujo() k.s.
      * @param {number} x x-koordinato (0=malsdesktre)
      * @param {number} y y-koordinato (0=supre)
      */
-    metu(ilo,x,y) {
-        const e = ilo; // aŭ svg-grupo de ilo, se ĝi ne mem estas SVG-elemento
-        const X = x||0;
-        const Y = y||0;
-        if (x || y) {
-            Lab.a(e, {
-                transform: `translate(${x} ${y})`
-            });
-        }
-        this.aranĝo.append(ilo)
+    metu(ilo,loko) {
+        // ĉu loko estas nomo aŭ objekto?
+        // se objekto ni registras ĝin nun
+        let _loko = loko;
+        if (typeof loko === "object") _loko = this.#nova_loko(loko);
+
+        // ĉu ilo estas nomo aŭ objekto?
+        // se objekto ni registras ĝin nun
+        let _ilo = ilo;
+        if (typeof ilo === "object") _ilo = this.#nova_ilo(ilo);
+
+        this.#okupu(_loko,_ilo);
     }
 
     /**
+     * Movas ilon de unu al alia loko, se refaru estas 'true' ni forigas kaj rekreas la objekton
+     * per nova ilo (necesa ekz. se ni klinas, malplenigas botelon k.s.)
+     * @param {string} ilo
+     * @param {string} loko_de
+     * @param {string} loko_al
+     * @param {boolean} refaru
+     * @param {object} nova_ilo
+     */
+    movu(_ilo,loko_de,loko_al,nova_ilo) {
+        if (nova_ilo) {
+            // forigu malnovan ilon de la desegno
+            this.iloj[_ilo].g.remove();
+            _ilo = this.#nova_ilo(nova_ilo);
+        };
+
+        this.#malokupu(loko_de,_ilo);
+        this.#okupu(loko_al,_ilo);
+    }
+
+     /**
      * Kreas eron kiel simbolo uzeble poste, ekz-e kiel precipitero...
      */
     ero_smb(id,r,cls="ero") {
-      const dif = this.difinoj();
-      dif.append(Lab.e("circle",{
-        id: id,
-        r: r,
-        class: cls
-      }));
+        const dif = this.difinoj();
+        dif.append(Lab.e("circle",{
+          id: id,
+          r: r,
+          class: cls
+        }));
     }
-
 
 }

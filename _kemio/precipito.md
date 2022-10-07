@@ -94,21 +94,44 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     "NaOH"
   ];
 
-  let boteloj = [];
-
   /**
   * Kreu botelon en difinita situacio
   * @param {number} nro numero de la substanco
   * @param {boolean} maldekstre true:maldekstre, false:dekstre
   * @param {number} stato 0: staranta malsupre, 1: levita supren, 2: elverŝo
   */
-  function botelo(nro) {
-    const binfo = boteloj[nro];
+  function botelo(nro, maldekstre, enhavo) {
     const subst = substancoj[nro];
 
-    // preparu parametrojn laŭ stato
-    let x=0, y=0, ra=0;
-    // staranta
+    // kreu la botelon
+    const botl = Lab.gutbotelo(`subst_${nro}`,subst+"\n(aq)",enhavo);
+
+    // PLIBONIGU: aldonu helpfunkcion por tio en lab
+    kiam_klako(botl.g,(event) => { // reago al klako
+      const b = event.currentTarget;
+      const nro = b.id.split(/_/)[1];
+      const subst = substancoj[nro];
+      console.log(subst);
+      // forigu la botelon kaj metu en novan staton
+      b.remove();
+      // aktualigu la botelon
+      boteloj[nro].stato = ++binfo.stato%3;
+      botelo(nro);
+    });
+
+    // starigu la botelon
+    const x_ŝovo = maldekstre? 10 : 130;
+    const x = x_ŝovo + nro*45 + Math.random()*3;
+    const y = 497 + Math.random()*5;
+    lab.metu(botl,{
+      id: nro,
+      x:x, y:y,
+      maldekstre: maldekstre,
+      stato: 0 // 0: stare surtable
+    });
+  }
+
+  /*    
     if (binfo.stato == 0) {
       const x_ŝovo = binfo.maldekstre? 10 : 130;
       x = x_ŝovo + nro*45 + Math.random()*3;
@@ -126,22 +149,7 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       y = binfo.maldekstre? 150:100;
       ra = binfo.maldekstre? 170:-170; // klinangulo
     }
-
-    // kreu la botelon
-    const botl = Lab.gutbotelo(`subst_${nro}`,subst+"\n(aq)",binfo.enhavo,ra);
-    kiam_klako(botl,(event) => { // reago al klako
-      const b = event.currentTarget;
-      const nro = b.id.split(/_/)[1];
-      const subst = substancoj[nro];
-      console.log(subst);
-      // forigu la botelon kaj metu en novan staton
-      b.remove();
-      // aktualigu la botelon
-      boteloj[nro].stato = ++binfo.stato%3;
-      botelo(nro);
-    });
-    lab.metu(botl,x,y);
-  }
+    */
 
   let lab;
 
@@ -160,19 +168,14 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       100, 250);
 
     const glaso = Lab.glaso("glaso",precipito);
-    lab.metu(glaso,200,500);
+    lab.metu(glaso,{id: "tablo", x:200, y:500});
 
-    // boteloj kun substancoj
+    // kreu botelojn kun substancoj laŭ numero
     for (nro = 0; nro<substancoj.length; nro++) {
-      // plenigu   
+      // kreu botelon
       const maldekstre = nro<4;
-      boteloj[nro] = { 
-        maldekstre: maldekstre,
-        enhavo: maldekstre? 50+Math.random()*40 : 15+Math.random()*30,
-        stato: 0
-      }
-      // starigu
-      botelo(nro);
+      botelo(nro, maldekstre, 
+        maldekstre? 50+Math.random()*40 : 15+Math.random()*30);
     }
 
     // faligu erojn
