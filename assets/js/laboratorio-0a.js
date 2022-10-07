@@ -236,7 +236,7 @@ class Lab {
      * @param enhavo {object} aŭ nombro donate procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
      */
     static glaso(id="glaso", enhavo, w=100, h=300) {
-        const g = Lab.e("g", { id: id, class: "ujo glaso" });
+        const g = Lab.e("g", { id: `_glaso_${id}`, class: "ujo glaso" });
         const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,0 Q50,4 95,0 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
 
         const ujo = Lab.e("path",{
@@ -366,7 +366,7 @@ class Lab {
             });
         }
         //g.append(clip,cenh,ujo,kovrilo,surskribo);
-        const u = Lab.e("g", {id: id}); u.append(limigo,enhavo,g);
+        const u = Lab.e("g", {id: `_gutbotelo_${id}`}); u.append(limigo,enhavo,g);
         return {g:u, id: id, tipo: "gutbotelo", pleno: pleno, klino: a};
     }
 }
@@ -393,10 +393,19 @@ class Laboratorio extends LabSVG {
     }
 
     /**
+     * Redonas la rekonilon 'id' de io. Se ne estas objekto estas supozeble jam tiu id
+     */
+    #id(io) {
+        if (typeof io === 'object' && 'id' in io) return io.id
+        else if (typeof io === 'string' || typeof io === 'number') return io;
+        throw ('Donita varariablo estas nek ilo/loko kun .id nek identigilo mem!');
+    }
+
+    /**
      * Registru novan lokon
      * @param {*} loko 
      */
-    #nova_loko(loko) {
+    nova_loko(loko) {
         this.lokoj[loko.id] = loko;
         return loko.id;
     }
@@ -405,7 +414,7 @@ class Laboratorio extends LabSVG {
      * Registru novan ilon
      * @param {*} ilo 
      */
-    #nova_ilo(ilo) {
+    nova_ilo(ilo) {
         this.iloj[ilo.id] = ilo;
         // aldonu al desegno
         this.aranĝo.append(ilo.g);        
@@ -418,10 +427,11 @@ class Laboratorio extends LabSVG {
      * @param {string} _ilo 
      */
     #okupu(_loko,_ilo) {
-        if (this.lokoj[_loko].ilo) {
+        if (typeof this.lokoj[_loko]._ilo !== 'undefined') {
             throw "Loko ${_loko} jam estas okupita!"
         } else {
-            this.lokoj[_loko].ilo = _ilo;
+            this.lokoj[_loko]._ilo = _ilo;
+            this.iloj[_ilo]._loko = _loko;
 
             // ŝovu la ilon al tiu loko
             const l = this.lokoj[_loko];
@@ -440,7 +450,20 @@ class Laboratorio extends LabSVG {
      * @param {*} _ilo 
      */
     #malokupu(_loko,_ilo) {
-        this.lokoj[_loko].ilo = undefined
+        this.lokoj[_loko]._ilo = undefined
+    }
+
+    /**
+     * Difinas reagon de ilo al klako
+     * @param {*} ilo 
+     * @param {function} reago 
+     */
+    klak_reago(ilo,reago) {
+        const i = (typeof ilo === "object")? ilo : this.iloj[_ilo];
+        i.g.addEventListener("click", (event) =>
+        {
+            reago(ilo,event);
+        })
     }
 
 
@@ -453,12 +476,12 @@ class Laboratorio extends LabSVG {
         // ĉu loko estas nomo aŭ objekto?
         // se objekto ni registras ĝin nun
         let _loko = loko;
-        if (typeof loko === "object") _loko = this.#nova_loko(loko);
+        if (typeof loko === "object") _loko = this.nova_loko(loko);
 
         // ĉu ilo estas nomo aŭ objekto?
         // se objekto ni registras ĝin nun
         let _ilo = ilo;
-        if (typeof ilo === "object") _ilo = this.#nova_ilo(ilo);
+        if (typeof ilo === "object") _ilo = this.nova_ilo(ilo);
 
         this.#okupu(_loko,_ilo);
     }
@@ -466,17 +489,24 @@ class Laboratorio extends LabSVG {
     /**
      * Movas ilon de unu al alia loko, se refaru estas 'true' ni forigas kaj rekreas la objekton
      * per nova ilo (necesa ekz. se ni klinas, malplenigas botelon k.s.)
-     * @param {string} ilo
-     * @param {string} loko_de
+     * @param {*} ilo
      * @param {string} loko_al
      * @param {boolean} refaru
      * @param {object} nova_ilo
      */
-    movu(_ilo,loko_de,loko_al,nova_ilo) {
+    movu(ilo,loko_al,nova_ilo) {
+        // ni povas okupi nur malplenan lokon
+        if (typeof this.lokoj[loko_al]._ilo !== 'undefined') {
+            throw `Loko ${loko_al} estas jam okupita!`;
+        }
+
+        let _ilo = this.#id(ilo);
+        const loko_de = this.iloj[_ilo]._loko;
+
         if (nova_ilo) {
             // forigu malnovan ilon de la desegno
             this.iloj[_ilo].g.remove();
-            _ilo = this.#nova_ilo(nova_ilo);
+            _ilo = this.nova_ilo(nova_ilo);
         };
 
         this.#malokupu(loko_de,_ilo);

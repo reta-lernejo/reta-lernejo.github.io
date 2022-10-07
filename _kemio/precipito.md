@@ -100,24 +100,13 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
   * @param {boolean} maldekstre true:maldekstre, false:dekstre
   * @param {number} stato 0: staranta malsupre, 1: levita supren, 2: elverŝo
   */
-  function botelo(nro, maldekstre, enhavo) {
+  function stara_botelo(nro, maldekstre, enhavo) {
     const subst = substancoj[nro];
 
     // kreu la botelon
-    const botl = Lab.gutbotelo(`subst_${nro}`,subst+"\n(aq)",enhavo);
-
-    // PLIBONIGU: aldonu helpfunkcion por tio en lab
-    kiam_klako(botl.g,(event) => { // reago al klako
-      const b = event.currentTarget;
-      const nro = b.id.split(/_/)[1];
-      const subst = substancoj[nro];
-      console.log(subst);
-      // forigu la botelon kaj metu en novan staton
-      b.remove();
-      // aktualigu la botelon
-      boteloj[nro].stato = ++binfo.stato%3;
-      botelo(nro);
-    });
+    const botl = Lab.gutbotelo(nro,subst+"\n(aq)",enhavo);
+    botl.stato = 0; // 0: stare surtable
+    botl.maldekstre = maldekstre;
 
     // starigu la botelon
     const x_ŝovo = maldekstre? 10 : 130;
@@ -125,31 +114,58 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     const y = 497 + Math.random()*5;
     lab.metu(botl,{
       id: nro,
-      x:x, y:y,
-      maldekstre: maldekstre,
-      stato: 0 // 0: stare surtable
+      x:x, y:y
     });
+
+    return botl;
   }
 
-  /*    
-    if (binfo.stato == 0) {
-      const x_ŝovo = binfo.maldekstre? 10 : 130;
-      x = x_ŝovo + nro*45 + Math.random()*3;
-      y = 497 + Math.random()*5;
+  function levita_botelo(nro) {
+    const botl = lab.iloj[nro];
 
-    // levita
-    } else if (binfo.stato == 1) {
-      x = binfo.maldekstre? 150:350;
-      y = 150;
-      ra = binfo.maldekstre? 70:-70; // klinangulo
+    // rekreu klinitan botelon
+    const subst = substancoj[nro];
+    ra = botl.maldekstre? 70:-70; // klinangulo
+    const nova = Lab.gutbotelo(nro,subst+"\n(aq)",botl.pleno,ra);
 
-    // elverŝo
-    } else {
-      x = binfo.maldekstre? 210:260;
-      y = binfo.maldekstre? 150:100;
-      ra = binfo.maldekstre? 170:-170; // klinangulo
-    }
-    */
+    nova.stato = 1; // levita
+    nova.maldekstre = botl.maldekstre;
+
+    lab.movu(botl,botl.maldekstre?"LM":"LD",nova)
+  }
+
+  function verŝa_botelo(nro) {
+    const botl = lab.iloj[nro];
+
+    // rekreu klinitan botelon
+    const subst = substancoj[nro];
+    ra = botl.maldekstre? 170:-170; // klinangulo
+    const nova = Lab.gutbotelo(nro,subst+"\n(aq)",botl.pleno,ra);
+
+    nova.stato = 2; // verŝa
+    nova.maldekstre = botl.maldekstre;
+    lab.movu(botl,botl.maldekstre?"VM":"VD",nova)
+  }
+
+
+  function botel_tuŝo(b) {
+    const nro = b.id;
+    const subst = substancoj[nro];
+    console.log(subst);
+    // metu en novan staton
+    const nova_stato = (1+b.stato)%3;
+    // ni devas rekrei la botelon kun ĝusta klino!
+    if (nova_stato == 0) {
+      const b_nova = botelo(nro, maldekstre, 
+        maldekstre? 50+Math.random()*40 : 15+Math.random()*30);
+
+    } else if (nova_stato == 1) {
+      levita_botelo(b.id);
+    } else if (nova_stato==2) {
+      verŝa_botelo(b.id);
+    };
+  };
+
 
   let lab;
 
@@ -174,14 +190,27 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     for (nro = 0; nro<substancoj.length; nro++) {
       // kreu botelon
       const maldekstre = nro<4;
-      botelo(nro, maldekstre, 
+      const botl = stara_botelo(nro, maldekstre, 
         maldekstre? 50+Math.random()*40 : 15+Math.random()*30);
+
+      lab.klak_reago(botl,botel_tuŝo);
     }
 
+    // aldonu lokojn levitajn kaj verŝajn
+    // (la koordinatoj estas malsamaj pro
+    // iom neregula rotaciado de gutboteloj
+    // konservante konvenan kvanton da enhavo)
+    lab.nova_loko({id: "LM", x: 150, y: 150});
+    lab.nova_loko({id: "LD", x: 350, y: 150});
+    lab.nova_loko({id: "VM", x: 210, y: 150});
+    lab.nova_loko({id: "VD", x: 260, y: 100});
+
     // faligu erojn
+    /*
     for (const a of ĝi("#eksperimento").querySelectorAll("animateMotion")) {
       a.beginElement();
     }
+    */
   })
 </script>
 
