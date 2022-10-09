@@ -243,16 +243,16 @@ class LabGutbotelo extends LabUjo {
     }
 }
 
-class LabPrecipito {
+class LabFalaĵo {
     /**
-     * Kreas precipiton en likvo kiel enhavon de glaso kc. Erojn de precipito transdonu kiel objekto 
-     * {id: referencilo, n: nombro, s: supro, a: alteco, fd: faldistanco, af: falaĵalteco}, 
-     * a: alteco de distribuo mezurite de la supro
-     * fd: faldistanco, se ne donita ĝisgrunde
-     * af: vario de falaĵo surgrunde
+     * Kreas falaĵon (gutoj, precipito ks). Erojn de falaĵo transdonu kiel objekto 
+     * {id: referencilo, n: nombro, d: mezdaŭro, s: supro, a: alteco, fd: faldistanco, af: falaĵalteco}, 
+     *   a: alteco de distribuo mezurite de la supro
+     *   fd: faldistanco, se ne donita ĝisgrunde
+     *   af: vario de falaĵo surgrunde
      * donu pezajn malgrandajn erojn unue, due la pli grandajn nubecajn!
      * @param {string} id unika rekonilo
-     * @param {string} cls klasnomo de precipito, ekz-e por doni koloron, travideblecon ks
+     * @param {string} cls klasnomo de falaĵo, ekz-e por doni koloron, travideblecon ks
      * @param {string} ero1 ero speco unu (difinenda per Laboratorio.ero_smb())
      * @param {string} ero2 ero speco du (difinenda per Laboratorio.ero_smb())
      * @param {number} w larĝeco, apriore 100
@@ -260,35 +260,48 @@ class LabPrecipito {
      */
     constructor(id,cls="precipito",ero1,ero2,w=100,h=100) {
         const c_id = `_clp_${id}`;
-        const lim = Lab.limigo(c_id, Lab.e("rect",{y: -h, width: w, height: h}));
+
+        const e = Lab.e("g");
         const g = Lab.e("g",{
-            class: cls,
-            "clip-path": `url(#${c_id})`
+            class: cls
         });
+
+        if (w&&h) {
+            const lim = Lab.limigo(c_id, Lab.e("rect",{y: -h, width: w, height: h}));
+            Lab.a(g,{
+                "clip-path": `url(#${c_id})`
+            });    
+            e.append(lim);
+        }
 
         function eroj(e_) {   
             for (let e=0; e<e_.n; e++) {
                 const y = -(e_.s - Math.random()*ero1.a);
-                const x = e/e_.n*w + Math.random()*w/ero1.n;
+                const x = (e_.x0||0) + e/e_.n*w + Math.random()*w/ero1.n;
                 const u = Lab.e("use",{
                     href: `#${e_.id}`,
                     x: x, y: y
                 });
                 if (e_.af || e_.fd) {
                     const f_alto = (e_.fd || -y) - (Math.random()*e_.af||0);
-                    const f = Lab.falo(f_alto,0,0,e_.d/2 + Math.random()*e_.d);
+                    // kreu falanimacion
+                    const f = Lab.falo(f_alto,0,0,
+                        // daŭro en s
+                        e_.d/2 + Math.random()*e_.d);
                     u.append(f);    
                 }
                 g.append(u);    
             }      
         }
 
-        g.append(Lab.likvo("likvo",w,h));
+        // pli bone ne aŭtomate aldonu likvaĵon, sed
+        // kreu aparte laŭbezone! NEcesas anstatŭe transdoni
+        // objekton por likvo aŭ g, al kiu aldoni...
+        if (w&&h) g.append(Lab.likvo("likvo",w,h));
         eroj(ero1);
-        eroj(ero2);
+        if (ero2) eroj(ero2);
 
-        const e = Lab.e("g");
-        e.append(lim,g);
+        e.append(g);
         this.g = e;
     }
 }
@@ -398,7 +411,7 @@ class Lab {
     }
 
     /** 
-     * Kreas movanimacion por falo de precipitaĵoj ks
+     * Kreas movanimacion por falo de falaĵoj ks
      * @param {number} dy vojo de falo vertikale
      * @param {number} dx horizontala komponento de falo
      * @param {number} vx vario de horizontala pozicio
@@ -428,21 +441,21 @@ class Lab {
     }
 
     /**
-     * Kreas precipiton en likvo kiel enhavon de glaso kc. Erojn de precipito transdonu kiel objekto 
+     * Kreas falaĵon (gutoj, precipito ks). Erojn de precipito transdonu kiel objekto 
      * {id: referencilo, n: nombro, s: supro, a: alteco, fd: faldistanco, af: falaĵalteco}, 
      * a: alteco de distribuo mezurite de la supro
      * fd: faldistanco, se ne donita ĝisgrunde
      * af: vario de falaĵo surgrunde
      * donu pezajn malgrandajn erojn unue, due la pli grandajn nubecajn!
      * @param {string} id unika rekonilo
-     * @param {string} cls klasnomo de precipito, ekz-e por doni koloron, travideblecon ks
+     * @param {string} cls klasnomo de falaĵo, ekz-e por doni koloron, travideblecon ks
      * @param {string} ero1 ero speco unu (difinenda per Laboratorio.ero_smb())
      * @param {string} ero2 ero speco du (difinenda per Laboratorio.ero_smb())
      * @param {number} w larĝeco, apriore 100
      * @param {number} h alteco, apriore 100
      */
-    static precipito(id,cls="precipito",ero1,ero2,w=100,h=100) {
-        return new LabPrecipito(id,cls,ero1,ero2,w,h).g;
+    static falaĵo(id,cls="precipito",ero1,ero2,w=100,h=100) {
+        return new LabFalaĵo(id,cls,ero1,ero2,w,h).g;
     }
 
     /**
@@ -616,7 +629,7 @@ class Laboratorio extends LabSVG {
     }
 
      /**
-     * Kreas eron kiel simbolo uzeble poste, ekz-e kiel precipitero...
+     * Kreas eron kiel simbolo uzeble poste, ekz-e kiel falaĵo (guto, precipitero...)
      */
     ero_smb(id,r,cls="ero") {
         const dif = this.difinoj();

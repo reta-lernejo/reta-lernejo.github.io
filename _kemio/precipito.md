@@ -174,6 +174,17 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       y1: pt.y, y2: sf.y, stroke:"green"
     }));
 
+    // KOREKTU:
+    // anstataŭ s uzu y0 kaj ne negativigu kiel por precipito#
+    // anstataŭ fd uzu dy
+    // permesu doni x0 KAJ dx
+    // pli bone havu flekseblan falaĵon kun aŭ sen limiga likvo!
+    const verŝo = Lab.falaĵo("p_1","gutoj",
+      {id: "guto", n: 11, a: 20, af: 10, x0: pt.x, s:-pt.y, d: 10, fd: sf.y-pt.y},
+      null, 0, 0); 
+
+    ĝi("#lab_aranĝo").append(verŝo);
+
   }
 
 
@@ -181,13 +192,14 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     s_testo();
 
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",500,510);
-    // preparu erojn por precipito
+    // preparu erojn por precipito kaj gutoj
     lab.ero_smb("ero_1",3);
     lab.ero_smb("ero_2",50);
+    lab.ero_smb("guto",3);
 
     // glaso kun likvo/precipito
-    const precipito = Lab.precipito("p_1","precipito",
-      {id: "ero_1", n: 51, a: 150, af: 10, s:250, d: 10, r: 3},
+    const precipito = Lab.falaĵo("p_1","precipito",
+      {id: "ero_1", n: 51, a: 150, af: 10, s:250, d: 10}, // r ne plu uzata
       {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50},
       100, 250);
 
@@ -247,6 +259,11 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
 
       #ero_2 {
         fill: url(#r_gradiento_blanka);
+      }
+
+      #guto {
+        /*fill: url(#vitro);*/
+        fill: red;
       }
 
       .vitro {
