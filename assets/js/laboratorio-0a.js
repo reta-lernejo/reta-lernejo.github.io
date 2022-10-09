@@ -215,38 +215,13 @@ class LabGutbotelo extends LabUjo {
     }
 
     /**
-     * Redonas koordinatojn de pinto per SVGElement.getBoundingClientRect(). 
-     * Atentu ke la botelo/pinto devas esti montrata en la desegno
-     * jam, por ke tio funkciu!
+     * Redonas la element-rekonilon (id) kaj la relativajn koordinatojn de la pinto
      */
-    pinto(lab) {
-        // vd. https://stackoverflow.com/questions/10623809/get-bounding-box-of-element-accounting-for-its-transform
-        // https://www.w3.org/TR/SVG11/coords.html
-        // https://stackoverflow.com/questions/17817790/how-do-i-get-the-global-coordinates-of-a-grouped-svg-element
-        // https://www.sitepoint.com/how-to-translate-from-dom-to-svg-coordinates-and-back-again/
-        // https://stackoverflow.com/questions/72738584/svg-getctm-not-returning-expected-x-y-values
-
-        // translate point to SVG coordinate
-        function svgPoint(element, x, y) {
-            const pt = new DOMPointReadOnly(x,y);
-             /*lab.svg.createSVGPoint();
-            pt.x = x;
-            pt.y = y;
-            */
-        
-            const ma = document.getElementById('lab_aranĝo').getCTM();
-            const me = element.getCTM();
-            const ctm = ma.inverse().multiply(me);
-            return pt.matrixTransform(ctm);        
-        }
-
-        const pinto = document.getElementById(`_gutbotelo_${this.id}_pinto`);
-        //console.log(`pinto: `);
-        //console.log(svgPoint(pinto,0,0));
-        const p = svgPoint(pinto,20,-130)
-        //console.log(p);
-        return p;
-        //console.log(svgPoint(document.getElementById(`_gutbotelo_${this.id}`),0,0))
+    pinto() {
+        return {id: `_gutbotelo_${this.id}_pinto`,
+            x:20,
+            y:-130
+        };
     }
 }
 
@@ -633,6 +608,37 @@ class Laboratorio extends LabSVG {
           r: r,
           class: cls
         }));
+    }
+
+    /**
+     * Redonu transformmatricon por certa elemento en la aranĝo
+     * @param {*} elemento 
+     * @returns 
+     */
+    CTM(elemento) {    
+        // vd. https://stackoverflow.com/questions/72738584/svg-getctm-not-returning-expected-x-y-values
+        const ma = document.getElementById('lab_aranĝo').getCTM();
+        const me = elemento.getCTM();
+        return ma.inverse().multiply(me);
+    }
+    
+    /**
+     * Redonu SVG-koordinatojn de punkto ene de SVG-elemento kiel absolutaj koordinatoj en la aranĝo
+     * t.e. apliku ĉujn transfromojn, de tiu elemento kaj ĉiaj gepatroj ĝis #lab_aranĝo
+     * @param {*} elemento
+     * @param {number} x 
+     * @param {number} y 
+     * @returns 
+     */
+    svgKoord(elemento,x, y) {
+        // vd. komplikaĵojn, specifajn informojn kaj alternativojn en
+        // https://stackoverflow.com/questions/10623809/get-bounding-box-of-element-accounting-for-its-transform
+        // https://www.w3.org/TR/SVG11/coords.html
+        // https://stackoverflow.com/questions/17817790/how-do-i-get-the-global-coordinates-of-a-grouped-svg-element
+        // https://www.sitepoint.com/how-to-translate-from-dom-to-svg-coordinates-and-back-again/
+        const pt = new DOMPointReadOnly(x,y);       
+        const ctm = this.CTM(elemento);
+        return pt.matrixTransform(ctm);        
     }
 
 }

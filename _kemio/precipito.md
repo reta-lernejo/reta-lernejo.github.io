@@ -155,7 +155,9 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     nova.maldekstre = botl.maldekstre;
     lab.movu(botl,botl.maldekstre?"VM":"VD",nova);
 
-    const pt = botl.pinto(lab);
+    const pinto = botl.pinto();
+    const pintoEl = document.getElementById(pinto.id);
+    const pt = lab.svgKoord(pintoEl,pinto.x,pinto.y);
     ĝi("#lab_aranĝo").append(Lab.e("circle",{
       cx: pt.x, cy: pt.y, r: 3, fill:"red"
     }));
