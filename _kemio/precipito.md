@@ -94,6 +94,9 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     "NaOH"
   ];
 
+
+  let lab;
+
   /**
   * Kreu botelon en difinita situacio
   * @param {number} nro numero de la substanco
@@ -150,11 +153,15 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
 
     nova.stato = 2; // verŝa
     nova.maldekstre = botl.maldekstre;
-    lab.movu(botl,botl.maldekstre?"VM":"VD",nova)
+    lab.movu(botl,botl.maldekstre?"VM":"VD",nova);
+
+    const pt = botl.pinto(lab);
+    ĝi("#lab_aranĝo").append(Lab.e("circle",{
+      cx: pt.x, cy: pt.y, r: 3, fill:"red"
+    }));
+
   }
 
-
-  let lab;
 
   lanĉe(()=>{
     s_testo();

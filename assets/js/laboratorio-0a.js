@@ -46,6 +46,260 @@ class LabSVG {
     }
 }
 
+class LabUjo {
+    constructor(id) {
+        this.id = id;
+    }
+}
+
+
+class LabGlaso extends LabUjo {
+
+    /**
+     * Kreas glason kun enhavo
+     * @param id {string} unika rekonilo
+     * @param w {number} larĝeco, apriore 100
+     * @param h {number} alteco, apriore 300
+     * @param enhavo {object} aŭ nombro donate procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
+     */
+    constructor(id, enhavo, w=100, h=300) {
+        super(id);
+
+        const g = Lab.e("g", { id: `_glaso_${id}`, class: "ujo glaso" });
+        const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,0 Q50,4 95,0 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
+
+        const ujo = Lab.e("path",{
+            d: bordo,
+            class: "vitro"
+        });
+        /*
+        const enhavo = Lab.e("rect", {
+            x: 0, y: -200, width: 100, height: 200,
+            class: "likvo"
+        });
+        */
+        const ombro = Lab.e("ellipse",{
+            cx: 60, rx: 60, ry: 8,
+            class: "ombro"
+        });
+        g.append(ombro);
+
+        let enh = enhavo;
+        if (enhavo) {
+            const c_id = `_clp_${id}`;
+            const limigo = Lab.limigo(c_id, 
+                Lab.e("path", {d: bordo})
+            );
+            const ge = Lab.e("g", {
+                "clip-path": `url(#${c_id})`
+            });
+ 
+            if (typeof enhavo === "number") {
+                const alto = h*enhavo/100;
+                enh = Lab.e("rect",{
+                    width: 100,
+                    y: -alto,
+                    height: alto,
+                    class: "likvo"
+                });
+            };
+
+            ge.append(enh);
+            g.append(limigo,ge);
+        }
+
+        g.append(ujo);
+        this.g = g;
+    }
+}
+
+class LabGutbotelo extends LabUjo {
+
+    #pinto;
+
+    /**
+     * Kreas gutbotelon 
+     * @param {string} etikedo
+     * @param {number} pleno enhavpleneco 0..100
+     * @param {number} klino angulo, je kiu la botelo estu klinita
+     * 
+     */    
+    constructor(id,etikedo,pleno=0,klino=0) {
+        super(id);
+        const g = Lab.e("g", { class: "ujo gutbotelo" });
+
+        // bordo de la vitrujo (kaj do ankaŭ limo de enhavo)
+        const bordo = "M0,-100 L0,-4 Q0,0 4,0 Q20,3 36,0 Q40,0 40,-4 L40,-100 Z";
+        let tf = '';
+        const a = (klino+360)%360; // tolerante negativajn angulojn
+        if (a == 0) {
+            const ombro = Lab.e("ellipse",{
+                cx: 25, rx: 25, ry: 5,
+                class: "ombro"
+            });
+            g.append(ombro);
+        } else if (a<90) {
+            const tx = 40-40*pleno/100;
+            tf = `rotate(${a} ${tx} ${-pleno})`;
+        } else if (a<180) {
+            const tx = 40-40*pleno/100;
+            tf = `rotate(${a} ${tx} ${-pleno}) translate(0 ${100-2*pleno})`;
+        } else if (a<270) {
+            const tx = 40*pleno/100;
+            tf = `rotate(${a} ${tx} ${-pleno}) translate(0 ${100-2*pleno})`;
+        } else {
+            const tx = 40*pleno/100;
+            tf = `rotate(${a} ${tx} ${-pleno})`;
+        }
+
+        // konstruu la ujon
+        const ujo = Lab.e("path",{
+            d: bordo,
+            class: "vitro"
+        });
+        // kovrilo, ni aldonas strekon por pinto, por
+        // poste (post ĉiaj transformoj...) scii kie aperu gutoj
+        const kovrilo = Lab.e("polyline",{
+            points: "-2,-100 -2,-105 10,-108 18,-130 22,-130 30,-108 42,-105 42,-100 30,-99.5 20,-99.3 10,-99.5 -2,-100",
+            class: "plasto"
+        });
+        const pinto = Lab.e("line",{
+            id: `_gutbotelo_${id}_pinto`,
+            x1: 18, x2: 22, y1: -130, y2: -130
+        });
+        // surskribo
+        const surskribo = Lab.e("text", {
+            x: 20, y: -60,
+            "text-anchor": "middle",
+            }
+        );
+        for (const t of etikedo.split(/\n/)) {
+            surskribo.append(Lab.e("tspan",{
+                x: 20, dy: 10
+            },t))
+        }
+        g.append(ujo,pinto,kovrilo,surskribo);
+        if (tf) Lab.a(g,{transform: tf});
+
+        // aldonu enhavon        
+        let enhavo = '', limigo;
+        if (pleno) {
+            const c_id = `_clp_${id}`;
+            limigo = Lab.limigo(c_id, 
+                Lab.e("path",{
+                    d: bordo,
+                    transform: tf
+                })
+            );
+
+            // likva enhavo, ĝi ne ekzakte respondas
+            // al la volumeno de cilindro, aparte por
+            // oblikvaj anguloj, sed proksimumo eble sufiĉas
+            // aliokaze oni devus ekzakte elkalkuli la
+            // altecon de la likvaĵo en la botelo depende
+            // de klino, kio estus sufiĉe ambicia entrepreno :-)
+            enhavo = Lab.e("path",
+            {
+                d: `M-110,80 L-110,${-pleno} L110,${-pleno} L110,80 Z`,
+                //d: `M-10,10 L-10,${-pleno} L110,${-pleno} L110,10 Z`,
+                "clip-path": `url(#${c_id})`,
+                class: "likvo"
+            });
+        }
+        //g.append(clip,cenh,ujo,kovrilo,surskribo);
+        const u = Lab.e("g", {id: `_gutbotelo_${id}`}); u.append(limigo,enhavo,g);
+
+        this.g = u;
+        this.pleno = pleno;
+        this.klino = a;
+    }
+
+    /**
+     * Redonas koordinatojn de pinto per SVGElement.getBoundingClientRect(). 
+     * Atentu ke la botelo/pinto devas esti montrata en la desegno
+     * jam, por ke tio funkciu!
+     */
+    pinto(lab) {
+        // vd. https://stackoverflow.com/questions/10623809/get-bounding-box-of-element-accounting-for-its-transform
+        // https://www.w3.org/TR/SVG11/coords.html
+        // https://stackoverflow.com/questions/17817790/how-do-i-get-the-global-coordinates-of-a-grouped-svg-element
+        // https://www.sitepoint.com/how-to-translate-from-dom-to-svg-coordinates-and-back-again/
+        // https://stackoverflow.com/questions/72738584/svg-getctm-not-returning-expected-x-y-values
+
+        // translate point to SVG coordinate
+        function svgPoint(element, x, y) {
+            const pt = new DOMPointReadOnly(x,y);
+             /*lab.svg.createSVGPoint();
+            pt.x = x;
+            pt.y = y;
+            */
+        
+            const ma = document.getElementById('lab_aranĝo').getCTM();
+            const me = element.getCTM();
+            const ctm = ma.inverse().multiply(me);
+            return pt.matrixTransform(ctm);        
+        }
+
+        const pinto = document.getElementById(`_gutbotelo_${this.id}_pinto`);
+        //console.log(`pinto: `);
+        //console.log(svgPoint(pinto,0,0));
+        const p = svgPoint(pinto,20,-130)
+        //console.log(p);
+        return p;
+        //console.log(svgPoint(document.getElementById(`_gutbotelo_${this.id}`),0,0))
+    }
+}
+
+class LabPrecipito {
+    /**
+     * Kreas precipiton en likvo kiel enhavon de glaso kc. Erojn de precipito transdonu kiel objekto 
+     * {id: referencilo, n: nombro, s: supro, a: alteco, fd: faldistanco, af: falaĵalteco}, 
+     * a: alteco de distribuo mezurite de la supro
+     * fd: faldistanco, se ne donita ĝisgrunde
+     * af: vario de falaĵo surgrunde
+     * donu pezajn malgrandajn erojn unue, due la pli grandajn nubecajn!
+     * @param {string} id unika rekonilo
+     * @param {string} cls klasnomo de precipito, ekz-e por doni koloron, travideblecon ks
+     * @param {string} ero1 ero speco unu (difinenda per Laboratorio.ero_smb())
+     * @param {string} ero2 ero speco du (difinenda per Laboratorio.ero_smb())
+     * @param {number} w larĝeco, apriore 100
+     * @param {number} h alteco, apriore 100
+     */
+    constructor(id,cls="precipito",ero1,ero2,w=100,h=100) {
+        const c_id = `_clp_${id}`;
+        const lim = Lab.limigo(c_id, Lab.e("rect",{y: -h, width: w, height: h}));
+        const g = Lab.e("g",{
+            class: cls,
+            "clip-path": `url(#${c_id})`
+        });
+
+        function eroj(e_) {   
+            for (let e=0; e<e_.n; e++) {
+                const y = -(e_.s - Math.random()*ero1.a);
+                const x = e/e_.n*w + Math.random()*w/ero1.n;
+                const u = Lab.e("use",{
+                    href: `#${e_.id}`,
+                    x: x, y: y
+                });
+                if (e_.af || e_.fd) {
+                    const f_alto = (e_.fd || -y) - (Math.random()*e_.af||0);
+                    const f = Lab.falo(f_alto,0,0,e_.d/2 + Math.random()*e_.d);
+                    u.append(f);    
+                }
+                g.append(u);    
+            }      
+        }
+
+        g.append(Lab.likvo("likvo",w,h));
+        eroj(ero1);
+        eroj(ero2);
+
+        const e = Lab.e("g");
+        e.append(lim,g);
+        this.g = e;
+    }
+}
+
 class Lab {
 
     /** Kreas SVG-elementon kun atributoj
@@ -141,7 +395,7 @@ class Lab {
     /**
      * Kreas kaj redonas clipPath-elementon
      */
-    static #limigo(c_id,limFiguro) {
+    static limigo(c_id,limFiguro) {
         const clip = Lab.e("clipPath",{
             id: c_id,
             clipPathUnits: "userSpaceOnUse"
@@ -195,37 +449,7 @@ class Lab {
      * @param {number} h alteco, apriore 100
      */
     static precipito(id,cls="precipito",ero1,ero2,w=100,h=100) {
-        const c_id = `_clp_${id}`;
-        const lim = Lab.#limigo(c_id, Lab.e("rect",{y: -h, width: w, height: h}));
-        const g = Lab.e("g",{
-            class: cls,
-            "clip-path": `url(#${c_id})`
-        });
-
-        function eroj(e_) {   
-            for (let e=0; e<e_.n; e++) {
-                const y = -(e_.s - Math.random()*ero1.a);
-                const x = e/e_.n*w + Math.random()*w/ero1.n;
-                const u = Lab.e("use",{
-                    href: `#${e_.id}`,
-                    x: x, y: y
-                });
-                if (e_.af || e_.fd) {
-                    const f_alto = (e_.fd || -y) - (Math.random()*e_.af||0);
-                    const f = Lab.falo(f_alto,0,0,e_.d/2 + Math.random()*e_.d);
-                    u.append(f);    
-                }
-                g.append(u);    
-            }      
-        }
-
-        g.append(Lab.likvo("likvo",w,h));
-        eroj(ero1);
-        eroj(ero2);
-
-        const e = Lab.e("g");
-        e.append(lim,g);
-        return e;
+        return new LabPrecipito(id,cls,ero1,ero2,w,h).g;
     }
 
     /**
@@ -236,51 +460,7 @@ class Lab {
      * @param enhavo {object} aŭ nombro donate procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
      */
     static glaso(id="glaso", enhavo, w=100, h=300) {
-        const g = Lab.e("g", { id: `_glaso_${id}`, class: "ujo glaso" });
-        const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,0 Q50,4 95,0 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
-
-        const ujo = Lab.e("path",{
-            d: bordo,
-            class: "vitro"
-        });
-        /*
-        const enhavo = Lab.e("rect", {
-            x: 0, y: -200, width: 100, height: 200,
-            class: "likvo"
-        });
-        */
-        const ombro = Lab.e("ellipse",{
-            cx: 60, rx: 60, ry: 8,
-            class: "ombro"
-        });
-        g.append(ombro);
-
-        let enh = enhavo;
-        if (enhavo) {
-            const c_id = `_clp_${id}`;
-            const limigo = Lab.#limigo(c_id, 
-                Lab.e("path", {d: bordo})
-            );
-            const ge = Lab.e("g", {
-                "clip-path": `url(#${c_id})`
-            });
- 
-            if (typeof enhavo === "number") {
-                const alto = h*enhavo/100;
-                enh = Lab.e("rect",{
-                    width: 100,
-                    y: -alto,
-                    height: alto,
-                    class: "likvo"
-                });
-            };
-
-            ge.append(enh);
-            g.append(limigo,ge);
-        }
-
-        g.append(ujo);
-        return({g: g, id: id, tipo: "glaso"});
+        return new LabGlaso(id, enhavo, w, h);
     }
 
     /**
@@ -291,83 +471,7 @@ class Lab {
      * 
      */
     static gutbotelo(id,etikedo,pleno=0,angulo=0) {
-        const g = Lab.e("g", { class: "ujo gutbotelo" });
-
-        // bordo de la vitrujo (kaj do ankaŭ limo de enhavo)
-        const bordo = "M0,-100 L0,-4 Q0,0 4,0 Q20,3 36,0 Q40,0 40,-4 L40,-100 Z";
-        let tf = '';
-        const a = (angulo+360)%360; // tolerante negativajn angulojn
-        if (a == 0) {
-            const ombro = Lab.e("ellipse",{
-                cx: 25, rx: 25, ry: 5,
-                class: "ombro"
-            });
-            g.append(ombro);
-        } else if (a<90) {
-            const tx = 40-40*pleno/100;
-            tf = `rotate(${a} ${tx} ${-pleno})`;
-        } else if (a<180) {
-            const tx = 40-40*pleno/100;
-            tf = `rotate(${a} ${tx} ${-pleno}) translate(0 ${100-2*pleno})`;
-        } else if (a<270) {
-            const tx = 40*pleno/100;
-            tf = `rotate(${a} ${tx} ${-pleno}) translate(0 ${100-2*pleno})`;
-        } else {
-            const tx = 40*pleno/100;
-            tf = `rotate(${a} ${tx} ${-pleno})`;
-        }
-
-        // konstruu la ujon
-        const ujo = Lab.e("path",{
-            d: bordo,
-            class: "vitro"
-        });
-        const kovrilo = Lab.e("polyline",{
-            points: "-2,-100 -2,-105 10,-108 18,-130 22,-130 30,-108 42,-105 42,-100 30,-99.5 20,-99.3 10,-99.5 -2,-100",
-            class: "plasto"
-        });
-        // surskribo
-        const surskribo = Lab.e("text", {
-            x: 20, y: -60,
-            "text-anchor": "middle",
-            }
-        );
-        for (const t of etikedo.split(/\n/)) {
-            surskribo.append(Lab.e("tspan",{
-                x: 20, dy: 10
-            },t))
-        }
-        g.append(ujo,kovrilo,surskribo);
-        if (tf) Lab.a(g,{transform: tf});
-
-        // aldonu enhavon        
-        let enhavo = '', limigo;
-        if (pleno) {
-            const c_id = `_clp_${id}`;
-            limigo = Lab.#limigo(c_id, 
-                Lab.e("path",{
-                    d: bordo,
-                    transform: tf
-                })
-            );
-
-            // likva enhavo, ĝi ne ekzakte respondas
-            // al la volumeno de cilindro, aparte por
-            // oblikvaj anguloj, sed proksimumo eble sufiĉas
-            // aliokaze oni devus ekzakte elkalkuli la
-            // altecon de la likvaĵo en la botelo depende
-            // de klino, kio estus sufiĉe ambicia entrepreno :-)
-            enhavo = Lab.e("path",
-            {
-                d: `M-110,80 L-110,${-pleno} L110,${-pleno} L110,80 Z`,
-                //d: `M-10,10 L-10,${-pleno} L110,${-pleno} L110,10 Z`,
-                "clip-path": `url(#${c_id})`,
-                class: "likvo"
-            });
-        }
-        //g.append(clip,cenh,ujo,kovrilo,surskribo);
-        const u = Lab.e("g", {id: `_gutbotelo_${id}`}); u.append(limigo,enhavo,g);
-        return {g:u, id: id, tipo: "gutbotelo", pleno: pleno, klino: a};
+        return new LabGutbotelo(id,etikedo,pleno,angulo);
     }
 }
 
