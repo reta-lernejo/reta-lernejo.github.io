@@ -60,10 +60,12 @@ class LabGlaso extends LabUjo {
      * @param id {string} unika rekonilo
      * @param w {number} larĝeco, apriore 100
      * @param h {number} alteco, apriore 300
-     * @param enhavo {object} aŭ nombro donate procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
+     * @param enhavo {object} aŭ nombro donante procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
      */
     constructor(id, enhavo, w=100, h=300) {
         super(id);
+        this.larĝo = w;
+        this.alto = h;
 
         const g = Lab.e("g", { id: `_glaso_${id}`, class: "ujo glaso" });
         const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,0 Q50,4 95,0 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
@@ -86,7 +88,7 @@ class LabGlaso extends LabUjo {
 
         let enh = enhavo;
         if (enhavo) {
-            const c_id = `_clp_${id}`;
+            const c_id = `_clp_glaso_${id}`;
             const limigo = Lab.limigo(c_id, 
                 Lab.e("path", {d: bordo})
             );
@@ -95,14 +97,16 @@ class LabGlaso extends LabUjo {
             });
  
             if (typeof enhavo === "number") {
-                const alto = h*enhavo/100;
+                this.enh_alto = h*enhavo/100;
                 enh = Lab.e("rect",{
                     width: 100,
-                    y: -alto,
-                    height: alto,
+                    y: -this.enh_alto,
+                    height: this.enh_alto,
                     class: "likvo"
                 });
             };
+
+            enh.id = `_glaso_${id}_enhavo`;
 
             ge.append(enh);
             g.append(limigo,ge);
@@ -110,6 +114,17 @@ class LabGlaso extends LabUjo {
 
         g.append(ujo);
         this.g = g;
+    }
+
+    /** 
+     * Redonas mezpunkton de surfaco kiel {id,x,y}
+     */
+    surfaco() {
+        return {
+            id: `_glaso_${this.id}_enhavo`,
+            x: this.larĝo/2,
+            y: -this.enh_alto
+        }
     }
 }
 
@@ -218,7 +233,10 @@ class LabGutbotelo extends LabUjo {
      * Redonas la element-rekonilon (id) kaj la relativajn koordinatojn de la pinto
      */
     pinto() {
-        return {id: `_gutbotelo_${this.id}_pinto`,
+        // alternative ni povus transdoni la ujo-grupon forlastane la pinto-elementon, 
+        // la ujo momente ne havas .id
+        return {
+            id: `_gutbotelo_${this.id}_pinto`,
             x:20,
             y:-130
         };
@@ -454,18 +472,17 @@ class Lab {
 class Laboratorio extends LabSVG {
     constructor(svg,f_id,f_w,f_h) {
         super(svg);
-        const ns = "http://www.w3.org/2000/svg";
-        const g = document.createElementNS(ns, 'g');
-        g.id = "lab_aranĝo";
-        this.aranĝo = g;
+        this.aranĝo = Lab.e("g", {
+            id: "lab_aranĝo"
+        });
 
         if (f_id) {
             const fono = Lab.rrekt(f_w,f_h,4);
             fono.id = f_id;
-            g.append(fono);
+            this.aranĝo.append(fono);
         }
 
-        this.svg.append(g);
+        this.svg.append(this.aranĝo);
 
         this.lokoj = {};
         this.iloj = {};

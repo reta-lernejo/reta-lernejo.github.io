@@ -155,11 +155,23 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     nova.maldekstre = botl.maldekstre;
     lab.movu(botl,botl.maldekstre?"VM":"VD",nova);
 
+    // por verŝgutoj ni bezonas la pinton de la botelo kaj la surfacon de la glaso
     const pinto = botl.pinto();
-    const pintoEl = document.getElementById(pinto.id);
-    const pt = lab.svgKoord(pintoEl,pinto.x,pinto.y);
+    const pt = lab.svgKoord(ĝi('#'+pinto.id),pinto.x,pinto.y);
     ĝi("#lab_aranĝo").append(Lab.e("circle",{
       cx: pt.x, cy: pt.y, r: 3, fill:"red"
+    }));
+
+    //const surfaco = lab.iloj["glaso"].surfaco();
+    const surfaco = {id: "_glaso_glaso", x: 50, y: -250};
+
+    // surfaco indikas la mezpunkton de la surfaco, por
+    // vertikala falo ni poste uzu pt.x!
+    const sf = lab.svgKoord(ĝi('#'+surfaco.id),surfaco.x,surfaco.y);
+
+    ĝi("#lab_aranĝo").append(Lab.e("line",{
+      x1: pt.x, x2: pt.x + (sf.x-pt.x)/5, 
+      y1: pt.y, y2: sf.y, stroke:"green"
     }));
 
   }
