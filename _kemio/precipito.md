@@ -8,6 +8,7 @@ js:
   - laboratorio-0a
 ---
 
+...paĝo en preparo...
 
 <!--
 https://en.wikipedia.org/wiki/Solubility_chart
@@ -95,7 +96,39 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
   ];
 
 
-  let lab;
+  let lab; // la laboratorio kaj iloj
+  let mikso = []; // miksaĵo de du ĥemiaĵoj
+
+
+  function miksaldono(maldekstre,substanco) {
+    const s = maldekstre?0:1;
+    mikso[s] = substanco;
+
+    function nesolvebla(s1,s2) {
+      if (s1 && s2) {
+        const jj1 = jonoj[s1];
+        const jj2 = jonoj[s2];
+
+        return !solvebla(jj1[0],jj2[1]) || !solvebla(jj2[0],jj1[1]);
+      }
+    }
+
+    if (nesolvebla(mikso[0],mikso[1])) {
+      // lanĉu precipiton
+      const prcp = ĝi("#_glaso_glaso_enhavo .precipito");
+      // forigu display: none!
+      prcp.classList.remove("klara_likvo");
+
+      setTimeout(() => {
+        // ankaŭ la animacion komencu iom post iom...!
+        // uzu iteraciilon kun setTimeout por tio, ĉu?
+          for (a of ĉiuj('#_glaso_glaso_enhavo animateMotion')) {
+            a.beginElement();
+          }
+        }, 1000);
+    }
+  }
+
 
   /**
   * Kreu botelon en difinita situacio
@@ -158,33 +191,46 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     // por verŝgutoj ni bezonas la pinton de la botelo kaj la surfacon de la glaso
     const pinto = botl.pinto();
     const pt = lab.svgKoord(ĝi('#'+pinto.id),pinto.x,pinto.y);
+/*
     ĝi("#lab_aranĝo").append(Lab.e("circle",{
       cx: pt.x, cy: pt.y, r: 3, fill:"red"
     }));
-
+*/
     //const surfaco = lab.iloj["glaso"].surfaco();
     const surfaco = {id: "_glaso_glaso", x: 50, y: -250};
 
     // surfaco indikas la mezpunkton de la surfaco, por
     // vertikala falo ni poste uzu pt.x!
     const sf = lab.svgKoord(ĝi('#'+surfaco.id),surfaco.x,surfaco.y);
-
+/*
     ĝi("#lab_aranĝo").append(Lab.e("line",{
       x1: pt.x, x2: pt.x + (sf.x-pt.x)/5, 
       y1: pt.y, y2: sf.y, stroke:"green"
     }));
+    */
 
     // KOREKTU:
     // anstataŭ s uzu y0 kaj ne negativigu kiel por precipito#
     // anstataŭ fd uzu dy
     // permesu doni x0 KAJ dx
     // pli bone havu flekseblan falaĵon kun aŭ sen limiga likvo!
-    const verŝo = Lab.falaĵo("p_1","gutoj",
-      {id: "guto", n: 11, a: 20, af: 10, x0: pt.x, s:-pt.y, d: 10, fd: sf.y-pt.y},
+    const gutoj_id = "gutoj_"+(nova.maldekstre?"md":"dk");
+    const verŝo = Lab.falaĵo(gutoj_id,"gutoj",
+      {
+        id: "guto", n: 2, a: 3, af: 2, 
+        x0: pt.x, s:-pt.y, d: 1,  // daŭro: 1s
+        fd: sf.y-pt.y, 
+        poste: (ev) => {
+          ĝi('#'+gutoj_id).remove();
+          miksaldono(nova.maldekstre,subst);
+        }
+      },
       null, 0, 0); 
 
     ĝi("#lab_aranĝo").append(verŝo);
-
+    for (a of ĉiuj(`#${gutoj_id} animateMotion`)){
+      a.beginElement();
+    };
   }
 
 
@@ -202,6 +248,10 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       {id: "ero_1", n: 51, a: 150, af: 10, s:250, d: 10}, // r ne plu uzata
       {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50},
       100, 250);
+
+    // precipitaĵo estu komence nevidebla
+    const prcp = precipito.querySelector(".precipito"); // ĝi("_glaso_glaso_enhavo .precipito");
+    prcp.classList.add("klara_likvo");
 
     const glaso = Lab.glaso("glaso",precipito);
     lab.metu(glaso,{id: "tablo", x:200, y:500});
@@ -253,6 +303,11 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
         */
       }
 
+      /* kaŝu precipitaĵon */
+      .klara_likvo use {
+        display: none;
+      }
+
       #ero_1 {
         fill: url(#r_gradiento_blanka);        
       }
@@ -262,8 +317,10 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       }
 
       #guto {
-        /*fill: url(#vitro);*/
-        fill: red;
+        stroke: gray;
+        stroke-width: 0.5;
+        stroke-dasharray: 5 10;
+        fill: #def;
       }
 
       .vitro {
@@ -285,8 +342,6 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
         font-stretch: extra-condensed;
         font-weight: bold;
       }
-
-
     ]]>
   </style>
   <defs>
