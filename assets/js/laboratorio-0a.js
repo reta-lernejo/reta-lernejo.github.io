@@ -68,7 +68,7 @@ class LabGlaso extends LabUjo {
         this.alto = h;
 
         const g = Lab.e("g", { id: `_glaso_${id}`, class: "ujo glaso" });
-        const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,0 Q50,4 95,0 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
+        const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,1 Q50,8 95,1 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
 
         const ujo = Lab.e("path",{
             d: bordo,
@@ -246,10 +246,12 @@ class LabGutbotelo extends LabUjo {
 class LabFalaĵo {
     /**
      * Kreas falaĵon (gutoj, precipito ks). Erojn de falaĵo transdonu kiel objekto 
-     * {id: referencilo, n: nombro, d: mezdaŭro, s: supro, a: alteco, fd: faldistanco, af: falaĵalteco}, 
+     * {id: referencilo, n: nombro, d: mezdaŭro, s: supro, a: alteco, 
+     * fd: faldistanco, af: falaĵalteco, fn: fine, poste: finreago}, 
      *   a: alteco de distribuo mezurite de la supro
      *   fd: faldistanco, se ne donita ĝisgrunde
-     *   af: vario de falaĵo surgrunde
+     *   af: vario/alteco de falaĵo surgrunde
+     *   fn: fina stato (freeze|remove)
      * donu pezajn malgrandajn erojn unue, due la pli grandajn nubecajn!
      * @param {string} id unika rekonilo
      * @param {string} cls klasnomo de falaĵo, ekz-e por doni koloron, travideblecon ks
@@ -261,7 +263,9 @@ class LabFalaĵo {
     constructor(id,cls="precipito",ero1,ero2,w=100,h=100) {
         const c_id = `_clp_${id}`;
 
-        const e = Lab.e("g");
+        const e = Lab.e("g", {
+            id: id
+        });
         const g = Lab.e("g",{
             class: cls
         });
@@ -287,7 +291,9 @@ class LabFalaĵo {
                     // kreu falanimacion
                     const f = Lab.falo(f_alto,0,0,
                         // daŭro en s
-                        e_.d/2 + Math.random()*e_.d);
+                        e_.d/2 + Math.random()*e_.d, 1,
+                        //fina stato
+                        e_.fn, e_.poste);
                     u.append(f);    
                 }
                 g.append(u);    
@@ -416,16 +422,21 @@ class Lab {
      * @param {number} dx horizontala komponento de falo
      * @param {number} vx vario de horizontala pozicio
      * @param {number} d daŭro en sekundoj
-     * @param {number} r maksimuma ripetoj (kun hazardo)
+     * @param {number} rp maksimuma ripetoj (kun hazardo)
+     * @param {string} fn konduto ĉe fino (freeze|remove)
      */
-    static falo(dy,dx=0,vx=0,d=10,r=1) {
-        return Lab.e("animateMotion", {
+    static falo(dy, dx=0, vx=0, d=10, rp=1, fn="freeze", poste) {
+        const f = Lab.e("animateMotion", {
             dur: d+'s',
-            repeatCount: r>1?Math.floor(Math.random()*r):1,
-            fill: "freeze",
-            path: `M0,0 L${dx},${dy}` // momente ni ignoras vx
+            repeatCount: rp>1?Math.floor(Math.random()*rp):1,
+            fill: fn,
+            begin: "indefinite", // voku poste beginelement() por lanĉi!
+            path: `M0,0 L${dx},${dy}`, // momente ni ignoras vx
             // per keyTimes, keyPoint ni povas ekz-e ankoraŭ akceli!
+           //onend: (ev)=>poste(ev)
         });
+        if (poste) f.addEventListener("endEvent",poste);
+        return f;
     }
 
     /**
