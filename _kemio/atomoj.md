@@ -18,7 +18,7 @@ Protonoj kaj neŭtronoj kune formas la *nukleon* (la centron) de la atomo. Dum l
 
 Ĉio ĉi, pri la konsisto kaj la fenomenoj okazantaj ene de atomoj estas temo de atomfiziko. Sed aliflanke la atomoj konsistigas la ĥemiajn elementojn: ĉiu [elemento](perioda_sistemo) estas karakterizita de la nombro de protonoj, kiujn havas ĝiaj atomoj. 
 
-Neŭtralaj atomoj havas sammulte da protonoj kaj elektronoj tiel, ke la ŝargoj egaliĝas. Atomoj povas altiri pliajn elektronojn kaj ekhavi pozitivan ŝargon aŭ perdi elektronojn kaj ekhavi negativan ŝargon. Tiajn ŝargitajn atomojn oni nomas *jonoj*. Pozitiva jono estas *katjono* kaj negativa *anjono*. (Cetere ankaŭ kombinaĵoj de pluraj atomoj povas havi suman ŝargon kaj do esti jonoj.)
+Neŭtralaj atomoj havas sammulte da protonoj kaj elektronoj tiel, ke la ŝargoj egaliĝas. Atomoj povas altiri pliajn elektronojn kaj ekhavi negativan ŝargon aŭ perdi elektronojn kaj ekhavi pozitivan ŝargon. Tiajn ŝargitajn atomojn oni nomas *jonoj*. Pozitiva jono estas *katjono* kaj negativa *anjono*. (Cetere ankaŭ kombinaĵoj de pluraj atomoj povas havi suman ŝargon kaj do esti jonoj.)
 
 Atomoj kombiniĝas al la diversaj substancoj de la materio pere de elektromagnetaj fortoj efikantaj inter ili. Tiuj fortoj estas difinitaj per la [distribuo de la elektronoj](elektrondistribuo).
 
