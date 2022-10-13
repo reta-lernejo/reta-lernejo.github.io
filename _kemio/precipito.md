@@ -115,9 +115,28 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
 
     if (nesolvebla(mikso[0],mikso[1])) {
       // lanĉu precipiton
-      const prcp = ĝi("#_glaso_glaso_enhavo .precipito");
+      // const prcp = ĝi("#_glaso_glaso_enhavo .precipito");
       // forigu display: none!
-      prcp.classList.remove("klara_likvo");
+      // prcp.classList.remove("klara_likvo");
+
+      const glaso = lab.iloj["glaso"];
+
+      let precipito;
+      if (mikso[1] == "Pb(NO₃)₂") {
+        // flava precipito
+        precipito = Lab.falaĵo("p_pb","precipito",
+          {id: "ero_pb", n: 11, a: 80, af: 100, s:320, d: 50},
+          null,
+          100, 250);
+      } else {
+        // blanka (apriora) precipito
+        precipito = Lab.falaĵo("p_1","precipito",
+          {id: "ero_1", n: 51, a: 150, af: 10, s:270, d: 10},
+          {id: "ero_2", n: 11, a: 80, af: 100, s:320, d: 50},
+          100, 250);
+      }
+
+      glaso.enhavo(precipito);
 
       setTimeout(() => {
         // ankaŭ la animacion komencu iom post iom...!
@@ -217,7 +236,7 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     const gutoj_id = "gutoj_"+(nova.maldekstre?"md":"dk");
     const verŝo = Lab.falaĵo(gutoj_id,"gutoj",
       {
-        id: "guto", n: 2, a: 3, af: 2, 
+        id: "guto", n: 7, a: 3, af: 2, 
         x0: pt.x, s:-pt.y, d: 1,  // daŭro: 1s
         fd: sf.y-pt.y, 
         poste: (ev) => {
@@ -241,19 +260,17 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     // preparu erojn por precipito kaj gutoj
     lab.ero_smb("ero_1",3);
     lab.ero_smb("ero_2",50);
+    lab.ero_smb("ero_pb",50);
     lab.ero_smb("guto",3);
 
-    // glaso kun likvo/precipito
-    const precipito = Lab.falaĵo("p_1","precipito",
-      {id: "ero_1", n: 51, a: 150, af: 10, s:250, d: 10}, // r ne plu uzata
-      {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50},
-      100, 250);
+/*
+    // precipitaĵoj estu komence nevideblaj
+    for (const prcp of ĉiuj(".precipito") {
+      prcp.classList.add("klara_likvo");
+    } 
+    */
 
-    // precipitaĵo estu komence nevidebla
-    const prcp = precipito.querySelector(".precipito"); // ĝi("_glaso_glaso_enhavo .precipito");
-    prcp.classList.add("klara_likvo");
-
-    const glaso = Lab.glaso("glaso",precipito);
+    const glaso = Lab.glaso("glaso",5/6); // alteco = 250 (5/6*300)
     lab.metu(glaso,{id: "tablo", x:200, y:500});
 
     // kreu botelojn kun substancoj laŭ numero
@@ -291,7 +308,7 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
  <style type="text/css">
     <![CDATA[
       #fono {
-        fill: #DDF8FF;
+        fill: #0C3742;
       }
 
       .likvo {
@@ -316,11 +333,16 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
         fill: url(#r_gradiento_blanka);
       }
 
+      #ero_pb {
+        fill: url(#r_gradiento_flava);
+      }
+
       #guto {
         stroke: gray;
         stroke-width: 0.5;
         stroke-dasharray: 5 10;
-        fill: #def;
+        fill: #8cd;
+        fill-opacity: 0.6;
       }
 
       .vitro {
@@ -352,9 +374,13 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="white" stop-opacity="0"/>
     </radialGradient>    
+    <radialGradient id="r_gradiento_flava">
+      <stop offset="0%" stop-color="#ffee00" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffee00" stop-opacity="0"/>
+    </radialGradient>    
     <radialGradient id="r_gradiento_ombro" fx="60%" fy="10%">
-      <stop offset="0%" stop-color="black" stop-opacity="0.1"/>
-      <stop offset="60%" stop-color="black" stop-opacity="0.15"/>
+      <stop offset="0%" stop-color="black" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="black" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="black" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="vitro">
@@ -362,7 +388,7 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       <stop offset="7%" stop-color="#09F" stop-opacity="0.2"/>
       <stop offset="8%" stop-color="white" stop-opacity="0.6"/>
       <stop offset="48%" stop-color="white" stop-opacity="0"/>
-      <stop offset="90%" stop-color="#AEF" stop-opacity="0"/>
+      <stop offset="90%" stop-color="#034" stop-opacity="0"/>
       <stop offset="98%" stop-color="black" stop-opacity="0.7"/>
     </linearGradient>     
   </defs>

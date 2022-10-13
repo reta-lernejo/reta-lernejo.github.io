@@ -62,7 +62,7 @@ class LabGlaso extends LabUjo {
      * @param h {number} alteco, apriore 300
      * @param enhavo {object} aŭ nombro donante procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
      */
-    constructor(id, enhavo, w=100, h=300) {
+    constructor(id, w=100, h=300) {
         super(id);
         this.larĝo = w;
         this.alto = h;
@@ -84,36 +84,49 @@ class LabGlaso extends LabUjo {
             cx: 60, rx: 60, ry: 8,
             class: "ombro"
         });
-        g.append(ombro);
+        g.append(ombro,ujo);
+        this.g = g;
+    }
 
-        let enh = enhavo;
-        if (enhavo) {
-            const c_id = `_clp_glaso_${id}`;
+    /**
+     * Aldonas aŭ anstataŭas enhavon.
+     * @param {object|number} enh SVG-elemento reprezentanta la enhavon aŭ nombro donante procentaĵon de pleneco 
+     * 
+     */
+    enhavo(enh) {
+        const glaso_id = `_glaso_${this.id}`;
+        const enh_id = `_glaso_${this.id}_enhavo`;
+
+        let nova_enh = enh;
+        if (typeof enh === "number") {
+            this.enh_alto = this.alto*enh;
+            nova_enh = Lab.e("rect",{
+                width: 100,
+                y: -this.enh_alto,
+                height: this.enh_alto,
+                class: "likvo"
+            });
+        };
+
+        const c_id = `_clp_glaso_${this.id}`;
+        nova_enh.id = enh_id;
+
+        const malnova_enh = this.g.querySelector(enh_id);
+        if (malnova_enh) {
+            const parent = malnova_enh.parent;
+            parent.replaceChild(nova_enh,malnova_enh)
+        } else {
+            const bordo = this.g.querySelector("path").getAttribute("d");
             const limigo = Lab.limigo(c_id, 
                 Lab.e("path", {d: bordo})
             );
             const ge = Lab.e("g", {
                 "clip-path": `url(#${c_id})`
             });
- 
-            if (typeof enhavo === "number") {
-                this.enh_alto = h*enhavo/100;
-                enh = Lab.e("rect",{
-                    width: 100,
-                    y: -this.enh_alto,
-                    height: this.enh_alto,
-                    class: "likvo"
-                });
-            };
-
-            enh.id = `_glaso_${id}_enhavo`;
-
-            ge.append(enh);
-            g.append(limigo,ge);
+    
+            ge.append(nova_enh);
+            this.g.append(limigo,ge);            
         }
-
-        g.append(ujo);
-        this.g = g;
     }
 
     /** 
@@ -303,7 +316,7 @@ class LabFalaĵo {
         // pli bone ne aŭtomate aldonu likvaĵon, sed
         // kreu aparte laŭbezone! NEcesas anstatŭe transdoni
         // objekton por likvo aŭ g, al kiu aldoni...
-        if (w&&h) g.append(Lab.likvo("likvo",w,h));
+        //if (w&&h) g.append(Lab.likvo("likvo",w,h));
         eroj(ero1);
         if (ero2) eroj(ero2);
 
@@ -477,7 +490,9 @@ class Lab {
      * @param enhavo {object} aŭ nombro donate procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
      */
     static glaso(id="glaso", enhavo, w=100, h=300) {
-        return new LabGlaso(id, enhavo, w, h);
+        const glaso = new LabGlaso(id, w, h);
+        if (enhavo) glaso.enhavo(enhavo);
+        return glaso;
     }
 
     /**
