@@ -16,6 +16,28 @@ https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/
 https://en.wikipedia.org/wiki/Solubility#Solubility_of_ionic_compounds_in_water
 https://de.wikipedia.org/wiki/L%C3%B6slichkeit
 https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbindung.pdf
+
+https://en.intl.chemicalaid.com/tools/equationbalancer.php?equation=Pb%28NO3%292+%2B+CuSO4+%3D+Pb%28SO4%292+%2B+CuNO3
+-->
+
+<!--
+eksperimentoj:
+
+- https://www.youtube.com/watch?v=DVrfgHMHjS4
+- https://www.youtube.com/watch?v=Qc2pWUIzP2k
+- https://www.youtube.com/watch?v=hVBsrwJFBTY
+
+- NaCl + AgNO3 -> AgCl(s) + NaNO3 // blanka
+- KI + AgNO3 -> AgI(s) + KNO3 // flaveta (https://www.youtube.com/watch?v=m_0lpAFAisU)
+- 2NaI + Pb(NO3)2 -> PbI2(s) + 2NaNO3 // flava (https://www.youtube.com/watch?v=hVBsrwJFBTY)
+- 2KI + Pb(NO3)2 -> PbI2(s) + 2KNO3 // flava (https://www.youtube.com/watch?v=6TRuMSjxgYs, https://www.youtube.com/watch?v=2EQznGPZY5A,  https://www.youtube.com/watch?v=H4COWrI0WsQ)
+- 2NaCl + Pb(NO3)2 -> PbCl2 + 2NaNO3 // blanka???
+- CuSO4 + 2NAOH -> Cu(OH)2(s) + Na2SO4 // helblua (https://www.youtube.com/watch?v=hVBsrwJFBTY)
+- 2NaCl + Ba(NO3)2 -> 2NaNO3 + BaCl2 // ĉiuj solveblaj (https://www.youtube.com/watch?v=hVBsrwJFBTY)
+- Na2CO3 + Ba(NO3)2 -> BaCO3(s) + 2NaNO3 // blanka (https://www.youtube.com/watch?v=hVBsrwJFBTY)
+- xxx -> PbSO4 (https://www.youtube.com/watch?v=ZYNEHwHAtqk 7:26)
+-(?) CuSO4 + 2 NaOH -> Cu(OH)2 + Na2SO4 (https://de.wikipedia.org/wiki/Kupfer(II)-nitrat, blau-grün)
+
 -->
 
 <script>
@@ -55,14 +77,16 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
   }
 
   const jonoj = {
+    // maldekstre
     "NaCl": ['Na+','Cl-'],
     "KI": ['K+','I-'],
     "Na₂CO₃": ['Na+','CO32-'],
-    "CuSO₄": ['Cu2+','SO42-'],
+    "NaOH": ['Na+','OH-'],
+    // dekstre
     "AgNO₃": ['Ag+','NO3-'],
     "Ba(NO₃)₂": ['Ba2+','NO3-'],
     "Pb(NO₃)₂": ['Pb2+','NO3-'],
-    "NaOH": ['Na+','OH-']
+    "CuSO₄": ['Cu2+','SO42-']
   }
     
   function s_testo() {
@@ -85,14 +109,16 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
   }
 
   const substancoj = [
+    // maldekstre
     "NaCl",
     "KI",
     "Na₂CO₃",
-    "CuSO₄",
+    "NaOH",
+    // dekstre
     "AgNO₃",
     "Ba(NO₃)₂",
     "Pb(NO₃)₂",
-    "NaOH"
+    "CuSO₄"
   ];
 
 
@@ -122,17 +148,29 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
       const glaso = lab.iloj["glaso"];
 
       let precipito;
-      if (mikso[1] == "Pb(NO₃)₂") {
+      if (mikso[0] == "KI" && mikso[1] == "AgNO₃") {
         // flava precipito
-        precipito = Lab.falaĵo("p_pb","precipito",
-          {id: "ero_pb", n: 11, a: 80, af: 100, s:320, d: 50},
+        precipito = Lab.falaĵo("p_agi","precipito",
+          {id: "ero_agi", n: 11, a: 80, af: 50, fd: 100, s:300, d: 50},
           null,
           100, 250);
+      } else if (mikso[1] == "Pb(NO₃)₂") {
+        // flava precipito
+        precipito = Lab.falaĵo("p_pb","precipito",
+          {id: "ero_pb", n: 11, a: 80, af: 50, fd: 100, s:300, d: 50},
+          null,
+          100, 250);
+      } else if (mikso[1] == "CuSO₄") {
+        // blua precipito
+        precipito = Lab.falaĵo("p_cu","precipito",
+          {id: "ero_cu", n: 11, a: 80, af: 200, fd: 200, s:300, d: 50},
+          null,
+          100, 250);    
       } else {
         // blanka (apriora) precipito
         precipito = Lab.falaĵo("p_1","precipito",
           {id: "ero_1", n: 51, a: 150, af: 10, s:270, d: 10},
-          {id: "ero_2", n: 11, a: 80, af: 100, s:320, d: 50},
+          {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50},
           100, 250);
       }
 
@@ -260,7 +298,9 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     // preparu erojn por precipito kaj gutoj
     lab.ero_smb("ero_1",3);
     lab.ero_smb("ero_2",50);
+    lab.ero_smb("ero_agi",50);
     lab.ero_smb("ero_pb",50);
+    lab.ero_smb("ero_cu",50);
     lab.ero_smb("guto",3);
 
 /*
@@ -333,8 +373,16 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
         fill: url(#r_gradiento_blanka);
       }
 
+      #ero_agi {
+        fill: url(#r_gradiento_flaveta);
+      }
+
       #ero_pb {
         fill: url(#r_gradiento_flava);
+      }
+
+      #ero_cu {
+        fill: url(#r_gradiento_blua);
       }
 
       #guto {
@@ -356,6 +404,11 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
         fill: url(#r_gradiento_ombro);
       }
 
+      .etikedo {
+        fill: white;
+        fill-opacity: 0.4;
+      }
+
       .ujo text {
         font-size: 9px;
       }
@@ -373,10 +426,18 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
     <radialGradient id="r_gradiento_blanka">
       <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="white" stop-opacity="0"/>
-    </radialGradient>    
+    </radialGradient> 
     <radialGradient id="r_gradiento_flava">
-      <stop offset="0%" stop-color="#ffee00" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#ffee00" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#ffdd00" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffdd00" stop-opacity="0"/>
+    </radialGradient>    
+    <radialGradient id="r_gradiento_flaveta">
+      <stop offset="0%" stop-color="#fea" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#fea" stop-opacity="0"/>
+    </radialGradient>    
+    <radialGradient id="r_gradiento_blua">
+      <stop offset="0%" stop-color="#8ff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8ff" stop-opacity="0"/>
     </radialGradient>    
     <radialGradient id="r_gradiento_ombro" fx="60%" fy="10%">
       <stop offset="0%" stop-color="black" stop-opacity="0.25"/>

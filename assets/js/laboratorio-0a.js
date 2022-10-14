@@ -197,7 +197,7 @@ class LabGutbotelo extends LabUjo {
         });
         // surskribo
         const surskribo = Lab.e("text", {
-            x: 20, y: -60,
+            x: 20, y: -90,
             "text-anchor": "middle",
             }
         );
@@ -206,7 +206,10 @@ class LabGutbotelo extends LabUjo {
                 x: 20, dy: 10
             },t))
         }
-        g.append(ujo,pinto,kovrilo,surskribo);
+        const papero = Lab.rkrekt(36,24,3,1,2,-90);
+        Lab.a(papero,{class: "etikedo"});
+
+        g.append(ujo,pinto,kovrilo,papero,surskribo);
         if (tf) Lab.a(g,{transform: tf});
 
         // aldonu enhavon        
@@ -373,6 +376,26 @@ class Lab {
             d: `M${x+a},${y} L${x+w-a},${y} Q${x+w},${y} ${x+w},${y+a} ` // supra linio
              + `L${x+w},${y+h-a} Q${x+w},${y+h} ${x+w-a},${y+h}`  // dekstra linio
              + `L${x+a},${y+h} Q${x},${y+h} ${x},${y+h-a}`  // malsupra linio
+             + `L${x},${y+a} Q${x},${y} ${x+a},${y}` // maldekstra linio
+        });
+    }
+
+
+    /** 
+     * Desegnas rektangulon kun rondigitaj anguloj kaj kurbaj flankoj
+     * @param {number} w larĝo
+     * @param {number} h alteco
+     * @param {number} a angulgrandeco
+     * @param {number} d kurba devio de flankoj
+     * @param {number} x x-koordinato (maldekstre)
+     * @param {number} y y-koordinato (supre)
+     */
+    
+     static rkrekt(w,h,a,d,x=0,y=0) {
+        return Lab.e("path",{
+            d: `M${x+a},${y} Q${x+w/2},${y-d} ${x+w-a},${y} Q${x+w},${y} ${x+w},${y+a} ` // supra linio
+             + `L${x+w},${y+h-a} Q${x+w},${y+h} ${x+w-a},${y+h}`  // dekstra linio
+             + `Q${x+w/2},${y+h+d} ${x+a},${y+h} Q${x},${y+h} ${x},${y+h-a}`  // malsupra linio
              + `L${x},${y+a} Q${x},${y} ${x+a},${y}` // maldekstra linio
         });
     }
