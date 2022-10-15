@@ -263,7 +263,7 @@ class LabFalaĵo {
     /**
      * Kreas falaĵon (gutoj, precipito ks). Erojn de falaĵo transdonu kiel objekto 
      * {id: referencilo, n: nombro, d: mezdaŭro, s: supro, a: alteco, 
-     * fd: faldistanco, af: falaĵalteco, fn: fine, poste: finreago}, 
+     * fd: faldistanco, af: falaĵalteco, fn: fine, c: klasoj, poste: finreago}, 
      *   a: alteco de distribuo mezurite de la supro
      *   fd: faldistanco, se ne donita ĝisgrunde
      *   af: vario/alteco de falaĵo surgrunde
@@ -300,7 +300,8 @@ class LabFalaĵo {
                 const x = (e_.x0||0) + e/e_.n*w + Math.random()*w/ero1.n;
                 const u = Lab.e("use",{
                     href: `#${e_.id}`,
-                    x: x, y: y
+                    x: x, y: y,
+                    class: e_.c
                 });
                 if (e_.af || e_.fd) {
                     const f_alto = (e_.fd || -y) - (Math.random()*e_.af||0);

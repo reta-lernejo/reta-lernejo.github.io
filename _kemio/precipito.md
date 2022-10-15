@@ -31,13 +31,13 @@ eksperimentoj:
 - KI + AgNO3 -> AgI(s) + KNO3 // flaveta (https://www.youtube.com/watch?v=m_0lpAFAisU)
 - 2NaI + Pb(NO3)2 -> PbI2(s) + 2NaNO3 // flava (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - 2KI + Pb(NO3)2 -> PbI2(s) + 2KNO3 // flava (https://www.youtube.com/watch?v=6TRuMSjxgYs, https://www.youtube.com/watch?v=2EQznGPZY5A,  https://www.youtube.com/watch?v=H4COWrI0WsQ)
-- 2NaCl + Pb(NO3)2 -> PbCl2 + 2NaNO3 // blanka???
+- 2NaCl + Pb(NO3)2 -> PbCl2 + 2NaNO3 // blanka (https://www.youtube.com/watch?v=0RuayQSG6fc)
 - CuSO4 + 2NAOH -> Cu(OH)2(s) + Na2SO4 // helblua (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - 2NaCl + Ba(NO3)2 -> 2NaNO3 + BaCl2 // ĉiuj solveblaj (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - Na2CO3 + Ba(NO3)2 -> BaCO3(s) + 2NaNO3 // blanka (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - xxx -> PbSO4 (https://www.youtube.com/watch?v=ZYNEHwHAtqk 7:26)
 -(?) CuSO4 + 2 NaOH -> Cu(OH)2 + Na2SO4 (https://de.wikipedia.org/wiki/Kupfer(II)-nitrat, blau-grün)
-
+- -> Ag2CO3 // blankbruna (https://www.youtube.com/watch?v=_lDLzmhF8E8, https://www.youtube.com/watch?v=HqAlLWwxWdw)
 -->
 
 <script>
@@ -76,6 +76,35 @@ eksperimentoj:
     throw `Neniu regulo por solveblo de ${katjono} | ${anjono}!`;
   }
 
+  function koloro(katjono,anjono) {
+    if (
+      katjono == 'Pb2+' && anjono == 'I-') {
+      return "flava";
+    } else if (
+      katjono == 'Ag+' && anjono == 'I-') {
+      return "flaveta";
+    } else if (
+      katjono == 'Ag+' && anjono == 'CO32-') {
+      return "blankbruna";
+    } else if (
+      katjono == 'Ag+' && anjono == 'OH-') {
+      return "bruna";
+    } else if (
+      katjono == 'Cu2+' && anjono == 'OH-' ||
+      katjono == 'Cu2+' && anjono == 'CO32-') {
+      return "helblua";
+    } else if (
+      katjono == 'Ag+' && anjono == 'Cl-' ||
+      katjono == 'Ba2+' && anjono == 'CO32-' ||
+      katjono == 'Ba2+' && anjono == 'SO42-' ||
+      katjono == 'Pb2+' && anjono == 'CO32-' ||
+      katjono == 'Pb2+' && anjono == 'Cl-' ||
+      katjono == 'Pb2+' && anjono == 'OH-' ||
+      katjono == 'Pb2+' && anjono == 'SO42-') {
+      return "blanka";
+    }
+  }
+
   const jonoj = {
     // maldekstre
     "NaCl": ['Na+','Cl-'],
@@ -87,13 +116,15 @@ eksperimentoj:
     "Ba(NO₃)₂": ['Ba2+','NO3-'],
     "Pb(NO₃)₂": ['Pb2+','NO3-'],
     "CuSO₄": ['Cu2+','SO42-']
-  }
+  }  
     
   function s_testo() {
     // solveblo de 'reakciantoj'
     for (const j in jonoj) {
       const j_ = jonoj[j];
-      console.log(`${solvebla(...j_)?'solvebla':'nesolvebla'} ${j}`);
+      const solvbl = solvebla(...j_);
+      //console.log(`${solvbl?'solvebla':'nesolvebla'} ${j}`);
+      if (!solvbl) throw "Ne solvebla reakcianto: "+j;
     }
     // solveblo de produktoj (rekombinoj)
     const jj = Object.keys(jonoj);
@@ -102,10 +133,17 @@ eksperimentoj:
         const j1 = jj[n1], jj1 = jonoj[j1];
         const j2 = jj[n2], jj2 = jonoj[j2];
   
-        console.log(`${solvebla(jj1[0],jj2[1])?'solvebla':'nesolvebla'} ${jj1[0]} ${jj2[1]}`);
-        console.log(`${solvebla(jj2[0],jj1[1])?'solvebla':'nesolvebla'} ${jj2[0]} ${jj1[1]}`);
+        const solvbl1 = solvebla(jj1[0],jj2[1]);
+        const solvbl2 = solvebla(jj2[0],jj1[1]);
+
+        if (solvbl1 && solvbl2) console.log(`(informe) ambaŭ solveblaj: ${jj1[0]} ${jj2[1]}; ${jj2[0]} ${jj1[1]}`);
+        if (!solvbl1 && !solvbl2) throw `(evitende) Ambaŭ nesolveblaj: ${jj1[0]} ${jj2[1]}; ${jj2[0]} ${jj1[1]}`;
+        if (!solvbl1 && !koloro(jj1[0],jj2[1])) throw `Nedifinita koloro por precipito ${jj1[0]} ${jj2[1]}`;
+        if (!solvbl2 && !koloro(jj2[0],jj1[1])) throw `Nedifinita koloro por precipito ${jj2[0]} ${jj1[1]}`;
+        // console.log(`${solvebla(jj1[0],jj2[1])?'solvebla':'nesolvebla'} ${jj1[0]} ${jj2[1]}`);
+        // console.log(`${solvebla(jj2[0],jj1[1])?'solvebla':'nesolvebla'} ${jj2[0]} ${jj1[1]}`);
       }
-    } 
+    }
   }
 
   const substancoj = [
@@ -139,6 +177,13 @@ eksperimentoj:
       }
     }
 
+    function koloro2(s1,s2) {
+        const jj1 = jonoj[s1];
+        const jj2 = jonoj[s2];
+
+        return koloro(jj1[0],jj2[1]) || koloro(jj2[0],jj1[1]);
+    }
+
     if (nesolvebla(mikso[0],mikso[1])) {
       // lanĉu precipiton
       // const prcp = ĝi("#_glaso_glaso_enhavo .precipito");
@@ -148,6 +193,7 @@ eksperimentoj:
       const glaso = lab.iloj["glaso"];
 
       let precipito;
+      /*
       if (mikso[0] == "KI" && mikso[1] == "AgNO₃") {
         // flava precipito
         precipito = Lab.falaĵo("p_agi","precipito",
@@ -167,15 +213,47 @@ eksperimentoj:
           null,
           100, 250);    
       } else {
-        // blanka (apriora) precipito
+        */
+        // apriora precipito
         precipito = Lab.falaĵo("p_1","precipito",
-          {id: "ero_1", n: 51, a: 150, af: 10, s:270, d: 10},
-          {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50},
+          {id: "ero_1", n: 51, a: 150, af: 10, s:270, d: 10, c: "ero_1 kaŝita"},
+          {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50, c: "ero_2 kaŝita"},
           100, 250);
+      //}
+
+      // adaptu la koloron de la gradiento
+      const klr = koloro2(mikso[0],mikso[1]);
+      if (klr) {
+        for (const stp of ĉiuj("#gradiento_precipito stop")) {
+          //stp.className = `p_${klr}`;
+          Lab.a(stp,{class: `p_${klr}`});
+        }
       }
 
       glaso.enhavo(precipito);
+      const eroj1 = ĉiuj('#_glaso_glaso_enhavo .ero_1').entries();
+      const eroj2 = ĉiuj('#_glaso_glaso_enhavo .ero_2').entries();
+      const intervalo = 5;
 
+      function ek(eroj) {
+        const e = eroj.next();
+        if (!e.done) {
+          const use = e.value[1];
+          use.classList.remove("kaŝita");
+          const animacio = use.querySelector("animateMotion");
+          animacio.beginElement();
+          setTimeout(() => ek(eroj),
+            // per hazarda tempo ni evitas ke eroj aperu tro orde de maldekstre dekstren
+            Math.random()*intervalo);
+        }
+      }
+
+      // nur post iom da tempo (1s) precipito entute komenciĝu
+      setTimeout(() => ek(eroj2), 1000);
+      // nur post la grandaj nubaj eroj elfalu la malgrandaj kristalaj
+      setTimeout(() => ek(eroj1), 3000);
+
+      /*
       setTimeout(() => {
         // ankaŭ la animacion komencu iom post iom...!
         // uzu iteraciilon kun setTimeout por tio, ĉu?
@@ -183,6 +261,7 @@ eksperimentoj:
             a.beginElement();
           }
         }, 1000);
+        */
     }
   }
 
@@ -351,6 +430,10 @@ eksperimentoj:
         fill: #0C3742;
       }
 
+      .kaŝita {
+        display: none;
+      }
+
       .likvo {
         fill: #88aaff;
         fill-opacity: 0.3;
@@ -365,14 +448,38 @@ eksperimentoj:
         display: none;
       }
 
+      .p_blanka {
+        stop-color: white;
+      }
+
+      .p_flava {
+        stop-color: #fd0;
+      }
+
+      .p_flaveta {
+        stop-color: #fea;
+      }
+
+      .p_helblua {
+        stop-color: #8ff
+      }
+
+      .p_blankbruna {
+        stop-color: #fdb; /* #feb; #db8? */
+      }
+
+      .p_bruna {
+        stop-color: #2e2626; /* #322 */
+      }
+
       #ero_1 {
-        fill: url(#r_gradiento_blanka);        
+        fill: url(#gradiento_precipito);
       }
 
       #ero_2 {
-        fill: url(#r_gradiento_blanka);
+        fill: url(#gradiento_precipito);
       }
-
+/*
       #ero_agi {
         fill: url(#r_gradiento_flaveta);
       }
@@ -384,6 +491,7 @@ eksperimentoj:
       #ero_cu {
         fill: url(#r_gradiento_blua);
       }
+      */
 
       #guto {
         stroke: gray;
@@ -423,6 +531,11 @@ eksperimentoj:
     <pattern id="strie" viewBox="0,0,4,1" height="20%" width="20%">
       <rect width="2" height="1"/>
     </pattern>
+    <radialGradient id="gradiento_precipito">
+      <stop class="p_blanka" offset="0%" stop-opacity="0.6"/>
+      <stop class="p_blanka" offset="100%" stop-opacity="0"/>
+    </radialGradient> 
+    <!--
     <radialGradient id="r_gradiento_blanka">
       <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="white" stop-opacity="0"/>
@@ -438,7 +551,8 @@ eksperimentoj:
     <radialGradient id="r_gradiento_blua">
       <stop offset="0%" stop-color="#8ff" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="#8ff" stop-opacity="0"/>
-    </radialGradient>    
+    </radialGradient>
+    -->
     <radialGradient id="r_gradiento_ombro" fx="60%" fy="10%">
       <stop offset="0%" stop-color="black" stop-opacity="0.25"/>
       <stop offset="60%" stop-color="black" stop-opacity="0.6"/>
@@ -451,6 +565,6 @@ eksperimentoj:
       <stop offset="48%" stop-color="white" stop-opacity="0"/>
       <stop offset="90%" stop-color="#034" stop-opacity="0"/>
       <stop offset="98%" stop-color="black" stop-opacity="0.7"/>
-    </linearGradient>     
+    </linearGradient>
   </defs>
 </svg>
