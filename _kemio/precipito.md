@@ -76,23 +76,34 @@ eksperimentoj:
     throw `Neniu regulo por solveblo de ${katjono} | ${anjono}!`;
   }
 
-  function koloro(katjono,anjono) {
+  function precipito_ecoj(katjono,anjono) {
+    // devio de koloro kaj geometriaj ecoj de precipitaĵo
+    // aprioraj estas:
+    //  e1 = {id: "ero_3", n: 51, alto: 150, falaĵalto: 10, supro: 270,
+    //        daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
+    //  e2 = {id: "ero_50", n: 11, alto: 80, falaĵalto: 100, supro: 300,
+    //        daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
+
     if (
       katjono == 'Pb2+' && anjono == 'I-') {
-      return "flava";
+      return { 
+        koloro: "flava", 
+        eroj1: { id: "ero_20", n: 25, falaĵalto: 150 },
+        eroj2: { n: 7, falaĵalto: 80, faldistanco: 80 }
+      };
     } else if (
       katjono == 'Ag+' && anjono == 'I-') {
-      return "flaveta";
+      return { koloro: "flaveta" };
     } else if (
       katjono == 'Ag+' && anjono == 'CO32-') {
-      return "blankbruna";
+      return { koloro: "blankbruna" };
     } else if (
       katjono == 'Ag+' && anjono == 'OH-') {
-      return "bruna";
+      return { koloro: "bruna" };
     } else if (
       katjono == 'Cu2+' && anjono == 'OH-' ||
       katjono == 'Cu2+' && anjono == 'CO32-') {
-      return "helblua";
+      return { koloro: "helblua" };
     } else if (
       katjono == 'Ag+' && anjono == 'Cl-' ||
       katjono == 'Ba2+' && anjono == 'CO32-' ||
@@ -101,7 +112,7 @@ eksperimentoj:
       katjono == 'Pb2+' && anjono == 'Cl-' ||
       katjono == 'Pb2+' && anjono == 'OH-' ||
       katjono == 'Pb2+' && anjono == 'SO42-') {
-      return "blanka";
+      return { koloro: "blanka" };
     }
   }
 
@@ -138,8 +149,8 @@ eksperimentoj:
 
         if (solvbl1 && solvbl2) console.log(`(informe) ambaŭ solveblaj: ${jj1[0]} ${jj2[1]}; ${jj2[0]} ${jj1[1]}`);
         if (!solvbl1 && !solvbl2) throw `(evitende) Ambaŭ nesolveblaj: ${jj1[0]} ${jj2[1]}; ${jj2[0]} ${jj1[1]}`;
-        if (!solvbl1 && !koloro(jj1[0],jj2[1])) throw `Nedifinita koloro por precipito ${jj1[0]} ${jj2[1]}`;
-        if (!solvbl2 && !koloro(jj2[0],jj1[1])) throw `Nedifinita koloro por precipito ${jj2[0]} ${jj1[1]}`;
+        if (!solvbl1 && !precipito_ecoj(jj1[0],jj2[1])) throw `Nedifinitaj ecoj por precipito ${jj1[0]} ${jj2[1]}`;
+        if (!solvbl2 && !precipito_ecoj(jj2[0],jj1[1])) throw `Nedifinitaj ecoj por precipito ${jj2[0]} ${jj1[1]}`;
         // console.log(`${solvebla(jj1[0],jj2[1])?'solvebla':'nesolvebla'} ${jj1[0]} ${jj2[1]}`);
         // console.log(`${solvebla(jj2[0],jj1[1])?'solvebla':'nesolvebla'} ${jj2[0]} ${jj1[1]}`);
       }
@@ -177,13 +188,14 @@ eksperimentoj:
       }
     }
 
-    function precipito_ecoj(s1,s2) {
+    function prcpt_ecoj(s1,s2) {
         const jj1 = jonoj[s1];
         const jj2 = jonoj[s2];
 
-        return {
-          koloro: koloro(jj1[0],jj2[1]) || koloro(jj2[0],jj1[1])
-        };
+        return (
+          precipito_ecoj(jj1[0],jj2[1]) ||
+          precipito_ecoj(jj2[0],jj1[1])
+        );
     }
 
     if (nesolvebla(mikso[0],mikso[1])) {
@@ -216,20 +228,25 @@ eksperimentoj:
           100, 250);    
       } else {
         */
-        // apriora precipito
-        const eretoj = {id: "ero_1", n: 51, alto: 150, falaĵalto: 10, supro: 270, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
-        const nuboj = {id: "ero_2", n: 11, alto: 80, falaĵalto: 100, supro: 300, daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
-        precipito = Lab.falaĵo("p_1","precipito",
-          eretoj, nuboj,
-          100, 250);
+
+      // apriora precipito, eroj1: eretoj, eroj2: nuboj
+      let e1 = {id: "ero_3", n: 51, alto: 150, falaĵalto: 10, supro: 270, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
+      let e2 = {id: "ero_50", n: 11, alto: 80, falaĵalto: 100, supro: 300, daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
+
+      const ecoj = prcpt_ecoj(mikso[0],mikso[1]);
+      if (ecoj.eroj2) e2 = Object.assign(e2,ecoj.eroj2);
+      if (ecoj.eroj1) e1 = Object.assign(e1,ecoj.eroj1);
+
+      precipito = Lab.falaĵo("p_1","precipito",
+        e1, e2,
+        100, 250);
       //}
 
       // adaptu la koloron de la gradiento
-      const klr = precipito_ecoj(mikso[0],mikso[1]).koloro;
-      if (klr) {
+      if (ecoj && ecoj.koloro) {
         for (const stp of ĉiuj("#gradiento_precipito stop")) {
           //stp.className = `p_${klr}`;
-          Lab.a(stp,{class: `p_${klr}`});
+          Lab.a(stp,{class: `p_${ecoj.koloro}`});
         }
       }
 
@@ -359,7 +376,7 @@ eksperimentoj:
     const verŝo = Lab.falaĵo(gutoj_id,"gutoj",
       {
         id: "guto", n: 7,
-        alto: 3, 
+        alto: 3,
         falaĵalto: 2,
         x0: pt.x,
         supro: -pt.y,
@@ -384,11 +401,14 @@ eksperimentoj:
 
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",500,510);
     // preparu erojn por precipito kaj gutoj
-    lab.ero_smb("ero_1",3);
-    lab.ero_smb("ero_2",50);
+    lab.ero_smb("ero_3",3);
+    lab.ero_smb("ero_20",20);
+    lab.ero_smb("ero_50",50);
+    /*
     lab.ero_smb("ero_agi",50);
     lab.ero_smb("ero_pb",50);
     lab.ero_smb("ero_cu",50);
+    */
     lab.ero_smb("guto",3);
 
 /*
@@ -481,26 +501,9 @@ eksperimentoj:
         stop-color: #2e2626; /* #322 */
       }
 
-      #ero_1 {
+      #ero_3, #ero_20, #ero_50 {
         fill: url(#gradiento_precipito);
       }
-
-      #ero_2 {
-        fill: url(#gradiento_precipito);
-      }
-/*
-      #ero_agi {
-        fill: url(#r_gradiento_flaveta);
-      }
-
-      #ero_pb {
-        fill: url(#r_gradiento_flava);
-      }
-
-      #ero_cu {
-        fill: url(#r_gradiento_blua);
-      }
-      */
 
       #guto {
         stroke: gray;

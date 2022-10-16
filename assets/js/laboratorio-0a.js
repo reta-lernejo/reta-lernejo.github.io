@@ -279,7 +279,7 @@ class LabFalaĵo {
      *   falaĵalto: vario/alteco de falaĵo surgrunde
      *   fine: fina stato (freeze|remove)
      * donu pezajn malgrandajn erojn unue, due la pli grandajn nubecajn!
-     * @param {string} id unika rekonilo
+     * @param {string} id unika rekonilo referencanta eron en <defs>
      * @param {string} cls klasnomo de falaĵo, ekz-e por doni koloron, travideblecon ks
      * @param {string} ero1 ero speco unu (difinenda per Laboratorio.ero_smb())
      * @param {string} ero2 ero speco du (difinenda per Laboratorio.ero_smb())
@@ -317,12 +317,15 @@ class LabFalaĵo {
                 });
                 if (e_.falaĵalto || e_.faldistanco) {
                     const f_alto = (e_.faldistanco || -y) - (Math.random()*e_.falaĵalto||0);
-                    // kreu falanimacion                    
+                    // kreu falanimacion
+                    const daŭro = e_.daŭro || 0;
+                    const aperdaŭro = e_.aperdaŭro || 0;
+
                     const f = Lab.falo(f_alto,0,0,
-                        e_.daŭro/2 + Math.random()*e_.daŭro, 1,
+                        daŭro/2 + Math.random()*daŭro, 1,
                         //fina stato
                         e_.fine, e_.poste);
-                    const a = Lab.apero(e_.aperdaŭro/2);
+                    const a = Lab.apero(aperdaŭro);
                     u.append(a,f); // aldonu animaciojn de apero kaj falo 
                 }
                 // arbitre aldonu komence aŭ fine por eviti
