@@ -271,12 +271,13 @@ class LabGutbotelo extends LabUjo {
 class LabFalaĵo {
     /**
      * Kreas falaĵon (gutoj, precipito ks). Erojn de falaĵo transdonu kiel objekto 
-     * {id: referencilo, n: nombro, d: mezdaŭro, s: supro, a: alteco, 
-     * fd: faldistanco, af: falaĵalteco, fn: fine, c: klasoj, v: videbleco, poste: finreago}, 
-     *   a: alteco de distribuo mezurite de la supro
-     *   fd: faldistanco, se ne donita ĝisgrunde
-     *   af: vario/alteco de falaĵo surgrunde
-     *   fn: fina stato (freeze|remove)
+     * {id: referencilo, n: nombro, daŭro: mezdaŭro, aperdaŭro, x0, supro: komenca supro, alteco: komenca alteco, 
+     * faldistanco, falaĵalto, fine, klasoj, videblo, poste: finreago},
+     *   x0: komenca x-koordinato (ekz-e por gutoj)
+     *   alto: alteco de distribuo mezurite de la supro
+     *   faldistanco: faldistanco, se ne donita ĝisgrunde
+     *   falaĵalto: vario/alteco de falaĵo surgrunde
+     *   fine: fina stato (freeze|remove)
      * donu pezajn malgrandajn erojn unue, due la pli grandajn nubecajn!
      * @param {string} id unika rekonilo
      * @param {string} cls klasnomo de falaĵo, ekz-e por doni koloron, travideblecon ks
@@ -305,24 +306,23 @@ class LabFalaĵo {
 
         function eroj(e_) {   
             for (let e=0; e<e_.n; e++) {
-                const y = -(e_.s - Math.random()*ero1.a);
+                const y = -(e_.supro - Math.random()*e_.alto);
                 const x = (e_.x0||0) + e/e_.n*w + Math.random()*w/ero1.n;
-                const videbl = (!"v" in e_)? 1.0 : e_.v; // videbla, se ne alie difinita
+                const videbl = (!"v" in e_)? 1.0 : e_.videblo; // videbla, se ne alie difinita
                 const u = Lab.e("use",{
                     href: `#${e_.id}`,
                     x: x, y: y,
                     "fill-opacity": videbl,
-                    class: e_.c
+                    class: e_.klasoj
                 });
-                if (e_.af || e_.fd) {
-                    const f_alto = (e_.fd || -y) - (Math.random()*e_.af||0);
+                if (e_.falaĵalto || e_.faldistanco) {
+                    const f_alto = (e_.faldistanco || -y) - (Math.random()*e_.falaĵalto||0);
                     // kreu falanimacion                    
-                    const d = e_.d/2 + Math.random()*e_.d; // daŭro en s
                     const f = Lab.falo(f_alto,0,0,
-                        d, 1,
+                        e_.daŭro/2 + Math.random()*e_.daŭro, 1,
                         //fina stato
-                        e_.fn, e_.poste);
-                    const a = Lab.apero(d/2);
+                        e_.fine, e_.poste);
+                    const a = Lab.apero(e_.aperdaŭro/2);
                     u.append(a,f); // aldonu animaciojn de apero kaj falo 
                 }
                 // arbitre aldonu komence aŭ fine por eviti

@@ -177,11 +177,13 @@ eksperimentoj:
       }
     }
 
-    function koloro2(s1,s2) {
+    function precipito_ecoj(s1,s2) {
         const jj1 = jonoj[s1];
         const jj2 = jonoj[s2];
 
-        return koloro(jj1[0],jj2[1]) || koloro(jj2[0],jj1[1]);
+        return {
+          koloro: koloro(jj1[0],jj2[1]) || koloro(jj2[0],jj1[1])
+        };
     }
 
     if (nesolvebla(mikso[0],mikso[1])) {
@@ -215,14 +217,15 @@ eksperimentoj:
       } else {
         */
         // apriora precipito
+        const eretoj = {id: "ero_1", n: 51, alto: 150, falaĵalto: 10, supro: 270, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
+        const nuboj = {id: "ero_2", n: 11, alto: 80, falaĵalto: 100, supro: 300, daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
         precipito = Lab.falaĵo("p_1","precipito",
-          {id: "ero_1", n: 51, a: 150, af: 10, s:270, d: 10, v: 0.0, c: "ero_1 kaŝita"},
-          {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50, v: 0.0, c: "ero_2 kaŝita"},
+          eretoj, nuboj,
           100, 250);
       //}
 
       // adaptu la koloron de la gradiento
-      const klr = koloro2(mikso[0],mikso[1]);
+      const klr = precipito_ecoj(mikso[0],mikso[1]).koloro;
       if (klr) {
         for (const stp of ĉiuj("#gradiento_precipito stop")) {
           //stp.className = `p_${klr}`;
@@ -251,7 +254,7 @@ eksperimentoj:
       }
 
       // nur post iom da tempo (1s) precipito entute komenciĝu
-      setTimeout(() => ek(eroj2), 1000);
+      setTimeout(() => ek(eroj2), 500);
       // nur post la grandaj nubaj eroj elfalu la malgrandaj kristalaj
       setTimeout(() => ek(eroj1), 3000);
 
@@ -355,9 +358,13 @@ eksperimentoj:
     const gutoj_id = "gutoj_"+(nova.maldekstre?"md":"dk");
     const verŝo = Lab.falaĵo(gutoj_id,"gutoj",
       {
-        id: "guto", n: 7, a: 3, af: 2, 
-        x0: pt.x, s:-pt.y, d: 1,  // daŭro: 1s
-        fd: sf.y-pt.y, 
+        id: "guto", n: 7,
+        alto: 3, 
+        falaĵalto: 2,
+        x0: pt.x,
+        supro: -pt.y,
+        daŭro: 1,  // daŭro: 1s
+        faldistanco: sf.y-pt.y,
         poste: (ev) => {
           ĝi('#'+gutoj_id).remove();
           miksaldono(nova.maldekstre,subst);
