@@ -580,3 +580,36 @@ eksperimentoj:
     </linearGradient>
   </defs>
 </svg>
+
+<!--
+    // maldekstre
+    "NaCl": ['Na+','Cl-'],
+    "KI": ['K+','I-'],
+    "Na₂CO₃": ['Na+','CO32-'],
+    "NaOH": ['Na+','OH-'],
+    // dekstre
+    "AgNO₃": ['Ag+','NO3-'],
+    "Ba(NO₃)₂": ['Ba2+','NO3-'],
+    "Pb(NO₃)₂": ['Pb2+','NO3-'],
+    "CuSO₄": ['Cu2+','SO42-']
+-->
+
+$$\ce{NaCl(aq) + AgNO3(aq) -> AgCl(s) + NaNO3(aq)}$$  
+$$\ce{2NaCl(aq) + Ba(NO3)2(aq) -> BaCl2(aq) + 2NaNO3(aq)}$$  
+$$\ce{2NaCl(aq) + Pb(NO3)2(aq) -> PbCl2(s) + 2NaNO3(aq)}$$  
+$$\ce{2NaCl(aq) + CuSO4(aq) -> CuCl2(aq) + Na2SO4(aq)}$$  
+
+$$\ce{KI(aq) + AgNO3(aq) -> AgI(s) + KNO3(aq)}$$  
+$$\ce{2KI(aq) + Ba(NO3)2(aq) -> BaI2(aq) + 2KNO3(aq)}$$  
+$$\ce{2KI(aq) + Pb(NO3)2(aq) -> PbI2(s) + 2KNO3}$$  
+$$\ce{2KI(aq) + CuSO4(aq) -> CuI2(aq) + K2SO4(aq)}$$  
+
+$$\ce{Na2CO3(aq) + 2AgNO3(aq) -> Ag2CO3(s) + 2NaNO3(aq)}$$  
+$$\ce{Na2CO3(aq) + Ba(NO3)2(aq) -> BaCO3(s) + 2NaNO3(aq)}$$  
+$$\ce{Na2CO3(aq) + Pb(NO3)2(aq) -> PbCO3(s) + 2NaNO3(aq)}$$  
+$$\ce{Na2CO3(aq) + CuSO4(aq) -> CuCO3(s) + Na2SO4(aq)}$$  
+
+$$\ce{NaOH(aq) + AgNO3(aq) -> AgOH(s) + NaNO3(aq)}$$  
+$$\ce{2NaOH(aq) + Ba(NO3)2(aq) -> Ba(OH)2(aq) + 2NaNO3(aq)}$$  
+$$\ce{2NaOH(aq) + Pb(NO3)2(aq) -> Pb(OH)2(s) + 2NaNO3(aq)}$$  
+$$\ce{2NaOH(aq) + CuSO4(aq) -> Cu(OH)2(s) + Na2SO4}$$  
