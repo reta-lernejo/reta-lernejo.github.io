@@ -216,8 +216,8 @@ eksperimentoj:
         */
         // apriora precipito
         precipito = Lab.falaĵo("p_1","precipito",
-          {id: "ero_1", n: 51, a: 150, af: 10, s:270, d: 10, c: "ero_1 kaŝita"},
-          {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50, c: "ero_2 kaŝita"},
+          {id: "ero_1", n: 51, a: 150, af: 10, s:270, d: 10, v: 0.0, c: "ero_1 kaŝita"},
+          {id: "ero_2", n: 11, a: 80, af: 100, s:300, d: 50, v: 0.0, c: "ero_2 kaŝita"},
           100, 250);
       //}
 
@@ -239,9 +239,11 @@ eksperimentoj:
         const e = eroj.next();
         if (!e.done) {
           const use = e.value[1];
+          //use.classList.remove("kaŝita");
+          for (const a of use.querySelectorAll("animateMotion, animate")) {
+            a.beginElement();
+          }
           use.classList.remove("kaŝita");
-          const animacio = use.querySelector("animateMotion");
-          animacio.beginElement();
           setTimeout(() => ek(eroj),
             // per hazarda tempo ni evitas ke eroj aperu tro orde de maldekstre dekstren
             Math.random()*intervalo);
@@ -532,7 +534,7 @@ eksperimentoj:
       <rect width="2" height="1"/>
     </pattern>
     <radialGradient id="gradiento_precipito">
-      <stop class="p_blanka" offset="0%" stop-opacity="0.6"/>
+      <stop class="p_blanka" offset="20%" stop-opacity="0.6"/>
       <stop class="p_blanka" offset="100%" stop-opacity="0"/>
     </radialGradient> 
     <!--

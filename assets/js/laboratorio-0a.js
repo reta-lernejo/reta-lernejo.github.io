@@ -206,8 +206,17 @@ class LabGutbotelo extends LabUjo {
                 x: 20, dy: 10
             },t))
         }
-        const papero = Lab.rkrekt(36,24,3,1,2,-90);
-        Lab.a(papero,{class: "etikedo"});
+        const papero = //Lab.rkrekt(36,24,3,1,2,-90);
+            Lab.e("rect", {
+                width: 36,
+                height: 24,
+                y: -90,
+                x: 2,
+                rx: "50%",
+                ry: 1,
+                class: "etikedo"
+            });
+        //Lab.a(papero,{class: "etikedo"});
 
         g.append(ujo,pinto,kovrilo,papero,surskribo);
         if (tf) Lab.a(g,{transform: tf});
@@ -263,7 +272,7 @@ class LabFalaĵo {
     /**
      * Kreas falaĵon (gutoj, precipito ks). Erojn de falaĵo transdonu kiel objekto 
      * {id: referencilo, n: nombro, d: mezdaŭro, s: supro, a: alteco, 
-     * fd: faldistanco, af: falaĵalteco, fn: fine, c: klasoj, poste: finreago}, 
+     * fd: faldistanco, af: falaĵalteco, fn: fine, c: klasoj, v: videbleco, poste: finreago}, 
      *   a: alteco de distribuo mezurite de la supro
      *   fd: faldistanco, se ne donita ĝisgrunde
      *   af: vario/alteco de falaĵo surgrunde
@@ -298,22 +307,27 @@ class LabFalaĵo {
             for (let e=0; e<e_.n; e++) {
                 const y = -(e_.s - Math.random()*ero1.a);
                 const x = (e_.x0||0) + e/e_.n*w + Math.random()*w/ero1.n;
+                const videbl = (!"v" in e_)? 1.0 : e_.v; // videbla, se ne alie difinita
                 const u = Lab.e("use",{
                     href: `#${e_.id}`,
                     x: x, y: y,
+                    "fill-opacity": videbl,
                     class: e_.c
                 });
                 if (e_.af || e_.fd) {
                     const f_alto = (e_.fd || -y) - (Math.random()*e_.af||0);
-                    // kreu falanimacion
+                    // kreu falanimacion                    
+                    const d = e_.d/2 + Math.random()*e_.d; // daŭro en s
                     const f = Lab.falo(f_alto,0,0,
-                        // daŭro en s
-                        e_.d/2 + Math.random()*e_.d, 1,
+                        d, 1,
                         //fina stato
                         e_.fn, e_.poste);
-                    u.append(f);    
+                    const a = Lab.apero(d/2);
+                    u.append(a,f); // aldonu animaciojn de apero kaj falo 
                 }
-                g.append(u);    
+                // arbitre aldonu komence aŭ fine por eviti
+                // ordon de maldekstre dekstren
+                Math.random()<0.5? g.prepend(u) : g.append(u);
             }      
         }
 
@@ -363,24 +377,6 @@ class Lab {
         return elemento;
     }
 
-    /** 
-     * Desegnas rondigitan rektangulon
-     * @param {number} w larĝo
-     * @param {number} h alteco
-     * @param {number} a angulgrandeco
-     * @param {number} x x-koordinato (maldekstre)
-     * @param {number} y y-koordinato (supre)
-     */
-    
-    static rrekt(w,h,a,x=0,y=0) {
-        return Lab.e("path",{
-            d: `M${x+a},${y} L${x+w-a},${y} Q${x+w},${y} ${x+w},${y+a} ` // supra linio
-             + `L${x+w},${y+h-a} Q${x+w},${y+h} ${x+w-a},${y+h}`  // dekstra linio
-             + `L${x+a},${y+h} Q${x},${y+h} ${x},${y+h-a}`  // malsupra linio
-             + `L${x},${y+a} Q${x},${y} ${x+a},${y}` // maldekstra linio
-        });
-    }
-
 
     /** 
      * Desegnas rektangulon kun rondigitaj anguloj kaj kurbaj flankoj
@@ -391,7 +387,7 @@ class Lab {
      * @param {number} x x-koordinato (maldekstre)
      * @param {number} y y-koordinato (supre)
      */
-    
+    /*
      static rkrekt(w,h,a,d,x=0,y=0) {
         return Lab.e("path",{
             d: `M${x+a},${y} Q${x+w/2},${y-d} ${x+w-a},${y} Q${x+w},${y} ${x+w},${y+a} ` // supra linio
@@ -400,6 +396,7 @@ class Lab {
              + `L${x},${y+a} Q${x},${y} ${x+a},${y}` // maldekstra linio
         });
     }
+    */
     
 
     /** 
@@ -476,6 +473,21 @@ class Lab {
         return f;
     }
 
+    /** 
+     * Kreas iom-post-ioman aperon per kresko de fill-opacity 
+     * @param {number} d daŭro en sekundoj
+     */
+    static apero(d) {
+        const a = Lab.e("animate", {
+            attributeName: "fill-opacity",
+            values: "0.0;1.0",
+            dur: d+"s",
+            repeatCount: 1,
+            fill: "freeze"
+        });
+        return a;
+    }
+
     /**
      * Kreas likvan enhavon, aldonebla en glason...
      */
@@ -540,8 +552,14 @@ class Laboratorio extends LabSVG {
         });
 
         if (f_id) {
-            const fono = Lab.rrekt(f_w,f_h,4);
-            fono.id = f_id;
+            const fono = Lab.e("rect", {
+                width: f_w,
+                height: f_h,
+                rx: 4,
+                id: f_id
+            });
+            //Lab.rrekt(f_w,f_h,4);
+            //fono.id = f_id;
             this.aranĝo.append(fono);
         }
 
