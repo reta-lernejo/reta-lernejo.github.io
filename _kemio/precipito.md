@@ -88,8 +88,8 @@ eksperimentoj:
       katjono == 'Pb2+' && anjono == 'I-') {
       return { 
         koloro: "flava", 
-        eroj1: { id: "ero_20", n: 25, falaĵalto: 150 },
-        eroj2: { n: 7, falaĵalto: 80, faldistanco: 80 }
+        eroj1: { id: "ero_20", n: 25, falaĵalto: 40 },
+        eroj2: { n: 25, alto: 120, faldistanco: 0 }
       };
     } else if (
       katjono == 'Ag+' && anjono == 'I-') {

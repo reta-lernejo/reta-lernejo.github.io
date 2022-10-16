@@ -308,7 +308,7 @@ class LabFalaĵo {
             for (let e=0; e<e_.n; e++) {
                 const y = -(e_.supro - Math.random()*e_.alto);
                 const x = (e_.x0||0) + e/e_.n*w + Math.random()*w/ero1.n;
-                const videbl = (!"v" in e_)? 1.0 : e_.videblo; // videbla, se ne alie difinita
+                const videbl = !("v" in e_)? 1.0 : e_.videblo; // videbla, se ne alie difinita
                 const u = Lab.e("use",{
                     href: `#${e_.id}`,
                     x: x, y: y,
@@ -316,7 +316,7 @@ class LabFalaĵo {
                     class: e_.klasoj
                 });
                 if (e_.falaĵalto || e_.faldistanco) {
-                    const f_alto = (e_.faldistanco || -y) - (Math.random()*e_.falaĵalto||0);
+                    const f_alto = (!("faldistanco" in e_)? -y : e_.faldistanco) - (Math.random()*e_.falaĵalto||0);
                     // kreu falanimacion
                     const daŭro = e_.daŭro || 0;
                     const aperdaŭro = e_.aperdaŭro || 0;
@@ -576,7 +576,7 @@ class Laboratorio extends LabSVG {
      * Redonas la rekonilon 'id' de io. Se ne estas objekto estas supozeble jam tiu id
      */
     #id(io) {
-        if (typeof io === 'object' && 'id' in io) return io.id
+        if ((typeof io === 'object') && ('id' in io)) return io.id
         else if (typeof io === 'string' || typeof io === 'number') return io;
         throw ('Donita varariablo estas nek ilo/loko kun .id nek identigilo mem!');
     }
