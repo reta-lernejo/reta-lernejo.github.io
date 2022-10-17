@@ -455,6 +455,7 @@ eksperimentoj:
     lab.klak_reago({g: ree},(ev) => {
       // certigu ke ne intermitiĝas ankoraŭ prokrastitaj agoj
       purigu_prokrastojn();
+      mikso = [];
 
       // remetu botelojn...
       botel_restarigo();
