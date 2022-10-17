@@ -3,9 +3,9 @@ layout: laborfolio
 title: Perioda sistemo de elementoj
 chapter: "1.2"
 js:
-  - folio-0a
+  - folio-0b
   - sekcio-0b
-  - elementoj-0b
+  - elementoj-0c
   - atomo-0a
 css:
   - elementoj-0a
@@ -22,35 +22,74 @@ Historiaj malkovroj pri la ĥemiaj elementoj[^C1].
 - Robert Boyle (1661): elementoj estas primitivaj kaj simplaj nemiksitaj korpoj, kiuj ne enhavas alian korpon. Ili estas ingrediencoj, el kiuj konsistas ĉiuj perfekte miksitaj korpoj.
 - Antoine Laurent de Lavoisier (1785): leĝo pri la konservo de la maso: La sumo de la masoj de la reakciantoj egalas al la sumo de la masoj de la reakciaj produktoj.
 
+Kelkaj elementoj jam estas konataj de [antikva tempo](#){: .ref #antikvo}:
 
-Ĉiuj elementoj post ilia scienca [malkovro](#malkovroj){: #malkovroj onclick="malkovro_jaroj(event);"} ricevis 
-nomon kaj simbolon (de Berzelius 1814).
+<div id="alisto"></div>
+
+Aliaj elementoj eltroviĝis nur ekde la 18a jarcento. Ĉiuj elementoj post ilia scienca [malkovro](#){: .ref #malkovroj} ricevis nomon kaj simbolon (de Berzelius 1814).
+
+<div id="elisto"></div>
+(Ni donas la esperantajn nomojn, ne la latinajn.)
+
 
 <script>
+reference((ref) => {
+    if (ref == "antikvo") {
+        const al = ĝi("#alisto");
+        const antikvaj = Elemento.laŭ_jaro().entries();
+        // plenigu per la antikvaj la kadretojn...
+        for (let e of al.children) {            
+            const mk = antikvaj.next().value[1];
+
+            e.innerHTML = '<b>?</b>';
+            atributoj(e, { "data": mk[1] });
+            kiam_klako(e, (event) => {
+                const d = event.currentTarget;
+                //const s = d.getAttribute("data");
+                const elm = Elemento.smb(mk[1]);
+                d.innerHTML = `<i>${elm.nomo}</i> (<span class="simb">${elm.simbolo}</span>)`;
+            }); // ...klako            
+        }
+
+    } else if (ref == "malkovroj") {
+        const el = ĝi("#elisto");
+        const malkovroj = Elemento.laŭ_jaro().entries();
+        // transsaltu antikvajn...
+        let mk = malkovroj.next().value[1];
+        while (mk[0] < 1000) {
+            // console.log(mk[1]);
+            mk = malkovroj.next().value[1];
+        };
+
+        // per la nun unuaj plenigu la kadretojn
+        for (let e of el.children) {            
+            e.innerHTML = `${mk[0]}: <b>?</b>`;
+            atributoj(e, { "data": mk[1] });
+            kiam_klako(e, (event) => {
+                const d = event.currentTarget;
+                const s = d.getAttribute("data");
+                const elm = Elemento.smb(s);
+                d.innerHTML = `${mk[0]}: <i>${elm.nomo}</i> (<span class="simb">${elm.simbolo}</span>)`;
+            }); // ...klako
+
+            mk = malkovroj.next().value[1];
+        } // for
+
+    }
+});
+
 lanĉe(()=>{
+    const al = ĝi("#alisto");
+    for (let e=1; e<13; e++) {
+        al.append(kreu("span",{class: "kadro"},e))
+    }
+
     const el = ĝi("#elisto");
-    for (let e=1; e<21; e++) {
+    for (let e=14; e<34; e++) {
         el.append(kreu("span",{class: "kadro"},e))
     }
     el.append("...");
 });
-
-
-function malkovro_jaroj() {
-    const el = ĝi("#elisto");
-    const malkovroj = Elemento.laŭ_jaro().entries();
-    for (e of el.children) {
-        const mk = malkovroj.next().value[1];
-        e.innerHTML = `${mk[0]}: <b>?</b>`;
-        atributoj(e, { "data": mk[1] });
-        kiam_klako(e, (event) => {
-            const d = event.currentTarget;
-            //const s = d.getAttribute("data");
-            const elm = Elemento.smb(mk[1]);
-            d.innerHTML = `${mk[0]}: <i>${elm.nomo}</i> (<span class="simb">${elm.simbolo}</span>)`;
-        }); // ...klako
-    } // for
-}
 
 /*
 function malkovro_elementoj() {
@@ -84,25 +123,27 @@ function simbolo(event) {
 }
 </script>
 <style>
-    #elisto .kadro {
+     #alisto .kadro, #elisto .kadro {
         border: 1px solid black;
         background-color: #cce8ff;
         /* width: 3em;*/
         min-width: 2em;
-        height: 2em;
+        height: 2.2em;
+        line-height: 2.1em;
         display: inline-block;
         padding-left: .5em;
         padding-right: .5em;
         margin-right: .3em;
-        margin-bottom: .3em;
+        margin-bottom: .5em;
     }
-    #elisto .simb {
+    #alisto .simb, #elisto .simb {
         font-weight: bold;
         font-size: 18px;
+        margin: 0;
+        padding: 0.1;
     }
 </style>
-<div id="elisto"></div>
-(Ni donas la esperantajn nomojn, ne la latinajn.)
+
 
 <!--
 H: hidrogeno, He: heliumo, Li: litio, Be: berilio, B: boro, C: karbono,
