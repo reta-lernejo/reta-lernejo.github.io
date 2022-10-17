@@ -318,8 +318,8 @@ class LabFalaĵo {
                 if (e_.falaĵalto || e_.faldistanco) {
                     const f_alto = (!("faldistanco" in e_)? -y : e_.faldistanco) - (Math.random()*e_.falaĵalto||0);
                     // kreu falanimacion
-                    const daŭro = e_.daŭro || 0;
-                    const aperdaŭro = e_.aperdaŭro || 0;
+                    const daŭro = e_.daŭro || 0.1;
+                    const aperdaŭro = e_.aperdaŭro || 0.1;
 
                     const f = Lab.falo(f_alto,0,0,
                         daŭro/2 + Math.random()*daŭro, 1,
@@ -544,6 +544,25 @@ class Lab {
     static gutbotelo(id,etikedo,pleno=0,angulo=0) {
         return new LabGutbotelo(id,etikedo,pleno,angulo);
     }
+
+    /** 
+     * Desegnas butonon
+     */
+    static butono(teksto,x,y,w,h,r=3) {
+        const g= Lab.e("g", {
+            class: "butono"
+        });
+        const c = Lab.e("rect", {
+            x:x, y:y, width: w, height: h,
+            rx: r
+        });
+        const t = Lab.e("text",{
+            x: x+3, y: y+2
+        },teksto);
+        g.append(c,t);
+        return g;
+    }
+ 
 }
 
 
@@ -600,6 +619,16 @@ class Laboratorio extends LabSVG {
         this.aranĝo.append(ilo.g);        
         return ilo.id;
     }
+
+    /**
+     * Kreas butonon
+     */
+    butono(teksto,x,y,w,h,r=3) {
+        const btn = Lab.butono(teksto,x,y,w,h,r);
+        this.aranĝo.append(btn);
+        return btn;
+    }
+
 
     /**
      * Okupas lokon per ilo, plendante se jam estas okupita
@@ -710,6 +739,7 @@ class Laboratorio extends LabSVG {
           class: cls
         }));
     }
+
 
     /**
      * Redonu transformmatricon por certa elemento en la aranĝo

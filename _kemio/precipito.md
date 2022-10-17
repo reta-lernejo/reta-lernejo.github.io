@@ -27,10 +27,10 @@ eksperimentoj:
 - https://www.youtube.com/watch?v=Qc2pWUIzP2k
 - https://www.youtube.com/watch?v=hVBsrwJFBTY
 
-- NaCl + AgNO3 -> AgCl(s) + NaNO3 // blanka
+- NaCl + AgNO3 -> AgCl(s) + NaNO3 // blanka (https://www.youtube.com/watch?v=xR_VZXOz64A)
 - KI + AgNO3 -> AgI(s) + KNO3 // flaveta (https://www.youtube.com/watch?v=m_0lpAFAisU)
 - 2NaI + Pb(NO3)2 -> PbI2(s) + 2NaNO3 // flava (https://www.youtube.com/watch?v=hVBsrwJFBTY)
-- 2KI + Pb(NO3)2 -> PbI2(s) + 2KNO3 // flava (https://www.youtube.com/watch?v=6TRuMSjxgYs, https://www.youtube.com/watch?v=2EQznGPZY5A,  https://www.youtube.com/watch?v=H4COWrI0WsQ)
+- 2KI + Pb(NO3)2 -> PbI2(s) + 2KNO3 // flava (https://www.youtube.com/watch?v=diW7q7RFJBM, https://www.youtube.com/watch?v=6TRuMSjxgYs, https://www.youtube.com/watch?v=2EQznGPZY5A,  https://www.youtube.com/watch?v=H4COWrI0WsQ)
 - 2NaCl + Pb(NO3)2 -> PbCl2 + 2NaNO3 // blanka (https://www.youtube.com/watch?v=0RuayQSG6fc)
 - CuSO4 + 2NAOH -> Cu(OH)2(s) + Na2SO4 // helblua (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - 2NaCl + Ba(NO3)2 -> 2NaNO3 + BaCl2 // ĉiuj solveblaj (https://www.youtube.com/watch?v=hVBsrwJFBTY)
@@ -88,8 +88,9 @@ eksperimentoj:
       katjono == 'Pb2+' && anjono == 'I-') {
       return { 
         koloro: "flava", 
-        eroj1: { id: "ero_20", n: 25, falaĵalto: 40 },
-        eroj2: { n: 25, alto: 120, faldistanco: 0 }
+        //eroj1: { id: "ero_20", n: 25, falaĵalto: 40 },
+        eroj1: { id: "ero_5", n: 150, daŭro: 5, aperdaŭro: 8, falaĵalto: 20 },
+        eroj2: { n: 25, alto: 120, faldistanco: 20 }
       };
     } else if (
       katjono == 'Ag+' && anjono == 'I-') {
@@ -274,16 +275,12 @@ eksperimentoj:
       setTimeout(() => ek(eroj2), 500);
       // nur post la grandaj nubaj eroj elfalu la malgrandaj kristalaj
       setTimeout(() => ek(eroj1), 3000);
+    };
 
-      /*
-      setTimeout(() => {
-        // ankaŭ la animacion komencu iom post iom...!
-        // uzu iteraciilon kun setTimeout por tio, ĉu?
-          for (a of ĉiuj('#_glaso_glaso_enhavo animateMotion')) {
-            a.beginElement();
-          }
-        }, 1000);
-        */
+    if (mikso[0] && mikso[1]) {
+      // montru la koncernan formulon
+      const ekv = document.getElementById(`${mikso[0]}_${mikso[1]}`); //ĝi(`#${mikso[0]}_${mikso[1]}`);
+      ekv.classList.remove("kaŝita");
     }
   }
 
@@ -383,7 +380,8 @@ eksperimentoj:
         daŭro: 1,  // daŭro: 1s
         faldistanco: sf.y-pt.y,
         poste: (ev) => {
-          ĝi('#'+gutoj_id).remove();
+          const gutoj = ĝi('#'+gutoj_id);
+          if (gutoj) gutoj.remove(); // ial ĝi foje ne ekzistas..., kial? eble akcidenta duobla klako?
           miksaldono(nova.maldekstre,subst);
         }
       },
@@ -402,6 +400,7 @@ eksperimentoj:
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",500,510);
     // preparu erojn por precipito kaj gutoj
     lab.ero_smb("ero_3",3);
+    lab.ero_smb("ero_5",5);
     lab.ero_smb("ero_20",20);
     lab.ero_smb("ero_50",50);
     /*
@@ -446,6 +445,19 @@ eksperimentoj:
       a.beginElement();
     }
     */
+    for (const ekv of ĉiuj(".prc_ekv")) {
+      ekv.classList.add("kaŝita");
+    }
+
+    const ree = lab.butono("ree",10,10,30,20);
+    lab.klak_reago({g: ree},(ev) => {
+      // remetu botelojn...
+
+      for (const ekv of ĉiuj(".prc_ekv")) {
+        ekv.classList.add("kaŝita");
+      }
+    });
+
   })
 </script>
 
@@ -459,6 +471,17 @@ eksperimentoj:
         fill: #0C3742;
       }
 
+      .butono rect {
+        fill: cornflowerblue;
+        fill-opacity: 0.2;
+        stroke: white;
+        stroke-width: 0.5;
+      }
+      .butono text {
+        dominant-baseline: hanging;
+        fill: white;
+      }
+
       .kaŝita {
         display: none;
       }
@@ -470,6 +493,11 @@ eksperimentoj:
         stroke: gray;
         stroke-width: 0.1;
         */
+      }
+
+      #_gutbotelo_1 .likvo {
+        fill: #ffff00;
+        fill-opacity: 0.1;
       }
 
       /* kaŝu precipitaĵon */
@@ -501,7 +529,7 @@ eksperimentoj:
         stop-color: #2e2626; /* #322 */
       }
 
-      #ero_3, #ero_20, #ero_50 {
+      #ero_3, #ero_5, #ero_20, #ero_50 {
         fill: url(#gradiento_precipito);
       }
 
@@ -594,22 +622,19 @@ eksperimentoj:
     "CuSO₄": ['Cu2+','SO42-']
 -->
 
-$$\ce{NaCl(aq) + AgNO3(aq) -> AgCl(s) + NaNO3(aq)}$$  
-$$\ce{2NaCl(aq) + Ba(NO3)2(aq) -> BaCl2(aq) + 2NaNO3(aq)}$$  
-$$\ce{2NaCl(aq) + Pb(NO3)2(aq) -> PbCl2(s) + 2NaNO3(aq)}$$  
-$$\ce{2NaCl(aq) + CuSO4(aq) -> CuCl2(aq) + Na2SO4(aq)}$$  
-
-$$\ce{KI(aq) + AgNO3(aq) -> AgI(s) + KNO3(aq)}$$  
-$$\ce{2KI(aq) + Ba(NO3)2(aq) -> BaI2(aq) + 2KNO3(aq)}$$  
-$$\ce{2KI(aq) + Pb(NO3)2(aq) -> PbI2(s) + 2KNO3}$$  
-$$\ce{2KI(aq) + CuSO4(aq) -> CuI2(aq) + K2SO4(aq)}$$  
-
-$$\ce{Na2CO3(aq) + 2AgNO3(aq) -> Ag2CO3(s) + 2NaNO3(aq)}$$  
-$$\ce{Na2CO3(aq) + Ba(NO3)2(aq) -> BaCO3(s) + 2NaNO3(aq)}$$  
-$$\ce{Na2CO3(aq) + Pb(NO3)2(aq) -> PbCO3(s) + 2NaNO3(aq)}$$  
-$$\ce{Na2CO3(aq) + CuSO4(aq) -> CuCO3(s) + Na2SO4(aq)}$$  
-
-$$\ce{NaOH(aq) + AgNO3(aq) -> AgOH(s) + NaNO3(aq)}$$  
-$$\ce{2NaOH(aq) + Ba(NO3)2(aq) -> Ba(OH)2(aq) + 2NaNO3(aq)}$$  
-$$\ce{2NaOH(aq) + Pb(NO3)2(aq) -> Pb(OH)2(s) + 2NaNO3(aq)}$$  
-$$\ce{2NaOH(aq) + CuSO4(aq) -> Cu(OH)2(s) + Na2SO4}$$  
+<span class="prc_ekv" id="NaCl_AgNO₃">$$\ce{NaCl(aq) + AgNO3(aq) -> AgCl(s) + NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="NaCl_Ba(NO₃)₂">$$\ce{2NaCl(aq) + Ba(NO3)2(aq) -> BaCl2(aq) + 2NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="NaCl_Pb(NO₃)₂">$$\ce{2NaCl(aq) + Pb(NO3)2(aq) -> PbCl2(s) + 2NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="NaCl_CuSO₄">$$\ce{2NaCl(aq) + CuSO4(aq) -> CuCl2(aq) + Na2SO4(aq)}$$</span>
+<span class="prc_ekv" id="KI_AgNO₃">$$\ce{KI(aq) + AgNO3(aq) -> AgI(s) + KNO3(aq)}$$</span>
+<span class="prc_ekv" id="KI_Ba(NO₃)₂">$$\ce{2KI(aq) + Ba(NO3)2(aq) -> BaI2(aq) + 2KNO3(aq)}$$</span>
+<span class="prc_ekv" id="KI_Pb(NO₃)₂">$$\ce{2KI(aq) + Pb(NO3)2(aq) -> PbI2(s) + 2KNO3}$$</span>
+<span class="prc_ekv" id="KI_CuSO₄">$$\ce{2KI(aq) + CuSO4(aq) -> CuI2(aq) + K2SO4(aq)}$$</span>
+<span class="prc_ekv" id="Na₂CO₃_AgNO₃">$$\ce{Na2CO3(aq) + 2AgNO3(aq) -> Ag2CO3(s) + 2NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="Na₂CO₃_Ba(NO₃)₂">$$\ce{Na2CO3(aq) + Ba(NO3)2(aq) -> BaCO3(s) + 2NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="Na₂CO₃_Pb(NO₃)₂">$$\ce{Na2CO3(aq) + Pb(NO3)2(aq) -> PbCO3(s) + 2NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="Na₂CO₃_CuSO₄">$$\ce{Na2CO3(aq) + CuSO4(aq) -> CuCO3(s) + Na2SO4(aq)}$$</span>
+<span class="prc_ekv" id="NaOH_AgNO₃">$$\ce{NaOH(aq) + AgNO3(aq) -> AgOH(s) + NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="NaOH_Ba(NO₃)₂">$$\ce{2NaOH(aq) + Ba(NO3)2(aq) -> Ba(OH)2(aq) + 2NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="NaOH_Pb(NO₃)₂">$$\ce{2NaOH(aq) + Pb(NO3)2(aq) -> Pb(OH)2(s) + 2NaNO3(aq)}$$</span>
+<span class="prc_ekv" id="NaOH_CuSO₄">$$\ce{2NaOH(aq) + CuSO4(aq) -> Cu(OH)2(s) + Na2SO4}$$</span>
