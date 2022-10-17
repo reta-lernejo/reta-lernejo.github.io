@@ -91,9 +91,10 @@ class LabGlaso extends LabUjo {
     /**
      * Aldonas aŭ anstataŭas enhavon.
      * @param {object|number} enh SVG-elemento reprezentanta la enhavon aŭ nombro donante procentaĵon de pleneco 
+     * @param {boolean} aldone JEs/ne forigu antaŭan enhavon
      * 
      */
-    enhavo(enh) {
+    enhavo(enh,aldone) {
         const glaso_id = `_glaso_${this.id}`;
         const enh_id = `_glaso_${this.id}_enhavo`;
 
@@ -109,18 +110,20 @@ class LabGlaso extends LabUjo {
         };
 
         const c_id = `_clp_glaso_${this.id}`;
-        nova_enh.id = enh_id;
 
-        const malnova_enh = this.g.querySelector(enh_id);
-        if (malnova_enh) {
-            const parent = malnova_enh.parent;
-            parent.replaceChild(nova_enh,malnova_enh)
+        const malnova_enh = this.g.querySelector('#'+enh_id);
+        if (malnova_enh && aldone) {
+            // aldnou novan al malnova enhavo
+            malnova_enh.append(nova_enh);
+        // kreu novan enhavon
         } else {
+            if (malnova_enh) malnova_enh.remove(); // forigu evtl. malnovan enhavon
             const bordo = this.g.querySelector("path").getAttribute("d");
             const limigo = Lab.limigo(c_id, 
                 Lab.e("path", {d: bordo})
             );
             const ge = Lab.e("g", {
+                id: enh_id,
                 "clip-path": `url(#${c_id})`
             });
     
