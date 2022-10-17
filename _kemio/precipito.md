@@ -250,9 +250,9 @@ eksperimentoj:
       }
 
       // nur post iom da tempo (1s) precipito entute komenciĝu
-      setTimeout(() => ek(eroj2), 500);
+      prokrastu(() => ek(eroj2), 500);
       // nur post la grandaj nubaj eroj elfalu la malgrandaj kristalaj
-      setTimeout(() => ek(eroj1), 3000);
+      prokrastu(() => ek(eroj1), 3000);
     };
 
     if (mikso[0] && mikso[1]) {
@@ -453,12 +453,16 @@ eksperimentoj:
 
     const ree = lab.butono("ree",10,10,30,20);
     lab.klak_reago({g: ree},(ev) => {
+      // certigu ke ne intermitiĝas ankoraŭ prokrastitaj agoj
+      purigu_prokrastojn();
+
       // remetu botelojn...
       botel_restarigo();
-      // purigu la enhavon de la glaso
+      // purigu/renovigu la enhavon de la glaso
       const glaso = lab.iloj["glaso"];
       glaso.enhavo(5/6);
 
+      // rekaŝu ekvacio(j)n
       for (const ekv of ĉiuj(".prc_ekv")) {
         ekv.classList.add("kaŝita");
       }
