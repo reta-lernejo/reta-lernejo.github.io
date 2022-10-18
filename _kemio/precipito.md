@@ -1,14 +1,13 @@
 ---
 layout: laborfolio
 title: Precipito
+chapter: "3.1"
 js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - laboratorio-0a
 ---
-
-...paĝo en preparo...
 
 <!--
 https://en.wikipedia.org/wiki/Solubility_chart
@@ -19,6 +18,18 @@ https://www.hoffmeister.it/chemie/14-ionen-salze-faellungsreaktionen_und_ionenbi
 
 https://en.intl.chemicalaid.com/tools/equationbalancer.php?equation=Pb%28NO3%292+%2B+CuSO4+%3D+Pb%28SO4%292+%2B+CuNO3
 -->
+
+Kiam miksiĝas solvaĵoj kun diversspecaj jonoj povas okazi ke jonoj rekombiniĝas al nesolvebla aŭ apenaŭ solvebla substanco. Tiu substanco apartiĝas kiel *precipitaĵo* de la likva solvaĵo. Ekzemple natria klorido kaj arĝenta nitrato ambaŭ estas bone solveblaj en akvo, sed miksite formiĝas nesolvebla arĝenta klorido, kiu elfalas kiel blanka precipitaĵo.
+
+$$\ce{NaCl(aq) + AgNO3(aq) -> AgCl(s) + NaNO3(aq)}$$
+
+En reakciaj ekvacioj oni indikas solidan precipitaĵon per (s), t.e. *solida* aŭ ↓ dum ĥemiaĵojn solvitajn en akvo oni signas per (aq). Forlasante ĉiujn jonojn, kiuj ne partoprenas la precipitan reakcion oni ricevas *koncizan jonekvacion*:
+
+$$\ce{Ag+ + Cl- -> AgCl v}$$
+
+Per precipitaj reakcioj oni povas pruvi la ekziston de certaj jonoj en solvaĵo. Ankaŭ tiel oni povas apartigi solvitajn jonojn. Ekezmple en la plibonigo de trinkakvo oni tiel reduktas la fosfaton en la akvo.
+
+
 
 <!--
 eksperimentoj:
@@ -32,12 +43,17 @@ eksperimentoj:
 - 2NaI + Pb(NO3)2 -> PbI2(s) + 2NaNO3 // flava (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - 2KI + Pb(NO3)2 -> PbI2(s) + 2KNO3 // flava (https://www.youtube.com/watch?v=diW7q7RFJBM, https://www.youtube.com/watch?v=6TRuMSjxgYs, https://www.youtube.com/watch?v=2EQznGPZY5A,  https://www.youtube.com/watch?v=H4COWrI0WsQ)
 - 2NaCl + Pb(NO3)2 -> PbCl2 + 2NaNO3 // blanka (https://www.youtube.com/watch?v=0RuayQSG6fc)
-- CuSO4 + 2NAOH -> Cu(OH)2(s) + Na2SO4 // helblua (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - 2NaCl + Ba(NO3)2 -> 2NaNO3 + BaCl2 // ĉiuj solveblaj (https://www.youtube.com/watch?v=hVBsrwJFBTY)
+
 - Na2CO3 + Ba(NO3)2 -> BaCO3(s) + 2NaNO3 // blanka (https://www.youtube.com/watch?v=hVBsrwJFBTY)
 - xxx -> PbSO4 (https://www.youtube.com/watch?v=ZYNEHwHAtqk 7:26)
 -(?) CuSO4 + 2 NaOH -> Cu(OH)2 + Na2SO4 (https://de.wikipedia.org/wiki/Kupfer(II)-nitrat, blau-grün)
 - -> Ag2CO3 // blankbruna (https://www.youtube.com/watch?v=_lDLzmhF8E8, https://www.youtube.com/watch?v=HqAlLWwxWdw)
+
+- 2NaOH + 2AgNO3 -> Ag2O + 2NaNO3 + H2O // bruna (https://www.youtube.com/watch?v=1nb_7sXlhV0, https://www.youtube.com/watch?v=-9qMSRr6u2g)
+- NaOH + Ba(NO3)2 (https://www.youtube.com/watch?v=LVBtE_mH_iU)
+- NaOH + Pb(NO3)2 (https://www.youtube.com/watch?v=vpJKyleVMPw)
+- 2NAOH + CuSO4 -> Cu(OH)2(s) + Na2SO4 // helblua (https://www.youtube.com/watch?v=hVBsrwJFBTY, https://www.youtube.com/watch?v=1thWGOSxrEc)
 -->
 
 <script>
@@ -84,9 +100,9 @@ eksperimentoj:
   function precipito_ecoj(katjono,anjono) {
     // devio de koloro kaj geometriaj ecoj de precipitaĵo
     // aprioraj estas:
-    //  e1 = {id: "ero_3", n: 51, alto: 150, falaĵalto: 10, supro: 270,
+    //  e1 = {id: "ero_3", n: 101, alto: 150, falaĵalto: 10, supro: 120,
     //        daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
-    //  e2 = {id: "ero_50", n: 11, alto: 80, falaĵalto: 100, supro: 300,
+    //  e2 = {id: "ero_50", n: 7, alto: 80, falaĵalto: 100, supro: 167,
     //        daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
 
     if (
@@ -95,7 +111,7 @@ eksperimentoj:
         koloro: "flava", 
         //eroj1: { id: "ero_20", n: 25, falaĵalto: 40 },
         eroj1: { id: "ero_5", n: 150, daŭro: 5, aperdaŭro: 8, falaĵalto: 20 },
-        eroj2: { n: 25, alto: 120, faldistanco: 20 }
+        eroj2: { n: 15, alto: 120, faldistanco: 20 }
       };
     } else if (
       katjono == 'Ag+' && anjono == 'I-') {
@@ -105,7 +121,11 @@ eksperimentoj:
       return { koloro: "blankbruna" };
     } else if (
       katjono == 'Ag+' && anjono == 'OH-') {
-      return { koloro: "bruna" };
+      return { 
+        koloro: "bruna",
+        eroj1: { id: "ero_5", n: 150, daŭro: 10, aperdaŭro: 3, falaĵalto: 22 },
+        eroj2: { n: 15, alto: 100, faldistanco: 20 }
+      };
     } else if (
       katjono == 'Cu2+' && anjono == 'OH-' ||
       katjono == 'Cu2+' && anjono == 'CO32-') {
@@ -221,15 +241,16 @@ eksperimentoj:
       let precipito;
 
       // apriora precipito, eroj1: eretoj, eroj2: nuboj
-      let e1 = {id: "ero_3", n: 51, alto: 150, falaĵalto: 10, supro: 120, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
-      let e2 = {id: "ero_50", n: 11, alto: 80, falaĵalto: 100, supro: 200*5/6, daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
+      let e1 = {id: "ero_3", n: 101, alto: 150, falaĵalto: 10, supro: 120, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
+      let e2 = {id: "ero_50", n: 7, alto: 80, falaĵalto: 100, supro: 200*5/6, daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
 
       const ecoj = prcpt_ecoj(mikso[0],mikso[1]);
       if (ecoj.eroj2) e2 = Object.assign(e2,ecoj.eroj2);
       if (ecoj.eroj1) e1 = Object.assign(e1,ecoj.eroj1);
 
+      const limigo = glaso.enhavlimigo();
       precipito = Lab.falaĵo("p_1","precipito",
-        e1, e2,
+        e1, e2, limigo,
         100, 200*5/6); // surfaco: 167
       //}
 
@@ -362,7 +383,7 @@ eksperimentoj:
     const pt = lab.svgKoord(ĝi('#'+pinto.id),pinto.x,pinto.y);
 
     //const surfaco = lab.iloj["glaso"].surfaco();
-    const surfaco = {id: "_glaso_glaso", x: 50, y: -150};
+    const surfaco = {id: "_glaso_glaso", x: 50, y: -200*5/6};
 
     // surfaco indikas la mezpunkton de la surfaco, por
     // vertikala falo ni poste uzu pt.x!
@@ -389,7 +410,7 @@ eksperimentoj:
           miksaldono(nova.maldekstre,subst);
         }
       },
-      null, 0, 0); 
+      null, null, 0, 0); 
 
     ĝi("#lab_aranĝo").append(verŝo);
     for (a of ĉiuj(`#${gutoj_id} animateMotion`)){
@@ -443,15 +464,12 @@ eksperimentoj:
     lab.nova_loko({id: "VM", x: 210, y: 150});
     lab.nova_loko({id: "VD", x: 290, y: 120});
 
-    // faligu erojn
+    // kaŝu ekvaciojn
     /*
-    for (const a of ĝi("#eksperimento").querySelectorAll("animateMotion")) {
-      a.beginElement();
-    }
-    */
     for (const ekv of ĉiuj(".prc_ekv")) {
       ekv.classList.add("kaŝita");
     }
+    */
 
     const ree = lab.butono("ree",10,10,30,20);
     lab.klak_reago({g: ree},(ev) => {
@@ -477,7 +495,7 @@ eksperimentoj:
 <svg id="eksperimento"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-10 -10 520 520">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-10 -10 520 420">
  <style type="text/css">
     <![CDATA[
       #fono {
@@ -513,6 +531,11 @@ eksperimentoj:
         fill-opacity: 0.1;
       }
 
+      #_gutbotelo_7 .likvo {
+        fill: #00ffff;
+        fill-opacity: 0.2;
+      }
+
       /* kaŝu precipitaĵon */
       .klara_likvo use {
         display: none;
@@ -531,7 +554,7 @@ eksperimentoj:
       }
 
       .p_helblua {
-        stop-color: #8ff
+        stop-color: #2bf
       }
 
       .p_blankbruna {
@@ -539,7 +562,7 @@ eksperimentoj:
       }
 
       .p_bruna {
-        stop-color: #2e2626; /* #322 */
+        stop-color: #0e0600; /* #2e2626 */
       }
 
       #ero_3, #ero_5, #ero_20, #ero_50 {
@@ -567,7 +590,7 @@ eksperimentoj:
 
       .etikedo {
         fill: white;
-        fill-opacity: 0.4;
+        fill-opacity: 0.5;
       }
 
       .ujo text {
@@ -588,36 +611,44 @@ eksperimentoj:
       <stop class="p_blanka" offset="20%" stop-opacity="0.6"/>
       <stop class="p_blanka" offset="100%" stop-opacity="0"/>
     </radialGradient> 
-    <!--
-    <radialGradient id="r_gradiento_blanka">
-      <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
-    </radialGradient> 
-    <radialGradient id="r_gradiento_flava">
-      <stop offset="0%" stop-color="#ffdd00" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#ffdd00" stop-opacity="0"/>
-    </radialGradient>    
-    <radialGradient id="r_gradiento_flaveta">
-      <stop offset="0%" stop-color="#fea" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#fea" stop-opacity="0"/>
-    </radialGradient>    
-    <radialGradient id="r_gradiento_blua">
-      <stop offset="0%" stop-color="#8ff" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#8ff" stop-opacity="0"/>
-    </radialGradient>
-    -->
     <radialGradient id="r_gradiento_ombro" fx="60%" fy="10%">
       <stop offset="0%" stop-color="black" stop-opacity="0.25"/>
       <stop offset="60%" stop-color="black" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="black" stop-opacity="0"/>
     </radialGradient>
+    <!--
     <linearGradient id="vitro">
       <stop offset="0%" stop-color="#00A" stop-opacity="0.5"/>
       <stop offset="7%" stop-color="#09F" stop-opacity="0.2"/>
-      <stop offset="8%" stop-color="white" stop-opacity="0.6"/>
-      <stop offset="48%" stop-color="white" stop-opacity="0"/>
-      <stop offset="90%" stop-color="#034" stop-opacity="0"/>
-      <stop offset="98%" stop-color="black" stop-opacity="0.7"/>
+      <stop offset="8%" stop-color="white" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#222" stop-opacity="0.1"/>
+      <stop offset="60%" stop-color="black" stop-opacity="0.1"/>
+      <stop offset="93%" stop-color="black" stop-opacity="0.4"/>
+      <stop offset="94%" stop-color="#114" stop-opacity="0.2"/>
+    </linearGradient>
+    -->
+
+<!--
+  simpla / inversa:
+            <stop offset="0%" 
+                  stop-color="black"/>  
+            <stop offset="30%" 
+                  stop-color="black" 
+                  stop-opacity=".2"/>
+            <stop offset="97%" 
+                  stop-color="white" 
+                  stop-opacity=".4"/>
+            <stop offset="100%" 
+                  stop-color="black"/>
+-->
+
+    <linearGradient id="vitro">
+      <stop offset="0%" stop-color="#00A" stop-opacity="0.5"/>
+      <stop offset="7%" stop-color="#09F" stop-opacity="0.2"/>
+      <stop offset="8%" stop-color="white" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="black" stop-opacity=".2"/>
+      <stop offset="93%" stop-color="black" stop-opacity=".4"/>  
+      <stop offset="94%" stop-color="#114" stop-opacity="0.2"/>
     </linearGradient>
   </defs>
 </svg>
@@ -635,19 +666,41 @@ eksperimentoj:
     "CuSO₄": ['Cu2+','SO42-']
 -->
 
-<span class="prc_ekv" id="NaCl_AgNO₃">$$\ce{NaCl(aq) + AgNO3(aq) -> AgCl(s) + NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="NaCl_Ba(NO₃)₂">$$\ce{2NaCl(aq) + Ba(NO3)2(aq) -> BaCl2(aq) + 2NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="NaCl_Pb(NO₃)₂">$$\ce{2NaCl(aq) + Pb(NO3)2(aq) -> PbCl2(s) + 2NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="NaCl_CuSO₄">$$\ce{2NaCl(aq) + CuSO4(aq) -> CuCl2(aq) + Na2SO4(aq)}$$</span>
-<span class="prc_ekv" id="KI_AgNO₃">$$\ce{KI(aq) + AgNO3(aq) -> AgI(s) + KNO3(aq)}$$</span>
-<span class="prc_ekv" id="KI_Ba(NO₃)₂">$$\ce{2KI(aq) + Ba(NO3)2(aq) -> BaI2(aq) + 2KNO3(aq)}$$</span>
-<span class="prc_ekv" id="KI_Pb(NO₃)₂">$$\ce{2KI(aq) + Pb(NO3)2(aq) -> PbI2(s) + 2KNO3}$$</span>
-<span class="prc_ekv" id="KI_CuSO₄">$$\ce{2KI(aq) + CuSO4(aq) -> CuI2(aq) + K2SO4(aq)}$$</span>
-<span class="prc_ekv" id="Na₂CO₃_AgNO₃">$$\ce{Na2CO3(aq) + 2AgNO3(aq) -> Ag2CO3(s) + 2NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="Na₂CO₃_Ba(NO₃)₂">$$\ce{Na2CO3(aq) + Ba(NO3)2(aq) -> BaCO3(s) + 2NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="Na₂CO₃_Pb(NO₃)₂">$$\ce{Na2CO3(aq) + Pb(NO3)2(aq) -> PbCO3(s) + 2NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="Na₂CO₃_CuSO₄">$$\ce{Na2CO3(aq) + CuSO4(aq) -> CuCO3(s) + Na2SO4(aq)}$$</span>
-<span class="prc_ekv" id="NaOH_AgNO₃">$$\ce{NaOH(aq) + AgNO3(aq) -> AgOH(s) + NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="NaOH_Ba(NO₃)₂">$$\ce{2NaOH(aq) + Ba(NO3)2(aq) -> Ba(OH)2(aq) + 2NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="NaOH_Pb(NO₃)₂">$$\ce{2NaOH(aq) + Pb(NO3)2(aq) -> Pb(OH)2(s) + 2NaNO3(aq)}$$</span>
-<span class="prc_ekv" id="NaOH_CuSO₄">$$\ce{2NaOH(aq) + CuSO4(aq) -> Cu(OH)2(s) + Na2SO4}$$</span>
+<p class="prc_ekv kaŝita" id="NaCl_AgNO₃">$$\ce{NaCl(aq) + AgNO3(aq) -> AgCl(s) + NaNO3(aq)}$$  
+  $$\ce{Ag+ + Cl- -> AgCl v}$$
+</p>
+<p class="prc_ekv kaŝita" id="NaCl_Ba(NO₃)₂">$$\ce{2NaCl(aq) + Ba(NO3)2(aq) -> BaCl2(aq) + 2NaNO3(aq)}$$</p>
+<p class="prc_ekv kaŝita" id="NaCl_Pb(NO₃)₂">$$\ce{2NaCl(aq) + Pb(NO3)2(aq) -> PbCl2(s) + 2NaNO3(aq)}$$  
+  $$\ce{Pb2+ + 2Cl- -> PbCl2 v}$$
+</p>
+<p class="prc_ekv kaŝita" id="NaCl_CuSO₄">$$\ce{2NaCl(aq) + CuSO4(aq) -> CuCl2(aq) + Na2SO4(aq)}$$</p>
+<p class="prc_ekv kaŝita" id="KI_AgNO₃">$$\ce{KI(aq) + AgNO3(aq) -> AgI(s) + KNO3(aq)}$$  
+  $$\ce{Ag+ + I- -> AgI v}$$
+</p>
+<p class="prc_ekv kaŝita" id="KI_Ba(NO₃)₂">$$\ce{2KI(aq) + Ba(NO3)2(aq) -> BaI2(aq) + 2KNO3(aq)}$$</p>
+<p class="prc_ekv kaŝita" id="KI_Pb(NO₃)₂">$$\ce{2KI(aq) + Pb(NO3)2(aq) -> PbI2(s) + 2KNO3}$$  
+  $$\ce{Pb2+ + 2I- -> PbI2 v}$$
+</p>
+<p class="prc_ekv kaŝita" id="KI_CuSO₄">$$\ce{2KI(aq) + CuSO4(aq) -> CuI2(aq) + K2SO4(aq)}$$</p>
+<p class="prc_ekv kaŝita" id="Na₂CO₃_AgNO₃">$$\ce{Na2CO3(aq) + 2AgNO3(aq) -> Ag2CO3(s) + 2NaNO3(aq)}$$  
+  $$\ce{2Ag+ + CO3^2- -> Ag2CO3 v}$$
+</p>
+<p class="prc_ekv kaŝita" id="Na₂CO₃_Ba(NO₃)₂">$$\ce{Na2CO3(aq) + Ba(NO3)2(aq) -> BaCO3(s) + 2NaNO3(aq)}$$  
+  $$\ce{Ba2+ + CO3^2- -> BaCO3 v}$$
+</p>
+<p class="prc_ekv kaŝita" id="Na₂CO₃_Pb(NO₃)₂">$$\ce{Na2CO3(aq) + Pb(NO3)2(aq) -> PbCO3(s) + 2NaNO3(aq)}$$  
+  $$\ce{Pb2+ + CO3^2- -> PbCO3 v}$$
+</p>
+<p class="prc_ekv kaŝita" id="Na₂CO₃_CuSO₄">$$\ce{Na2CO3(aq) + CuSO4(aq) -> CuCO3(s) + Na2SO4(aq)}$$  
+  $$\ce{Cu2+ + CO3^2- -> CuCO3 v}$$
+</p>
+<p class="prc_ekv kaŝita" id="NaOH_AgNO₃">$$\ce{2NaOH(aq) + 2AgNO3(aq) -> Ag2O(s) + 2NaNO3(aq) + H2O(l)}$$  
+  $$\ce{2Ag+ + 2OH^- -> Ag2O v + H2O}$$
+</p>
+<p class="prc_ekv kaŝita" id="NaOH_Ba(NO₃)₂">$$\ce{2NaOH(aq) + Ba(NO3)2(aq) -> Ba(OH)2(aq) + 2NaNO3(aq)}$$</p>
+<p class="prc_ekv kaŝita" id="NaOH_Pb(NO₃)₂">$$\ce{2NaOH(aq) + Pb(NO3)2(aq) -> Pb(OH)2(s) + 2NaNO3(aq)}$$  
+  $$\ce{Pb2+ + 2OH- -> Pb(OH)2 v}$$
+</p>
+<p class="prc_ekv kaŝita" id="NaOH_CuSO₄">$$\ce{2NaOH(aq) + CuSO4(aq) -> Cu(OH)2(s) + Na2SO4(aq)}$$  
+  $$\ce{Cu2+ + 2OH^- -> Cu(OH)2 v}$$
+</p>

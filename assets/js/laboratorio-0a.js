@@ -101,10 +101,22 @@ class LabGlaso extends LabUjo {
         let nova_enh = enh;
         if (typeof enh === "number") {
             this.enh_alto = this.alto*enh;
+            /*
             nova_enh = Lab.e("rect",{
                 width: 100,
                 y: -this.enh_alto,
+                // rx: "50%", ry: 5,
                 height: this.enh_alto,
+                class: "likvo"
+            });
+            */
+
+            //const bordo = `M-5,${-h} Q0,${-h} 0,${-h+5} L0,-5 Q0,0 5,1 Q${w/2},8 ${w-5},1 Q${w},0 ${w},-5 L${w},${-h+5} Q${w},${-h} ${w+5},${-h} Z`;
+
+            const w = this.larĝo;
+            const h = this.enh_alto
+            nova_enh = Lab.e("path",{
+                d: `M0,${-h} L${w},${-h} L${w},-5 Q${w},0 ${w-5},1 Q${w/2},8 5,1 Q0,0 0,-5 Z`,
                 class: "likvo"
             });
         };
@@ -128,7 +140,10 @@ class LabGlaso extends LabUjo {
             });
     
             ge.append(nova_enh);
-            this.g.append(limigo,ge);            
+            const ujo = this.g.querySelector(".vitro");
+            //this.g.prepend(limigo,ge);
+            this.g.prepend(limigo);
+            this.g.insertBefore(ge,ujo);      
         }
     }
 
@@ -141,6 +156,13 @@ class LabGlaso extends LabUjo {
             x: this.larĝo/2,
             y: -this.enh_alto
         }
+    }
+
+    /**
+     * Redonas la limigon de la enhavo, kiel ĉe path.d, ekz-e por limigi falaĵon
+     */
+    enhavlimigo() {
+        return this.g.querySelector("path.likvo").getAttribute("d");
     }
 }
 
@@ -286,10 +308,11 @@ class LabFalaĵo {
      * @param {string} cls klasnomo de falaĵo, ekz-e por doni koloron, travideblecon ks
      * @param {string} ero1 ero speco unu (difinenda per Laboratorio.ero_smb())
      * @param {string} ero2 ero speco du (difinenda per Laboratorio.ero_smb())
+     * @param {string} bordo pado por limigo (alternative al rektangulo w x h)
      * @param {number} w larĝeco, apriore 100
      * @param {number} h alteco, apriore 100
      */
-    constructor(id,cls="precipito",ero1,ero2,w=100,h=100) {
+    constructor(id,cls="precipito",ero1,ero2,bordo,w=100,h=100) {
         const c_id = `_clp_${id}`;
 
         const e = Lab.e("g", {
@@ -299,12 +322,18 @@ class LabFalaĵo {
             class: cls
         });
 
-        if (w&&h) {
-            const lim = Lab.limigo(c_id, Lab.e("rect",{y: -h, width: w, height: h}));
+        // limigu enhavon se estas donita aŭ bordo aŭ w+h
+        let lim;
+        if (bordo) {
+            lim = Lab.limigo(c_id, Lab.e("path", {d: bordo}))
+        } else if (w&&h) {
+            lim = Lab.limigo(c_id, Lab.e("rect",{y: -h, width: w, height: h}));
+        }
+        if (lim) {
             Lab.a(g,{
                 "clip-path": `url(#${c_id})`
             });    
-            e.append(lim);
+            e.append(lim);    
         }
 
         function eroj(e_) {   
@@ -517,11 +546,12 @@ class Lab {
      * @param {string} cls klasnomo de falaĵo, ekz-e por doni koloron, travideblecon ks
      * @param {string} ero1 ero speco unu (difinenda per Laboratorio.ero_smb())
      * @param {string} ero2 ero speco du (difinenda per Laboratorio.ero_smb())
+     * @param {string} bordo pado por limigo (alternative al rektangulo w x h)
      * @param {number} w larĝeco, apriore 100
      * @param {number} h alteco, apriore 100
      */
-    static falaĵo(id,cls="precipito",ero1,ero2,w=100,h=100) {
-        return new LabFalaĵo(id,cls,ero1,ero2,w,h).g;
+    static falaĵo(id,cls="precipito",ero1,ero2,bordo,w=100,h=100) {
+        return new LabFalaĵo(id,cls,ero1,ero2,bordo,w,h).g;
     }
 
     /**
