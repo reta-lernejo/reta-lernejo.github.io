@@ -62,13 +62,13 @@ class LabGlaso extends LabUjo {
      * @param h {number} alteco, apriore 300
      * @param enhavo {object} aŭ nombro donante procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
      */
-    constructor(id, w=100, h=300) {
+    constructor(id, w=100, h=200) {
         super(id);
         this.larĝo = w;
         this.alto = h;
 
         const g = Lab.e("g", { id: `_glaso_${id}`, class: "ujo glaso" });
-        const bordo = "M-5,-300 Q0,-300 0,-295 L0,-5 Q0,0 5,1 Q50,8 95,1 Q100,0 100,-5 L100,-295 Q100,-300 105,-300 Z";
+        const bordo = `M-5,${-h} Q0,${-h} 0,${-h+5} L0,-5 Q0,0 5,1 Q${w/2},8 ${w-5},1 Q${w},0 ${w},-5 L${w},${-h+5} Q${w},${-h} ${w+5},${-h} Z`;
 
         const ujo = Lab.e("path",{
             d: bordo,
@@ -528,7 +528,7 @@ class Lab {
      * @param h {number} alteco, apriore 300
      * @param enhavo {object} aŭ nombro donate procentaĵon de pleneco aŭ SVG-objekto reprezentanta la enhavon
      */
-    static glaso(id="glaso", enhavo, w=100, h=300) {
+    static glaso(id="glaso", enhavo, w=100, h=200) {
         const glaso = new LabGlaso(id, w, h);
         if (enhavo) glaso.enhavo(enhavo);
         return glaso;

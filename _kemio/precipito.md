@@ -41,6 +41,11 @@ eksperimentoj:
 -->
 
 <script>
+  /**
+   * kemiaj substancoj/jonoj/reguloj de solvebleco...
+   * 
+   */
+
   // solvebloj, true: bone solvebla, false: malbone solvebla
   function solvebla(katjono,anjono) {
     // 1)
@@ -171,9 +176,15 @@ eksperimentoj:
     "CuSO₄"
   ];
 
+/**
+ * La laboratorio kun la eksperimento....
+ * 
+ */
 
   let lab; // la laboratorio kaj iloj
   let mikso = []; // miksaĵo de du ĥemiaĵoj
+  const ALTO = 400;
+  const LARĜO = 500;
 
 
   function miksaldono(maldekstre,substanco) {
@@ -231,8 +242,8 @@ eksperimentoj:
         */
 
       // apriora precipito, eroj1: eretoj, eroj2: nuboj
-      let e1 = {id: "ero_3", n: 51, alto: 150, falaĵalto: 10, supro: 270, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
-      let e2 = {id: "ero_50", n: 11, alto: 80, falaĵalto: 100, supro: 300, daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
+      let e1 = {id: "ero_3", n: 51, alto: 150, falaĵalto: 10, supro: 120, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
+      let e2 = {id: "ero_50", n: 11, alto: 80, falaĵalto: 100, supro: 200*5/6, daŭro: 50, aperdaŭro: 3, videblo: 0.0, klasoj: "ero_2 kaŝita"};
 
       const ecoj = prcpt_ecoj(mikso[0],mikso[1]);
       if (ecoj.eroj2) e2 = Object.assign(e2,ecoj.eroj2);
@@ -240,7 +251,7 @@ eksperimentoj:
 
       precipito = Lab.falaĵo("p_1","precipito",
         e1, e2,
-        100, 250);
+        100, 200*5/6); // surfaco: 167
       //}
 
       // adaptu la koloron de la gradiento
@@ -302,7 +313,7 @@ eksperimentoj:
     // starigu la botelon
     const x_ŝovo = maldekstre? 10 : 130;
     const x = x_ŝovo + nro*45 + Math.random()*3;
-    const y = 497 + Math.random()*5;
+    const y = ALTO-3 + Math.random()*5;
     lab.metu(botl,{
       id: nro,
       x:x, y:y
@@ -346,23 +357,13 @@ eksperimentoj:
     // por verŝgutoj ni bezonas la pinton de la botelo kaj la surfacon de la glaso
     const pinto = botl.pinto();
     const pt = lab.svgKoord(ĝi('#'+pinto.id),pinto.x,pinto.y);
-/*
-    ĝi("#lab_aranĝo").append(Lab.e("circle",{
-      cx: pt.x, cy: pt.y, r: 3, fill:"red"
-    }));
-*/
+
     //const surfaco = lab.iloj["glaso"].surfaco();
-    const surfaco = {id: "_glaso_glaso", x: 50, y: -250};
+    const surfaco = {id: "_glaso_glaso", x: 50, y: -150};
 
     // surfaco indikas la mezpunkton de la surfaco, por
     // vertikala falo ni poste uzu pt.x!
     const sf = lab.svgKoord(ĝi('#'+surfaco.id),surfaco.x,surfaco.y);
-/*
-    ĝi("#lab_aranĝo").append(Lab.e("line",{
-      x1: pt.x, x2: pt.x + (sf.x-pt.x)/5, 
-      y1: pt.y, y2: sf.y, stroke:"green"
-    }));
-    */
 
     // KOREKTU:
     // anstataŭ s uzu y0 kaj ne negativigu kiel por precipito#
@@ -397,7 +398,7 @@ eksperimentoj:
   lanĉe(()=>{
     s_testo();
 
-    lab = new Laboratorio(ĝi("#eksperimento"),"fono",500,510);
+    lab = new Laboratorio(ĝi("#eksperimento"),"fono",LARĜO,ALTO+10);
     // preparu erojn por precipito kaj gutoj
     lab.ero_smb("ero_3",3);
     lab.ero_smb("ero_5",5);
@@ -417,8 +418,8 @@ eksperimentoj:
     } 
     */
 
-    const glaso = Lab.glaso("glaso",5/6); // alteco = 250 (5/6*300)
-    lab.metu(glaso,{id: "tablo", x:200, y:500});
+    const glaso = Lab.glaso("glaso",5/6); // alteco = 250 (5/6*200)
+    lab.metu(glaso,{id: "tablo", x:LARĜO/2-50, y:ALTO});
 
     // kreu botelojn kun substancoj laŭ numero
     for (nro = 0; nro<substancoj.length; nro++) {
