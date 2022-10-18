@@ -69,7 +69,8 @@ reference((ref) => {
                 const d = event.currentTarget;
                 const s = d.getAttribute("data");
                 const elm = Elemento.smb(s);
-                d.innerHTML = `${mk[0]}: <i>${elm.nomo}</i> (<span class="simb">${elm.simbolo}</span>)`;
+                const jelm = Elemento.json_elemento(s);
+                d.innerHTML = `${jelm.YearDiscovered}: <i>${elm.nomo}</i> (<span class="simb">${elm.simbolo}</span>)`;
             }); // ...klako
 
             mk = malkovroj.next().value[1];
