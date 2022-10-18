@@ -219,27 +219,6 @@ eksperimentoj:
       const glaso = lab.iloj["glaso"];
 
       let precipito;
-      /*
-      if (mikso[0] == "KI" && mikso[1] == "AgNO₃") {
-        // flava precipito
-        precipito = Lab.falaĵo("p_agi","precipito",
-          {id: "ero_agi", n: 11, a: 80, af: 50, fd: 100, s:300, d: 50},
-          null,
-          100, 250);
-      } else if (mikso[1] == "Pb(NO₃)₂") {
-        // flava precipito
-        precipito = Lab.falaĵo("p_pb","precipito",
-          {id: "ero_pb", n: 11, a: 80, af: 50, fd: 100, s:300, d: 50},
-          null,
-          100, 250);
-      } else if (mikso[1] == "CuSO₄") {
-        // blua precipito
-        precipito = Lab.falaĵo("p_cu","precipito",
-          {id: "ero_cu", n: 11, a: 80, af: 200, fd: 200, s:300, d: 50},
-          null,
-          100, 250);    
-      } else {
-        */
 
       // apriora precipito, eroj1: eretoj, eroj2: nuboj
       let e1 = {id: "ero_3", n: 51, alto: 150, falaĵalto: 10, supro: 120, daŭro: 10, aperdaŭro: 5, videblo: 0.0, klasoj: "ero_1 kaŝita"};
@@ -262,7 +241,7 @@ eksperimentoj:
         }
       }
 
-      glaso.enhavo(precipito);
+      glaso.enhavo(precipito,true);  // aldonu precipiton al jama likvo
       const eroj1 = ĉiuj('#_glaso_glaso_enhavo .ero_1').entries();
       const eroj2 = ĉiuj('#_glaso_glaso_enhavo .ero_2').entries();
       const intervalo = 5;
@@ -283,9 +262,9 @@ eksperimentoj:
       }
 
       // nur post iom da tempo (1s) precipito entute komenciĝu
-      setTimeout(() => ek(eroj2), 500);
+      prokrastu(() => ek(eroj2), 500);
       // nur post la grandaj nubaj eroj elfalu la malgrandaj kristalaj
-      setTimeout(() => ek(eroj1), 3000);
+      prokrastu(() => ek(eroj1), 3000);
     };
 
     if (mikso[0] && mikso[1]) {
@@ -320,6 +299,30 @@ eksperimentoj:
     });
 
     return botl;
+  }
+
+  function botel_restarigo() {
+    // restarigu eventuale levitan botelojn
+
+    for (const l of ["LM","LD","VM","VD"]) {
+      const loko = lab.lokoj[l];
+      if (loko._ilo !== undefined) {
+        // rekreu starantan botelon
+        const botl = lab.iloj[loko._ilo];
+        const subst = substancoj[botl.id];
+        const nova = Lab.gutbotelo(botl.id,subst+"\n(aq)",botl.pleno);
+
+        nova.stato = 0; // staranta
+        nova.maldekstre = botl.maldekstre;
+        lab.klak_reago(nova,botel_levo);
+
+        const x_ŝovo = nova.maldekstre? 10 : 130;
+        const x = x_ŝovo + nova.id*45 + Math.random()*3;
+        const y = 497 + Math.random()*5;
+
+        lab.movu(botl,botl.id,nova);
+      }
+    }
   }
 
   function botel_levo(botl) {
@@ -452,8 +455,17 @@ eksperimentoj:
 
     const ree = lab.butono("ree",10,10,30,20);
     lab.klak_reago({g: ree},(ev) => {
-      // remetu botelojn...
+      // certigu ke ne intermitiĝas ankoraŭ prokrastitaj agoj
+      purigu_prokrastojn();
+      mikso = [];
 
+      // remetu botelojn...
+      botel_restarigo();
+      // purigu/renovigu la enhavon de la glaso
+      const glaso = lab.iloj["glaso"];
+      glaso.enhavo(5/6);
+
+      // rekaŝu ekvacio(j)n
       for (const ekv of ĉiuj(".prc_ekv")) {
         ekv.classList.add("kaŝita");
       }

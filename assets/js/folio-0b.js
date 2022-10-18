@@ -194,3 +194,20 @@ function _plenumu_reftaskojn(evento) {
 function elekte(tasko) {
     _elektotasko = tasko; // ni detaligos post ŝargo kaj trakribro de la dokumento (.onload)
 }
+
+let prokrastoj = [];  // (angle: timers)
+
+/**
+ * Registras prokrastitan agon
+ */
+function prokrastu(ago,ms) {
+    const p = setTimeout(ago, ms);
+    prokrastoj.push(p);
+}
+
+/**
+ * Purigas ĉiujn prokrastitajn agojn, eventuale ankoraŭ aktivajn
+ */
+function purigu_prokrastojn() {
+    while (p = prokrastoj.pop()) clearTimeout(p);
+}
