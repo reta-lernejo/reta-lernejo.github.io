@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Interatomaj fortoj
 chapter: "2"
+next_ch: jona_ligo
 js:
   - mathjax/es5/tex-chtml
 ---
@@ -33,6 +34,3 @@ Por atingi tion, atomoj ligiĝas inter si laŭ tri bazaj manieroj:
 
 Ĉar noblaj gasoj troviĝas jam en favora stato ili tre malofte aperas en molekuloj.
 
-
-<h2></h2>
-[jonaj ligoj](jona_ligo){: .sekva_folio}

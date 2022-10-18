@@ -2,6 +2,7 @@
 layout: laborfolio
 title: "Solvaĵoj"
 chapter: "2.7"
+next_ch: reakcioj
 js:
   - folio-0b
   - sekcio-0b 
@@ -211,9 +212,6 @@ reference((ref) => {
   </defs>
   <g id="ekvaci_enhavo"></g>
 </svg>
-
-<h2></h2>
-[Kemiaj reakcioj](reakcioj){: .sekva_folio}
 
 ## fontoj
 {: .fontoj}

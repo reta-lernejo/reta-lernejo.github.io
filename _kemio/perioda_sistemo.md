@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Perioda sistemo de elementoj
 chapter: "1.2"
+next_ch: atomaj_fortoj
 js:
   - folio-0b
   - sekcio-0b
@@ -536,9 +537,6 @@ function perioda_sistemo() {
 
 perioda_sistemo();
 </script>
-
-<h2></h2>
-[interatomaj fortoj](atomaj_fortoj){: .sekva_folio}
 
 ## fontoj
 {: .fontoj}

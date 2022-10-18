@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Kemiaj reakcioj
 chapter: "3"
+next_ch: precipito
 js:
   - folio-0b
   - sekcio-0b 
@@ -16,7 +17,7 @@ https://en.wikipedia.org/wiki/Chemical_reaction
 Oni distingas multajn specojn de ĥemiaj reakcioj. Gravaj tipoj estas:
 
 - [precipitaj reakcioj](precipito)
-- acido-bazo-rakcioj
+- acido-bazo-reakcioj
 - redoksaj reakcioj
 - kompleksformaj reakcioj
 - fotoĥemia reakcio

@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Statoj de materio
 chapter: "2.6"
+next_ch: solvajho
 js:
   - folio-0b
 ---
@@ -56,5 +57,3 @@ Oni povas resumi bazajn ecojn de la tri bazaj materistatoj tiel:
 </figure>
 
 
-<h2></h2>
-[Solvaĵoj](solvajho){: .sekva_folio}

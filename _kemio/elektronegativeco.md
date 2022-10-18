@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Elektronegativeco
 chapter: "2.4"
+next_ch: intermolekulaj_fortoj
 js:
   - folio-0a
   - sekcio-0b
@@ -192,9 +193,6 @@ superrigardon pri tiu kaj alia konceptoj donas la prezentaĵo:
 https://www.csus.edu/indiv/s/spencej/chem%2031%20summer%2014%20web/day%202%20lecture.pdf
 
 -->
-
-<h2></h2>
-[intermolekulaj fortoj](intermolekulaj_fortoj){: .sekva_folio}
 
 
 ## fontoj

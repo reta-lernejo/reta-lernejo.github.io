@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Metala ligado
 chapter: "2.3"
+next_ch: elektronegativeco
 js:
   - folio-0a
   - svg-0c
@@ -141,5 +142,3 @@ kiel ĉe [jona ligado](jona_ligo) kaj aliflanke elektronoj estas komunigitaj
 kiel ĉe [kovalenta ligado](kovalenta_ligo). Sekve metala krado estas fenomeno
 dunatura havanta ecojn kaj de jona krado kaj de grandega molekulo.
 
-<h3></h3>
-[elektronegativeco](elektronegativeco){: .sekva_folio}

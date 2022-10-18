@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Atomoj kaj elementoj
 chapter: "1"
+next_ch: elektrondistribuo
 js:
   - folio-0a
   - sekcio-0b
@@ -32,10 +33,6 @@ La atommodelo evoluiĝis kun la progreso de la scienco ekde la antikvo ĝis nunt
 - Joseph John Thomson (1903): atomo konsistas el egale distribuita pozitiva ŝargo kaj negative ŝargitaj elektronoj (kiel kuko kun sekvinberoj)
 - Ernest Rutherford, Niels Bohr (1913): atomo konsistas el pozitive ŝargita centra nukleo portanta preskaŭ la tutan mason kaj ĉirkaŭaĵo en kiu la negativaj elektronoj ĉirkaŭiras sur diskretaj orbitoj.
 - 1928: orbitalmodelo: la orbitaloj de elektronoj kiel solvoj de la ekvacio de Schrödinger priskribas probablecojn pri kie elektronoj povas troviĝi  
-
-
-<h2></h2>
-[distribuo de elektronoj](elektrondistribuo){: .sekva_folio}
 
 
 ## fontoj

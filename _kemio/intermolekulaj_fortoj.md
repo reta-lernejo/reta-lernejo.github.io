@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Intermolekulaj fortoj
 chapter: "2.5"
+next_ch: materistato
 js:
   - folio-0a
   - sekcio-0b 
@@ -295,8 +296,7 @@ Grandaj atomoj kaj grandaj molekuloj kun multaj elektronoj pli facile polusiĝas
 
 <!-- klarigi rilaton al ...agregataj statoj...  ??? -->
 
-<h2></h2>
-[Statoj de materio](materistato){: .sekva_folio}
+
 
 ## fontoj
 {: .fontoj}

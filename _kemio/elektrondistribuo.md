@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Distribuo de elektronoj
 chapter: "1.1"
+next_ch: perioda_sistemo
 js:
   - folio-0a
   - sekcio-0b 
@@ -446,9 +447,6 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 
 La konstruo de atomoj kaj aparte la distribuo de la elektronoj influas la ĥemiajn ecojn de la elementoj
 kaj per tiuj ecoj oni enordigas ilin en la [periodan sistemon de elementoj](perioda_sistemo).
-
-<h2></h2>
-[perioda sistemo de elementoj](perioda_sistemo){: .sekva_folio}
 
 ## fontoj
 {: .fontoj}

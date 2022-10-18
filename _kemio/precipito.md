@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: Precipito
+title: Precipitaj reakcioj
 chapter: "3.1"
 js:
   - folio-0b

@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Jonaj ligoj
 chapter: "2.1"
+next_ch: kovalenta_ligo
 js:
   - folio-0a
   - lewis-0b
@@ -158,5 +159,3 @@ http://ammoniumnitrate.weebly.com/uploads/9/8/2/0/9820288/500629623.png?371
 https://chemistry.mcmaster.ca/esam/Chapter_7/intro.html
 -->
 
-<h3></h3>
-[kovalentaj fortoj](kovalenta_ligo){: .sekva_folio}

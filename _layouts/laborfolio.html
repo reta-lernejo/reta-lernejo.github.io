@@ -38,10 +38,13 @@ layout: default
       {{ content }}
     </div>
 
-    <!-- tio ne funkcias, ĉar ni devus ordigi laŭ "chapter"
-{% if page.next.url and page.next.chapter %}
-<a class="sekva_folio" href="{{page.next.url}}">&raquo; {{page.next.title}} &raquo;</a>
+{% if page.next_ch %}
+{% assign next-file = "/" | append: page.next_ch | append: ".md"  %}
+{% assign next-page = site[page.collection] | where_exp: "item", "item.path contains next-file" | first %}
+{% if next-page %}
+<a class="sekva_folio" href="{{next-page.url}}">{{next-page.title}}</a>
 {% endif %}
--->
+{% endif %}
+
   
 </article>

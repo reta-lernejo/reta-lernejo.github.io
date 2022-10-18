@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Kovalentaj ligoj
 chapter: "2.2"
+next_ch: metala_ligo
 js:
   - folio-0a
   - lewis-0c
@@ -82,5 +83,3 @@ anstataŭ per du punktoj.
     xmlns:xlink="http://www.w3.org/1999/xlink" width="240" viewBox="-30 -20 60 40">    
 </svg>
 
-<h3></h3>
-[metala ligado](metala_ligo){: .sekva_folio}
