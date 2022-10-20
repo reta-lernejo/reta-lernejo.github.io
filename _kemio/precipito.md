@@ -442,7 +442,7 @@ eksperimentoj:
     } 
     */
 
-    const glaso = Lab.glaso("glaso",5/6); // alteco = 250 (5/6*200)
+    const glaso = Lab.glaso("glaso",5/6); // alteco = 250, enhavo (5/6*200)
     lab.metu(glaso,{id: "tablo", x:LARĜO/2-50, y:ALTO});
 
     // kreu botelojn kun substancoj laŭ numero
