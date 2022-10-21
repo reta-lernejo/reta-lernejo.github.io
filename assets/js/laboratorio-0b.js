@@ -471,7 +471,8 @@ class LabPHIndikilo {
         const makulo = Lab.e("ellipse",{
             class: "makulo",
             cx: .8*2*r, cy: r+1.5,  
-            rx: r/5, ry: 3
+            rx: r/5, ry: 3,
+            fill: "none"
         });
 
         const surskribo = Lab.e("text",{class: "etikedo"},"pH");
@@ -490,6 +491,38 @@ class LabPHIndikilo {
         return (pH <= 7?
             Math.round((320 + pH*20) % 360):
             Math.round((140 + (pH-7)*20) % 360));
+    }
+
+    /**
+     * Kreas etendiĝantan makulon laŭ koloro de certa pH-valoro
+     */
+    makulo(pH,nevidebla) {
+        const h = LabPHIndikilo.pH_koloro(pH);
+        const makulo = this.g.querySelector("ellipse.makulo");
+        Lab.a(makulo,{  
+            fill: `hsl(${h},70%,50%)`,
+            "fill-opacity": 0
+        });
+        // lanĉu la animacion de apero...
+        let apero = makulo.querySelector("animate");
+        if (apero) apero.remove();
+        if (!nevidebla) {
+            apero = Lab.apero(5,0.7); 
+            makulo.append(apero);
+                /*
+            Lab.a(apero,{
+                values: "0;.7"
+            });*/
+            apero.beginElement();    
+        } /*else {
+            //apero.remove();
+            
+            Lab.a(apero,{
+                values: "0;0",
+                begin: "indefinite",
+            });
+            
+        }*/
     }
 }
 
@@ -626,11 +659,12 @@ class Lab {
     /** 
      * Kreas iom-post-ioman aperon per kresko de fill-opacity 
      * @param {number} d daŭro en sekundoj
+     * @param {number} max maksimuma opakeco
      */
-    static apero(d) {
+    static apero(d,max=1.0) {
         const a = Lab.e("animate", {
             attributeName: "fill-opacity",
-            values: "0.0;1.0",
+            values: `0.0;${max}`,
             dur: d+"s",
             repeatCount: 1,
             fill: "freeze"
@@ -711,9 +745,11 @@ class Lab {
      * Kreas pH-indikilon 
      * @param {string} id identigilo (nomo) de la indikilo
      * @param {number} r radiuso de la ronda indikilo
+     * @param {number} min minimuma malgranda pH-valoro 
+     * @param {number} max maksimuma malgranda pH-valoro 
      */
-    static indikilo(id="indikilo",r=50) {
-        return new LabPHIndikilo(id,r,1,11); 
+    static indikilo(id="indikilo",r=50,min=1,max=14) {
+        return new LabPHIndikilo(id,r,min,max); 
     }
 
      /**

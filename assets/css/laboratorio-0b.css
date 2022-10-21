@@ -69,11 +69,13 @@
     stroke-width: 0.2;
 }
 
+/*
 .indikilo .makulo {
     stroke: none;
     fill: gray;
     fill-opacity: 0.2;
 }
+*/
 
 .ombro {
     fill: url(#r_gradiento_ombro);
