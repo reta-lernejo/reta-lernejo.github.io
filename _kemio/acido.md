@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Acidoj
-chapter: "3.2"
+chapter: "3.2.1"
 js:
   - folio-0b
   - sekcio-0b 
@@ -36,6 +36,7 @@ paĝo en preparo....
 <script>
   let lab; // la laboratorio kaj iloj
   let bastono; // la vitra bastono por fari la pH-provon
+  let indikilo; // la pH-indikilo
   let substanco = "H₂O"; // la elektita substanco
   const ALTO = 240;
   const LARĜO = 300;
@@ -65,32 +66,22 @@ paĝo en preparo....
     const ecoj = substancoj[subst];
     const enhavo = ĝi("#_glaso_provtubo_enhavo .likvo") || ĝi("#_glaso_provtubo_enhavo .__subst");
     Lab.a(enhavo,{class: "__subst", fill: ecoj[1], "fill-opacity": ecoj[2]}); 
+    indikilo.makulo(7,true); // true: forigu la makulon
     lab.movu(bastono,"B1");
-    const makulo = ĝi("#indikilo .makulo") || ĝi("#indikilo .__makulo");
-    Lab.a(makulo, {
-      fill: '',
-      "fill-opacity": 0
-    })
   }
 
   function pHprovo() {
     lab.movu(bastono,"B2");
     const ecoj = substancoj[substanco];
-    const makulo = ĝi("#indikilo .makulo") || ĝi("#indikilo .__makulo");
-    const pHklr = LabPHIndikilo.pH_koloro(ecoj[0]);
-    console.log(`${substanco}, pH: ${ecoj[0]}, koloro: ${pHklr}`);
-    Lab.a(makulo, {
-      class: "__makulo",
-      fill: `hsl(${pHklr},70%,50%)`,
-      "fill-opacity": .7
-    });
+    indikilo.makulo(ecoj[0]);
+    console.log(`${substanco}, pH: ${ecoj[0]}`);
   }
 
   lanĉe(()=>{
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",LARĜO,ALTO+10);
 
     // pH-indikilon maldekstre
-    const indikilo = Lab.indikilo();
+    indikilo = Lab.indikilo();
     lab.metu(indikilo,{id: "maldekstre", x:(LARĜO)/2-80, y:ALTO-50});
 
     // vitra bastono unue por ke ĝi aperu "en" la provtubo
