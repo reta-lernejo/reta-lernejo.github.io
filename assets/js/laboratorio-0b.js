@@ -68,7 +68,7 @@ class LabGlaso extends LabUjo {
 
         const g = Lab.e("g", { id: `_glaso_${id}`, class: "ujo glaso" });
         // komencante en la supra maldekstra angulo kontraŭ horloĝa direkto...
-        const bordo = `M-5,${-h} Q0,${-h} 0,${-h+5} L0,-5 Q0,8 ${w/2},8 Q${w},8 ${w},-5 L${w},${-h+5} Q${w},${-h} ${w+5},${-h} Z`;
+        const bordo = `M${-w/20},${-h} Q0,${-h} 0,${-h+5} L0,${-w/20} Q0,8 ${w/2},8 Q${w},8 ${w},-5 L${w},${-h+5} Q${w},${-h} ${w+w/20},${-h} Z`;
 
         const ujo = Lab.e("path",{
             d: bordo,
@@ -117,7 +117,7 @@ class LabGlaso extends LabUjo {
             const h = this.enh_alto
             nova_enh = Lab.e("path",{
                 //d: `M0,${-h} L${w},${-h} L${w},-5 Q${w},0 ${w-5},1 Q${w/2},8 5,1 Q0,0 0,-5 Z`,
-                d: `M0,${-h} L0,-5 Q0,8 ${w/2},8 Q${w},8 ${w},-5 L${w},${-h} Z`,
+                d: `M0,${-h} L0,${-w/20} Q0,8 ${w/2},8 Q${w},8 ${w},${-w/20} L${w},${-h} Z`,
                 class: "likvo"
             });
         };
@@ -421,19 +421,20 @@ class LabBastono {
     }
 }
 
-class LabIndikilo {
+class LabPHIndikilo {
     /** 
      * Kreas indikilon pri pH-valoro ks 
      * @param {string} id identigilo (nomo) de la indikilo
      * @param {number} r radiuso de la ronda indikilo
-     * @param {array} valoroj listo de valoroj {koloro, valoro}
+     * @param {number} min minimuma malgranda pH-valoro 
+     * @param {number} max maksimuma malgranda pH-valoro 
      */
-    constructor(id,r,valoroj) {
+    constructor(id,r,min=1,max=14) {
         this.id = id;
         this.g = Lab.e("g", {id: id, class: "indikilo"});
         const c = Lab.e("circle",{r: r});
 
-        const angulo = 360/valoroj.length;
+        const angulo = 360/(max-min+1);
         const r2 = r/2;
         const alpha = angulo/180 * Math.PI; // angulo de sektoro
         const phi = (angulo-90)/180 * Math.PI; // desktrea angulo de unua sektoro, 
@@ -444,20 +445,21 @@ class LabIndikilo {
         const y2 = r2 * Math.sin(phi);
         const td = r2 + (r-r2)/2;
 
-        function sektoro(v,n) {
+        function sektoro(val,n) {
+            const h = LabPHIndikilo.pH_koloro(val);
             return Lab.e("path", {
                 d: `M0,${-r} A${r} ${r} 0 0 1 ${x1} ${y1} L${x2},${y2} A${r2} ${r2} 0 0 0 0 ${-r2} Z`,
                 //style: `fill: ${v.koloro}`,
-                fill: v.koloro,
+                fill: `hsl(${h} 70% 50%)`,
                 transform: `rotate(${n*angulo})`
             });
         }
 
-        function teksto(v,n) {
+        function teksto(val,n) {
             return Lab.e("text", {
                 x: td * Math.cos(phi - alpha/2 + n*alpha),
                 y: td * Math.sin(phi - alpha/2 + n*alpha)
-            }, v.valoro);
+            }, val);
         }
 
         const papero = Lab.e("path", {
@@ -470,12 +472,24 @@ class LabIndikilo {
             class: "makulo",
             cx: .8*2*r, cy: r+1.5,  
             rx: r/5, ry: 3
-        })
+        });
 
-        const sektoroj = valoroj.map((v,i) => sektoro(v,i));
-        const tekstoj = valoroj.map((v,i) => teksto(v,i));
+        const surskribo = Lab.e("text",{class: "etikedo"},"pH");
+
+        const vj = Array.from(Array(max-min+1).keys());
+        const sektoroj =  vj.map((n) => sektoro(min+n,n));
+        const tekstoj = vj.map((n) => teksto(min+n,n));
         
-        this.g.append(papero,makulo,c,...sektoroj,...tekstoj);
+        this.g.append(papero,makulo,c,...sektoroj,...tekstoj,surskribo);
+    }
+
+    /**
+     * Redonas kolovaloron por pH-valoro. Tiu kolovaloro estu uzata kiel unua argumento h de hsl(h,s,l)
+     */
+    static pH_koloro(pH) {
+        return (pH <= 7?
+            Math.round((320 + pH*20) % 360):
+            Math.round((140 + (pH-7)*20) % 360));
     }
 }
 
@@ -699,16 +713,7 @@ class Lab {
      * @param {number} r radiuso de la ronda indikilo
      */
     static indikilo(id="indikilo",r=50) {
-        let valoroj = [];
-        for (let v=1; v<=14; v++) {
-            const h = v<=7?
-                Math.round((320 + v*20) % 360):
-                Math.round((140 + (v-7)*20) % 360);
-            valoroj.push({valoro: v, koloro: `hsl(${h} 100% 50%)`});
-        }
-        const indikilo = new LabIndikilo(id,r,valoroj); //.slice(0,11));
-        indikilo.g.append(Lab.e("text",{class: "etikedo"},"pH"));
-        return indikilo;
+        return new LabPHIndikilo(id,r,1,11); 
     }
 
      /**
@@ -789,13 +794,13 @@ class Laboratorio extends LabSVG {
         // vitro
         this.difinoj().append(
             Lab.gradiento(
-            { id: "vitro"},
+            { id: "vitro", x1: "1.5%", x2: "98.5%"},
             [
                 {procento:  "0%", koloro: "#00A", opako: ".5"},
                 {procento:  "7%", koloro: "#09F", opako: ".2"},
                 {procento:  "8%", koloro: "#fff", opako: ".5"},
-                {procento: "55%", koloro: "#222", opako: ".1"},
-                {procento: "60%", koloro: "#000", opako: ".1"},
+                {procento: "55%", koloro: "#222", opako: "0.2"},
+                //{procento: "60%", koloro: "#111", opako: "0"},
                 {procento: "93%", koloro: "#000", opako: ".4"},
                 {procento: "94%", koloro: "#114", opako: ".2"}
             ])
@@ -901,7 +906,8 @@ class Laboratorio extends LabSVG {
         i.g.addEventListener("click", (event) =>
         {
             reago(i,event);
-        })
+        });
+        i.g.classList.add("tuŝebla");
     }
 
     /**

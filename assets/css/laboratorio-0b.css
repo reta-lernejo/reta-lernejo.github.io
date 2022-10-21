@@ -14,6 +14,10 @@
     font-size: 10px;
 }
 
+.tuŝebla {
+    cursor: pointer;
+}
+
 .kaŝita {
     display: none;
 }
