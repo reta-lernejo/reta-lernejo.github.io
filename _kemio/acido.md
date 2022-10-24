@@ -7,15 +7,19 @@ js:
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - laboratorio-0b
+  - k_acidbaz-0a
 css:
   - laboratorio-0b
 ---
 <!--
+
+https://de.wikipedia.org/wiki/S%C3%A4urekonstante
 https://de.wikipedia.org/wiki/Universalindikator
 https://en.wikipedia.org/wiki/Universal_indicator
 https://www.aqion.de/site/ph-tabelle-saeuren
 
 http://www.ewt-wasser.de/de/wissen/konzentrationsangaben-einheitenumrechnung.html
+https://dieklugeeule.com/wie-berechnet-man-den-ph-wert-von-hcl/
 
 -->
 
