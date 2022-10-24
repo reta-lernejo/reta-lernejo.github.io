@@ -24,6 +24,7 @@ class AB {
     ["H3PO4",2.13,"H2PO4-",11.87],
     ["[Fe(H2O)6]3+",2,22,"[Fe(OH)(H2O)5]2+",11.78],
     ["HF",3.14,"F-",10.86],
+    ["HNO2",3.35,"NO2^-",10.65],
     ["HCOOH",3.75,"HCOO-",10.25],
     // mezfortaj acidoj kaj bazoj
     ["CH3COOH",4.75,"CH3COO-",9.25],
@@ -36,6 +37,7 @@ class AB {
     ["HCN",9.4,"CN-",4.6],
     ["HCO3^-",10.4,"CO3^2-",3.6],
     ["HPO4^2-",12.36,"PO4^3-",1.64],
+    ["HS-",13,"S^2-",1],
     ["H2O",14,"OH-",0],
     // tre malfortaj acidoj - tre fortaj bazoj
     ["CH3-CH2-OH",15.9,"CH3-CH2-O-",-1.9],
@@ -60,7 +62,7 @@ class AB {
      */
     static pKa(acido) {
         const ea = AB.pKa_pKb.find((e) => e[0] == acido);
-        return ea[1];
+        if (ea) return ea[1];
     }
 
     /**
@@ -68,11 +70,11 @@ class AB {
      */
     static pKb(bazo) {
         const eb = AB.pKa_pKb.find((e) => e[2] == bazo);
-        return eb[3];
+        if (eb) return eb[3];
     }
 
     /**
-     * Trovas la acidon en la difinoj kaj redonas ties Ka-valoro
+     * Trovas la acidon en la difinoj kaj redonas ties Ka-valoron (disocia konstanto)
      * laŭ la formulo Ka = 10^(-pKa)
      */
     static Ka(acido) {
@@ -81,7 +83,7 @@ class AB {
     }
 
     /**
-     * Trovas la bazon en la difinoj kaj redonas ties Kb-valoro
+     * Trovas la bazon en la difinoj kaj redonas ties Kb-valoro (disocia konstanto)
      * laŭ la formulo Kb = 10^(-pKb)
      */
     static Kb(bazo) {
@@ -90,33 +92,81 @@ class AB {
     }
 
     /**
-     * Kalkulas la koncentrigon de H+-jonoj laŭ la formulo (leĝo de masago k.a.)
+     * Kalkulas la koncentriĝon de H+-jonoj laŭ la simpligita formulo (leĝo de masefiko kun simpligoj)
      * vd. https://studyflix.de/chemie/ph-wert-berechnen-1566
-     * [H+] = radiko(Ca * Ka) - Ca = koncentrigo de la acido en mol/l
+     * por malfortaj: [H+] = radiko(Ca * Ka) - Ca = koncentriĝo de la acido en mol/l
+     * por fortaj: [H+] = [A-] = [HA]₀ = koncentriĝo
      */
     static cH(acido,koncentriĝo) {
-        const K = AB.Ka(acido);
-        return Math.sqrt(koncentriĝo * K)
+        const pKa_ = AB.pKa(acido);
+        if (pKa_ < 1)
+            return koncentriĝo;
+        else {
+            Math.sqrt(koncentriĝo * 10**-pKa_);
+        }
+    }
+
+    /**
+     * Kalkulas la koncentriĝon de OH- -jonoj laŭ la formulo (leĝo de masefiko kun simpligoj)
+     * por malfortaj: [OH-] = radiko(Cb * Kb) - Cb = koncentriĝo de la bazo en mol/l
+     * por fortaj: [OH-] = [B]₀ = koncentriĝo
+     */
+    static cOH(bazo,koncentriĝo) {
+        const pKb_ = AB.pKb(bazo);
+        if (pKb_ < 1)
+            return koncentriĝo;
+        else {
+            Math.sqrt(koncentriĝo * 10**-pKb_);
+        }
     }
 
     /** 
-     * Kalkulas la pH-valoron de acido lau la formulo
+     * Kalkulas la pH-valoron de acido aŭ bazo
+     * vd. https://studyflix.de/chemie/ph-wert-berechnen-1566
      */
-    static pH(acido,koncentriĝo) {
-        if (acido == "H2O") return 7;
+    static pH(ab,koncentriĝo) {
+        if (ab == "H2O") return 7;
      /* tre fortaj acidoj:
-            ph = -lg(c)
+            pH = -lg(c)
         
         pli malfortaj acidoj:
-            pH = −lg[H+] kun [H+] kun cH(acido,koncentriĝo)
+            pH = −lg[H+] kun [H+]: cH(acido,koncentriĝo)
             resp. 0.5 * (pKa - lg(c))
       */
-        const pKa_ = AB.pKa(acido);
-        if (pKa_ < 1)
+        const pKa_ = AB.pKa(ab);
+        if (pKa_ !== undefined) {
+            if (pKa_ < 1) // aliaj metas la limon ĉe 4
+                return -Math.log10(koncentriĝo)
+            else if (pKa_ < 11)
+                return 0.5 * (pKa_ - Math.log10(koncentriĝo));
+            else
+                throw "Tro granda pKa por apliki la simpligitajn formulojn... "
+
+        // se efektive temas pri bazo, ni redonas pH = 14 - pOH
+        } else if (AB.pKb(ab) !== undefined) {
+            return 14 - AB.pOH(ab,koncentriĝo)
+        }
+    }
+
+
+    /** 
+     * Kalkulas la pOH-valoron de bazo, la pH-valoron en akvo ni ricevos per 14-pOH
+     */
+     static pOH(bazo,koncentriĝo) {
+        if (bazo == "H2O") return 7;
+     /* tre fortaj bazoj:
+            pOH = -lg(c)
+        
+        pli malfortaj bazoj:
+            pOH = −lg[OH-] kun [OH-]: cOH(bazo,koncentriĝo)
+            resp. 0.5 * (pKb - lg(c))
+      */
+        const pKb_ = AB.pKb(bazo);
+        if (pKb_ < 1) // aliaj metas la limon ĉe 4
             return -Math.log10(koncentriĝo)
-        else if (pKa_ < 11)
-            return 0.5 * (pKa_ - Math.log10(koncentriĝo));
+        else if (pKb_ < 11)
+            return 0.5 * (pKb_ - Math.log10(koncentriĝo));
         else
-            throw "Tro granda pKA por apliki kutimajn simpligitajn formulojn... "
+            throw "Tro granda pKb por apliki la simpligitajn formulojn... "
     }
 }

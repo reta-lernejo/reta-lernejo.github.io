@@ -29,13 +29,10 @@ CH3​COOH ⇆ CH3​COO- + H+
 
 pH de 1 M (=1mol/l) CH3​COOH solvaĵo: 
 // https://www.toppr.com/ask/question/what-is-the-ph-of-a-1-m-ch3coohsolutionkaof-acetic-acid-18-times105-kw/
-malforta acido => [H+]=sqrt(C×Ka​) (leĝo de Ostwald)
-​=sqrt(1×1.8×10−5)
-​=0.004243M
 pH=−log[H+]=−log(0.004243)=2.4
 
-[Ka​ de vinagracido = 1.8×10−5, Kw​=10−14mol2 litre−2] = 2.4
 
+https://www.uibk.ac.at/organic/ag-kreutz/dateien/teil_3.pdf
 
 -->
 

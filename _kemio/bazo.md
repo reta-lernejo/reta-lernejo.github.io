@@ -7,6 +7,7 @@ js:
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - laboratorio-0b
+  - k_acidbaz-0a
 css:
   - laboratorio-0b
 ---
