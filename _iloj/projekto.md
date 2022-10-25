@@ -24,7 +24,7 @@ js:
 - flankenlasi praktikajn sciojn (realaj eksperimentoj ja ne eblas...)
 - flankenlasi tro formalajn sciojn (kalkulsistemoj, k.s. krom se ili necese subtenas la fokusan enhavon)
 - klarigi prefere per interagaj grafikoj anstataŭ longaj tekstoj aŭ kalkuloj
-- ideale lernado similu viziton de muzeo aŭ migradon laŭ instrupado en la naturo
+- ideale lernado similu vojaĝon direktatan de scivolemo
 
 ## Teknikaj rimedoj
 {: .sekcio}

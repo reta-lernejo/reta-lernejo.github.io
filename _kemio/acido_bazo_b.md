@@ -34,6 +34,15 @@ pH=−log[H+]=−log(0.004243)=2.4
 
 https://www.uibk.ac.at/organic/ag-kreutz/dateien/teil_3.pdf
 
+nocioj:
+- korespondaj acido-bazo-paroj
+- neŭtraligo
+- ekvilibro
+- titrado/ekvivalent-punkto
+
+
+titrado de amonikao kun HCl: https://www.youtube.com/watch?v=cMHD8TGPWoA
+
 -->
 
 <!--
