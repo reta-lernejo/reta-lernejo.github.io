@@ -34,6 +34,10 @@ pH=−log[H+]=−log(0.004243)=2.4
 
 https://www.uibk.ac.at/organic/ag-kreutz/dateien/teil_3.pdf
 
+
+titrado / titraj pH-kurboj:
+HCl + NaOH / acetacido + NaOH: https://www.youtube.com/watch?v=tc-cKeyjc8U (kaj referencitaj 2)
+
 -->
 
 <!--
