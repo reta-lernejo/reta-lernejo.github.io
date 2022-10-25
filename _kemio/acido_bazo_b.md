@@ -38,6 +38,15 @@ https://www.uibk.ac.at/organic/ag-kreutz/dateien/teil_3.pdf
 titrado / titraj pH-kurboj:
 HCl + NaOH / acetacido + NaOH: https://www.youtube.com/watch?v=tc-cKeyjc8U (kaj referencitaj 2)
 
+nocioj:
+- korespondaj acido-bazo-paroj
+- neŭtraligo
+- ekvilibro
+- titrado/ekvivalent-punkto
+
+
+titrado de amonikao kun HCl: https://www.youtube.com/watch?v=cMHD8TGPWoA
+
 -->
 
 <!--
