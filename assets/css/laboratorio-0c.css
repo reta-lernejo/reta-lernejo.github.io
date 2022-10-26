@@ -1,0 +1,111 @@
+.lab_fono {
+    fill: #0C3742;
+}
+
+.butono rect {
+    fill: darkcyan;
+    fill-opacity: 1;
+    stroke: white;
+    stroke-width: 0.5;
+}
+.butono text {
+    dominant-baseline: middle;
+    fill: white;
+    font-size: 10px;
+}
+
+.tuŝebla {
+    cursor: pointer;
+}
+
+.kaŝita {
+    display: none;
+}
+
+.ujo path {
+    stroke: black;
+    stroke-width: 1;
+}
+
+.konusflakono .vitro {
+    stroke: black;
+    stroke-width: 1.0;
+    fill: url(#vitro_konusa);
+}
+
+.likvo {
+    fill: #88aaff;
+    fill-opacity: 0.3;
+}
+
+.indikilo path,
+.indikilo circle {
+    stroke: #224;
+    stroke-width: 1.0;
+}
+
+.indikilo text {
+    dominant-baseline: middle;
+    text-anchor: middle;
+    font-size: 9px;
+    fill: #222;
+    font-weight: bold;
+}
+
+.indikilo .etikedo {
+    fill: #eee;
+    font-size: 18px;
+    font-weight: normal;
+    fill-opacity: 1;
+}
+
+.krano {
+    fill: chocolate;
+}
+
+#guto {
+    stroke: gray;
+    stroke-width: 0.5;
+    stroke-dasharray: 5 10;
+    fill: #8cd;
+    fill-opacity: 0.6;
+}
+
+.vitro {
+    /*fill: none;*/
+    stroke: black;
+    stroke-width: 1.0;
+    fill: url(#vitro);
+}
+
+.indikilo .papero {
+    fill: #ffe;
+    stroke: black;
+    stroke-width: 0.2;
+}
+
+/*
+.indikilo .makulo {
+    stroke: none;
+    fill: gray;
+    fill-opacity: 0.2;
+}
+*/
+
+.ombro {
+    fill: url(#r_gradiento_ombro);
+}
+
+.etikedo {
+    fill: white;
+    fill-opacity: 0.5;
+}
+
+.ujo text {
+    font-size: 9px;
+}
+
+.ujo tspan:first-child {
+    font-stretch: extra-condensed;
+    font-weight: bold;
+}
