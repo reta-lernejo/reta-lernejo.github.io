@@ -1,8 +1,6 @@
 ---
 layout: laborfolio
 title: Acidoj kaj bazoj
-js-ext:
-  - mathjax3
 ---
 
 <!--

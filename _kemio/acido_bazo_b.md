@@ -1,8 +1,14 @@
 ---
 layout: laborfolio
-title: Acidoj kaj bazoj (laŭ Brønsted)
-js-ext:
-  - mathjax3
+title: Acidoj kaj bazoj (laŭ Brønsted-Lowry)
+js:
+  - folio-0b
+  - sekcio-0b 
+  - mathjax/es5/tex-chtml
+  - laboratorio-0c
+  - k_acidbaz-0a
+css:
+  - laboratorio-0c
 ---
 
 <!--
@@ -45,7 +51,10 @@ nocioj:
 - titrado/ekvivalent-punkto
 
 
-titrado de amonikao kun HCl: https://www.youtube.com/watch?v=cMHD8TGPWoA
+titrado de amoniako kun HCl: https://www.youtube.com/watch?v=cMHD8TGPWoA
+
+titrado de citronacido kaj fosforacido:
+https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Analytical_Sciences_Digital_Library/Courseware/Chemical_Equilibrium/02_Text/02_Acid-Base_Chemistry/14_Titration_of_a_Polyprotic_Weak_Acid_with_Sodium_Hydroxide
 
 -->
 
@@ -72,3 +81,35 @@ NH3 + H2O <-> NH4+ + OH-
 
 
 -->
+
+<script>
+  let lab; // la laboratorio kaj iloj
+  const ALTO = 500;
+  const LARĜO = 300;
+
+  lanĉe(()=>{
+    lab = new Laboratorio(ĝi("#eksperimento"),"fono",LARĜO,ALTO+10);
+
+    // bureto supre
+    bureto = Lab.bureto("bureto");
+    lab.metu(bureto,{id: "supre", x:(LARĜO)/2, y:ALTO-180});
+
+    // konusflakono malsupre
+    flakono = Lab.konusflakono("flakono",25);
+    lab.metu(flakono,{id: "malsupre", x:(LARĜO)/2-30, y:ALTO});
+
+  });
+</script>
+
+<svg id="eksperimento"
+    version="1.1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-10 -10 320 520">
+ <style type="text/css">
+    <![CDATA[
+      .butono.premita rect {
+        fill: #004b4b;
+      }
+    ]]>
+  </style>
+</svg>
