@@ -84,15 +84,59 @@ NH3 + H2O <-> NH4+ + OH-
 
 <script>
   let lab; // la laboratorio kaj iloj
+  let bureto, flakono;
   const ALTO = 500;
-  const LARĜO = 300;
+  const LARĜO = 500;
 
   lanĉe(()=>{
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",LARĜO,ALTO+10);
+    // difinu gutojn
+    lab.ero_smb("guto",3);
 
     // bureto supre
     bureto = Lab.bureto("bureto");
     lab.metu(bureto,{id: "supre", x:(LARĜO)/2, y:ALTO-180});
+
+    lab.klak_reago(bureto, (b) => {
+      // por verŝgutoj ni bezonas la pinton de la bureto kaj la surfacon de la flakonenhavo
+      // PLIUBONIGU:
+      // aldonu tiun logikon en Laboratorio donante al ĝi du objektojn resp. la
+      // rezultojn de .pinto() kaj .surfaco()
+      const pinto = b.pinto();
+      const pt = lab.svgKoord(bureto.g,pinto.x,pinto.y);
+      const surfaco = flakono.surfaco();
+      // surfaco indikas la mezpunkton de la surfaco, por
+      // vertikala falo ni poste uzu pt.x!
+      const sf = lab.svgKoord(flakono.g,surfaco.x,surfaco.y);
+
+      const verŝo = Lab.falaĵo("gutoj","guto",
+        {
+          id: "guto", n: 7,
+          alto: 3,
+          falaĵalto: 2,
+          x0: pt.x,
+          supro: -pt.y, // KOREKTU -y -> +y?
+          daŭro: 1,  // daŭro: 1s
+          faldistanco: sf.y-pt.y,
+          poste: (ev) => {
+            const gutoj = ĝi('#gutoj');
+            if (gutoj) gutoj.remove();
+
+            // aldonu 1ml al flakonlikvo
+            // KOREKTU: tiel ĉiu guto aldonas, sed nur la unua aŭ lasta kaŭzu tion!
+            flakono.enfluo(1);
+          }
+        },
+        null, null, 0, 0);
+
+      ĝi("#lab_aranĝo").append(verŝo);
+      for (a of ĉiuj(`#gutoj animateMotion`)){
+        a.beginElement();
+      };
+
+      // fluigu 1ml el la bureto
+      b.elfluo(1);
+    });
 
     // konusflakono malsupre
     flakono = Lab.konusflakono("flakono",25);
@@ -104,7 +148,7 @@ NH3 + H2O <-> NH4+ + OH-
 <svg id="eksperimento"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-10 -10 320 520">
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="-10 -10 520 520">
  <style type="text/css">
     <![CDATA[
       .butono.premita rect {

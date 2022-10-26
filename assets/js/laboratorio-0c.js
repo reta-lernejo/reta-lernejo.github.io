@@ -296,7 +296,7 @@ class LabGutbotelo extends LabUjo {
      * Redonas la element-rekonilon (id) kaj la relativajn koordinatojn de la pinto
      */
     pinto() {
-        // alternative ni povus transdoni la ujo-grupon forlastane la pinto-elementon, 
+        // alternative ni povus transdoni la ujo-grupon forlasante la pinto-elementon, 
         // la ujo momente ne havas .id
         return {
             id: `_gutbotelo_${this.id}_pinto`,
@@ -317,6 +317,7 @@ class LabKonusFlakono extends LabUjo {
      */
     constructor(id,pleno=0,w=100,h=200) {
         super(id);
+        this.ml = pleno;
 
         this.g = Lab.e("g",{
             class: "ujo konusflakono",
@@ -372,6 +373,30 @@ class LabKonusFlakono extends LabUjo {
     enhavalto(ml) {
         return 11/15*ml;
     }
+
+    /**
+     * Redonas mezpunktion de la surfaco en relativaj koordinatoj
+     */
+    surfaco() {
+        const enh = this.g.querySelector(".likvo");
+        return ({
+            x: enh.getAttribute("x")+enh.getAttribute("width")/2, 
+            y: enh.getAttribute("y")
+        });
+    }
+
+    /**
+     * Aldonas volumenon en ml al la enhavo
+     * @param {number} ml 
+     */
+    enfluo(ml) {
+        this.ml += ml;
+        const eh = this.enhavalto(this.ml);
+        const enh = this.g.querySelector(".likvo");
+        Lab.a(enh,{ 
+            y: -eh, height: eh+8
+        });
+    }
 }
 
 class LabBureto  extends LabUjo {
@@ -384,6 +409,8 @@ class LabBureto  extends LabUjo {
     constructor(id,ml=0) {
         const h=300;
         super(id);
+        this.ml = ml;
+        this.nulo = h-20; // y-pozicio de skalo=0 mezurite de ellaso
 
         // ujo    
         const bordo = //`M0,${-h} L0,-50 L40,-50 L40,${-h} Z`
@@ -441,9 +468,9 @@ class LabBureto  extends LabUjo {
             const enhavo = Lab.e("rect",
             {
                 x: 8,
-                y: -h+20+4*ml,
+                y: -this.nulo + 4*ml,
                 width: 24,
-                height: h-20 -4*ml, // 0-streko - elfluitaj ml
+                height: this.nulo -4*ml, // 0-streko - elfluitaj ml
                 class: "likvo",
                 "clip-path": `url(#${c_id})`,
             });
@@ -451,6 +478,33 @@ class LabBureto  extends LabUjo {
         }
 
         this.g.append(krano,ujo,skalo);
+    }
+
+    /**
+     * Redonas la element-rekonilon (id) kaj la relativajn koordinatojn de la pinto
+     */
+     pinto() {
+        // alternative ni povus transdoni la ujo-grupon forlasante la pinto-elementon, 
+        // la ujo momente ne havas .id
+        return {
+            id: this.id,
+            x:20,
+            y:0
+        };
+    }    
+
+    /**
+     * Reduktas la enhavon
+     * @param {number} ml tiom da ml la enhavo reduktiĝas
+     */
+    elfluo(ml=1) {
+        this.ml += ml; // sume elfluinta volumeno en ml
+
+        const enh = this.g.querySelector(".likvo");
+        Lab.a(enh, {
+            y: -this.nulo + 4*this.ml,
+            height: this.nulo -4*this.ml
+        })        
     }
 }
 
@@ -1189,7 +1243,7 @@ class Laboratorio extends LabSVG {
         // PLIBONIGU: tiel ni povas ŝanĝi koloron nur per ŝanĝo de la klaso
         // alternative permesu krei individuajn gradientojn por unuopaj eroj!
         if (! dif.querySelector("#gradiento_precipito")) {
-            this.dif.append(
+            dif.append(
             Lab.gradiento(
                 {id: "gradiento_precipito"},
                 [
