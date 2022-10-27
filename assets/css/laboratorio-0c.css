@@ -38,6 +38,22 @@
     fill-opacity: 0.3;
 }
 
+.sondilo .bastono {
+    fill: #000444;
+}
+
+.sondilo .monitoro rect {
+    stroke: #181827;
+    stroke-width: 4;
+    fill: lightgoldenrodyellow;
+}
+
+.sondilo text {
+    font-size: 12px;
+    font-weight: bold;
+    dominant-baseline: middle;
+}
+
 .indikilo path,
 .indikilo circle {
     stroke: #224;

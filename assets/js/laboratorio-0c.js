@@ -46,9 +46,15 @@ class LabSVG {
     }
 }
 
-class LabUjo {
+class LabIlo {
     constructor(id) {
         this.id = id;
+    }
+}
+
+class LabUjo extends LabIlo {
+    constructor(id) {
+        super(id);
     }
 }
 
@@ -380,6 +386,7 @@ class LabKonusFlakono extends LabUjo {
     surfaco() {
         const enh = this.g.querySelector(".likvo");
         return ({
+            id: this.id,
             x: enh.getAttribute("x")+enh.getAttribute("width")/2, 
             y: enh.getAttribute("y")
         });
@@ -390,6 +397,8 @@ class LabKonusFlakono extends LabUjo {
      * @param {number} ml 
      */
     enfluo(ml) {
+        //console.log(`flakono ${this.id}: ${this.ml} + ${ml}`);
+
         this.ml += ml;
         const eh = this.enhavalto(this.ml);
         const enh = this.g.querySelector(".likvo");
@@ -441,13 +450,14 @@ class LabBureto  extends LabUjo {
         });
 
         // krano malfermita kaj fermita
+        this.fermita = true;
         this.krano_fermita = `M10,-50 L30,-50 L32,-48 L40,-48 L40,-42 L32,-42 L30,-40 L10,-40 Z`;
         this.krano_malfermita = `M10,-50 L30,-50 L32,-48 L34,-48 L36,-55 L39,-55 L40,-45 `
             + `L39,-35 L36,-35 L34,-42 L32,-42 L30,-40 L10,-40 Z`;
 
         const krano = Lab.e("path",{
             class: "krano",
-            d: this.krano_malfermita
+            d: this.krano_fermita
         });
 
         // enhavo
@@ -483,7 +493,7 @@ class LabBureto  extends LabUjo {
     /**
      * Redonas la element-rekonilon (id) kaj la relativajn koordinatojn de la pinto
      */
-     pinto() {
+    pinto() {
         // alternative ni povus transdoni la ujo-grupon forlasante la pinto-elementon, 
         // la ujo momente ne havas .id
         return {
@@ -491,20 +501,59 @@ class LabBureto  extends LabUjo {
             x:20,
             y:0
         };
-    }    
+    }
+
+    /**
+     * Redonas la kranon kiel SVGElement
+     */
+    krano() {
+        return this.g.querySelector(".krano");
+    }
+
+    /**
+     * Redonas la ujon kiel SVGElement
+     */
+    ujo() {
+        return this.g.querySelector(".vitro");
+    }
 
     /**
      * Reduktas la enhavon
      * @param {number} ml tiom da ml la enhavo reduktiĝas
      */
     elfluo(ml=1) {
-        this.ml += ml; // sume elfluinta volumeno en ml
+        if (this.ml<60) {
+            //console.log(`bureto ${this.id}: ${this.ml} - ${ml}`);
+            this.ml += ml; // sume elfluinta volumeno en ml
 
-        const enh = this.g.querySelector(".likvo");
-        Lab.a(enh, {
-            y: -this.nulo + 4*this.ml,
-            height: this.nulo -4*this.ml
-        })        
+            const enh = this.g.querySelector(".likvo");
+            Lab.a(enh, {
+                y: -this.nulo + 4*this.ml,
+                height: this.nulo -4*this.ml
+            });
+        }
+    }
+
+    /**
+     * Malfermu kranon
+     */
+    malfermu() {
+        const krano = this.g.querySelector(".krano");
+        Lab.a(krano,{
+            d: this.krano_malfermita
+        });
+        this.fermita = false;
+    }
+
+    /**
+     * Fermu kranon
+     */
+    fermu() {
+        const krano = this.g.querySelector(".krano");
+        Lab.a(krano,{
+            d: this.krano_fermita
+        });
+        this.fermita = true;
     }
 }
 
@@ -593,7 +642,7 @@ class LabFalaĵo {
     }
 }
 
-class LabBastono {
+class LabBastono extends LabIlo {
 
     /**
      * Kreas vitran bastonon
@@ -603,7 +652,7 @@ class LabBastono {
      * @param {number} klino klinangulo
      */
     constructor(id,w=5,h=200,klino=4) {
-        this.id = id;
+        super(id);
         this.g = Lab.e("g", {
             id: id,
             class: "vitro"});
@@ -623,7 +672,65 @@ class LabBastono {
     }
 }
 
-class LabPHIndikilo {
+
+class LabSondilo extends LabIlo {
+
+    /**
+     * Kreas bastonon kun pinto por mezuri ion (temperaturo, pH...)
+     * @param {string} id identigilo (nomo) de la bastono
+     * @param {number} w larĝo
+     * @param {number} h alto
+     * @param {number} klino klinangulo
+     */
+    constructor(id,w=5,h=200,klino=4,teksto='') {
+        super(id);
+        this.g = Lab.e("g", {
+            id: id,
+            class: "sondilo"});
+          
+        // mezurbastono
+        const r = Lab.e("rect",{
+            class: "bastono",
+            width: w,
+            height: h,
+            y: -h,
+            rx: w/2
+        });
+        if (klino) {
+            Lab.a(r,{
+                transform: `rotate(${klino})`
+            });
+        };
+
+        // monitoreto
+        const mon = Lab.e("g",{
+            transform: `translate(-75 ${-h})`,
+            class: "monitoro"
+        });
+        const kadro = Lab.e("rect",{
+            width: 60, height: 30,
+            rx: 5
+        });
+        const tx = Lab.e("text",{
+            x: 5, y: 15,
+            class: "valoro"
+        },teksto);
+        mon.append(kadro,tx);
+
+        this.g.append(r,mon);
+    }
+
+    /**
+     * Aktualigas la montritan valoron en la monitoro
+     */
+    valoro(val) {
+        const tx = this.g.querySelector("text");
+        tx.textContent = val;
+    }
+}
+
+
+class LabPHIndikilo extends LabIlo {
     /** 
      * Kreas indikilon pri pH-valoro ks 
      * @param {string} id identigilo (nomo) de la indikilo
@@ -632,7 +739,7 @@ class LabPHIndikilo {
      * @param {number} max maksimuma malgranda pH-valoro 
      */
     constructor(id,r,min=1,max=14) {
-        this.id = id;
+        super(id);
         this.g = Lab.e("g", {id: id, class: "indikilo"});
         const c = Lab.e("circle",{r: r});
 
@@ -984,6 +1091,18 @@ class Lab {
         return new LabBastono(id,w,h);
     }
 
+     /**
+     * Kreas sondilon
+     * @param {string} id identigilo (nomo) de la sondilo
+     * @param {number} w larĝo
+     * @param {number} h alto
+     * @param {number} klino klinangulo
+     * @param {string} teksto la unuo + valoro monrenda sur la monitoreto
+     */
+    static sondilo(id,w=5,h=200,klino=0,teksto='') {
+        return new LabSondilo(id,w,h,klino,teksto);
+    }    
+
     /** 
      * Desegnas butonon
      */
@@ -1173,11 +1292,12 @@ class Laboratorio extends LabSVG {
      */
     klak_reago(ilo,reago) {
         const i = (typeof ilo === "object")? ilo : this.iloj[_ilo];
-        i.g.addEventListener("click", (event) =>
+        const e = i instanceof SVGElement? i : i.g;
+        e.addEventListener("click", (event) =>
         {
             reago(i,event);
         });
-        i.g.classList.add("tuŝebla");
+        e.classList.add("tuŝebla");
     }
 
     /**
@@ -1260,6 +1380,52 @@ class Laboratorio extends LabSVG {
           class: cls,
           fill: "url(#gradiento_precipito)"
         }));
+    }
+
+    /**
+     * Kreas gutojn de antaŭdifinita speco inter du punktoj
+     * @param {string} gutoj_id unika nomo por la gutoj
+     * @param {string} ero_id gutspeco antaŭe difinita per ero_smb()
+     * @param {number} n nombro da gutoj
+     * @param {object} fonto koordiatoj de fonto {id,x,y}, komparu pinto() de kelkaj objektoj
+     * @param {object} celo koordinatoj de celo {id,x,y}, komparu surfaco() de kelkaj objektoj
+     * @param {function} fine funkcio vokenda en la fino
+     */
+    gutoj(gutoj_id,ero_id,n,fonto,celo,fine) {
+          // por verŝgutoj ni bezonas la pinton de la bureto kaj la surfacon de la flakonenhavo
+      // PLIUBONIGU:
+      // aldonu tiun logikon en Laboratorio donante al ĝi du objektojn resp. la
+      // rezultojn de .pinto() kaj .surfaco()
+      const fnt_g = this.iloj[fonto.id].g;
+      const fnt = this.svgKoord(fnt_g,fonto.x,fonto.y);
+      const cel_g = this.iloj[celo.id].g;
+      const cel = this.svgKoord(cel_g,celo.x,celo.y);
+
+      const verŝo = Lab.falaĵo(gutoj_id,"guto",
+        // ero 1
+        {
+          id: ero_id, n: n,
+          alto: 3, falaĵalto: 2,
+          x0: fnt.x,
+          supro: -fnt.y, // KOREKTU -y -> +y?
+          daŭro: 1,  // daŭro: 1s
+          faldistanco: cel.y - fnt.y, // vertikala falo!
+          poste: (ev) => {
+            const gutoj = document.getElementById(gutoj_id);
+            if (gutoj) { // povas okazi ĉe paraleleco, ke la evento okazas pluroble
+                // sed ni certigas per tiu ekzistotesto, ke ni vokas nur unfoje la fin-agon!
+              gutoj.remove();
+              if (fine) fine(ev);
+            }
+          }
+        },
+        // nulaj ceteraj parametroj de falaĵo!
+        null,null,0,0);
+
+      this.aranĝo.append(verŝo);
+      for (const a of verŝo.querySelectorAll("animateMotion")) {
+            a.beginElement();
+      };
     }
 
 

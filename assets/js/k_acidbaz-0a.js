@@ -77,7 +77,7 @@ class AB {
 
         if (Math.abs(AB.pH2_acido({a:"HCl",v:0.05,c:0.1},{b:"OH-",v:0.06,c:0.1}) - 11.96) > 0.05)
             throw "Atendita pH-avloro por 50ml HCl + 60ml NaOH estas 11.96";
-        if (Math.abs(AB.pH2_acido({a:"HCH3COOHCl",v:0.05,c:0.1},{b:"OH-",v:0.06,c:0.1}) - 11.96) > 0.05)
+        if (Math.abs(AB.pH2_acido({a:"CH3COOH",v:0.05,c:0.1},{b:"OH-",v:0.06,c:0.1}) - 11.96) > 0.05)
             throw "Atendita pH-avloro por 50ml CH3COOH + 60ml NaOH estas 11.96";
 
 

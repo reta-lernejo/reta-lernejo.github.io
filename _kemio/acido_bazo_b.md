@@ -84,9 +84,20 @@ NH3 + H2O <-> NH4+ + OH-
 
 <script>
   let lab; // la laboratorio kaj iloj
-  let bureto, flakono;
+  let bureto, flakono, sondilo;
   const ALTO = 500;
   const LARĜO = 500;
+
+  acido = "HCOOH";
+  bazo = "OH-";
+
+  function pH_mezuro() {
+    const pH = AB.pH2_acido(
+      { a: acido, c: 0.1, v: 0.025 },
+      { b: bazo, c: 0.1, v: bureto.ml/1000 }
+    );
+    sondilo.valoro(`pH ${pH.toFixed(1)}`);
+  }
 
   lanĉe(()=>{
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",LARĜO,ALTO+10);
@@ -95,53 +106,62 @@ NH3 + H2O <-> NH4+ + OH-
 
     // bureto supre
     bureto = Lab.bureto("bureto");
-    lab.metu(bureto,{id: "supre", x:(LARĜO)/2, y:ALTO-180});
+    lab.metu(bureto,{id: "supre", x:(LARĜO)/2+5, y:ALTO-180});
 
-    lab.klak_reago(bureto, (b) => {
-      // por verŝgutoj ni bezonas la pinton de la bureto kaj la surfacon de la flakonenhavo
-      // PLIUBONIGU:
-      // aldonu tiun logikon en Laboratorio donante al ĝi du objektojn resp. la
-      // rezultojn de .pinto() kaj .surfaco()
-      const pinto = b.pinto();
-      const pt = lab.svgKoord(bureto.g,pinto.x,pinto.y);
-      const surfaco = flakono.surfaco();
-      // surfaco indikas la mezpunkton de la surfaco, por
-      // vertikala falo ni poste uzu pt.x!
-      const sf = lab.svgKoord(flakono.g,surfaco.x,surfaco.y);
-
-      const verŝo = Lab.falaĵo("gutoj","guto",
-        {
-          id: "guto", n: 7,
-          alto: 3,
-          falaĵalto: 2,
-          x0: pt.x,
-          supro: -pt.y, // KOREKTU -y -> +y?
-          daŭro: 1,  // daŭro: 1s
-          faldistanco: sf.y-pt.y,
-          poste: (ev) => {
-            const gutoj = ĝi('#gutoj');
-            if (gutoj) gutoj.remove();
-
-            // aldonu 1ml al flakonlikvo
-            // KOREKTU: tiel ĉiu guto aldonas, sed nur la unua aŭ lasta kaŭzu tion!
-            flakono.enfluo(1);
-          }
-        },
-        null, null, 0, 0);
-
-      ĝi("#lab_aranĝo").append(verŝo);
-      for (a of ĉiuj(`#gutoj animateMotion`)){
-        a.beginElement();
-      };
-
-      // fluigu 1ml el la bureto
-      b.elfluo(1);
-    });
+    // sondilo meze
+    sondilo = Lab.sondilo("pHsondilo",4,250,-4,"pH");
+    lab.metu(sondilo,{id: "meze", x:(LARĜO)/2+18, y:ALTO});
 
     // konusflakono malsupre
     flakono = Lab.konusflakono("flakono",25);
     lab.metu(flakono,{id: "malsupre", x:(LARĜO)/2-30, y:ALTO});
 
+    function fluo(fermu) {
+      if (bureto.ml>=60) return; // bureto malplenigita!
+
+      // por verŝgutoj ni bezonas la pinton de la bureto kaj la surfacon de la flakonenhavo
+      const pinto = bureto.pinto();
+      const surfaco = flakono.surfaco();
+      lab.gutoj("gutoj","guto",7,pinto,surfaco,() => {
+        // fluigu 1ml el la bureto
+        bureto.elfluo(1);
+        if (fermu) {
+          bureto.fermu();
+        } else {
+          prokrastu(() => fluo(false), 1500);
+        }
+
+        // aldonu 1ml al flakonlikvo
+        flakono.enfluo(1);
+        pH_mezuro();
+      });
+    }
+
+    // klako al bureto elgutigu 1 ml
+    lab.klak_reago(bureto.ujo(), () => {
+      bureto.malfermu();
+      fluo(true);
+    });
+
+    // klako sur krano malfermu aŭ fermu ĝin!
+    lab.klak_reago(bureto.krano(), () => {
+      if (bureto.fermita) {
+        bureto.malfermu();
+        prokrastu(() => fluo(false), 500);
+      } else {
+        purigu_prokrastojn();    
+        bureto.fermu();
+      }
+    });
+
+    pH_mezuro();
+
+    const btn_w = 70; btn_h = 16; 
+/*
+    lab.butono("HCl",-10,10,btn_w+20,btn_h);
+    lab.butono("COOH",-10,30,btn_w+20,btn_h);
+    lab.butono("NH3",-10,50,btn_w+20,btn_h);
+*/
   });
 </script>
 
