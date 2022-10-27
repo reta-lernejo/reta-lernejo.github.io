@@ -75,6 +75,15 @@
     fill-opacity: 1;
 }
 
+.diagramo .fono {
+    fill: #fafafa;
+}
+
+.diagramo .skalo {
+    stroke: black;
+    stroke-width: 0.5;
+}
+
 .krano {
     fill: chocolate;
 }

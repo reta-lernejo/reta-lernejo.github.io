@@ -11,6 +11,8 @@ css:
   - laboratorio-0c
 ---
 
+paĝo en preparo...
+
 <!--
 https://www.vedantu.com/chemistry/acids-and-bases
 
@@ -84,9 +86,10 @@ NH3 + H2O <-> NH4+ + OH-
 
 <script>
   let lab; // la laboratorio kaj iloj
-  let bureto, flakono, sondilo;
+  let bureto, flakono, sondilo, diagramo;
   const ALTO = 500;
   const LARĜO = 500;
+  const X_FLAKONO = 350;
 
   acido = "HCOOH";
   bazo = "OH-";
@@ -106,15 +109,21 @@ NH3 + H2O <-> NH4+ + OH-
 
     // bureto supre
     bureto = Lab.bureto("bureto");
-    lab.metu(bureto,{id: "supre", x:(LARĜO)/2+5, y:ALTO-180});
+    lab.metu(bureto,{id: "supre", x:X_FLAKONO+5, y:ALTO-180});
 
     // sondilo meze
     sondilo = Lab.sondilo("pHsondilo",4,250,-4,"pH");
-    lab.metu(sondilo,{id: "meze", x:(LARĜO)/2+18, y:ALTO});
+    lab.metu(sondilo,{id: "meze", x:X_FLAKONO+18, y:ALTO});
+
+    // diagramo maldekstre
+    diagramo = Lab.diagramo("pH-diagramo",
+      {nomo: "ml", min: 0, max: 50, int: 1},
+      {nomo: "pH", min: 0, max: 14, int: 1});
+    lab.metu(diagramo,{id: "maldekstre", x:10, y:ALTO});
 
     // konusflakono malsupre
     flakono = Lab.konusflakono("flakono",25);
-    lab.metu(flakono,{id: "malsupre", x:(LARĜO)/2-30, y:ALTO});
+    lab.metu(flakono,{id: "malsupre", x:X_FLAKONO-30, y:ALTO});
 
     function fluo(fermu) {
       if (bureto.ml>=60) return; // bureto malplenigita!
@@ -149,14 +158,14 @@ NH3 + H2O <-> NH4+ + OH-
         bureto.malfermu();
         prokrastu(() => fluo(false), 500);
       } else {
-        purigu_prokrastojn();    
+        purigu_prokrastojn();
         bureto.fermu();
       }
     });
 
     pH_mezuro();
 
-    const btn_w = 70; btn_h = 16; 
+    const btn_w = 70; btn_h = 16;
 /*
     lab.butono("HCl",-10,10,btn_w+20,btn_h);
     lab.butono("COOH",-10,30,btn_w+20,btn_h);

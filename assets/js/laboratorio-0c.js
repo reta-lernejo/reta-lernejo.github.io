@@ -438,6 +438,7 @@ class LabBureto  extends LabUjo {
         });
 
         // skalo
+        /*
         let strekoj = '';
         for (let i = 0; i<=50; i++) {
             const y = -h+20 + 4*i;
@@ -447,6 +448,10 @@ class LabBureto  extends LabUjo {
         const skalo = Lab.e("path",{
             d: strekoj,
             class: "skalo"
+        });*/
+        const skalo = Lab.skalo("bureto_ml",0,50,4,10);
+        Lab.a(skalo, {
+            transform: `translate(0,${20-h})`
         });
 
         // krano malfermita kaj fermita
@@ -835,6 +840,51 @@ class LabPHIndikilo extends LabIlo {
     }
 }
 
+class LabDiagramo extends LabIlo {
+
+    /**
+     * Kreas 2D-diagramonon por montri mezurvalorojn.
+     * Parametroj por la aksoj estas donitaj kiel objekto {nomo,min,max,int:intervalo,log}
+     * intervalo: 1 por ĉiu x unu streko, 5 por ĉiu kvina ktp. (provizore ignorata)
+     * 
+     * @param {string} id unika nomo
+     * @param {object} x_akso parametroj por x-akso
+     * @param {object} y_akso parametroj por y-akso
+     * @param {number} w larĝo
+     * @param {number} h alto
+     */
+    constructor(id,x_akso,y_akso,w=300,h=200) {
+        super(id);
+        this.g = Lab.e("g",{
+            id: id,
+            class: "diagramo"
+        });
+        const r = Lab.e("rect",{
+            class: "fono",
+            width: w,
+            height: h,
+            y: -h,
+            rx: 2
+        });
+
+        // skaloj
+        const x0 = 10;
+        const y0 = 10;
+        const xi = (w - 2*x0)/x_akso.max-x_akso.min;
+        const yi = (h - 2*y0)/y_akso.max-y_akso.min;
+        const x = Lab.skalo(`${id}_x`,x_akso.min,x_akso.max,xi,4);
+        const y = Lab.skalo(`${id}_y`,y_akso.min,y_akso.max,yi,4);
+        Lab.a(x,{
+            transform: `translate(${x0} ${-y0-10}) rotate(-90) scale(-1 1)`
+        });
+        Lab.a(y,{
+            transform: `translate(${x0+10} ${-h}) scale(-1 1)`
+        });
+
+        this.g.append(r,x,y);
+    }
+}
+
 class Lab {
 
     /** Kreas SVG-elementon kun atributoj
@@ -1101,7 +1151,22 @@ class Lab {
      */
     static sondilo(id,w=5,h=200,klino=0,teksto='') {
         return new LabSondilo(id,w,h,klino,teksto);
-    }    
+    }
+
+    /**
+     * Kreas 2D-diagramonon por montri mezurvalorojn.
+     * Parametroj por la aksoj estas donitaj kiel objekto {id,min,max,int:intervalo,log}
+     * intervalo: 1 por ĉiu x unu streko, 5 por ĉiu kvina ktp. (provizore ignorata)
+     * 
+     * @param {string} id unika nomo
+     * @param {object} x_akso parametroj por x-akso
+     * @param {object} y_akso parametroj por y-akso
+     * @param {number} w larĝo
+     * @param {number} h alto
+     */
+    static diagramo(id,x_akso,y_akso,w=300,h=200) {
+        return new LabDiagramo(id,x_akso,y_akso,w,h);
+    }
 
     /** 
      * Desegnas butonon
@@ -1141,6 +1206,30 @@ class Lab {
         });
         grd.append(...etpj);
         return grd;
+    }
+
+    /**
+     * Kreas vertikalan skalon (por horizontala poste rotaciu je 90°)
+     * @param {string} id 
+     * @param {number} min minimuma valoro
+     * @param {number} max maksimuma valoro
+     * @param {number} int plej malgranda paŝintervalo
+     * @param {number} len longeco de streketo, kvinoj 1.5*len, dekoj: 2*len
+     * @param {number} log bazo de la logritma skalo (momente ignorata): 1 = lineara, 2 = log2, Math.E = ln, 10 = log10
+     */
+    static skalo(id,min,max,int,len,log=1) {
+        // strekoj de la skalo
+        let strekoj = '';
+        for (let i = 0; i<=(max-min); i++) {
+            const y = int*i;
+            const l = 2*len - len/2*Math.sign((min+i)%5) - len/2*Math.sign((min+i)%10);
+            strekoj += `M8,${y} l${l},0`;
+        }
+        return Lab.e("path",{
+            id: id,
+            d: strekoj,
+            class: "skalo"
+        });
     }
  
 }
