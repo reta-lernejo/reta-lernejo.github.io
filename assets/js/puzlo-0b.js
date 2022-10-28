@@ -395,6 +395,7 @@ class SVGPuzlo {
                 viewBox: `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`,
                 width: bbox.width,
                 height: bbox.height,
+                preserveAspectRatio: "none",
                 x: bbox.x,
                 y: bbox.y
             });
