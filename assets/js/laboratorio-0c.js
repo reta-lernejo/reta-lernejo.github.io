@@ -350,7 +350,7 @@ class LabKonusFlakono extends LabUjo {
         }) 
 
         // enhavo
-        if (pleno) {
+        if (pleno>-1) {
             const c_id = `_clp_${id}`;
             const limigo = Lab.limigo(c_id, 
                 Lab.e("path",{
@@ -370,6 +370,14 @@ class LabKonusFlakono extends LabUjo {
         }
 
         this.g.append(ujo,skalo);
+    }
+
+    /**
+     * Metas la enhavon al ml
+     */
+    enhavo(ml) {
+        this.ml = 0;
+        this.enfluo(ml);
     }
 
     /**
@@ -449,7 +457,7 @@ class LabBureto  extends LabUjo {
             d: strekoj,
             class: "skalo"
         });*/
-        const skalo = Lab.skalo("bureto_ml",0,50,4,10);
+        const skalo = Lab.skalo("bureto_ml",0,50,4,1,5,10,10);
         Lab.a(skalo, {
             transform: `translate(0,${20-h})`
         });
@@ -520,6 +528,14 @@ class LabBureto  extends LabUjo {
      */
     ujo() {
         return this.g.querySelector(".vitro");
+    }
+
+    /**
+     * Metas/remetas la enhavon al ml, 50ml = 0-linio
+     */
+    enhavo(ml=50) {
+        this.ml = -1;
+        this.elfluo(1);
     }
 
     /**
@@ -844,16 +860,17 @@ class LabDiagramo extends LabIlo {
 
     /**
      * Kreas 2D-diagramonon por montri mezurvalorojn.
-     * Parametroj por la aksoj estas donitaj kiel objekto {nomo,min,max,int:intervalo,log}
+     * Parametroj por la aksoj estas donitaj kiel objekto {nomo: aksonomo, mrg: marĝeno, min, max, 
+     *  i1, i2, i3: skalintervaloj, log}
      * intervalo: 1 por ĉiu x unu streko, 5 por ĉiu kvina ktp. (provizore ignorata)
      * 
      * @param {string} id unika nomo
-     * @param {object} x_akso parametroj por x-akso
-     * @param {object} y_akso parametroj por y-akso
+     * @param {object} X parametroj por x-akso
+     * @param {object} Y parametroj por y-akso
      * @param {number} w larĝo
      * @param {number} h alto
      */
-    constructor(id,x_akso,y_akso,w=300,h=200) {
+    constructor(id,X,Y,w=300,h=200) {
         super(id);
         this.g = Lab.e("g",{
             id: id,
@@ -868,20 +885,87 @@ class LabDiagramo extends LabIlo {
         });
 
         // skaloj
-        const x0 = 10;
-        const y0 = 10;
-        const xi = (w - 2*x0)/x_akso.max-x_akso.min;
-        const yi = (h - 2*y0)/y_akso.max-y_akso.min;
-        const x = Lab.skalo(`${id}_x`,x_akso.min,x_akso.max,xi,4);
-        const y = Lab.skalo(`${id}_y`,y_akso.min,y_akso.max,yi,4);
+        this.X = X;
+        this.Y = Y;
+        this.h = h;
+        this.w = w;
+
+        const l = 5; // plia ŝovo pro longeco de strekoj
+        const xi = (w - 2*X.mrg)/(X.max-X.min);
+        const yi = (h - 2*Y.mrg)/(Y.max-Y.min);
+        const x = Lab.skalo(`${id}_x`,X.min,X.max,xi,X.i1,X.i2,X.i3);
+        const y = Lab.skalo(`${id}_y`,Y.min,Y.max,yi,Y.i1,Y.i2,Y.i3);
         Lab.a(x,{
-            transform: `translate(${x0} ${-y0-10}) rotate(-90) scale(-1 1)`
+            transform: `translate(${X.mrg} ${-Y.mrg-l}) rotate(-90) scale(-1 1)`
         });
         Lab.a(y,{
-            transform: `translate(${x0+10} ${-h}) scale(-1 1)`
+            transform: `translate(${X.mrg+l} ${-h+Y.mrg}) scale(-1 1)`
         });
 
-        this.g.append(r,x,y);
+        // nomo de la aksoj
+        const xe = Lab.e("text",{
+            class: "etikedo x",
+            x: this.w - X.mrg/2,
+            y: -Y.mrg
+        }, X.nomo);
+        const ye = Lab.e("text",{
+            class: "etikedo y",
+            x: X.mrg/2,
+            y: -h + Y.mrg/2
+        }, Y.nomo);
+
+        this.g.append(r,x,y,xe,ye);
+    }
+
+    /**
+     * Aldonas punkton ĉe koordinatoj (x,y) de la mezurspaco
+     * @param {number} x x-koordinato
+     * @param {number} y y-koordinato
+     * @param {number} h kolorvaloro por hsl-funckio
+     */
+    punkto(x,y,h) {
+        // punkto ekster la diagramspaco?
+        if (x<this.X.min || x>this.X.max || y<this.Y.min || y>this.Y.max) return;
+
+        let punktoj = this.g.querySelector(".punktoj");
+        if (! punktoj) {
+            punktoj = Lab.e("g",{
+                class: "punktoj"
+            });
+            this.g.append(punktoj);
+        }
+
+        // unuo
+        const xi = (this.w-2*this.X.mrg)/(this.X.max-this.X.min);
+        const yi = (this.h-2*this.Y.mrg)/(this.Y.max-this.Y.min);
+
+        // punkt-koordinatoj en la diagramo
+        const px = this.X.mrg + x*xi;
+        const py = this.Y.mrg + y*yi;
+
+        const pt = Lab.e("rect",{
+            class: "punkto",
+            x: px,
+            y: -py,
+            width: 3,
+            height: 3,
+            rx: .5
+        });
+        if (h !== undefined) {
+            Lab.a(pt,{
+                fill: `hsl(${h} 70% 50%)`
+            })
+        }
+        punktoj.append(pt);
+        return pt;
+    }
+
+    /**
+     * Forigas la antaŭe aldonitajn punktojn el la diagramo
+     */
+    viŝu() {
+        const punktoj = this.g.querySelector(".punktoj");
+        if (punktoj) punktoj.remove();
     }
 }
 
@@ -1213,16 +1297,19 @@ class Lab {
      * @param {string} id 
      * @param {number} min minimuma valoro
      * @param {number} max maksimuma valoro
-     * @param {number} int plej malgranda paŝintervalo
+     * @param {number} di distanco inter du apudaj valoroj (x, x+i1)
+     * @param {number} i1 plej malgranda paŝintervalo (mallongaj strekoj)
+     * @param {number} i2 intervalo por mezlongaj strekoj
+     * @param {number} i3 intervalo por longaj strekoj
      * @param {number} len longeco de streketo, kvinoj 1.5*len, dekoj: 2*len
      * @param {number} log bazo de la logritma skalo (momente ignorata): 1 = lineara, 2 = log2, Math.E = ln, 10 = log10
      */
-    static skalo(id,min,max,int,len,log=1) {
+    static skalo(id,min,max,di,i1=1,i2=5,i3=10,len=4,log=1) {
         // strekoj de la skalo
         let strekoj = '';
-        for (let i = 0; i<=(max-min); i++) {
-            const y = int*i;
-            const l = 2*len - len/2*Math.sign((min+i)%5) - len/2*Math.sign((min+i)%10);
+        for (let i = 0; i<=(max-min); i+=i1) {
+            const y = di*i;
+            const l = 2*len - len/2*Math.sign((min+i)%i2) - len/2*Math.sign((min+i)%i3);
             strekoj += `M8,${y} l${l},0`;
         }
         return Lab.e("path",{

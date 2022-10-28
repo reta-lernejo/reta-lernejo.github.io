@@ -14,6 +14,11 @@
     font-size: 10px;
 }
 
+.butono.premita rect {
+    fill: #004b4b;
+}
+
+
 .tuŝebla {
     cursor: pointer;
 }
@@ -39,12 +44,13 @@
 }
 
 .sondilo .bastono {
-    fill: #000444;
+    fill: #282830;
+    stroke: #111;
 }
 
 .sondilo .monitoro rect {
-    stroke: #181827;
-    stroke-width: 4;
+    stroke: #913c22;
+    stroke-width: 2;
     fill: lightgoldenrodyellow;
 }
 
@@ -82,6 +88,27 @@
 .diagramo .skalo {
     stroke: black;
     stroke-width: 0.5;
+}
+
+.diagramo .etikedo {
+    font-size: 10px;
+    font-weight: normal;
+    font-style: italic;
+    fill: black;
+}
+
+.diagramo .etikedo.x {
+    text-anchor: end;
+}
+
+.diagramo .etikedo.y {
+    dominant-baseline: hanging;
+    text-anchor: start;
+}
+
+.diagramo .punkto {
+    stroke-width: 0.3;
+    stroke: black;
 }
 
 .krano {

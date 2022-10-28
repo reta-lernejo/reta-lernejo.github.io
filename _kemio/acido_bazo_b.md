@@ -33,7 +33,7 @@ baksodo kun citronacido:
 - https://www.youtube.com/watch?v=GAwNAD64wIA
 
 solvaĵo de vinagracido:
-CH3​COOH ⇆ CH3​COO- + H+
+CH3COOH ⇆ CH3COO- + H+
 
 pH de 1 M (=1mol/l) CH3​COOH solvaĵo: 
 // https://www.toppr.com/ask/question/what-is-the-ph-of-a-1-m-ch3coohsolutionkaof-acetic-acid-18-times105-kw/
@@ -44,6 +44,8 @@ https://www.uibk.ac.at/organic/ag-kreutz/dateien/teil_3.pdf
 
 
 titrado / titraj pH-kurboj:
+https://studyflix.de/chemie/saure-base-titration-und-titrationskurve-1842
+
 HCl + NaOH / acetacido + NaOH: https://www.youtube.com/watch?v=tc-cKeyjc8U (kaj referencitaj 2)
 
 nocioj:
@@ -57,6 +59,12 @@ titrado de amoniako kun HCl: https://www.youtube.com/watch?v=cMHD8TGPWoA
 
 titrado de citronacido kaj fosforacido:
 https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Analytical_Sciences_Digital_Library/Courseware/Chemical_Equilibrium/02_Text/02_Acid-Base_Chemistry/14_Titration_of_a_Polyprotic_Weak_Acid_with_Sodium_Hydroxide
+
+fosforacido: 
+https://www.kappenberg.com/experiments/ph/pdf-th/f06.pdf
+
+sulfuracido:
+https://studyflix.de/chemie/saure-base-titration-und-titrationskurve-1842
 
 -->
 
@@ -85,22 +93,69 @@ NH3 + H2O <-> NH4+ + OH-
 -->
 
 <script>
+
+  const eksperimentoj = {
+    e1: {nomo: "titri HCl (kun NaOH)", 
+      acido: true, s: "HCl", ml: 25, c: 0.1,
+      s_b: "NaOH", ml_b: 50, c_b: 0.1},
+    e2: {nomo: "titri CH₃COOH (kun NaOH)", 
+      acido: true, s: "CH3COOH", ml: 25, c: 0.1, 
+      s_b: "NaOH", ml_b: 50, c_b: 0.1},
+      /*
+    e3: {nomo: "titri H₃PO₄ (kun NaOH)", 
+      acido: true, s: "H3PO4", ml: 25, c: 0.1, 
+      s_b: "NaOH", ml_b: 50, c_b: 0.1},
+      */
+    e4: {nomo: "titri NH₃ (kun HCl)", 
+      acido: false, s: "NH3", ml: 25, c: 0.1, 
+      s_b: "HCl", ml_b: 50, c_b: 0.1}
+  }
+
   let lab; // la laboratorio kaj iloj
-  let bureto, flakono, sondilo, diagramo;
+  let bureto, flakono, sondilo, diagramo, eksperimento;
   const ALTO = 500;
   const LARĜO = 500;
-  const X_FLAKONO = 350;
+  const X_FLAKONO = 380;
 
-  acido = "HCOOH";
-  bazo = "OH-";
+
+  function preparo() {
+    flakono.enhavo(eksperimento.ml);
+    bureto.fermu();
+    bureto.enhavo(eksperimento.ml_b);
+    diagramo.viŝu();
+  }
 
   function pH_mezuro() {
-    const pH = AB.pH2_acido(
-      { a: acido, c: 0.1, v: 0.025 },
-      { b: bazo, c: 0.1, v: bureto.ml/1000 }
-    );
+    // substanco en la flakono
+    const s = eksperimento.s == "NaOH"? "OH-" : eksperimento.s;
+    // substanco en la bureto
+    const s_b = eksperimento.s_b == "NaOH"? "OH-" : eksperimento.s_b;
+
+    // titrado de acido kun forta bazo diferencas de titradod e bazo kun forta acido
+    let pH;
+    if (eksperimento.acido) {
+      pH = AB.pH2_acido(
+        { a: s, 
+          c: eksperimento.c, 
+          v: eksperimento.ml/1000 },
+        { b: s_b, 
+          c: eksperimento.c_b, 
+          v: bureto.ml/1000 }
+      );
+    } else {
+      pH = AB.pH2_bazo(
+        { b: s, 
+          c: eksperimento.c, 
+          v: eksperimento.ml/1000 },
+        { a: s_b, 
+          c: eksperimento.c_b, 
+          v: bureto.ml/1000 }
+      );
+    }
     sondilo.valoro(`pH ${pH.toFixed(1)}`);
+    diagramo.punkto(bureto.ml,pH,LabPHIndikilo.pH_koloro(pH));
   }
+
 
   lanĉe(()=>{
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",LARĜO,ALTO+10);
@@ -108,7 +163,7 @@ NH3 + H2O <-> NH4+ + OH-
     lab.ero_smb("guto",3);
 
     // bureto supre
-    bureto = Lab.bureto("bureto");
+    bureto = Lab.bureto("bureto",100); // elfluo = 100ml, t.e. malplena
     lab.metu(bureto,{id: "supre", x:X_FLAKONO+5, y:ALTO-180});
 
     // sondilo meze
@@ -117,8 +172,8 @@ NH3 + H2O <-> NH4+ + OH-
 
     // diagramo maldekstre
     diagramo = Lab.diagramo("pH-diagramo",
-      {nomo: "ml", min: 0, max: 50, int: 1},
-      {nomo: "pH", min: 0, max: 14, int: 1});
+      {nomo: "ml", mrg: 10, min: 0, max: 50, i1: 1, i2: 5, i3: 10},
+      {nomo: "pH", mrg: 10, min: 0, max: 14, i1: 1, i2: 7, i3: 14});
     lab.metu(diagramo,{id: "maldekstre", x:10, y:ALTO});
 
     // konusflakono malsupre
@@ -127,21 +182,25 @@ NH3 + H2O <-> NH4+ + OH-
 
     function fluo(fermu) {
       if (bureto.ml>=60) return; // bureto malplenigita!
+      if (bureto.fermita) return; // bureto estas (ĵus) fermita
 
       // por verŝgutoj ni bezonas la pinton de la bureto kaj la surfacon de la flakonenhavo
       const pinto = bureto.pinto();
       const surfaco = flakono.surfaco();
       lab.gutoj("gutoj","guto",7,pinto,surfaco,() => {
+        const ms = 600;
+        const ml = 0.5;
+
         // fluigu 1ml el la bureto
-        bureto.elfluo(1);
+        bureto.elfluo(ml);
         if (fermu) {
           bureto.fermu();
         } else {
-          prokrastu(() => fluo(false), 1500);
+          prokrastu(() => fluo(false), ms);
         }
 
         // aldonu 1ml al flakonlikvo
-        flakono.enfluo(1);
+        flakono.enfluo(ml);
         pH_mezuro();
       });
     }
@@ -158,19 +217,36 @@ NH3 + H2O <-> NH4+ + OH-
         bureto.malfermu();
         prokrastu(() => fluo(false), 500);
       } else {
-        purigu_prokrastojn();
         bureto.fermu();
+        purigu_prokrastojn();
       }
     });
 
-    pH_mezuro();
+    //pH_mezuro();
 
-    const btn_w = 70; btn_h = 16;
-/*
-    lab.butono("HCl",-10,10,btn_w+20,btn_h);
-    lab.butono("COOH",-10,30,btn_w+20,btn_h);
-    lab.butono("NH3",-10,50,btn_w+20,btn_h);
-*/
+    // butonoj por elekti eksperimenton
+    const btn_w = 130, btn_h = 16;
+    let btn_y = 10;
+
+    for (eksp in eksperimentoj)
+    {
+      const nomo = eksperimentoj[eksp].nomo;
+      const btn = lab.butono(nomo,-10,btn_y,btn_w,btn_h);
+      btn.id = eksp;
+      btn_y += 20;
+
+      lab.klak_reago({g: btn},(btn) => {
+        // forigu klason .premita de antaŭa butono...
+        for (const b of ĉiuj("#eksperimento .butono")) {
+          b.classList.remove("premita");
+        }
+        // montru nun elektitan substancon kaj butonon
+        btn.g.classList.add("premita");
+        // const subst = btn.g.textContent;
+        eksperimento = eksperimentoj[btn.g.id];
+        preparo();
+      });
+    }
   });
 </script>
 
