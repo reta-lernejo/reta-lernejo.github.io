@@ -6,7 +6,7 @@ js:
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - laboratorio-0c
-  - k_acidbaz-0a
+  - k_acidbaz-0b
 css:
   - laboratorio-0c
 ---
@@ -96,18 +96,16 @@ NH3 + H2O <-> NH4+ + OH-
 
   const eksperimentoj = {
     e1: {nomo: "titri HCl (kun NaOH)", 
-      acido: true, s: "HCl", ml: 25, c: 0.1,
+      acido: 1, s: "HCl", ml: 25, c: 0.1,
       s_b: "NaOH", ml_b: 50, c_b: 0.1},
     e2: {nomo: "titri CH₃COOH (kun NaOH)", 
-      acido: true, s: "CH3COOH", ml: 25, c: 0.1, 
+      acido: 1, s: "CH3COOH", ml: 25, c: 0.1, 
       s_b: "NaOH", ml_b: 50, c_b: 0.1},
-      /*
     e3: {nomo: "titri H₃PO₄ (kun NaOH)", 
-      acido: true, s: "H3PO4", ml: 25, c: 0.1, 
-      s_b: "NaOH", ml_b: 50, c_b: 0.1},
-      */
+      acido: 3, s: "H3PO4", ml: 15, c: 0.5, 
+      s_b: "NaOH", ml_b: 50, c_b: 0.5},
     e4: {nomo: "titri NH₃ (kun HCl)", 
-      acido: false, s: "NH3", ml: 25, c: 0.1, 
+      acido: 0, s: "NH3", ml: 25, c: 0.1, 
       s_b: "HCl", ml_b: 50, c_b: 0.1}
   }
 
@@ -133,7 +131,7 @@ NH3 + H2O <-> NH4+ + OH-
 
     // titrado de acido kun forta bazo diferencas de titradod e bazo kun forta acido
     let pH;
-    if (eksperimento.acido) {
+    if (eksperimento.acido == 1) {
       pH = AB.pH2_acido(
         { a: s, 
           c: eksperimento.c, 
@@ -142,6 +140,12 @@ NH3 + H2O <-> NH4+ + OH-
           c: eksperimento.c_b, 
           v: bureto.ml/1000 }
       );
+    } if (eksperimento.acido > 1) {
+      valj = AB.acidtitrado_plurprotona(
+        { a: s, 
+          c: eksperimento.c, 
+          v: eksperimento.ml/1000 },[bureto.ml/1000]);
+      pH = valj[0];
     } else {
       pH = AB.pH2_bazo(
         { b: s, 

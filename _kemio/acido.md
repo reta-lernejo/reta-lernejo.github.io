@@ -17,6 +17,7 @@ https://de.wikipedia.org/wiki/S%C3%A4urekonstante
 https://de.wikipedia.org/wiki/Universalindikator
 https://en.wikipedia.org/wiki/Universal_indicator
 https://www.aqion.de/site/ph-tabelle-saeuren
+https://www.hoffmeister.it/index.php/chemiebuch-anorganik/232-freies-lehrbuch-anorganische-chemie-24-saeure-base-gleichgewichte
 
 http://www.ewt-wasser.de/de/wissen/konzentrationsangaben-einheitenumrechnung.html
 https://dieklugeeule.com/wie-berechnet-man-den-ph-wert-von-hcl/

@@ -100,16 +100,43 @@ class AB {
     }
 
     static test_h3po4() {
+        const pvj = [0,0.01,0.0125,0.02,0.025,0.03,0.04,0.05];
+        console.log("titrado de 0.025l HPO4^2- 0,5ml/l kun NaOH 0,5ml/l, volumenoj:"+pvj.join(', '));
+        const pH1 = AB.acidtitrado({a:"HPO4^2-", c:0.5, v:0.025},pvj);
+        console.log(pH1.join(', '));
+        /*
         console.log("NaOH:0 [1.2]"+AB.pH2_acido({a: "H3PO4", c: 0.5, v: 0.025},{b: "OH-", c: 0.5, v: 0}));
         console.log("NaOH:12.5 [2.13]"+AB.pH2_acido({a: "H3PO4", c: 0.5, v: 0.025},{b: "OH-", c: 0.5, v: 12.5}));
         console.log("NaOH:25 [4.7]"+AB.pH2_acido({a: "H3PO4", c: 0.5, v: 0.025},{b: "OH-", c: 0.5, v: 25}));
+        */
+       //const vj = [0,0.01,0.0125,0.02,0.025,0.03,0.0375,0.04,0.05,0.06,0.0625,0.07,0.075,0.08,0.09,0.10];
+       //const vj = [0.025,0.03,0.0375,0.04,0.05];
+       //const vj = [0.05,0.06,0.0625,0.07,0.075,0.08,0.09,0.10];
+       const vj = [0.07,0.075,0.08,0.09,0.10];
+       console.log("titrado de 0.025l H3PO4 0,5ml/l kun NaOH 0,5ml/l, volumenoj:"+vj.join(', '));
+       const pH = AB.acidtitrado_plurprotona({a:"H3PO4", c:0.5, v:0.025},vj);
+       console.log(pH.join(', '));
+    }
+
+    /**
+     * Trovas acidon en la difinoj
+     */
+    static acido(acido) {
+        return AB.pKa_pKb.find((e) => e[0] == acido);
+    }
+
+    /**
+     * Trovas bazon en la difinoj
+     */
+    static bazo(bazo) {
+        return AB.pKa_pKb.find((e) => e[2] == bazo);
     }
 
     /**
      * Trovas la acidon en la difinoj kaj redonas ties pKa-valoro
      */
     static pKa(acido) {
-        const ea = AB.pKa_pKb.find((e) => e[0] == acido);
+        const ea = AB.acido(acido);
         if (ea) return ea[1];
     }
 
@@ -117,7 +144,7 @@ class AB {
      * Trovas la bazon en la difinoj kaj redonas ties pKb-valoro
      */
     static pKb(bazo) {
-        const eb = AB.pKa_pKb.find((e) => e[2] == bazo);
+        const eb = AB.bazo(bazo);
         if (eb) return eb[3];
     }
 
@@ -271,6 +298,34 @@ class AB {
     }
 
     /**
+     * Kalulas la pH-valoron en solvaĵo enhavanta acidon kiu disociiĝas al alia acido, ekz. H3PO4 al H2PO4^-
+     * @param {object} acido1 donitaĵoj de acido1: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
+     * @param {object} acido2 donitaĵoj de acido2: {b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
+     */
+     static pH2_2acidoj(acido1,acido2) {
+        // kalkulu la du kvantojn en mol
+        const n1 = acido1.n;
+        const n2 = acido2.n;        
+
+        //const pKa1 = AB.pKa(acido1.a);
+        //return pKa1 - Math.log10(n2/n1);
+        // vd. https://www.ausetute.com.au/polyproticacid.html
+        const pKa2 = AB.pKa(acido2.a);
+        return pKa2 - Math.log10(n1/n2);
+    }
+
+    /**
+     * Kalkulas la pH-valoron en solvaĵo ĉe ekvivalentpunkto de plurprotona acido
+     * @param {string} acido1 nomo de acido1
+     * @param {string} acido2 nomo de acido2
+     */
+    static pH2_acidekvi(acido1,acido2) {
+        const pKa1 = AB.pKa(acido1);
+        const pKa2 = AB.pKa(acido2);
+        return 0.5*(pKa1 + pKa2);
+    }
+
+    /**
      * Kalulas pa pH-valoron en solvaĵo enhavanta bazon kun aldono de fortta acido en donita kvanto
      * @param {object} bazo donitaĵoj de bazo: {b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      * @param {object} acido donitaĵoj de acido: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
@@ -313,7 +368,46 @@ class AB {
         if (nb > na) return pH_b();        
         if (na == nb) return ekvipkt();
         return pH_a();
-    }    
+    }
+
+    /**
+     * trovas por donita acido la respondan bazon kaj
+     * aldonas al listo, se ĝi siavice estas amfolita, t.e.
+     * acido rilate al OH- (t.e. kun Kb>0), daŭrigas per 
+     * trovita acido ĝis ne plu troviĝas amfolita bazo
+     * vd https://de.wikipedia.org/wiki/Ampholyt
+     * @param {string} acido 
+     * @returns listo de acidoj
+     */
+    static acidvico(acido) {
+        const vico = [];
+        let ea = AB.acido(acido);
+        while (ea && ea[3]>0) { // responda Kb>0
+            vico.push(ea[0]);
+            const bazo = ea[2];
+            // ĉu la responda bazo estas amfolita?
+            ea = AB.acido(bazo);
+        }
+        return vico;
+    }
+
+    /**
+     * trovas por donita bazo la respondan acidon kaj
+     * aldonas al listo, se ĝi siavice estas amfolita, t.e.
+     * bazo rilate al H3O+ (t.e. kun Ka>0), daŭrigas per 
+     * trovita bazo ĝis ne plu troviĝas amfolita acido
+     */
+    static bazovico(bazo) {
+        const vico = [];
+        let eb = AB.bazo(bazo);
+        while (eb && eb[1]>0) { // responda Ka>0
+            vico.push(eb[2]);
+            const acido = eb[0];
+            // ĉu la responda acido estas amfolita?
+            eb = AB.bazo(acido);
+        }
+        return vico;
+    }
 
     static acidtitrado(acido,vb) {
         let valoroj = [];
@@ -332,5 +426,81 @@ class AB {
         }
         return valoroj;
     }
+
+    static acidtitrado_plurprotona(acido,vb) {
+        let valoroj = [];
+        const acidoj = AB.acidvico(acido.a);
+
+        for (let v of vb) {
+            // ni bezonas la proporcion de kvantoj por scii en kiu kurbo-parto
+            // ni troviĝas
+            const na = acido.c * acido.v;
+            const nb = acido.c * v; // ni supozas uzi saman koncentriĝon de acido kaj OH-!
+                // se ni volas permesi aliajn koncentriĝojn por la bazo, ni devos aldoni parametron supre!
+            const n = nb/na;
+            const N = Math.trunc(n);
+
+            let pH;
+            if (n==N && n>1 && n<acidoj.length) {
+                // ekvipunkto
+                pH = AB.pH2_acidekvi(acidoj[N-1],acidoj[N]);
+            } else if (n<1) {
+                pH = AB.pH2_acido(
+                    acido,
+                    {b:"OH-", v:v, c:acido.c})
+            } else if (n<acidoj.length) {
+                pH = AB.pH2_2acidoj(
+                    {a:acidoj[N-1], c:acido.c, n:(N+1-n)*na},
+                    {a:acidoj[N], n:(n-N)*na});
+
+            // la sekvaj du ankoraŭ havas eraron, ĉu...?
+            } else if (n==acidoj.length) {
+                // lasta ekvivalentpunkto (kun la bazo)
+                const pKa = AB.pKa(acidoj[acidoj.length-1]);
+                pH = 14 - 0.5*(14 - pKa 
+                        - Math.log10(0.5*na/(acido.v+v)));                    
+            } else {
+                // pli da bazo
+                pH = AB.pH("OH-",(n-N)*na/(acido.v+v));
+            }
+
+/*                    
+            } else {
+                pH = AB.pH2_acido(
+                    {a:acidoj[acidoj.length-1], c:acido.c, v:acido.v},
+                    {b:"OH-", c:acido.c, v:v-(acidoj.length*acido.v)});
+            }
+            */
+/*
+            const pKa = AB.pKa(acido.a);
+
+            // sen bazo pH dependas nur la acido
+            if (n<0.5) {
+                pH = AB.pH(acido.a, (na-nb)/(acido.v+v))
+            } else if (n==0.5) {
+                pH = pKa            
+            } else if (n < 1) {
+                // se na*acidoj.length < nb ni aplikas formulon por plurprotonaj acidoj
+                pH =pKa - Math.log10(na/(nb-na));
+            } else if (n == 1) {
+                pH = pKa - Math.log10(na/(nb-na));
+            } else if (n<1.5) {
+                pH = AB.pH(acidoj[1], (2*na-nb)/(v))
+            } else if (n==1.5) {
+                const pK2 = AB.pKa(acidoj[1]);
+                pH = 0.5*(pKa+pK2)
+            } else {
+                // daŭrigenda...
+                pH = AB.pH2_acido(acido,{b:"OH-",v:v,c:acido.c});
+            }
+*/
+
+            // aliokaze ni aplikas formulon por acido/bazo sed uzas la lastan
+            // acidon en la vico en la kalkulo
+            valoroj.push(pH)
+        }
+        return valoroj;
+    }
+
 
 }
