@@ -187,7 +187,7 @@ class AB {
      * Kalkulas la koncentritecon de OH- -jonoj laŭ la formulo (leĝo de masefiko kun simpligoj)
      * por malfortaj: [OH-] = radiko(Cb * Kb) - Cb = koncentriteco de la bazo en mol/l
      * por fortaj: [OH-] = [B]₀ = koncentritecoo
-     * @param acido {string} nomo de la acido
+     * @param bazo {string} nomo de la bazo
      * @param c {number} koncentriteco en mol/l
      */
     static cOH(bazo,c) {
@@ -233,7 +233,7 @@ class AB {
 
     /** 
      * Kalkulas la pOH-valoron de bazo, la pH-valoron en akvo ni ricevos per 14-pOH
-     * @param acido {string} nomo de la acido
+     * @param bazo {string} nomo de la bazo
      * @param c {number} koncentriteco en mol/l
      */
     static pOH(bazo,c) {

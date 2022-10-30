@@ -140,7 +140,7 @@ NH3 + H2O <-> NH4+ + OH-
           c: eksperimento.c_b, 
           v: bureto.ml/1000 }
       );
-    } if (eksperimento.acido > 1) {
+    } else if (eksperimento.acido > 1) {
       valj = AB.acidtitrado_plurprotona(
         { a: s, 
           c: eksperimento.c, 
