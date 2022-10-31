@@ -41,6 +41,7 @@ paĝo en preparo....
   const LARĜO = 300;
 
   substancoj = {   
+    sango: [7.4,"hsl(0 90% 40%)",.8],
     saplesivo: [10,"hsl(60 90% 95%)",.75],
     intestsuko: [8,"hsl(100, 90%, 80%",.7],
     marakvo: [8,"hsl(200, 70%, 30%",.6],

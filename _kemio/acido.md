@@ -37,6 +37,22 @@ paĝo en preparo....
    
 -->
 
+Acidoj estas ĥemiaj kombinaĵoj, kiuj povas transigi unu aŭ pluraj el siaj hidrogenatomoj kiel jono, t.e. la nuklea protono sen la elektrono, al alia reakcianto. Aparte en akva solvaĵo ili perdas hidrogenjonon $$\ce{H+}$$ kiu siavice, kiel klarigita en la ĉapitro pri [solvaĵoj](solvajho), ĉirkaŭiĝas de akvaj molekuloj. En ekvacio oni skribas la rezulton iom simplige kiel $$\ce{H3O+}$$:
+
+$$\ce{HCl + H2O <-> H3O+ + Cl-}$$
+
+Tiu procezo okazas en ambaŭ direktoj kaj alstrebas ekvilibron, kiu i.a. dependas de la konkreta acidospeco, la solvilo kaj la temperaturo. Tion oni signas per dudirekta sago en la ekvacio.
+
+Acidoj troviĝas en multaj nutraĵoj kiel frukto, fermentaĵoj kiel vinagro aŭ jahurto, en mineralakvo enhavanta karbonacidon ktp. Ili donas al tiuj nutraĵoj ilian karakterizan acidan guston. Ekzistas pli fortaj kaj pli malfortaj acidoj. Tiu grado de acideco dependas de la koncentriĝo de protonoj solvitaj en akvo. Ĉe certa temperaturo kaj specifa acido tiu koncentriĝo estas esprimebla per konstanto tiel:
+
+$$K_a = \frac{c(H_3O^+) \times c(A^-)}{c(HA)}$$
+
+La esprimo $$c(X)$$ estas la koncerna koncentriĝo, $$HA$$ la acido kaj $$A-$$ la acidresto, kiu perdis unu protonon. 
+Oni ofte skribas pli koncize:
+
+$$K_a = \frac{[H^+] [A^-]}{[HA]}$$
+
+
 
 <script>
   let lab; // la laboratorio kaj iloj
@@ -55,7 +71,6 @@ paĝo en preparo....
     lakto: [6,"hsl(60 90% 99%)",.95],
     salivo: [6,"hsl(270, 10%, 100%)",.5],
     "H₂O": [7,"hsl(270, 20%, 90%)",.2],
-    sango: [7.4,"hsl(0 90% 40%)",.8],
     citronlimonado: [3,"hsl(60, 80%, 70%)",.3],
     acidlakto: [5,"hsl(60 90% 95%)",.95],
     "HCl 0,1 mol/l": [1.08,"hsl(270, 20%, 90%)",.2],
