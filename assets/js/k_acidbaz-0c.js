@@ -255,6 +255,49 @@ class AB {
     }
 
     /**
+     * Kalkulas la pH valoron por tre diluitaj solvaĵoj en akvo per solvo de kuba ekvacio.
+     * @param {number} acido nomo de la acido, ĉe ĉambra temperaturo uzata por elekti valron de pK
+     * @param {number} am molara maso de la acido en mol/l
+     * @param {number} pK disociiĝa logritma konstanto de la acido, se ne uzenda la apriora ĉe ĉambra temperaturo
+     * @param {number} Kw disociiĝa konstanto de akvo, se ne uzenda tiu de ĉambra temperaturo
+     */
+    static pH3(acido,am,pK=null,Kw=1.0116e-14) {
+        // laŭ Peter Michael Barling
+        // vd. https://iejsme.imu.edu.my/wp-content/uploads/2021/09/5.ResearchNote_Peter.pdf
+        // disociiĝa konstanto de akvo Kw. Por aliaj ol ĉambra temperaturo donu
+        // kiel parametro, jen por oreintiĝo:
+        // Kw je 0 °C  0.1153e-14
+        // Kw je 25 °C  1.0116e-14
+        // Kw je 37 °C  2.2418e-14
+        // Kw je 50 °C  5.3088e-14
+        // Kw je 75 °C  19.4089e-14
+        // Kw je 100 °C  54.3250e-14
+        // ankaŭ la disociiĝaj konstancoj de acidoj en la supra listo estas ĉe ĉambra temperaturo
+        // vi povas same doni dviantan valoron kiel parametro pK
+
+        if (! pK) pK = AB.pKa(acido);
+
+        // algoritmo por trovi la radikojn de kuba ekvacio laŭ http://www.1728.org/cubic2.htm
+        const Ka = 1/10**pK;
+        const a = 1;
+        const b = Ka;
+        const c = -(Kw + (Ka*am));
+        const d = -Ka*Kw;
+
+        const f = (3*c/a - b*b/(a*a))/3;
+        const g = (2*b*b*b/(a*a*a) - 9*b*c/(a*a) + 27*d/a)/27;
+        const h = g*g/4 + f*f*f/27;
+        const i = Math.sqrt(g*g/4 - h);
+        const j = Math.pow(i,1/3);
+        const J = -g/(2*i);
+        const k = Math.acos(J);
+
+        const X1 = 2*j*Math.cos(k/3) - b/(3*a);
+        const pH = -Math.log10(X1);
+        return pH;        
+    }
+
+    /**
      * Kalulas pa pH-valoron en solvaĵo enhavanta acidon kun aldono de forta bazo
      * @param {object} acido donitaĵoj de acido: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      * @param {object} bazo donitaĵoj de bazo: {b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
@@ -427,6 +470,18 @@ class AB {
         return valoroj;
     }
 
+    /**
+     * Kalkulas vicon da pH-valoroj por plurprotona acido titrata per NaOH
+     * KOREKTU: ĉe la marĝeno la valoroj estas ne homogenaj pro nevalideco de Hendersson-Hasselbalch-ekvacio
+     * ĉe la intervalrando (do ekster la duonekvivalent-punkto)
+     * bele rigardi tiun sciencajn diskutojn kiel oni povas ĝustigi tion:
+     * https://bunsen.de/fileadmin/user_upload/media/Aspekte-Artikel/BM_5_2020_Unterricht_Hippler_Metcalfe.pdf
+     * http://iqc.udg.edu/~vybo/DOCENCIA/QUIMICA/Henderson-Hasselbalch.pdf
+     * 
+     * @param {*} acido 
+     * @param {*} vb 
+     * @returns 
+     */
     static acidtitrado_plurprotona(acido,vb) {
         let valoroj = [];
         const acidoj = AB.acidvico(acido.a);
@@ -444,6 +499,7 @@ class AB {
             if (n==N && n>1 && n<acidoj.length) {
                 // ekvipunkto
                 pH = AB.pH2_acidekvi(acidoj[N-1],acidoj[N]);
+                /*
             } else if (n<1) {
                 pH = AB.pH2_acido(
                     acido,
@@ -452,6 +508,11 @@ class AB {
                 pH = AB.pH2_2acidoj(
                     {a:acidoj[N-1], c:acido.c, n:(N+1-n)*na},
                     {a:acidoj[N], n:(n-N)*na});
+*/
+                } else if (n<acidoj.length) {
+                    const pKa = AB.pKa(acidoj[N]);
+                    const t = (n-N);
+                    pH = pKa - Math.log10((1-t)/t);
 
             // la sekvaj du ankoraŭ havas eraron, ĉu...?
             } else if (n==acidoj.length) {

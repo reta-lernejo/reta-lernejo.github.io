@@ -1,17 +1,16 @@
 ---
 layout: laborfolio
-title: Acidoj kaj bazoj (laŭ Brønsted-Lowry)
+title: Testo de titrado
 js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - laboratorio-0c
-  - k_acidbaz-0b
+  - k_acidbaz-0c
 css:
   - laboratorio-0c
 ---
 
-paĝo en preparo...
 
 <!--
 https://www.vedantu.com/chemistry/acids-and-bases
@@ -101,10 +100,26 @@ NH3 + H2O <-> NH4+ + OH-
     e2: {nomo: "titri CH₃COOH (kun NaOH)", 
       acido: 1, s: "CH3COOH", ml: 25, c: 0.1, 
       s_b: "NaOH", ml_b: 50, c_b: 0.1},
-    e3: {nomo: "titri H₃PO₄ (kun NaOH)", 
-      acido: 3, s: "H3PO4", ml: 20, c: 0.5, 
+
+    e3a: {nomo: "titri H₃PO₄ 1 mol/l (kun NaOH)", 
+      acido: 3, s: "H3PO4", ml: 10, c: 1, 
+      s_b: "NaOH", ml_b: 50, c_b: 1},
+    e3b: {nomo: "titri H₃PO₄ 0,5 mol/l (kun NaOH)", 
+      acido: 3, s: "H3PO4", ml: 15, c: 0.5, 
       s_b: "NaOH", ml_b: 50, c_b: 0.5},
-    e4: {nomo: "titri NH₃ (kun HCl)", 
+
+    e4a: {nomo: "titri HPO₄²- 1 mol/l (kun NaOH)", 
+      acido: 1, s: "HPO4^2-", ml: 10, c: 1, 
+      s_b: "NaOH", ml_b: 50, c_b: 1},
+    e4b: {nomo: "titri HPO₄²- 0,5 mol/l (kun NaOH)", 
+      acido: 1, s: "HPO^2-", ml: 10, c: 0.5, 
+      s_b: "NaOH", ml_b: 50, c_b: 0.5},
+
+    e5: {nomo: "titri H2SO₄ 0,5 mol/l (kun NaOH)", 
+      acido: 3, s: "H2SO4", ml: 10, c: 0.5, 
+      s_b: "NaOH", ml_b: 50, c_b: 0.5},
+
+    e6: {nomo: "titri NH₃ (kun HCl)", 
       acido: 0, s: "NH3", ml: 25, c: 0.1, 
       s_b: "HCl", ml_b: 50, c_b: 0.1}
   }
@@ -194,7 +209,7 @@ NH3 + H2O <-> NH4+ + OH-
       const pinto = bureto.pinto();
       const surfaco = flakono.surfaco();
       lab.gutoj("gutoj","guto",7,pinto,surfaco,() => {
-        const ms = 600;
+        const ms = 60;
         const ml = 0.5;
 
         // fluigu 1ml el la bureto
@@ -221,7 +236,7 @@ NH3 + H2O <-> NH4+ + OH-
     lab.klak_reago(bureto.krano(), () => {
       if (bureto.fermita) {
         bureto.malfermu();
-        prokrastu(() => fluo(false), 500);
+        prokrastu(() => fluo(false), 50);
       } else {
         bureto.fermu();
         purigu_prokrastojn();
