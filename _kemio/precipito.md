@@ -27,7 +27,7 @@ En reakciaj ekvacioj oni indikas solidan precipitaĵon per (s), t.e. *solida* a�
 
 $$\ce{Ag+ + Cl- -> AgCl v}$$
 
-Per precipitaj reakcioj oni povas pruvi la ekziston de certaj jonoj en solvaĵo. Ankaŭ tiel oni povas apartigi solvitajn jonojn. Ekezmple en la plibonigo de trinkakvo oni tiel reduktas la fosfaton en la akvo.
+Per precipitaj reakcioj oni povas pruvi la ekziston de certaj jonoj en solvaĵo. Aŭ oni povas apartigi solvitajn jonojn. Ekzemple por la plibonigo de trinkakvo oni tiel reduktas la fosfaton en la akvo.
 
 
 
