@@ -257,7 +257,7 @@ class AB {
     /**
      * Kalkulas la pH valoron por tre diluitaj solvaĵoj en akvo per solvo de kuba ekvacio.
      * @param {number} acido nomo de la acido, ĉe ĉambra temperaturo uzata por elekti valron de pK
-     * @param {number} am molara maso de la acido en mol/l
+     * @param {number} am koncentriteco de la acido en mol/l
      * @param {number} pK disociiĝa logritma konstanto de la acido, se ne uzenda la apriora ĉe ĉambra temperaturo
      * @param {number} Kw disociiĝa konstanto de akvo, se ne uzenda tiu de ĉambra temperaturo
      */
