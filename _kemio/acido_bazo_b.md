@@ -158,8 +158,14 @@ NH3 + H2O <-> NH4+ + OH-
           v: bureto.ml/1000 }
       );
     }
-    sondilo.valoro(`pH ${pH.toFixed(1)}`);
-    diagramo.punkto(bureto.ml,pH,LabPHIndikilo.pH_koloro(pH));
+
+    if (pH > -10 && pH < 16) {
+      sondilo.valoro(`pH ${pH.toFixed(1)}`);
+      diagramo.punkto(bureto.ml,pH,LabPHIndikilo.pH_koloro(pH));
+    } else {
+      // evitu montri aparte vortojn NaN aŭ Infinity...
+      sondilo.valoro('pH --');
+    }
   }
 
 
