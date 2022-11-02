@@ -255,7 +255,9 @@ class AB {
     }
 
     /**
-     * Kalkulas la pH valoron por tre diluitaj solvaĵoj en akvo per solvo de kuba ekvacio.
+     * Kalkulas la pH valoron por acidaj solvaĵoj en akvo per solvo de kuba ekvacio.
+     * Tio aparte necesas por tre diluitaj acidoj, kiam la ekvacio de Hendersson-Hasselbalch
+     * tro devias de la ĝusta valoro.
      * @param {number} acido nomo de la acido, ĉe ĉambra temperaturo uzata por elekti valron de pK
      * @param {number} am koncentriteco de la acido en mol/l
      * @param {number} pK disociiĝa logritma konstanto de la acido, se ne uzenda la apriora ĉe ĉambra temperaturo
@@ -276,14 +278,48 @@ class AB {
         // vi povas same doni dviantan valoron kiel parametro pK
 
         if (! pK) pK = AB.pKa(acido);
-
-        // algoritmo por trovi la radikojn de kuba ekvacio laŭ http://www.1728.org/cubic2.htm
         const Ka = 1/10**pK;
-        const a = 1;
-        const b = Ka;
-        const c = -(Kw + (Ka*am));
-        const d = -Ka*Kw;
 
+        const X1 = AB.radiko3(1,Ka,-Kw -Ka*am,-Ka*Kw);
+        const pH = -Math.log10(X1);
+        return pH;
+    }
+
+    /**
+     * 
+     * @param {number} acido nomo de la acido, ĉe ĉambra temperaturo uzata por elekti valron de pK
+     * @param {number} c koncentriteco de la acido en mol/l = koncentriteco de la bazo uzata por titrado
+     * @param {number} t titrogrado per bazo laŭ la formulo nb/na = (Cb * vb) / (Ca * va) kun la forta bazo b kaj la acido a, C koncentriteco kaj v volumeno
+     * @param {number} pK disociiĝa logritma konstanto de la acido, se ne uzenda la apriora ĉe ĉambra temperaturo
+     * @param {number} Kw disociiĝa konstanto de akvo, se ne uzenda tiu de ĉambra temperaturo
+     */
+    static pH3_titr(acido,c,t,pK=null,Kw=1.0116e-14) {
+        if (! pK) pK = AB.pKa(acido);
+        const Ka = 1/10**pK;
+
+        const X1 = AB.radiko3(1,Ka+t*c/(1+t),Ka*t*c/(1+t)-Ka*c/(1+t)-Kw,-Ka*Kw);
+            //AB.bisec3(1,Ka+t*c/(1+t),Ka*t*c/(1+t)-Ka*c/(1+t)-Kw,-Ka*Kw);
+        const pH = -Math.log10(X1);
+        console.log(`pH: ${pH}, x: ${X1}`);
+        return pH;
+    }
+
+
+    /**
+     * 
+     */
+
+    /**
+     * Elkalkulas unu radikon de kuba ekvacio ax³+bx²+cx+d = 0
+     * laŭ http://www.1728.org/cubic2.htm
+     * 
+     * @param {*} a 
+     * @param {*} b 
+     * @param {*} c 
+     * @param {*} d 
+     * @returns 
+     */
+    static radiko3(a,b,c,d) {
         const f = (3*c/a - b*b/(a*a))/3;
         const g = (2*b*b*b/(a*a*a) - 9*b*c/(a*a) + 27*d/a)/27;
         const h = g*g/4 + f*f*f/27;
@@ -293,8 +329,48 @@ class AB {
         const k = Math.acos(J);
 
         const X1 = 2*j*Math.cos(k/3) - b/(3*a);
-        const pH = -Math.log10(X1);
-        return pH;        
+        return X1;
+    }
+
+    /**
+     * Trovi radikon de kuba ekvacio per ax³+bx²+cx+d = 0
+     * dusekca metodo.
+     * vd https://user.eng.umd.edu/~nsw/chbe250/cubiceqbisx.pdf
+     * @param {*} a 
+     * @param {*} b 
+     * @param {*} c 
+     * @param {*} d 
+     */
+    static bisec3(a,b,c,d) {
+        const preciz = 10e-14; // precizeco dependas de pH, 
+                // por granda pH ni bezonas pli grandan precizecon, eble necesas parametrigi ĝin do!
+        const max_iter = 100; // finu post maksimume cent ripetoj
+        const f = (x) => a*x*x*x + b*x*x + c*x + d;
+        // ni supozas ke pH troviĝas inter -7 kaj 14
+        // PLIBONIGU: por rapidigo donu intervalon kiel parametroj
+        let xh = 10e7; // pH = -7
+        let xl = 10e-7; // pH = 7
+        let iter = 0;
+        // fh kaj fl havu diferencan antaŭsignon, alie la komencvaloroj xl, xh ne taŭgis!
+        const sh = Math.sign(f(xh));
+        const sl = Math.sign(f(xl));
+        if (sh == sl) throw "Komencvaloroj ne taŭgas, ili donas la saman signumon."
+
+        while (iter < max_iter) {
+            const x = 0.5*(xl+xh);
+            const sx = Math.sign(f(x));
+            if (sx == sh) xh = x;
+            else xl = x;
+
+            if (xh-xl < preciz) {
+                console.log(`x: ${x} [${iter}]`)
+                return x;
+            }
+
+            iter++;
+        }
+        console.warn("Ne sufiĉa precizeo: "+(xh-xl));
+        return x;
     }
 
     /**
@@ -461,6 +537,25 @@ class AB {
         return valoroj;
     }
 
+    /**
+     * Acidtitrado per pH-kalkulo uzanta pli ekzaktan kuban ekvacion
+     * KOREKTU aŭ FORIGU: tio ne funkcias por plurprotonaj aciodj, vd. malsupre!
+     * @param {*} acido 
+     * @param {*} vb 
+     * @returns 
+     */
+    static acidtitrado3(acido,vb) {
+        let valoroj = [];
+        for (let v of vb) {
+            const na = acido.c * acido.v;
+            const nb = acido.c * v; // ni supozas uzi saman koncentriĝon de acido kaj OH-!
+            const t = nb/na;
+            const pH = AB.pH3_titr(acido.a,acido.c,t);
+            valoroj.push(pH);
+        }
+        return valoroj;
+    }
+
     static bazotitrado(bazo,va) {
         let valoroj = [];
         for (let v of va) {
@@ -477,6 +572,7 @@ class AB {
      * bele rigardi tiun sciencajn diskutojn kiel oni povas ĝustigi tion:
      * https://bunsen.de/fileadmin/user_upload/media/Aspekte-Artikel/BM_5_2020_Unterricht_Hippler_Metcalfe.pdf
      * http://iqc.udg.edu/~vybo/DOCENCIA/QUIMICA/Henderson-Hasselbalch.pdf
+     * http://koreascience.kr/article/JAKO199213464513044.pdf
      * 
      * @param {*} acido 
      * @param {*} vb 
@@ -562,6 +658,51 @@ class AB {
         }
         return valoroj;
     }
+
+    /**
+     * Kalkulas vicon da pH-valoroj por plurprotona acido titrata per NaOH
+     * KOREKTU: ĉe la marĝeno la valoroj estas ne homogenaj pro nevalideco de Hendersson-Hasselbalch-ekvacio
+     * ĉe la intervalrando (do ekster la duonekvivalent-punkto)
+     * bele rigardi tiun sciencajn diskutojn kiel oni povas ĝustigi tion:
+     * https://bunsen.de/fileadmin/user_upload/media/Aspekte-Artikel/BM_5_2020_Unterricht_Hippler_Metcalfe.pdf
+     * http://iqc.udg.edu/~vybo/DOCENCIA/QUIMICA/Henderson-Hasselbalch.pdf
+     * http://koreascience.kr/article/JAKO199213464513044.pdf
+     * 
+     * @param {*} acido 
+     * @param {*} vb 
+     * @returns 
+     */
+     static acidtitrado_plurprotona3(acido,vb) {
+        let valoroj = [];
+        const acidoj = AB.acidvico(acido.a);
+
+        for (let v of vb) {
+            // ni bezonas la proporcion de kvantoj por scii en kiu kurbo-parto
+            // ni troviĝas
+            const na = acido.c * acido.v;
+            const nb = acido.c * v; // ni supozas uzi saman koncentriĝon de acido kaj OH-!
+                // se ni volas permesi aliajn koncentriĝojn por la bazo, ni devos aldoni parametron supre!
+            const n = nb/na;
+            let N = Math.trunc(n);
+
+            let pH;
+            if (n<acidoj.length) {
+                const t = (n-N);
+                pH = AB.pH3_titr(acidoj[N],acido.c,t);
+
+            // la sekvaj du ankoraŭ havas eraron, ĉu...?
+            } else {
+                N = acidoj.length-1;
+                const t = (n-N);
+                pH = AB.pH3_titr(acidoj[N],acido.c,t);
+            }
+
+            // aliokaze ni aplikas formulon por acido/bazo sed uzas la lastan
+            // acidon en la vico en la kalkulo
+            valoroj.push(pH)
+        }
+        return valoroj;
+    }    
 
 
 }

@@ -147,7 +147,7 @@ NH3 + H2O <-> NH4+ + OH-
     const s_b = eksperimento.s_b == "NaOH"? "OH-" : eksperimento.s_b;
 
     // titrado de acido kun forta bazo diferencas de titradod e bazo kun forta acido
-    let pH;
+    let pH, pH3;
     if (eksperimento.acido == 1) {
       pH = AB.pH2_acido(
         { a: s, 
@@ -163,6 +163,18 @@ NH3 + H2O <-> NH4+ + OH-
           c: eksperimento.c, 
           v: eksperimento.ml/1000 },[bureto.ml/1000]);
       pH = valj[0];
+
+/*
+      pH3 = AB.acidtitrado3(  { a: s, 
+          c: eksperimento.c, 
+          v: eksperimento.ml/1000 },[bureto.ml/1000])[0];
+          */
+
+      valj = AB.acidtitrado_plurprotona3(
+        { a: s, 
+          c: eksperimento.c, 
+          v: eksperimento.ml/1000 },[bureto.ml/1000]);
+      pH3 = valj[0]; 
     } else {
       pH = AB.pH2_bazo(
         { b: s, 
@@ -175,6 +187,7 @@ NH3 + H2O <-> NH4+ + OH-
     }
     sondilo.valoro(`pH ${pH.toFixed(1)}`);
     diagramo.punkto(bureto.ml,pH,LabPHIndikilo.pH_koloro(pH));
+    diagramo.punkto(bureto.ml,pH3,LabPHIndikilo.pH_koloro(pH3));
   }
 
 
