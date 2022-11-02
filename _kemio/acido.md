@@ -6,7 +6,7 @@ js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
-  - laboratorio-0b
+  - laboratorio-0c
   - k_acidbaz-0a
 css:
   - laboratorio-0b
@@ -56,7 +56,7 @@ $$[\ce{H^+}] = K_a \times \frac{[\ce{HA}]}{[\ce{A^-}]}$$
 
 Ĉar koncentritecoj povas esti nombroj kun multaj nuloj oni prefere uzas tiun ekvacion en logaritma formo (uzante la negativan dekuman logaritmon):
 
-$$pH = log([\ce{H^+}]) = pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]}), pK_a = -log(K_a \frac{l}{mol})$$
+$$pH = -log([\ce{H^+}]) = pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]}), pK_a = -log(K_a \frac{l}{mol})$$
 
 Tiu formo nomiĝas *ekvacio de Hendersson-Hasselbalch*. La uzado de la dekuma logaritmo praktike tre faciligas la kalkuladon. Se oni ekzemple scias la valoron pH de iu acido kun donita koncentriteco, oni ricevas la respondan pH-valoron de tiu acido en dekona koncentriteco simple adiciante 1. (Tamen atentu, ke la montrita ekvacio estas simpligo, kiu aparte ne plu validas ĉe tre diluitaj acidoj!)
 
@@ -66,6 +66,7 @@ Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj 
 
 <script>
   let lab; // la laboratorio kaj iloj
+  let provtubo; // provtubo kun la acido
   let bastono; // la vitra bastono por fari la pH-provon
   let indikilo; // la pH-indikilo
   let substanco = "H₂O"; // la elektita substanco
@@ -95,9 +96,16 @@ Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj 
     substanco = subst;
     const ecoj = substancoj[subst];
     const enhavo = ĝi("#_glaso_provtubo_enhavo .likvo") || ĝi("#_glaso_provtubo_enhavo .__subst");
-    Lab.a(enhavo,{class: "__subst", fill: ecoj[1], "fill-opacity": ecoj[2]}); 
+    Lab.a(enhavo,{class: "__subst", fill: ecoj[1], "fill-opacity": ecoj[2]});    
+    // ĉe mineralakvo / limonado aldonu vezikojn
+    forigu("#vezikoj");
+    if (subst == "citronlimonado" || subst == "mineralakvo" || subst == "kolao") {
+      vezikoj();
+    }
+    
     indikilo.makulo(7,true); // true: forigu la makulon
     lab.movu(bastono,"B1");
+
   }
 
   function pHprovo() {
@@ -107,8 +115,38 @@ Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj 
     console.log(`${substanco}, pH: ${ecoj[0]}`);
   }
 
+  function vezikoj() {
+    const lalto = 1/6 * 150;
+    // ni uzas "falaĵo"-n por leviĝantaj vezikoj, tial supro estu 0 kaj faldistanco negativa!
+    const v1 = { id: "veziko", klasoj: "", n: 12, daŭro: 1, supro: 0, alto: 15, faldistanco: -lalto, videblo: 1.0 };
+    const v2 = { id: "veziko", klasoj: "", n: 10, daŭro: 5, aperdaŭro: 3, supro: 0, alto: 20, faldistanco: -lalto, videblo: 1.0 };
+
+    const limigo = provtubo.enhavlimigo("path.__subst");
+    veziketoj = Lab.falaĵo("vezikoj","vezikoj",
+        v1, v2, limigo, 25, lalto);
+    provtubo.enhavo(veziketoj,true);  // aldonu vezikojn al jama likvo
+
+    for (const a of ĉiuj("#vezikoj animate")) {
+      a.beginElement();
+    }
+    for (const am of ĉiuj("#vezikoj animateMotion")) {
+      Lab.a(am,{
+        repeatCount: "indefinite",
+        fill: "remove"
+      });
+      am.beginElement();
+    }
+  }
+
   lanĉe(()=>{
     lab = new Laboratorio(ĝi("#eksperimento"),"fono",LARĜO,ALTO+10);
+    lab.difinoj().append(
+      Lab.e("circle",{
+        id: "veziko",
+        class: "veziko",
+        r: 0.8
+      })
+    );
 
     // pH-indikilon maldekstre
     indikilo = Lab.indikilo();
@@ -120,7 +158,7 @@ Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj 
     lab.nova_loko({id: "B2", x:(LARĜO)/2, y:ALTO});
 
     // metu provtubon en la mezon
-    const provtubo = Lab.provtubo("provtubo",1/6); // enhavo (5/6*150)
+    provtubo = Lab.provtubo("provtubo",1/6); // enhavo (1/6*150)
     lab.metu(provtubo,{id: "tablo", x:(LARĜO)/2+40, y:ALTO-5});
 
     // ni faru pH-provon se uzanto klakas ie
@@ -167,6 +205,11 @@ Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj 
     <![CDATA[
       .likvo {
         display: none;
+      }
+      .veziko {
+        fill: url(#vitro);
+        stroke: black;
+        stroke-width: 0.2;
       }
       .butono.premita rect {
         fill: #004b4b;

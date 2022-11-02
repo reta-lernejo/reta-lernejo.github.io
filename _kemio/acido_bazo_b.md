@@ -102,7 +102,7 @@ NH3 + H2O <-> NH4+ + OH-
       acido: 1, s: "CH3COOH", ml: 25, c: 0.1, 
       s_b: "NaOH", ml_b: 50, c_b: 0.1},
     e3: {nomo: "titri H₃PO₄ (kun NaOH)", 
-      acido: 3, s: "H3PO4", ml: 20, c: 0.5, 
+      acido: 3, s: "H3PO4", ml: 17, c: 0.5, 
       s_b: "NaOH", ml_b: 50, c_b: 0.5},
     e4: {nomo: "titri NH₃ (kun HCl)", 
       acido: 0, s: "NH3", ml: 25, c: 0.1, 

@@ -167,9 +167,10 @@ class LabGlaso extends LabUjo {
 
     /**
      * Redonas la limigon de la enhavo, kiel ĉe path.d, ekz-e por limigi falaĵon
+     * @param {string} elektilo CSS-pad-elektilo por trovi la enhavon (se iel manipulita)
      */
-    enhavlimigo() {
-        return this.g.querySelector("path.likvo").getAttribute("d");
+    enhavlimigo(elektilo = "path.likvo") {
+        return this.g.querySelector(elektilo).getAttribute("d");
     }
 }
 
@@ -1129,7 +1130,7 @@ class Lab {
 
     /**
      * Kreas falaĵon (gutoj, precipito ks). Erojn de precipito transdonu kiel objekto 
-     * {id: referencilo, n: nombro, s: supro, a: alteco, fd: faldistanco, af: falaĵalteco}, 
+     * {id: referencilo, klasoj, n: nombro, s: supro, a: alteco, fd: faldistanco, af: falaĵalteco}, 
      * a: alteco de distribuo mezurite de la supro
      * fd: faldistanco, se ne donita ĝisgrunde
      * af: vario de falaĵo surgrunde
