@@ -23,7 +23,7 @@ Kiam miksiĝas solvaĵoj kun diversspecaj jonoj povas okazi ke jonoj rekombiniĝ
 
 $$\ce{NaCl(aq) + AgNO3(aq) -> AgCl(s) + NaNO3(aq)}$$
 
-En reakciaj ekvacioj oni indikas solidan precipitaĵon per (s), t.e. *solida* aŭ ↓ dum ĥemiaĵojn solvitajn en akvo oni signas per (aq). Forlasante ĉiujn jonojn, kiuj ne partoprenas la precipitan reakcion oni ricevas *koncizan jonekvacion*:
+En reakciaj ekvacioj oni indikas solidan precipitaĵon per (s), t.e. *solida* aŭ ↓, dum ĥemiaĵojn solvitajn en akvo oni signas per (aq). Forlasante ĉiujn jonojn, kiuj ne partoprenas la precipitan reakcion oni ricevas *koncizan jonekvacion*:
 
 $$\ce{Ag+ + Cl- -> AgCl v}$$
 
