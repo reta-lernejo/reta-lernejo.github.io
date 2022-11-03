@@ -900,7 +900,7 @@ class LabDiagramo extends LabIlo {
             transform: `translate(${X.mrg} ${-Y.mrg-l}) rotate(-90) scale(-1 1)`
         });
         Lab.a(y,{
-            transform: `translate(${X.mrg+l} ${-h+Y.mrg}) scale(-1 1)`
+            transform: `translate(${X.mrg+l} ${-Y.mrg}) scale(-1 -1)`
         });
 
         // nomo de la aksoj
@@ -941,8 +941,8 @@ class LabDiagramo extends LabIlo {
         const yi = (this.h-2*this.Y.mrg)/(this.Y.max-this.Y.min);
 
         // punkt-koordinatoj en la diagramo
-        const px = this.X.mrg + x*xi;
-        const py = this.Y.mrg + y*yi;
+        const px = this.X.mrg + (x-this.X.min)*xi;
+        const py = this.Y.mrg + (y-this.Y.min)*yi;
 
         const pt = Lab.e("rect",{
             class: "punkto",
@@ -1310,7 +1310,7 @@ class Lab {
         let strekoj = '';
         for (let i = 0; i<=(max-min); i+=i1) {
             const y = di*i;
-            const l = 2*len - len/2*Math.sign((min+i)%i2) - len/2*Math.sign((min+i)%i3);
+            const l = 2*len - ((min+i)%i2? len/2:0) - ((min+i)%i3? len/2:0);
             strekoj += `M8,${y} l${l},0`;
         }
         return Lab.e("path",{
