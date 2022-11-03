@@ -169,12 +169,17 @@ NH3 + H2O <-> NH4+ + OH-
           c: eksperimento.c, 
           v: eksperimento.ml/1000 },[bureto.ml/1000])[0];
           */
-
+/*
       valj = AB.acidtitrado_plurprotona3(
         { a: s, 
           c: eksperimento.c, 
           v: eksperimento.ml/1000 },[bureto.ml/1000]);
       pH3 = valj[0]; 
+*/
+
+      pH3 = AB.ftitr_pluracido( { a: s, 
+          c: eksperimento.c, 
+          v: eksperimento.ml/1000 },bureto.ml/1000);
     } else {
       pH = AB.pH2_bazo(
         { b: s, 
@@ -186,7 +191,8 @@ NH3 + H2O <-> NH4+ + OH-
       );
     }
     sondilo.valoro(`pH ${pH.toFixed(1)}`);
-    diagramo.punkto(bureto.ml,pH,LabPHIndikilo.pH_koloro(pH));
+    //diagramo.punkto(bureto.ml,pH,LabPHIndikilo.pH_koloro(pH));
+    diagramo.punkto(bureto.ml,pH);
     diagramo.punkto(bureto.ml,pH3,LabPHIndikilo.pH_koloro(pH3));
   }
 
@@ -207,7 +213,7 @@ NH3 + H2O <-> NH4+ + OH-
     // diagramo maldekstre
     diagramo = Lab.diagramo("pH-diagramo",
       {nomo: "ml", mrg: 10, min: 0, max: 50, i1: 1, i2: 5, i3: 10},
-      {nomo: "pH", mrg: 10, min: 0, max: 14, i1: 1, i2: 7, i3: 14});
+      {nomo: "pH", mrg: 10, min: -4, max: 14, i1: 1, i2: 7, i3: 14});
     lab.metu(diagramo,{id: "maldekstre", x:10, y:ALTO});
 
     // konusflakono malsupre

@@ -293,7 +293,7 @@ class AB {
      * @param {number} pK disociiĝa logritma konstanto de la acido, se ne uzenda la apriora ĉe ĉambra temperaturo
      * @param {number} Kw disociiĝa konstanto de akvo, se ne uzenda tiu de ĉambra temperaturo
      */
-    static pH3_titr(acido,c,t,pK=null,Kw=1.0116e-14) {
+    static pH3_acido(acido,c,t,pK=null,Kw=1.0116e-14) {
         if (! pK) pK = AB.pKa(acido);
         const Ka = 1/10**pK;
 
@@ -306,11 +306,7 @@ class AB {
 
 
     /**
-     * 
-     */
-
-    /**
-     * Elkalkulas unu radikon de kuba ekvacio ax³+bx²+cx+d = 0
+     * Elkalkulas radikon de kuba ekvacio ax³+bx²+cx+d = 0
      * laŭ http://www.1728.org/cubic2.htm
      * 
      * @param {*} a 
@@ -374,7 +370,7 @@ class AB {
     }
 
     /**
-     * Kalulas pa pH-valoron en solvaĵo enhavanta acidon kun aldono de forta bazo
+     * Kalulas pa pH-valoron en solvaĵo enhavanta acidon kun aldono de forta bazo laŭ simpligitaj formuloj
      * @param {object} acido donitaĵoj de acido: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      * @param {object} bazo donitaĵoj de bazo: {b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      */
@@ -421,6 +417,7 @@ class AB {
      * @param {object} acido1 donitaĵoj de acido1: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      * @param {object} acido2 donitaĵoj de acido2: {b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      */
+    /*
      static pH2_2acidoj(acido1,acido2) {
         // kalkulu la du kvantojn en mol
         const n1 = acido1.n;
@@ -432,20 +429,24 @@ class AB {
         const pKa2 = AB.pKa(acido2.a);
         return pKa2 - Math.log10(n1/n2);
     }
+    */
 
     /**
      * Kalkulas la pH-valoron en solvaĵo ĉe ekvivalentpunkto de plurprotona acido
      * @param {string} acido1 nomo de acido1
      * @param {string} acido2 nomo de acido2
      */
+    /*
     static pH2_acidekvi(acido1,acido2) {
         const pKa1 = AB.pKa(acido1);
         const pKa2 = AB.pKa(acido2);
         return 0.5*(pKa1 + pKa2);
     }
+    */
 
     /**
      * Kalulas pa pH-valoron en solvaĵo enhavanta bazon kun aldono de fortta acido en donita kvanto
+     * laŭ simpligitaj formuloj
      * @param {object} bazo donitaĵoj de bazo: {b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      * @param {object} acido donitaĵoj de acido: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
      */
@@ -528,51 +529,137 @@ class AB {
         return vico;
     }
 
-    static acidtitrado(acido,vb) {
-        let valoroj = [];
-        for (let v of vb) {
-            const ph = AB.pH2_acido(acido,{b:"OH-",v:v,c:acido.c});
-            valoroj.push(ph)
-        }
-        return valoroj;
-    }
 
     /**
-     * Acidtitrado per pH-kalkulo uzanta pli ekzaktan kuban ekvacion
-     * KOREKTU aŭ FORIGU: tio ne funkcias por plurprotonaj aciodj, vd. malsupre!
-     * @param {*} acido 
-     * @param {*} vb 
-     * @returns 
+     * Kalkulas la pH-valoron de acido post aldono de certa volumeno de
+     * samkoncentrita forta bazo (NaOH), uzante por kalkulado la simpligitajn formulojn (pH2_acido)
+     * @param {object} acido donitaĵoj de acido: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
+     * @param {number} v_titr aldonita volumeno de forta bazo
      */
-    static acidtitrado3(acido,vb) {
-        let valoroj = [];
-        for (let v of vb) {
-            const na = acido.c * acido.v;
-            const nb = acido.c * v; // ni supozas uzi saman koncentriĝon de acido kaj OH-!
-            const t = nb/na;
-            const pH = AB.pH3_titr(acido.a,acido.c,t);
-            valoroj.push(pH);
-        }
-        return valoroj;
+    static ftitr_acido(acido,v_titr) {
+        return AB.pH2_acido(acido,{b:"OH-", v:v_titr, c:acido.c});
     }
 
-    static bazotitrado(bazo,va) {
-        let valoroj = [];
-        for (let v of va) {
-            const ph = AB.pH2_bazo(bazo,{a:"HCl",v:v,c:bazo.c});
-            valoroj.push(ph)
-        }
-        return valoroj;
+
+    /**
+     * Kalkulas la pH-valoron de acido post aldono de certa volumeno de
+     * samkoncentrita forta bazo (NaOH), uzante por kalkulado kuban ekvacion (pH3_acido)
+     * @param {object} acido donitaĵoj de acido: {a: nomo, c: koncentriteco en mol/l, v: volumeno en l}
+     * @param {number} v_titr aldonita volumeno de forta bazo
+     */
+    static ftitr3_acido(acido,v_titr) {
+        const na = acido.c * acido.v;
+        const nb = acido.c * v_titr; // ni supozas uzi saman koncentriĝon de acido kaj OH-!
+        return AB.pH3_acido(acido.a, acido.c, nb/na);
     }
+
+
+    /**
+     * Kalkulas la pH-valoron por titrata acido, eventuale plurprotona.
+     * Ni uzas diversajn funkcion por pH-kalkulo depende de la titradgrado
+     * t = (c*v_titr)/(c*va). Depende de t la funkcio ankaŭ konsideras kiu acido-speco
+     * enestas en la solvaĵo, ekz. (H3PO4 -> H2PO4^- -> HPO$^2-)
+     * 
+     * @param {object} acido donitaĵoj de la origina acido: {a: nomo, c: konc. en mol/l, v: volumeno en l}
+     * @param {number} v_titr aldonita volumeno de forta bazo
+     */
+    static ftitr_pluracido(acido,v_titr) {
+        // eltrovu la vicon de acidoj de plurprotona acido
+        const acidoj = AB.acidvico(acido.a);
+        // ĉe certaj entjeraj titrad-gradoj t ni estas 
+        // ĉe ekvipunktoj inter la vicaj acidoj
+        const ekvipkt = (t) => {
+            const preciz = 1e-4;
+            return (
+                t < acidoj.length
+                && Math.abs(t-Math.trunc(t)) < preciz
+            );
+        }
+        // elektu la konvenan funkcion por kalkulado de pH-valoro
+        // laŭ la titradgrado t (intervalo aŭ punkto)
+        const f_titr = (t) => {
+            if (t<0.5) return AB.ftitr3_acido;
+            if (ekvipkt(t)) {
+                return (
+                    function(ac) {
+                        const pKa1 = AB.pKa(acidoj[this.T-1]);
+                        const pKa2 = AB.pKa(acidoj[this.T]);
+                        return (0.5*(pKa1 + pKa2));
+                    }.bind({T: Math.trunc(t)})
+                );
+            }
+            if (t < acidoj.length) {
+                return (
+                    function(ac,v) {
+                        // lasta ekvivalentpunkto (kun la bazo)
+                        const pKa = AB.pKa(acidoj[this.T]);
+                        const t1 = this.t-this.T;
+                        return (pKa - Math.log10((1-t1)/t1));
+                    }.bind({t: t, T: Math.trunc(t)})
+                );                
+            }
+            if (t == acidoj.length) {
+                return (function(ac,v) {
+                    // lasta ekvivalentpunkto (kun la bazo)
+                    const pKa = AB.pKa(acidoj[acidoj.length-1]);
+                    return 14 - 0.5*(14 - pKa 
+                            - Math.log10(0.5 * ac.c*ac.v / (ac.v + v)));      
+                });
+            } else { // t > acidoj.length, t.e. pli da bazo
+                return (
+                    function(ac,v) {
+                        return AB.pH("OH-",this.tb*ac.c*ac.v / (ac.v + v));
+                    }.bind({tb: t-acidoj.length})
+                );
+            }
+        }
+
+        // ni kalkulas la titradgradon el la proporcion de kvantoj (c*v) 
+        // por scii en kiu kurbo-parto ni troviĝas
+        const na = acido.c * acido.v;
+        const nb = acido.c * v_titr; // ni supozas uzi saman koncentriĝon de acido kaj OH-!
+            // se ni volas permesi aliajn koncentriĝojn por la bazo, ni devos aldoni parametron supre!
+        const t = nb/na;
+
+        // kiun funkcion uzi por tiu t?
+        const ft = f_titr(t);
+        const pH = ft(acido,v_titr);
+        return pH
+    }
+
+
+    /**
+     * Kalkulas la pH-valoron de bazo post aldono de certa volumeno de
+     * samkoncentrita forta acido (HCl), uzante por kalkulado la simpligitajn formulojn (pH2_bazo)
+     * @param {object} bazo donitaĵoj de bazo: {b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
+     * @param {number} v_titr aldonita volumeno de forta acido
+     */
+     static ftitr_bazo(acido,v_titr) {
+        return AB.pH2_bazo(bazo,{a:"HCl", v:v_titr, c:bazo.c});
+    }
+
+
+    /**
+     * Kalkulas la pH-valorojn laŭ listo de aldonitaj volumenoj per transdonita funkcio
+     * @param {object} ab acido aŭ bazo titrata {a|b: nomo, c: koncentriteco en mol/l, v: volumeno en l}
+     * @param {array} vj listo de volumenoj aldonata
+     * @param {function} pH_funkcio funkcio uzenda por kalkuli la pH-valoron
+     */
+    static titrado(ab,vj,pH_funkcio=AB.ftitr_acido) {
+        return vj.map((v) => pH_funkcio(av,b));
+    }
+
+    /** LA SEKVAJN FORIGU favora al ftitr_pluracido, kiam tiu certe bone funcios....! */
 
     /**
      * Kalkulas vicon da pH-valoroj por plurprotona acido titrata per NaOH
      * KOREKTU: ĉe la marĝeno la valoroj estas ne homogenaj pro nevalideco de Hendersson-Hasselbalch-ekvacio
      * ĉe la intervalrando (do ekster la duonekvivalent-punkto)
-     * bele rigardi tiun sciencajn diskutojn kiel oni povas ĝustigi tion:
+     * eble rigardi tiun sciencajn diskutojn kiel oni povas ĝustigi tion:
      * https://bunsen.de/fileadmin/user_upload/media/Aspekte-Artikel/BM_5_2020_Unterricht_Hippler_Metcalfe.pdf
      * http://iqc.udg.edu/~vybo/DOCENCIA/QUIMICA/Henderson-Hasselbalch.pdf
      * http://koreascience.kr/article/JAKO199213464513044.pdf
+     * https://www.academia.edu/11857545/Mathematical_modeling_of_titration_curves
      * 
      * @param {*} acido 
      * @param {*} vb 
@@ -594,7 +681,11 @@ class AB {
             let pH;
             if (n==N && n>1 && n<acidoj.length) {
                 // ekvipunkto
-                pH = AB.pH2_acidekvi(acidoj[N-1],acidoj[N]);
+
+                const pKa1 = AB.pKa(acidoj[N-1]);
+                const pKa2 = AB.pKa(acidoj[N]);
+                pH = 0.5*(pKa1 + pKa2);
+                //pH = AB.pH2_acidekvi(acidoj[N-1],acidoj[N]);
                 /*
             } else if (n<1) {
                 pH = AB.pH2_acido(
@@ -618,7 +709,7 @@ class AB {
                         - Math.log10(0.5*na/(acido.v+v)));                    
             } else {
                 // pli da bazo
-                pH = AB.pH("OH-",(n-N)*na/(acido.v+v));
+                pH = AB.pH("OH-",(n-acidoj.length)*na/(acido.v+v));
             }
 
 /*                    
@@ -628,29 +719,7 @@ class AB {
                     {b:"OH-", c:acido.c, v:v-(acidoj.length*acido.v)});
             }
             */
-/*
-            const pKa = AB.pKa(acido.a);
 
-            // sen bazo pH dependas nur la acido
-            if (n<0.5) {
-                pH = AB.pH(acido.a, (na-nb)/(acido.v+v))
-            } else if (n==0.5) {
-                pH = pKa            
-            } else if (n < 1) {
-                // se na*acidoj.length < nb ni aplikas formulon por plurprotonaj acidoj
-                pH =pKa - Math.log10(na/(nb-na));
-            } else if (n == 1) {
-                pH = pKa - Math.log10(na/(nb-na));
-            } else if (n<1.5) {
-                pH = AB.pH(acidoj[1], (2*na-nb)/(v))
-            } else if (n==1.5) {
-                const pK2 = AB.pKa(acidoj[1]);
-                pH = 0.5*(pKa+pK2)
-            } else {
-                // daŭrigenda...
-                pH = AB.pH2_acido(acido,{b:"OH-",v:v,c:acido.c});
-            }
-*/
 
             // aliokaze ni aplikas formulon por acido/bazo sed uzas la lastan
             // acidon en la vico en la kalkulo
@@ -688,13 +757,13 @@ class AB {
             let pH;
             if (n<acidoj.length) {
                 const t = (n-N);
-                pH = AB.pH3_titr(acidoj[N],acido.c,t);
+                pH = AB.pH3_acido(acidoj[N],acido.c,t);
 
-            // la sekvaj du ankoraŭ havas eraron, ĉu...?
+            // la sekva ankoraŭ havas eraron, ĉu...?
             } else {
                 N = acidoj.length-1;
                 const t = (n-N);
-                pH = AB.pH3_titr(acidoj[N],acido.c,t);
+                pH = AB.pH3_acido(acidoj[N],acido.c,t);
             }
 
             // aliokaze ni aplikas formulon por acido/bazo sed uzas la lastan
