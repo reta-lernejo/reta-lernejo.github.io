@@ -36,7 +36,7 @@ https://dieklugeeule.com/wie-berechnet-man-den-ph-wert-von-hcl/
    
 -->
 
-*Acidoj* estas ĥemiaj kombinaĵoj, kiuj povas transigi unu aŭ pluraj el siaj hidrogenatomoj kiel jono, t.e. la nuklea *protono* sen la elektrono, al alia reakcianto. Aparte en akva solvaĵo ili perdas hidrogenjonon $$\ce{H+}$$ kiu siavice, kiel klarigita en la ĉapitro pri [solvaĵoj](solvajho), ĉirkaŭiĝas de akvaj molekuloj. En ekvacio oni skribas la rezulton iom simplige kiel $$\ce{H3O+}$$:
+*Acidoj*, laŭ koncepto de Johannes Nicolaus Brønsted kaj Thomas Martin Lowry, estas ĥemiaj kombinaĵoj, kiuj povas transigi unu aŭ pluraj el siaj hidrogenatomoj kiel jono, t.e. la nuklea *protono* sen la elektrono, al alia reakcianto. Aparte en akva solvaĵo ili perdas hidrogenjonon $$\ce{H+}$$ kiu siavice, kiel klarigita en la ĉapitro pri [solvaĵoj](solvajho), ĉirkaŭiĝas de akvaj molekuloj. En ekvacio oni skribas la rezulton iom simplige kiel $$\ce{H3O+}$$:
 
 $$\ce{HCl + H2O <-> H3O+ + Cl-}$$
 

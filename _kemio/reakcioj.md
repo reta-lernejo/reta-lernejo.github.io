@@ -9,6 +9,13 @@ js:
   - mathjax/es5/tex-chtml
 ---
 
+<!-- fundamentaj/bezonataj  nocioj
+
+- unuoj: mol, mol/l, M (moloblo)...
+- leĝo de masefiko, kevilibro, entalpio...
+
+-->
+
 <!--
 https://de.wikipedia.org/wiki/Chemische_Reaktion#Arten_von_Reaktionen
 https://en.wikipedia.org/wiki/Chemical_reaction
