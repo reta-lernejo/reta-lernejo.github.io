@@ -295,6 +295,7 @@ class AB {
      */
     static pH3_acido(acido,c,t,pK=null,Kw=1.0116e-14) {
         if (! pK) pK = AB.pKa(acido);
+        if (pK<0) console.warn("La formulo por pH3_acido supoze donas malĝustan rezulton por negativa pKa!");
         const Ka = 1/10**pK;
 
         const X1 = AB.radiko3(1,Ka+t*c/(1+t),Ka*t*c/(1+t)-Ka*c/(1+t)-Kw,-Ka*Kw);
@@ -316,6 +317,7 @@ class AB {
      * @returns 
      */
     static radiko3(a,b,c,d) {
+        //console.log(`${a}x³+${b}x²+${c}x+${d}=0`)
         const f = (3*c/a - b*b/(a*a))/3;
         const g = (2*b*b*b/(a*a*a) - 9*b*c/(a*a) + 27*d/a)/27;
         const h = g*g/4 + f*f*f/27;
@@ -325,6 +327,14 @@ class AB {
         const k = Math.acos(J);
 
         const X1 = 2*j*Math.cos(k/3) - b/(3*a);
+
+        /* pliaj du radikoj, sed eble negativaj... */
+        /*
+        const X2 = -j * (Math.cos(k/3) + Math.sqrt(3)*Math.sin(k/3)) - b/(3*a);
+        const X3 = -j * (Math.cos(k/3) - Math.sqrt(3)*Math.sin(k/3)) - b/(3*a);
+        console.log(`X1: ${X1}, X2: ${X2}, X3: ${X3}`);
+        */
+
         return X1;
     }
 
@@ -578,7 +588,7 @@ class AB {
         // elektu la konvenan funkcion por kalkulado de pH-valoro
         // laŭ la titradgrado t (intervalo aŭ punkto)
         const f_titr = (t) => {
-            if (t<0.5) return AB.ftitr3_acido;
+            if (t<0.5 && AB.pKa(acidoj[0])>0) return AB.ftitr3_acido;
             if (ekvipkt(t)) {
                 return (
                     function(ac) {

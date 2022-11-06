@@ -21,6 +21,25 @@ http://www.ewt-wasser.de/de/wissen/konzentrationsangaben-einheitenumrechnung.htm
 
 paĝo en preparo....
 
+
+*Bazoj* estas ĥemiaj kombinaĵoj, kiuj aŭ enhavas hidroksidjonon $$\ce{OH-}$$ kaj disociiĝas en akvo al metalo kaj hidroksidjonoj, ekzemple[^cd]:
+
+$$\ce{NaOH <-> Na+ + OH-}$$
+
+Solvaĵojn de tiaj bazoj en akvo oni nomas ankaŭ *alkala solvaĵo* aŭ *lesivo*.
+
+Aliaj bazoj ne enhavas hidroksidon, sed en akvo akceptas protonojn postlastante hidroksidjonon, ekzemple:
+
+$$\ce{NH3 + H2O <-> NH4^+ + OH-}$$
+
+Ĉar tiuj hidroksijonoj povas kuniĝi kun superfluaj H+-jonoj al akvomolekuloj, bazoj reduktas la koncentritecon de H+-jonoj kaj tiel *malacidigas* aŭ *neŭtraligas* acidan solvaĵon.
+
+<!-- pOH, valoro, sumo pH + pOH = 14 / Kw Kdiss... 
+https://www.chemie.de/lexikon/PH-Wert.html
+https://de.wikipedia.org/wiki/PH-Wert#pOH-Wert
+-->
+
+
 <!--
 
 - gusto
@@ -150,3 +169,7 @@ paĝo en preparo....
     ]]>
   </style>
 </svg>
+
+##fontoj
+
+[^cd]: [Basen (Chemie)](https://www.chemie.de/lexikon/Basen_%28Chemie%29.html)
