@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Oksidnombroj
-chapter: "3.3.1"
+chapter: "3.4.1"
 js:
   - folio-0b
   - sekcio-0b

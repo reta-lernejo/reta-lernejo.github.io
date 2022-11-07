@@ -2,17 +2,18 @@
 layout: laborfolio
 title: Kemiaj reakcioj
 chapter: "3"
-next_ch: precipito
+next_ch: molo
 js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
 ---
 
-<!-- fundamentaj/bezonataj  nocioj
+Fundamentaj nocioj
+- unuoj: [molo](molo)
 
-- unuoj: mol, mol/l, M (moloblo)...
-- leĝo de masefiko, kevilibro, entalpio, teoremo de Hess 1+2...
+<!--
+- leĝo de masefiko, ekvilibro, entalpio, teoremo de Hess 1+2...
 
 -->
 

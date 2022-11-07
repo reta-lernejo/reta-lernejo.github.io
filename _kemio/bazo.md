@@ -1,7 +1,8 @@
 ---
 layout: laborfolio
 title: Bazoj
-chapter: "3.2.2"
+chapter: "3.3.2"
+next_ch: "acido_bazo"
 js:
   - folio-0b
   - sekcio-0b 
@@ -170,6 +171,7 @@ https://de.wikipedia.org/wiki/PH-Wert#pOH-Wert
   </style>
 </svg>
 
-##fontoj
+## fontoj
+{: .fontoj}
 
 [^cd]: [Basen (Chemie)](https://www.chemie.de/lexikon/Basen_%28Chemie%29.html)

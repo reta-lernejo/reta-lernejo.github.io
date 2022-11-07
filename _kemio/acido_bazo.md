@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
-title: Acidoj kaj bazoj (laŭ Brønsted-Lowry)
+title: Acido-bazo-reakcioj
+chapter: 3.3.3
 js:
   - folio-0b
   - sekcio-0b 

@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Precipitaj reakcioj
-chapter: "3.1"
+chapter: "3.2"
 js:
   - folio-0b
   - sekcio-0b 
