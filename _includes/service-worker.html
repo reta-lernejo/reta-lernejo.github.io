@@ -1,0 +1,8 @@
+
+<script>
+    if (!navigator.serviceWorker.controller) {
+        navigator.serviceWorker.register("/sw.js").then(function(reg) {
+            console.log("servofunkcio registrita por: " + reg.scope);
+        });
+    }
+</script>

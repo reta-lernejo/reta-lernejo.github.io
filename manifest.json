@@ -1,0 +1,15 @@
+{
+    "name": "Reta Lernejo",
+    "short_name": "Relo",
+    "theme_color": "#fdfdfd",
+    "background_color": "#fdfdfd",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "https://reta-lernejo.github.io/",
+    "icons": [
+        {
+            "src": "/assets/smb/favicon.png",
+            "sizes": "64x64"
+        }
+    ]
+  }
