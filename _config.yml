@@ -27,7 +27,8 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb
 github_username:  reta-lernejo
 
-# Build settings
+# Build settings (aspekto: https://github.com/jekyll/minima,
+# vd ankaŭ pri kiel adapti: https://github.com/jekyll/minima/tree/2.5-stable)
 theme: minima
 plugins:
   - jekyll-feed
