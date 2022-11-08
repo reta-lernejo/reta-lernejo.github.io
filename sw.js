@@ -6,7 +6,7 @@ self.addEventListener("install", function(event) {
     console.log("Instalante la retapon");
     return caches.open("offline").then(function(cache) {
       console.log("konservante bazajn paĝojn");
-      return cache.addAll(["/zz_pri", "/offline.html"]);
+      return cache.addAll(["/about/", "/offline.html"]);
     });
   };
   
