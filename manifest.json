@@ -1,15 +1,24 @@
 {
     "name": "Reta Lernejo",
     "short_name": "Relo",
-    "theme_color": "#fdfdfd",
-    "background_color": "#fdfdfd",
-    "display": "fullscreen",
+    "lang": "epo",
+    "description": "Instrua materialo diversfaka, konvena por lernantoj kaj aliaj interesitoj",
+    "theme_color": "#f0f8ff",
+    "background_color": "#f0f8ff",
+    "display": "standalone",
     "scope": "/",
     "start_url": "https://reta-lernejo.github.io/",
     "icons": [
         {
             "src": "/assets/smb/favicon.png",
+            "type": "image/png",
             "sizes": "64x64"
+        },
+        {
+            "src": "/assets/smb/corvus.png",
+            "type": "image/png",
+            "sizes": "512x512"
         }
-    ]
+    ],
+    "categories": ["education"]
   }
