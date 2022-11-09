@@ -10,7 +10,7 @@ js:
 ---
 
 Fundamentaj nocioj
-- unuoj: [molo](molo)
+- [Unuoj kaj grandoj](unuoj_grandoj)
 
 <!--
 - leĝo de masefiko, ekvilibro, entalpio, teoremo de Hess 1+2...
