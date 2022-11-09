@@ -709,6 +709,8 @@ class LabSondilo extends LabIlo {
         this.g = Lab.e("g", {
             id: id,
             class: "sondilo"});
+
+        const g1 = Lab.e("g");
           
         // mezurbastono
         const r = Lab.e("rect",{
@@ -718,15 +720,10 @@ class LabSondilo extends LabIlo {
             y: -h,
             rx: w/2
         });
-        if (klino) {
-            Lab.a(r,{
-                transform: `rotate(${klino})`
-            });
-        };
 
         // monitoreto
         const mon = Lab.e("g",{
-            transform: `translate(-75 ${-h})`,
+            transform: `translate(-57 ${-h+5})`,
             class: "monitoro"
         });
         const kadro = Lab.e("rect",{
@@ -739,7 +736,13 @@ class LabSondilo extends LabIlo {
         },teksto);
         mon.append(kadro,tx);
 
-        this.g.append(r,mon);
+        g1.append(r,mon);
+        if (klino) {
+            Lab.a(g1,{
+                transform: `rotate(${klino})`
+            });
+        };
+        this.g.append(g1);
     }
 
     /**
@@ -919,6 +922,25 @@ class LabDiagramo extends LabIlo {
     }
 
     /**
+     * Kalkulas koordinaton de punkto en la folio de la diagramo 
+     * el koordinatoj donitaj laŭ la skaloj
+     * @param {number} x 
+     * @param {number} y 
+     * @returns {object}
+     */
+    xy_pt(x,y) {
+        // unuo
+        const xi = (this.w-2*this.X.mrg)/(this.X.max-this.X.min);
+        const yi = (this.h-2*this.Y.mrg)/(this.Y.max-this.Y.min);
+
+        // punkt-koordinatoj en la diagramo
+        return ({
+            x: this.X.mrg + (x-this.X.min)*xi,
+            y: -(this.Y.mrg + (y-this.Y.min)*yi)
+        });
+    }
+
+    /**
      * Aldonas punkton ĉe koordinatoj (x,y) de la mezurspaco
      * @param {number} x x-koordinato
      * @param {number} y y-koordinato
@@ -936,18 +958,11 @@ class LabDiagramo extends LabIlo {
             this.g.append(punktoj);
         }
 
-        // unuo
-        const xi = (this.w-2*this.X.mrg)/(this.X.max-this.X.min);
-        const yi = (this.h-2*this.Y.mrg)/(this.Y.max-this.Y.min);
-
-        // punkt-koordinatoj en la diagramo
-        const px = this.X.mrg + (x-this.X.min)*xi;
-        const py = this.Y.mrg + (y-this.Y.min)*yi;
-
+        const p = this.xy_pt(x,y);
         const pt = Lab.e("rect",{
             class: "punkto",
-            x: px,
-            y: -py,
+            x: p.x,
+            y: p.y,
             width: 3,
             height: 3,
             rx: .5
@@ -959,6 +974,34 @@ class LabDiagramo extends LabIlo {
         }
         punktoj.append(pt);
         return pt;
+    }
+
+    /**
+     * Aldonas tekston ĉe koordinatoj (x,y) de la mezurspaco
+     * @param {number} x x-koordinato
+     * @param {number} y y-koordinato
+     * @param {string} t teksto
+     */
+    teksto(x,y,t) {
+        // punkto ekster la diagramspaco?
+        if (x<this.X.min || x>this.X.max || y<this.Y.min || y>this.Y.max) return;
+
+        let tekstoj = this.g.querySelector(".tekstoj");
+        if (! tekstoj) {
+            tekstoj = Lab.e("g",{
+                class: "tekstoj"
+            });
+            this.g.append(tekstoj);
+        }
+
+        const p = this.xy_pt(x,y);
+        const t_ = Lab.e("text",{
+            class: "teksto",
+            x: p.x,
+            y: p.y
+        },t);
+        tekstoj.append(t_);
+        return t_;
     }
 
     /**

@@ -25,7 +25,7 @@ https://en.wikipedia.org/wiki/Chemical_reaction
 Oni distingas multajn specojn de ĥemiaj reakcioj. Gravaj tipoj estas:
 
 - [precipitaj reakcioj](precipito)
-- acido-bazo-reakcioj
+- [acido-bazo-reakcioj](acido_bazo)
 - redoksaj reakcioj
 - kompleksformaj reakcioj
 - fotoĥemia reakcio

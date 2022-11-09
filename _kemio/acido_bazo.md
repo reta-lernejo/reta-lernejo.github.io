@@ -7,7 +7,7 @@ js:
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - laboratorio-0c
-  - k_acidbaz-0b
+  - k_acidbaz-0c
 css:
   - laboratorio-0c
 ---
@@ -180,13 +180,20 @@ NH3 + H2O <-> NH4+ + OH-
     lab.metu(bureto,{id: "supre", x:X_FLAKONO+5, y:ALTO-180});
 
     // sondilo meze
-    sondilo = Lab.sondilo("pHsondilo",4,250,-4,"pH");
-    lab.metu(sondilo,{id: "meze", x:X_FLAKONO+18, y:ALTO});
+    sondilo = Lab.sondilo("pHsondilo",10,250,-4,"pH");
+    lab.metu(sondilo,{id: "meze", x:X_FLAKONO+16, y:ALTO});
 
     // diagramo maldekstre
     diagramo = Lab.diagramo("pH-diagramo",
       {nomo: "ml", mrg: 10, min: 0, max: 50, i1: 1, i2: 5, i3: 10},
       {nomo: "pH", mrg: 10, min: 0, max: 14, i1: 1, i2: 7, i3: 14});
+    diagramo.teksto(0,0,'0');
+    diagramo.teksto(0,7,'7');
+    diagramo.teksto(0,13,'13');
+    diagramo.teksto(10,0,'10');
+    diagramo.teksto(20,0,'20');
+    diagramo.teksto(30,0,'30');
+    diagramo.teksto(40,0,'40');
     lab.metu(diagramo,{id: "maldekstre", x:10, y:ALTO});
 
     // konusflakono malsupre
