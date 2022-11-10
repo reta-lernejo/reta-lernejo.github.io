@@ -45,7 +45,7 @@ Tiu procezo okazas en ambaŭ direktoj kaj alstrebas ekvilibron, kiu i.a. dependa
 
 Acidoj troviĝas en multaj nutraĵoj kiel frukto, fermentaĵoj kiel vinagro aŭ jahurto, en mineralakvo enhavanta karbonacidon ktp. Ili donas al tiuj nutraĵoj ilian karakterizan acidan guston. Ekzistas pli *fortaj* kaj pli *malfortaj* acidoj. Tiu grado de acideco dependas de la koncentriteco de protonoj solvitaj en akvo. La ekvilibro de specifa acido ĉe iu temperaturo estas donebla kiel specialiĝo de la leĝo de masefiko per konstanto, la *acido-konstanto*, esprimanta propocion inter reakciaj produktoj kaj reakciantoj:
 
-$$K_a = \frac{c(\ce{H_3O^+}) \times c(\ce{A^-})}{c(\ce{HA})}$$
+$$K_a = \frac{c(\ce{H_3O^+}) \cdot c(\ce{A^-})}{c(\ce{HA})}$$
 
 La esprimo $$c(X)$$ estas la koncerna koncentriteco, $$\ce{HA}$$ la acido kaj $$\ce{A-}$$ la acidresto, kiu perdis unu protonon. La koncentritecon de la reakcianto $$\ce{H2O}$$ oni konsideras konstanta dum tiu reakcio kaj do inkluzivas en la konstanto $$K_a$$. Oni ofte skribas pli koncize:
 
@@ -53,7 +53,7 @@ $$K_a = \frac{[\ce{H^+}] [\ce{A^-}]}{[\ce{HA}]}$$
 
 Konante la konstancon $$K_a$$ por iu acido, oni do povas elkalkuli la koncentritecon de la protonoj en la solvaĵo per
 
-$$[\ce{H^+}] = K_a \times \frac{[\ce{HA}]}{[\ce{A^-}]}$$
+$$[\ce{H^+}] = K_a \cdot \frac{[\ce{HA}]}{[\ce{A^-}]}$$
 
 Ĉar koncentritecoj povas esti nombroj kun multaj nuloj oni prefere uzas tiun ekvacion en logaritma formo (uzante la negativan dekuman logaritmon):
 

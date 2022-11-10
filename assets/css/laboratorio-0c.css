@@ -44,7 +44,8 @@
 }
 
 .sondilo .bastono {
-    fill: #282830;
+    /*fill: #282830;*/
+    fill: url(#vitro);
     stroke: #111;
 }
 
@@ -111,6 +112,12 @@
     stroke: black;
 }
 
+.diagramo .tekstoj text{
+    font-size: 10px;
+    dominant-baseline: middle;
+    text-anchor: middle;
+}
+
 .krano {
     fill: chocolate;
 }
@@ -119,8 +126,9 @@
     stroke: gray;
     stroke-width: 0.5;
     stroke-dasharray: 5 10;
-    fill: #8cd;
-    fill-opacity: 0.6;
+    /*fill: #8cd;
+    fill-opacity: 0.6; */
+    fill: url(#vitro);
 }
 
 .vitro {
