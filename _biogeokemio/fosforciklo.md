@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Fosforciklo
-chapter: 1.5
+chapter: 1.6
 js:
   - sekcio-0b
   - yedmap-0b
