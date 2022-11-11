@@ -25,6 +25,6 @@ La *nutraĵociklo* temas pri la cirkulado de [vivesencaj elementoj](/biokemio/es
 - hidrogenciklo
 - [azotociklo](azotciklo)
 - oksigenciklo
-- [akvociklo](akvociklo)
+- akvociklo
 - [fosforciklo](fosforciklo)
 - [sulfurciklo](sulfurciklo)

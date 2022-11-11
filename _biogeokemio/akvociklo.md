@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Akvociklo
-chapter: 1.5
+_chapter: 1.5
 js:
   - folio-0b
   - sekcio-0b
