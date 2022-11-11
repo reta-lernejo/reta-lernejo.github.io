@@ -37,19 +37,19 @@ https://dieklugeeule.com/wie-berechnet-man-den-ph-wert-von-hcl/
    
 -->
 
-*Acidoj*, laŭ koncepto de Johannes Nicolaus Brønsted kaj Thomas Martin Lowry, estas ĥemiaj kombinaĵoj, kiuj povas transigi unu aŭ pluraj el siaj hidrogenatomoj kiel jono, t.e. la nuklea *protono* sen la elektrono, al alia reakcianto. Aparte en akva solvaĵo ili perdas hidrogenjonon $$\ce{H+}$$ kiu siavice, kiel klarigita en la ĉapitro pri [solvaĵoj](solvajho), ĉirkaŭiĝas de akvaj molekuloj. En ekvacio oni skribas la rezulton iom simplige kiel $$\ce{H3O+}$$:
+*Acidoj*, laŭ koncepto de Johannes Nicolaus Brønsted kaj Thomas Martin Lowry, estas ĥemiaj kombinaĵoj, kiuj povas transigi unu aŭ pluraj el siaj hidrogenatomoj kiel jono, t.e. la nuklea *protono* sen la elektrono, al alia reakcianto. Aparte en akva solvaĵo ili *disociiĝas*, t.e. ili perdas hidrogenjonon $$\ce{H+}$$ kiu siavice, kiel klarigita en la ĉapitro pri [solvaĵoj](solvajho), ĉirkaŭiĝas de akvaj molekuloj. En ekvacio oni skribas la rezulton iom simplige kiel $$\ce{H3O+}$$:
 
-$$\ce{HCl + H2O <-> H3O+ + Cl-}$$
+$$\ce{HCl + H2O <-> H3O+ + Cl-} \tag{1}$$
 
 Tiu procezo okazas en ambaŭ direktoj kaj alstrebas ekvilibron, kiu i.a. dependas de la konkreta acidospeco, la solvilo kaj la temperaturo. Tion oni signas per dudirekta sago en la ekvacio. La ekvilibro de tia reakcio povas esti deduktata el la termodinamika *leĝo de masefiko* de Cato Maximilian Guldberg kaj Peter Waage.
 
-Acidoj troviĝas en multaj nutraĵoj kiel frukto, fermentaĵoj kiel vinagro aŭ jahurto, en mineralakvo enhavanta karbonacidon ktp. Ili donas al tiuj nutraĵoj ilian karakterizan acidan guston. Ekzistas pli *fortaj* kaj pli *malfortaj* acidoj. Tiu grado de acideco dependas de la koncentriteco de protonoj solvitaj en akvo. La ekvilibro de specifa acido ĉe iu temperaturo estas donebla kiel specialiĝo de la leĝo de masefiko per konstanto, la *acido-konstanto*, esprimanta propocion inter reakciaj produktoj kaj reakciantoj:
+Acidoj troviĝas en multaj nutraĵoj kiel frukto, fermentaĵoj kiel vinagro aŭ jahurto, en mineralakvo enhavanta karbonacidon ktp. Ili donas al tiuj nutraĵoj ilian karakterizan acidan guston. Ekzistas pli *fortaj* kaj pli *malfortaj* acidoj. Tiu grado de acideco dependas de la koncentriteco de protonoj solvitaj en akvo. La ekvilibro de specifa acido ĉe iu temperaturo estas donebla kiel specialiĝo de la leĝo de masefiko per konstanto, la *acido-konstanto*, esprimanta propocion inter reakciaj produktoj kaj reakciantoj[^cd]:
 
 $$K_a = \frac{c(\ce{H_3O^+}) \cdot c(\ce{A^-})}{c(\ce{HA})}$$
 
 La esprimo $$c(X)$$ estas la koncerna koncentriteco, $$\ce{HA}$$ la acido kaj $$\ce{A-}$$ la acidresto, kiu perdis unu protonon. La koncentritecon de la reakcianto $$\ce{H2O}$$ oni konsideras konstanta dum tiu reakcio kaj do inkluzivas en la konstanto $$K_a$$. Oni ofte skribas pli koncize:
 
-$$K_a = \frac{[\ce{H^+}] [\ce{A^-}]}{[\ce{HA}]}$$
+$$K_a = \frac{[\ce{H^+}] [\ce{A^-}]}{[\ce{HA}]} \tag{2}$$
 
 Konante la konstancon $$K_a$$ por iu acido, oni do povas elkalkuli la koncentritecon de la protonoj en la solvaĵo per
 
@@ -57,13 +57,13 @@ $$[\ce{H^+}] = K_a \cdot \frac{[\ce{HA}]}{[\ce{A^-}]}$$
 
 Ĉar koncentritecoj povas esti nombroj kun multaj nuloj oni prefere uzas tiun ekvacion en logaritma formo (uzante la negativan dekuman logaritmon):
 
-$$pH = -log([\ce{H^+}]) = pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]}), pK_a = -log(K_a \frac{l}{mol})$$
+$$pH = -log([\ce{H^+}]) = pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]}), pK_a = -log(K_a \cdot \pu{1 l/mol})$$
 
 Tiu formo nomiĝas *ekvacio de Hendersson-Hasselbalch*. La uzado de la dekuma logaritmo praktike tre faciligas la kalkuladon. Se oni ekzemple scias la valoron pH de iu acido kun donita koncentriteco, oni ricevas la respondan pH-valoron de tiu acido en dekona koncentriteco simple adiciante 1. (Tamen atentu, ke la montrita ekvacio estas simpligo, kiu aparte ne plu validas ĉe tre diluitaj acidoj!)
 
 Ekzistas substancoj, kiuj ŝanĝas sian koloron depende de la pH-valoro. Per lerta kombino de tiaj substancoj oni ricevas universalan indikilon de pH-valoro, kiu per kontinua kolorspektro ebligas mezuri la pH-valoron de iu nekonata solvaĵo. En la malsupra eksperimenteto vi povas eltrovi pH-valorojn de diversaj acidaĵoj.
 
-Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj $$\ce{H^+}$$ kaj $$\ce{OH^-}$$. La koncentriteco $$[\ce{H^+}]$$ en $$\ce{H2O}$$ ĉe normala temperaturo estas proksimume $$0,0000001mol/l$$. Do nun vi povas elkalkuli la pH-valoron de pura akvo kaj poste kontroli en la eksperimento.
+Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj $$\ce{H^+}$$ kaj $$\ce{OH^-}$$. La koncentriteco $$[\ce{H^+}]$$ en $$\ce{H2O}$$ ĉe normala temperaturo estas proksimume $$\pu{0,0000001 mol/l}$$. Do nun vi povas elkalkuli la pH-valoron de pura akvo kaj poste kontroli en la eksperimento.
 
 <script>
   let lab; // la laboratorio kaj iloj
@@ -218,3 +218,32 @@ Necesas scii, ke ankaŭ en pura akvo ties molekuloj iomete disociiĝas al jonoj 
     ]]>
   </style>
 </svg>
+
+## Kalkule taksi pH-valoron de konata acido
+{: .sekcio}
+
+Konante la konstanton $$K_a$$ kaj la originan koncentritecon $$[\ce{HA}]_0$$ de acido oni cetere povas proksimume elkalkuli la pH-valoron de akva solvaĵo. 
+
+Por forta acido kiel $$\ce{HCl}$$ oni premisas, ke cent procentoj de la acido disociiĝas, do laŭ la formulo (1) oni ricevas:
+
+$$\begin{align}[\ce{H+}] &= [\ce{HCl}]_0 \\ pH &= -log([\ce{HCl}]_0)\end{align}$$
+
+Por malforta acido oni devas uzi la ekvacion (2). Nur malgranda parto de acido disociiĝas 
+al sama nombro de protonoj kaj jonoj da acidresto. Do serĉante la valoron $$x = [\ce{HA}]_0 - [\ce{HA}] = [\ce{H+}] = [\ce{A-}]$$ ĉe la ekvilibro, ni ricevas la ekvacion:
+
+$$\begin{align}
+K_a = \frac{x \cdot x}{[\ce{HA}]_0-x} &\approx \frac{x^2}{[\ce{HA}]_0}, x \ll [\ce{HA}]_0\\
+x &\approx \sqrt{K_a \cdot [\ce{HA}]_0}\\
+pH &\approx \frac{1}{2}(pK_a - log[\ce{HA}]_0)
+\end{align}$$
+
+Ekzemple, per tiu formulo, por vinagro kun 10% da $$\ce{CH3COOH}$$, kun [mola maso](unuoj_grandoj) 
+de $$\pu{60 g/mol}$$, do $$\pu{0,17 mol/l}$$ kaj $$pKa = 4,75$$ ni ricevas:
+
+$$pH = \frac{1}{2}(4,75 - log(0,17)) \approx 2,8 $$
+
+
+## fontoj
+{: .fontoj}
+
+[^cd]: [Säuren (Chemie)](https://www.chemie.de/lexikon/S%C3%A4uren.html)

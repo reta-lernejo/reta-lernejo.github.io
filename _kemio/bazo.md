@@ -25,7 +25,7 @@ paĝo en preparo....
 
 *Bazoj* estas ĥemiaj kombinaĵoj, kiuj aŭ enhavas hidroksidjonon $$\ce{OH-}$$ kaj disociiĝas en akvo al metalo kaj hidroksidjonoj, ekzemple[^cd]:
 
-$$\ce{NaOH <-> Na+ + OH-}$$
+$$\ce{NaOH <-> Na+ + OH-} \tag{1}$$
 
 Solvaĵojn de tiaj bazoj en akvo oni nomas ankaŭ *alkala solvaĵo* aŭ *lesivo*.
 
@@ -33,9 +33,20 @@ Aliaj bazoj ne enhavas hidroksidon, sed en akvo akceptas protonojn postlastante 
 
 $$\ce{NH3 + H2O <-> NH4^+ + OH-}$$
 
-Ĉar tiuj hidroksijonoj povas kuniĝi kun superfluaj H+-jonoj al akvomolekuloj, bazoj reduktas la koncentritecon de H+-jonoj kaj tiel *malacidigas* aŭ *neŭtraligas* acidan solvaĵon.
+Ĉar tiuj hidroksidjonoj povas kuniĝi kun superfluaj H+-jonoj al akvomolekuloj, bazoj reduktas la koncentritecon de H+-jonoj kaj tiel *malacidigas* aŭ *neŭtraligas* acidan solvaĵon.
 
-<!-- pOH, valoro, sumo pH + pOH = 14 / Kw Kdiss... 
+Analoge al acidoj oni difinas bazokonstanton per formulo:
+
+$$K_b = \frac{[\ce{OH^-}] \cdot [\ce{BH^+}]}{[\ce{B}]} \tag{2}$$
+
+kaj
+
+$$pOH = -log([\ce{OH^-}]) = pK_b - log(\frac{[\ce{B}]}{[\ce{BH^+}]}), pK_b = -log(K_b \cdot \pu{1 l/mol})$$
+
+<!--
+https://de.wikipedia.org/wiki/Dissoziation_(Chemie)
+Ka*Kb = 10e-14
+=> pOH, valoro, sumo pH + pOH = 14 / Kw Kdiss... 
 https://www.chemie.de/lexikon/PH-Wert.html
 https://de.wikipedia.org/wiki/PH-Wert#pOH-Wert
 -->
@@ -170,6 +181,26 @@ https://de.wikipedia.org/wiki/PH-Wert#pOH-Wert
     ]]>
   </style>
 </svg>
+
+## Kalkule taksi pOH- kaj pH-valorojn de konata bazo
+{: .sekcio}
+
+Konante la konstanton $$K_b$$ kaj la originan koncentritecon $$[\ce{B}]_0$$ de bazo oni povas proksimume elkalkuli la pOH- kaj pH-valorojn de akva solvaĵo. Oni aplikas la analogajn premisojn kaj simpligojn kiel ĉe pH-kalkulo de acidoj.
+
+
+Por forta bazo kiel $$\ce{NaOH}$$ oni premisas, ke cent procentoj de la bazo disociiĝas, do laŭ la formulo (1) oni ricevas:
+
+$$\begin{align}[\ce{OH-}] &= [\ce{NaOH}]_0 \\ pOH &= -log([\ce{NaOH}]_0)\end{align}$$
+
+Por malforta bazo oni devas uzi la ekvacion (2). Nur malgranda parto de tia bazo disociiĝas. Do serĉante la valoron $$x = [\ce{B}]_0 - [\ce{B}] = [\ce{OH-}] = [\ce{BH+}]$$ ĉe la ekvilibro, oni ricevas la ekvacion:
+
+$$\begin{align}
+K_b = \frac{x \cdot x}{[\ce{B}]_0-x} &\approx \frac{x^2}{[\ce{B}]_0}, x \ll [\ce{B}]_0\\
+x &\approx \sqrt{K_b \cdot [\ce{B}]_0}\\
+pOH &\approx \frac{1}{2}(pK_b - log[\ce{B}]_0)
+\end{align}$$
+
+La pH-valoron en akva solvaĵo ĉe temperaturo de 25°C oni ricevas kiel $$pH = 14 - pOH$$
 
 ## fontoj
 {: .fontoj}
