@@ -14,6 +14,10 @@ Jen elekto de kelkaj UML-diagramoj je ekzemplo de bazaro montras, kiel ili helpa
 
  
 ## Diagramo de uzokazoj
+
+<!-- ĉu ni povus krei la UML-diagramojn interage, vd: https://modeling-languages.com/javascript-drawing-libraries-diagrams/
+tiam la uzanto povus rekte ekzerci faratante ŝanĝojn... (por ekzemplo kun "mermaid.js" vd ekviarboj!)
+-->
  
 ![uzokazoj](../assets/uml/uzokazoj.png)  
 bildo 1: Uzokazoj de bazaro
