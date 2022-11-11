@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Kemiaj reakcioj
 chapter: "3"
-next_ch: molo
+next_ch: r_unuoj_grandoj
 js:
   - folio-0b
   - sekcio-0b 

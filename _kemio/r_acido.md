@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Acidoj
 chapter: "3.3.1"
-next_ch: "bazo"
+next_ch: r_bazo
 js:
   - folio-0b
   - sekcio-0b 

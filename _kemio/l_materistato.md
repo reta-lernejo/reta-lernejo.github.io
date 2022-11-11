@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Statoj de materio
 chapter: "2.6"
-next_ch: solvajho
+next_ch: l_solvajho
 js:
   - folio-0b
 ---

@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Metala ligado
 chapter: "2.3"
-next_ch: elektronegativeco
+next_ch: l_elektronegativeco
 js:
   - folio-0a
   - svg-0c

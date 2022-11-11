@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Kovalentaj ligoj
 chapter: "2.2"
-next_ch: metala_ligo
+next_ch: l_metala_ligo
 js:
   - folio-0a
   - lewis-0c

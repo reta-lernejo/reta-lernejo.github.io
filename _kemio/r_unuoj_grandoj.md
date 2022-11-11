@@ -1,7 +1,8 @@
 ---
 layout: laborfolio
-title: Unuoj  kaj grandoj
-chapter: 3.1.1
+title: Unuoj kaj grandoj
+chapter: "3.1.1"
+next_ch: r_precipito
 js:
   - folio-0b
   - sekcio-0b 

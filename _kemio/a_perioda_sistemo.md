@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Perioda sistemo de elementoj
 chapter: "1.2"
-next_ch: atomaj_fortoj
+next_ch: l_atomaj_fortoj
 js:
   - folio-0b
   - sekcio-0b

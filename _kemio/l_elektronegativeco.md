@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Elektronegativeco
 chapter: "2.4"
-next_ch: intermolekulaj_fortoj
+next_ch: l_intermolekulaj_fortoj
 js:
   - folio-0a
   - sekcio-0b

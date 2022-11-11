@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Distribuo de elektronoj
 chapter: "1.1"
-next_ch: perioda_sistemo
+next_ch: a_perioda_sistemo
 js:
   - folio-0a
   - sekcio-0b 

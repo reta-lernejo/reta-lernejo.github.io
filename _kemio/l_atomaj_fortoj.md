@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Interatomaj fortoj
 chapter: "2"
-next_ch: jona_ligo
+next_ch: l_jona_ligo
 js:
   - mathjax/es5/tex-chtml
 ---

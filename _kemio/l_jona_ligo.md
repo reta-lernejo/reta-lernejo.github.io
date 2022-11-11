@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Jonaj ligoj
 chapter: "2.1"
-next_ch: kovalenta_ligo
+next_ch: l_kovalenta_ligo
 js:
   - folio-0a
   - lewis-0b

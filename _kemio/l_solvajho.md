@@ -2,7 +2,7 @@
 layout: laborfolio
 title: "Solvaĵoj"
 chapter: "2.7"
-next_ch: reakcioj
+next_ch: r_reakcioj
 js:
   - folio-0b
   - sekcio-0b 

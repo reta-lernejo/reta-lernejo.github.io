@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Intermolekulaj fortoj
 chapter: "2.5"
-next_ch: materistato
+next_ch: l_materistato
 js:
   - folio-0a
   - sekcio-0b 

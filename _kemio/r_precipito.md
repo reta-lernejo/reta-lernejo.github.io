@@ -2,6 +2,7 @@
 layout: laborfolio
 title: Precipitaj reakcioj
 chapter: "3.2"
+next_ch: r_acido
 js:
   - folio-0b
   - sekcio-0b 

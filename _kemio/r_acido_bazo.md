@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Acido-bazo-reakcioj
-chapter: 3.3.3
+chapter: "3.3.3"
 js:
   - folio-0b
   - sekcio-0b 

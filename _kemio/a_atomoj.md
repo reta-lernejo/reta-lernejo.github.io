@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Atomoj kaj elementoj
 chapter: "1"
-next_ch: elektrondistribuo
+next_ch: a_elektrondistribuo
 js:
   - folio-0a
   - sekcio-0b
@@ -38,6 +38,3 @@ La atommodelo evoluiĝis kun la progreso de la scienco ekde la antikvo ĝis nunt
 ## fontoj
 {: .fontoj}
 [^C1]: [(de) Atommodell](https://www.chemie.de/lexikon/Atommodell.html#:~:text=Ein%20Atommodell%20ist%20ein%20Modell,erkl%C3%A4ren%2C%20wurden%20aber%20auch%20komplizierter.)
-
-
-
