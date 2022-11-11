@@ -573,8 +573,10 @@ eksperimentoj:
         stroke: gray;
         stroke-width: 0.5;
         stroke-dasharray: 5 10;
+        /*
         fill: #8cd;
-        fill-opacity: 0.6;
+        fill-opacity: 0.6;*/
+        fill: url(#vitro);
       }
 
       .vitro {
