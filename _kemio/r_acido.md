@@ -237,10 +237,10 @@ x &\approx \sqrt{K_a \cdot [\ce{HA}]_0}\\
 pH &\approx \frac{1}{2}(pK_a - log[\ce{HA}]_0)
 \end{align}$$
 
-Ekzemple, per tiu formulo, por vinagro kun 10% da $$\ce{CH3COOH}$$, kun [mola maso](unuoj_grandoj) 
-de $$\pu{60 g/mol}$$, do $$\pu{0,17 mol/l}$$ kaj $$pKa = 4,75$$ ni ricevas:
+Ekzemple, per tiu formulo, por vinagro kun 5% da $$\ce{CH3COOH}$$, kun [mola maso](unuoj_grandoj) 
+de $$\pu{60 g/mol}$$, do $$\pu{0,083 mol/l}$$ kaj $$pKa = 4,75$$ ni ricevas:
 
-$$pH = \frac{1}{2}(4,75 - log(0,17)) \approx 2,8 $$
+$$pH \approx \frac{1}{2}(4,75 - log(0,083)) \approx 2,9 $$
 
 
 ## fontoj
