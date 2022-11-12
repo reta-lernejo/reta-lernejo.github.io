@@ -122,6 +122,15 @@ La *mola maso*, t.e. la maso de unu molo de tiu substanco, tiam kalkuliĝas el l
     xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 195 115">
 </svg>
 
+
+<!-- 
+
+## Energio
+## Entropio
+## Entalpio, normform-entalpio...
+
+-->
+
 ## fontoj
 {: .fontoj}
 

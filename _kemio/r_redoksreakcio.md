@@ -17,6 +17,10 @@ energio konsumiĝas - endoterma. Ekzoterma redoksreakcio nomiĝas ankaŭ bruliĝ
 
 La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oksidilo. La alia reakcianto, kiu oksidiĝas reduktante la duan, estas nomata reduktilo.
 
+<!-- teorio kaj eksperimentoj:
+https://www.youtube.com/watch?v=35zo207gks0 - Die Redoxreaktion - Teil 1 (Theorie und Versuche)
+-->
+
 <!-- klarigu duon-reakciojn... 
 https://en.wikipedia.org/wiki/Half-reaction
 https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/electrochemistry/02half_reactions/18_21.htm

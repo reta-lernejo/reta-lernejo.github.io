@@ -2,6 +2,9 @@
 layout: home
 ---
 
+!!! Vi ne havas retkonekton aŭ la retservo ne estas atingebla !!!
+{: style="color: red"}
+
 ![Korvo](corvus.jpg){: width="200px"}
 
 Ni volas tie ĉi kolekti lernmaterialon pri diversaj fakoj. 
