@@ -156,7 +156,7 @@ N: nitrogeno, O: oksigeno, F: fluoro, Ne: neono ktp.
 ## perioda sistemo de elementoj
 {: .sekcio}
 
-Montriĝas ke elementoj kun simila [distribuo de elektronoj](elektrondistribuo) en la plej altaj orbitaloj 
+Montriĝas ke elementoj kun simila [distribuo de elektronoja_elektrondistribuo) en la plej altaj orbitaloj 
 havas similajn ĥemiajn ecojn. Elementojn kun similantaj ecoj oni ordigas laŭ kolumnoj,
 la *grupoj*, tiel ricevante tabelon.
 

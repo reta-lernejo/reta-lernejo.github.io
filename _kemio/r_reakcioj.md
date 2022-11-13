@@ -10,7 +10,7 @@ js:
 ---
 
 Fundamentaj nocioj
-- [Unuoj kaj grandoj](unuoj_grandoj)
+- [Unuoj kaj grandoj](r_unuoj_grandoj)
 
 <!--
 - leĝo de masefiko, ekvilibro, entalpio, teoremo de Hess 1+2...
@@ -24,8 +24,8 @@ https://en.wikipedia.org/wiki/Chemical_reaction
 
 Oni distingas multajn specojn de ĥemiaj reakcioj. Gravaj tipoj estas:
 
-- [precipitaj reakcioj](precipito)
-- [acido-bazo-reakcioj](acido_bazo)
+- [precipitaj reakcioj](r_precipito)
+- [acido-bazo-reakcioj](r_acido_bazo)
 - redoksaj reakcioj
 - kompleksformaj reakcioj
 - fotoĥemia reakcio

@@ -8,7 +8,7 @@ js:
 ---
 
 En ĥemio rolas precipe la elektronoj de la eksteraj orbitaloj.
-Vidu la paĝon pri [elektrondistribuo](elektrondistribuo). <!-- Oni nomas ilin valentaj elektronoj. -->
+Vidu la paĝon pri [elektrondistribuo](a_elektrondistribuo). <!-- Oni nomas ilin valentaj elektronoj. -->
 
 Ĉe la elementoj de la ĉefaj grupoj en la perioda sistemo de elementoj
 tio estas la elektronoj de la p- kaj s-orbitaloj. Ilia nombro deriviĝas de
@@ -26,11 +26,11 @@ Tial oni nomas ĝin la regulo de la ok.
 
 Por atingi tion, atomoj ligiĝas inter si laŭ tri bazaj manieroj: 
 
-1. metaloj donas troajn elektronojn al nemetaloj, formas [jonajn ligojn](jona_ligo);
+1. metaloj donas troajn elektronojn al nemetaloj, formas [jonajn ligojn](l_jona_ligo);
    ekzemplo estas ordinara salo uzata en la kuirejo ($$\ce{NaCl}$$)
-2. nemetaloj uzas kelkajn eksterajn elektronparojn komune en [kovalentaj ligoj](kovalenta_ligo) tiel formante molekulojn; ekzemplo 
+2. nemetaloj uzas kelkajn eksterajn elektronparojn komune en [kovalentaj ligoj](l_kovalenta_ligo) tiel formante molekulojn; ekzemplo 
    estas akvo ($$\ce{H2O}$$) aŭ oksigno ($$\ce{O2}$$)
-3. metaloj formas kradon de pozitivaj jonoj inter kiuj elektroj povas libere moviĝi, kion oni nomas [metala ligado](metala_ligo)
+3. metaloj formas kradon de pozitivaj jonoj inter kiuj elektroj povas libere moviĝi, kion oni nomas [metala ligado](l_metala_ligo)
 
 Ĉar noblaj gasoj troviĝas jam en favora stato ili tre malofte aperas en molekuloj.
 

@@ -446,7 +446,7 @@ tiu prezento estas aranĝitaj tiel, ke la supraj havas pli altan energinivelon o
 </script>
 
 La konstruo de atomoj kaj aparte la distribuo de la elektronoj influas la ĥemiajn ecojn de la elementoj
-kaj per tiuj ecoj oni enordigas ilin en la [periodan sistemon de elementoj](perioda_sistemo).
+kaj per tiuj ecoj oni enordigas ilin en la [periodan sistemon de elementoj](a_perioda_sistemo).
 
 ## fontoj
 {: .fontoj}

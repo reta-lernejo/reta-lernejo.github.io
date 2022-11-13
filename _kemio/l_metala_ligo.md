@@ -15,7 +15,7 @@ https://en.wikipedia.org/wiki/Metallic_bonding
 -->
 
 Metaloj havas mankon de elektronoj en siaj eksteraj altenergiaj 
-[orbitaloj](elektrondistribuo). Tiel iliaj atomoj povas 
+[orbitaloj](a_elektrondistribuo). Tiel iliaj atomoj povas 
 formi inter si densan kradon, kie orbitaloj de najbaraj atomoj 
 parte okupas la saman spacon.
 
@@ -138,7 +138,7 @@ per siaj negativaj ŝargoj kvazaŭ fluan gluaĵon inter la pozitive ŝargitaj ka
 </svg>
 
 Do metala ligado estas unuflanke karakterizita per translokiĝo de elektronoj 
-kiel ĉe [jona ligado](jona_ligo) kaj aliflanke elektronoj estas komunigitaj 
-kiel ĉe [kovalenta ligado](kovalenta_ligo). Sekve metala krado estas fenomeno
+kiel ĉe [jona ligado](l_jona_ligo) kaj aliflanke elektronoj estas komunigitaj 
+kiel ĉe [kovalenta ligado](l_kovalenta_ligo). Sekve metala krado estas fenomeno
 dunatura havanta ecojn kaj de jona krado kaj de grandega molekulo.
 
