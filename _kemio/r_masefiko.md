@@ -7,7 +7,6 @@ js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
-  - kadrarb-0a
 ---
 
 <!--
@@ -33,50 +32,89 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
 
 -->
 
-<canvas id="kampo" height="320" width="480"></canvas>
+<style>
+    canvas {
+        border: 2px solid cornflowerblue;
+    }
+</style>
+
+<canvas id="kampo" width="480" height="320"></canvas>
 
 <script>
 
 const canvas = document.getElementById("kampo");
+const WIDTH = canvas.getAttribute("width");
+const HEIGHT = canvas.getAttribute("height");
+const K = 10, KW = WIDTH/K; // ni uzas 10x10-kahelojn por faciligi la kolizi-simuladon k.s.
+  // atentu ke WIDTH kaj HEIGHT devas est multobloj de K!
+
 // kolizi-detektilo
-const akarbo = new AKArbo(new AKadro([0,0],[480,320])); // estu sama grandeco kiel #kampo!
 const ctx = canvas.getContext("2d");
 
-const n_eroj = 2; // nombro da eroj
+const n_eroj = 12; // nombro da eroj
 const r_ero = 10; // radiuso de eroj
+const v_max = 10;
 
-var x = canvas.width / 2;
-var y = canvas.height - 30;
-var dx = 2;
-var dy = -2;
-
-let eroj = [];
+// kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
+let eroj = [], 
+kaheloj = Array.apply(null, Array(WIDTH/K * HEIGHT/K))
+    .map(() => []);
 for (let n = 0; n < n_eroj; n++) {
-    const poz = [0,0]
-    eroj[n] = { poz: poz };
-    akarbo.adonu(n,poz,[r_ero,r_ero]);
+    const e = {
+        n: n,
+        k: n%2,
+        x: Math.random() * WIDTH,
+        y: Math.random() * HEIGHT,
+        vx: Math.random() * v_max,
+        vy: Math.random() * v_max
+    }
+    const kx = Math.trunc(e.x/K);
+    const ky = Math.trunc(e.y/K);
+    const k = ky*KW+kx;
+    kaheloj[k].push(e);
 }
 
-function kolizioj() {
-    // provizore, teste nur testu maldekstran kampon...
-    const ik = akarbo.interkovroj([0,0],[240,320]);
-    console.log("interkovroj: "+ik.join(', '));
+function procezo() {
+    for (const kahelo of kaheloj) {
+        for (e of kahelo) {
+            // momente ni nur movas la erojn
+            let nx = e.x + e.vx;
+            if (nx < 0 || nx > WIDTH) {
+                e.vx = - e.vx;
+                nx = e.x + e.vx;
+            }
+            let ny = e.y + e.vy;
+            if (ny < 0 || ny > HEIGHT) {
+                e.vy = -e.vy;
+                ny = e.y + e.vy;
+            }
+            e.x = nx;
+            e.y = ny;
+        }
+    }
 }
 
-function globo() {
+function globo(e) {
+    const koloro = e.k? "#0095DD" : "#DD9900";
     ctx.beginPath();
-    ctx.arc(x, y, r_ero, 0, Math.PI * 2);
-    ctx.fillStyle = "#0095DD";
+    ctx.arc(e.x, e.y, r_ero, 0, Math.PI * 2);
+    ctx.fillStyle = koloro;
     ctx.fill();
     ctx.closePath();
 }
 
-
 function pentru() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
-    kolizioj();
 
+    for (const kahelo of kaheloj) {
+        for (e of kahelo) {
+            globo(e);
+        }
+    }
+
+    procezo();
+    // kolizioj();
+/*
     if (x + dx > canvas.width - r_ero || x + dx < r_ero) {
         dx = -dx;
     }
@@ -86,7 +124,8 @@ function pentru() {
 
     x += dx;
     y += dy;
+    */
 }
 
-var interval = setInterval(pentru, 10);
+var interval = setInterval(pentru, 50);
 </script>
