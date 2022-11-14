@@ -40,6 +40,12 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
 
 <canvas id="kampo" width="480" height="320"></canvas>
 
+|$$c(A)$$||
+|$$c(B)$$||
+|$$c(AB)$$||
+|$$v(\ce{A + B -> AB})$$||
+|$$v(\ce{AB -> A + B})$$||
+
 <script>
 
 const canvas = document.getElementById("kampo");
