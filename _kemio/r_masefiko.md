@@ -42,10 +42,10 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
     }
 
     td:first-child {
-        width: 70%;
+        width: 60%;
     }
     td:nth-child(2) {
-        width: 30%;
+        width: 20%;
     }
 </style>
 
@@ -64,12 +64,15 @@ koncentritecoj de A (=B) kaj de AB (dukolora)
 |$$c(AB)$$|<span id="cAB"/>|
 
 <canvas id="rapidoj" width="480" height="320"></canvas>
-rapidecoj de kombino (dukolora) kaj malkombino; proporcio de koncentritecoj (nigra);
+rapidecoj de kombino (dukolora) kaj malkombino (flava); 
+ekvilibraj konstantoj: $$k_{tien}$$ (verda), $$k_{reen}$$ (ruĝa), proporcio (nigra);
 logaritma skalo
 
-|$$v(\ce{A + B -> AB})$$|<span id="vkun"/>|
-|$$v(\ce{AB -> A + B})$$|<span id="vdis"/>|
-|$$K = c(AB) / (c{A} \cdot c{B})$$|<span id="Ke"/>|
+|$$v_{tien} (\ce{A + B -> AB})$$|<span id="vkun"/>|
+|$$v_{reen} (\ce{AB -> A + B})$$|<span id="vdis"/>|
+|$$k_{tien} = v_{tien} / (c(A) \cdot c(B))$$|<span id="ktien"/>|
+|$$k_{reen} = v_{reen} / c(AB)$$|<span id="kreen"/>|
+|$$K = c(AB) / (c{A} \cdot c{B}) = k_{tien}/k_{reen}$$|<span id="Ke"/>|
 
 <script>
 
@@ -84,6 +87,9 @@ const WIDTH = canvas.getAttribute("width");
 const HEIGHT = canvas.getAttribute("height");
 const K = 16, KW = WIDTH/K; // ni uzas 16x16-kahelojn por faciligi la kolizi-simuladon k.s.
   // atentu ke WIDTH kaj HEIGHT devas est multobloj de K!
+
+linio(HEIGHT/2,dgr_r);
+linio(3/4*HEIGHT,dgr_r);
 
 const n_eroj = 1000; // nombro da eroj
 const r_ero = 2; // radiuso de eroj
@@ -105,8 +111,8 @@ let v = Array.apply(null, new Array(Ti))
 let m_alt = 1;
 
 // kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
-let eroj = [], 
-kaheloj = Array.apply(null, new Array(WIDTH/K * HEIGHT/K))
+let eroj = [];
+let kaheloj = Array.apply(null, new Array(WIDTH/K * HEIGHT/K))
     .map(() => new Object());
 for (let n = 0; n < n_eroj; n++) {
     const e = {
@@ -268,10 +274,10 @@ function procezo(m) {
         // PLIBONIGU v estu -k1 * c(A)*c(B) resp. -k1 * c(AB)
         // ĉu tamen ni uzu absolutajn nombrojn aŭ ni dividu tra
         // n_eroj?
-        const vkun = (kun/t).toPrecision(3);
-        const vdis = (dis/t).toPrecision(3);
-        ĝi("#vkun").textContent = vkun;
-        ĝi("#vdis").textContent = vdis; 
+        const vkun = kun/t;
+        const vdis = dis/t;
+        ĝi("#vkun").textContent = vkun.toPrecision(3);
+        ĝi("#vdis").textContent = vdis.toPrecision(3);
 
         /*
         ero({k: -1, x: T, y: HEIGHT-vdis/2*HEIGHT},dgr_r);
@@ -284,19 +290,35 @@ function procezo(m) {
         ero({k: 0, x: T, y: HEIGHT/2
             - Math.log10(vkun)*50},dgr_r);
 
+        const k_tien = vdis / (k_nombroj[-1]*k_nombroj[1]);
+        const k_reen = vkun / k_nombroj[0];
+        ero({k: "#0d0", x: T, y: 3/4*HEIGHT
+            - Math.log10(k_tien)*10},dgr_r);
+        ero({k: "#d00", x: T, y: 3/4*HEIGHT
+            - Math.log10(k_reen)*10},dgr_r);
+        ĝi("#kreen").textContent = k_reen.toPrecision(3);
+        ĝi("#ktien").textContent = k_tien.toPrecision(3);
+
         // Ke
         const Ke = (k_nombroj[0]/(k_nombroj[-1]*k_nombroj[1])).toPrecision(3);
-        ero({k: 99, x: T, y: HEIGHT/2
-            - Math.log10(Ke)*50},dgr_r);
+        ero({k: "#000", x: T, y: 3/4*HEIGHT
+            - Math.log10(Ke)*10},dgr_r);
         ĝi("#Ke").textContent = Ke;
     }
 
 }
 
+function linio(y,ctx) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(WIDTH,y);
+    ctx.stroke();
+}
+
 function ero(e,ctx) {
     // unu ero tipo -1 aŭ 1
     if (e.k) {
-        const koloro = {"-1": "#DD9900", "1": "#0095DD", "99": "#000"}[e.k];
+        const koloro = {"-1": "#DD9900", "1": "#0095DD"}[e.k] || e.k;
         ctx.beginPath();
         ctx.arc(e.x, e.y, r_ero, 0, Math.PI * 2);
         ctx.fillStyle = koloro;
