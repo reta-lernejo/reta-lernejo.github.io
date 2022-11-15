@@ -57,7 +57,10 @@ $$[\ce{H^+}] = K_a \cdot \frac{[\ce{HA}]}{[\ce{A^-}]}$$
 
 Ĉar koncentritecoj povas esti nombroj kun multaj nuloj oni prefere uzas tiun ekvacion en logaritma formo (uzante la negativan dekuman logaritmon):
 
-$$pH = -log([\ce{H^+}]) = pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]}), pK_a = -log(K_a \cdot \pu{1 l/mol})$$
+$$\begin{align}
+pH = -log([\ce{H^+}]) &= pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]})\\
+\text{kun } pK_a &= -log(K_a \cdot \pu{1 l/mol})
+\end{align}$$
 
 Tiu formo nomiĝas *ekvacio de Hendersson-Hasselbalch*. La uzado de la dekuma logaritmo praktike tre faciligas la kalkuladon. Se oni ekzemple scias la valoron pH de iu acido kun donita koncentriteco, oni ricevas la respondan pH-valoron de tiu acido en dekona koncentriteco simple adiciante 1. (Tamen atentu, ke la montrita ekvacio estas simpligo, kiu aparte ne plu validas ĉe tre diluitaj acidoj!)
 
@@ -229,7 +232,7 @@ Por forta acido kiel $$\ce{HCl}$$ oni premisas, ke cent procentoj de la acido di
 $$\begin{align}[\ce{H+}] &= [\ce{HCl}]_0 \\ pH &= -log([\ce{HCl}]_0)\end{align}$$
 
 Por malforta acido oni devas uzi la ekvacion (2). Nur malgranda parto de acido disociiĝas 
-al sama nombro de protonoj kaj jonoj da acidresto. Do serĉante la valoron $$x = [\ce{HA}]_0 - [\ce{HA}] = [\ce{H+}] = [\ce{A-}]$$ ĉe la ekvilibro, ni ricevas la ekvacion:
+al sama nombro de protonoj kaj jonoj da acidresto. Do serĉante la valoron $$x = [\ce{HA}]_0 - [\ce{HA}] = [\ce{H+}] = [\ce{A-}]$$ ĉe la ekvilibro, ni ricevas la ekvacion[^ph]:
 
 $$\begin{align}
 K_a = \frac{x \cdot x}{[\ce{HA}]_0-x} &\approx \frac{x^2}{[\ce{HA}]_0}, x \ll [\ce{HA}]_0\\
@@ -247,3 +250,4 @@ $$pH \approx \frac{1}{2}(4,75 - log(0,083)) \approx 2,9 $$
 {: .fontoj}
 
 [^cd]: [Säuren (Chemie)](https://www.chemie.de/lexikon/S%C3%A4uren.html)
+[^ph]: [pH-Wert](https://www.cup.uni-muenchen.de/puchinger/glossar/glossarB3_2.html)
