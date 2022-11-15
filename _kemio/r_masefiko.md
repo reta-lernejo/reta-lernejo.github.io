@@ -257,43 +257,39 @@ function procezo(m) {
         ero({k: -1, x: T, y: HEIGHT - k_nombroj[-1]/n_eroj * 2 * HEIGHT},dgr_n);
         // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
         ero({k: 0, x: T, y: HEIGHT - k_nombroj[0]/n_eroj * 2 * HEIGHT},dgr_n);
-    }
 
-    ĝi("#cA").textContent = k_nombroj[-1];
-    //ĝi("#cB").textContent = k_nombroj[1];
-    ĝi("#cAB").textContent = k_nombroj[0];
+        ĝi("#cA").textContent = k_nombroj[-1];
+        //ĝi("#cB").textContent = k_nombroj[1];
+        ĝi("#cAB").textContent = k_nombroj[0];
 
-    if (T>=Ti) {
         let kun=0, dis=0;
+        const t = Math.min(T,Ti);
         v.map((vt) => {kun += vt.kun; dis += vt.dis});
         // PLIBONIGU v estu -k1 * c(A)*c(B) resp. -k1 * c(AB)
         // ĉu tamen ni uzu absolutajn nombrojn aŭ ni dividu tra
         // n_eroj?
-        const vkun = -(kun/Ti).toPrecision(3);
-        const vdis = -(dis/Ti).toPrecision(3);
+        const vkun = (kun/t).toPrecision(3);
+        const vdis = (dis/t).toPrecision(3);
         ĝi("#vkun").textContent = vkun;
         ĝi("#vdis").textContent = vdis; 
 
-        if (T<WIDTH) {
-            /*
-            ero({k: -1, x: T, y: HEIGHT-vdis/2*HEIGHT},dgr_r);
-            // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
-            ero({k: 0, x: T, y: HEIGHT-vkun/2*HEIGHT},dgr_r);
-            */
-            ero({k: -1, x: T, y: HEIGHT/2
-                - Math.log10(-vdis)*50},dgr_r);
-            // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
-            ero({k: 0, x: T, y: HEIGHT/2
-                - Math.log10(-vkun)*50},dgr_r);
-        }
+        /*
+        ero({k: -1, x: T, y: HEIGHT-vdis/2*HEIGHT},dgr_r);
+        // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
+        ero({k: 0, x: T, y: HEIGHT-vkun/2*HEIGHT},dgr_r);
+        */
+        ero({k: -1, x: T, y: HEIGHT/2
+            - Math.log10(vdis)*50},dgr_r);
+        // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
+        ero({k: 0, x: T, y: HEIGHT/2
+            - Math.log10(vkun)*50},dgr_r);
 
+        // Ke
+        const Ke = (k_nombroj[0]/(k_nombroj[-1]*k_nombroj[1])).toPrecision(3);
+        ero({k: 99, x: T, y: HEIGHT/2
+            - Math.log10(Ke)*50},dgr_r);
+        ĝi("#Ke").textContent = Ke;
     }
-
-    // Ke
-    const Ke = (k_nombroj[0]/(k_nombroj[-1]*k_nombroj[1])).toPrecision(3);
-    ero({k: 99, x: T, y: HEIGHT/2
-        - Math.log10(Ke)*50},dgr_r);
-    ĝi("#Ke").textContent = Ke;
 
 }
 
