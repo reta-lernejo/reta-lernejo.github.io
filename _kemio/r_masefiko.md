@@ -7,6 +7,7 @@ js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
+  - k_masefiko-0a
 ---
 
 <!--
@@ -32,47 +33,96 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
 
 -->
 
+Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. La plej multaj reakcioj okazas ne en nur unu direkto kaj komplete, sed en ambaŭ direktoj ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido. 
+
+En solvaĵoj, krom de ĝeneralaj cirkonstancoj kiel temperaturo kaj premo, la rapido de reakcio dependas de la varianta koncentriteco de partoprenantaj substancoj per koeficientoj $$k_{tien}$$ kaj $$k_{reen}$$. Por 
+simpla reakcio $$\ce{A + B <-> AB}$$, t.e.:
+
+$$v_{tien}  =  k_{tien} \cdot c(A) \cdot c(B) \tag{1}$$
+
+$$v_{reen}  =  k_{reen} \cdot c(AB) \tag{2}$$
+
+Pli ĝenerale la rapido dependas de la produkto de la koncentritecoj de la reakciantaj substancoj.
+
+Kiam la reakcio troviĝas en ekvilibro, (1) kaj (2) havas saman valoron kaj do la proporcio inter la koncentritecoj estas priskribita de konstanta nombro[^cu1]:
+
+$$K = \frac{c(AB)}{c(A) \cdot c(B)} = \frac{k_{tien}}{k_{reen}}$$
+
+Tiun rilaton oni nomas *leĝo de masefiko* formulitan de de Cato Maximilian Guldberg kaj Peter Waage. (Ĝi validas ankaŭ por reakcioj de gasoj, kie oni uzas la partajn premojn de la unuopaj gasoj anstataŭ la koncentritecon. Estas notinde, ke tiu ĉi kineta klarigo de la leĝo de masefiko estas aplikebla ne al ĉiaj reakcioj; ekzemple plurpaŝaj, kiuj okazas sub influo de fotoĥemiaj fenomenoj. Ekzistas pli ĝenerala termodinamika priskribo per la energio de Gibbs.)
+
+En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
+
+## eksperimento
+{: .sekcio}
+
 <style>
     canvas {
         border: 2px solid cornflowerblue;
     }
-
     table {
         table-layout: fixed;
     }
-
     td:first-child {
         width: 60%;
     }
     td:nth-child(2) {
         width: 20%;
     }
+    label {
+        padding: 0.2em;
+        border-radius: 4px;
+        border: 1px dotted cornflowerblue;
+        border-left: none;
+    }
 </style>
 
-|koncentriteco c(A)/c(B)|malalta meza alta|
-|reakciemo A kun B|malalta meza alta|
-|disociiĝemo AB|malalta meza alta|
-|temperaturo|malalta meza alta|
+*koncentriteco c(A)*: ()malalta (x)meza ()alta
+{: .elekto #koncentrA}
+
+*koncentriteco c(B)*: ()malalta (x)meza ()alta
+{: .elekto #koncentrB}
+
+*reakciemo A kun B*: ()malalta (x)meza ()alta
+{: .elekto #reakciem}
+
+*disociiĝemo de AB*: ()malalta (x)meza ()alta
+{: .elekto #disociem}
+
+*temperaturo*: ()malalta (x)meza ()alta
+{: .elekto #temperatur}
+
+<button id="starto">Komencu</button>
+
+<script>
+    elekte((elekto,valoro) => {
+        console.log(elekto+':'+valoro);
+    });
+
+    kiam_klako("#starto",() => {
+        eksperimento();
+    })
+</script>
 
 <canvas id="kampo" width="480" height="320"></canvas>
 simulado de reakcio $$\ce{A + B <-> AB}$$
 
 <canvas id="nombroj" width="480" height="320"></canvas>
-koncentritecoj de A (=B) kaj de AB (dukolora)
+koncentritecoj de A (flava), B (blua) kaj AB (grasa dukolora)
 
-|$$c(A) = c(B)$$|<span id="cA"/>|
+|$$c(A)$$|<span id="cA"/>|
+|$$c(B)$$|<span id="cB"/>|
 |$$c(AB)$$|<span id="cAB"/>|
 
 <canvas id="rapidoj" width="480" height="320"></canvas>
-rapidecoj de kombino (dukolora) kaj malkombino (flava); 
-ekvilibraj konstantoj: $$k_{tien}$$ (verda), $$k_{reen}$$ (ruĝa), proporcio (nigra);
+rapidecoj de kombino (verda) kaj malkombino (ruĝa); 
+ekvilibraj konstantoj: $$k_{tien}$$ (verda), $$k_{reen}$$ (ruĝa), proporcio $$K$$ (nigra);
 logaritma skalo
 
 |$$v_{tien} (\ce{A + B -> AB})$$|<span id="vkun"/>|
 |$$v_{reen} (\ce{AB -> A + B})$$|<span id="vdis"/>|
 |$$k_{tien} = v_{tien} / (c(A) \cdot c(B))$$|<span id="ktien"/>|
 |$$k_{reen} = v_{reen} / c(AB)$$|<span id="kreen"/>|
-|$$K = c(AB) / (c{A} \cdot c{B}) = k_{tien}/k_{reen}$$|<span id="Ke"/>|
+|$$K = c(AB) / (c(A) \cdot c(B)) = k_{tien}/k_{reen}$$|<span id="Ke"/>|
 
 <script>
 
@@ -83,238 +133,108 @@ const dgr_n = d_nombroj.getContext("2d");
 const d_rapidoj = document.getElementById("rapidoj");
 const dgr_r = d_rapidoj.getContext("2d");
 
-const WIDTH = canvas.getAttribute("width");
-const HEIGHT = canvas.getAttribute("height");
-const K = 16, KW = WIDTH/K; // ni uzas 16x16-kahelojn por faciligi la kolizi-simuladon k.s.
-  // atentu ke WIDTH kaj HEIGHT devas est multobloj de K!
+// ni uzas 16x16-kahelojn por faciligi la kolizi-simuladon k.s.
+// larĝo kaj alto estu multoblo de 16!
+const masefiko = new Masefiko(
+    canvas.getAttribute("width"),
+    canvas.getAttribute("height"),
+    16);
 
-linio(HEIGHT/2,dgr_r);
-linio(3/4*HEIGHT,dgr_r);
-
-const n_eroj = 1000; // nombro da eroj
+let n_eroj_A = 500; // nombro da eroj A
+let n_eroj_B = 500; // nombro da eroj B
 const r_ero = 2; // radiuso de eroj
-const v_max = K/2; // 10*K; K(20;  // maksimuma rapideco ~ temperaturo
+let temperaturo = 1; // = maksiuma rapideco: 1*16 (kahelgrando)
+//let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
 
 // probablecoj por kunigo kaj divido
-const p_kunigo = 0.1; //0.1;
-const p_divido = 0.7; //0.0005;
+let p_kunigo = 0.1; //0.1;
+let p_divido = 0.7; //0.0005;
 
-// kiom da ĉiu speco ni havas en iu momento..
-let k_nombroj = {"-1": 0, "0": 0, "1": 0};
-// kiom da tempo pasis kaj kiom da reakcioj okazis 
-const Ti = 30; // tempintervaloj por averaĝi rapidecon
-let T = 0; // la tuta tempo en paŝoj
-let v = Array.apply(null, new Array(Ti))
-    .map(() => Object.create({kun: 0, dis: 0}));
 
-// alterno inter 1 kaj 0 por eviti duoblan movon de eroj
-let m_alt = 1;
+// preparo de la eksperimento
+function preparo() {
+    dgr_n.clearRect(0, 0, d_nombroj.width, d_nombroj.height);
+    dgr_r.clearRect(0, 0, d_rapidoj.width, d_rapidoj.height);
 
-// kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
-let eroj = [];
-let kaheloj = Array.apply(null, new Array(WIDTH/K * HEIGHT/K))
-    .map(() => new Object());
-for (let n = 0; n < n_eroj; n++) {
-    const e = {
-        id: n,
-        m: 1, // alterno inter 0 kaj 1, vd. m_alt
-        k: 1 - 2*(n%2), // tipoj -1 aŭ 1 por unopaj kaj 0 por fanditaj eroj
-        x: Math.random() * WIDTH,
-        y: Math.random() * HEIGHT,
-        vx: Math.random() * 2 * v_max - v_max,
-        vy: Math.random() * 2 * v_max - v_max
-    }
-    const k = kahelo(e.x,e.y);
-    if (k) {
-        k[e.id] = e;
-        k_nombroj[e.k]++;
-    }
+    const d_alto = d_rapidoj.getAttribute("height");
+    linio(d_alto/2,dgr_r);
+    linio(3/4*d_alto,dgr_r);
+
+    masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo);
 }
 
-function kahelo(x,y) {
-    const k = Math.trunc(x/K) + KW * Math.trunc(y/K);
-    if (k>=kaheloj.length) throw(`neniu kahelo ${k} por x: ${x}, y: ${y}`);
-    return kaheloj[k];
-}
-
-/**
- * movas eron e al novaj koordinatoj nx, ny,
- * se necese ankaŭ al nova kahelo
- */
-function kmovo(e,nx,ny) {
-    const x = e.x;
-    const y = e.y;
-    const kx = Math.trunc(x/K);
-    const ky = Math.trunc(y/K);
-    const nkx = Math.trunc(nx/K);
-    const nky = Math.trunc(ny/K);
-    e.x = nx; e.y = ny;
-    if (kx != nkx || ky != nky) {
-        const k = kahelo(x,y);
-        const nk = kahelo(nx,ny);
-        if (k && nk) {
-            delete k[e.id];
-            nk[e.id] = e;
-        }
-    }
-}
-
-/**
- * Trakuri la kahelojn, movi ĉiujn erojn en ĉiu kahelo,
- * laŭ la reguloj kunigu aŭ dividu ilin. Por eviti plurfoje tuŝi la samajn erojn,
- * kiuj ja ŝanĝas eventuele al nova kahelo ni uzas parametron m alternante inter 0 kaj 1
- */
-function procezo(m) {
-    function movo(e,kx,ky) {
-        if (e.m == m) {
-            // momente ni nur movas la erojn
-            let nx = e.x + e.vx;
-            if (nx < 0 || nx > WIDTH) {
-                e.vx = - e.vx;
-                nx = e.x + e.vx;
-            }
-            let ny = e.y + e.vy;
-            if (ny < 0 || ny > HEIGHT) {
-                e.vy = -e.vy;
-                ny = e.y + e.vy;
-            }
-            // movo al nx, ny, eventuale al nova kahelo
-            e.m = 1-m;
-            kmovo(e,nx,ny);
-        }
-    }
-
-    /**
-     * donas al e novan rapidon (vx,vy) aldonante iom
-     * da hazardo kaj limigante al v_max por tipoj k:-1, 1 kaj
-     * v_max/2 por kunigo k: 0
-     */
-    function rapido(e,vx,vy) {
-        const max = e.k? v_max : v_max/2;
-        const dx = Math.random()*0.1*max - 0.05*max;
-        const dy = Math.random()*0.1*max - 0.05*max;
-        e.vx = Math.max(-max,Math.min(vx+dx,max));
-        e.vy = Math.max(-max,Math.min(vy+dy,max));
-    }
-
-    /**
-     * Kontrolas la reakcion (kunigo / divido) de eroj en sama kahelo
-     */
-    function reakcio(k) {
-        const K = kaheloj[k];
-        const eroj = Object.keys(K);
-        // ĉu ni havas almenaŭ 2 erojn sur la kahelo
-        if (eroj.length>1) {
-            const n = Math.trunc(Math.random() * (eroj.length-1.1));
-            const e1 = K[eroj[n]];
-            const e2 = K[eroj[n+1]];
-
-            // reakcio okazu nur inter 1 kaj -1 aŭ 0 kaj 0
-            // PLIBONIGU: antentu konservon de momanto (vd http://www.sciencecalculators.org/mechanics/collisions/), momente ni improvizas per adicio kaj duonigo de rapidecoj v
-            if (e1.k + e2.k == 0) {
-                // kunigo
-                if (e1.k && Math.random() < p_kunigo) {
-                    // kunigo
-                    delete K[e1.id];
-                    delete K[e2.id];
-                    k_nombroj[e1.k]--;
-                    k_nombroj[e2.k]--;
-                    e1.k = 0;
-                    e1.id = `${e1.id}-${e2.id}`;
-                    rapido(e1,(e1.vx + e2.vx)/2,(e1.vy + e2.vy)/2);
-                    K[e1.id] = e1;
-                    k_nombroj[e1.k]++;
-                    v[T%Ti].kun++;
-                } else if (!e1.k && Math.random() < p_divido) {
-                    // disigo
-                    delete K[e1.id];
-                    k_nombroj[e1.k]--;
-                    const idj = e1.id.split('-');
-                    const e1a = Object.assign({},e1); 
-                    e1.k = -1; e1.id = idj[0];
-                    rapido(e1,2*e1.vx,2*e1.vy);
-                    e1a.k = 1; e1a.id = idj[1];
-                    const f2 = 2-Math.abs(e2.k);
-                    rapido(e1a,e2.vx*f2,e2.vy*f2);
-                    K[e1.id] = e1;
-                    K[e1a.id] = e1a;
-                    k_nombroj[e1.k]++;
-                    k_nombroj[e1a.k]++;
-                    v[T%Ti].dis++;
-                }
-            }
-        }
-    }
-
-    v[T%Ti] = {kun: 0, dis: 0};
-    for (let k in kaheloj) {
-        reakcio(k);
-        // movo
-        const kx = k % KW;
-        const ky = Math.trunc(k / KW);
-        Object.values(kaheloj[k]).map((e) => movo(e,kx,ky));
-    }
-
-    // aktualigu valorojn en la tabelo
-    T++;
+// aktualigi valorojn kaj diagramojn
+function valoroj() {
+    const d_alto = d_rapidoj.getAttribute("height");
+    const d_larĝo = d_rapidoj.getAttribute("width");
+    const T = masefiko.T;
+    const nA= masefiko.k_nombroj[-1];
+    const nB= masefiko.k_nombroj[1];
+    const nAB= masefiko.k_nombroj[0];
 
     // montru valorojn en diagramo
-    if (T<WIDTH) {
-        ero({k: -1, x: T, y: HEIGHT - k_nombroj[-1]/n_eroj * 2 * HEIGHT},dgr_n);
-        // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
-        ero({k: 0, x: T, y: HEIGHT - k_nombroj[0]/n_eroj * 2 * HEIGHT},dgr_n);
+    if (T < d_larĝo) {
+        // maksimuma nombro de iuspecaj eroj
+        const n_max = Math.max(n_eroj_A,n_eroj_B);
+        // kalkulu y-koordinaton en la diagramo el valoro v je tempo T
+        // la 0-linio estus malsupre, sed ĉar y=0 ĉe <canvas>
+        // estas supre, ni subtrahas de ĝia alto
+        const yA = d_alto - nA/n_max * d_alto;
+        const yB = d_alto - nB/n_max * d_alto;
+        const yAB = d_alto - nAB/n_max * d_alto;
+        if (T%6 == 3) { // evitu skribi flavan sur bluan punkton, sed intermitu!
+            ero({ k:  1, x: T, y: yB }, dgr_n);
+        } else if (T%6 == 0) {
+            ero({ k: -1, x: T, y: yA }, dgr_n);
+        }
 
-        ĝi("#cA").textContent = k_nombroj[-1];
-        //ĝi("#cB").textContent = k_nombroj[1];
-        ĝi("#cAB").textContent = k_nombroj[0];
+        ero({ k: 0, x: T, y: yAB}, dgr_n);        
 
-        let kun=0, dis=0;
-        const t = Math.min(T,Ti);
-        v.map((vt) => {kun += vt.kun; dis += vt.dis});
-        // PLIBONIGU v estu -k1 * c(A)*c(B) resp. -k1 * c(AB)
-        // ĉu tamen ni uzu absolutajn nombrojn aŭ ni dividu tra
-        // n_eroj?
-        const vkun = kun/t;
-        const vdis = dis/t;
-        ĝi("#vkun").textContent = vkun.toPrecision(3);
-        ĝi("#vdis").textContent = vdis.toPrecision(3);
+        ĝi("#cA").textContent = nA;
+        ĝi("#cB").textContent = nB;
+        ĝi("#cAB").textContent = nAB;
 
-        /*
-        ero({k: -1, x: T, y: HEIGHT-vdis/2*HEIGHT},dgr_r);
-        // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
-        ero({k: 0, x: T, y: HEIGHT-vkun/2*HEIGHT},dgr_r);
-        */
-        ero({k: -1, x: T, y: HEIGHT/2
-            - Math.log10(vdis)*50},dgr_r);
-        // ero({k: 1, x: T, y: k_nombroj[1]/540*HEIGHT},dgr);
-        ero({k: 0, x: T, y: HEIGHT/2
-            - Math.log10(vkun)*50},dgr_r);
+        const rapidoj = masefiko.rapido_ave();
+        ĝi("#vkun").textContent = rapidoj.kun.toPrecision(3);
+        ĝi("#vdis").textContent = rapidoj.dis.toPrecision(3);
 
-        const k_tien = vdis / (k_nombroj[-1]*k_nombroj[1]);
-        const k_reen = vkun / k_nombroj[0];
-        ero({k: "#0d0", x: T, y: 3/4*HEIGHT
-            - Math.log10(k_tien)*10},dgr_r);
-        ero({k: "#d00", x: T, y: 3/4*HEIGHT
-            - Math.log10(k_reen)*10},dgr_r);
+        // rapidojn ni montras en logaritma skalo kun log10(1) = 0 en la mezo de la diagramo
+        const ykun = d_alto/2 - Math.log10(rapidoj.kun)*50;
+        const ydis = d_alto/2 - Math.log10(rapidoj.dis)*50;
+
+        ero({ k: "#090", x: T, y: ykun }, dgr_r);
+        ero({ k: "#900", x: T, y: ydis }, dgr_r);
+
+        const k_tien = rapidoj.kun / (nA*nB);
+        const k_reen = rapidoj.dis / nAB;
+        const K = (nAB/(nA*nB));
         ĝi("#kreen").textContent = k_reen.toPrecision(3);
         ĝi("#ktien").textContent = k_tien.toPrecision(3);
+        ĝi("#Ke").textContent = K.toPrecision(3);
 
-        // Ke
-        const Ke = (k_nombroj[0]/(k_nombroj[-1]*k_nombroj[1])).toPrecision(3);
-        ero({k: "#000", x: T, y: 3/4*HEIGHT
-            - Math.log10(Ke)*10},dgr_r);
-        ĝi("#Ke").textContent = Ke;
+        // la "konstantojn" ni montras sub la rapdioj kun log10(1) = 0 ĉe 3/4 de la diagramo
+        ytien = 3/4*d_alto - Math.log10(k_tien)*10;
+        yreen = 3/4*d_alto - Math.log10(k_reen)*10;
+        yK    = 3/4*d_alto    - Math.log10(K)*10;
+
+        ero({ k: "#0d0", x: T, y: ytien }, dgr_r);
+        ero({ k: "#d00", x: T, y: yreen }, dgr_r);
+        ero({ k: "#000", x: T, y: yK }, dgr_r);
     }
 
 }
 
+// desegnu horizontalan linion
 function linio(y,ctx) {
+    const larĝo = ctx.canvas.getAttribute("width");
     ctx.beginPath();
     ctx.moveTo(0, y);
-    ctx.lineTo(WIDTH,y);
+    ctx.lineTo(larĝo,y);
+    ctx.lineWidth = 1;
     ctx.stroke();
 }
 
+// desegnu eron en la eksperimento
 function ero(e,ctx) {
     // unu ero tipo -1 aŭ 1
     if (e.k) {
@@ -336,26 +256,52 @@ function ero(e,ctx) {
     }
 }
 
-function pentru() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (const kahelo of kaheloj) {
-        for (e of Object.values(kahelo)) {
-            ero(e,ctx);
+function eksperimento() {
+    // komencaj valoroj
+    const kA = ĝi("input[name='koncentrA']:checked").value;
+    const kB = ĝi("input[name='koncentrB']:checked").value;
+    const r_em = ĝi("input[name='reakciem']:checked").value;
+    const d_em = ĝi("input[name='disociem']:checked").value;
+    const temp = ĝi("input[name='temperatur']:checked").value;
+
+    n_eroj_A = {"malalta": 250, "meza": 500, "alta": 1000}[kA];
+    n_eroj_B = {"malalta": 250, "meza": 500, "alta": 1000}[kB];
+    p_kunigo = {"malalta": 0.05, "meza": 0.1, "alta": 0.7}[r_em];
+    p_divido = {"malalta": 0.0005, "meza": 0.01, "alta": 0.1}[d_em];
+    temperaturo = {"malalta": 0.1, "meza": 1, "alta": 5}[temp];
+
+    //var interval = setInterval(pentru, 100);
+
+    preparo();
+
+    function paŝo() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (const kahelo of masefiko.kaheloj) {
+            for (e of Object.values(kahelo)) {
+                ero(e,ctx);
+            }
         }
-    }
 
-    procezo(m_alt);
-    m_alt = 1-m_alt;
+        masefiko.procezo();
+        valoroj();
+    }    
+
+    const intervalo = 50;
+    const d_larĝo = d_rapidoj.getAttribute("width");
+
+    (function bis() {
+        setTimeout(() => {        
+            paŝo();
+            if (masefiko.T < d_larĝo) bis();
+        }, intervalo);
+    })();
 }
 
-//var interval = setInterval(pentru, 100);
-const intervalo = 50;
-(function loop() {
-    setTimeout(() => {        
-    pentru();
-    if (T<WIDTH) loop();
-    }, intervalo);
-})();
-
 </script>
+
+## fontoj
+{: .fontoj}
+
+[^cu1]: [Die kinetische Herleitung des Massenwirkungsgesetzes](https://www.chemieunterricht.de/dc2/mwg/mwg-herl.htm)
