@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Unuoj kaj grandoj
 chapter: "3.1.1"
-next_ch: r_precipito
+next_ch: r_masefiko
 js:
   - folio-0b
   - sekcio-0b 

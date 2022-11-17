@@ -1,8 +1,8 @@
 ---
 layout: laborfolio
 title: Leĝo de masefiko
-_chapter: "3.1.2"
-_next_ch: r_acido
+chapter: "3.1.2"
+next_ch: r_precipito
 js:
   - folio-0b
   - sekcio-0b 
@@ -150,6 +150,7 @@ let temperaturo = 1; // = maksiuma rapideco: 1*16 (kahelgrando)
 let p_kunigo = 0.1; //0.1;
 let p_divido = 0.7; //0.0005;
 
+let ry_lasta = { ykun: 0, ydis: 0 }; // memoru antaŭajn rapidojn
 
 // preparo de la eksperimento
 function preparo() {
@@ -188,7 +189,7 @@ function valoroj() {
             ero({ k: -1, x: T, y: yA }, dgr_n);
         }
 
-        ero({ k: 0, x: T, y: yAB}, dgr_n);        
+        ero({ k: 0, x: T, y: yAB}, dgr_n);
 
         ĝi("#cA").textContent = nA;
         ĝi("#cB").textContent = nB;
@@ -202,8 +203,11 @@ function valoroj() {
         const ykun = d_alto/2 - Math.log10(rapidoj.kun)*50;
         const ydis = d_alto/2 - Math.log10(rapidoj.dis)*50;
 
+        streko(T-1,ry_lasta.ykun,T,ykun,"#090",dgr_r);
+        streko(T-1,ry_lasta.ydis,T,ydis,"#900",dgr_r);
         ero({ k: "#090", x: T, y: ykun }, dgr_r);
         ero({ k: "#900", x: T, y: ydis }, dgr_r);
+        ry_lasta = { ykun: ykun, ydis: ydis };
 
         const k_tien = rapidoj.kun / (nA*nB);
         const k_reen = rapidoj.dis / nAB;
@@ -230,7 +234,18 @@ function linio(y,ctx) {
     ctx.beginPath();
     ctx.moveTo(0, y);
     ctx.lineTo(larĝo,y);
+    ctx.strokeStyle = "#000";
     ctx.lineWidth = 1;
+    ctx.stroke();
+}
+
+// desegnu strekon inter du punktoj
+function streko(x0,y0,x1,y1,koloro,ctx) {
+    ctx.beginPath();
+    ctx.moveTo(x0,y0);
+    ctx.lineTo(x1,y1);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = koloro;
     ctx.stroke();
 }
 
@@ -256,7 +271,6 @@ function ero(e,ctx) {
     }
 }
 
-
 function eksperimento() {
     // komencaj valoroj
     const kA = ĝi("input[name='koncentrA']:checked").value;
@@ -265,8 +279,8 @@ function eksperimento() {
     const d_em = ĝi("input[name='disociem']:checked").value;
     const temp = ĝi("input[name='temperatur']:checked").value;
 
-    n_eroj_A = {"malalta": 250, "meza": 500, "alta": 1000}[kA];
-    n_eroj_B = {"malalta": 250, "meza": 500, "alta": 1000}[kB];
+    n_eroj_A = {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
+    n_eroj_B = {"malalta": 500, "meza": 1000, "alta": 2000}[kB];
     p_kunigo = {"malalta": 0.05, "meza": 0.1, "alta": 0.7}[r_em];
     p_divido = {"malalta": 0.0005, "meza": 0.01, "alta": 0.1}[d_em];
     temperaturo = {"malalta": 0.1, "meza": 1, "alta": 5}[temp];
@@ -286,7 +300,7 @@ function eksperimento() {
 
         masefiko.procezo();
         valoroj();
-    }    
+    }
 
     const intervalo = 50;
     const d_larĝo = d_rapidoj.getAttribute("width");
