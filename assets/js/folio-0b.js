@@ -118,16 +118,16 @@ window.onload = () => {
     }
 
     if (_elektotasko) {
-        const re = /([\(\[])(x?)([\)\]])([^ ,;.])/;
+        const re = /([\(\[])(x?)([\)\]])([^ ,;.]+)/;
         for (e of document.querySelectorAll(".elekto")) {
-            let tc = e.textContent;
+            let tc = e.innerHTML;
             let html = '', n=0;
             console.log (e.textContent);
             // konvertu tekstoj (x?)blabla al <input type="radio"><label for="..."> 
             while ((m = re.exec(tc))) {
                 //debugger;
                 const de = m.index;
-                const l = m.length;
+                const l = m[0].length;
                 const x = m[2];
                 const pri = m[4];
                 const val = pri; // PLIBONIGU: eble permesu doni pli koncizas voloron ene de (jes:x), (ne)
@@ -181,10 +181,9 @@ function _plenumu_reftaskojn(evento) {
  * 
  */
  function _plenumu_elektotaskon(evento) {
-    evento.preventDefault();
-    const elekto = evento.target.name;
-    const valoro = evento.target.value;
-    _elektotasko(elekto,valoro,evento);
+    //evento.preventDefault();
+    const elemento = evento.target;
+    _elektotasko(elemento.name,elemento.value,evento);
 }
 
 /**
