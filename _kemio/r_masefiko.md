@@ -162,7 +162,7 @@ function preparo() {
     dgr_r.clearRect(0, 0, d_rapidoj.width, d_rapidoj.height);
 
     const d_alto = d_rapidoj.getAttribute("height");
-    linio(d_alto/2,dgr_r);
+    linio(d_alto/3,dgr_r);
     linio(3/4*d_alto,dgr_r);
 
     masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo,p_kunigo,p_divido);
@@ -174,7 +174,7 @@ function valoroj() {
     // skribu nombro kun precizo 3, sed komo kaj 10^ anstatŭ e...
     function n_eo(nombro) {
         const p = nombro.toPrecision(3).replace('.',',');
-        return p.replace(/e\+?/,' 10^');
+        return p.replace(/e\+?/,' 10^').replace('Infinity','--').replace('NaN','--');
     }
 
     const d_alto = d_rapidoj.getAttribute("height");
@@ -213,8 +213,8 @@ function valoroj() {
         ĝi("#vdis").textContent = n_eo(rapidoj.dis);
 
         // rapidojn ni montras en logaritma skalo kun log10(1) = 0 en la mezo de la diagramo
-        const ykun = d_alto/2 - Math.log10(rapidoj.kun)*50;
-        const ydis = d_alto/2 - Math.log10(rapidoj.dis)*50;
+        const ykun = d_alto/3 - Math.log10(rapidoj.kun)*50;
+        const ydis = d_alto/3 - Math.log10(rapidoj.dis)*50;
 
         streko(T-1,ry_lasta.ykun,T,ykun,"#090",dgr_r);
         streko(T-1,ry_lasta.ydis,T,ydis,"#900",dgr_r);
