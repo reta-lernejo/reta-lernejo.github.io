@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: Leĝo de masefiko
+title: Kemia ekvilibro
 chapter: "3.1.2"
 next_ch: r_precipito
 js:
@@ -35,9 +35,9 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
 
 ... paĝo en preparo...
 
-Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. La plej multaj reakcioj okazas ne en nur unu direkto kaj komplete, sed en ambaŭ direktoj ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido. 
+Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. Multaj reakcioj okazas ne en nur unu direkto kaj komplete, sed en ambaŭ direktoj ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido.
 
-La ekvilibron de la reakcio oni priskribas per ekvilibro de *aktivecoj* de la unuopaj substancoj, kiuj depedas de la kvantoj de la unuopaj reakiantaj substancoj. 
+La ekvilibron de la reakcio oni priskribas per ekvilibro de *aktivecoj* de la unuopaj substancoj, kiuj depedas de la kvantoj de la unuopaj reakciantaj substancoj.
 
 En solvaĵoj, krom de ĝeneralaj cirkonstancoj kiel temperaturo kaj premo, la rapido de reakcio dependas de la varianta koncentriteco de partoprenantaj substancoj per koeficientoj $$k_{tien}$$ kaj $$k_{reen}$$. Por 
 simpla reakcio $$\ce{A + B <-> AB}$$, t.e.:
@@ -47,6 +47,8 @@ $$v_{tien}  =  k_{tien} \cdot c(A) \cdot c(B) \tag{1}$$
 $$v_{reen}  =  k_{reen} \cdot c(AB) \tag{2}$$
 
 Pli ĝenerale la rapido dependas de la produkto de la koncentritecoj de la reakciantaj substancoj.
+
+## Leĝo de masefiko
 
 Kiam la reakcio troviĝas en ekvilibro, (1) kaj (2) havas saman valoron kaj do la proporcio inter la koncentritecoj estas priskribita de konstanta nombro[^cu1]:
 
@@ -72,11 +74,13 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
     td:nth-child(2) {
         width: 20%;
     }
-    label {
+    .elekto label {
         padding: 0.2em;
+        padding-left: 0;
         border-radius: 4px;
         border: 1px dotted cornflowerblue;
         border-left: none;
+        /*background: linear-gradient(90deg, rgba(9,9,121,0) 0%, rgba(34,102,116,1) 60%, rgba(9,9,121,0) 100%);*/
     }
 </style>
 
@@ -89,7 +93,7 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
 *reakciemo A kun B*: ()malalta (x)meza ()alta
 {: .elekto #reakciem}
 
-*disociiĝemo de AB*: ()malalta (x)meza ()alta
+*disociiĝemo de AB*: (x)malalta ()meza ()alta
 {: .elekto #disociem}
 
 *temperaturo*: ()malalta (x)meza ()alta
@@ -126,7 +130,7 @@ logaritma skalo
 |$$v_{reen} (\ce{AB -> A + B})$$|<span id="vdis"/>|
 |$$k_{tien} = v_{tien} / (x_{A} \cdot x_{B})$$|<span id="ktien"/>|
 |$$k_{reen} = v_{reen} / x_{AB}$$|<span id="kreen"/>|
-|$$K = x_{AB} / (x_{A} \cdot x_{B}) = k_{tien}/k_{reen}$$|<span id="Ke"/>|
+|$$K = x_{AB} / (x_{A} \cdot x_{B}) \to k_{tien}/k_{reen}$$|<span id="Ke"/>|
 
 <script>
 
