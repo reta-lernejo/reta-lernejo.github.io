@@ -161,7 +161,7 @@ function preparo() {
     linio(d_alto/2,dgr_r);
     linio(3/4*d_alto,dgr_r);
 
-    masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo);
+    masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo,p_kunigo,p_divido);
 }
 
 // aktualigi valorojn kaj diagramojn
@@ -281,8 +281,8 @@ function eksperimento() {
 
     n_eroj_A = {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
     n_eroj_B = {"malalta": 500, "meza": 1000, "alta": 2000}[kB];
-    p_kunigo = {"malalta": 0.05, "meza": 0.1, "alta": 0.7}[r_em];
-    p_divido = {"malalta": 0.0005, "meza": 0.01, "alta": 0.1}[d_em];
+    p_kunigo = {"malalta": 0.005, "meza": 0.1, "alta": 0.7}[r_em];
+    p_divido = {"malalta": 0.005, "meza": 0.1, "alta": 0.7}[d_em];
     temperaturo = {"malalta": 0.1, "meza": 1, "alta": 5}[temp];
 
     //var interval = setInterval(pentru, 100);

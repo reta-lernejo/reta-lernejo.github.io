@@ -26,11 +26,15 @@ class Masefiko {
     * Remetu variablojn, kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
     * @param {number} n_eroj_A nombro de eroj de speco A(-1)
     * @param {number} n_eroj_B nombro de eroj de speco B(1)
-    * @param {number} _rapido maksimuma rapido en direktoj x kaj y en multobloj de kahelgrando
+    * @param {number} temperaturo influanta maksimuman rapidon en direktoj x kaj y en multobloj de kahelgrando kaj modifante reakci-probablojn
     */
-    preparo(n_eroj_A=500, n_eroj_B=500, m_rapido=1) {
+    preparo(n_eroj_A=500, n_eroj_B=500, temperaturo=1, p_kunigo=0.1, p_divido=0.1) {
 
-        this.v_max = m_rapido * this.K;
+        this.v_max = temperaturo * this.K;
+        // ni premisas ekzoterman reakcion, tiam pli alta temparaturo
+        // favoras la rereakcion / la disrompon de ligoj AB -> A+B
+        this.p_kunigo = p_kunigo/temperaturo;
+        this.p_divido = p_divido*temperaturo;
 
         this.T = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
@@ -178,7 +182,7 @@ class Masefiko {
                 // PLIBONIGU: antentu konservon de momanto (vd http://www.sciencecalculators.org/mechanics/collisions/), momente ni improvizas per adicio kaj duonigo de rapidecoj v
                 if (e1.k + e2.k == 0) {
                     // okazu kunigo A+B -> AB
-                    if (e1.k && Math.random() < p_kunigo) {
+                    if (e1.k && Math.random() < self.p_kunigo) {
                         // ni forigas la du erojn
                         delete kahelo[e1.id];
                         delete kahelo[e2.id];
@@ -194,7 +198,7 @@ class Masefiko {
                         vbufro("kun"); // altigu kun
 
                     // okazu divido AB -> A+B
-                    } else if (!e1.k && Math.random() < p_divido) {
+                    } else if (!e1.k && Math.random() < self.p_divido) {
                         // ni forigas la eron AB (0)
                         delete kahelo[e1.id];
                         self.k_nombroj[e1.k]--;
