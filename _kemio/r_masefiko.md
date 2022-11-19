@@ -33,7 +33,11 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
 
 -->
 
+... paĝo en preparo...
+
 Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. La plej multaj reakcioj okazas ne en nur unu direkto kaj komplete, sed en ambaŭ direktoj ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido. 
+
+La ekvilibron de la reakcio oni priskribas per ekvilibro de *aktivecoj* de la unuopaj substancoj, kiuj depedas de la kvantoj de la unuopaj reakiantaj substancoj. 
 
 En solvaĵoj, krom de ĝeneralaj cirkonstancoj kiel temperaturo kaj premo, la rapido de reakcio dependas de la varianta koncentriteco de partoprenantaj substancoj per koeficientoj $$k_{tien}$$ kaj $$k_{reen}$$. Por 
 simpla reakcio $$\ce{A + B <-> AB}$$, t.e.:
@@ -48,7 +52,7 @@ Kiam la reakcio troviĝas en ekvilibro, (1) kaj (2) havas saman valoron kaj do l
 
 $$K = \frac{c(AB)}{c(A) \cdot c(B)} = \frac{k_{tien}}{k_{reen}}$$
 
-Tiun rilaton oni nomas *leĝo de masefiko* formulitan de de Cato Maximilian Guldberg kaj Peter Waage. (Ĝi validas ankaŭ por reakcioj de gasoj, kie oni uzas la partajn premojn de la unuopaj gasoj anstataŭ la koncentritecon. Estas notinde, ke tiu ĉi kineta klarigo de la leĝo de masefiko estas aplikebla ne al ĉiaj reakcioj; ekzemple plurpaŝaj, kiuj okazas sub influo de fotoĥemiaj fenomenoj. Ekzistas pli ĝenerala termodinamika priskribo per la energio de Gibbs.)
+Tiun rilaton oni nomas *leĝo de masefiko* formulitan de de Cato Maximilian Guldberg kaj Peter Waage. (Ĝi validas ankaŭ por reakcioj de gasoj, kie oni uzas la partajn premojn de la unuopaj gasoj anstataŭ la koncentritecon aŭ aliaj medioj, kie oni povas uzi la propociajn kvantojn de la reakciantaj substancoj. Estas notinde, ke tiu ĉi kineta klarigo de la leĝo de masefiko estas aplikebla ne al ĉiaj reakcioj; ekzemple plurpaŝaj, kiuj okazas sub influo de fotoĥemiaj fenomenoj. Ekzistas pli ĝenerala termodinamika priskribo per la energio de Gibbs.)
 
 En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
 
@@ -107,11 +111,11 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
 simulado de reakcio $$\ce{A + B <-> AB}$$
 
 <canvas id="nombroj" width="480" height="320"></canvas>
-koncentritecoj de A (flava), B (blua) kaj AB (grasa dukolora)
+proporciaj kvantoj de A (flava), B (blua) kaj AB (grasa dukolora)
 
-|$$c(A)$$|<span id="cA"/>|
-|$$c(B)$$|<span id="cB"/>|
-|$$c(AB)$$|<span id="cAB"/>|
+|$$x_A = c_A/(c_A+c_B+c_{AB})$$|<span id="cA"/>|
+|$$x_B = c_B/(c_A+c_B+c_{AB})$$|<span id="cB"/>|
+|$$x_{AB} = c_{AB}/(c_A+c_B+c_{AB})$$|<span id="cAB"/>|
 
 <canvas id="rapidoj" width="480" height="320"></canvas>
 rapidecoj de kombino (verda) kaj malkombino (ruĝa); 
@@ -120,9 +124,9 @@ logaritma skalo
 
 |$$v_{tien} (\ce{A + B -> AB})$$|<span id="vkun"/>|
 |$$v_{reen} (\ce{AB -> A + B})$$|<span id="vdis"/>|
-|$$k_{tien} = v_{tien} / (c(A) \cdot c(B))$$|<span id="ktien"/>|
-|$$k_{reen} = v_{reen} / c(AB)$$|<span id="kreen"/>|
-|$$K = c(AB) / (c(A) \cdot c(B)) = k_{tien}/k_{reen}$$|<span id="Ke"/>|
+|$$k_{tien} = v_{tien} / (x_{A} \cdot x_{B})$$|<span id="ktien"/>|
+|$$k_{reen} = v_{reen} / x_{AB}$$|<span id="kreen"/>|
+|$$K = x_{AB} / (x_{A} \cdot x_{B}) = k_{tien}/k_{reen}$$|<span id="Ke"/>|
 
 <script>
 
@@ -164,19 +168,28 @@ function preparo() {
     masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo,p_kunigo,p_divido);
 }
 
+
 // aktualigi valorojn kaj diagramojn
 function valoroj() {
+    // skribu nombro kun precizo 3, sed komo kaj 10^ anstatŭ e...
+    function n_eo(nombro) {
+        const p = nombro.toPrecision(3).replace('.',',');
+        return p.replace(/e\+?/,' 10^');
+    }
+
     const d_alto = d_rapidoj.getAttribute("height");
     const d_larĝo = d_rapidoj.getAttribute("width");
     const T = masefiko.T;
-    const nA= masefiko.k_nombroj[-1];
-    const nB= masefiko.k_nombroj[1];
-    const nAB= masefiko.k_nombroj[0];
+
+    const kvantoj = masefiko.proporciaj_kvantoj();
+    const nA= kvantoj[-1];
+    const nB= kvantoj[1];
+    const nAB= kvantoj[0];
 
     // montru valorojn en diagramo
     if (T < d_larĝo) {
         // maksimuma nombro de iuspecaj eroj
-        const n_max = Math.max(n_eroj_A,n_eroj_B);
+        const n_max = 1; // Math.max(n_eroj_A,n_eroj_B)/(n_eroj_A+n_eroj_B);
         // kalkulu y-koordinaton en la diagramo el valoro v je tempo T
         // la 0-linio estus malsupre, sed ĉar y=0 ĉe <canvas>
         // estas supre, ni subtrahas de ĝia alto
@@ -191,13 +204,13 @@ function valoroj() {
 
         ero({ k: 0, x: T, y: yAB}, dgr_n);
 
-        ĝi("#cA").textContent = nA;
-        ĝi("#cB").textContent = nB;
-        ĝi("#cAB").textContent = nAB;
+        ĝi("#cA").textContent = n_eo(nA);
+        ĝi("#cB").textContent = n_eo(nB);
+        ĝi("#cAB").textContent = n_eo(nAB);
 
         const rapidoj = masefiko.rapido_ave();
-        ĝi("#vkun").textContent = rapidoj.kun.toPrecision(3);
-        ĝi("#vdis").textContent = rapidoj.dis.toPrecision(3);
+        ĝi("#vkun").textContent = n_eo(rapidoj.kun);
+        ĝi("#vdis").textContent = n_eo(rapidoj.dis);
 
         // rapidojn ni montras en logaritma skalo kun log10(1) = 0 en la mezo de la diagramo
         const ykun = d_alto/2 - Math.log10(rapidoj.kun)*50;
@@ -212,9 +225,9 @@ function valoroj() {
         const k_tien = rapidoj.kun / (nA*nB);
         const k_reen = rapidoj.dis / nAB;
         const K = (nAB/(nA*nB));
-        ĝi("#kreen").textContent = k_reen.toPrecision(3);
-        ĝi("#ktien").textContent = k_tien.toPrecision(3);
-        ĝi("#Ke").textContent = K.toPrecision(3);
+        ĝi("#kreen").textContent = k_reen? n_eo(k_reen) : '--';
+        ĝi("#ktien").textContent = k_tien? n_eo(k_tien) : '--';
+        ĝi("#Ke").textContent = n_eo(K);
 
         // la "konstantojn" ni montras sub la rapdioj kun log10(1) = 0 ĉe 3/4 de la diagramo
         ytien = 3/4*d_alto - Math.log10(k_tien)*10;
@@ -319,3 +332,6 @@ function eksperimento() {
 {: .fontoj}
 
 [^cu1]: [Die kinetische Herleitung des Massenwirkungsgesetzes](https://www.chemieunterricht.de/dc2/mwg/mwg-herl.htm)
+[^cu2]: [Die thermodynamische Begründung des Massenwirkungsgesetzes und ΔG](https://www.chemieunterricht.de/dc2/mwg/mwg-ther.htm)
+[^cd1]: [Chemielexikon: Massenwirkungsgesetz](https://www.chemie.de/lexikon/Massenwirkungsgesetz.html)
+[^cd2]: [Chemielexikon: https://www.chemie.de/lexikon/Chemisches_Potential.html](https://www.chemie.de/lexikon/Chemisches_Potential.html)

@@ -115,6 +115,20 @@ class Masefiko {
 
 
     /**
+     * Redonas la kvantojn de la specoj kiel propocioj
+     * al ties sumo
+     */
+    proporciaj_kvantoj() {
+        const sumo = Object.values(this.k_nombroj).reduce((s,v) => s+v, 0);
+        return {
+            "-1":  this.k_nombroj[-1] / sumo,
+            "1":   this.k_nombroj[1] / sumo,
+            "0": this.k_nombroj[0] / sumo
+        };
+    }
+
+
+    /**
      * Trakuri la kahelojn, movi ĉiujn erojn en ĉiu kahelo,
      * laŭ la reguloj kunigu aŭ dividu ilin. 
      */
@@ -164,6 +178,7 @@ class Masefiko {
             e.vx = Math.max(-max,Math.min(vx+dx,max));
             e.vy = Math.max(-max,Math.min(vy+dy,max));
         }
+
 
         /**
          * Kontrolas la reakcion (kunigo / divido) de eroj en sama kahelo
