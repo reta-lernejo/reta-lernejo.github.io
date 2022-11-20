@@ -35,26 +35,25 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
 
 ... paĝo en preparo...
 
-Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. Multaj reakcioj okazas ne en nur unu direkto kaj komplete, sed en ambaŭ direktoj ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido.
+Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. Multaj reakcioj okazas ne nur en unu direkto kaj komplete, sed en ambaŭ direktoj samtempe ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido.
 
-La ekvilibron de la reakcio oni priskribas per ekvilibro de *aktivecoj* de la unuopaj substancoj, kiuj depedas de la kvantoj de la unuopaj reakciantaj substancoj.
+La ekvilibron de la reakcio oni priskribas per ekvilibro de *aktivecoj* de la unuopaj substancoj, kiuj depedas de la kvantoj de la unuopaj reakciantaj substancoj. En ideala miksaĵo ili estas proporciaj al la kvanto, en realaj necesas aldoni koeficienton, ordinare pli malgrandan ol 1.
 
-En solvaĵoj, krom de ĝeneralaj cirkonstancoj kiel temperaturo kaj premo, la rapido de reakcio dependas de la varianta koncentriteco de partoprenantaj substancoj per koeficientoj $$k_{tien}$$ kaj $$k_{reen}$$. Por 
-simpla reakcio $$\ce{A + B <-> AB}$$, t.e.:
+En solvaĵoj, krom de ĝeneralaj cirkonstancoj kiel temperaturo kaj premo, la rapido de reakcio dependas de la varianta koncentriteco de partoprenantaj substancoj per koeficientoj $$k_{tien}$$ kaj $$k_{reen}$$. Por simpla reakcio en ideala miksaĵo $$\ce{A + B <-> AB}$$, t.e. proporcio:
 
 $$v_{tien}  =  k_{tien} \cdot c(A) \cdot c(B) \tag{1}$$
 
 $$v_{reen}  =  k_{reen} \cdot c(AB) \tag{2}$$
 
-Pli ĝenerale la rapido dependas de la produkto de la koncentritecoj de la reakciantaj substancoj.
-
 ## Leĝo de masefiko
 
-Kiam la reakcio troviĝas en ekvilibro, (1) kaj (2) havas saman valoron kaj do la proporcio inter la koncentritecoj estas priskribita de konstanta nombro[^cu1]:
+Kiam la reakcio troviĝas en ekvilibro, (1) kaj (2) havas saman valoron kaj do la proporcio inter la koncentritecoj estas priskribita de ekvilibra konstanta nombro[^cu1]:
 
-$$K = \frac{c(AB)}{c(A) \cdot c(B)} = \frac{k_{tien}}{k_{reen}}$$
+$$K_e = \frac{c(AB)}{c(A) \cdot c(B)} = \frac{k_{tien}}{k_{reen}}$$
 
-Tiun rilaton oni nomas *leĝo de masefiko* formulitan de de Cato Maximilian Guldberg kaj Peter Waage. (Ĝi validas ankaŭ por reakcioj de gasoj, kie oni uzas la partajn premojn de la unuopaj gasoj anstataŭ la koncentritecon aŭ aliaj medioj, kie oni povas uzi la propociajn kvantojn de la reakciantaj substancoj. Estas notinde, ke tiu ĉi kineta klarigo de la leĝo de masefiko estas aplikebla ne al ĉiaj reakcioj; ekzemple plurpaŝaj, kiuj okazas sub influo de fotoĥemiaj fenomenoj. Ekzistas pli ĝenerala termodinamika priskribo per la energio de Gibbs.)
+Tiun rilaton oni nomas *leĝo de masefiko* formulitan de de Cato Maximilian Guldberg kaj Peter Waage. Tiu konstanto dependas nur de la reakcio kaj la temperaturo, sed ne de la koncentriteco aŭ premo. Alivorte, se ekzemple altiĝas la koncentriteco de A, la koncentriteco de AB altiĝas kaj tiu de de B malaltiĝas ĝis la proporcio $$K$$ atingas denove la ekvilibran valoron $$K_e$$.
+
+(Tiu leĝo validas ankaŭ por reakcioj de gasoj, kie oni uzas la partajn premojn de la unuopaj gasoj anstataŭ la koncentritecon. Estas notinde, ke tiu ĉi kineta klarigo de la leĝo de masefiko (dekstra parto de la ekvacio) estas aplikebla ne al ĉiaj reakcioj; ekzemple plurpaŝaj, kiuj okazas sub influo de fotoĥemiaj fenomenoj. Ekzistas pli ĝenerala termodinamika priskribo per la energio de Gibbs.)
 
 En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
 
@@ -322,15 +321,45 @@ function eksperimento() {
     const intervalo = 50;
     const d_larĝo = d_rapidoj.getAttribute("width");
 
+    ripetu(
+        () => {
+            paŝo();
+            return (masefiko.T < d_larĝo);
+        },
+        intervalo
+    )
+    /*
     (function bis() {
         setTimeout(() => {        
             paŝo();
             if (masefiko.T < d_larĝo) bis();
         }, intervalo);
     })();
+    */
 }
 
 </script>
+
+## Aldonaj rimarkoj pri leĝo de masefiko
+{: .sekcio}
+
+Por ekvacioj kie la reakciantoj aŭ produktoj havas faktorojn, oni devas potencigi la aktivecojn:
+
+$$\ce{2A + 3B -> C + 6D}$$
+
+$$\begin{align} K_e &= \frac{a_C^1 \cdot a_D^6}{a_A^2 \cdot a_B^3} \\
+  a_i &= \chi_i \cdot x_i \end{align}$$
+
+La $$a_i$$ estas la aktiveco de la substanco i en ekvilibra stato. La kvanto (koncentriteco en solvaĵo, parta premo en gaso) estas $$x_i$$ kaj $$\chi_i$$ koeficiento de aktiveco, en ideala miksaĵo egala al 1. En kuplitaj reakcioj por ĉiu paŝo tia rilato validas aparte dum la ekvilibraj konstantoj de la paŝoj multiplikiĝas unu kun la alia.
+
+Sed kiel do utilas la leĝo de masekfiko kaj konado de la ekvilibra konstanto de reakcio por certa temperaturo?
+
+- Ekzemple oni tiel povas taksi, kiom da produkto estiĝos per certa kvanto de reakciantoj.
+- Per la proporcio de la produktoj de aktivecoj (kvantoj) oni povas eltrovi en kiu direkto la reakcio evoluas.
+- Se oni ne scias, kiom da certa substanco estas en iu solvaĵo, oni povas aldoni iom post iom da konata substanco, ĝis oni per testo povas konstati difinitan kvanton de produkto kaj tiel kalkuli kiom de la nekonata substanco origine estis en la solvaĵo. Tion oni nomas titrado. 
+
+La pH-valoro de acidoj kaj bazoj kaj ties acid- kaj bazo-konstantoj estas difinitaj per la leĝo de masefiko.
+Kaj tiel oni povas ekzemple ankaŭ testi la kvaliton de akvo aŭ la purecon de iu substanco.
 
 ## fontoj
 {: .fontoj}
