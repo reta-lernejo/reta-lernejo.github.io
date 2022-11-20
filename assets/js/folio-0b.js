@@ -205,6 +205,17 @@ function prokrastu(ago,ms) {
 }
 
 /**
+ * Registras agon ripetendan, ĝis ĝi redonas 'false'
+ */
+function ripetu(ago,ms) {
+    (function bis() {
+        setTimeout(() => {        
+            if (ago()) bis();
+        }, ms);
+    })();
+}
+
+/**
  * Purigas ĉiujn prokrastitajn agojn, eventuale ankoraŭ aktivajn
  */
 function purigu_prokrastojn() {
