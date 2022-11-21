@@ -41,7 +41,7 @@ https://dieklugeeule.com/wie-berechnet-man-den-ph-wert-von-hcl/
 
 $$\ce{HCl + H2O <-> H3O+ + Cl-} \tag{1}$$
 
-Tiu procezo okazas en ambaŭ direktoj kaj alstrebas ekvilibron, kiu i.a. dependas de la konkreta acidospeco, la solvilo kaj la temperaturo. Tion oni signas per dudirekta sago en la ekvacio. La ekvilibro de tia reakcio povas esti deduktata el la termodinamika *leĝo de masefiko* de Cato Maximilian Guldberg kaj Peter Waage.
+Tiu procezo okazas en ambaŭ direktoj kaj alstrebas ekvilibron, kiu i.a. dependas de la konkreta acidospeco, la solvilo kaj la temperaturo. Tion oni signas per dudirekta sago en la ekvacio. La ekvilibro de tia reakcio povas esti deduktata el la [leĝo de masefiko](r_ekvilibro) de Cato Maximilian Guldberg kaj Peter Waage.
 
 Acidoj troviĝas en multaj nutraĵoj kiel frukto, fermentaĵoj kiel vinagro aŭ jahurto, en mineralakvo enhavanta karbonacidon ktp. Ili donas al tiuj nutraĵoj ilian karakterizan acidan guston. Ekzistas pli *fortaj* kaj pli *malfortaj* acidoj. Tiu grado de acideco dependas de la koncentriteco de protonoj solvitaj en akvo. La ekvilibro de specifa acido ĉe iu temperaturo estas donebla kiel specialiĝo de la leĝo de masefiko per konstanto, la *acido-konstanto*, esprimanta propocion inter reakciaj produktoj kaj reakciantoj[^cd]:
 

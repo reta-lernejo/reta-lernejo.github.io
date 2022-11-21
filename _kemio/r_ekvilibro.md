@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: Leĝo de masefiko
+title: Kemia ekvilibro
 chapter: "3.1.2"
 next_ch: r_precipito
 js:
@@ -35,24 +35,25 @@ https://sourceforge.net/p/javascripaabbtr/code/HEAD/tree/aabbTreeExample.html
 
 ... paĝo en preparo...
 
-Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. La plej multaj reakcioj okazas ne en nur unu direkto kaj komplete, sed en ambaŭ direktoj ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido. 
+Kiam ĥemiaĵoj reakcias, el *reakciantaj* substancoj formiĝas aliaj, la reakciaj *produktoj*. Multaj reakcioj okazas ne nur en unu direkto kaj komplete, sed en ambaŭ direktoj samtempe ĝis ekestas *ekvilibro*, do kiam ambaŭ direktoj de la reakcio okazas kun sama rapido.
 
-La ekvilibron de la reakcio oni priskribas per ekvilibro de *aktivecoj* de la unuopaj substancoj, kiuj depedas de la kvantoj de la unuopaj reakiantaj substancoj. 
+La ekvilibron de la reakcio oni priskribas per ekvilibro de *aktivecoj* de la unuopaj substancoj, kiuj depedas de la kvantoj de la unuopaj reakciantaj substancoj. En ideala miksaĵo ili estas proporciaj al la kvanto, en realaj necesas aldoni koeficienton, ordinare pli malgrandan ol 1.
 
-En solvaĵoj, krom de ĝeneralaj cirkonstancoj kiel temperaturo kaj premo, la rapido de reakcio dependas de la varianta koncentriteco de partoprenantaj substancoj per koeficientoj $$k_{tien}$$ kaj $$k_{reen}$$. Por 
-simpla reakcio $$\ce{A + B <-> AB}$$, t.e.:
+En solvaĵoj, krom de ĝeneralaj cirkonstancoj kiel temperaturo kaj premo, la rapido de reakcio dependas de la varianta koncentriteco de partoprenantaj substancoj per koeficientoj $$k_{tien}$$ kaj $$k_{reen}$$. Por simpla reakcio en ideala miksaĵo $$\ce{A + B <-> AB}$$, t.e. proporcio:
 
 $$v_{tien}  =  k_{tien} \cdot c(A) \cdot c(B) \tag{1}$$
 
 $$v_{reen}  =  k_{reen} \cdot c(AB) \tag{2}$$
 
-Pli ĝenerale la rapido dependas de la produkto de la koncentritecoj de la reakciantaj substancoj.
+## Leĝo de masefiko
 
-Kiam la reakcio troviĝas en ekvilibro, (1) kaj (2) havas saman valoron kaj do la proporcio inter la koncentritecoj estas priskribita de konstanta nombro[^cu1]:
+Kiam la reakcio troviĝas en ekvilibro, (1) kaj (2) havas saman valoron kaj do la proporcio inter la koncentritecoj estas priskribita de ekvilibra konstanta nombro[^cu1]:
 
-$$K = \frac{c(AB)}{c(A) \cdot c(B)} = \frac{k_{tien}}{k_{reen}}$$
+$$K_e = \frac{c(AB)}{c(A) \cdot c(B)} = \frac{k_{tien}}{k_{reen}}$$
 
-Tiun rilaton oni nomas *leĝo de masefiko* formulitan de de Cato Maximilian Guldberg kaj Peter Waage. (Ĝi validas ankaŭ por reakcioj de gasoj, kie oni uzas la partajn premojn de la unuopaj gasoj anstataŭ la koncentritecon aŭ aliaj medioj, kie oni povas uzi la propociajn kvantojn de la reakciantaj substancoj. Estas notinde, ke tiu ĉi kineta klarigo de la leĝo de masefiko estas aplikebla ne al ĉiaj reakcioj; ekzemple plurpaŝaj, kiuj okazas sub influo de fotoĥemiaj fenomenoj. Ekzistas pli ĝenerala termodinamika priskribo per la energio de Gibbs.)
+Tiun rilaton oni nomas *leĝo de masefiko* formulitan de de Cato Maximilian Guldberg kaj Peter Waage. Tiu konstanto dependas nur de la reakcio kaj la temperaturo, sed ne de la koncentriteco aŭ premo. Alivorte, se ekzemple altiĝas la koncentriteco de A, la koncentriteco de AB altiĝas kaj tiu de de B malaltiĝas ĝis la proporcio $$K$$ atingas denove la ekvilibran valoron $$K_e$$.
+
+(Tiu leĝo validas ankaŭ por reakcioj de gasoj, kie oni uzas la partajn premojn de la unuopaj gasoj anstataŭ la koncentritecon. Estas notinde, ke tiu ĉi kineta klarigo de la leĝo de masefiko (dekstra parto de la ekvacio) estas aplikebla ne al ĉiaj reakcioj; ekzemple plurpaŝaj, kiuj okazas sub influo de fotoĥemiaj fenomenoj. Ekzistas pli ĝenerala termodinamika priskribo per la energio de Gibbs.)
 
 En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
 
@@ -72,11 +73,13 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
     td:nth-child(2) {
         width: 20%;
     }
-    label {
+    .elekto label {
         padding: 0.2em;
+        padding-left: 0;
         border-radius: 4px;
         border: 1px dotted cornflowerblue;
         border-left: none;
+        /*background: linear-gradient(90deg, rgba(9,9,121,0) 0%, rgba(34,102,116,1) 60%, rgba(9,9,121,0) 100%);*/
     }
 </style>
 
@@ -89,7 +92,7 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
 *reakciemo A kun B*: ()malalta (x)meza ()alta
 {: .elekto #reakciem}
 
-*disociiĝemo de AB*: ()malalta (x)meza ()alta
+*disociiĝemo de AB*: (x)malalta ()meza ()alta
 {: .elekto #disociem}
 
 *temperaturo*: ()malalta (x)meza ()alta
@@ -126,7 +129,7 @@ logaritma skalo
 |$$v_{reen} (\ce{AB -> A + B})$$|<span id="vdis"/>|
 |$$k_{tien} = v_{tien} / (x_{A} \cdot x_{B})$$|<span id="ktien"/>|
 |$$k_{reen} = v_{reen} / x_{AB}$$|<span id="kreen"/>|
-|$$K = x_{AB} / (x_{A} \cdot x_{B}) = k_{tien}/k_{reen}$$|<span id="Ke"/>|
+|$$K = x_{AB} / (x_{A} \cdot x_{B}) \to k_{tien}/k_{reen}$$|<span id="Ke"/>|
 
 <script>
 
@@ -162,10 +165,10 @@ function preparo() {
     dgr_r.clearRect(0, 0, d_rapidoj.width, d_rapidoj.height);
 
     const d_alto = d_rapidoj.getAttribute("height");
-    linio(d_alto/2,dgr_r);
+    linio(d_alto/3,dgr_r);
     linio(3/4*d_alto,dgr_r);
 
-    masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo);
+    masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo,p_kunigo,p_divido);
 }
 
 
@@ -174,7 +177,7 @@ function valoroj() {
     // skribu nombro kun precizo 3, sed komo kaj 10^ anstatŭ e...
     function n_eo(nombro) {
         const p = nombro.toPrecision(3).replace('.',',');
-        return p.replace(/e\+?/,' 10^');
+        return p.replace(/e\+?/,' 10^').replace('Infinity','--').replace('NaN','--');
     }
 
     const d_alto = d_rapidoj.getAttribute("height");
@@ -213,8 +216,8 @@ function valoroj() {
         ĝi("#vdis").textContent = n_eo(rapidoj.dis);
 
         // rapidojn ni montras en logaritma skalo kun log10(1) = 0 en la mezo de la diagramo
-        const ykun = d_alto/2 - Math.log10(rapidoj.kun)*50;
-        const ydis = d_alto/2 - Math.log10(rapidoj.dis)*50;
+        const ykun = d_alto/3 - Math.log10(rapidoj.kun)*50;
+        const ydis = d_alto/3 - Math.log10(rapidoj.dis)*50;
 
         streko(T-1,ry_lasta.ykun,T,ykun,"#090",dgr_r);
         streko(T-1,ry_lasta.ydis,T,ydis,"#900",dgr_r);
@@ -294,8 +297,8 @@ function eksperimento() {
 
     n_eroj_A = {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
     n_eroj_B = {"malalta": 500, "meza": 1000, "alta": 2000}[kB];
-    p_kunigo = {"malalta": 0.05, "meza": 0.1, "alta": 0.7}[r_em];
-    p_divido = {"malalta": 0.0005, "meza": 0.01, "alta": 0.1}[d_em];
+    p_kunigo = {"malalta": 0.005, "meza": 0.1, "alta": 0.7}[r_em];
+    p_divido = {"malalta": 0.005, "meza": 0.1, "alta": 0.7}[d_em];
     temperaturo = {"malalta": 0.1, "meza": 1, "alta": 5}[temp];
 
     //var interval = setInterval(pentru, 100);
@@ -318,15 +321,45 @@ function eksperimento() {
     const intervalo = 50;
     const d_larĝo = d_rapidoj.getAttribute("width");
 
+    ripetu(
+        () => {
+            paŝo();
+            return (masefiko.T < d_larĝo);
+        },
+        intervalo
+    )
+    /*
     (function bis() {
         setTimeout(() => {        
             paŝo();
             if (masefiko.T < d_larĝo) bis();
         }, intervalo);
     })();
+    */
 }
 
 </script>
+
+## Aldonaj rimarkoj pri leĝo de masefiko
+{: .sekcio}
+
+Por ekvacioj kie la reakciantoj aŭ produktoj havas faktorojn, oni devas potencigi la aktivecojn:
+
+$$\ce{2A + 3B -> C + 6D}$$
+
+$$\begin{align} K_e &= \frac{a_C^1 \cdot a_D^6}{a_A^2 \cdot a_B^3} \\
+  a_i &= \chi_i \cdot x_i \end{align}$$
+
+La $$a_i$$ estas la aktiveco de la substanco i en ekvilibra stato. La kvanto (koncentriteco en solvaĵo, parta premo en gaso) estas $$x_i$$ kaj $$\chi_i$$ koeficiento de aktiveco, en ideala miksaĵo egala al 1. En kuplitaj reakcioj por ĉiu paŝo tia rilato validas aparte dum la ekvilibraj konstantoj de la paŝoj multiplikiĝas unu kun la alia.
+
+Sed kiel do utilas la leĝo de masekfiko kaj konado de la ekvilibra konstanto de reakcio por certa temperaturo?
+
+- Ekzemple oni tiel povas taksi, kiom da produkto estiĝos per certa kvanto de reakciantoj.
+- Per la proporcio de la produktoj de aktivecoj (kvantoj) oni povas eltrovi en kiu direkto la reakcio evoluas.
+- Se oni ne scias, kiom da certa substanco estas en iu solvaĵo, oni povas aldoni iom post iom da konata substanco, ĝis oni per testo povas konstati difinitan kvanton de produkto kaj tiel kalkuli kiom de la nekonata substanco origine estis en la solvaĵo. Tion oni nomas titrado. 
+
+La pH-valoro de acidoj kaj bazoj kaj ties acid- kaj bazo-konstantoj estas difinitaj per la leĝo de masefiko.
+Kaj tiel oni povas ekzemple ankaŭ testi la kvaliton de akvo aŭ la purecon de iu substanco.
 
 ## fontoj
 {: .fontoj}
