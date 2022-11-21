@@ -83,11 +83,13 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
     }
 </style>
 
+<!--
 *koncentriteco c(A)*: ()malalta (x)meza ()alta
 {: .elekto #koncentrA}
 
 *koncentriteco c(B)*: ()malalta (x)meza ()alta
 {: .elekto #koncentrB}
+-->
 
 *reakciemo A kun B*: ()malalta (x)meza ()alta
 {: .elekto #reakciem}
@@ -99,15 +101,58 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
 {: .elekto #temperatur}
 
 <button id="starto">Komencu</button>
+<button id="plusA">+A</button>
+<button id="plusB">+B</button>
+<button id="plusAB">+AB</button>
+<button id="daŭrigo">Daŭrigu</button>
 
 <script>
+    ĝi("#plusA").disabled = true;
+    ĝi("#plusB").disabled = true;
+    ĝi("#plusAB").disabled = true;
+    ĝi("#daŭrigo").disabled = true;
+
     elekte((elekto,valoro) => {
         console.log(elekto+':'+valoro);
     });
 
     kiam_klako("#starto",() => {
         eksperimento();
-    })
+        ĝi("#plusA").disabled = true;
+        ĝi("#plusB").disabled = true;
+        ĝi("#plusAB").disabled = true;
+        ĝi("#daŭrigo").disabled = true;
+    });
+
+    const MAX_EROJ = 6000;
+    function eroj_max() {
+        const s = masefiko.n_sumo2();
+        if (s > MAX_EROJ) {
+            ĝi("#plusA").disabled = true;
+            ĝi("#plusB").disabled = true;
+            ĝi("#plusAB").disabled = true;
+        }
+    }
+
+    kiam_klako("#plusA", () => {
+        masefiko.kreu_erojn(250,-1);
+        eroj_max();
+    });
+    kiam_klako("#plusB", () => {
+        masefiko.kreu_erojn(250,1);
+        eroj_max();
+    });
+    kiam_klako("#plusAB", () => {
+        masefiko.kreu_erojn(125,0);
+        eroj_max();
+    });
+
+    kiam_klako("#daŭrigo",() => {
+        ĝi("#plusA").disabled = true;
+        ĝi("#plusB").disabled = true;
+        ĝi("#plusAB").disabled = true;
+        daŭrigo();
+    });
 </script>
 
 <canvas id="kampo" width="480" height="320"></canvas>
@@ -122,7 +167,7 @@ proporciaj kvantoj de A (flava), B (blua) kaj AB (grasa dukolora)
 
 <canvas id="rapidoj" width="480" height="320"></canvas>
 rapidecoj de kombino (verda) kaj malkombino (ruĝa); 
-ekvilibraj konstantoj: $$k_{tien}$$ (verda), $$k_{reen}$$ (ruĝa), proporcio $$K$$ (nigra);
+ekvilibraj konstantoj: $$k_{tien}$$ (helverda), $$k_{reen}$$ (helruĝa), proporcio $$K$$ (nigra);
 logaritma skalo
 
 |$$v_{tien} (\ce{A + B -> AB})$$|<span id="vkun"/>|
@@ -147,8 +192,8 @@ const masefiko = new Masefiko(
     canvas.getAttribute("height"),
     16);
 
-let n_eroj_A = 500; // nombro da eroj A
-let n_eroj_B = 500; // nombro da eroj B
+let n_eroj_A = 100; // nombro da eroj A
+let n_eroj_B = 100; // nombro da eroj B
 const r_ero = 2; // radiuso de eroj
 let temperaturo = 1; // = maksiuma rapideco: 1*16 (kahelgrando)
 //let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
@@ -157,7 +202,9 @@ let temperaturo = 1; // = maksiuma rapideco: 1*16 (kahelgrando)
 let p_kunigo = 0.1; //0.1;
 let p_divido = 0.7; //0.0005;
 
+let ny_lasta = { yA: 0, yB: 0, yAB: 0}; // memoru antaŭajn kvantojn
 let ry_lasta = { ykun: 0, ydis: 0 }; // memoru antaŭajn rapidojn
+let T0 = 0; // tempo komenciĝu ĉe T=0
 
 // preparo de la eksperimento
 function preparo() {
@@ -168,6 +215,7 @@ function preparo() {
     linio(d_alto/3,dgr_r);
     linio(3/4*d_alto,dgr_r);
 
+    T0 = 0;
     masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo,p_kunigo,p_divido);
 }
 
@@ -190,7 +238,9 @@ function valoroj() {
     const nAB= kvantoj[0];
 
     // montru valorojn en diagramo
-    if (T < d_larĝo) {
+    if (T - T0 < d_larĝo) {
+        const Tx = T - T0;
+
         // maksimuma nombro de iuspecaj eroj
         const n_max = 1; // Math.max(n_eroj_A,n_eroj_B)/(n_eroj_A+n_eroj_B);
         // kalkulu y-koordinaton en la diagramo el valoro v je tempo T
@@ -199,13 +249,20 @@ function valoroj() {
         const yA = d_alto - nA/n_max * d_alto;
         const yB = d_alto - nB/n_max * d_alto;
         const yAB = d_alto - nAB/n_max * d_alto;
-        if (T%6 == 3) { // evitu skribi flavan sur bluan punkton, sed intermitu!
-            ero({ k:  1, x: T, y: yB }, dgr_n);
-        } else if (T%6 == 0) {
-            ero({ k: -1, x: T, y: yA }, dgr_n);
-        }
 
-        ero({ k: 0, x: T, y: yAB}, dgr_n);
+        if (T%6 == 3) { // evitu skribi flavan sur bluan punkton, sed intermitu!
+            if (T>6) streko(Tx-3,ny_lasta.yB,Tx,yB,1,dgr_n);
+            ero({ k:  1, x: Tx, y: yB }, dgr_n);
+            ny_lasta.yB = yB;
+        } else if (T%6 == 0) {
+            if (T>6) streko(Tx-3,ny_lasta.yA,Tx,yA,-1,dgr_n);
+            ero({ k: -1, x: Tx, y: yA }, dgr_n);
+            ny_lasta.yA = yA;
+        }
+        streko(Tx-1,ny_lasta.yAB,Tx,yAB,0,dgr_n);
+        ero({ k: 0, x: Tx, y: yAB}, dgr_n);
+        ny_lasta.yAB = yAB;
+
 
         ĝi("#cA").textContent = n_eo(nA);
         ĝi("#cB").textContent = n_eo(nB);
@@ -219,10 +276,10 @@ function valoroj() {
         const ykun = d_alto/3 - Math.log10(rapidoj.kun)*50;
         const ydis = d_alto/3 - Math.log10(rapidoj.dis)*50;
 
-        streko(T-1,ry_lasta.ykun,T,ykun,"#090",dgr_r);
-        streko(T-1,ry_lasta.ydis,T,ydis,"#900",dgr_r);
-        ero({ k: "#090", x: T, y: ykun }, dgr_r);
-        ero({ k: "#900", x: T, y: ydis }, dgr_r);
+        streko(Tx-1,ry_lasta.ykun,Tx,ykun,"#090",dgr_r);
+        streko(Tx-1,ry_lasta.ydis,Tx,ydis,"#900",dgr_r);
+        ero({ k: "#090", x: Tx, y: ykun }, dgr_r);
+        ero({ k: "#900", x: Tx, y: ydis }, dgr_r);
         ry_lasta = { ykun: ykun, ydis: ydis };
 
         const k_tien = rapidoj.kun / (nA*nB);
@@ -237,9 +294,17 @@ function valoroj() {
         yreen = 3/4*d_alto - Math.log10(k_reen)*10;
         yK    = 3/4*d_alto    - Math.log10(K)*10;
 
-        ero({ k: "#0d0", x: T, y: ytien }, dgr_r);
-        ero({ k: "#d00", x: T, y: yreen }, dgr_r);
-        ero({ k: "#000", x: T, y: yK }, dgr_r);
+        ero({ k: "#0d0", x: Tx, y: ytien }, dgr_r);
+        ero({ k: "#d00", x: Tx, y: yreen }, dgr_r);
+        ero({ k: "#000", x: Tx, y: yK }, dgr_r);
+    } else {
+        const s = masefiko.n_sumo2();
+        if (s < MAX_EROJ) {
+            ĝi("#plusA").disabled = false;
+            ĝi("#plusB").disabled = false;
+            ĝi("#plusAB").disabled = false;
+        }
+        ĝi("#daŭrigo").disabled = false;
     }
 
 }
@@ -248,21 +313,24 @@ function valoroj() {
 function linio(y,ctx) {
     const larĝo = ctx.canvas.getAttribute("width");
     ctx.beginPath();
-    ctx.moveTo(0, y);
+    ctx.moveTo(masefiko.T-T0, y);
     ctx.lineTo(larĝo,y);
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 1;
     ctx.stroke();
 }
 
-// desegnu strekon inter du punktoj
+// desegnu strekon inter du punktoj de diagramo
 function streko(x0,y0,x1,y1,koloro,ctx) {
-    ctx.beginPath();
-    ctx.moveTo(x0,y0);
-    ctx.lineTo(x1,y1);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = koloro;
-    ctx.stroke();
+    if (x0>1 && Math.abs(y1-y0)>3) {
+        const klr = {"-1": "#DD9900", "1": "#0095DD", "0": "#090"}[koloro] || koloro;
+        ctx.beginPath();
+        ctx.moveTo(x0,y0);
+        ctx.lineTo(x1,y1);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = klr;
+        ctx.stroke();
+    }
 }
 
 // desegnu eron en la eksperimento
@@ -287,40 +355,46 @@ function ero(e,ctx) {
     }
 }
 
-function eksperimento() {
-    // komencaj valoroj
+const intervalo = 50;
+const d_larĝo = d_rapidoj.getAttribute("width");
+
+function paŝo() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const kahelo of masefiko.kaheloj) {
+        for (e of Object.values(kahelo)) {
+            ero(e,ctx);
+        }
+    }
+
+    masefiko.procezo();
+    valoroj();
+}
+
+function parametroj() {
+    /*
     const kA = ĝi("input[name='koncentrA']:checked").value;
     const kB = ĝi("input[name='koncentrB']:checked").value;
+    */
     const r_em = ĝi("input[name='reakciem']:checked").value;
     const d_em = ĝi("input[name='disociem']:checked").value;
     const temp = ĝi("input[name='temperatur']:checked").value;
 
-    n_eroj_A = {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
-    n_eroj_B = {"malalta": 500, "meza": 1000, "alta": 2000}[kB];
-    p_kunigo = {"malalta": 0.005, "meza": 0.1, "alta": 0.7}[r_em];
-    p_divido = {"malalta": 0.005, "meza": 0.1, "alta": 0.7}[d_em];
+    p_kunigo = {"malalta": 0.005, "meza": 0.09, "alta": 0.19}[r_em];
+    p_divido = {"malalta": 0.005, "meza": 0.09, "alta": 0.19}[d_em];
     temperaturo = {"malalta": 0.1, "meza": 1, "alta": 5}[temp];
+}
+
+function eksperimento() {
+    // komencaj valoroj
+    parametroj();
+
+    n_eroj_A = 500; // {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
+    n_eroj_B = 500; // {"malalta": 500, "meza": 1000, "alta": 2000}[kB];
 
     //var interval = setInterval(pentru, 100);
 
     preparo();
-
-    function paŝo() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        for (const kahelo of masefiko.kaheloj) {
-            for (e of Object.values(kahelo)) {
-                ero(e,ctx);
-            }
-        }
-
-        masefiko.procezo();
-        valoroj();
-    }
-
-    const intervalo = 50;
-    const d_larĝo = d_rapidoj.getAttribute("width");
-
     ripetu(
         () => {
             paŝo();
@@ -328,14 +402,39 @@ function eksperimento() {
         },
         intervalo
     )
-    /*
-    (function bis() {
-        setTimeout(() => {        
+}
+
+function daŭrigo() {
+    const ŝovo = 400;
+    T0 += ŝovo;
+
+    function maldekstren(ctx) {
+        const imageData = ctx.getImageData(ŝovo,0,ctx.canvas.width-ŝovo,ctx.canvas.height);
+        /*
+        ctx.translate(-ŝovo,0);
+        ctx.clearRect(T0, 0, ctx.canvas.width,ctx.canvas.height);
+        */
+        ctx.clearRect(0, 0, ctx.canvas.width,ctx.canvas.height);
+
+        ctx.putImageData(imageData,0, 0);
+    }
+    maldekstren(dgr_n);
+    maldekstren(dgr_r);
+
+    const d_alto = d_rapidoj.getAttribute("height");
+    linio(d_alto/3,dgr_r);
+    linio(3/4*d_alto,dgr_r);
+
+    parametroj();
+    masefiko.parametroj(temperaturo,p_kunigo,p_divido);
+
+    ripetu(
+        () => {
             paŝo();
-            if (masefiko.T < d_larĝo) bis();
-        }, intervalo);
-    })();
-    */
+            return (masefiko.T - T0 < d_larĝo);
+        },
+        intervalo
+    )
 }
 
 </script>

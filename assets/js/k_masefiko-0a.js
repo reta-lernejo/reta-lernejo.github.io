@@ -20,8 +20,6 @@ class Masefiko {
         this.kaheloj = {};
     }
 
-
-
     /* 
     * Remetu variablojn, kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
     * @param {number} n_eroj_A nombro de eroj de speco A(-1)
@@ -29,12 +27,15 @@ class Masefiko {
     * @param {number} temperaturo influanta maksimuman rapidon en direktoj x kaj y en multobloj de kahelgrando kaj modifante reakci-probablojn
     */
     preparo(n_eroj_A=500, n_eroj_B=500, temperaturo=1, p_kunigo=0.1, p_divido=0.1) {
-
+        this.parametroj(temperaturo, p_kunigo, p_divido);
+        /*
         this.v_max = temperaturo * this.K;
+
         // ni premisas ekzoterman reakcion, tiam pli alta temparaturo
         // favoras la rereakcion / la disrompon de ligoj AB -> A+B
         this.p_kunigo = p_kunigo/temperaturo;
         this.p_divido = p_divido*temperaturo;
+        */
 
         this.T = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
@@ -47,33 +48,79 @@ class Masefiko {
         this.v = Array.apply(null, new Array(this.Ti))
             .map(() => Object.create({kun: 0, dis: 0}));
 
+        this.kreu_erojn(n_eroj_A,-1);
+        this.kreu_erojn(n_eroj_B,1);
+    }
+
+    /**
+     * Adaptas parametrojn temperaturo kaj probablecoj
+     */
+    parametroj(temperaturo=1, p_kunigo=0.1, p_divido=0.1) {
+        this.v_max = temperaturo * this.K;
+        // ni premisas ekzoterman reakcion, tiam pli alta temparaturo
+        // favoras la rereakcion / la disrompon de ligoj AB -> A+B
+        this.p_kunigo = p_kunigo/temperaturo;
+        this.p_divido = p_divido*temperaturo;
+    }
+
+    /**
+     * Redonas la sumon de ĉiuj eroj (de ciuj tri specoj)
+     */
+    n_sumo() {
+        return Object.values(this.k_nombroj).reduce((s,v) => s+v, 0);
+    }
+
+    /**
+     * Redonas la sumon de ĉiuj eroj kalkulante AB(0) duoble
+     */
+    n_sumo2() {
+        return Object.values(this.k_nombroj).reduce((s,v) => s+v, 0) + this.k_nombroj[0];
+    }
+    
+
+    /**
+     * Ni kontrolas, ĉu la nombroj estas ĝustaj (por eviti cimojn)
+     */
+    kontrolo() {
+        // la sumo de eroj entute devas esti sama al la eroj en kaheloj
+        const ke = this.kaheloj.reduce((s,k) => s+Object.keys(k).length, 0);
+        if (this.n_sumo() != ke)  throw `La nombro de eroj ne plu estas gusta! Registitaj: `
+            + `${this.n_sumo()}, sed en kaheloj: ${ke}`;
+    }    
+
+    /**
+     * Kreas erojn de unu el la specoj A, B, AB en arbitraj lokoj kun arbitra rapido-vektoro
+     * @param {number} n_eroj nobro da kreendaj eroj
+     * @param {number} speco -1: A, 1: B, 0: AB
+     */
+    kreu_erojn(n_eroj,speco) {
         const larĝo = this.larĝo;
         const alto = this.alto;
-        const v_max = this.v_max;
-        const self = this;
+        const v_max = speco? this.v_max : this.v_max/2;
 
-        function kreu_erojn(n_eroj,speco) {
-            // kreu erojn de specoj A(-1) kaj B(1)
-            for (let n = 0; n < n_eroj; n++) {
-                const e = {
-                    id: n,
-                    t: -1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe kahelmovo
-                    k: speco, // tipoj -1 aŭ 1 por unopaj kaj 0 por fanditaj eroj
-                    x: Math.random() * larĝo,
-                    y: Math.random() * alto,
-                    vx: Math.random() * 2 * v_max - v_max,
-                    vy: Math.random() * 2 * v_max - v_max
-                }
-                const k = self.kahelo(e.x,e.y);
-                if (k) {
-                    k[e.id] = e;
-                    self.k_nombroj[e.k]++;
-                }
+        const sumo = this.n_sumo2(); // kalkulu erojn AB duoble.
+
+        // kreu erojn de specoj A(-1),  B(1) aŭ AB(0)
+        for (let n = 0; n < n_eroj; n++) {
+            const e = {
+                id: speco? sumo+n : `${sumo+n}-${sumo+n_eroj+n}`,
+                t: this.T - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe kahelmovo
+                k: speco, // tipoj -1 aŭ 1 por unopaj kaj 0 por fanditaj eroj
+                x: Math.random() * larĝo,
+                y: Math.random() * alto,
+                vx: Math.random() * 2 * v_max - v_max,
+                vy: Math.random() * 2 * v_max - v_max
+            }
+            const k = this.kahelo(e.x,e.y);
+            if (k) {
+                k[e.id] = e;
+                this.k_nombroj[e.k]++;
+            } else {
+                throw `Neniu kahelo por ${e.x},${e.y}!`
             }
         }
 
-        kreu_erojn(n_eroj_A,-1);
-        kreu_erojn(n_eroj_B,1);
+        this.kontrolo();
     }
 
 
@@ -119,7 +166,7 @@ class Masefiko {
      * al ties sumo
      */
     proporciaj_kvantoj() {
-        const sumo = Object.values(this.k_nombroj).reduce((s,v) => s+v, 0);
+        const sumo = this.n_sumo();
         return {
             "-1":  this.k_nombroj[-1] / sumo,
             "1":   this.k_nombroj[1] / sumo,
@@ -186,10 +233,10 @@ class Masefiko {
         function reakcio(k) {
             const kahelo = self.kaheloj[k];
             const eroj = Object.keys(kahelo);
+            let n = 0;
 
-            // ĉu ni havas almenaŭ 2 erojn sur la kahelo?
-            if (eroj.length>1) {
-                const n = Math.trunc(Math.random() * (eroj.length-1.1));
+            // ĉu ni havas ankoraŭ almenaŭ 2 netraktitajn erojn sur la kahelo?
+            while (n < eroj.length-1) {
                 const e1 = kahelo[eroj[n]];
                 const e2 = kahelo[eroj[n+1]];
 
@@ -236,6 +283,7 @@ class Masefiko {
                         vbufro("dis"); // altigu dis;
                     }
                 }
+                n += 2;
             }
         }
 
