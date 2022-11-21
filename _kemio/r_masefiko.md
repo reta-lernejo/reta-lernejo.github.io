@@ -12,8 +12,8 @@ js:
 
 <!--
 https://www.chemieunterricht.de/dc2/mwg/mwg-kon.htm
-
 https://www.chemie.de/lexikon/Gleichgewichtskonstante
+https://chem.libretexts.org/Courses/University_of_Arkansas_Little_Rock/Chem_1403%3A_General_Chemistry_2/Text/15%3A_Equilibria/15.02%3A_Equilibrium_Constant_and_Reaction_Quotient
 
 - ekvilibro klarigita per pombatalo
 https://www.seilnacht.com/Lexikon/chemgl.htm
