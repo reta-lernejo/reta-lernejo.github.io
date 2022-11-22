@@ -41,7 +41,8 @@ $$K_b = \frac{[\ce{OH^-}] \cdot [\ce{BH^+}]}{[\ce{B}]} \tag{2}$$
 
 kaj
 
-$$pOH = -log([\ce{OH^-}]) = pK_b - log(\frac{[\ce{B}]}{[\ce{BH^+}]}), pK_b = -log(K_b \cdot \pu{1 l/mol})$$
+$$\begin{align} pOH = -log([\ce{OH^-}]) &= pK_b - log(\frac{[\ce{B}]}{[\ce{BH^+}]}) \tag{3}\\
+\text{kun } pK_b &= -log(K_b \cdot \pu{1 l/mol}) \end{align}$$
 
 <!--
 https://de.wikipedia.org/wiki/Dissoziation_(Chemie)
@@ -201,6 +202,16 @@ pOH &\approx \frac{1}{2}(pK_b - log[\ce{B}]_0)
 \end{align}$$
 
 La pH-valoron en akva solvaĵo ĉe temperaturo de 25°C oni ricevas kiel $$pH = 14 - pOH$$
+
+## Fortaj kaj malfortaj bazoj 
+{: .sekcio}
+
+Per la ekvacio (3) oni sciiĝas, ke la valoro de $$pK_b$$ estas egala al la pH-valoro, kiam duono de bazo disociiĝis respektive akceptis protonon, t.e. kiam troviĝas samgranda kvanto da bazolekuloj en la solvaĵo kiom da bazoresto-molekuloj.
+
+Forta bazo facile akceptas protonojn respektive forlases $$\ce{OH-}$$-jonojn, kaj en akvo komplete. Ĝi havas altan valoron $$pK_b$$, pli altan ol 9. Malforta bazo kontraŭe havas pli malaltan valoron $$pK_b$$ kaj nur parte disociiĝas en akvo.
+
+Oni ne konfuzu la ĥemian koncepton de fortaj kaj malfortaj bazoj kun la koncepto de alta aŭ malalta koncentriteco (aŭ diluo) de bazo. Oni povas havi diluitan solvaĵon de forta bazo kaj tre 
+koncentritan solvaĵon de malforta bazo kun similaj pH-avloroj.
 
 ## fontoj
 {: .fontoj}

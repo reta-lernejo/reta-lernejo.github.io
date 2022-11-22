@@ -58,7 +58,7 @@ $$[\ce{H^+}] = K_a \cdot \frac{[\ce{HA}]}{[\ce{A^-}]}$$
 Ĉar koncentritecoj povas esti nombroj kun multaj nuloj oni prefere uzas tiun ekvacion en logaritma formo (uzante la negativan dekuman logaritmon):
 
 $$\begin{align}
-pH = -log([\ce{H^+}]) &= pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]})\\
+pH = -log([\ce{H^+}]) &= pK_a - log(\frac{[\ce{HA}]}{[\ce{A^-}]}) \tag{3}\\
 \text{kun } pK_a &= -log(K_a \cdot \pu{1 l/mol})
 \end{align}$$
 
@@ -245,6 +245,15 @@ de $$\pu{60 g/mol}$$, do $$\pu{0,083 mol/l}$$ kaj $$pKa = 4,75$$ ni ricevas:
 
 $$pH \approx \frac{1}{2}(4,75 - log(0,083)) \approx 2,9 $$
 
+## Fortaj kaj malfortaj acidoj
+{: .sekcio}
+
+El la ekvacio (3) oni povas dedukti, ke la valoro de $$pK_a$$ estas egala al la pH-valoro, kiam duono de la protonoj de acido disociiĝis, t.e. kiam troviĝas samgranda kvanto da acidmolekuloj en la solvaĵo kiom da protonoj kaj acidresto-molekuloj.
+
+Forta acido disociiĝas facile kaj en akvo komplete. Ĝi havas malgrandan valoron $$pK_a$$, pli malaltan ol 4. Malforta acido kontraŭe havas pli altan valoron $$pK_a$$ kaj nur parte disociiĝas en akvo.
+
+Oni ne konfuzu la ĥemian koncepton de fortaj kaj malfortaj acidoj kun la koncepto de alta aŭ malalta koncentriteco (aŭ diluo) de acido. Oni povas havi diluitan solvaĵon de forta acido kaj tre 
+koncentritan solvaĵon de malforta acido kun similaj pH-avloroj.
 
 ## fontoj
 {: .fontoj}
