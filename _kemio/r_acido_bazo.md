@@ -16,6 +16,7 @@ paĝo en preparo...
 
 <!--
 https://www.vedantu.com/chemistry/acids-and-bases
+https://www.chemieunterricht.de/dc2/wsu-grund/kap_14.htm
 
 eksperimentoj:
 
@@ -54,7 +55,27 @@ nocioj:
 - neŭtraligo
 - ekvilibro
 - titrado/ekvivalent-punkto
+-->
 
+Acidomolekulo povas perdi protonon nur, kiam alia molekulo, de bazo, akceptas ĝin, aŭ kiam la OH-grupo de bazo kaj la H-jono de acido kune formas akvo-molekulon. Tion oni nomas *protontransigo*.
+
+Cetere en *akvo* fojfoje protono transiras de unu akvomolekulo al alia, formanta paron 
+da hidroksidjono $$\ce{OH-}$$ kaj oksonijono $$\ce{H3O+}$$. Tio okazas, ĉar pro la granda polareco de akvomolekuloj ili kunaranĝiĝas en bulojn. Kiam tiaj buloj rearanĝiĝas, foje kaŭziĝas tia protontransigo (iom simile kiel en granda amaso da homoj, paro povas disŝiriĝi kaj premiĝi en du diversajn direktojn kaj poste devas peni por rekuniĝi).
+En unu miliardo da akvomolekuloj averaĝe troviĝas 36 jonigitaj.[^sx1]
+
+<!-- eble aldonu kalkulon de jonprodukto de akvo per mola maso kaj pH -->
+
+Pro tiu fenomeno akvo povas funkcii kaj kiel malforta bazo kaj kiel malforta acido, ĝi povas akcepti protonojn de acido aŭ doni protonojn al bazo. Tial akvo estas nomata *amfotera*. Dependas de la medio, t.e. ĉu ĝi kuniĝas kun alia acido aŭ bazo, ĉu gia karaktero mem estas acida aŭ baza.
+
+Kiam acido fordonis protonojn, ĝi transformiĝas al bazo, ĉar ĝi nun povus akcepti protonojn de alia acido. La bazan acidreston de acido oni nomas *kongrua bazo*, ambaŭ kune *kongruan acido-bazo-paron*. Por tiaj paroj validas la ekvacio:
+
+$$\begin{align}\ce{pK_a(HA) + pK_b(A-) &= 14}\\ 
+\text{ resp. } \ce{pK_b(B) + pK_a(BH+) &= 14} \end{align}$$
+
+Konsekvence, la kongrua bazo de forta acido estas malforta bazo kaj la kongrua acido de forta bazo estas malforta acido.
+
+
+<!--
 
 titrado de amoniako kun HCl: https://www.youtube.com/watch?v=cMHD8TGPWoA
 
@@ -282,3 +303,10 @@ NH3 + H2O <-> NH4+ + OH-
     ]]>
   </style>
 </svg>
+
+
+## fontoj
+{. :fontoj}
+
+[^sx1]: [Eigendissoziation des Wassers entschlüsselt](https://www.scinexx.de/news/technik/eigendissoziation-des-wassers-entschluesselt/)
+[^cu1]: [Säuren, Basen, Salze](https://www.chemieunterricht.de/dc2/wsu-grund/kap_14.htm)
