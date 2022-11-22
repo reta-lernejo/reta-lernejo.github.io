@@ -137,14 +137,17 @@ En simpla simulita eksperimento vi povas esplori tiujn rilatojn malsupre.
     kiam_klako("#plusA", () => {
         masefiko.kreu_erojn(250,-1);
         eroj_max();
+        pentro();
     });
     kiam_klako("#plusB", () => {
         masefiko.kreu_erojn(250,1);
         eroj_max();
+        pentro();
     });
     kiam_klako("#plusAB", () => {
         masefiko.kreu_erojn(125,0);
         eroj_max();
+        pentro();
     });
 
     kiam_klako("#daŭrigo",() => {
@@ -211,12 +214,12 @@ function preparo() {
     dgr_n.clearRect(0, 0, d_nombroj.width, d_nombroj.height);
     dgr_r.clearRect(0, 0, d_rapidoj.width, d_rapidoj.height);
 
+    T0 = 0;
+    masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo,p_kunigo,p_divido);
+
     const d_alto = d_rapidoj.getAttribute("height");
     linio(d_alto/3,dgr_r);
     linio(3/4*d_alto,dgr_r);
-
-    T0 = 0;
-    masefiko.preparo(n_eroj_A,n_eroj_B,temperaturo,p_kunigo,p_divido);
 }
 
 
@@ -358,7 +361,7 @@ function ero(e,ctx) {
 const intervalo = 50;
 const d_larĝo = d_rapidoj.getAttribute("width");
 
-function paŝo() {
+function pentro() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (const kahelo of masefiko.kaheloj) {
@@ -366,9 +369,12 @@ function paŝo() {
             ero(e,ctx);
         }
     }
-
-    masefiko.procezo();
     valoroj();
+}
+
+function paŝo() {
+    masefiko.procezo();
+    pentro();
 }
 
 function parametroj() {
@@ -389,8 +395,8 @@ function eksperimento() {
     // komencaj valoroj
     parametroj();
 
-    n_eroj_A = 500; // {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
-    n_eroj_B = 500; // {"malalta": 500, "meza": 1000, "alta": 2000}[kB];
+    n_eroj_A = 800; // {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
+    n_eroj_B = 800; // {"malalta": 500, "meza": 1000, "alta": 2000}[kB];
 
     //var interval = setInterval(pentru, 100);
 
