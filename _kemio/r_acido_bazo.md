@@ -69,11 +69,47 @@ Pro tiu fenomeno akvo povas funkcii kaj kiel malforta bazo kaj kiel malforta aci
 
 Kiam acido fordonis protonojn, ĝi transformiĝas al bazo, ĉar ĝi nun povus akcepti protonojn de alia acido. La bazan acidreston de acido oni nomas *kongrua bazo*, ambaŭ kune *kongruan acido-bazo-paron*. Por tiaj paroj validas la ekvacio:
 
-$$\begin{align}\ce{pK_a(HA) + pK_b(A-) &= 14}\\ 
-\text{ resp. } \ce{pK_b(B) + pK_a(BH+) &= 14} \end{align}$$
+$$\begin{align}\ce{pK_a(HA) + pK_b(A^-) &= 14}\\ 
+\text{ resp. } \ce{pK_b(B) + pK_a(BH^+) &= 14} \end{align}$$
 
 Konsekvence, la kongrua bazo de forta acido estas malforta bazo kaj la kongrua acido de forta bazo estas malforta acido.
 
+## Neŭtraliga reakcio
+{: .sekcio}
+
+Kiam oni kunigas solvaĵojn de acido kaj de bazo, la protonoj de la acido kaj hidroksidjonoj de la bazo formas akvomolekulojn. Tio estas ekzoterma, do varmoproduktanta, reakcio. La pH-valoro ekvilibriĝas. Se temas pri forta acido kaj forta bazo kaj la molaj kvantoj estas egalaj laŭ la responda ekvacio, rezultiĝas solvaĵo de *salo* kun pH-valoro 7, t.e. neŭtrala:
+
+$$ \ce{HCl(aq) + NaOH(aq) -> NaCl(aq) + H2O(l)} $$
+
+aŭ notita kiel jonoj:
+
+$$ \ce{H3O+ + Cl- + Na+ + OH- -> Na+ + Cl- + 2H2O} $$
+
+Post vaporigo de la akvo, restas la salo natria klorido $$\ce{NaCl}$$.
+
+Similiaj reakcioj estas:
+
+$$\begin{align} \ce{HNO3(aq) + KOH(aq) &-> K+NO3(aq) + H2O(l)} \\
+ \ce{H2SO4(aq) + Ca(OH)2(aq) &-> Ca2+SO4^2-(aq) + 2H2O(l)} \end{align}$$
+
+Post forlaso de nepartoprenantaj jonoj, la konciza jonekvacio ĉiam estas:
+
+$$ \ce{H3O+ + OH- <-> 2H2O + varmo} $$
+
+
+Kiam oni kunigas malfortan acidon kun forta bazo en ekvivalentaj kvantoj, la rezultanta miksaĵo estas malforte baza. Ekzemple por acetacido (vinagro):
+
+$$\ce{CH3COOH + OH- <-> CH3COO^- +H2O}$$
+
+Tial sapo, konsistanta el natriaj aŭ kaliaj grasacidoj donas malforte bazan solvaĵon (lesivon)[^cu1].
+
+Inverse, kiam oni kunigas malfortan bazon kun forta acido en ekvivalentaj kvantoj, la rezultanta miksaĵo estas malforte acida. Ekzemple por amonia hidroksido, t.e. amoniako solvita en akvo:
+
+$$\ce{NH3 + H3O+ <-> NH4^+ + H2O}$$
+
+
+## Titra eksperimento
+{: .sekcio}
 
 <!--
 
@@ -306,7 +342,7 @@ NH3 + H2O <-> NH4+ + OH-
 
 
 ## fontoj
-{. :fontoj}
+{: .fontoj}
 
 [^sx1]: [Eigendissoziation des Wassers entschlüsselt](https://www.scinexx.de/news/technik/eigendissoziation-des-wassers-entschluesselt/)
 [^cu1]: [Säuren, Basen, Salze](https://www.chemieunterricht.de/dc2/wsu-grund/kap_14.htm)
