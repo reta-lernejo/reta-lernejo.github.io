@@ -20,13 +20,20 @@ js:
 
 - nivelo de gimnaziano aŭ ambicia laiko
 - ne postulanta universitatan scion
-- fokuso sur modeloj kaj teorioj helpantaj kompreni naturon
+- fokuso sur modeloj kaj teorioj helpantaj *kompreni* naturon
 - flankenlasi praktikajn sciojn (realaj eksperimentoj ja ne eblas...)
 - flankenlasi tro formalajn sciojn (kalkulsistemoj, k.s. krom se ili necese subtenas la fokusan enhavon)
 - klarigi prefere per interagaj grafikoj anstataŭ longaj tekstoj aŭ kalkuloj
-- ideale lernado similu vojaĝon direktatan de scivolemo
 
-## Teknikaj rimedoj
+## Serĉo pri 'ideala' aranĝo
+- por *verkado*, aranĝo de interdependaj konceptoj kaj kompleteco... estas konvena la lernolibra aranĝo en fakoj kaj ĉapitroj
+- sed *lernado* ideale similu vojaĝon tra pejzaĝo direktatan de scivolemo
+- ekz-e estus bone elmontri la interkonekton de ĥemia ligo - bazaj elementoj de vivaĵoj - nutraĵocikloj
+- nur tiel oni povas ricevi birdperspektivan komprenon kiel la sistemo Tero funkcias 
+- ...kaj kial ĝi estas tia, kia ni konas ĝin: atmosfero ktp. kreita el fizikaj, ĥemiaj kaj biologiaj procezoj ktp
+
+
+## Teknikaj rimedoj)
 {: .sekcio}
 
 - uzo de senpagaj Github-paĝoj
