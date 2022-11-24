@@ -33,7 +33,7 @@ Aliaj bazoj ne enhavas hidroksidon, sed en akvo akceptas protonojn postlastante 
 
 $$\ce{NH3 + H2O <-> NH4^+ + OH-}$$
 
-Ĉar tiuj hidroksidjonoj povas kuniĝi kun superfluaj H+-jonoj al akvomolekuloj, bazoj reduktas la koncentritecon de H+-jonoj kaj tiel *malacidigas* aŭ *neŭtraligas* acidan solvaĵon.
+Ĉar tiuj hidroksidjonoj povas kuniĝi kun superfluaj H+-jonoj al akvomolekuloj, bazoj reduktas la koncentritecon de H+-jonoj kaj tiel *malacidigas* aŭ *neŭtrigas* acidan solvaĵon.
 
 Analoge al acidoj oni difinas bazokonstanton per formulo:
 

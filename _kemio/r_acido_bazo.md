@@ -52,7 +52,7 @@ HCl + NaOH / acetacido + NaOH: https://www.youtube.com/watch?v=tc-cKeyjc8U (kaj 
 
 nocioj:
 - korespondaj acido-bazo-paroj
-- neŭtraligo
+- neŭtrigo
 - ekvilibro
 - titrado/ekvivalent-punkto
 -->
@@ -74,10 +74,10 @@ $$\begin{align}\ce{pK_a(HA) + pK_b(A^-) &= 14}\\
 
 Konsekvence, la kongrua bazo de forta acido estas malforta bazo kaj la kongrua acido de forta bazo estas malforta acido.
 
-## Neŭtraliga reakcio
+## Neŭtriga reakcio
 {: .sekcio}
 
-Kiam oni kunigas solvaĵojn de acido kaj de bazo, la protonoj de la acido kaj hidroksidjonoj de la bazo formas akvomolekulojn. Tio estas ekzoterma, do varmoproduktanta, reakcio. La pH-valoro ekvilibriĝas. Se temas pri forta acido kaj forta bazo kaj la molaj kvantoj estas egalaj laŭ la responda ekvacio, rezultiĝas solvaĵo de *salo* kun pH-valoro 7, t.e. neŭtrala:
+Kiam oni kunigas solvaĵojn de acido kaj de bazo, la protonoj de la acido kaj hidroksidjonoj de la bazo formas akvomolekulojn. Tio estas ekzoterma, do varmoproduktanta, reakcio. La pH-valoro ekvilibriĝas. Se temas pri forta acido kaj forta bazo kaj la molaj kvantoj estas egalaj laŭ la responda ekvacio, rezultiĝas solvaĵo de *salo* kun pH-valoro 7, t.e. neŭtra:
 
 $$ \ce{HCl(aq) + NaOH(aq) -> NaCl(aq) + H2O(l)} $$
 
@@ -107,12 +107,20 @@ Inverse, kiam oni kunigas malfortan bazon kun forta acido en ekvivalentaj kvanto
 
 $$\ce{NH3 + H3O+ <-> NH4^+ + H2O}$$
 
+## Bufra solvaĵo
+
+<!-- 
+
+https://chem.libretexts.org/Courses/University_of_Alberta_Augustana_Campus/AUCHE_110%3A_General_Chemistry_I_(Rempel)/06%3A_Buffers_and_Titrations/6.01%3A_Buffers
+https://masterconceptsinchemistry.com/index.php/2018/09/09/how-do-you-calculate-the-ph-of-a-buffer-solution/ -->
+
+Bufra solvaĵo konservas relative konstantan pH-valoron malgraŭ aldono de certa kvanto da forta acido aŭ fort bazo. Ordinare acidbufroj aŭ bazbufroj konsistas el solvaĵo malforta acido kaj salo de la kongrua bazo, respektive malforta bazo kaj la kongrua acido.
 
 ## Titra eksperimento
 {: .sekcio}
 
 <!--
-
+https://chem.libretexts.org/Courses/University_of_Alberta_Augustana_Campus/AUCHE_110%3A_General_Chemistry_I_(Rempel)/06%3A_Buffers_and_Titrations/6.02%3A_Acid-Base_Titrations
 titrado de amoniako kun HCl: https://www.youtube.com/watch?v=cMHD8TGPWoA
 
 titrado de citronacido kaj fosforacido:
