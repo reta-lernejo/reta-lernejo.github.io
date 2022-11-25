@@ -1,35 +1,31 @@
 ---
 layout: laborfolio
+js:
+  - epigraf-0a
+css:
+  - epigraf-0a
 ---
-
-{::options parse_block_html="true" /}
 
 <style>
   .fronto {
     display: flex; 
-    align-items: center
-  }
-  .epigrafo {
-    flex: 60% 1 5; 
-    margin-left: 1.5em; 
-    padding: 1em; 
-    font-size: 120%; 
-    border: 2px dotted gray; 
-    border-top-right-radius: 1em; 
-    border-bottom-right-radius: 1em; 
-    border-left: none;
+    align-items: center;
+    margin-bottom: 2em;
   }
 </style>
 
 <div class="fronto">
-  ![Korvo](corvus.jpg){: style="width: 200px; border: 1px solid gray; padding: 2px"}
-
-  «*Tiuj molbekuloj skuas la planedon sen vere kompreni ĝin.
-  Ili eĉ kredas, ke nin plenekstermis kometo, grak-grak-grak.
-  Ŝtonnestuloj, ŝtalflugiluloj, katkunuloj, kotonplumuloj, grak-grak-grak!*»
-  {: .epigrafo}
-  
+  <img src="corvus.jpg" alt="Korvo" style="width: 200px; border: 1px solid gray; padding: 2px">
+  <blockquote id="epigrafo" class="epigrafo">«&#x202F;grak-grak-grak!&#x202F;»</blockquote>
 </div>
+
+<script>
+  const epi = document.getElementById("epigrafo");
+  const txt = epigrafo();
+  if (epi && txt) {
+    epi.textContent = "«\u202F" + txt[0] + "\u202F»" + (txt[1]? " (" + txt[1] + ")" : "");
+  }
+</script>
 
 Tie ĉi kolektiĝas lernmaterialoj pri diversaj fakoj. 
 La projekto estas juna do bv. ne atendu jam multe da materialo

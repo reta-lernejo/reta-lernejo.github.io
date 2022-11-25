@@ -1,0 +1,11 @@
+.epigrafo {
+    flex: 60% 1 5; 
+    margin-left: 1.5em; 
+    padding: 1em; 
+    font-size: 120%;
+    color: black;
+    border: 2px dotted gray; 
+    border-top-right-radius: 1em; 
+    border-bottom-right-radius: 1em; 
+    border-left: none;
+}
