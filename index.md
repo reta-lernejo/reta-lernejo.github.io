@@ -1,24 +1,43 @@
 ---
-layout: home
+layout: laborfolio
 ---
 
-![Korvo](corvus.jpg){: width="200px"}
+{::options parse_block_html="true" /}
 
-Ni volas tie ĉi kolekti lernmaterialon pri diversaj fakoj. 
+<style>
+  .fronto {
+    display: flex; 
+    align-items: center
+  }
+  .epigrafo {
+    flex: 60% 1 5; 
+    margin-left: 1.5em; 
+    padding: 1em; 
+    font-size: 120%; 
+    border: 2px dotted gray; 
+    border-top-right-radius: 1em; 
+    border-bottom-right-radius: 1em; 
+    border-left: none;
+  }
+</style>
+
+<div class="fronto">
+  ![Korvo](corvus.jpg){: style="width: 200px; border: 1px solid gray; padding: 2px"}
+
+  «*Tiuj molbekuloj skuas la planedon sen vere kompreni ĝin.
+  Ili eĉ kredas, ke nin plenekstermis kometo, grak-grak-grak.
+  Ŝtonnestuloj, ŝtalflugiluloj, katkunuloj, kotonplumuloj, grak-grak-grak!*»
+  {: .epigrafo}
+  
+</div>
+
+Tie ĉi kolektiĝas lernmaterialoj pri diversaj fakoj. 
 La projekto estas juna do bv. ne atendu jam multe da materialo
 nek ke ĉio funkcias senmanke.
 
-Kontribuantoj estas bonvenaj.
+[Kontribuantoj](about) estas bonvenaj.
 
 
-## Esperanto
-
-{% assign esp = site.esperanto | sort: "title" %}
-{% for t in esp %}
-{% if t.title %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
 
 
 <!-- alternativa nomo elementoj & molekuloj -->
@@ -58,6 +77,14 @@ Kontribuantoj estas bonvenaj.
 <!-- alternativa nomo: vivo | organismoj -->
 
 
+## Programado
+
+{% assign progr = site.programado | sort: "title" %}
+{% for t in progr %}
+{% if t.title %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}
 
 
 ## Matematiko
@@ -69,11 +96,12 @@ Kontribuantoj estas bonvenaj.
 {% endif %}  
 {% endfor %}
 
-## Programado
 
-{% assign progr = site.programado | sort: "title" %}
-{% for t in progr %}
+## Esperanto
+
+{% assign esp = site.esperanto | sort: "title" %}
+{% for t in esp %}
 {% if t.title %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
 {% endif %}  
-{% endfor %}
+{% endfor %}  
