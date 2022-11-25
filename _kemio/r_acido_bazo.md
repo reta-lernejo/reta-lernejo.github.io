@@ -108,13 +108,14 @@ Inverse, kiam oni kunigas malfortan bazon kun forta acido en ekvivalentaj kvanto
 $$\ce{NH3 + H3O+ <-> NH4^+ + H2O}$$
 
 ## Bufra solvaĵo
+{: .sekcio}
 
 <!-- 
 
 https://chem.libretexts.org/Courses/University_of_Alberta_Augustana_Campus/AUCHE_110%3A_General_Chemistry_I_(Rempel)/06%3A_Buffers_and_Titrations/6.01%3A_Buffers
 https://masterconceptsinchemistry.com/index.php/2018/09/09/how-do-you-calculate-the-ph-of-a-buffer-solution/ -->
 
-Bufra solvaĵo konservas relative konstantan pH-valoron malgraŭ aldono de certa kvanto da forta acido aŭ fort bazo. Ordinare acidbufroj aŭ bazbufroj konsistas el solvaĵo malforta acido kaj salo de la kongrua bazo, respektive malforta bazo kaj la kongrua acido.
+Bufra solvaĵo konservas relative konstantan pH-valoron malgraŭ aldono de certa kvanto da forta acido aŭ forta bazo. Kutime acidbufroj aŭ bazbufroj konsistas el solvaĵo de malforta acido kaj salo de la kongrua bazo.  Ĉe bazobufro oni miksas malfortan bazon kun salo de la kongrua acido.
 
 ## Titra eksperimento
 {: .sekcio}
@@ -157,6 +158,14 @@ NH3 + H2O <-> NH4+ + OH-
 
 
 -->
+
+Per titrado oni povas eltrovi la koncentritecon kaj la kapaciton de acido aŭ bazo. Ĉe acido oni iom post iom aldonas fortan bazon de antaŭdifinita koncentriteco ĝis pH-indikilo montras ŝanĝon de acida al baza pH-valoro. Per sondilo oni povas mezuri la pH-valoron kontinue kaj ricevas kurbon. La punkton de ŝanĝo acida-al-baza oni nomas *ekvivalentpunkto*, tie la mola kvanto de la acido kaj de la forta bazo estas egalaj kaj el tio eblas elkalkuli la originan koncentritecon de la acido. 
+La mezan punkton inter la supra kaj malsupra "ĝibo", kie la kurbo aperas preskaŭ rekta, oni nomas *duonekvivalentpunkto*. Tie la duono de la acido neŭtriĝis kaj la pH-valoro estas egala al la valoro $$pK_a$$.
+Plurprotona acido kiel fosforacido cetere havas plurajn tiajn duonekvivalentpunktojn.
+
+Inverse, ĉe bazo oni titras per forta acido de difinita koncentriteco.
+
+Malsupre vi povas elekti unu el la preparitaj eksperimentoj, poste malfermi la kranon de la bureto kaj observi, kio okazas.
 
 <script>
 
