@@ -1,5 +1,5 @@
 const epigrafoj = [
-    "Tiuj ŝtalflugiluloj skuas la planedon sen vere kompreni ĝin, grak-grak-grak!",
+    "Tiuj metalflugiluloj skuas la planedon sen vere kompreni ĝin, grak-grak-grak!",
     "La ŝtonnestuloj eĉ kredas, ke nin plenekstermis kometo, grak-grak-grak.",
     "Certe vi ne flugos per tiuj pezaj klapoj kun ŝtonaj plumoj sur viaj nestoj! grak-grak-grak!",
     "Per poŝkalkulilo vi povas elkalkuli viajn ŝuldojn, grak-grak! Do havigu al vi poŝaklkulilon pri naturo! grak-grak!",
