@@ -16,7 +16,7 @@ class Masefiko {
         this.v; // bufro por rapidoj 0...Ti, uzataj por kalkulo de averaĝo
 
         this.T = 0; // la tuta tempo en paŝoj
-        this.eroj = [];
+        //this.eroj = [];
         this.kaheloj = {};
     }
 
@@ -39,7 +39,7 @@ class Masefiko {
 
         this.T = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
-        this.eroj = [];
+        //this.eroj = [];
         this.kaheloj = Array.apply(null, new Array(this.larĝo/this.K * this.alto/this.K))
             .map(() => new Object());
         this.k_nombroj = {"-1": 0, "0": 0, "1": 0};
