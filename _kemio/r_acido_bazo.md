@@ -117,6 +117,8 @@ https://masterconceptsinchemistry.com/index.php/2018/09/09/how-do-you-calculate-
 
 Bufra solvaĵo konservas relative konstantan pH-valoron malgraŭ aldono de certa kvanto da forta acido aŭ forta bazo. Kutime acidbufroj aŭ bazbufroj konsistas el solvaĵo de malforta acido kaj salo de la kongrua bazo.  Ĉe bazobufro oni miksas malfortan bazon kun salo de la kongrua acido.
 
+<!-- klarigu per malgranda modelo, kiel ekvilibro ŝoviĝas inter acido kaj salo konservante la pH-valoron...!? -->
+
 ## Titra eksperimento
 {: .sekcio}
 
