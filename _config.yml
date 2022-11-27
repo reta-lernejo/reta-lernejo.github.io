@@ -59,6 +59,8 @@ collections:
     output: true
   matematiko:
     output: true
+  fiziko:
+    output: true
 
 # Exclude from processing.
 # The following items will not be processed, by default.
