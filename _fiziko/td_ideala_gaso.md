@@ -160,27 +160,33 @@ const ctx = canvas.getContext("2d");
 const pvt = document.getElementById("pvt");
 const dgr_pvt = pvt.getContext("2d");
 
-// ni uzas 16x16-kahelojn por faciligi la kolizi-simuladon k.s.
-// larĝo kaj alto estu multoblo de 16!
-const idealgaso = new Idealgaso(
-    canvas.getAttribute("width"),
-    canvas.getAttribute("height"),
-    16);
+// skal-faktoroj 
+const px_nm = 0.08; // 1px = 0.08nm
+const ĉelo = 1/20; // ĉelalto (kaj -larĝo) estas 1/20 de 320px
+const ĉelo_nm = 320*ĉelo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
 
 const intervalo = 50; // 50 ms
-const px_nm = 0.08; // 1px = 0.08nm
 const r_ero = 2; // radiuso de eroj
-let temperaturo = 1; // = maksiuma rapideco: 1*16 (kahelgrando)
+let temperaturo = 1; // = maksiuma rapideco: 1*16 (ĉelgrando)
 //let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
 
 let T0 = 0; // tempo komenciĝu ĉe T=0
+
+
+// ni uzas 16x16-ĉelojn por faciligi la kolizi-simuladon k.s.
+// larĝo kaj alto estu multoblo de 16!
+const idealgaso = new Idealgaso(
+    px_nm*canvas.getAttribute("width"),
+    px_nm*canvas.getAttribute("height"),
+    ĉelo);
+
 
 // preparo de la eksperimento
 function preparo() {
     dgr_pvt.clearRect(0, 0, pvt.width, pvt.height);
 
     T0 = 0;
-    // mil eroj de heliumo (4u) kun maksiumo rapideco 0.1 kahellarĝoj
+    // mil eroj de heliumo (4u) kun maksiumo rapideco 0.1 ĉellarĝoj
     //idealgaso.preparo(1000,4,0.1);
     idealgaso.preparo(420,4,1);
 }
@@ -213,20 +219,22 @@ function streko(x0,y0,x1,y1,koloro,ctx) {
 // desegnu eron en la eksperimento
 function ero(e,ctx) {
     // unu ero tipo -1 aŭ 1
+    const x = e.x/px_nm;
+    const y = e.y/px_nm;
     if (e.k) {
         const koloro = {"-1": "#DD9900", "1": "#0095DD"}[e.k] || e.k;
         ctx.beginPath();
-        ctx.arc(e.x, e.y, r_ero, 0, Math.PI * 2);
+        ctx.arc(x, y, r_ero, 0, Math.PI * 2);
         ctx.fillStyle = koloro;
         ctx.fill();
     } else {
         // kunigite
         ctx.beginPath();
-        ctx.arc(e.x, e.y, 1.5*r_ero, Math.PI/4, Math.PI*5/4);
+        ctx.arc(x, y, 1.5*r_ero, Math.PI/4, Math.PI*5/4);
         ctx.fillStyle = "#0095DD";
         ctx.fill();
         ctx.beginPath();
-        ctx.arc(e.x, e.y, 1.5*r_ero, Math.PI*5/4, Math.PI*9/4);
+        ctx.arc(x, y, 1.5*r_ero, Math.PI*5/4, Math.PI*9/4);
         ctx.fillStyle = "#DD9900";
         ctx.fill();
     }
@@ -237,8 +245,8 @@ const d_larĝo = pvt.getAttribute("width");
 function pentro() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (const kahelo of idealgaso.kaheloj) {
-        for (e of Object.values(kahelo)) {
+    for (const ĉelo of idealgaso.ĉeloj) {
+        for (e of Object.values(ĉelo)) {
             ero(e,ctx);
         }
     }

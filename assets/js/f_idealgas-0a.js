@@ -1,30 +1,44 @@
 class Idealgaso {
 
-    constructor(larĝo,alto,kahelo=16) {
-        // ni uzas KxK-kahelojn por faciligi la kolizi-simuladon k.s.
-        // atentu ke larĝo kaj alto devas estu multobloj de K!
-        if (larĝo%kahelo) throw "La larĝo devas esti multoblo de kahelo!"
-        if (alto%kahelo) throw "La alto devas esti multoblo de kahelo!"
+    /**
+     * Kreas spacon por la eksperimento
+     * @param {number} larĝo larĝo en nm
+     * @param {number} alto alto en nm
+     * @param {number} profundo profundo (virtuala) en nm
+     * @param {number} ĉelo grandeco de ĉelo en frakcio de alto
+     */
+    constructor(larĝo,alto,profundo,ĉelo=1/20) {
+        // ni uzas ĈxĈ-ĉelojn por faciligi la kolizi-simuladon k.s.
+        // atentu ke ĉelo estu entjera ono de alto kaj larĝo!
+        // ni ne dividas la profundon, ĉar ni montras nur projekcion
+        // al la ebeno larĝo x alto kaj ne movas la gaserojn en la dimensio profundo
+        // la profundo estas uzata nur por kalkulo de fizikaj grandoj
 
         this.larĝo = larĝo;
         this.alto = alto;
-        this.K = kahelo;
-        this.Kl = larĝo/kahelo; 
+        this.profundo = profundo;
 
-        this.Ti = 30; // tempintervaloj por averaĝi rapidecon
-        this.nombro = 0; // la nombro de eroj en iu momento
-        this.v; // bufro por rapidoj 0...Ti, uzataj por kalkulo de averaĝo
+        // ĉelalto kaj ĉellarĝo
+        this.Ĉa = alto*ĉelo;
+        this.Ĉl = this.Ĉa; //larĝo/this.Ĉa; 
 
         this.T = 0; // la tuta tempo en paŝoj
-        this.kaheloj = {};
+        this.nombro = 0; // la nombro de eroj en iu momento
+
+        // la ĉeloj enhavas la erojn en tiu spacregiono
+        this.ĉeloj = {};
+
+        // valoroj por facile kalkuli la fizikajn grandojn
         this.premoj = {};
         this.v_sum = 0; // sumo de rapidoj
         this.v_sum2 = 0; // sumo de rapidkvadratoj
     }
 
    
+    // konstantoj por kalkuli la fizikajn grandojn
     static kB = 1.380649e-23;  // konstanto de Boltzmann (en J/K)
     static u = 1.66053906660e-27; // atoma masunuo en kg
+    static ev = 1e-11; // 1km/s ~ 10nm/s: faktoro je kiu rapidecoj estas reduktitaj, ĉar 1km/s ne estus montrebla
 
     /* 
     * Remetu variablojn, kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
@@ -34,19 +48,15 @@ class Idealgaso {
     */
     preparo(n_eroj=1000, maso=1, rapido=1) {
         this.parametroj(temperaturo, maso);
-
             
         this.T = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
-        this.kaheloj = Array.apply(null, new Array(this.larĝo/this.K * this.alto/this.K))
+
+        const n_ĉeloj = Math.ceil(this.larĝo/this.Ĉl * this.alto/this.Ĉa);
+        this.ĉeloj = Array.apply(null, new Array(n_ĉeloj))
             .map(() => new Object());
-        this.v_max = rapido * this.K;
+        this.v_max = rapido * this.Ĉa;
         
-        // preparu la bufron de rapidoj
-        /*
-        this.v = Array.apply(null, new Array(this.Ti))
-            .map(() => Object.create({kun: 0, dis: 0}));
-        */
         this.nombro = 0;
         this.v_sum = 0;
         this.v_sum2 = 0;
@@ -61,7 +71,7 @@ class Idealgaso {
      * 
      */
     parametroj(rapido=1, maso=1) {
-        this.v_max = rapido * this.K;
+        this.v_max = rapido * this.Ĉa;
         this.maso = maso;
     }
 
@@ -87,7 +97,7 @@ class Idealgaso {
                 vy: Math.random() * 2 * v_max - v_max,
                 vz: Math.random() * 2 * v_max - v_max, // z-dimensio de rapideco, loko ne gravas
             }
-            const k = this.kahelo(e.x,e.y);
+            const k = this.ĉelo(e.x,e.y);
             if (k) {
                 k[e.id] = e;
                 this.nombro++;
@@ -105,10 +115,10 @@ class Idealgaso {
     /**
      * Sur kiu kahelo troviĝas pozicio (x,y)?
      */
-    kahelo(x,y) {
-        const k = Math.trunc(x/this.K) + this.Kl * Math.trunc(y/this.K);
-        if (k>=this.kaheloj.length) throw(`neniu kahelo ${k} por x: ${x}, y: ${y}`);
-        return this.kaheloj[k];
+    ĉelo(x,y) {
+        const k = Math.trunc(x/this.Ĉl + this.Ĉl*Math.trunc(y/this.Ĉa));
+        if (k>=this.ĉeloj.length) throw(`neniu ĉelo ${k} por x: ${x}, y: ${y}`);
+        return this.ĉeloj[k];
     }
 
 
@@ -120,17 +130,17 @@ class Idealgaso {
      * @param {number} nx nova x-koordinato 
      * @param {number} ny nova y-koordinato
      */
-    kmovo(e,nx,ny) {
+    ĉelmovo(e,nx,ny) {
         const x = e.x;
         const y = e.y;
-        const kx = Math.trunc(x/this.K);
-        const ky = Math.trunc(y/this.K);
-        const nkx = Math.trunc(nx/this.K);
-        const nky = Math.trunc(ny/this.K);
+        const kx = Math.trunc(x/this.Ĉl);
+        const ky = Math.trunc(y/this.Ĉa);
+        const nkx = Math.trunc(nx/this.Ĉl);
+        const nky = Math.trunc(ny/this.Ĉa);
         e.x = nx; e.y = ny;
         if (kx != nkx || ky != nky) {
-            const k = this.kahelo(x,y);
-            const nk = this.kahelo(nx,ny);
+            const k = this.ĉelo(x,y);
+            const nk = this.ĉelo(nx,ny);
             if (k && nk) {
                 delete k[e.id];
                 nk[e.id] = e;
@@ -173,32 +183,16 @@ class Idealgaso {
                 }
                 // movo al nx, ny, eventuale al nova kahelo
                 e.t = self.T;
-                self.kmovo(e,nx,ny);
+                self.ĉelmovo(e,nx,ny);
             }
         }
-
-        /**
-         * donas al e novan rapidon (vx,vy) aldonante iom
-         * da hazardo kaj limigante al v_max por tipoj k:-1, 1 kaj
-         * v_max/2 por kunigo k: 0
-         */
-        /*
-        function rapido(e,vx,vy) {
-            const max = e.k? self.v_max : self.v_max/2;
-            const dx = Math.random()*0.1*max - 0.05*max;
-            const dy = Math.random()*0.1*max - 0.05*max;
-            e.vx = Math.max(-max,Math.min(vx+dx,max));
-            e.vy = Math.max(-max,Math.min(vy+dy,max));
-        }
-        */
-
         
         // trakuru ĉiujn kahelojn kaj traktu movojn kaj reakciojn de la eroj
-        for (let k in this.kaheloj) {
+        for (let k in this.ĉeloj) {
             // movo
-            const kx = k % this.Kl;
-            const ky = Math.trunc(k / this.Kl);
-            Object.values(this.kaheloj[k]).map((e) => movo(e,kx,ky));
+            const kx = k % this.Ĉl;
+            const ky = Math.trunc(k / this.Ĉa);
+            Object.values(this.ĉeloj[k]).map((e) => movo(e,kx,ky));
         }
 
         // aktualigu la premon
@@ -215,7 +209,7 @@ class Idealgaso {
      */
     rapido_ave() {
         // ALDONU: sumigu la rapidojn dum kreado kaj redonu ĝin tie ĉi dividite per /this.nombro
-        return this.v_sum/this.nombro;
+        return this.v_sum/Idealgaso.ev/this.nombro;
     }
 
     /**
@@ -228,7 +222,7 @@ class Idealgaso {
         // ĉar ĉiuj eroj havas la saman mason surfiĉas scii la sumon de rapidkvadratoj v_sum2
         // ĉiuj eroj konservas sian rapidon - manke de interagoj en ideala gaso!
 
-        return 0.5 * Idealgaso.u * this.maso * this.v_sum2;
+        return 0.5 * Idealgaso.u * this.maso * this.v_sum2/Idealgaso.ev;
     }
 
     /**
