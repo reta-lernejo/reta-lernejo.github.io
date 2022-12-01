@@ -6,6 +6,7 @@ js:
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - f_idealgas-0a
+  - bufro-0a
 ---
 
 <!--
@@ -17,14 +18,65 @@ https://de.wikipedia.org/wiki/Ideales_Gas
 ... paĝo en preparo...
 
 ## eksperimento
-{: .sekcio}
+<!-- {: .sekcio} -->
+
+En nia eksperimento ni provas simuli idealan gason en kubo kun latera longeco de ĉ. 25,6nm. En normaj kondiĉoj, t.e. 20 °C = 293,15 K kaj premo de 1000 hPa, tiu volumeno enhavas proksimume 420 gaserojn. Ĉe heliumo, kiu kondutas proksimume kiel ideala gaso, estus 450 atomoj. En tiaj kondiĉoj la eroj moviĝas per malfacile imagebla rapideco de 1 km/s. Kompreneble ni povas nek bildigi tiun malgrandan volumenon nek tiun rapidecon. Do nia kubo havas anstataŭe lateran longecon de 320 bilderoj kaj la montrataj rapidecoj estas reduktitaj je faktoro $$10^{-11}$$, do 10nm/s (duono de la areo). La bildigataj eroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14nm = 1,75 bilderoj.
 
 <!--
 
-Ni povas kalkuli la entergion kiel sumo de kinetaj energioj de la eroj: sumo(1/2*m*v²)
-La temperaturo tiam estas E / (N*kB), kie kB estas la konstanto de Boltzmann, kaj N la nombro de eroj
+En ideala gaso ne estas interagoj inter la senfinie malgrandaj eroj. Do tia gaso ne likvidiĝas aŭ solidiĝas en malaltaj temperaturoj. La ena energio estas plene difinita per la suma kineta energio de la eroj: 
 
-Poste premon kaj volumenon ni povas rilatigi per la ekvacio de ideala gaso pV = N*kB*T
+E = Σₙ 1/2*m*v²
+
+Per la konstanto de Boltzmann kaj la nombro N de öa erpk oni ricevas la temperaturon kaj la gasekvacion:
+
+T = E / (N*kB)
+p*V = N*kB*T
+
+
+Bazaj unuoj kaj grandoj de la modelo:
+
+geometrio:
+-----------
+ni montras nur kvdardatan areon, sed supozas, ke ĝi reprezentas
+spacon 320px profundan.
+
+1pm = 1e-12m
+1nm = 1e-9m
+1nm³ = 1e-27m³
+1px = 80pm = 0.08nm
+1px³ = 5e-4nm³
+320px³ = 25.6³nm³ = 16800nm³ = 16800e-27m³
+He-radiuso: 140pm = 1.75px
+
+por ideala gaso en normkondiĉoj:
+pₙ = 1.0bar = 1000hPa; 
+Tₙ = 293.15K = 20°C
+kun N = 1000 ni ricevas volumenon
+V = N*kB*T/p = 1.38e-23*293.15/100 m³ = 40455e-27m³ = 40455nm³
+  (= 2.4 * 16800nm³, do normale en nia supra volumeno devus esti ĉ.420 gaseroj)
+
+
+maso/denso
+-----------
+He-maso: 4u = 6.64e-27 kg
+He-gasa denso ne normaj kondiĉoj: 0.1785 kg/m³
+bolpunkto de He: 4,15K (ignorata ĉe ideala gaso)
+He-eroj/nm³ = 0.027, t.e. 450 gaseroj en nia supra volumeno de 16800nm³
+
+
+terma energio
+-----------
+E_th = N*kB*T = 420 * 1.38J/K * 293.15K = 1.7e-18J
+unuopa E_th = 1.38J/K * 293.15K = 4.05e-21J
+ĉar ni uzas rapidecon je faktoro e-11 (vd. malsupre) nia
+energio estas je faktoro e-22 pli malgranda, t.e. 1e-40
+
+
+rapido:
+-----------
+He: v = √(2E/m) = √(8.1e-21J/6.64e-27kg) = √(1.22e6)m/s = 1100m/s = 1.1e3m/s
+por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m/s
 
 -->
 
@@ -90,23 +142,23 @@ Poste premon kaj volumenon ni povas rilatigi per la ekvacio de ideala gaso pV = 
     });
 </script>
 
-<canvas id="kampo" width="480" height="320"></canvas>
+<canvas id="kampo" width="320" height="320"></canvas>
 simulado de ideala gaso
 
-<canvas id="et" width="480" height="320"></canvas>
-energio kaj temperaturo
+<canvas id="pvt" width="320" height="320"></canvas>
+premo, volumeno kaj temperaturo
 
-<canvas id="pv" width="480" height="320"></canvas>
-premo kaj volumeno
+|energio|<span id="energio"/>|
+|temperaturo|<span id="temperaturo"/>|
+|premo|<span id="premo"/>|
+|volumeno (nm³)|<span id="volumeno"/>|
 
 <script>
 
 const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
-const energ_temp = document.getElementById("et");
-const dgr_et = energ_temp.getContext("2d");
-const prem_rapid = document.getElementById("pv");
-const dgr_pv = prem_rapid.getContext("2d");
+const pvt = document.getElementById("pvt");
+const dgr_pvt = pvt.getContext("2d");
 
 // ni uzas 16x16-kahelojn por faciligi la kolizi-simuladon k.s.
 // larĝo kaj alto estu multoblo de 16!
@@ -115,27 +167,22 @@ const idealgaso = new Idealgaso(
     canvas.getAttribute("height"),
     16);
 
-let n_eroj_A = 100; // nombro da eroj A
-let n_eroj_B = 100; // nombro da eroj B
+const intervalo = 50; // 50 ms
+const px_nm = 0.08; // 1px = 0.08nm
 const r_ero = 2; // radiuso de eroj
 let temperaturo = 1; // = maksiuma rapideco: 1*16 (kahelgrando)
 //let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
 
-// probablecoj por kunigo kaj divido
-let p_kunigo = 0.1; //0.1;
-let p_divido = 0.7; //0.0005;
-
-let ny_lasta = { yA: 0, yB: 0, yAB: 0}; // memoru antaŭajn kvantojn
-let ry_lasta = { ykun: 0, ydis: 0 }; // memoru antaŭajn rapidojn
 let T0 = 0; // tempo komenciĝu ĉe T=0
 
 // preparo de la eksperimento
 function preparo() {
-    dgr_et.clearRect(0, 0, energ_temp.width, energ_temp.height);
-    dgr_pv.clearRect(0, 0, prem_rapid.width, prem_rapid.height);
+    dgr_pvt.clearRect(0, 0, pvt.width, pvt.height);
 
     T0 = 0;
-    idealgaso.preparo(1000,0.01);
+    // mil eroj de heliumo (4u) kun maksiumo rapideco 0.1 kahellarĝoj
+    //idealgaso.preparo(1000,4,0.1);
+    idealgaso.preparo(420,4,1);
 }
 
 
@@ -185,8 +232,7 @@ function ero(e,ctx) {
     }
 }
 
-const intervalo = 50;
-const d_larĝo = energ_temp.getAttribute("width");
+const d_larĝo = pvt.getAttribute("width");
 
 function pentro() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -199,9 +245,29 @@ function pentro() {
     //valoroj();
 }
 
+function valoroj() {
+    function n_eo(nombro) {
+        const p = nombro.toPrecision(3).replace('.',',');
+        return p.replace(/e\+?/,' 10^').replace('Infinity','--').replace('NaN','--');
+    }
+
+    // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
+    const E = idealgaso.energio() * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
+    
+    ĝi("#energio").textContent = n_eo(E);
+    ĝi("#temperaturo").textContent = n_eo(idealgaso.temperaturo());
+    ĝi("#premo").textContent = n_eo(idealgaso.premo());
+
+    // ni kalkulas 1px = 80pm, tiel ke radiuso de heliumo = 140pm ~ 2px
+    // krome ni supozas profundon de 320px, t.e. egala al alteco de la areo
+    const v = canvas.height*px_nm * canvas.height*px_nm * canvas.width*px_nm;
+    ĝi("#volumeno").textContent = n_eo(v);
+}
+
 function paŝo() {
     idealgaso.procezo();
     pentro();
+    valoroj();
 }
 
 function parametroj() {
