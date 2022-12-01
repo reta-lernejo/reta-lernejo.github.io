@@ -36,13 +36,12 @@ p*V = N*kB*T
 
 Bazaj unuoj kaj grandoj de la modelo:
 
-geometrio:
+volumeno:
 -----------
 ni montras nur kvdardatan areon, sed supozas, ke ĝi reprezentas
 spacon 320px profundan.
 
-1pm = 1e-12m
-1nm = 1e-9m
+1pm = 1e-12m, 1nm = 1e-9m
 1nm³ = 1e-27m³
 1px = 80pm = 0.08nm
 1px³ = 5e-4nm³
@@ -52,25 +51,24 @@ He-radiuso: 140pm = 1.75px
 por ideala gaso en normkondiĉoj:
 pₙ = 1.0bar = 1000hPa; 
 Tₙ = 293.15K = 20°C
-kun N = 1000 ni ricevas volumenon
-V = N*kB*T/p = 1.38e-23*293.15/100 m³ = 40455e-27m³ = 40455nm³
-  (= 2.4 * 16800nm³, do normale en nia supra volumeno devus esti ĉ.420 gaseroj)
+ni ricevas
+N = p*V / (kB*T) = 1e5kg/ms² * 16800e-27m³ / (1.38e-23m²kg/Ks²*293.15K) = 16800e-22 / 40.5e-22 = 415 gaseroj
 
 
 maso/denso
 -----------
 He-maso: 4u = 6.64e-27 kg
-He-gasa denso ne normaj kondiĉoj: 0.1785 kg/m³
-bolpunkto de He: 4,15K (ignorata ĉe ideala gaso)
+He-gasa denso en normaj kondiĉoj: 0.1785 kg/m³
 He-eroj/nm³ = 0.027, t.e. 450 gaseroj en nia supra volumeno de 16800nm³
+(bolpunkto de He: 4,15K, ignorata ĉe ideala gaso)
 
 
 terma energio
 -----------
 E_th = N*kB*T = 420 * 1.38J/K * 293.15K = 1.7e-18J
 unuopa E_th = 1.38J/K * 293.15K = 4.05e-21J
-ĉar ni uzas rapidecon je faktoro e-11 (vd. malsupre) nia
-energio estas je faktoro e-22 pli malgranda, t.e. 1e-40
+(ĉar ni uzas rapidecon je faktoro e-11 (vd. malsupre) nia
+energio estus sen korekto je faktoro e-22 pli malgranda, t.e. 1e-40)
 
 
 rapido:

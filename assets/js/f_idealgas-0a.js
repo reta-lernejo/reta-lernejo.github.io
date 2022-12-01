@@ -222,7 +222,10 @@ class Idealgaso {
         // ĉar ĉiuj eroj havas la saman mason surfiĉas scii la sumon de rapidkvadratoj v_sum2
         // ĉiuj eroj konservas sian rapidon - manke de interagoj en ideala gaso!
 
-        return 0.5 * Idealgaso.u * this.maso * this.v_sum2/Idealgaso.ev;
+        // ni devus ricevi por norma temperaturo kaj premo:
+        // E_th = N * 1.38J/K * 293.15K = N * 4.05e-21J
+
+        return 0.5 * Idealgaso.u*this.maso * this.v_sum2/Idealgaso.ev/Idealgaso.ev;
     }
 
     /**
