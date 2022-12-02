@@ -146,8 +146,9 @@ simulado de ideala gaso
 <canvas id="pvt" width="320" height="320"></canvas>
 premo, volumeno kaj temperaturo
 
-|energio|<span id="energio"/>|
-|temperaturo|<span id="temperaturo"/>|
+|rapido (Ø m/s)|<span id="rapido"/>|
+|energio (J)|<span id="energio"/>|
+|temperaturo (K)|<span id="temperaturo"/>|
 |premo|<span id="premo"/>|
 |volumeno (nm³)|<span id="volumeno"/>|
 
@@ -176,6 +177,7 @@ let T0 = 0; // tempo komenciĝu ĉe T=0
 const idealgaso = new Idealgaso(
     px_nm*canvas.getAttribute("width"),
     px_nm*canvas.getAttribute("height"),
+    px_nm*canvas.getAttribute("height"), // profundo = alto
     ĉelo);
 
 
@@ -184,9 +186,11 @@ function preparo() {
     dgr_pvt.clearRect(0, 0, pvt.width, pvt.height);
 
     T0 = 0;
-    // mil eroj de heliumo (4u) kun maksiumo rapideco 0.1 ĉellarĝoj
-    //idealgaso.preparo(1000,4,0.1);
-    idealgaso.preparo(420,4,1);
+    
+    // 420 gaseroj kun maso 4u, rapideco 0.43*ĉelalto, tempintervalo 1/20s
+    // PLIBONIGU: pli bone donu la temperaturon kaj kalkulo en Idealgaso la
+    // konvenan rapidecon por tio, ĉu?
+    idealgaso.preparo(420,4,0.43,20);
 }
 
 
@@ -258,16 +262,17 @@ function valoroj() {
     }
 
     // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
-    const E = idealgaso.energio() * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
+    const E = idealgaso.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
     
+    ĝi("#rapido").textContent = n_eo(idealgaso.rapido_ave());
     ĝi("#energio").textContent = n_eo(E);
     ĝi("#temperaturo").textContent = n_eo(idealgaso.temperaturo());
     ĝi("#premo").textContent = n_eo(idealgaso.premo());
 
     // ni kalkulas 1px = 80pm, tiel ke radiuso de heliumo = 140pm ~ 2px
     // krome ni supozas profundon de 320px, t.e. egala al alteco de la areo
-    const v = canvas.height*px_nm * canvas.height*px_nm * canvas.width*px_nm;
-    ĝi("#volumeno").textContent = n_eo(v);
+    //const v = canvas.height*px_nm * canvas.height*px_nm * canvas.width*px_nm;
+    ĝi("#volumeno").textContent = n_eo(idealgaso.volumeno());
 }
 
 function paŝo() {

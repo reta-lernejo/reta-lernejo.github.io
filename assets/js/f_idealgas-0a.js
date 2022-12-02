@@ -49,8 +49,8 @@ class Idealgaso {
     * @param {number} maso maso de unuopa ero (en atommasoj u)
     * @param {number} maksimuma rapido en direktoj x kaj y en multobloj de kahelgrando
     */
-    preparo(n_eroj=1000, maso=1, rapido=1) {
-        this.parametroj(temperaturo, maso);
+    preparo(n_eroj=1000, maso=1, rapido=1, intervalo=20) {
+        this.parametroj(rapido, maso, intervalo);
             
         this.T = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
@@ -71,11 +71,13 @@ class Idealgaso {
      * la eroj!
      * @param {number} rapido
      * @param {number} maso en atommasunuoj u
+     * @param {number} intervalo taktoj je sekuno
      * 
      */
-    parametroj(rapido=1, maso=1) {
+    parametroj(rapido=1, maso=1, intervalo=20) {
         this.v_max = rapido * this.Ĉa;
         this.maso = maso;
+        this.intervalo = intervalo;
     }
 
     /**
@@ -199,12 +201,17 @@ class Idealgaso {
         }
 
         // aktualigu la premon
-        const m = Idealgaso.u * this.maso;
+        const m = this.maso; // tion ni faros en premo() * Idealgaso.u
         this.premoj = {supre: m*premo.s, malsupre: m*premo.ms,
                 dekstre: m*premo.d, maldekstre: m*premo.md};
 
         this.T++;
     }
+
+    volumeno() {
+        return this.larĝo*this.alto*this.profundo;
+    }
+    
 
     /**
      * Redonas averaĝan rapidon en px/intervalo. Por havi m/s
@@ -212,7 +219,8 @@ class Idealgaso {
      */
     rapido_ave() {
         // ALDONU: sumigu la rapidojn dum kreado kaj redonu ĝin tie ĉi dividite per /this.nombro
-        return this.v_sum/Idealgaso.ev/this.nombro;
+        const vf = this.intervalo/Idealgaso.ev;
+        return this.v_sum*vf/this.nombro;
     }
 
     /**
@@ -228,7 +236,8 @@ class Idealgaso {
         // ni devus ricevi por norma temperaturo kaj premo:
         // E_th = N * 1.38J/K * 293.15K = N * 4.05e-21J
 
-        return 0.5 * Idealgaso.u*this.maso * this.v_sum2/Idealgaso.ev/Idealgaso.ev;
+        const vf = this.intervalo/Idealgaso.ev;
+        return 0.5 * Idealgaso.u*this.maso * this.v_sum2*vf*vf;
     }
 
     /**
@@ -241,17 +250,18 @@ class Idealgaso {
     }
 
     /**
-     * Redonas la premon sur unu el la flankoj de la rektangulo (aŭ ĉu al ĉiuj kvar? aŭ ĉu kvadrate por ricevi veran arean premon?)
-     * @param {string} direkto la direkto, en kiu mezuri la premon (supre,malsupre,dekstre,maldekstre,ĉiuj)
+     * Redonas la premon kalkulitan el la kolizioj kun flankoj de la rektangulo kaj korektita per faktoroj al Pa
      */
-    premo(direkto) {
-        // inter premo kaj volumeno cetere devus validi la ideala gasekvacio: pV = N*kB*T
-        // eble ni devos ĝin adapti al dudimensia modelo aŭ inverse simuli 3-dimensian sistemon per taŭga koeficiento
-        if (!direkto || direkto == "ĉiuj") {
-            return Object.values(this.premoj).reduce((p,x) => p+x,0)
-        } else {
-            return this.premoj[direkto]
-        }
+    premo() {
+        // la sumo de premfortoj (el maso kaj rapiddimensioj orta al la koncerna flanko ĉe kolizioj)
+        // ni devas ankoraŭ korekti la rapidecojn de nia eksperimenta skalo al m/s kaj la mason al kg
+        const vf = this.intervalo/Idealgaso.ev; // korekto de rapidecoj
+        const p = Object.values(this.premoj).reduce((p,x) => p+x,0) * vf * Idealgaso.u * this.intervalo;
+
+        // la reprezentita areo de kvar flankoj
+        const a = (2*this.larĝo + 2*this.alto)*this.profundo * 1e-18; // nm² -> m²
+        // ni devos korekti ankoraŭ la dimensiojn de la areo de nm al m kaj de intervalo al s
+        return p / a;
     }
 
 }
