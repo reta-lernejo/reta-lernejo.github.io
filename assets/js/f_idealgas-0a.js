@@ -38,7 +38,10 @@ class Idealgaso {
     // konstantoj por kalkuli la fizikajn grandojn
     static kB = 1.380649e-23;  // konstanto de Boltzmann (en J/K)
     static u = 1.66053906660e-27; // atoma masunuo en kg
-    static ev = 1e-11; // 1km/s ~ 10nm/s: faktoro je kiu rapidecoj estas reduktitaj, ĉar 1km/s ne estus montrebla
+    // ni povas bildigi nur movojn en la skalo de ĉ. 10nm/s, sed
+    // reale la gaseroj moviĝas je skalo de 1km/s per uzo de
+    // nm ni jam implicas faktoron 1e-9, sed ni devas ankoraŭ korekti je 1e-2
+    static ev = 1e-2; // 1km/s ~ 10nm/s: faktoro je kiu rapidecoj estas reduktitaj
 
     /* 
     * Remetu variablojn, kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
