@@ -255,8 +255,9 @@ class Idealgaso {
     premo() {
         // la sumo de premfortoj (el maso kaj rapiddimensioj orta al la koncerna flanko ĉe kolizioj)
         // ni devas ankoraŭ korekti la rapidecojn de nia eksperimenta skalo al m/s kaj la mason al kg
-        const vf = this.intervalo/Idealgaso.ev; // korekto de rapidecoj
-        const p = Object.values(this.premoj).reduce((p,x) => p+x,0) * vf * Idealgaso.u * this.intervalo;
+        const vf = this.intervalo/Idealgaso.ev; // korekto de rapidoj efikantaj en kolizio
+        const tf = 1e11; // korekto de ofteco, ĉar kolizioj multe pli ofte okazus ĉe pli granda rapido
+        const p = Object.values(this.premoj).reduce((p,x) => p+x,0) * vf * tf * Idealgaso.u * this.intervalo;
 
         // la reprezentita areo de kvar flankoj
         const a = (2*this.larĝo + 2*this.alto)*this.profundo * 1e-18; // nm² -> m²
