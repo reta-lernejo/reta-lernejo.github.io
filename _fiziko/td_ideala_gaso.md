@@ -13,25 +13,28 @@ js:
 
 https://eo.wikibooks.org/wiki/Termodinamiko/Leciono_1#Ideala_gaso
 https://de.wikipedia.org/wiki/Ideales_Gas
+https://de.wikipedia.org/wiki/Innere_Energie
+https://www.tec-science.com/de/thermodynamik-waermelehre/kinetische-gastheorie/maxwell-boltzmann-verteilung/#Wahrscheinlichste_Geschwindigkeit
+https://www.pfeiffer-vacuum.com/de/know-how/einfuehrung-in-die-vakuumtechnik/grundlagen/thermische-teilchengeschwindigkeit/
 -->
 
 ... paĝo en preparo...
 
 Ideala gaso estas simpligita modelo de realaj gasoj, en kiu oni supozas, ke la eroj havas mason sed neniun etendon kaj ne interagas per elektromagnetaj fortoj. Ili ne rotacias aŭ vibras kaj la energio de tiu ideala gaso estas pure la suma kineta energio de la eroj. KVankam tre simpligita tiu modelo estas konvena por priskribi realajn gasojn helpe de adaptaj koeficientoj. Plej simile al ideala gaso kondutas la noblaj gasoj kaj hidrogeno.
 
-La kinetan energion de $$N$$eroj kun maso $$m$$ kaj rapideco $$v$$ oni ricevas kiel sumo:
+La kinetan energion de $$N$$eroj kun maso $$m$$ kaj rapideco $$v$$ oni ricevas kiel sumo [^W3]:
 
 $$E=\sum_{n=1}^N{1/2 \cdot m \cdot v_n^2}$$
 
-La temperaturon de ideala gaso oni tiam ricevas per la konstanto de Boltzmann $$k_B = \pu{1,380649e-23 J / K}$$
+La temperaturon de ideala gaso oni tiam ricevas per la konstanto de Boltzmann $$k_B = \pu{1,380649e-23 J / K}$$ [^W2]
 
-$$T = \frac{E}{N \cdot k_B}$$
+$$T = \frac{\frac{2}{3} E}{N \cdot k_B}$$
 
-Por la produkto de premo kaj volumeno de ideala gaso cetere validas la stato-ekvacio:
+Por la produkto de premo kaj volumeno de ideala gaso cetere validas la stato-ekvacio [^W1]:
 
 $$p \cdot V = N \cdot k_B \cdot T$$
 
-aŭ kun la kvanto kiel mola maso $$n$$ kaj la universala gaskonstanto $$R = N_A \cdot k_B = \pu{8,31446261815324 J // mol K}$$:
+aŭ kun la kvanto kiel mola kvanto $$n$$ kaj la universala gaskonstanto $$R = N_A \cdot k_B = \pu{8,31446261815324 J // mol K}$$:
 
 $$p \cdot V = n \cdot R \cdot T$$
 
@@ -39,11 +42,17 @@ Tiel oni povas ekzemple elkalkuli, kiom da gaseroj volumeno de 100 nm³ enhavas 
 
 $$N = pV / (k_B T) = \frac{\pu{e5 kg // m s^2} \cdot \pu{e-21 m^3}}{\pu{1,38e-23 m^2 kg // K s^2} \cdot \pu{293,15 K}} \approx \pu{25000}$$
 
-Kaj la mezuman energion kaj rapidecon de gasero kun maso $$\pu{4 u}$$ (maso de heliumatomo), ni ricevas kiel:
+Komparante kun reala heliumo de norma denso $$\pu{0,1785 kg/m^3}$$, tiu havas iom pli da atomoj en la sama volumeno:
 
-$$\begin{align} E &= k_B T = \pu{1,38e-23 m^2 kg // K s^2} \cdot \pu{293,15 K} = \pu{4,05e-21 J}\\
-v &= \sqrt{\frac{2E}{m}} = \sqrt{\frac{2 \cdot \pu{ 4,05e-21 kg m^2 // s^2}}{\pu{6,64e-27kg}}} =  \pu{1100 m/s}\end{align}$$
+$$ N_{He} = \frac{\pu{0,1785 kg/m^3} \cdot \pu{e-21 m^3} }{ \pu{6,64e-27kg}} \approx \pu{27000} $$
 
+La mezuman energion kaj rapidecon de gasero kun maso $$\pu{4 u}$$ (maso de heliumatomo), ni ricevas kiel:
+
+$$\begin{align} E &= \frac{3}{2} k_B T = \pu{1,38e-23 m^2 kg // K s^2} \cdot \pu{293,15 K} = \pu{6,07e-21 J}\\
+v &= \sqrt{\frac{2E}{m}} = \sqrt{\frac{2 \cdot \pu{ 6,07e-21 kg m^2 // s^2}}{\pu{6,64e-27kg}}} =  \pu{1800 m/s}\end{align}$$
+
+Mezumaj rapidecoj de realaj gasmolekuloj estas pli malgrandaj (hidrogeno 1754, heliumo 1245, 
+vaporo 585, nitrogeno 470, argono 394, karbondioksido 375)[^Pf].
 
 ## eksperimento
 <!-- {: .sekcio} -->
@@ -215,10 +224,10 @@ function preparo() {
 
     T0 = 0;
     
-    // 420 gaseroj kun maso 4u, rapideco 0.43*ĉelalto, tempintervalo 1/20s
+    // 420 gaseroj kun maso 4u, rapideco 0.5*ĉelalto, tempintervalo 1/20s
     // PLIBONIGU: pli bone donu la temperaturon kaj kalkulo en Idealgaso la
     // konvenan rapidecon por tio, ĉu?
-    idealgaso.preparo(420,4,0.43,20);
+    idealgaso.preparo(420,4,0.5,20);
 }
 
 
@@ -380,3 +389,7 @@ function daŭrigo() {
 ## fontoj
 {: .fontoj}
 
+[^W1]: [Ideales Gas](https://de.wikipedia.org/wiki/Ideales_Gas)
+[^W2]: [Innere Energie](https://de.wikipedia.org/wiki/Innere_Energie)
+[^W3]: [Kinetische Energie](https://de.wikipedia.org/wiki/Kinetische_Energie)
+[^Pf]: [Thermische Teilchengeschwindigkeit](https://www.pfeiffer-vacuum.com/de/know-how/einfuehrung-in-die-vakuumtechnik/grundlagen/thermische-teilchengeschwindigkeit/)

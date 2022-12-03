@@ -246,7 +246,7 @@ class Idealgaso {
      */
     temperaturo() {
         // la temperaturo estas this.energio / (N*kB), kie kB estas la konstanto de Boltzmann, kaj N la nombro de eroj
-        return this.energio() / this.nombro / Idealgaso.kB;
+        return 2/3 * this.energio() / this.nombro / Idealgaso.kB;
     }
 
     /**
