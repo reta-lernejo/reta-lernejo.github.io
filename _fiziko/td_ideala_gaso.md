@@ -17,6 +17,34 @@ https://de.wikipedia.org/wiki/Ideales_Gas
 
 ... paĝo en preparo...
 
+Ideala gaso estas simpligita modelo de realaj gasoj, en kiu oni supozas, ke la eroj havas mason sed neniun etendon kaj ne interagas per elektromagnetaj fortoj. Ili ne rotacias aŭ vibras kaj la energio de tiu ideala gaso estas pure la suma kineta energio de la eroj. KVankam tre simpligita tiu modelo estas konvena por priskribi realajn gasojn helpe de adaptaj koeficientoj. Plej simile al ideala gaso kondutas la noblaj gasoj kaj hidrogeno.
+
+La kinetan energion de $$N$$eroj kun maso $$m$$ kaj rapideco $$v$$ oni ricevas kiel sumo:
+
+$$E=\sum_{n=1}^N{1/2 \cdot m \cdot v_n^2}$$
+
+La temperaturon de ideala gaso oni tiam ricevas per la konstanto de Boltzmann $$k_B = \pu{1,380649e-23 J / K}$$
+
+$$T = \frac{E}{N \cdot k_B}$$
+
+Por la produkto de premo kaj volumeno de ideala gaso cetere validas la stato-ekvacio:
+
+$$p \cdot V = N \cdot k_B \cdot T$$
+
+aŭ kun la kvanto kiel mola maso $$n$$ kaj la universala gaskonstanto $$R = N_A \cdot k_B = \pu{8,31446261815324 J // mol K}$$:
+
+$$p \cdot V = n \cdot R \cdot T$$
+
+Tiel oni povas ekzemple elkalkuli, kiom da gaseroj volumeno de 100 nm³ enhavas sub normaj kondiĉoj de $$\pu{1000 hPa}$$ kaj $$\pu{293,15 K}$$:
+
+$$N = pV / (k_B T) = \frac{\pu{e5 kg // m s^2} \cdot \pu{e-21 m^3}}{\pu{1,38e-23 m^2 kg // K s^2} \cdot \pu{293,15 K}} \approx \pu{25000}$$
+
+Kaj la mezuman energion kaj rapidecon de gasero kun maso $$\pu{4 u}$$ (maso de heliumatomo), ni ricevas kiel:
+
+$$\begin{align} E &= k_B T = \pu{1,38e-23 m^2 kg // K s^2} \cdot \pu{293,15 K} = \pu{4,05e-21 J}\\
+v &= \sqrt{\frac{2E}{m}} = \sqrt{\frac{2 \cdot \pu{ 4,05e-21 kg m^2 // s^2}}{\pu{6,64e-27kg}}} =  \pu{1100 m/s}\end{align}$$
+
+
 ## eksperimento
 <!-- {: .sekcio} -->
 
@@ -28,7 +56,7 @@ En ideala gaso ne estas interagoj inter la senfinie malgrandaj eroj. Do tia gaso
 
 E = Σₙ 1/2*m*v²
 
-Per la konstanto de Boltzmann kaj la nombro N de öa erpk oni ricevas la temperaturon kaj la gasekvacion:
+Per la konstanto de Boltzmann kaj la nombro N de la eroj oni ricevas la temperaturon kaj la gasekvacion:
 
 T = E / (N*kB)
 p*V = N*kB*T
