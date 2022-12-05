@@ -157,21 +157,6 @@ por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m
         ĝi("#daŭrigo").disabled = true;
     });
 
-    const MAX_EROJ = 6000;
-
-    kiam_klako("#plusA", () => {
-        masefiko.kreu_erojn(250,-1);
-        pentro();
-    });
-    kiam_klako("#plusB", () => {
-        masefiko.kreu_erojn(250,1);
-        pentro();
-    });
-    kiam_klako("#plusAB", () => {
-        masefiko.kreu_erojn(125,0);
-        pentro();
-    });
-
     kiam_klako("#daŭrigo",() => {
         daŭrigo();
     });
@@ -222,12 +207,18 @@ const idealgaso = new Idealgaso(
 function preparo() {
     dgr_pvt.clearRect(0, 0, pvt.width, pvt.height);
 
+    // tempopunkto=0
     T0 = 0;
     
     // 3320 gaseroj kun maso 4u, rapideco 0.5*ĉelalto, tempintervalo 1/20s
     // PLIBONIGU: pli bone donu la temperaturon kaj kalkulo en Idealgaso la
     // konvenan rapidecon por tio, ĉu?
-    idealgaso.preparo(3088,4,0.35,20);
+    const T = 293.15; // temperaturo en K
+    const p = 1e5; // premo 1000 hPa
+    const m = 4; // maso 4u
+    const V = idealgaso.volumeno()*1e-27; // en m³
+    const N = Idealgaso.nombro(p,V,T); // nombro da eroj en normkondiĉoj
+    idealgaso.preparo(N,m,T);
 }
 
 
@@ -260,23 +251,11 @@ function ero(e,ctx) {
     // unu ero tipo -1 aŭ 1
     const x = e.x/px_nm;
     const y = e.y/px_nm;
-    if (e.k) {
-        const koloro = {"-1": "#DD9900", "1": "#0095DD"}[e.k] || e.k;
-        ctx.beginPath();
-        ctx.arc(x, y, r_ero, 0, Math.PI * 2);
-        ctx.fillStyle = koloro;
-        ctx.fill();
-    } else {
-        // kunigite
-        ctx.beginPath();
-        ctx.arc(x, y, 1.5*r_ero, Math.PI/4, Math.PI*5/4);
-        ctx.fillStyle = "#0095DD";
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x, y, 1.5*r_ero, Math.PI*5/4, Math.PI*9/4);
-        ctx.fillStyle = "#DD9900";
-        ctx.fill();
-    }
+    const koloro = "#0095DD";
+    ctx.beginPath();
+    ctx.arc(x, y, r_ero, 0, Math.PI * 2);
+    ctx.fillStyle = koloro;
+    ctx.fill();
 }
 
 const d_larĝo = pvt.getAttribute("width");
@@ -318,24 +297,9 @@ function paŝo() {
     valoroj();
 }
 
-function parametroj() {
-    /*
-    const kA = ĝi("input[name='koncentrA']:checked").value;
-    const kB = ĝi("input[name='koncentrB']:checked").value;
-    */
-   /*
-    const r_em = ĝi("input[name='reakciem']:checked").value;
-    const d_em = ĝi("input[name='disociem']:checked").value;
-    const temp = ĝi("input[name='temperatur']:checked").value;
-*/
-    //temperaturo = {"malalta": 0.1, "meza": 1, "alta": 5}[temp];
-
-    return null;
-}
-
 function eksperimento() {
     // komencaj valoroj
-    parametroj();
+    //parametroj();
 
     n_eroj = 1000; // {"malalta": 500, "meza": 1000, "alta": 2000}[kA];
 
@@ -373,7 +337,7 @@ function daŭrigo() {
     linio(3/4*d_alto,dgr_r);
 
     parametroj();
-    idealgaso.parametroj(rapido);
+    idealgaso.parametroj(4,20);
 
     ripetu(
         () => {

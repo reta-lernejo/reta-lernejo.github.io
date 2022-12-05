@@ -27,12 +27,20 @@ class Idealgaso {
         return Math.sqrt(2*E/kg);
     }
 
-
-    // ni povas bildigi nur movojn en la skalo de ĉ. 10nm/s, sed
-    // reale la gaseroj moviĝas je skalo de 1km/s per uzo de
-    // nm ni jam implicas faktoron 1e-9, sed ni devas ankoraŭ korekti je 1e-2
-    static ev = 1e-2; // 1km/s ~ 10nm/s: faktoro je kiu rapidecoj estas reduktitaj
-
+    /**
+     * Redonas du arbitrajn nombrojn kiu statistike sekvas Guassan norm-distribuon
+     * Ili estas kreitaj laŭ la metodo Box-Muller
+     * @param {nombro} E ekspekto
+     * @param {nombro} D varianca devio
+     * @returns 
+     */
+    static max_muller(E,D) {
+        const u = Math.sqrt(-2*Math.log(Math.random()));
+        const v = 2*Math.PI*Math.random();
+        const z0 = E + D*(u + Math.cos(v));
+        const z1 = E + D*(u + Math.sin(v));
+        return [z0,z1];
+    }
 
     /**
      * Kreas spacon por la eksperimento
@@ -40,8 +48,9 @@ class Idealgaso {
      * @param {number} alto alto en nm
      * @param {number} profundo profundo (virtuala) en nm
      * @param {number} ĉelo grandeco de ĉelo en frakcio de alto
+     * @param {number} takto takto en onoj de sekundo por aktualigi la bildon
      */
-    constructor(larĝo,alto,profundo,ĉelo=1/20) {
+    constructor(larĝo,alto,profundo,ĉelo=1/20,takto=1/20) {
         // ni uzas ĈxĈ-ĉelojn por faciligi la kolizi-simuladon k.s.
         // atentu ke ĉelo estu entjera ono de alto kaj larĝo!
         // ni ne dividas la profundon, ĉar ni montras nur projekcion
@@ -51,6 +60,7 @@ class Idealgaso {
         this.larĝo = larĝo;
         this.alto = alto;
         this.profundo = profundo;
+        this.takto = takto;
 
         // ĉelalto kaj ĉellarĝo
         this.Ĉa = alto*ĉelo;
@@ -72,11 +82,12 @@ class Idealgaso {
     /* 
     * Remetu variablojn, kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
     * @param {number} n_eroj nombro de eroj
-    * @param {number} maso maso de unuopa ero (en atommasoj u)
-    * @param {number} maksimuma rapido en direktoj x kaj y en multobloj de kahelgrando
+    * @param {number} maso de unuopa ero (en atommasoj u)
+    * @param {number} temperaturo en K, per tio ni scios la ekspekton de la rapido por la eroj
+    * @param {intervalo} intervalo en onoj de sekundo, por redukti la rapidon, apriore 10^-11s
     */
-    preparo(n_eroj=1000, maso=1, rapido=1, intervalo=20) {
-        this.parametroj(rapido, maso, intervalo);
+    preparo(n_eroj=1000, maso=1, temperaturo=293.15, intervalo=1e-11) {
+        this.parametroj(maso, intervalo);
             
         this.T = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
@@ -89,57 +100,71 @@ class Idealgaso {
         this.nombro = 0;
         this.v_sum = 0;
         this.v_sum2 = 0;
-        this.kreu_erojn(n_eroj,1);
+        this.kreu_erojn(n_eroj,temperaturo);
     }
 
     /**
      * Adaptas parametrojn. Ili momente nur efikas kiam ankaŭ rekreiĝas
      * la eroj!
-     * @param {number} rapido
      * @param {number} maso en atommasunuoj u
      * @param {number} intervalo taktoj je sekuno
      * 
      */
-    parametroj(rapido=1, maso=1, intervalo=20) {
-        this.v_max = rapido * this.Ĉa;
+    parametroj(maso, intervalo) {
         this.maso = maso;
         this.intervalo = intervalo;
     }
 
     /**
      * Kreas erojn de unu el la specoj A, B, AB en arbitraj lokoj kun arbitra rapido-vektoro
-     * @param {number} n_eroj nobro da kreendaj eroj
-     * @param {number} speco -1: A, 1: B, 0: AB
+     * @param {number} n_eroj nombro da kreendaj eroj
+     * @param {number} maso maso de eroj en atommasunuoj (u)
+     * @param {number} temperaturo la temperaturo en K, difinanta la ekspekton de la rapido
      */
-    kreu_erojn(n_eroj,speco) {
+    kreu_erojn(n_eroj,temperaturo) {
         const larĝo = this.larĝo;
         const alto = this.alto;
-        const v_max = this.v_max;
+        // per la temperaturo atendebla rapido en unu dimensio
+        const r_eksp = Math.sqrt(Idealgaso.rapido(this.maso,temperaturo)/3);
 
-        // kreu erojn de specoj A(-1),  B(1) aŭ AB(0)
+        // max_muller ĉiam redonas du nombrojn normdistribuitaj, sed ni bezonas tri:
+        let mm = 0;
+        let mm6 = [0,0,0,0,0,0];
+
+        // kreu erojn 
         for (let n = 0; n < n_eroj; n++) {
+            // se necese replenigu bufron de arbitraj nombroj
+            if (!mm) {
+                for (let i=0; i<3; i++) {
+                    const mm2 = Idealgaso.max_muller(r_eksp,r_eksp/2);
+                    mm6[2*i] = mm2[0];
+                    mm6[2*i+1] = mm2[1];    
+                }
+            }
+
             const e = {
                 id: n,
                 t: this.T - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe kahelmovo
-                k: speco, // tipoj -1 aŭ 1 por unopaj kaj 0 por fanditaj eroj
                 x: Math.random() * larĝo,
                 y: Math.random() * alto,
-                vx: Math.random() * 2 * v_max - v_max,
-                vy: Math.random() * 2 * v_max - v_max,
-                vz: Math.random() * 2 * v_max - v_max, // z-dimensio de rapideco, loko ne gravas
+                vx: Math.sign(Math.random()) * mm6[mm],
+                vy: Math.sign(Math.random()) * mm6[mm+1],
+                vz: Math.sign(Math.random()) * mm6[mm+2] // z-dimensio de rapideco, loko ne gravas, ĉar ni projekcias al x-y-ebeneo
             }
+            mm = (mm+3)%6;
+            // alordigu ĉiun eron al koncerna ĉelo por pli facila traktado 
+            // de interagoj (se estas, se ne fakte sufiĉus unusola ĉelo)
             const k = this.ĉelo(e.x,e.y);
             if (k) {
                 k[e.id] = e;
                 this.nombro++;
-                const v2 = e.vx*e.vx + e.vy*e.vy + + e.vz*e.vz;
+                const v2 = e.vx**2 + e.vy**2 + e.vz**2;
                 this.v_sum2 += v2;
                 this.v_sum += Math.sqrt(v2);
             } else {
                 throw `Neniu kahelo por ${e.x},${e.y}!`
             }
         }
-
     }
 
 
@@ -187,29 +212,35 @@ class Idealgaso {
     procezo() {
         const self = this;
         const premo = {d: 0, md: 0, s: 0, ms: 0}; // la kvar flankoj
+        const tf = this.intervalo * 1e9 * this.takto; // artefarita malrapidigo, sed ni mezuras nm anst. m kaj ni havas
+                // takton de nur ono de sekundo.
 
         /* movo de e laŭ ĝia rapideco kun eventuala reflekto ĉe la bordoj */        
         function movo(e) {
             if (e.t < self.T) {
+
                 // momente ni nur movas la erojn
-                let nx = e.x + e.vx;
+                const vx = e.vx * tf;
+                let nx = e.x + vx;
                 if (nx < 0) {
                     e.vx = -e.vx;
-                    nx = e.x + e.vx;
+                    nx = -nx; // e.x - vx;
                     premo.md += e.vx; 
                 } else if (nx > self.larĝo) {
                     e.vx = -e.vx;
-                    nx = e.x + e.vx;
+                    nx = self.larĝo - (nx-self.larĝo); // e.x - vx;
                     premo.d -= e.vx; 
                 }
-                let ny = e.y + e.vy;
+
+                const vy = e.vy * tf;
+                let ny = e.y + vy;
                 if (ny < 0) {
                     e.vy = -e.vy;
-                    ny = e.y + e.vy;
+                    ny = -ny; //e.y + e.vy;
                     premo.s += e.vy;
                 } else if (ny > self.alto) {
                     e.vy = -e.vy;
-                    ny = e.y + e.vy;
+                    ny = self.alto - (ny-self.alto); //e.y + e.vy;
                     premo.ms -= e.vy;
                 }
                 // movo al nx, ny, eventuale al nova kahelo
@@ -245,8 +276,7 @@ class Idealgaso {
      */
     rapido_ave() {
         // ALDONU: sumigu la rapidojn dum kreado kaj redonu ĝin tie ĉi dividite per /this.nombro
-        const vf = this.intervalo/Idealgaso.ev;
-        return this.v_sum*vf/this.nombro;
+        return this.v_sum/this.nombro;
     }
 
     /**
@@ -262,8 +292,7 @@ class Idealgaso {
         // ni devus ricevi por norma temperaturo kaj premo:
         // E_th = N * 1.38J/K * 293.15K = N * 4.05e-21J
 
-        const vf = this.intervalo/Idealgaso.ev;
-        return 0.5 * Idealgaso.u*this.maso * this.v_sum2*vf*vf;
+        return 0.5 * Idealgaso.u*this.maso * this.v_sum2;
     }
 
     /**
@@ -281,9 +310,8 @@ class Idealgaso {
     premo() {
         // la sumo de premfortoj (el maso kaj rapiddimensioj orta al la koncerna flanko ĉe kolizioj)
         // ni devas ankoraŭ korekti la rapidecojn de nia eksperimenta skalo al m/s kaj la mason al kg
-        const vf = this.intervalo/Idealgaso.ev; // korekto de rapidoj efikantaj en kolizio
-        const tf = 1e11; // korekto de ofteco, ĉar kolizioj multe pli ofte okazus ĉe pli granda rapido
-        const p = Object.values(this.premoj).reduce((p,x) => p+x,0) * vf * tf * Idealgaso.u * this.intervalo;
+        const tf = this.intervalo; // korekto de ofteco, ĉar kolizioj multe pli ofte okazus ĉe pli granda rapido
+        const p = Object.values(this.premoj).reduce((p,x) => p+x,0) * tf * Idealgaso.u * this.takto;
 
         // la reprezentita areo de kvar flankoj
         const a = (2*this.larĝo + 2*this.alto)*this.profundo * 1e-18; // nm² -> m²
