@@ -5,7 +5,7 @@ js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
-  - f_idealgas-0a
+  - f_idealgas-0b
   - bufro-0a
 ---
 
@@ -46,12 +46,12 @@ Komparante kun reala heliumo de norma denso $$\pu{0,1785 kg/m^3}$$, tiu havas i
 
 $$ N_{He} = \frac{\pu{0,1785 kg/m^3} \cdot \pu{e-21 m^3} }{ \pu{6,64e-27kg}} \approx \pu{27000} $$
 
-La mezuman energion kaj rapidecon de gasero kun maso $$\pu{4 u}$$ (maso de heliumatomo), ni ricevas kiel:
+La mezuman energion kaj rapidon de unuopa gasero kun maso $$\pu{4 u}$$ (maso de heliumatomo), ni ricevas kiel:
 
 $$\begin{align} E &= \frac{3}{2} k_B T = \pu{1,38e-23 m^2 kg // K s^2} \cdot \pu{293,15 K} = \pu{6,07e-21 J}\\
-v &= \sqrt{\frac{2E}{m}} = \sqrt{\frac{2 \cdot \pu{ 6,07e-21 kg m^2 // s^2}}{\pu{6,64e-27kg}}} =  \pu{1800 m/s}\end{align}$$
+v &= \sqrt{\frac{2E}{m}} = \sqrt{\frac{2 \cdot \pu{ 6,07e-21 kg m^2 // s^2}}{\pu{6,64e-27kg}}} \approx \pu{1350 m/s}\end{align}$$
 
-Mezumaj rapidecoj de realaj gasmolekuloj estas pli malgrandaj (hidrogeno 1754, heliumo 1245, 
+Mezumaj rapidecoj de realaj gasmolekuloj devias de tiu nombro pli aŭ malpli (hidrogeno 1754, heliumo 1245, 
 vaporo 585, nitrogeno 470, argono 394, karbondioksido 375)[^Pf].
 
 ## eksperimento
@@ -177,16 +177,16 @@ por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m
     });
 </script>
 
-<canvas id="kampo" width="320" height="320"></canvas>
+<canvas id="kampo" width="500" height="500"></canvas>
 simulado de ideala gaso
 
-<canvas id="pvt" width="320" height="320"></canvas>
+<canvas id="pvt" width="500" height="500"></canvas>
 premo, volumeno kaj temperaturo
 
 |rapido (Ø m/s)|<span id="rapido"/>|
 |energio (J)|<span id="energio"/>|
 |temperaturo (K)|<span id="temperaturo"/>|
-|premo|<span id="premo"/>|
+|premo (Pa)|<span id="premo"/>|
 |volumeno (nm³)|<span id="volumeno"/>|
 
 <script>
@@ -197,9 +197,9 @@ const pvt = document.getElementById("pvt");
 const dgr_pvt = pvt.getContext("2d");
 
 // skal-faktoroj 
-const px_nm = 0.08; // 1px = 0.08nm
-const ĉelo = 1/20; // ĉelalto (kaj -larĝo) estas 1/20 de 320px
-const ĉelo_nm = 320*ĉelo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
+const px_nm = 0.1; // 1px = 0.1nm
+const ĉelo = 1/25; // ĉelalto (kaj -larĝo) estas 1/20 de 320px
+const ĉelo_nm = 500*ĉelo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
 
 const intervalo = 50; // 50 ms
 const r_ero = 2; // radiuso de eroj
@@ -224,10 +224,10 @@ function preparo() {
 
     T0 = 0;
     
-    // 420 gaseroj kun maso 4u, rapideco 0.5*ĉelalto, tempintervalo 1/20s
+    // 3320 gaseroj kun maso 4u, rapideco 0.5*ĉelalto, tempintervalo 1/20s
     // PLIBONIGU: pli bone donu la temperaturon kaj kalkulo en Idealgaso la
     // konvenan rapidecon por tio, ĉu?
-    idealgaso.preparo(420,4,0.5,20);
+    idealgaso.preparo(3088,4,0.35,20);
 }
 
 
