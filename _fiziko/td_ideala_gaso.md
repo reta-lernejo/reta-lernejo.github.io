@@ -297,6 +297,20 @@ function pentro() {
     }
 }
 
+// desegnu punkton p,V,T en la diagramo,
+// T difinas la koloron
+function punkto(p,V,T) {
+    const y = p/10000;
+    const x = V/500;
+    const h = (240 - 240*Math.sqrt(T/1000)) % 360;
+    const l = T/20;
+
+    if (x<pvt.width && y<pvt.height) {
+        dgr_pvt.fillStyle = `hsl(${h} 100% ${l}%)`;
+        dgr_pvt.fillRect(x,500-y,3,3);
+    }
+}
+
 function valoroj() {
     function n_eo(nombro,prec=3) {
         const p = nombro.toPrecision(prec).replace('.',',');
@@ -308,15 +322,21 @@ function valoroj() {
     
     ĝi("#rapido").innerHTML = n_eo(idealgaso.rapido_ave());
     ĝi("#energio").innerHTML = n_eo(E);
-    ĝi("#temperaturo").innerHTML = n_eo(idealgaso.temperaturo());
+
+    const T = idealgaso.temperaturo();
+    ĝi("#temperaturo").innerHTML = n_eo(T);
 
     premoj.val(idealgaso.premo());
-    ĝi("#premo").innerHTML = n_eo(premoj.averaĝo(),2);
+    const p = premoj.averaĝo();
+    ĝi("#premo").innerHTML = n_eo(p,2);
 
     // ni kalkulas 1px = 80pm, tiel ke radiuso de heliumo = 140pm ~ 2px
     // krome ni supozas profundon de 320px, t.e. egala al alteco de la areo
     //const v = canvas.height*px_nm * canvas.height*px_nm * canvas.width*px_nm;
-    ĝi("#volumeno").innerHTML = n_eo(idealgaso.volumeno());
+    const V = idealgaso.volumeno();
+    ĝi("#volumeno").innerHTML = n_eo(V);
+
+    punkto(p,V,T);
 }
 
 function paŝo() {
