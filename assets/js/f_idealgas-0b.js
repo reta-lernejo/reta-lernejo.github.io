@@ -82,14 +82,15 @@ class Idealgaso {
 
    
     /* 
-    * Remetu variablojn, kreu erojn kaj alordigu al kaheloj laŭ koordinatoj
+    * Remetu variablojn, kreu erojn kaj alordigu al ĉeloj laŭ koordinatoj
     * @param {number} n_eroj nombro de eroj
     * @param {number} maso de unuopa ero (en atommasoj u)
     * @param {number} temperaturo en K, per tio ni scios la ekspekton de la rapido por la eroj
     * @param {intervalo} intervalo en onoj de sekundo, por redukti la rapidon, apriore 10^-11s
     */
     preparo(n_eroj=1000, maso=1, temperaturo=293.15, intervalo=1e-11) {
-        this.parametroj(maso, intervalo);
+        this.maso = maso;
+        this.intervalo = intervalo;
             
         this.T = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
@@ -106,16 +107,82 @@ class Idealgaso {
     }
 
     /**
-     * Adaptas parametrojn. Ili momente nur efikas kiam ankaŭ rekreiĝas
-     * la eroj!
-     * @param {number} maso en atommasunuoj u
-     * @param {number} intervalo taktoj je sekuno
+     * Adaptas parametron larĝo (volumeno)
+     * @param {number} larĝo nm
      * 
      */
-    parametroj(maso, intervalo) {
-        this.maso = maso;
-        this.intervalo = intervalo;
+    larĝadapto(larĝo) {
+        const x_adapto = larĝo < this.larĝo;
+        this.larĝo = larĝo;
+
+        if (x_adapto) {
+            // trakuru ĉiujn ĉelojn kaj se necese adaptu lokojn de ties eroj
+            for (let k of this.ĉeloj) {
+                // adapto
+                Object.values(k).map((e) => {
+                    if (e.x > larĝo) {
+                        // ni plej simple donas arbitran novan x
+                        e.x = Math.random() * larĝo;
+                        const nk = this.ĉelo(e.x,e.y);
+                        if (nk) {
+                            delete k[e.id];
+                            nk[e.id] = e;
+                        } else {
+                            throw `Neniu ĉelo por ${e.x},${e.y}!`
+                        }
+                    }
+                });
+            }
+        }
     }
+
+    /**
+     * Adaptas parametron temperaturo
+     * @param {number} temperaturo en K
+     * 
+     */
+    temperaturadapto(temperaturo) {
+        // per la temperaturo atendebla rapidodistribuo en unu dimensio, vd
+        // https://de.wikipedia.org/wiki/Maxwell-Boltzmann-Verteilung
+
+        const m = this.maso*Idealgaso.u;
+        const D = Math.sqrt(temperaturo*Idealgaso.kB/m);
+        const E = 0; 
+
+        // box_muller ĉiam redonas du nombrojn normdistribuitaj, sed ni bezonas tri:
+        let mm = 0;
+        let mm6 = [0,0,0,0,0,0];
+
+        this.v_sum = 0;
+        this.v_sum2 = 0;
+
+        // trakuru ĉiujn ĉelojn kaj adaptu rapidecojn de ties eroj
+        for (let k of this.ĉeloj) {
+
+            // adaptoj de ĉeleroj
+            Object.values(k).map((e) => {
+
+                // se necese replenigu bufron de arbitraj nombroj
+                if (!mm) {
+                    //const s = (v) => Math.sign(Math.random()-0.5) * v;
+                    for (let i=0; i<3; i++) {
+                        const mm2 = Idealgaso.box_muller(E,D);
+                        mm6[2*i] = mm2[0];
+                        mm6[2*i+1] = mm2[1];    
+                    }
+                }
+
+                e.vx = mm6[mm];
+                e.vy = mm6[mm+1];
+                e.vz = mm6[mm+2];
+                const v2 = e.vx**2 + e.vy**2 + e.vz**2;
+                this.v_sum2 += v2;
+                this.v_sum += Math.sqrt(v2);
+                mm = (mm+3)%6;
+            });
+        }
+    }
+
 
     /**
      * Kreas erojn de unu el la specoj A, B, AB en arbitraj lokoj kun arbitra rapido-vektoro
@@ -126,13 +193,10 @@ class Idealgaso {
     kreu_erojn(n_eroj,temperaturo) {
         const larĝo = this.larĝo;
         const alto = this.alto;
+
         // per la temperaturo atendebla rapidodistribuo en unu dimensio, vd
         // https://de.wikipedia.org/wiki/Maxwell-Boltzmann-Verteilung
 
-        // KOREKTO: ial ankoraŭ la reapido-distribuo ankoraŭ ne redonas la ĝustan temperaturon
-        // eble pro tio, ke ni ne traĉas ĉe 0 kaj konvertas negativajn rapidojn tiel al pozitiva kontribuo,
-        // pro tio ni provizore obligas per 0.88.., se ĉio estus ĝuste, tio devus esti 1
-        // const r_eksp = 0.8852 * Math.sqrt(Idealgaso.rapido(this.maso,temperaturo)**2/3);
         const m = this.maso*Idealgaso.u;
         const D = Math.sqrt(temperaturo*Idealgaso.kB/m);
         const E = 0; 
@@ -153,10 +217,9 @@ class Idealgaso {
                 }
             }
 
-
             const e = {
-                id: n,
-                t: this.T - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe kahelmovo
+                id: n+1,
+                t: this.T - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe ĉelmovo
                 x: Math.random() * larĝo,
                 y: Math.random() * alto,
                 vx: mm6[mm],
@@ -174,14 +237,14 @@ class Idealgaso {
                 this.v_sum2 += v2;
                 this.v_sum += Math.sqrt(v2);
             } else {
-                throw `Neniu kahelo por ${e.x},${e.y}!`
+                throw `Neniu ĉelo por ${e.x},${e.y}!`
             }
         }
     }
 
 
     /**
-     * Sur kiu kahelo troviĝas pozicio (x,y)?
+     * Sur kiu ĉelo troviĝas pozicio (x,y)?
      */
     ĉelo(x,y) {
         const k = Math.trunc(x/this.Ĉl + this.Ĉl*Math.trunc(y/this.Ĉa));
@@ -192,7 +255,7 @@ class Idealgaso {
 
     /**
      * Movas eron al novaj koordinatoj nx, ny,
-     * se necese ankaŭ al nova kahelo
+     * se necese ankaŭ al nova ĉelo
      * 
      * @param {object} e la ero
      * @param {number} nx nova x-koordinato 
@@ -218,7 +281,7 @@ class Idealgaso {
 
 
     /**
-     * Trakuri la kahelojn, movi ĉiujn erojn en ĉiu kahelo,
+     * Trakuri la ĉelojn, movi ĉiujn erojn en ĉiu ĉelo,
      * laŭ la reguloj kunigu aŭ dividu ilin. 
      */
     procezo() {
@@ -255,13 +318,13 @@ class Idealgaso {
                     ny = self.alto - (ny-self.alto); //e.y + e.vy;
                     premo.ms -= e.vy;
                 }
-                // movo al nx, ny, eventuale al nova kahelo
+                // movo al nx, ny, eventuale al nova ĉelo
                 e.t = self.T;
                 self.ĉelmovo(e,nx,ny);
             }
         }
         
-        // trakuru ĉiujn kahelojn kaj traktu movojn kaj reakciojn de la eroj
+        // trakuru ĉiujn ĉelojn kaj traktu movojn kaj reakciojn de la eroj
         for (let k in this.ĉeloj) {
             // movo
             const kx = k % this.Ĉl;

@@ -144,36 +144,21 @@ por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m
 <button id="Tplus">+10 K</button>
 <button id="Vminus">-250 nm³</button>
 <button id="Vplus">+250 nm³</button>
-<button id="daŭrigo">Daŭrigu</button>
+<button id="halto">Haltu</button>
 
-<script>
-    ĝi("#daŭrigo").disabled = true;
-
-    elekte((elekto,valoro) => {
-        console.log(elekto+':'+valoro);
-    });
-
-    kiam_klako("#starto",() => {
-        eksperimento();
-        ĝi("#daŭrigo").disabled = true;
-    });
-
-    kiam_klako("#daŭrigo",() => {
-        daŭrigo();
-    });
-</script>
 
 <canvas id="kampo" width="500" height="500"></canvas>
 simulado de ideala gaso
-
-<canvas id="pvt" width="500" height="500"></canvas>
-premo, volumeno kaj temperaturo
 
 |rapido (Ø m/s)|<span id="rapido"/>|
 |energio (J)|<span id="energio"/>|
 |temperaturo (K)|<span id="temperaturo"/>|
 |premo (Pa)|<span id="premo"/>|
 |volumeno (nm³)|<span id="volumeno"/>|
+
+<canvas id="pvt" width="500" height="500"></canvas>
+premo, volumeno kaj temperaturo
+
 
 <script>
 
@@ -189,20 +174,60 @@ const ĉelo_nm = 500*ĉelo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
 
 const intervalo = 50; // 50 ms
 const r_ero = 1.4; // radiuso de eroj
-let temperaturo = 1; // = maksiuma rapideco: 1*16 (ĉelgrando)
+
 //let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
 
 let T0 = 0; // tempo komenciĝu ĉe T=0
-
+let ripetoj; // per clearTimeout(ripatoj.p) oni povas haltigi kurantan eksperimenton
 
 // ni uzas 16x16-ĉelojn por faciligi la kolizi-simuladon k.s.
 // larĝo kaj alto estu multoblo de 16!
 const idealgaso = new Idealgaso(
-    px_nm*canvas.getAttribute("width"),
-    px_nm*canvas.getAttribute("height"),
-    px_nm*canvas.getAttribute("height"), // profundo = alto
+    px_nm*canvas.width,
+    px_nm*canvas.height,
+    px_nm*canvas.height, // profundo = alto
     ĉelo);
 
+// trakto de adaptoj per butonoj ...
+ĝi("#halto").disabled = true;
+ĝi("#Tminus").disabled = true;
+ĝi("#Tplus").disabled = true;
+ĝi("#Vminus").disabled = true;
+ĝi("#Vplus").disabled = true;
+
+kiam_klako("#starto",() => {
+    eksperimento();
+    ĝi("#halto").disabled = false;
+    ĝi("#Tminus").disabled = false;
+    ĝi("#Tplus").disabled = false;
+    ĝi("#Vminus").disabled = false;
+    ĝi("#Vplus").disabled = false;
+});
+
+kiam_klako("#Tminus",() => {
+    idealgaso.temperaturadapto(idealgaso.temperaturo()-10);
+});
+
+kiam_klako("#Tplus",() => {
+    idealgaso.temperaturadapto(idealgaso.temperaturo()+10);
+});
+
+kiam_klako("#Vminus",() => {
+    idealgaso.larĝadapto(idealgaso.larĝo-1);
+    const nw = canvas.width - 1/px_nm;
+    canvas.width=nw;
+});
+
+kiam_klako("#Vplus",() => {
+    idealgaso.larĝadapto(idealgaso.larĝo+1);
+    const nw = canvas.width + 1/px_nm;
+    canvas.width=nw;
+});
+
+
+kiam_klako("#halto",() => {
+    if (ripetoj) clearTimeout(ripetoj.p);
+});
 
 // preparo de la eksperimento
 function preparo() {
@@ -300,7 +325,6 @@ function paŝo() {
     valoroj();
 }
 
-let ripetoj;
 
 function eksperimento() {
     // komencaj valoroj
@@ -315,7 +339,7 @@ function eksperimento() {
     ripetoj = ripetu(
         () => {
             paŝo();
-            return (idealgaso.T < d_larĝo);
+            return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
         },
         intervalo
     )
