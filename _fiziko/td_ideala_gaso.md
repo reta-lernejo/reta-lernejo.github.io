@@ -57,7 +57,8 @@ vaporo 585, nitrogeno 470, argono 394, karbondioksido 375)[^Pf].
 ## eksperimento
 <!-- {: .sekcio} -->
 
-En nia eksperimento ni provas simuli idealan gason en kubo kun latera longeco de ĉ. 25,6nm. En normaj kondiĉoj, t.e. 20 °C = 293,15 K kaj premo de 1000 hPa, tiu volumeno enhavas proksimume 420 gaserojn. Ĉe heliumo, kiu kondutas proksimume kiel ideala gaso, estus 450 atomoj. En tiaj kondiĉoj la eroj moviĝas per malfacile imagebla rapideco de 1 km/s. Kompreneble ni povas nek bildigi tiun malgrandan volumenon nek tiun rapidecon. Do nia kubo havas anstataŭe lateran longecon de 320 bilderoj kaj la montrataj rapidecoj estas reduktitaj je faktoro $$10^{-11}$$, do 10nm/s (duono de la areo). La bildigataj eroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14nm = 1,75 bilderoj.
+En nia eksperimento ni provas simuli idealan gason en kubo kun latera longeco de 50nm. En normaj kondiĉoj, t.e. 20 °C = 293,15 K kaj premo de 1000 hPa, tiu volumeno enhavas proksimume 3090 gaserojn. Ĉe heliumo, kiu kondutas proksimume kiel ideala gaso, estus 3360 atomoj. Ĉar ne eblas montri en modelo rapidojn de pli 1 km/s, ni simple malrapidigas la tempon je faktoro $$10^{-11}$$, per tio la rapidoj estas nur
+ĉirkaŭ 10nm/s, kio en nia modelo estas 100bildpunktoj respektive kvinono de la bildalto. La bildigataj eroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14nm = 1,4 bilderoj.
 
 <!--
 
@@ -138,11 +139,11 @@ por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m
     }
 </style>
 
-
-*temperaturo*: ()malalta (x)meza ()alta
-{: .elekto #temperatur}
-
 <button id="starto">Komencu</button>
+<button id="Tminus">-10 K</button>
+<button id="Tplus">+10 K</button>
+<button id="Vminus">-250 nm³</button>
+<button id="Vplus">+250 nm³</button>
 <button id="daŭrigo">Daŭrigu</button>
 
 <script>
@@ -187,7 +188,7 @@ const ĉelo = 1/25; // ĉelalto (kaj -larĝo) estas 1/20 de 320px
 const ĉelo_nm = 500*ĉelo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
 
 const intervalo = 50; // 50 ms
-const r_ero = 2; // radiuso de eroj
+const r_ero = 1.4; // radiuso de eroj
 let temperaturo = 1; // = maksiuma rapideco: 1*16 (ĉelgrando)
 //let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
 
@@ -219,6 +220,7 @@ function preparo() {
     const V = idealgaso.volumeno()*1e-27; // en m³
     const N = Idealgaso.nombro(p,V,T); // nombro da eroj en normkondiĉoj
     idealgaso.preparo(N,m,T);
+    premoj = new Bufro(3*1000/intervalo); // por averaĝi je 3s
 }
 
 
@@ -268,27 +270,28 @@ function pentro() {
             ero(e,ctx);
         }
     }
-    //valoroj();
 }
 
 function valoroj() {
-    function n_eo(nombro) {
-        const p = nombro.toPrecision(3).replace('.',',');
-        return p.replace(/e\+?/,' 10^').replace('Infinity','--').replace('NaN','--');
+    function n_eo(nombro,prec=3) {
+        const p = nombro.toPrecision(prec).replace('.',',');
+        return p.replace(/e\+?(\-?\d+)/,'·10<sup>$1</sup>').replace('Infinity','--').replace('NaN','--');
     }
 
     // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
     const E = idealgaso.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
     
-    ĝi("#rapido").textContent = n_eo(idealgaso.rapido_ave());
-    ĝi("#energio").textContent = n_eo(E);
-    ĝi("#temperaturo").textContent = n_eo(idealgaso.temperaturo());
-    ĝi("#premo").textContent = n_eo(idealgaso.premo());
+    ĝi("#rapido").innerHTML = n_eo(idealgaso.rapido_ave());
+    ĝi("#energio").innerHTML = n_eo(E);
+    ĝi("#temperaturo").innerHTML = n_eo(idealgaso.temperaturo());
+
+    premoj.val(idealgaso.premo());
+    ĝi("#premo").innerHTML = n_eo(premoj.averaĝo(),2);
 
     // ni kalkulas 1px = 80pm, tiel ke radiuso de heliumo = 140pm ~ 2px
     // krome ni supozas profundon de 320px, t.e. egala al alteco de la areo
     //const v = canvas.height*px_nm * canvas.height*px_nm * canvas.width*px_nm;
-    ĝi("#volumeno").textContent = n_eo(idealgaso.volumeno());
+    ĝi("#volumeno").innerHTML = n_eo(idealgaso.volumeno());
 }
 
 function paŝo() {
@@ -296,6 +299,8 @@ function paŝo() {
     pentro();
     valoroj();
 }
+
+let ripetoj;
 
 function eksperimento() {
     // komencaj valoroj
@@ -306,7 +311,8 @@ function eksperimento() {
     //var interval = setInterval(pentru, 100);
 
     preparo();
-    ripetu(
+    if (ripetoj) clearTimeout(ripetoj.p);
+    ripetoj = ripetu(
         () => {
             paŝo();
             return (idealgaso.T < d_larĝo);

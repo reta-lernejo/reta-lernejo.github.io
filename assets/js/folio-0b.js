@@ -208,11 +208,14 @@ function prokrastu(ago,ms) {
  * Registras agon ripetendan, ĝis ĝi redonas 'false'
  */
 function ripetu(ago,ms) {
+    const p = {p: undefined};
     (function bis() {
-        setTimeout(() => {        
+        p.p = setTimeout(() => {        
             if (ago()) bis();
         }, ms);
+        prokrastoj.push(p);
     })();
+    return p;
 }
 
 /**

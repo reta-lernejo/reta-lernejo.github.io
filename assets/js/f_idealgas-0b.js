@@ -1,5 +1,7 @@
 class Idealgaso {
 
+    // https://de.wikipedia.org/wiki/Ideales_Gas
+
     // konstantoj por kalkuli la fizikajn grandojn
     static kB = 1.380649e-23;  // konstanto de Boltzmann (en J/K)
     static u = 1.66053906660e-27; // atoma masunuo en kg
@@ -34,11 +36,11 @@ class Idealgaso {
      * @param {nombro} D varianca devio
      * @returns 
      */
-    static max_muller(E,D) {
-        const u = Math.sqrt(-2*Math.log(Math.random()));
-        const v = 2*Math.PI*Math.random();
-        const z0 = E + D*(u + Math.cos(v));
-        const z1 = E + D*(u + Math.sin(v));
+    static box_muller(E,D) {
+        const r = Math.sqrt(-2*Math.log(Math.random()));
+        const phi = 2*Math.PI*Math.random();
+        const z0 = E + D*(r*Math.cos(phi));
+        const z1 = E + D*(r*Math.sin(phi));
         return [z0,z1];
     }
 
@@ -124,10 +126,18 @@ class Idealgaso {
     kreu_erojn(n_eroj,temperaturo) {
         const larĝo = this.larĝo;
         const alto = this.alto;
-        // per la temperaturo atendebla rapido en unu dimensio
-        const r_eksp = Math.sqrt(Idealgaso.rapido(this.maso,temperaturo)/3);
+        // per la temperaturo atendebla rapidodistribuo en unu dimensio, vd
+        // https://de.wikipedia.org/wiki/Maxwell-Boltzmann-Verteilung
 
-        // max_muller ĉiam redonas du nombrojn normdistribuitaj, sed ni bezonas tri:
+        // KOREKTO: ial ankoraŭ la reapido-distribuo ankoraŭ ne redonas la ĝustan temperaturon
+        // eble pro tio, ke ni ne traĉas ĉe 0 kaj konvertas negativajn rapidojn tiel al pozitiva kontribuo,
+        // pro tio ni provizore obligas per 0.88.., se ĉio estus ĝuste, tio devus esti 1
+        // const r_eksp = 0.8852 * Math.sqrt(Idealgaso.rapido(this.maso,temperaturo)**2/3);
+        const m = this.maso*Idealgaso.u;
+        const D = Math.sqrt(temperaturo*Idealgaso.kB/m);
+        const E = 0; 
+
+        // box_muller ĉiam redonas du nombrojn normdistribuitaj, sed ni bezonas tri:
         let mm = 0;
         let mm6 = [0,0,0,0,0,0];
 
@@ -135,21 +145,23 @@ class Idealgaso {
         for (let n = 0; n < n_eroj; n++) {
             // se necese replenigu bufron de arbitraj nombroj
             if (!mm) {
+                //const s = (v) => Math.sign(Math.random()-0.5) * v;
                 for (let i=0; i<3; i++) {
-                    const mm2 = Idealgaso.max_muller(r_eksp,r_eksp/2);
+                    const mm2 = Idealgaso.box_muller(E,D);
                     mm6[2*i] = mm2[0];
                     mm6[2*i+1] = mm2[1];    
                 }
             }
+
 
             const e = {
                 id: n,
                 t: this.T - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe kahelmovo
                 x: Math.random() * larĝo,
                 y: Math.random() * alto,
-                vx: Math.sign(Math.random()) * mm6[mm],
-                vy: Math.sign(Math.random()) * mm6[mm+1],
-                vz: Math.sign(Math.random()) * mm6[mm+2] // z-dimensio de rapideco, loko ne gravas, ĉar ni projekcias al x-y-ebeneo
+                vx: mm6[mm],
+                vy: mm6[mm+1],
+                vz: mm6[mm+2] // z-dimensio de rapideco, loko ne gravas, ĉar ni projekcias al x-y-ebeneo
             }
             mm = (mm+3)%6;
             // alordigu ĉiun eron al koncerna ĉelo por pli facila traktado 
@@ -257,10 +269,10 @@ class Idealgaso {
             Object.values(this.ĉeloj[k]).map((e) => movo(e,kx,ky));
         }
 
-        // aktualigu la premon
+        // aktualigu la premon kaj obligu per maso kaj 2 (pro Δv = v-(-v) = 2v))
         const m = this.maso; // tion ni faros en premo() * Idealgaso.u
-        this.premoj = {supre: m*premo.s, malsupre: m*premo.ms,
-                dekstre: m*premo.d, maldekstre: m*premo.md};
+        this.premoj = {supre: m*2*premo.s, malsupre: m*2*premo.ms,
+                dekstre: m*2*premo.d, maldekstre: m*2*premo.md};
 
         this.T++;
     }
@@ -310,8 +322,8 @@ class Idealgaso {
     premo() {
         // la sumo de premfortoj (el maso kaj rapiddimensioj orta al la koncerna flanko ĉe kolizioj)
         // ni devas ankoraŭ korekti la rapidecojn de nia eksperimenta skalo al m/s kaj la mason al kg
-        const tf = this.intervalo; // korekto de ofteco, ĉar kolizioj multe pli ofte okazus ĉe pli granda rapido
-        const p = Object.values(this.premoj).reduce((p,x) => p+x,0) * tf * Idealgaso.u * this.takto;
+        const tf = 1/this.intervalo; // korekto de ofteco, ĉar kolizioj pli ofte okazus
+        const p = Object.values(this.premoj).reduce((p,x) => p+x,0) * tf * Idealgaso.u / this.takto;
 
         // la reprezentita areo de kvar flankoj
         const a = (2*this.larĝo + 2*this.alto)*this.profundo * 1e-18; // nm² -> m²
