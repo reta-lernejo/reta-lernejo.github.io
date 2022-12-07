@@ -112,38 +112,16 @@ class Idealgaso {
      * 
      */
     larĝadapto(larĝo) {
-        const l0 = this.larĝo;
-        const dx = larĝo - l0;
-        const tf = this.takto;
-        const dv = dx * 1e-9; // nm/s -> m/s
+        const dx = larĝo - this.larĝo;
         this.larĝo = larĝo;
 
-        if (dx) {
-            this.v_sum = 0;
-            this.v_sum2 = 0;
-
+        if (dx<0) {
             // trakuru ĉiujn ĉelojn kaj se necese adaptu lokojn de ties eroj
             for (let k of this.ĉeloj) {
                 // adapto
-                Object.values(k).map((e) => {
-                    /*
-                    // ĉe kolizio ni devas ŝangi la rapidecon de la gasero
-                    if (dx > 0 && e.x + e.vx > l0 && e.x + e.vx < larĝo) {
-                        // ĉe grandigo de volumeno, koliziojn ni rigardu rilate al l0
-                        // pro relativa movo de la vando, ne la tuta impulso estas reflektita
-                        e.vx += dv;
+                Object.values(k).map((e) => {                                    
 
-                    } else if (dx < 0 && e.x + e.vx > larĝo) {
-                        // ĉe malgrandigo de volumeno, koliziojn ni rigardu rilate al nova larĝo
-                        e.vx = -e.vx + dv;
-                    }
-                    */
-                    // rekalkulante la rapidecosumojn
-                    const v2 = e.vx**2 + e.vy**2 + e.vz**2;
-                    this.v_sum2 += v2;
-                    this.v_sum += Math.sqrt(v2);                           
-
-                    // krome ni ŝanĝu arbitre la lokojn de gaseroj, kiuj transiras la novan volumenon
+                    // ni ŝanĝas arbitre la lokojn de gaseroj, kiuj transiras la novan volumenon
                     if (e.x > larĝo) {
                         // ni plej simple donas arbitran novan x
                         e.x = Math.random() * larĝo;
@@ -416,6 +394,22 @@ class Idealgaso {
         const a = (2*this.larĝo + 2*this.alto)*this.profundo * 1e-18; // nm² -> m²
         // ni devos korekti ankoraŭ la dimensiojn de la areo de nm al m kaj de intervalo al s
         return p / a;
+    }
+
+    /**
+     * Redonas la laboron kaŭzitan de ŝanĝo de volumeno en J, fakte ĝi estas tre eta en nia malgranda volumeno
+     * do neglektebla (1e-47J)
+     * @param {number} dV volumenŝanĝo en nm³ - negativa por malgrandiĝo
+     */
+    volumen_laboro(dV) {
+        return - this.nombro * Idealgaso.kB * this.temperaturo() * dV / this.volumeno();
+    }
+
+    /**
+     * Redonas la averaĝan rapidecŝanĝon per volumenŝanĝo
+     */
+    adiabata_rapido(dV) {
+        return Math.sqrt(2 * this.volumen_laboro(dV) / this.nombro / (this.maso*Idealgaso.u));
     }
 
 }

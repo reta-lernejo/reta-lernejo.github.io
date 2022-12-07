@@ -36,7 +36,7 @@ $$T = \frac{\frac{2}{3} E}{N \cdot k_B}$$
 
 Por la produkto de premo kaj volumeno de ideala gaso cetere validas la stato-ekvacio [^W1]:
 
-$$p \cdot V = N \cdot k_B \cdot T$$
+$$p \cdot V = N \cdot k_B \cdot T \tag{1}$$
 
 aŭ kun la kvanto kiel mola kvanto $$n$$ kaj la universala gaskonstanto $$R = N_A \cdot k_B = \pu{8,31446261815324 J // mol K}$$:
 
@@ -438,10 +438,19 @@ function daŭrigo() {
 
 </script>
 
+## varmkonserva (adiabata) statoŝanĝo
+
+Kiam ni ŝanĝas la volumenon en nia eksperimento la temperaturo ŝajne restas senŝanĝa, nur la premo adaptiĝas kongrue al la formulo (1). Tian statoŝanĝon oni nomas temperaturkonserva (aŭ: izoterma). Sed efektive la ene energio de la sistemo, kondiĉe ke ĝi estas varmizolita, iomete ŝanĝiĝas. Per puŝo de piŝto aŭ flanka vando malgrandigante la volumenon aldoniĝas laboro (en mikroskopa skalo la gaseroj ricevas ekstran puŝeton de la vando). Kaj inverse se la volumeno grandiĝas la sistemo faras laboron, t.e perdas iom da energio, transdonata al la piŝto aŭ vando. Tian statoŝanĝon oni nomas varmkonserva (aŭ adiabata)[^W4].
+
+Tiu energiŝanĝo estas kalkulebla per:
+
+$$dE = -N k_B T \cdot \frac{dV}{V}$$
+
 ## fontoj
 {: .fontoj}
 
 [^W1]: [Ideales Gas](https://de.wikipedia.org/wiki/Ideales_Gas)
 [^W2]: [Innere Energie](https://de.wikipedia.org/wiki/Innere_Energie)
 [^W3]: [Kinetische Energie](https://de.wikipedia.org/wiki/Kinetische_Energie)
+[^W4]: [Adiabaten_des_idealen_Gases](https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_idealen_Gases)
 [^Pf]: [Thermische Teilchengeschwindigkeit](https://www.pfeiffer-vacuum.com/de/know-how/einfuehrung-in-die-vakuumtechnik/grundlagen/thermische-teilchengeschwindigkeit/)
