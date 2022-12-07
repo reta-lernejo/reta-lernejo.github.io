@@ -116,12 +116,27 @@ class Idealgaso {
         this.larĝo = larĝo;
 
         if (dx<0) {
+            // ni rekalkulos rapid-sumojn
+            this.v_sum = 0;
+            this.v_sum2 = 0;    
+
             // trakuru ĉiujn ĉelojn kaj se necese adaptu lokojn de ties eroj
             for (let k of this.ĉeloj) {
                 // adapto
                 Object.values(k).map((e) => {                                    
+                    // kalkulu koliziojn z kaj rapidŝanĝon pro tio
+                    // se la vando moviĝas dx nm/s
+                    const z = Math.abs(e.vx) / (2*larĝo); // ni devus ankoraŭ multobligi per 1e9
+                    const dv = z * dx;  // ni tiel ŝparas mutobligon per 1e) * 1e-9
 
-                    // ni ŝanĝas arbitre la lokojn de gaseroj, kiuj transiras la novan volumenon
+                    if (e.vx > 0) e.vx -= dv;
+                    else if (e.vx < 0) e.vx += dv;
+
+                    const v2 = e.vx**2 + e.vy**2 + e.vz**2;
+                    this.v_sum2 += v2;
+                    this.v_sum += Math.sqrt(v2);   
+
+                    // ni ŝanĝas arbitre la lokojn de gaseroj, kiuj troviĝas ekster la nova volumeno
                     if (e.x > larĝo) {
                         // ni plej simple donas arbitran novan x
                         e.x = Math.random() * larĝo;
