@@ -14,8 +14,12 @@ js:
 https://eo.wikibooks.org/wiki/Termodinamiko/Leciono_1#Ideala_gaso
 https://de.wikipedia.org/wiki/Ideales_Gas
 https://de.wikipedia.org/wiki/Innere_Energie
+
 https://www.tec-science.com/de/thermodynamik-waermelehre/kinetische-gastheorie/maxwell-boltzmann-verteilung/#Wahrscheinlichste_Geschwindigkeit
+
 https://www.pfeiffer-vacuum.com/de/know-how/einfuehrung-in-die-vakuumtechnik/grundlagen/thermische-teilchengeschwindigkeit/
+
+https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_idealen_Gases
 -->
 
 ... paĝo en preparo...
@@ -58,7 +62,7 @@ vaporo 585, nitrogeno 470, argono 394, karbondioksido 375)[^Pf].
 <!-- {: .sekcio} -->
 
 En nia eksperimento ni provas simuli idealan gason en kubo kun latera longeco de 50nm. En normaj kondiĉoj, t.e. 20 °C = 293,15 K kaj premo de 1000 hPa, tiu volumeno enhavas proksimume 3090 gaserojn. Ĉe heliumo, kiu kondutas proksimume kiel ideala gaso, estus 3360 atomoj. Ĉar ne eblas montri en modelo rapidojn de pli 1 km/s, ni simple malrapidigas la tempon je faktoro $$10^{-11}$$, per tio la rapidoj estas nur
-ĉirkaŭ 10nm/s, kio en nia modelo estas 100bildpunktoj respektive kvinono de la bildalto. La bildigataj eroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14nm = 1,4 bilderoj.
+ĉirkaŭ 10nm/s, kio en nia modelo estas 100 bildpunktoj respektive kvinono de la bildalto. La bildigataj eroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14nm = 1,4 bilderoj.
 
 <!--
 
@@ -139,16 +143,13 @@ por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m
     }
 </style>
 
-<button id="starto">Komencu</button>
-<button id="Tminus">-10 K</button>
-<button id="Tplus">+10 K</button>
-<button id="Vminus">-250 nm³</button>
-<button id="Vplus">+250 nm³</button>
-<button id="halto">Haltu</button>
 
 
 <canvas id="kampo" width="500" height="500"></canvas>
 simulado de ideala gaso
+
+<button id="starto">Komencu</button>
+<button id="halto">Haltu</button>
 
 |rapido (Ø m/s)|<span id="rapido"/>|
 |energio (J)|<span id="energio"/>|
@@ -156,8 +157,13 @@ simulado de ideala gaso
 |premo (Pa)|<span id="premo"/>|
 |volumeno (nm³)|<span id="volumeno"/>|
 
+<button id="Tminus">-25 K</button>
+<button id="Tplus">+25 K</button>
+<button id="Vminus">-250 nm³</button>
+<button id="Vplus">+250 nm³</button>
+
 <canvas id="pvt" width="500" height="500"></canvas>
-premo, volumeno kaj temperaturo
+premo, volumeno kaj temperaturo (kolore)
 
 
 <script>
@@ -166,6 +172,7 @@ const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
 const pvt = document.getElementById("pvt");
 const dgr_pvt = pvt.getContext("2d");
+dgr_pvt_prep();
 
 // skal-faktoroj 
 const px_nm = 0.1; // 1px = 0.1nm
@@ -189,36 +196,47 @@ const idealgaso = new Idealgaso(
     ĉelo);
 
 // trakto de adaptoj per butonoj ...
+
+// ŝanĝi inter aktiva kaj malaktiva butonstato
+function btn_stato(premebla) {
+    ĝi("#Tminus").disabled = !premebla || idealgaso.temperaturo() < 30;
+    ĝi("#Tplus").disabled = !premebla || idealgaso.temperaturo() > 970;
+    ĝi("#Vminus").disabled = !premebla || idealgaso.volumeno() <= 1e4;
+    ĝi("#Vplus").disabled = !premebla || idealgaso.volumeno() >= 24.8e4;
+}
+
 ĝi("#halto").disabled = true;
-ĝi("#Tminus").disabled = true;
-ĝi("#Tplus").disabled = true;
-ĝi("#Vminus").disabled = true;
-ĝi("#Vplus").disabled = true;
+btn_stato(false);
 
 kiam_klako("#starto",() => {
     eksperimento();
     ĝi("#halto").disabled = false;
-    ĝi("#Tminus").disabled = false;
-    ĝi("#Tplus").disabled = false;
-    ĝi("#Vminus").disabled = false;
-    ĝi("#Vplus").disabled = false;
+    btn_stato(true);
 });
 
 kiam_klako("#Tminus",() => {
-    idealgaso.temperaturadapto(idealgaso.temperaturo()-10);
+    btn_stato(false);
+    premoj.malplenigu();
+    idealgaso.temperaturadapto(idealgaso.temperaturo()-25);
 });
 
 kiam_klako("#Tplus",() => {
-    idealgaso.temperaturadapto(idealgaso.temperaturo()+10);
+    btn_stato(false);
+    premoj.malplenigu();
+    idealgaso.temperaturadapto(idealgaso.temperaturo()+25);
 });
 
 kiam_klako("#Vminus",() => {
+    btn_stato(false);
+    premoj.malplenigu();
     idealgaso.larĝadapto(idealgaso.larĝo-1);
     const nw = canvas.width - 1/px_nm;
     canvas.width=nw;
 });
 
 kiam_klako("#Vplus",() => {
+    btn_stato(false);
+    premoj.malplenigu();
     idealgaso.larĝadapto(idealgaso.larĝo+1);
     const nw = canvas.width + 1/px_nm;
     canvas.width=nw;
@@ -229,9 +247,24 @@ kiam_klako("#halto",() => {
     if (ripetoj) clearTimeout(ripetoj.p);
 });
 
+function dgr_pvt_prep() {
+    dgr_pvt.clearRect(0, 0, pvt.width, pvt.height);
+    dgr_pvt.font = "12px sanserif";
+    dgr_pvt.fillText("1",3,pvt.height-100);
+    dgr_pvt.fillText("2",3,pvt.height-200);
+    dgr_pvt.fillText("3",3,pvt.height-300);
+    dgr_pvt.fillText("4",3,pvt.height-400);
+    dgr_pvt.fillText("p [MPa]",3,pvt.height-485);
+
+    dgr_pvt.fillText("10⁴",20,495);
+    dgr_pvt.fillText("10⁵",200,495);
+    dgr_pvt.fillText("2·10⁵",400,495);
+    dgr_pvt.fillText("V [nm³]",450,495);
+}
+
 // preparo de la eksperimento
 function preparo() {
-    dgr_pvt.clearRect(0, 0, pvt.width, pvt.height);
+    dgr_pvt_prep();
 
     // tempopunkto=0
     T0 = 0;
@@ -245,10 +278,10 @@ function preparo() {
     const V = idealgaso.volumeno()*1e-27; // en m³
     const N = Idealgaso.nombro(p,V,T); // nombro da eroj en normkondiĉoj
     idealgaso.preparo(N,m,T);
-    premoj = new Bufro(3*1000/intervalo); // por averaĝi je 3s
+    premoj = new Bufro(1000/intervalo); // por averaĝi je 1s
 }
 
-
+/*
 // desegnu horizontalan linion
 function linio(y,ctx) {
     const larĝo = ctx.canvas.getAttribute("width");
@@ -272,6 +305,7 @@ function streko(x0,y0,x1,y1,koloro,ctx) {
         ctx.stroke();
     }
 }
+*/
 
 // desegnu eron en la eksperimento
 function ero(e,ctx) {
@@ -329,6 +363,7 @@ function valoroj() {
     premoj.val(idealgaso.premo());
     const p = premoj.averaĝo();
     ĝi("#premo").innerHTML = n_eo(p,2);
+    
 
     // ni kalkulas 1px = 80pm, tiel ke radiuso de heliumo = 140pm ~ 2px
     // krome ni supozas profundon de 320px, t.e. egala al alteco de la areo
@@ -336,7 +371,10 @@ function valoroj() {
     const V = idealgaso.volumeno();
     ĝi("#volumeno").innerHTML = n_eo(V);
 
-    punkto(p,V,T);
+    if (premoj.plena) {
+        punkto(p,V,T);
+        btn_stato(true);
+    }
 }
 
 function paŝo() {

@@ -29,7 +29,19 @@ class Bufro {
     val(v, i) {
         const _i = i? i%this.b.length : this.i;
         this.b[_i] = v;
-        if (_i == this.b.length) this.plena = true;
-        this.i = _i+1 % this.b.length;
+        if (_i == this.b.length-1) this.plena = true;
+        this.i = (_i+1)%this.b.length;
     }
+
+    /**
+     * Malplenigas la bufron por komenci novan serion da valoroj.
+     * Tio necesas ekz-e por ricevi novan averaĝon post ŝanĝo de parametroj,
+     * kie la averaĝoj de malnovaj kaj novaj kondicoj ne miksiĝu
+     */
+    malplenigu() {
+        this.b = new Array(this.b.length);
+        this.i = 0;
+        this.plena = false;
+    }
+
 }

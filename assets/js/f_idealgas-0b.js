@@ -112,14 +112,38 @@ class Idealgaso {
      * 
      */
     larĝadapto(larĝo) {
-        const x_adapto = larĝo < this.larĝo;
+        const l0 = this.larĝo;
+        const dx = larĝo - l0;
+        const tf = this.takto;
+        const dv = dx * 1e-9; // nm/s -> m/s
         this.larĝo = larĝo;
 
-        if (x_adapto) {
+        if (dx) {
+            this.v_sum = 0;
+            this.v_sum2 = 0;
+
             // trakuru ĉiujn ĉelojn kaj se necese adaptu lokojn de ties eroj
             for (let k of this.ĉeloj) {
                 // adapto
                 Object.values(k).map((e) => {
+                    /*
+                    // ĉe kolizio ni devas ŝangi la rapidecon de la gasero
+                    if (dx > 0 && e.x + e.vx > l0 && e.x + e.vx < larĝo) {
+                        // ĉe grandigo de volumeno, koliziojn ni rigardu rilate al l0
+                        // pro relativa movo de la vando, ne la tuta impulso estas reflektita
+                        e.vx += dv;
+
+                    } else if (dx < 0 && e.x + e.vx > larĝo) {
+                        // ĉe malgrandigo de volumeno, koliziojn ni rigardu rilate al nova larĝo
+                        e.vx = -e.vx + dv;
+                    }
+                    */
+                    // rekalkulante la rapidecosumojn
+                    const v2 = e.vx**2 + e.vy**2 + e.vz**2;
+                    this.v_sum2 += v2;
+                    this.v_sum += Math.sqrt(v2);                           
+
+                    // krome ni ŝanĝu arbitre la lokojn de gaseroj, kiuj transiras la novan volumenon
                     if (e.x > larĝo) {
                         // ni plej simple donas arbitran novan x
                         e.x = Math.random() * larĝo;
