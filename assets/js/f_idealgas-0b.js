@@ -115,7 +115,7 @@ class Idealgaso {
         const dx = larĝo - this.larĝo;
         this.larĝo = larĝo;
 
-        if (dx<0) {
+        if (dx != 0) {
             // ni rekalkulos rapid-sumojn
             this.v_sum = 0;
             this.v_sum2 = 0;    
