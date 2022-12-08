@@ -5,6 +5,8 @@ class Idealgaso {
     // konstantoj por kalkuli la fizikajn grandojn
     static kB = 1.380649e-23;  // konstanto de Boltzmann (en J/K)
     static u = 1.66053906660e-27; // atoma masunuo en kg
+    static h = 6.62607015e-34; // konstanto de Planck en Js
+
     static norm_p = 1e5; // normpremo estas 1000 hPa
     static norm_T = 293.15; // normtemperaturo en K
 
@@ -27,6 +29,16 @@ class Idealgaso {
         const E = 3/2*T*Idealgaso.kB;
         const kg = m*Idealgaso.u;
         return Math.sqrt(2*E/kg);
+    }
+
+    /**
+     * Redonas la entropikonstanton por atommaso (u)
+     */
+    static entropikonstanto(m) {
+        return Idealgaso.kB* Math.log(
+            Math.pow(2*Math.PI*m*Idealgaso.kB,3/2)
+            / Idealgaso.h**3 + 5/2
+        );
     }
 
     /**
@@ -115,6 +127,12 @@ class Idealgaso {
         const dx = larĝo - this.larĝo;
         this.larĝo = larĝo;
 
+        // eligu kelkajn parametrojn por kontrolo:
+        console.log("entropio 1: "+this.entropio());
+        const dV = dx * this.alto*this.profundo;
+        console.log("energiŝanĝo: "+this.volumen_laboro(dV));
+        console.log("rapidŝanĝo: "+this.adiabata_rapido(dV));
+
         if (dx != 0) {
             // ni rekalkulos rapid-sumojn
             this.v_sum = 0;
@@ -126,7 +144,7 @@ class Idealgaso {
                 Object.values(k).map((e) => {                                    
                     // kalkulu koliziojn z kaj rapidŝanĝon pro tio
                     // se la vando moviĝas dx nm/s
-                    const z = Math.abs(e.vx) / (2*larĝo); // ni devus ankoraŭ multobligi per 1e9
+                    const z = Math.abs(e.vx) / (2*larĝo) + 1; // ni devus ankoraŭ multobligi per 1e9
                     const dv = z * dx;  // ni tiel ŝparas mutobligon per 1e) * 1e-9
 
                     if (e.vx > 0) e.vx -= dv;
@@ -151,6 +169,8 @@ class Idealgaso {
                 });
             }
         }
+
+        console.log("entropio 2: "+this.entropio()); // ideale egala al entropio 1!
     }
 
     /**
@@ -198,6 +218,8 @@ class Idealgaso {
                 mm = (mm+3)%6;
             });
         }
+
+        console.log("entropio: "+this.entropio());
     }
 
 
@@ -424,7 +446,21 @@ class Idealgaso {
      * Redonas la averaĝan rapidecŝanĝon per volumenŝanĝo
      */
     adiabata_rapido(dV) {
+        // tio ankoraŭ ne donas ĝustajn valorojn ŝajnas...! Trovu la eraron...
         return Math.sqrt(2 * this.volumen_laboro(dV) / this.nombro / (this.maso*Idealgaso.u));
+    }
+
+    /**
+     * Redonas la entropion (J/K),
+     * vd. https://de.wikipedia.org/wiki/Ideales_Gas#Entropie
+     */
+    entropio() {
+        const N = this.nombro;
+        const sigmo = Idealgaso.entropikonstanto(this.maso);
+        return N * Idealgaso.kB * (
+              Math.log(this.volumeno()/N)
+            + 3/2*Math.log(this.temperaturo())
+        ) + N*sigmo;
     }
 
 }
