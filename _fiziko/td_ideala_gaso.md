@@ -24,9 +24,10 @@ https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_i
 
 ... paĝo en preparo...
 
-Ideala gaso estas simpligita modelo de realaj gasoj, en kiu oni supozas, ke la eroj havas mason sed neniun etendon kaj ne interagas per elektromagnetaj fortoj. Ili ne rotacias aŭ vibras kaj la energio de tiu ideala gaso estas pure la suma kineta energio de la eroj. KVankam tre simpligita tiu modelo estas konvena por priskribi realajn gasojn helpe de adaptaj koeficientoj. Plej simile al ideala gaso kondutas la noblaj gasoj kaj hidrogeno.
+Ideala gaso estas simpligita modelo de realaj gasoj, en kiu oni supozas, ke la eroj havas mason sed neniun etendon kaj ne interagas per elektromagnetaj fortoj. Ili ne rotacias aŭ vibras kaj la energio de tiu ideala gaso estas pure la suma kineta energio de la eroj. Kvankam tre simpligita tiu modelo estas konvena por priskribi ecojn de gasoj kaj ties statoŝanĝoj per relative simplaj matematikaj kalkuloj.
+Realajn gasojn oni priskribas per formuloj, kiuj modifas la formulojn de ideala gaso. Plej simile al ideala gaso kondutas la noblaj gasoj kaj hidrogeno.
 
-La kinetan energion de $$N$$eroj kun maso $$m$$ kaj rapideco $$v$$ oni ricevas kiel sumo [^W3]:
+La kinetan energion de $$N$$ gaseroj kun maso $$m$$ kaj rapideco $$v$$ oni ricevas kiel sumo [^W3]:
 
 $$E=\sum_{n=1}^N{1/2 \cdot m \cdot v_n^2}$$
 
@@ -38,15 +39,15 @@ Por la produkto de premo kaj volumeno de ideala gaso cetere validas la stato-ekv
 
 $$p \cdot V = N \cdot k_B \cdot T \tag{1}$$
 
-aŭ kun la kvanto kiel mola kvanto $$n$$ kaj la universala gaskonstanto $$R = N_A \cdot k_B = \pu{8,31446261815324 J // mol K}$$:
+aŭ sur makroskopa skalo por mola kvanto $$n$$ kaj la universala gaskonstanto $$R = N_A \cdot k_B = \pu{8,31446261815324 J // mol K}$$:
 
 $$p \cdot V = n \cdot R \cdot T$$
 
-Tiel oni povas ekzemple elkalkuli, kiom da gaseroj volumeno de 100 nm³ enhavas sub normaj kondiĉoj de $$\pu{1000 hPa}$$ kaj $$\pu{293,15 K}$$:
+Tiel oni povas ekzemple elkalkuli, kiom da gaseroj enhavas volumeno de 100 nm³ sub normaj kondiĉoj de $$\pu{1000 hPa}$$ kaj $$\pu{293,15 K}$$:
 
 $$N = pV / (k_B T) = \frac{\pu{e5 kg // m s^2} \cdot \pu{e-21 m^3}}{\pu{1,38e-23 m^2 kg // K s^2} \cdot \pu{293,15 K}} \approx \pu{25000}$$
 
-Komparante kun reala heliumo de norma denso $$\pu{0,1785 kg/m^3}$$, tiu havas iom pli da atomoj en la sama volumeno:
+Ni komparu kun reala heliumo de norma denso $$\pu{0,1785 kg/m^3}$$. Tiu havas iom pli da atomoj en la sama volumeno:
 
 $$ N_{He} = \frac{\pu{0,1785 kg/m^3} \cdot \pu{e-21 m^3} }{ \pu{6,64e-27kg}} \approx \pu{27000} $$
 
@@ -59,10 +60,10 @@ Mezumaj rapidecoj de realaj gasmolekuloj devias de tiu nombro pli aŭ malpli (hi
 vaporo 585, nitrogeno 470, argono 394, karbondioksido 375)[^Pf].
 
 ## eksperimento
-<!-- {: .sekcio} -->
+{: .sekcio}
 
-En nia eksperimento ni provas simuli idealan gason en kubo kun latera longeco de 50nm. En normaj kondiĉoj, t.e. 20 °C = 293,15 K kaj premo de 1000 hPa, tiu volumeno enhavas proksimume 3090 gaserojn. Ĉe heliumo, kiu kondutas proksimume kiel ideala gaso, estus 3360 atomoj. Ĉar ne eblas montri en modelo rapidojn de pli 1 km/s, ni simple malrapidigas la tempon je faktoro $$10^{-11}$$, per tio la rapidoj estas nur
-ĉirkaŭ 10nm/s, kio en nia modelo estas 100 bildpunktoj respektive kvinono de la bildalto. La bildigataj eroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14nm = 1,4 bilderoj.
+En nia eksperimento ni provas simuli idealan gason en kubo kun latera longeco de 50nm. En normaj kondiĉoj, t.e. 20 °C = 293,15 K kaj premo de 1000 hPa, tiu volumeno enhavas proksimume 3090 gaserojn. Ĉe heliumo, kiu kondutas proksimume kiel ideala gaso, estus 3360 atomoj. Ĉar ne eblas montri en modelo rapidojn de je 1 km/s, ni simple malrapidigas la tempon je faktoro $$10^{-11}$$. 
+Per tio la punktoj en nia simulado moviĝas je ĉirkaŭ 10nm/s, kio en nia modelo estas 100 bilderoj respektive kvinono de la bildalto. La bildigataj gaseroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14 nm = 1,4 bilderoj.
 
 <!--
 
@@ -438,13 +439,31 @@ function daŭrigo() {
 
 </script>
 
-## varmkonserva (adiabata) statoŝanĝo
+## temperaturkonserva kaj varmkonserva statoŝanĝoj
+{: .sekcio}
 
-Kiam ni ŝanĝas la volumenon en nia eksperimento la temperaturo ŝajne restas senŝanĝa, nur la premo adaptiĝas kongrue al la formulo (1). Tian statoŝanĝon oni nomas temperaturkonserva (aŭ: izoterma). Sed efektive la ene energio de la sistemo, kondiĉe ke ĝi estas varmizolita, iomete ŝanĝiĝas. Per puŝo de piŝto aŭ flanka vando malgrandigante la volumenon aldoniĝas laboro (en mikroskopa skalo la gaseroj ricevas ekstran puŝeton de la vando). Kaj inverse se la volumeno grandiĝas la sistemo faras laboron, t.e perdas iom da energio, transdonata al la piŝto aŭ vando. Tian statoŝanĝon oni nomas varmkonserva (aŭ adiabata)[^W4].
+Kiam oni tenas sistemon kun ideala gaso je konstanta temperaturo la produkto de premo kaj volumeno restas konstanta kongrue al la formulo (1). Do se oni grandigas aŭ malgrandigas la volumenon propocie malaltiĝas aŭ altiĝas la premo. Desegnante tiajn temperaturkonservajn (izotermajn) statoŝanĝojn en diagramo, oni ricevas hiperbolajn kurbojn.
+
+Kiam ni ŝanĝas la volumenon en nia eksperimento, kiu simulas varmizolitan ujon en tiu kazo, la temperaturo tamen iom ŝanĝigas samtempe kun la premo. Efektive la ena energio de la sistemo, kondiĉe ke ĝi estas varmizolita, iomete ŝanĝiĝas: per puŝo de piŝto (aŭ flanka vando) malgrandigante la volumenon aldoniĝas laboro (en mikroskopa skalo la gaseroj ricevas ekstran puŝeton de la vando ĉe ciu kolizio). Kaj inverse, se la volumeno grandiĝas, la sistemo faras laboron, t.e perdas iom da energio, transdonata al la piŝto aŭ vando. Tian statoŝanĝon oni nomas varmkonserva (aŭ adiabata)[^W4].
 
 Tiu energiŝanĝo estas kalkulebla per:
 
 $$dE = -N k_B T \cdot \frac{dV}{V}$$
+
+## sonrapido en ideala gaso
+{: .sekcio}
+
+Cetere la rapido de sono en gaso estas malpli alta ol la mezuma rapido de la gaseroj. Oni
+povas elkalkuli ĝin por ideala gaso per[^W5]:
+
+$$c =  \sqrt{\frac{3}{2}\frac{k_B T}{m}} = \sqrt{\frac{3}{2}\frac{R T}{M}}$$
+
+Por norma temperaturo kaj mola maso $$\pu{4 g}$$ de heliumo ni ricevas:
+
+$$c = \sqrt{\frac{\pu{8,314 J // mol K} \cdot \pu{293,15 K}}{\pu{0,004 kg // mol}}} = \pu{955 m/s} $$
+
+En reala heliumo oni mezuras iom pli altan sonrapidon de $$\pu{980 m/s}$$.
+
 
 ## fontoj
 {: .fontoj}
@@ -452,5 +471,6 @@ $$dE = -N k_B T \cdot \frac{dV}{V}$$
 [^W1]: [Ideales Gas](https://de.wikipedia.org/wiki/Ideales_Gas)
 [^W2]: [Innere Energie](https://de.wikipedia.org/wiki/Innere_Energie)
 [^W3]: [Kinetische Energie](https://de.wikipedia.org/wiki/Kinetische_Energie)
-[^W4]: [Adiabaten_des_idealen_Gases](https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_idealen_Gases)
+[^W4]: [Adiabaten des idealen Gases](https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_idealen_Gases)
+[^W5]: [Schallgeschwindigkeit im idealen Gas](https://de.wikipedia.org/wiki/Schallgeschwindigkeit#Schallgeschwindigkeit_im_idealen_Gas)
 [^Pf]: [Thermische Teilchengeschwindigkeit](https://www.pfeiffer-vacuum.com/de/know-how/einfuehrung-in-die-vakuumtechnik/grundlagen/thermische-teilchengeschwindigkeit/)
