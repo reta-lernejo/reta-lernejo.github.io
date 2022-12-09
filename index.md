@@ -70,6 +70,16 @@ nek ke ĉio funkcias senmanke.
 {% endif %}  
 {% endfor %}  
 
+
+## Fiziko
+
+{% assign fiz = site.fiziko | sort: "title" %}
+{% for t in fiz %}
+{% if t.title %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}
+
 <!-- alternativa nomo: vivo | organismoj -->
 
 
