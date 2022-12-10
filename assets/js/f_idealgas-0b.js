@@ -455,10 +455,35 @@ class Idealgaso {
      * vd. https://de.wikipedia.org/wiki/Ideales_Gas#Entropie
      */
     entropio() {
+        /* entropio restos egala, se la volumenoj en kolumno 1
+        respondas al la temperaturoj en la lasta kolumno, por
+        adiabata procezo la entropio devus resti sama, ĉar
+        nek varmo, ne materio interŝanĝiĝus kun la ĉirkaŭo!
+
+        V(nm³) ln(V/T)	3/2 ln(T) -> diff	exp(diff/1,5)
+        10000	-60,99				11,05	1.578,93
+        20000	-60,30				10,35	994,66
+        30000	-59,90				9,95	759,07
+        40000	-59,61				9,66	626,60
+        50000	-59,39				9,44	539,99
+        60000	-59,20				9,25	478,18
+        70000	-59,05				9,10	431,48
+        80000	-58,92				8,97	394,73
+        90000	-58,80				8,85	364,92
+        100000	-58,69				8,74	340,17
+        125000	-58,47	            8,52	293,15 *
+        150000	-58,29				8,34	259,60
+        200000	-58,00				8,05	214,29
+
+
+        KOREKTU: Nia nuna modelo (larĝadapto() {...}) perdas entropion ankoraŭ, ekz.
+        ĉe V=100000 ni havas nur 322K anst. 340
+        */
+
         const N = this.nombro;
         const sigmo = Idealgaso.entropikonstanto(this.maso);
         return N * Idealgaso.kB * (
-              Math.log(this.volumeno()/N)
+              Math.log(this.volumeno()*1e-27/N)
             + 3/2*Math.log(this.temperaturo())
         ) + N*sigmo;
     }
