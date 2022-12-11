@@ -152,14 +152,17 @@ simulado de ideala gaso
 <button id="starto">Komencu</button>
 <button id="halto">Haltu</button>
 
+|volumeno (nm³)|<span id="volumeno"/>|
 |rapido (Ø m/s)|<span id="rapido"/>|
 |energio (J)|<span id="energio"/>|
 |temperaturo (K)|<span id="temperaturo"/>|
 |premo (Pa)|<span id="premo"/>|
-|volumeno (nm³)|<span id="volumeno"/>|
 
-<button id="Tminus">-25 K</button>
-<button id="Tplus">+25 K</button>
+<!-- |entropio (J/K)|<span id="entropio"/>| -->
+
+
+<button id="Tminus">-50 K</button>
+<button id="Tplus">+50 K</button>
 <button id="Vminus">-250 nm³</button>
 <button id="Vplus">+250 nm³</button>
 
@@ -200,9 +203,9 @@ const idealgaso = new Idealgaso(
 
 // ŝanĝi inter aktiva kaj malaktiva butonstato
 function btn_stato(premebla) {
-    ĝi("#Tminus").disabled = !premebla || idealgaso.temperaturo() < 30;
+    ĝi("#Tminus").disabled = !premebla || idealgaso.temperaturo() < 60;
     ĝi("#Tplus").disabled = !premebla || idealgaso.temperaturo() > 970;
-    ĝi("#Vminus").disabled = !premebla || idealgaso.volumeno() <= 1e4;
+    ĝi("#Vminus").disabled = !premebla || idealgaso.volumeno() <= 1e4 || idealgaso.premo() > 4e6;
     ĝi("#Vplus").disabled = !premebla || idealgaso.volumeno() >= 24.8e4;
 }
 
@@ -218,13 +221,13 @@ kiam_klako("#starto",() => {
 kiam_klako("#Tminus",() => {
     btn_stato(false);
     premoj.malplenigu();
-    idealgaso.temperaturadapto(idealgaso.temperaturo()-25);
+    idealgaso.temperaturadapto(idealgaso.temperaturo()-50);
 });
 
 kiam_klako("#Tplus",() => {
     btn_stato(false);
     premoj.malplenigu();
-    idealgaso.temperaturadapto(idealgaso.temperaturo()+25);
+    idealgaso.temperaturadapto(idealgaso.temperaturo()+50);
 });
 
 kiam_klako("#Vminus",() => {
@@ -360,6 +363,8 @@ function valoroj() {
 
     const T = idealgaso.temperaturo();
     ĝi("#temperaturo").innerHTML = n_eo(T);
+
+    // ĝi("#entropio").innerHTML = n_eo(idealgaso.entropio(),2);
 
     premoj.val(idealgaso.premo());
     const p = premoj.averaĝo();

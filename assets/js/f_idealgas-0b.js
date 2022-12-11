@@ -119,6 +119,14 @@ class Idealgaso {
     }
 
     /**
+     * skribas la aktualan staton al la konzolo
+     */
+    skribu_staton() {
+        console.log(`## energio: ${this.energio()}, rapido: ${this.rapido_ave()}`)
+        console.log(`...temperaturo: ${this.temperaturo()}, entropio: ${this.entropio()}`);
+    }
+
+    /**
      * Adaptas parametron larĝo (volumeno)
      * @param {number} larĝo nm
      * 
@@ -128,10 +136,11 @@ class Idealgaso {
         this.larĝo = larĝo;
 
         // eligu kelkajn parametrojn por kontrolo:
-        console.log("entropio 1: "+this.entropio());
+        this.skribu_staton();
         const dV = dx * this.alto*this.profundo;
         console.log("energiŝanĝo: "+this.volumen_laboro(dV));
         console.log("rapidŝanĝo: "+this.adiabata_rapido(dV));
+        console.log("temperaturŝanĝo: "+this.temperatur_ŝanĝo(dV));
 
         if (dx != 0) {
             // ni rekalkulos rapid-sumojn
@@ -144,8 +153,10 @@ class Idealgaso {
                 Object.values(k).map((e) => {                                    
                     // kalkulu koliziojn z kaj rapidŝanĝon pro tio
                     // se la vando moviĝas dx nm/s
-                    const z = Math.abs(e.vx) / (2*larĝo) + 1; // ni devus ankoraŭ multobligi per 1e9
-                    const dv = z * dx;  // ni tiel ŝparas mutobligon per 1e) * 1e-9
+                    // laŭ leĝo de elasta puŝo kun maso de vando multe pli granda ol tiu de ero
+                    // la rezulta rapido post unuopa kolizo estas v' = -v + 2*dx
+                    const z = Math.abs(e.vx) / (2*larĝo) //+ .5; // ni devus ankoraŭ multobligi per 1e9
+                    const dv = z * 2*dx;  // ni tiel ŝparas mutobligon per 1e+9 * 1e-9
 
                     if (e.vx > 0) e.vx -= dv;
                     else if (e.vx < 0) e.vx += dv;
@@ -170,7 +181,7 @@ class Idealgaso {
             }
         }
 
-        console.log("entropio 2: "+this.entropio()); // ideale egala al entropio 1!
+        this.skribu_staton();
     }
 
     /**
@@ -219,7 +230,7 @@ class Idealgaso {
             });
         }
 
-        console.log("entropio: "+this.entropio());
+        this.skribu_staton();
     }
 
 
@@ -434,8 +445,7 @@ class Idealgaso {
     }
 
     /**
-     * Redonas la laboron kaŭzitan de ŝanĝo de volumeno en J, fakte ĝi estas tre eta en nia malgranda volumeno
-     * do neglektebla (1e-47J)
+     * Redonas la laboron kaŭzitan de ŝanĝo de volumeno en J
      * @param {number} dV volumenŝanĝo en nm³ - negativa por malgrandiĝo
      */
     volumen_laboro(dV) {
@@ -443,11 +453,19 @@ class Idealgaso {
     }
 
     /**
+     * Redonas la temperaturŝanĝon pro volumen_laboro
+     */
+    temperatur_ŝanĝo(dV) {
+        const dE = this.volumen_laboro(dV);
+        return 2/2*dE / this.nombro / Idealgaso.kB;
+    }
+
+    /**
      * Redonas la averaĝan rapidecŝanĝon per volumenŝanĝo
      */
     adiabata_rapido(dV) {
         // tio ankoraŭ ne donas ĝustajn valorojn ŝajnas...! Trovu la eraron...
-        return Math.sqrt(2 * this.volumen_laboro(dV) / this.nombro / (this.maso*Idealgaso.u));
+        return Math.sqrt(2 * Math.abs(this.volumen_laboro(dV)) / this.nombro / (this.maso*Idealgaso.u));
     }
 
     /**
@@ -476,8 +494,8 @@ class Idealgaso {
         200000	-58,00				8,05	214,29
 
 
-        KOREKTU: Nia nuna modelo (larĝadapto() {...}) perdas entropion ankoraŭ, ekz.
-        ĉe V=100000 ni havas nur 322K anst. 340
+        Nia nuna modelo (larĝadapto() {...}) iomete altigas la entropion ankoraŭ ĉe
+        malpligrandigode volumeno, ekz. ĉe V=100000 ni havas nur 346K anst. 340K
         */
 
         const N = this.nombro;
