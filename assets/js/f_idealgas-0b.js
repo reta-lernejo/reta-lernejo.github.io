@@ -151,12 +151,12 @@ class Idealgaso {
             for (let k of this.ĉeloj) {
                 // adapto
                 Object.values(k).map((e) => {                                    
-                    // kalkulu koliziojn z kaj rapidŝanĝon pro tio
+                    // kalkulu koliziojn kaj rapidŝanĝon pro tio
                     // se la vando moviĝas dx nm/s
                     // laŭ leĝo de elasta puŝo kun maso de vando multe pli granda ol tiu de ero
                     // la rezulta rapido post unuopa kolizo estas v' = -v + 2*dx
-                    const z = Math.abs(e.vx) / (2*larĝo) //+ .5; // ni devus ankoraŭ multobligi per 1e9
-                    const dv = z * 2*dx;  // ni tiel ŝparas mutobligon per 1e+9 * 1e-9
+                    const klz = Math.floor(Math.abs(e.vx) / (2*larĝo)) //+ .5; // ni devus ankoraŭ multobligi per 1e9
+                    const dv = klz * 2*dx;  // ni tiel ŝparas mutobligon per 1e+9 * 1e-9
 
                     if (e.vx > 0) e.vx -= dv;
                     else if (e.vx < 0) e.vx += dv;
@@ -493,9 +493,9 @@ class Idealgaso {
         150000	-58,29				8,34	259,60
         200000	-58,00				8,05	214,29
 
-
         Nia nuna modelo (larĝadapto() {...}) iomete altigas la entropion ankoraŭ ĉe
-        malpligrandigode volumeno, ekz. ĉe V=100000 ni havas nur 346K anst. 340K
+        malpligrandigo de volumeno, tio povas esti statistika eraro pro la malmultaj eroj kaj 
+        kolizioj, sed povas ankaŭ esti sitema erareto en nia modelo!
         */
 
         const N = this.nombro;
