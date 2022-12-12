@@ -390,6 +390,9 @@ class Idealgaso {
         this.T++;
     }
 
+    /**
+     * Redonas la volumenon en nm³, por m³ vi devos ankoraŭ multobligi per 1e-27 
+     */
     volumeno() {
         return this.larĝo*this.alto*this.profundo;
     }
@@ -504,6 +507,20 @@ class Idealgaso {
               Math.log(this.volumeno()*1e-27/N)
             + 3/2*Math.log(this.temperaturo())
         ) + N*sigmo;
+    }
+
+    /**
+     * Redonas la entalpion H = U + pV
+     */
+    entalpio() {
+        return this.energio() + this.premo()*this.volumeno()*1e-27;
+    }
+
+    /**
+     * Redonas la Gibbs-energion G = U + pV - TS
+     */
+    gibsenergio() {
+        return this.entalpio() - this.temperaturo()*this.entropio();
     }
 
 }

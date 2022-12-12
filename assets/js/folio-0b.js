@@ -95,6 +95,15 @@ function emfazo(elm,klaso="emfazo") {
     if (elm) elm.classList.remove(klaso);
 }
 
+/**
+ * Redonas nombron en petita precizeco kaj kun evtl. potencoj de de 10
+ * kiel HTML (eksponento per sup-elemento)
+ */
+function nombro(nombro,prec=3) {
+    const p = nombro.toPrecision(prec).replace('.',',');
+    return p.replace(/e\+?(\-?\d+)/,'·10<sup>$1</sup>').replace('Infinity','--').replace('NaN','--');
+}
+
 
 let _lanĉtaskoj = []; 
 let _reftaskoj = [];
