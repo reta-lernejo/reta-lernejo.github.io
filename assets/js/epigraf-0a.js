@@ -14,6 +14,15 @@ const epigrafoj = [
     "Birdo petolas, kiom ĝi volas. Homo petrolas ĝis maroj bolas, grak-grak!|Ludo Viko, la korniko"
 ];
 
+/* Pliaj eblaj:
+
+"Homoj vi eksidas en rulantaj kaĝoj anstataŭ fluge leviĝi. Tro dikaj, tro pigraj vi ja fariĝis.",
+"Korniko flugas, homo plugas. Kompatinda!",
+"Korniko grakas dum homoj hakas. Kompatindaj arboj!",
+"Supre en arbo mi sidas kaj vidas, kiel homoj stulte ridas, apenaŭ sin bridas. Ho ve!"
+
+*/
+
 function epigrafo() {
     const monato = new Date().getMonth();
     return epigrafoj[monato].split("|");
