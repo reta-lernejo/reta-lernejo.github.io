@@ -1,8 +1,8 @@
 ---
 layout: laborfolio
 title: Entalpio
-_chapter: "3.1.x"
-_next_ch: r_precipito
+chapter: "3.1.2"
+next_ch: r_ekvilibro
 js:
   - folio-0b
   - sekcio-0b 
@@ -71,6 +71,7 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
       const x = Math.random()*LARĜO;
       //const rc = SVG.rektangulo(x,y-20,50,30);
       const t = SVG.teksto(Entalpio.format(kemiaĵo),x,_y(entalpio));
+      SVG.titolo(t,nombro(entalpio,5,'kJ'));
       SVG.atributoj(t,{filter: "url(#fono)"})
       SVG.aldonu(svg,t);
     }

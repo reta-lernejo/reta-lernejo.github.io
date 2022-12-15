@@ -145,6 +145,12 @@ const SVG = function() {
         return teksto;
     }
 
+    function titolo(elemento,titolo) {
+        const ttl = document.createElementNS(ns,"title");
+        ttl.textContent = titolo;
+        elemento.append(ttl);
+    }
+
     function atributoj(objekto,atributoj) {
         let obj = objekto;
         if (typeof objekto === 'string') {
@@ -180,6 +186,7 @@ const SVG = function() {
         movo: movo,
         image: image,
         teksto: teksto,
+        titolo: titolo,
         atributoj: atributoj,
         uzo: uzo
     }
