@@ -2,7 +2,7 @@
 layout: laborfolio
 title: Unuoj kaj grandoj
 chapter: "3.1.1"
-next_ch: r_ekvilibro
+next_ch: r_entalpio
 js:
   - folio-0b
   - sekcio-0b 

@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Kemia ekvilibro
-chapter: "3.1.2"
+chapter: "3.1.3"
 next_ch: r_precipito
 js:
   - folio-0b
