@@ -7,6 +7,8 @@ js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
+  - k_formentalpio-0a
+  - svg-0c
 ---
 
 ... paĝo en preparo...
@@ -44,6 +46,58 @@ Pli ĝenerale validas la teoremo de (Germain Henri) Hess: La norma reakcia ental
 
 $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
 
+<script> 
+  // devas respondi la la formato de <svg...> (malsupre)
+  ALTO = 900; 
+  LARĜO = 300; 
+
+  lanĉe(() => {
+ 
+    const e_kem = Object.keys(Entalpio.normforma);
+    const min_max = Entalpio.minmax();
+    const svg = ĝi("#entalpioj");
+
+    const fy = -ALTO/(min_max.max-min_max.min);
+    //const e0 = min_max.max;
+    const _y = (e) => (e - min_max.max)*fy;
+
+    const t0 = SVG.teksto("0 kJ",0,_y(0));
+    SVG.aldonu(svg,t0);
+
+    for (i=0; i<40; i++) {
+      const kemiaĵo = e_kem[i];
+      const entalpio = Entalpio.normforma[kemiaĵo];      
+
+      const x = Math.random()*LARĜO;
+      //const rc = SVG.rektangulo(x,y-20,50,30);
+      const t = SVG.teksto(Entalpio.format(kemiaĵo),x,_y(entalpio));
+      SVG.atributoj(t,{filter: "url(#fono)"})
+      SVG.aldonu(svg,t);
+    }
+  });
+</script>  
+
+<style>
+  svg rect {
+    margin: 0.1em;
+    fill: cornflowerblue;
+  }
+</style>  
+
+<svg id="entalpioj"
+    version="1.1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="300" viewBox="0 0 300 900">
+  <defs>
+    <filter x="0" y="0" width="1" height="1" id="fono">
+      <feFlood flood-color="paleturquoise" result="bg" />
+      <feMerge>
+        <feMergeNode in="bg"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>    
+</svg>
 
 ## fontoj
 {: .fontoj}
