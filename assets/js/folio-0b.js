@@ -98,10 +98,17 @@ function emfazo(elm,klaso="emfazo") {
 /**
  * Redonas nombron en petita precizeco kaj kun evtl. potencoj de de 10
  * kiel HTML (eksponento per sup-elemento)
+ * @param {number} nombro
+ * @param {number} prec precizeco je ciferoj
+ * @param {string} unuo mezurunuo
  */
-function nombro(nombro,prec=3) {
+function nombro(nombro,prec=3,unuo) {
     const p = nombro.toPrecision(prec).replace('.',',');
-    return p.replace(/e\+?(\-?\d+)/,'·10<sup>$1</sup>').replace('Infinity','--').replace('NaN','--');
+    return ((p
+        .replace(/e\+?(\-?\d+)/,'·10<sup>$1</sup>')
+        .replace('Infinity','--')
+        .replace('NaN','--'))
+        + (unuo? '\u202f'+unuo : ''));
 }
 
 
