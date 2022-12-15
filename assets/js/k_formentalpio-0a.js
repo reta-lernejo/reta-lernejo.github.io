@@ -256,6 +256,7 @@ class Entalpio {
     "ZnO(s)": -348.0 	
   }
 
+
   static formebloj = {
     "CO2(g)": [
         {_: 2, "CO(g)": 2, "O2(g)": 1},
@@ -267,8 +268,36 @@ class Entalpio {
     "NaCl(s)": [
       {_: 2, "Na(s)": 2, "Cl2(g)": 1},
       {_: 1, "Na+(aq)": 1, "Cl-(aq)": 1}
+    ],
+    "AgCl(s)": [
+      {_: 2, "H2(g)": 2, "Ag(s)": 2, "HCl(l)": 2}
+    ],
+    "(NH4)2SO4(s)": [
+       {_: 1, "H2SO4(s)": 1, "NH3(g)": 2}
     ]
   }
+
+  // ekvacioj ŝajnas pli flekseblaj,
+  // eble ni ankaŭ povus ĉenigi se por interaĵo mankas entalpio...!?
+  static ekvacioj = [
+
+    /*
+    [{"CO(g)": 2, "O2(g)": 1}, {"CO2(g)": 2}],
+    [{"C(s)": 1, "O2(g)": 1}, {"CO2(g)": 1}]
+    // ...    
+    [{"Na(s)": 2, "HCl(l)": 2}, {"NaCl(s)": 2, "H2(g)": 1}],
+    [{"NaCl(s)": 1}, {"Na+(aq)": 1, "Cl-(aq)": 1}],
+    [{"Ag(s)": 2, "HCl(l)": 2}, {"AgCl(s)": 2, "H2(g)": 1}],
+    [{"H2SO4(s)": 1, "NH3(g)": 2}, {"(NH4)2SO4(s)": 1}]
+    */
+    "2 CO(g) + O2(g) -> 2 CO2(g)",
+    "C(s) + O2(g) -> CO2(g)",
+     //...    
+    "2 Na(s) + 2 HCl(l) -> 2 NaCl(s) + H2(g)",
+    "NaCl(s) -> Na+(aq) + Cl-(aq)",
+    "2 Ag(s) + 2 HCl(l) -> 2 AgCl(s) + H2(g)",
+    "H2SO4(s) + 2 NH3(g) -> (NH4)2SO4(s)"
+  ]
 
   static minmax() {
     const valoroj = Object.values(Entalpio.normforma);

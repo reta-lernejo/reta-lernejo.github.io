@@ -149,4 +149,4 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
 ## fontoj
 {: .fontoj}
 
-[^W1]: [Enthalpie in isobaren physikalischen und chemischen_Prozessen](https://de.wikipedia.org/wiki/Enthalpie#Enthalpie_in_isobaren_physikalischen_und_chemischen_Prozessen)
+[^W1]: [Enthalpie in isobaren physikalischen und chemischen Prozessen](https://de.wikipedia.org/wiki/Enthalpie#Enthalpie_in_isobaren_physikalischen_und_chemischen_Prozessen)
