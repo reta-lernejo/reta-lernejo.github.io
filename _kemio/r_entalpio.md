@@ -61,17 +61,48 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
     //const e0 = min_max.max;
     const _y = (e) => (e - min_max.max)*fy;
 
-    const t0 = SVG.teksto("0 kJ",0,_y(0));
-    SVG.aldonu(svg,t0);
+    // skalo
+    const g = SVG.grupo("skalo","skalo");
+    let s = Math.ceil(min_max.min/100)*100;
+    while (s < min_max.max) {
+      const sy = _y(s);
+      const sl = SVG.linio(42,sy,50,sy);
+      const st = SVG.teksto(s,40,sy);
+      SVG.aldonu(g,sl,st);
+      s += 100;
+    }
+    const l = SVG.linio(45,0,45,min_max.max-min_max.min);
+    SVG.aldonu(g,l);
+    SVG.aldonu(svg,g);
 
-    for (i=0; i<40; i++) {
-      const kemiaĵo = e_kem[i];
-      const entalpio = Entalpio.normforma[kemiaĵo];      
+    // kemiaĵoj por kiuj ni havas ekvaciojn
+    const kolekto = Entalpio.el_formebloj();
+    let xi = {};
 
-      const x = Math.random()*LARĜO;
+    for (const kemiaĵo in kolekto) {
+      const entalpio = kolekto[kemiaĵo];
+
+      // eltrovu konvenan x-koordinaton evitante interkovrojn
+      let x, yx = 0;
+      const yi = Math.round(entalpio/100);
+      if (xi[yi] && xi[yi]<LARĜO-50) {
+        x = xi[yi]+50;
+        xi[yi] = x;
+      } else if (xi[yi]) {
+        // KOREKTU: ni devas aŭ tuj dividi xi[yi] pr LARĜO aŭ
+        // aldoni yx al xi[yi] iel..
+        x = 50;
+        yx = 20;
+        xi[yi] = x + LARĜO;
+      } else {
+        x = 50;
+        xi[yi] = 50;
+      }
+
       //const rc = SVG.rektangulo(x,y-20,50,30);
-      const t = SVG.teksto(Entalpio.format(kemiaĵo),x,_y(entalpio));
-      SVG.titolo(t,nombro(entalpio,5,'kJ'));
+      const f = Entalpio.format(kemiaĵo);
+      const t = SVG.teksto(f,x,_y(entalpio)+yx);
+      SVG.titolo(t,f+': '+nombro(entalpio,5,'kJ'));
       SVG.atributoj(t,{filter: "url(#fono)"})
       SVG.aldonu(svg,t);
     }
@@ -82,6 +113,21 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
   svg rect {
     margin: 0.1em;
     fill: cornflowerblue;
+  }
+
+  svg text {
+    text-anchor: start;
+    dominant-baseline: middle;
+  }
+
+  svg .skalo text {
+    text-anchor: end;
+    dominant-baseline: middle;
+  }
+
+  svg line {
+    stroke: black;
+    stroke-width: 1;
   }
 </style>  
 

@@ -265,6 +265,7 @@ class Entalpio {
         {_: 2, "C(s)": 2, "O2(g)": 1}
     ],
     "NaCl(s)": [
+      {_: 2, "Na(s)": 2, "Cl2(g)": 1},
       {_: 1, "Na+(aq)": 1, "Cl-(aq)": 1}
     ]
   }
@@ -274,6 +275,28 @@ class Entalpio {
     const max = Math.max(...valoroj);
     const min = Math.min(...valoroj);
     return {min: min, max: max};
+  }
+
+  /**
+   * ekstraktas la kemiaĵojn el formebloj (formuloj)
+   */
+  static el_formebloj() {
+    let kolekto = {};
+
+    for (const [f,f1] of Object.entries(Entalpio.formebloj)) {
+      kolekto[f] = true;
+      f1.map((f1_) => {
+        for (const f2 in f1_) {
+          if (f2 != '_') kolekto[f2] = true;
+        }
+      });
+    }
+
+    for (const k in kolekto) {
+      kolekto[k] = Entalpio.normforma[k]
+    }
+
+    return kolekto;
   }
 
   /**
