@@ -67,7 +67,7 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
     while (s < min_max.max) {
       const sy = _y(s);
       const sl = SVG.linio(42,sy,50,sy);
-      const st = SVG.teksto(s,40,sy);
+      const st = SVG.teksto(s?s:"[kJ] 0",40,sy) ;
       SVG.aldonu(g,sl,st);
       s += 100;
     }
@@ -75,44 +75,107 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
     SVG.aldonu(g,l);
     SVG.aldonu(svg,g);
 
-    // kemiaĵoj por kiuj ni havas ekvaciojn
-    const kolekto = Entalpio.el_formebloj();
-    let xi = {};
-
-    for (const kemiaĵo in kolekto) {
-      const entalpio = kolekto[kemiaĵo];
-
+    // redonu konvenajn xy-koordinatojn laŭ entalpivaloro
+    // kaj tekstolarĝo
+    function _xy(entalpio, lrĝ) {
       // eltrovu konvenan x-koordinaton evitante interkovrojn
       let x, yx = 0;
-      const yi = Math.round(entalpio/100);
-      if (xi[yi] && xi[yi]<LARĜO-50) {
-        x = xi[yi]+50;
-        xi[yi] = x;
-      } else if (xi[yi]) {
+      const dx = 9;
+      const yi = Math.round(entalpio/150);
+      if (xi[yi] && xi[yi]<LARĜO-lrĝ) { // aldonu dekstre en nemalplena linio
+        x = xi[yi];
+        xi[yi] = x+lrĝ+dx;
+      } else if (xi[yi]) { // komencu novan linion
         // KOREKTU: ni devas aŭ tuj dividi xi[yi] pr LARĜO aŭ
         // aldoni yx al xi[yi] iel..
         x = 50;
         yx = 20;
         xi[yi] = x + LARĜO;
-      } else {
+      } else { // unua en la linio
         x = 50;
-        xi[yi] = 50;
+        xi[yi] = 50+lrĝ+dx;
       }
 
-      //const rc = SVG.rektangulo(x,y-20,50,30);
-      const f = Entalpio.format(kemiaĵo);
-      const t = SVG.teksto(f,x,_y(entalpio)+yx);
-      SVG.titolo(t,f+': '+nombro(entalpio,5,'kJ'));
-      SVG.atributoj(t,{filter: "url(#fono)"})
-      SVG.aldonu(svg,t);
+      return {x:x, y:_y(entalpio)+yx};
     }
+
+    // desegnu kemiaĵon en kesto...
+    function _kk(kemiaĵo) {
+
+      // la teksto ĉe konvenaj x-y-koordinatoj
+      const entalpio = kolekto[kemiaĵo];
+      const f_s = Entalpio.format(kemiaĵo);
+
+      // kreu grupon por enhavi tekston kun kadro
+      const g = SVG.grupo(); 
+      SVG.atributoj(g,{'data-frm': kemiaĵo});
+      SVG.aldonu(svg,g);
+
+      const t = SVG.teksto(f_s.formulo); SVG.aldonu(g,t); // koordinatojn ni metos tuj...
+      const bb = t.getBBox();
+      const pt = _xy(entalpio,bb.width);
+      SVG.atributoj(t,{x: pt.x, y: pt.y});
+      SVG.titolo(t,f_s.formulo+'('+f_s.stato+'): '+nombro(entalpio,5,'kJ'));
+
+      // kadro ĉirkaŭ la teksto
+      const r = SVG.rektangulo(pt.x-2,pt.y-11,bb.width+4,21);
+      SVG.atributoj(r,{rx: 3, class: f_s.stato});
+      SVG.enŝovu(g,r);
+
+      //const rc = SVG.rektangulo(x,y-20,50,30);
+    }
+
+    // kemiaĵoj por kiuj ni havas ekvaciojn
+    const kolekto = Entalpio.el_ekvacioj();
+    let xi = {};
+
+    for (const kemiaĵo in kolekto) {
+      _kk(kemiaĵo);
+    }
+
+    // kiam ni klakas sur kemiaĵon, ni montru la ekvaciojn
+    // en kiuj ĝi aperas...
+    svg.addEventListener("click", (event) => {
+      const g = event.target.closest("g");
+      const kem = g.getAttribute("data-frm");
+      const ediv = ĝi("#ekvacioj");
+      ediv.textContent = '';
+
+      if (kem) {
+        const ekvj = Entalpio.ekvacioj_kun(kem);
+
+        if (ekvj) {
+          for (const ekv of ekvj) {
+            ediv.innerHTML += '\\[\\ce{'+ekv+'}\\]\n';
+          }
+
+          // kompostu formulojn
+          if (typeof(MathJax) != 'undefined' && MathJax.typeset());
+        }
+      }
+    });
+    //svg.addEventListener("keydown",(event) => {
+
   });
 </script>  
 
 <style>
   svg rect {
     margin: 0.1em;
-    fill: cornflowerblue;
+    fill: #74a5fD;
+    stroke: black;
+    stroke-width: 1;
+  }
+
+  svg rect.l,
+  svg rect.aq {
+    stroke-dasharray: 5 2;
+    fill: #94c5ff;
+  }
+
+  svg rect.g {
+    stroke-dasharray: 1 2;
+    fill: #a4d5ff;
   }
 
   svg text {
@@ -134,17 +197,11 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
 <svg id="entalpioj"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="300" viewBox="0 0 300 900">
-  <defs>
-    <filter x="0" y="0" width="1" height="1" id="fono">
-      <feFlood flood-color="paleturquoise" result="bg" />
-      <feMerge>
-        <feMergeNode in="bg"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>    
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="300" viewBox="0 0 300 900"
+    tabindex="0">
 </svg>
+
+<div id="ekvacioj"></div>
 
 ## fontoj
 {: .fontoj}

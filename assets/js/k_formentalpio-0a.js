@@ -5,6 +5,7 @@ class Entalpio {
   // http://anorganik.chemie.vias.org/standardenthalpien_table.html
   // https://de.wikibooks.org/wiki/Tabellensammlung_Chemie/_Enthalpie_und_Bindungsenergie
   // https://www.chemeurope.com/en/encyclopedia/Standard_enthalpy_change_of_formation_%28data_table%29.html
+  // http://www.dinternet.ch/Datenblaetter/Standardbildungsenthalpie_und_Entropie.pdf
   static normforma = {
     "(COOH)2(aq)": -818.3, 
     "(COOH)2(s)":	-826.8, 
@@ -128,8 +129,8 @@ class Entalpio {
     "HBr(g)": -36.2, 	
     "HC2O4-(aq)":	-818.8, 
     "HCHO(g)": -116, 
-    "HCl(aq)": -167.46, 	
-    "HCl(g)": -92.312, 	
+    "HCl(aq)": -167.46,
+    "HCl(g)": -92.312,
     "HClO(aq)": -116.4, 
     "HCO3(aq)": -691.1, 	
     "HCOO-(aq)": -410.0, 	
@@ -257,47 +258,21 @@ class Entalpio {
   }
 
 
-  static formebloj = {
-    "CO2(g)": [
-        {_: 2, "CO(g)": 2, "O2(g)": 1},
-        {_: 1, "C(s)": 1, "O2(g)": 1}
-    ],
-    "CO(g)": [
-        {_: 2, "C(s)": 2, "O2(g)": 1}
-    ],
-    "NaCl(s)": [
-      {_: 2, "Na(s)": 2, "Cl2(g)": 1},
-      {_: 1, "Na+(aq)": 1, "Cl-(aq)": 1}
-    ],
-    "AgCl(s)": [
-      {_: 2, "H2(g)": 2, "Ag(s)": 2, "HCl(l)": 2}
-    ],
-    "(NH4)2SO4(s)": [
-       {_: 1, "H2SO4(s)": 1, "NH3(g)": 2}
-    ]
-  }
-
   // ekvacioj ŝajnas pli flekseblaj,
   // eble ni ankaŭ povus ĉenigi se por interaĵo mankas entalpio...!?
   static ekvacioj = [
-
-    /*
-    [{"CO(g)": 2, "O2(g)": 1}, {"CO2(g)": 2}],
-    [{"C(s)": 1, "O2(g)": 1}, {"CO2(g)": 1}]
-    // ...    
-    [{"Na(s)": 2, "HCl(l)": 2}, {"NaCl(s)": 2, "H2(g)": 1}],
-    [{"NaCl(s)": 1}, {"Na+(aq)": 1, "Cl-(aq)": 1}],
-    [{"Ag(s)": 2, "HCl(l)": 2}, {"AgCl(s)": 2, "H2(g)": 1}],
-    [{"H2SO4(s)": 1, "NH3(g)": 2}, {"(NH4)2SO4(s)": 1}]
-    */
     "2 CO(g) + O2(g) -> 2 CO2(g)",
     "C(s) + O2(g) -> CO2(g)",
      //...    
-    "2 Na(s) + 2 HCl(l) -> 2 NaCl(s) + H2(g)",
+    "H2(g) + Cl2(g) -> 2 HCl(g)",
+    "2 NaCl(s) + H2SO4(s) -> Na2SO4(s) + 2 HCl(g)",
+    "Na(s) <-> Na(g)",
+    "2 Na(g) + Cl2(g) -> 2 NaCl(s)",
     "NaCl(s) -> Na+(aq) + Cl-(aq)",
-    "2 Ag(s) + 2 HCl(l) -> 2 AgCl(s) + H2(g)",
+    "2 Ag(s) + 2 HCl(aq) -> 2 AgCl(s) + H2(g)",
     "H2SO4(s) + 2 NH3(g) -> (NH4)2SO4(s)"
   ]
+
 
   static minmax() {
     const valoroj = Object.values(Entalpio.normforma);
@@ -307,22 +282,35 @@ class Entalpio {
   }
 
   /**
-   * ekstraktas la kemiaĵojn el formebloj (formuloj)
+   * Redonas ekvaciojn, en kiuj enestas la donita kemiaĵo
    */
-  static el_formebloj() {
-    let kolekto = {};
+  static ekvacioj_kun(kemiaĵo) {
+    let kolekto = [];
 
-    for (const [f,f1] of Object.entries(Entalpio.formebloj)) {
-      kolekto[f] = true;
-      f1.map((f1_) => {
-        for (const f2 in f1_) {
-          if (f2 != '_') kolekto[f2] = true;
-        }
-      });
+    for (const ekv of Entalpio.ekvacioj) {
+      
+      const termoj = ekv.split(' ');
+      if (termoj.indexOf(kemiaĵo)>-1)
+        kolekto.push(ekv);
     }
 
-    for (const k in kolekto) {
-      kolekto[k] = Entalpio.normforma[k]
+    return kolekto;
+  }
+
+  /**
+   * ekstraktas la kemiaĵojn el ekvacioj (formuloj)
+   */
+  static el_ekvacioj() {
+    let kolekto = {};
+
+    for (const ekv of Entalpio.ekvacioj) {
+      const termoj = ekv.split(' ');
+      for (const t of termoj) {
+        const e = Entalpio.normforma[t];
+        if (typeof e !== 'undefined') {
+          kolekto[t] = e
+        }
+      }
     }
 
     return kolekto;
@@ -333,11 +321,21 @@ class Entalpio {
    * plu/minus per malsupra resp. supra unikodero: H2O -> H₂O ktp.
    */
   static format(k) {
-    const p = k.replace(/\+/,'\u207a').replace(/\-/,'\u207b').split('^');
-    let suff = '';
+    const re = /^([A-Za-z\(\)1-6]+)(\^?[\+\-1-6]+)?(\([a-z]+\))$/;
+    const m = re.exec(k);
+    if (!m) throw "Erara formulo: "+k;
+
+    const frm = m[1]
+      .replace(/(?<!\*)[0-9]/g,(d) => 
+        String.fromCharCode(0x2080 + d.codePointAt(0) - "0".codePointAt(0)))
+      .replace('*','\u00b7');
+
     // altigu jonŝargon
-    if (p[1]) {
-      suff = p[1]
+    let suff = '';
+    if (m[2]) {
+      suff = m[2]
+      .replace(/\+/,'\u207a')
+      .replace(/\-/,'\u207b')
       .replace(/[0,4-9]/,(d) =>
         String.fromCharCode(0x2070 + d.codePointAt(0) - "0".codePointAt(0)))
       .replace(/1/,'\u00b9')
@@ -345,11 +343,8 @@ class Entalpio {
       .replace(/3/,'\u00b3');
     }
     // malaltigu multoblojn de atomoj/grupoj
-    return p[0]
-      .replace(/(?<!\*)[0-9]/g,(d) => 
-        String.fromCharCode(0x2080 + d.codePointAt(0) - "0".codePointAt(0)))
-      .replace('*','\u00b7')
-      +suff;
+    return { formulo: frm+suff,
+      stato: m[3].slice(1,-1)};
   }
 
 
