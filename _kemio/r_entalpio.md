@@ -82,10 +82,15 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
   }
 
   // plenigu la diagramon (SVG)
-  lanĉe(() => { 
-    const e_kem = Object.keys(Entalpio.normforma);
+  lanĉe(() => {
     //const min_max = Entalpio.minmax();
-    const min_max = {min: -1530, max: 530}; // tio provizore sufiĉas, ne tro grandigu la tutan skalon...
+    //const min_max = {min: -1530, max: 530}; // tio provizore sufiĉas, ne tro grandigu la tutan skalon...
+
+    // kemiaĵoj por kiuj ni havas ekvaciojn
+    const kolekto = Entalpio.el_ekvacioj();
+    const min_max = {min: kolekto.min-30, max:kolekto.max+30};
+    delete kolekto.min; delete kolekto.max;
+
     const svg = ĝi("#entalpioj");
 
     const fy = -ALTO/(min_max.max-min_max.min);
@@ -156,8 +161,6 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
       //const rc = SVG.rektangulo(x,y-20,50,30);
     }
 
-    // kemiaĵoj por kiuj ni havas ekvaciojn
-    const kolekto = Entalpio.el_ekvacioj();
     let xi = {};
 
     for (const kemiaĵo in kolekto) {

@@ -7,6 +7,7 @@ class Entalpio {
   // https://de.wikibooks.org/wiki/Tabellensammlung_Chemie/_Enthalpie_und_Bindungsenergie
   // https://www.chemeurope.com/en/encyclopedia/Standard_enthalpy_change_of_formation_%28data_table%29.html
   // http://www.dinternet.ch/Datenblaetter/Standardbildungsenthalpie_und_Entropie.pdf
+  // http://www.mrbigler.com/misc/energy-of-formation.html
   static normforma = {
     "(COOH)2(aq)": -818.3, 
     "(COOH)2(s)":	-826.8, 
@@ -117,10 +118,12 @@ class Entalpio {
     "F2(g)": 0.0,
     "Fe(g)": 404.5, 
     "Fe(s)": 0.0, 
-    "Fe^2+(aq)":	-87.9, 	
-    "Fe2O3(hematito)": -822.1, 	
+    "Fe^2+(aq)":	-87.9,
     "Fe^3+(aq)":	-47.7, 	
+    "FeO(s)": -271.96,
+    "Fe2O3(hematito)": -822.1, 	
     "Fe3O4(magnetito)": -1121, 	
+    "Fe(OH)3(s)": -824,
     "Ge(g)": 	328.2,
     "Ge(s)": 	0.0, 
     "H(g)": 	217.94, 
@@ -274,19 +277,20 @@ class Entalpio {
   // ekvacioj ŝajnas pli flekseblaj,
   // eble ni ankaŭ povus ĉenigi se por interaĵo mankas entalpio...!?
   static ekvacioj = [
-    "2 CO(g) + O2(g) -> 2 CO2(g)",
-    "C(s) + O2(g) -> CO2(g)",
-    "CO2(g) + 4 H2(g) -> CH4(g) + 2 H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
-    "CO(g) + 3 H2(g) -> CH4(g) + H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
      //...    
     "H2(g) + Cl2(g) -> 2 HCl(g)",
     "2 NaCl(s) + H2SO4(l) -> Na2SO4(s) + 2 HCl(g)", // https://de.wikipedia.org/wiki/Natriumsulfat
     "Na2CO3(s) + H2SO4(l) -> Na2SO4(s) + H2O(l) + CO2(g)", // https://de.wikipedia.org/wiki/Natriumsulfat
-    "Na(s) <-> Na(g)",
     "2 Na(g) + Cl2(g) -> 2 NaCl(s)",
-    "NaCl(s) -> Na+(aq) + Cl-(aq)",
     "2 Ag(s) + 2 HCl(aq) -> 2 AgCl(s) + H2(g)",
     "H2SO4(l) + 2 NH3(g) -> (NH4)2SO4(s)",
+
+    // ŝanĝo de materistato
+    "H2O(l) <-> H2O(g)",
+    "Na(s) <-> Na(g)",
+
+    // solvado
+    "NaCl(s) -> Na+(aq) + Cl-(aq)",
 
     // precipitaj reakcioj
     "Ag+(aq) + Cl-(aq) -> AgCl(s)",
@@ -299,7 +303,52 @@ class Entalpio {
     "Cu^2+(aq) + CO3^2-(aq) -> CuCO3(s)",
     "2 Ag+(aq) + 2 OH-(aq) -> Ag2O(s) + H2O(l)",
     //"Pb^2+(aq) + 2 OH-(aq) -> Pb(OH)2(s)",
-    "Cu^2+(aq) + 2 OH-(aq) -> Cu(OH)2(s)"
+    "Cu^2+(aq) + 2 OH-(aq) -> Cu(OH)2(s)",
+
+    // redoksaj / brulaj...
+    "C(s) + O2(g) -> CO2(g)",
+    "2 CO(g) + O2(g) -> 2 CO2(g)",
+    "H2(g) + O2(g) -> H2O(g)",
+
+    /*
+    "hidrogenkorodo de fero": "Fe + 2H+ <-> Fe^2+ + H2",
+    "oksigenkorodo de fero": "2Fe^2+ +4(OH)- + 1/2 O2 + H2O -> 2Fe(OH)3",
+    "redukto de hematito per CO": "3Fe2O3 + CO -> 2Fe3O4 + CO2",
+    "redukto de hematito per H₂": "3Fe2O3 + H2 -> 2Fe3O4 + H2O",
+    "rekta redukto de hematito": "3Fe2O3 + C -> 2Fe3O4 + CO",
+    "redukto de magnetito per CO": "Fe3O4 + CO -> 3FeO + CO2",
+    "redukto de magnetito per H₂": "Fe3O4 + H2 -> 3FeO + H2O",
+    "rekta redukto de magnetito": "Fe3O4 + C -> 3FeO + CO",
+    "redukto de vustito per CO": "FeO + CO -> Fe + CO2",
+    "redukto de vustito per H₂": "FeO + H2 -> Fe + H2O",
+    "rekta redukto de vustito": "FeO + C -> Fe + CO",
+    "oksidigo de H₂S": "H2S + 3O2 -> 2SO2 + 2H2O",
+    "kompleta forbrulo de metano": "CH4 + 2O2 -> CO2 + 2H2O",
+    "nekompleta forbrulo de metano": "2CH4 + 3O2 -> 2CO + 4H2O",
+    "sintezo de metano": "CO2 + 4H2 -> CH4 + 2H2O",
+    "sintezo de amoniako": "N2 + 3H2 -> 2NH3",
+    "kompleta forbrulo de glukozo": "C6H12O6 + 6O2 -> 6CO2 + 6H2O",  
+    */
+    "Fe(s) + 2 H+(aq) <-> Fe^2+(aq) + H2(g)",
+    "4 Fe^2+(aq) + 8 OH-(aq) + O2(g) + 3 H2O(l) -> 2 Fe(OH)3(s)",
+    "3 Fe2O3(hematito) + CO(g) -> 2 Fe3O4(magnetito) + CO2(g)",
+    "3 Fe2O3(hematito) + H2(g) -> 2 Fe3O4(magnetito) + H2O(l)",
+    "3 Fe2O3(hematito) + C(s) -> 2 Fe3O4(magnetito) + CO(g)",
+    "Fe3O4(magnetito) + CO(g) -> 3 FeO(s) + CO2(g)",
+    "Fe3O4(magnetito) + H2(g) -> 3 FeO(s) + H2O(l)",
+    "Fe3O4(magnetito) + C(s) -> 3 FeO(s) + CO(g)",
+    "FeO(s) + CO(g) -> Fe(s) + CO2(g)",
+    "FeO(s) + H2(g) -> Fe(s) + H2O(l)",
+    "FeO(s) + C(s) -> Fe(s) + CO(g)",
+    "H2S(g) + 3 O2(g) -> 2 SO2(g) + 2 H2O(g)",
+
+    "CH4(g) + 2 O2(g) -> CO2(g) + 2 H2O(g)",
+    "2 CH4(g) + 3 O2(g) -> 2 CO(g) + 4 H2O(g)",
+    "CO2(g) + 4 H2(g) -> CH4(g) + 2 H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
+    "CO(g) + 3 H2(g) -> CH4(g) + H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
+
+    "N2(g) + 3 H2(g) -> 2 NH3(g)",
+    "C6H12O6(s) + 6 O2(g) -> 6 CO2(g) + 6 H2O(g)"
   ]
 
 
@@ -330,14 +379,16 @@ class Entalpio {
    * ekstraktas la kemiaĵojn el ekvacioj (formuloj)
    */
   static el_ekvacioj() {
-    let kolekto = {};
+    let kolekto = {min: 0, max: 0};    
 
     for (const ekv of Entalpio.ekvacioj) {
       const termoj = ekv.split(' ');
       for (const t of termoj) {
         const e = Entalpio.normforma[t];
         if (typeof e !== 'undefined') {
-          kolekto[t] = e
+          kolekto[t] = e;
+          kolekto.min = Math.min(e,kolekto.min);
+          kolekto.max = Math.max(e,kolekto.max);
         }
       }
     }
@@ -357,7 +408,7 @@ class Entalpio {
 
     const termoj = ekv.split(' ');
     for (const t of termoj) {
-      if (t.length == 1 && "123456".indexOf(t)>-1) {
+      if (t.length == 1 && "123456789".indexOf(t)>-1) {
         n = parseInt(t);
       } else if (t == "+") {
         n = 1; // remetu al apriora
@@ -393,7 +444,7 @@ class Entalpio {
    * plu/minus per malsupra resp. supra unikodero: H2O -> H₂O ktp.
    */
   static format(k) {
-    const re = /^([A-Za-z\(\)1-6]+)\^?([\+\-1-6]+)?(\([a-z]+\))$/;
+    const re = /^([A-Za-z\(\)1-9]+)\^?([\+\-1-9]+)?(\([a-z]+\))$/;
     const m = re.exec(k);
     if (!m) throw "Erara formulo: "+k;
 
