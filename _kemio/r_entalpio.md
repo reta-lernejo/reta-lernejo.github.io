@@ -81,6 +81,41 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
       return ekvjHTML;
   }
 
+  /**
+   * Desegnas interligojn en la SVG kun kemiaĵo per ekvacioj
+   */
+  function interligoj(kem) {
+    // malplenigu grupon por interligoj
+    SVG.malplenigu("ligoj");
+
+    const kmj = Entalpio.ekvaciaj_rilatoj(kem);
+
+    if (kmj) {
+      for (const k2 of kmj) {
+
+        const bb1 = ĝi(`[data-frm="${kem}"]`).getBBox();
+        const bb2 = ĝi(`[data-frm="${k2}"]`).getBBox();
+
+        let lin;
+        if (bb1.y <= bb2.y) { // fakte por '==' ni devus desegni la linion horizontale komparinte ambaŭ x
+          linio = SVG.linio(
+            bb1.x + bb1.width/2,
+            bb1.y + bb1.height,
+            bb2.x + bb2.width/2,
+            bb2.y)
+        } else {
+          linio = SVG.linio(
+            bb2.x + bb2.width/2,
+            bb2.y + bb2.height,
+            bb1.x + bb1.width/2,
+            bb1.y)
+        }
+        SVG.aldonu("ligoj",linio);
+      }
+    }
+
+  }
+
   // plenigu la diagramon (SVG)
   lanĉe(() => {
     //const min_max = Entalpio.minmax();
@@ -167,13 +202,19 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
       _kk(kemiaĵo);
     }
 
+    // kreu grupon por ligoj fine, por ke ili aperu super la kemiaĵoj
+    const lg = SVG.grupo("ligoj");
+    SVG.aldonu(svg,lg);
+
     // kiam ni klakas sur kemiaĵon, ni montru la ekvaciojn
     // en kiuj ĝi aperas...
     svg.addEventListener("click", (event) => {
       const g = event.target.closest("g");
       const kem = g.getAttribute("data-frm");
       const ediv = ĝi("#ekvacioj");
-      // trovu ekvaciojn por la elektita kemiaĵo
+      // montru rilatojn kun tiu kemiaĵo per ekvacioj
+      interligoj(kem);
+      // trovu kaj montru ekvaciojn por la elektita kemiaĵo
       const ekvj = ekvacioj(kem);
       if (ekvj) {
         ediv.innerHTML = ekvj;

@@ -376,6 +376,27 @@ class Entalpio {
   }
 
   /**
+   * Redonas ĉiujn kemiaĵojn, kiuj estas en rilato kun la donita per iuj
+   * ekvacioj
+   * @param {string} kemiaĵo 
+   */
+  static ekvaciaj_rilatoj(kemiaĵo) {
+    const ekvj = Entalpio.ekvacioj_kun(kemiaĵo);
+
+    let kolekto = [];
+    for (const ekv of ekvj) {      
+      const termoj = ekv.split(' ');
+      for (const t of termoj) {
+        if (t != kemiaĵo && typeof Entalpio.normforma[t] !== 'undefined') {
+          kolekto.push(t);
+        }
+      }
+    }
+
+    return kolekto;
+  }
+
+  /**
    * ekstraktas la kemiaĵojn el ekvacioj (formuloj)
    */
   static el_ekvacioj() {
