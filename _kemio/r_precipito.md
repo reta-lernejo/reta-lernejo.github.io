@@ -674,7 +674,7 @@ eksperimentoj:
 </p>
 <p class="prc_ekv kaŝita" id="NaCl_Ba(NO₃)₂">$$\ce{2NaCl(aq) + Ba(NO3)2(aq) -> BaCl2(aq) + 2NaNO3(aq)}$$</p>
 <p class="prc_ekv kaŝita" id="NaCl_Pb(NO₃)₂">$$\ce{2NaCl(aq) + Pb(NO3)2(aq) -> PbCl2(s) + 2NaNO3(aq)}$$  
-  $$\ce{Pb2+ + 2Cl- -> PbCl2 v}$$
+  $$\ce{Pb^2+ + 2Cl- -> PbCl2 v}$$
 </p>
 <p class="prc_ekv kaŝita" id="NaCl_CuSO₄">$$\ce{2NaCl(aq) + CuSO4(aq) -> CuCl2(aq) + Na2SO4(aq)}$$</p>
 <p class="prc_ekv kaŝita" id="KI_AgNO₃">$$\ce{KI(aq) + AgNO3(aq) -> AgI(s) + KNO3(aq)}$$  
@@ -682,28 +682,28 @@ eksperimentoj:
 </p>
 <p class="prc_ekv kaŝita" id="KI_Ba(NO₃)₂">$$\ce{2KI(aq) + Ba(NO3)2(aq) -> BaI2(aq) + 2KNO3(aq)}$$</p>
 <p class="prc_ekv kaŝita" id="KI_Pb(NO₃)₂">$$\ce{2KI(aq) + Pb(NO3)2(aq) -> PbI2(s) + 2KNO3}$$  
-  $$\ce{Pb2+ + 2I- -> PbI2 v}$$
+  $$\ce{Pb^2+ + 2I- -> PbI2 v}$$
 </p>
 <p class="prc_ekv kaŝita" id="KI_CuSO₄">$$\ce{2KI(aq) + CuSO4(aq) -> CuI2(aq) + K2SO4(aq)}$$</p>
 <p class="prc_ekv kaŝita" id="Na₂CO₃_AgNO₃">$$\ce{Na2CO3(aq) + 2AgNO3(aq) -> Ag2CO3(s) + 2NaNO3(aq)}$$  
   $$\ce{2Ag+ + CO3^2- -> Ag2CO3 v}$$
 </p>
 <p class="prc_ekv kaŝita" id="Na₂CO₃_Ba(NO₃)₂">$$\ce{Na2CO3(aq) + Ba(NO3)2(aq) -> BaCO3(s) + 2NaNO3(aq)}$$  
-  $$\ce{Ba2+ + CO3^2- -> BaCO3 v}$$
+  $$\ce{Ba^2+ + CO3^2- -> BaCO3 v}$$
 </p>
 <p class="prc_ekv kaŝita" id="Na₂CO₃_Pb(NO₃)₂">$$\ce{Na2CO3(aq) + Pb(NO3)2(aq) -> PbCO3(s) + 2NaNO3(aq)}$$  
-  $$\ce{Pb2+ + CO3^2- -> PbCO3 v}$$
+  $$\ce{Pb^2+ + CO3^2- -> PbCO3 v}$$
 </p>
 <p class="prc_ekv kaŝita" id="Na₂CO₃_CuSO₄">$$\ce{Na2CO3(aq) + CuSO4(aq) -> CuCO3(s) + Na2SO4(aq)}$$  
-  $$\ce{Cu2+ + CO3^2- -> CuCO3 v}$$
+  $$\ce{Cu^2+ + CO3^2- -> CuCO3 v}$$
 </p>
 <p class="prc_ekv kaŝita" id="NaOH_AgNO₃">$$\ce{2NaOH(aq) + 2AgNO3(aq) -> Ag2O(s) + 2NaNO3(aq) + H2O(l)}$$  
   $$\ce{2Ag+ + 2OH^- -> Ag2O v + H2O}$$
 </p>
 <p class="prc_ekv kaŝita" id="NaOH_Ba(NO₃)₂">$$\ce{2NaOH(aq) + Ba(NO3)2(aq) -> Ba(OH)2(aq) + 2NaNO3(aq)}$$</p>
 <p class="prc_ekv kaŝita" id="NaOH_Pb(NO₃)₂">$$\ce{2NaOH(aq) + Pb(NO3)2(aq) -> Pb(OH)2(s) + 2NaNO3(aq)}$$  
-  $$\ce{Pb2+ + 2OH- -> Pb(OH)2 v}$$
+  $$\ce{Pb^2+ + 2OH- -> Pb(OH)2 v}$$
 </p>
 <p class="prc_ekv kaŝita" id="NaOH_CuSO₄">$$\ce{2NaOH(aq) + CuSO4(aq) -> Cu(OH)2(s) + Na2SO4(aq)}$$  
-  $$\ce{Cu2+ + 2OH^- -> Cu(OH)2 v}$$
+  $$\ce{Cu^2+ + 2OH^- -> Cu(OH)2 v}$$
 </p>
