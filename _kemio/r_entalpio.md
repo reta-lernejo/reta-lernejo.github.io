@@ -11,7 +11,6 @@ js:
   - svg-0c
 ---
 
-... paĝo en preparo...
 
 <!--
 La t.n. termodinamikaj fenomenoj ene de iu sistemo estas determinitaj de la interagoj en mikroskopa skalo inter la eroj de la substancoj: la movoj rektaj, rotaciaj, svingaj, la elektromagnetaj itneragoj, la ĥemiaj ligoj. Sed tiujn interagojn oni ne povas simple observi pro ilia malgrandeco, rapideco kaj multeco. Aliflanke, se enestas en la sistemo nur eroj (atomoj, jonoj, molekuloj) de sama aŭ malmultaj specoj, la interefikoj en makroskopa skalo sumiĝas al grandoj, kiujn oni povas mezuri: temperaturo, premo, volumeno. La homoj trovis vojojn dedukti de tiuj makroskopaj mezureblaj grandoj, kio okazas en mikroskopa skalo. Kaj ili ankaŭ elpensis matematikajn modelojn por priskribi la makroskopan konduton de termodinamika sistemo surbaze de mezureblaj kaj kalkuleblaj grandoj.
@@ -240,11 +239,23 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
 </script>  
 
 <style>
+  #ekvacioj {
+    padding-top: 0.2em;
+    padding-left: 0.5em;
+    border-left: 3px dotted cornflowerblue;
+  }
+
+  svg {
+    padding: 7px;
+    border: 2px solid cornflowerblue;
+    border-radius: 3px;
+  }
+
   svg rect {
     margin: 0.1em;
     fill: #74a5fD;
     stroke: black;
-    stroke-width: 1;
+    stroke-width: 1.5;
   }
 
   svg rect.l,
