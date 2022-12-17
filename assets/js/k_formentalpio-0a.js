@@ -124,6 +124,7 @@ class Entalpio {
     "H2O2(aq)": -191.1, 
     "H2O2(l)": -187.6, 
     "H2S(aq)": -39,
+    "H2SO4(l)": -814,
     "H2S(g)": -20.15, 	
     "H3O+(aq)": -285.84, 	
     "HBr(g)": -36.2, 	
@@ -185,7 +186,8 @@ class Entalpio {
     "Na2(g)": 142.1, 
     "Na2CO3(s)": -1131,
     "Na2O(s)": -416,
-    "Na2O2(s)": -504.6, 	
+    "Na2O2(s)": -504.6,
+    "Na2SO4(s)": -1387.1,
     "NaBr(s)": -359.95, 
     "NaCl(s)": -411.00, 	
     "NaF(s)": -569.0, 	
@@ -263,14 +265,17 @@ class Entalpio {
   static ekvacioj = [
     "2 CO(g) + O2(g) -> 2 CO2(g)",
     "C(s) + O2(g) -> CO2(g)",
+    "CO2(g) + 4 H2(g) -> CH4(g) + 2 H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
+    "CO(g) + 3 H2(g) -> CH4(g) + H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
      //...    
     "H2(g) + Cl2(g) -> 2 HCl(g)",
-    "2 NaCl(s) + H2SO4(s) -> Na2SO4(s) + 2 HCl(g)",
+    "2 NaCl(s) + H2SO4(l) -> Na2SO4(s) + 2 HCl(g)", // https://de.wikipedia.org/wiki/Natriumsulfat
+    "Na2CO3(s) + H2SO4(l) -> Na2SO4(s) + H2O(l) + CO2(g)", // https://de.wikipedia.org/wiki/Natriumsulfat
     "Na(s) <-> Na(g)",
     "2 Na(g) + Cl2(g) -> 2 NaCl(s)",
     "NaCl(s) -> Na+(aq) + Cl-(aq)",
     "2 Ag(s) + 2 HCl(aq) -> 2 AgCl(s) + H2(g)",
-    "H2SO4(s) + 2 NH3(g) -> (NH4)2SO4(s)"
+    "H2SO4(l) + 2 NH3(g) -> (NH4)2SO4(s)"
   ]
 
 
@@ -315,6 +320,47 @@ class Entalpio {
 
     return kolekto;
   }
+
+  /**
+   * Redonas la normformajn entalpiojn de la kemiaĵoj en la ekvacio.
+   * Tiuj de la reakciantoj negativigitaj, tiel ke la sumo egalas
+   * al la reakcia entalpio(diferenco) laŭ la teoremo de Hess.
+   */
+  static ekvaciaj_entalpioj(ekv) {
+    let entalpioj= [];
+    let sgn = -1; // por reakciantoj negativa 
+    let n = 1; // obloj de kemiaĵoj
+
+    const termoj = ekv.split(' ');
+    for (const t of termoj) {
+      if (t.length == 1 && "123456".indexOf(t)>-1) {
+        n = parseInt(t);
+      } else if (t == "+") {
+        n = 1; // remetu al apriora
+      } else if (t == "->" || t == "<->") {
+        sgn = 1; // por produktoj pozitiva
+        n = 1; // remetu al apriora
+      } else {
+        const e = sgn * n * Entalpio.normforma[t];
+        entalpioj.push(e);
+      }
+    }
+    return entalpioj;
+  }
+
+  /**
+   * Eligas ĉiujn ekvaciojn kun la kalkuleblaj entalpioj kaj skribas al la konzolo.
+   * Uzebla por serĉi mankojn...
+   */
+  static ĉiuj_ekvacioj() {
+    for (const ekv of Entalpio.ekvacioj) {
+      console.log('##> '+ekv);
+      const ej = Entalpio.ekvaciaj_entalpioj(ekv)
+      const sumo = (ej.reduce((s,e) => e+s,0)).toFixed(2);
+      console.log(ej.join(' ')+" => "+sumo);
+    }
+  }
+
 
   /**
    * En formulo de kemiaĵo anstataŭigas ciferojn kaj

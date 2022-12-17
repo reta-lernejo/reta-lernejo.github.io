@@ -51,8 +51,36 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
   ALTO = 900; 
   LARĜO = 300; 
 
-  lanĉe(() => {
- 
+  // trovu la ekvaciojn kaj entalpiojn por kemiaĵo
+  function ekvacioj(kem) {
+      let ekvjHTML = '';
+      const f2 = (n) => n.toFixed(2).replace('.',',').replace(/^([0-9])/,'+$1');
+
+      if (kem) {
+        const ekvj = Entalpio.ekvacioj_kun(kem);
+
+        if (ekvj) {
+          for (const ekv of ekvj) {
+
+            const ej = Entalpio.ekvaciaj_entalpioj(ekv);
+            const sumo = ej.reduce((s,e) => e+s,0);
+
+            let Hj = '';
+            for (e of ej) {
+              Hj += `${f2(e)} `;
+            }
+
+            ekvjHTML += '\\(\\ce{'+ekv+'}\\)<br/>\n';
+            ekvjHTML += `\\(\\Delta H_r^0 = ${Hj} = \\pu{${f2(sumo)} kJ}\\)<br/><br/>\n`;
+          }
+
+        }
+      }
+      return ekvjHTML;
+  }
+
+  // plenigu la diagramon (SVG)
+  lanĉe(() => { 
     const e_kem = Object.keys(Entalpio.normforma);
     const min_max = Entalpio.minmax();
     const svg = ĝi("#entalpioj");
@@ -139,20 +167,13 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
       const g = event.target.closest("g");
       const kem = g.getAttribute("data-frm");
       const ediv = ĝi("#ekvacioj");
-      ediv.textContent = '';
-
-      if (kem) {
-        const ekvj = Entalpio.ekvacioj_kun(kem);
-
-        if (ekvj) {
-          for (const ekv of ekvj) {
-            ediv.innerHTML += '\\[\\ce{'+ekv+'}\\]\n';
-          }
-
-          // kompostu formulojn
-          if (typeof(MathJax) != 'undefined' && MathJax.typeset());
-        }
-      }
+      // trovu ekvaciojn por la elektita kemiaĵo
+      const ekvj = ekvacioj(kem);
+      if (ekvj) {
+        ediv.innerHTML = ekvj;
+        // kompostu formulojn
+        if (typeof(MathJax) != 'undefined' && MathJax.typeset());
+      } else ediv.textContent = '';
     });
     //svg.addEventListener("keydown",(event) => {
 
