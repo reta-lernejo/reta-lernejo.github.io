@@ -51,7 +51,7 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
 <script> 
   // devas respondi la la formato de <svg...> (malsupre)
   ALTO = 900; 
-  LARĜO = 600; 
+  LARĜO = 800; 
 
   // trovu la ekvaciojn kaj entalpiojn por kemiaĵo
   function ekvacioj(kem) {
@@ -97,18 +97,30 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
         const bb2 = ĝi(`[data-frm="${k2}"]`).getBBox();
 
         let lin;
-        if (bb1.y <= bb2.y) { // fakte por '==' ni devus desegni la linion horizontale komparinte ambaŭ x
+        if (bb1.y+bb1.height < bb2.y) { 
           linio = SVG.linio(
             bb1.x + bb1.width/2,
             bb1.y + bb1.height,
             bb2.x + bb2.width/2,
             bb2.y)
-        } else {
+        } else if (bb2.y+bb2.height < bb1.y) {
           linio = SVG.linio(
             bb2.x + bb2.width/2,
             bb2.y + bb2.height,
             bb1.x + bb1.width/2,
             bb1.y)
+        } else if (bb1.x+bb1.width < bb2.x) {
+          linio = SVG.linio(
+            bb1.x + bb1.width,
+            bb1.y + bb1.height/2,
+            bb2.x,
+            bb2.y + bb2.height/2)
+        } else {
+          linio = SVG.linio(
+            bb2.x + bb2.width,
+            bb2.y + bb2.height/2,
+            bb1.x,
+            bb1.y + bb1.height/2)
         }
         SVG.aldonu("ligoj",linio);
       }
@@ -262,12 +274,18 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
     stroke: black;
     stroke-width: 1;
   }
+
+  svg #ligoj line {
+    stroke: gray;
+    stroke-width: 1.5;
+    stroke-dasharray: 2 2;
+  }
 </style>  
 
 <svg id="entalpioj"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="0 0 600 900"
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="800" viewBox="0 0 800 900"
     tabindex="0">
 </svg>
 
