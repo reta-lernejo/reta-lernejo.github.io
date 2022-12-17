@@ -2,6 +2,7 @@ class Entalpio {
 
   // fontoj:
   // https://de.wikipedia.org/wiki/Enthalpie#Standardbildungsenthalpie
+  // https://www.drjez.com/uco/ChemTools/Standard%20Thermodynamic%20Values.pdf
   // http://anorganik.chemie.vias.org/standardenthalpien_table.html
   // https://de.wikibooks.org/wiki/Tabellensammlung_Chemie/_Enthalpie_und_Bindungsenergie
   // https://www.chemeurope.com/en/encyclopedia/Standard_enthalpy_change_of_formation_%28data_table%29.html
@@ -12,7 +13,11 @@ class Entalpio {
     "(NH4)2SO4(s)":	-1179.3,
     "Ag(g)": 289.2,
     "Ag(s)": 0.0,
-    "AgCl(s)": -127.03, 
+    "Ag+(aq)": 106,
+    "Ag2CO3(s)": -505.84,
+    "Ag2O(s)": -31.05,
+    "AgCl(s)": -127.03,
+    "AgI(s)":	-62.4,
     "AgNO2(s)":	-44.371,
     "AgNO3(s)": -123.1, 	
     "Al(g)": 314,
@@ -31,7 +36,8 @@ class Entalpio {
     "B5H9(g)": 62.8,
     "Ba(g)": 175.6, 
     "Ba(s)": 0.0,
-    "Ba^2+(aq)": -538.36, 
+    "Ba^2+(aq)": -538.36,
+    "BaCO3(s)": -1216.29,
     "BaCl2*2H2O(s)": -1461.7,
     "BaCl2*H2O(s)": -1165, 	
     "BaCl2(s)": -860.06, 
@@ -103,6 +109,8 @@ class Entalpio {
     "Cu(s)": 	0.0, 
     "Cu+(aq)": 	51.9, 
     "Cu^2+(aq)":	64.39,
+    "CuCO3(s)": -595,
+    "Cu(OH)2(s)": -450.2,
     "CuSO4(s)": -769.86, 
     "F(g)": 76.6, 
     "F-(aq)":	-329.1,
@@ -214,10 +222,13 @@ class Entalpio {
     "P4(g)": 54.89, 
     "Pb(g)": 193.9, 
     "Pb(s)": 0.0, 
-    "Pb^2+(aq)": 1.6, 
+    "Pb^2+(aq)": 1.6,
+    "PbCl2(s)": -359.41,
+    "PbI2(s)": -175.4,
     "PbO(ruĝa)": -219.2, 	
     "PbO(flava)": -217.9, 	
-    "PbO2(s)": -276.6, 	
+    "PbO2(s)": -276.6,
+    "PbCO3(s)": -699.15,
     "PCl3(g)": -306.4, 	
     "PCl5(g)": -398.9, 
     "Rb(g)": 85.81, 
@@ -275,7 +286,20 @@ class Entalpio {
     "2 Na(g) + Cl2(g) -> 2 NaCl(s)",
     "NaCl(s) -> Na+(aq) + Cl-(aq)",
     "2 Ag(s) + 2 HCl(aq) -> 2 AgCl(s) + H2(g)",
-    "H2SO4(l) + 2 NH3(g) -> (NH4)2SO4(s)"
+    "H2SO4(l) + 2 NH3(g) -> (NH4)2SO4(s)",
+
+    // precipitaj reakcioj
+    "Ag+(aq) + Cl-(aq) -> AgCl(s)",
+    "Pb^2+(aq) + 2 Cl-(aq) -> PbCl2(s)",
+    "Ag+(aq) + I-(aq) -> AgI(s)",
+    "Pb^2+(aq) + 2 I-(aq) -> PbI2(s)",
+    "2 Ag+(aq) + CO3^2-(aq) -> Ag2CO3(s)",
+    "Ba^2+(aq) + CO3^2-(aq) -> BaCO3(s)",
+    "Pb^2+(aq) + CO3^2-(aq) -> PbCO3(s)",
+    "Cu^2+(aq) + CO3^2-(aq) -> CuCO3(s)",
+    "2 Ag+(aq) + 2 OH-(aq) -> Ag2O(s) + H2O(l)",
+    //"Pb^2+(aq) + 2 OH-(aq) -> Pb(OH)2(s)",
+    "Cu^2+(aq) + 2 OH-(aq) -> Cu(OH)2(s)"
   ]
 
 
@@ -341,7 +365,9 @@ class Entalpio {
         sgn = 1; // por produktoj pozitiva
         n = 1; // remetu al apriora
       } else {
-        const e = sgn * n * Entalpio.normforma[t];
+        const en = Entalpio.normforma[t];
+        if (typeof en === 'undefined') console.error("Mankas entalpio por "+t);
+        const e = sgn * n * en;
         entalpioj.push(e);
       }
     }
@@ -367,10 +393,11 @@ class Entalpio {
    * plu/minus per malsupra resp. supra unikodero: H2O -> H₂O ktp.
    */
   static format(k) {
-    const re = /^([A-Za-z\(\)1-6]+)(\^?[\+\-1-6]+)?(\([a-z]+\))$/;
+    const re = /^([A-Za-z\(\)1-6]+)\^?([\+\-1-6]+)?(\([a-z]+\))$/;
     const m = re.exec(k);
     if (!m) throw "Erara formulo: "+k;
 
+    // la kombino de elementoj, nombrojn malaltigu
     const frm = m[1]
       .replace(/(?<!\*)[0-9]/g,(d) => 
         String.fromCharCode(0x2080 + d.codePointAt(0) - "0".codePointAt(0)))

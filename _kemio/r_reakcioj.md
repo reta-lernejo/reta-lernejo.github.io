@@ -11,6 +11,7 @@ js:
 
 Fundamentaj nocioj
 - [unuoj kaj grandoj](r_unuoj_grandoj)
+- [entalpio kaj teoremo de Hess](r_entalpio)
 - [ekvilibro kaj leĝo de masefiko](r_ekvilibro)
 
 <!--

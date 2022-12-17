@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: Entalpio
+title: Entalpio kaj teoremo de Hess
 chapter: "3.1.2"
 next_ch: r_ekvilibro
 js:
@@ -46,10 +46,12 @@ Pli ĝenerale validas la teoremo de (Germain Henri) Hess: La norma reakcia ental
 
 $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
 
+Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeniga*, aŭ *endoterma*. Sed kiam la reakcia entalpio estas negativa, la reakcio eligas varmon, oni nomas ĝin *varmeliga*, aŭ *ekzoterma*. 
+
 <script> 
   // devas respondi la la formato de <svg...> (malsupre)
   ALTO = 900; 
-  LARĜO = 300; 
+  LARĜO = 600; 
 
   // trovu la ekvaciojn kaj entalpiojn por kemiaĵo
   function ekvacioj(kem) {
@@ -82,7 +84,8 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
   // plenigu la diagramon (SVG)
   lanĉe(() => { 
     const e_kem = Object.keys(Entalpio.normforma);
-    const min_max = Entalpio.minmax();
+    //const min_max = Entalpio.minmax();
+    const min_max = {min: -1530, max: 530}; // tio provizore sufiĉas, ne tro grandigu la tutan skalon...
     const svg = ĝi("#entalpioj");
 
     const fy = -ALTO/(min_max.max-min_max.min);
@@ -146,7 +149,7 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
       SVG.titolo(t,f_s.formulo+'('+f_s.stato+'): '+nombro(entalpio,5,'kJ'));
 
       // kadro ĉirkaŭ la teksto
-      const r = SVG.rektangulo(pt.x-2,pt.y-11,bb.width+4,21);
+      const r = SVG.rektangulo(pt.x-2,pt.y-14,bb.width+4,27);
       SVG.atributoj(r,{rx: 3, class: f_s.stato});
       SVG.enŝovu(g,r);
 
@@ -200,11 +203,13 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
   }
 
   svg text {
+    font-size: 20px;
     text-anchor: start;
     dominant-baseline: middle;
   }
 
   svg .skalo text {
+    font-size: 16px;
     text-anchor: end;
     dominant-baseline: middle;
   }
@@ -218,7 +223,7 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
 <svg id="entalpioj"
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="300" viewBox="0 0 300 900"
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="600" viewBox="0 0 600 900"
     tabindex="0">
 </svg>
 
