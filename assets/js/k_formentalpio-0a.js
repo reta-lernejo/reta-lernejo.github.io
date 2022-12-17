@@ -68,11 +68,14 @@ class Entalpio {
     "C6H12O6(s)": -1260,
     "C6H6(g)": 	82.927, 
     "C6H6(l)": 	49.028, 
+    "CH3COOH(l)": -484.13064,
     "Ca(g)": 	192.6, 
     "Ca(s)": 	0.0, 
     "Ca^2+(aq)":	-542.96,
     "CaCO3(aragonito)": -1207.0, 	
-    "CaCO3(kalcito)":	-1206.9, 	
+    "CaCO3(kalcito)":	-1206.9,
+    "Ca(OH)2(s)": -986.1688,
+    "Ca(OH)2(aq)": -1002.82,
     "CH3CHO(aq)": -208.7,
     "CH3CHO(g)": 	-166.4, 
     "CH3CHO(l)": 	-195,
@@ -208,7 +211,7 @@ class Entalpio {
     "NH2CONH2(s)": -333.2, 	
     "NH3(aq)": -80.83, 
     "NH3(g)": -46.19, 	
-    "NH4+(aq)":	-132.8, 	
+    "NH4^+(aq)":	-132.8, 	
     "NH4Cl(s)":	-315.4, 	
     "NO(g)": 90.374, 
     "NO2-(aq)":	-106,
@@ -255,7 +258,8 @@ class Entalpio {
     "Sn(g)": 300,
     "Sn(griza)": 2.5, 
     "Sn(blanka)":	0.0, 
-    "SO(g)": 79.58, 
+    "SO(g)": 79.58,
+    "SO4^2-(aq)": -909.26688,
     "Sr(g)": 164,
     "Sr(s)": 0.0, 
     "Sr^2+(aq)": 	-545.51, 	
@@ -292,6 +296,9 @@ class Entalpio {
     // solvado
     "NaCl(s) -> Na+(aq) + Cl-(aq)",
 
+    // disociiĝo
+    "H2O(l) <-> H+(aq) + OH-(aq)",
+
     // precipitaj reakcioj
     "Ag+(aq) + Cl-(aq) -> AgCl(s)",
     "Pb^2+(aq) + 2 Cl-(aq) -> PbCl2(s)",
@@ -304,6 +311,13 @@ class Entalpio {
     "2 Ag+(aq) + 2 OH-(aq) -> Ag2O(s) + H2O(l)",
     //"Pb^2+(aq) + 2 OH-(aq) -> Pb(OH)2(s)",
     "Cu^2+(aq) + 2 OH-(aq) -> Cu(OH)2(s)",
+
+    // acido-bazo-reakcioj
+    //"H+(aq) + Cl-(aq) + Na+(aq) + OH-(aq) -> Na+(aq) + Cl-(aq) + H2O(l)",
+    // "HNO3(aq) + KOH(aq) -> K + NO3(aq) + H2O(l)",
+    "H2SO4(l) + Ca(OH)2(aq) -> Ca^2+(aq) + SO4^2-(aq) + 2 H2O(l)",
+    //"CH3COOH(l) + OH-(aq) <-> CH3COO-(aq) + H2O(l)",
+    "NH3(g) + H3O+(aq) <-> NH4^+(aq) + H2O(l)",
 
     // redoksaj / brulaj...
     "C(s) + O2(g) -> CO2(g)",

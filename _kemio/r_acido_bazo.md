@@ -87,7 +87,7 @@ $$ \ce{H3O+ + Cl- + Na+ + OH- -> Na+ + Cl- + 2H2O} $$
 
 Post vaporigo de la akvo, restas la salo natria klorido $$\ce{NaCl}$$.
 
-Similiaj reakcioj estas:
+Similaj reakcioj estas:
 
 $$\begin{align} \ce{HNO3(aq) + KOH(aq) &-> K+NO3(aq) + H2O(l)} \\
  \ce{H2SO4(aq) + Ca(OH)2(aq) &-> Ca2+SO4^2-(aq) + 2H2O(l)} \end{align}$$
