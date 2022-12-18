@@ -1,3 +1,4 @@
+
 /**
  * Sendas mesaĝojn por la konzolo al areo en la retpaĝo. Tio okazas nur en WebKit,
  * ĉar tie estas malfacile sencimigi, aparte en iOS (en FF kaj Kromio oni havas programistajn helpilojn)

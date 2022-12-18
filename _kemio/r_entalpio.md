@@ -4,13 +4,21 @@ title: Entalpio kaj teoremo de Hess
 chapter: "3.1.2"
 next_ch: r_ekvilibro
 js:
-  - sencimigo-0a
   - folio-0b
+  - sencimigo-0a
   - sekcio-0b 
   - mathjax/es5/tex-chtml
-  - k_formentalpio-0a
   - svg-0c
 ---
+
+<script>
+lanĉe(() => {
+  dom_console();
+//  - k_formentalpio-0a
+});
+</script>
+
+<script src='/assets/js/k_formentalpio-0a.js' type="text/javascript"></script>
 
 
 <!--
