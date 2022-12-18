@@ -4,12 +4,12 @@ title: Entalpio kaj teoremo de Hess
 chapter: "3.1.2"
 next_ch: r_ekvilibro
 js:
+  - sencimigo-0a
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - k_formentalpio-0a
   - svg-0c
-  - sencimigo-0a
 ---
 
 
@@ -49,7 +49,6 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
 Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeniga*, aŭ *endoterma*. Sed kiam la reakcia entalpio estas negativa, la reakcio eligas varmon, oni nomas ĝin *varmeliga*, aŭ *ekzoterma*. 
 
 <script> 
-  dom_console();
 
   // devas respondi la la formato de <svg...> (malsupre)
   ALTO = 900; 
