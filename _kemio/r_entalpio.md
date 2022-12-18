@@ -304,6 +304,12 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
 
 <div id="ekvacioj"></div>
 
+<!--
+
+FARINDA: prmesu elekti unuopan ekvacion kaj tiam marku tiujn interligojn per solidaj strekoj (ne punktitaj)
+kaj prezentu la entalpiojn de reakciantoj kaj produktoj unu apud alia per kolonoj vidigante la diferencon.
+-->
+
 ## fontoj
 {: .fontoj}
 
