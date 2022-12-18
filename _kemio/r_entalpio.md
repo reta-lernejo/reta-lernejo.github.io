@@ -63,7 +63,7 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
         if (ekvj) {
           for (const ekv of ekvj) {
 
-            const ej = Entalpio.ekvaciaj_entalpioj(ekv);
+            const ej = Entalpio.ekvaciaj_entalpioj(ekv[0]);
             const sumo = ej.reduce((s,e) => e+s,0);
 
             let Hj = '';
@@ -71,7 +71,8 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
               Hj += `${f2(e)} `;
             }
 
-            ekvjHTML += '\\(\\ce{'+ekv+'}\\)<br/>\n';
+            if (ekv[1]) ekvjHTML += ekv[1]+':<br/>\n';
+            ekvjHTML += '\\(\\ce{'+ekv[0]+'}\\)<br/>\n';
             ekvjHTML += `\\(\\Delta H_r^0 = ${Hj} = \\pu{${f2(sumo)} kJ}\\)<br/><br/>\n`;
           }
 
@@ -245,7 +246,7 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
     border-left: 3px dotted cornflowerblue;
   }
 
-  svg {
+  #entalpioj {
     padding: 7px;
     border: 2px solid cornflowerblue;
     border-radius: 3px;

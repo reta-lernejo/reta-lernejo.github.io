@@ -282,35 +282,35 @@ class Entalpio {
   // eble ni ankaŭ povus ĉenigi se por interaĵo mankas entalpio...!?
   static ekvacioj = [
      //...    
-    "H2(g) + Cl2(g) -> 2 HCl(g)",
-    "2 NaCl(s) + H2SO4(l) -> Na2SO4(s) + 2 HCl(g)", // https://de.wikipedia.org/wiki/Natriumsulfat
-    "Na2CO3(s) + H2SO4(l) -> Na2SO4(s) + H2O(l) + CO2(g)", // https://de.wikipedia.org/wiki/Natriumsulfat
-    "2 Na(g) + Cl2(g) -> 2 NaCl(s)",
-    "2 Ag(s) + 2 HCl(aq) -> 2 AgCl(s) + H2(g)",
-    "H2SO4(l) + 2 NH3(g) -> (NH4)2SO4(s)",
+    ["H2(g) + Cl2(g) -> 2 HCl(g)",""],
+    ["2 NaCl(s) + H2SO4(l) -> Na2SO4(s) + 2 HCl(g)",""], // https://de.wikipedia.org/wiki/Natriumsulfat
+    ["Na2CO3(s) + H2SO4(l) -> Na2SO4(s) + H2O(l) + CO2(g)",""], // https://de.wikipedia.org/wiki/Natriumsulfat
+    ["2 Na(g) + Cl2(g) -> 2 NaCl(s)",""],
+    ["2 Ag(s) + 2 HCl(aq) -> 2 AgCl(s) + H2(g)",""],
+    ["H2SO4(l) + 2 NH3(g) -> (NH4)2SO4(s)",""],
 
     // ŝanĝo de materistato
-    "H2O(l) <-> H2O(g)",
-    "Na(s) <-> Na(g)",
+    ["H2O(l) <-> H2O(g)","vaporiĝo de akvo"],
+    ["Na(s) <-> Na(g)","vaporiĝo de natrio"],
 
     // solvado
-    "NaCl(s) -> Na+(aq) + Cl-(aq)",
+    ["NaCl(s) -> Na+(aq) + Cl-(aq)","solviĝo de natria klorido"],
 
     // disociiĝo
-    "H2O(l) <-> H+(aq) + OH-(aq)",
+    ["H2O(l) <-> H+(aq) + OH-(aq)","disociiĝo de akvo"],
 
     // precipitaj reakcioj
-    "Ag+(aq) + Cl-(aq) -> AgCl(s)",
-    "Pb^2+(aq) + 2 Cl-(aq) -> PbCl2(s)",
-    "Ag+(aq) + I-(aq) -> AgI(s)",
-    "Pb^2+(aq) + 2 I-(aq) -> PbI2(s)",
-    "2 Ag+(aq) + CO3^2-(aq) -> Ag2CO3(s)",
-    "Ba^2+(aq) + CO3^2-(aq) -> BaCO3(s)",
-    "Pb^2+(aq) + CO3^2-(aq) -> PbCO3(s)",
-    "Cu^2+(aq) + CO3^2-(aq) -> CuCO3(s)",
-    "2 Ag+(aq) + 2 OH-(aq) -> Ag2O(s) + H2O(l)",
-    //"Pb^2+(aq) + 2 OH-(aq) -> Pb(OH)2(s)",
-    "Cu^2+(aq) + 2 OH-(aq) -> Cu(OH)2(s)",
+    ["Ag+(aq) + Cl-(aq) -> AgCl(s)","precipito de arĝenta klorido"],
+    ["Pb^2+(aq) + 2 Cl-(aq) -> PbCl2(s)","precipito de plumba klorido"],
+    ["Ag+(aq) + I-(aq) -> AgI(s)","precipito de arĝenta jodido"],
+    ["Pb^2+(aq) + 2 I-(aq) -> PbI2(s)","precipito de plumba jodido"],
+    ["2 Ag+(aq) + CO3^2-(aq) -> Ag2CO3(s)","precipito de arĝenta karbonato"],
+    ["Ba^2+(aq) + CO3^2-(aq) -> BaCO3(s)","precipito de baria karbonato"],
+    ["Pb^2+(aq) + CO3^2-(aq) -> PbCO3(s)","precipito de plumba karbonato"],
+    ["Cu^2+(aq) + CO3^2-(aq) -> CuCO3(s)","precipito de kupra karbonato"],
+    ["2 Ag+(aq) + 2 OH-(aq) -> Ag2O(s) + H2O(l)","precipito de arĝentoksido"],
+    //"Pb^2+(aq) + 2 OH-(aq) -> Pb(OH)2(s)","precipito de karbonato"],
+    ["Cu^2+(aq) + 2 OH-(aq) -> Cu(OH)2(s)","precipito de kupra hidroksido"],
 
     // acido-bazo-reakcioj
     //"H+(aq) + Cl-(aq) + Na+(aq) + OH-(aq) -> Na+(aq) + Cl-(aq) + H2O(l)",
@@ -320,9 +320,9 @@ class Entalpio {
     "NH3(g) + H3O+(aq) <-> NH4^+(aq) + H2O(l)",
 
     // redoksaj / brulaj...
-    "C(s) + O2(g) -> CO2(g)",
-    "2 CO(g) + O2(g) -> 2 CO2(g)",
-    "H2(g) + O2(g) -> H2O(g)",
+    ["C(s) + O2(g) -> CO2(g)","oksidigo de karbono"],
+    ["2 CO(g) + O2(g) -> 2 CO2(g)","oksidigo de karbonmonoksido"],
+    ["H2(g) + O2(g) -> H2O(g)","oksidigo de hidrogeno"],
 
     /*
     "hidrogenkorodo de fero": "Fe + 2H+ <-> Fe^2+ + H2",
@@ -343,26 +343,26 @@ class Entalpio {
     "sintezo de amoniako": "N2 + 3H2 -> 2NH3",
     "kompleta forbrulo de glukozo": "C6H12O6 + 6O2 -> 6CO2 + 6H2O",  
     */
-    "Fe(s) + 2 H+(aq) <-> Fe^2+(aq) + H2(g)",
-    "4 Fe^2+(aq) + 8 OH-(aq) + O2(g) + 3 H2O(l) -> 2 Fe(OH)3(s)",
-    "3 Fe2O3(hematito) + CO(g) -> 2 Fe3O4(magnetito) + CO2(g)",
-    "3 Fe2O3(hematito) + H2(g) -> 2 Fe3O4(magnetito) + H2O(l)",
-    "3 Fe2O3(hematito) + C(s) -> 2 Fe3O4(magnetito) + CO(g)",
-    "Fe3O4(magnetito) + CO(g) -> 3 FeO(s) + CO2(g)",
-    "Fe3O4(magnetito) + H2(g) -> 3 FeO(s) + H2O(l)",
-    "Fe3O4(magnetito) + C(s) -> 3 FeO(s) + CO(g)",
-    "FeO(s) + CO(g) -> Fe(s) + CO2(g)",
-    "FeO(s) + H2(g) -> Fe(s) + H2O(l)",
-    "FeO(s) + C(s) -> Fe(s) + CO(g)",
-    "H2S(g) + 3 O2(g) -> 2 SO2(g) + 2 H2O(g)",
+    ["Fe(s) + 2 H+(aq) <-> Fe^2+(aq) + H2(g)","hidrogenkorodo de fero"],
+    ["4 Fe^2+(aq) + 8 OH-(aq) + O2(g) + 3 H2O(l) -> 2 Fe(OH)3(s)","oksigenkorodo de fero"],
+    ["3 Fe2O3(hematito) + CO(g) -> 2 Fe3O4(magnetito) + CO2(g)","redukto de hematito per CO"],
+    ["3 Fe2O3(hematito) + H2(g) -> 2 Fe3O4(magnetito) + H2O(l)","redukto de hematito per H₂"],
+    ["3 Fe2O3(hematito) + C(s) -> 2 Fe3O4(magnetito) + CO(g)","rekta redukto de hematito"],
+    ["Fe3O4(magnetito) + CO(g) -> 3 FeO(s) + CO2(g)","redukto de magnetito per CO"],
+    ["Fe3O4(magnetito) + H2(g) -> 3 FeO(s) + H2O(l)","redukto de magnetito per H₂"],
+    ["Fe3O4(magnetito) + C(s) -> 3 FeO(s) + CO(g)","rekta redukto de magnetito"],
+    ["FeO(s) + CO(g) -> Fe(s) + CO2(g)","redukto de vustito per CO"],
+    ["FeO(s) + H2(g) -> Fe(s) + H2O(l)","redukto de vustito per H₂"],
+    ["FeO(s) + C(s) -> Fe(s) + CO(g)","rekta redukto de vustito"],
+    ["H2S(g) + 3 O2(g) -> 2 SO2(g) + 2 H2O(g)","oksidigo de H₂S"],
 
-    "CH4(g) + 2 O2(g) -> CO2(g) + 2 H2O(g)",
-    "2 CH4(g) + 3 O2(g) -> 2 CO(g) + 4 H2O(g)",
-    "CO2(g) + 4 H2(g) -> CH4(g) + 2 H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
-    "CO(g) + 3 H2(g) -> CH4(g) + H2O(g)", // https://en.wikipedia.org/wiki/Sabatier_reaction
+    ["CH4(g) + 2 O2(g) -> CO2(g) + 2 H2O(g)","kompleta forbrulo de metano"],
+    ["2 CH4(g) + 3 O2(g) -> 2 CO(g) + 4 H2O(g)","nekompleta forbrulo de metano"],
+    ["CO2(g) + 4 H2(g) -> CH4(g) + 2 H2O(g)","reakcio de Sabatier, sintezo de metano"], // https://en.wikipedia.org/wiki/Sabatier_reaction
+    ["CO(g) + 3 H2(g) -> CH4(g) + H2O(g)","reakcio de Sabatier, sintezo de metano"], // https://en.wikipedia.org/wiki/Sabatier_reaction
 
-    "N2(g) + 3 H2(g) -> 2 NH3(g)",
-    "C6H12O6(s) + 6 O2(g) -> 6 CO2(g) + 6 H2O(g)"
+    ["N2(g) + 3 H2(g) -> 2 NH3(g)","sintezo de amoniako"],
+    ["C6H12O6(s) + 6 O2(g) -> 6 CO2(g) + 6 H2O(g)","kompleta forbrulo de glukozo"]
   ]
 
 
@@ -381,7 +381,7 @@ class Entalpio {
 
     for (const ekv of Entalpio.ekvacioj) {
       
-      const termoj = ekv.split(' ');
+      const termoj = ekv[0].split(' ');
       if (termoj.indexOf(kemiaĵo)>-1)
         kolekto.push(ekv);
     }
@@ -399,7 +399,7 @@ class Entalpio {
 
     let kolekto = [];
     for (const ekv of ekvj) {      
-      const termoj = ekv.split(' ');
+      const termoj = ekv[0].split(' ');
       for (const t of termoj) {
         if (t != kemiaĵo && typeof Entalpio.normforma[t] !== 'undefined') {
           kolekto.push(t);
@@ -417,7 +417,7 @@ class Entalpio {
     let kolekto = {min: 0, max: 0};    
 
     for (const ekv of Entalpio.ekvacioj) {
-      const termoj = ekv.split(' ');
+      const termoj = ekv[0].split(' ');
       for (const t of termoj) {
         const e = Entalpio.normforma[t];
         if (typeof e !== 'undefined') {
@@ -466,8 +466,8 @@ class Entalpio {
    */
   static ĉiuj_ekvacioj() {
     for (const ekv of Entalpio.ekvacioj) {
-      console.log('##> '+ekv);
-      const ej = Entalpio.ekvaciaj_entalpioj(ekv)
+      console.log('##> '+ekv.join(', '));
+      const ej = Entalpio.ekvaciaj_entalpioj(ekv[0])
       const sumo = (ej.reduce((s,e) => e+s,0)).toFixed(2);
       console.log(ej.join(' ')+" => "+sumo);
     }
