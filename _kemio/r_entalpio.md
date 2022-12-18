@@ -19,7 +19,7 @@ La t.n. termodinamikaj fenomenoj ene de iu sistemo estas determinitaj de la inte
 Gravaj aspektoj de ĥemiaj reakcioj estas ankaŭ priskribeblaj per termodinamikaj modeloj kaj grandoj, i.a. la estiĝanta aŭ konsumiĝanta varmo dum reakcio, ŝanĝoj de materistato (solida, likva, gasa), ŝanĝoj de volumeno. 
 -->
 
-Antaŭ fari eksperimenton de ĥemia reakcio estas bone scii, kiom da varmo estiĝos aŭ konsumiĝos, jam por eviti katastrofajn rezultojn. Ĉiu substanco enhavas energion konservitan en la movoj rektaj, rotaciaj, svingaj, la elektromagnetaj interagoj, la ĥemiaj ligoj. Kiam la kondiĉoj kaj ena strukturo ŝanĝiĝas, parto de tiu energio povas liberiĝi kiel varmo; aŭ inverse, varmo povas konsumiĝi altigante la enan energion de la substancoj. La *enan energion* U oni ne povas facile mezuri, sed kiam dum reakcio la sistemo, en kiu ĝi okazas, interŝanĝas varmon kun la ĉirkaŭo oni scias, ke parto de tiu varminterŝanĝo rezultiĝas en aŭ el ŝanĝo de la ena energio kaj alia parto estas volumena laboro esprimata per la produkto de premo kaj volumeno pV. Ekezmple, se estiĝæs gaso, la volumeno konsiderinde grandiĝas. La sumon de ambaŭ oni nomas *entalpio*:
+Antaŭ fari eksperimenton de ĥemia reakcio estas bone scii, kiom da varmo estiĝos aŭ konsumiĝos, jam por eviti katastrofajn rezultojn. Ĉiu substanco enhavas energion konservitan en la movoj rektaj, rotaciaj, svingaj, la elektromagnetaj interagoj, la ĥemiaj ligoj. Kiam la kondiĉoj kaj ena strukturo ŝanĝiĝas, parto de tiu energio povas liberiĝi kiel varmo; aŭ inverse, varmo povas konsumiĝi altigante la enan energion de la substancoj. La *enan energion* U oni ne povas facile mezuri, sed kiam dum reakcio la sistemo, en kiu ĝi okazas, interŝanĝas varmon kun la ĉirkaŭo oni scias, ke parto de tiu varminterŝanĝo rezultiĝas en aŭ el ŝanĝo de la ena energio kaj alia parto estas volumena laboro esprimata per la produkto de premo kaj volumeno pV. Ekzemple, se estiĝas gaso, la volumeno konsiderinde grandiĝas. La sumon de ambaŭ oni nomas *entalpio*:
 
 $$H = U + pV$$
 
@@ -49,6 +49,8 @@ $$\Delta H_r^0 = \sum_{prod.}{\Delta H^0_f} - \sum_{reakc.}{\Delta H^0_f}$$
 Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeniga*, aŭ *endoterma*. Sed kiam la reakcia entalpio estas negativa, la reakcio eligas varmon, oni nomas ĝin *varmeliga*, aŭ *ekzoterma*. 
 
 <script> 
+  dom_console();
+
   // devas respondi la la formato de <svg...> (malsupre)
   ALTO = 900; 
   LARĜO = 800; 
@@ -131,7 +133,6 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
 
   // plenigu la diagramon (SVG)
   lanĉe(() => {
-    dom_console();
     //const min_max = Entalpio.minmax();
     //const min_max = {min: -1530, max: 530}; // tio provizore sufiĉas, ne tro grandigu la tutan skalon...
 
