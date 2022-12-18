@@ -465,17 +465,20 @@ class Entalpio {
   /**
    * En formulo de kemiaĵo anstataŭigas ciferojn kaj
    * plu/minus per malsupra resp. supra unikodero: H2O -> H₂O ktp.
+   * 
    */
   static format(k) {
-    const re = /^([A-Za-z\(\)1-9]+)\^?([\+\-1-9]+)?(\([a-z]+\))$/;
+    const re = /^([A-Za-z\(\)\*1-9]+)\^?([\+\-1-9]+)?(\([a-z]+\))$/;
     const m = re.exec(k);
     if (!m) throw "Erara formulo: "+k;
 
-    // la kombino de elementoj, nombrojn malaltigu
+    // la kombino de elementoj, nombrojn malaltigu, krom post '*'
     const frm = m[1]
       // ne subtenita en Safario...
       //.replace(/(?<!\*)[0-9]/g,(d) =>
       //  String.fromCharCode(0x2080 + d.codePointAt(0) - "0".codePointAt(0)))
+      .replace(/([A-Za-z1-9])([0-9])/g,(d,p1,p2) =>
+        p1 + String.fromCharCode(0x2080 + p2.codePointAt(0) - "0".codePointAt(0)))
       .replace('*','\u00b7');
 
     // altigu jonŝargon
