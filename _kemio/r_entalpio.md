@@ -9,6 +9,7 @@ js:
   - mathjax/es5/tex-chtml
   - k_formentalpio-0a
   - svg-0c
+  - sencimigo-0a
 ---
 
 
@@ -307,3 +308,6 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
 {: .fontoj}
 
 [^W1]: [Enthalpie in isobaren physikalischen und chemischen Prozessen](https://de.wikipedia.org/wiki/Enthalpie#Enthalpie_in_isobaren_physikalischen_und_chemischen_Prozessen)
+
+<!-- por sencimigo en iOS -->
+<div id="console" style="display: none"></div>
