@@ -131,6 +131,7 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
 
   // plenigu la diagramon (SVG)
   lanĉe(() => {
+    dom_console();
     //const min_max = Entalpio.minmax();
     //const min_max = {min: -1530, max: 530}; // tio provizore sufiĉas, ne tro grandigu la tutan skalon...
 
