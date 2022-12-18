@@ -5,20 +5,11 @@ chapter: "3.1.2"
 next_ch: r_ekvilibro
 js:
   - folio-0b
-  - sencimigo-0a
   - sekcio-0b 
-  - mathjax/es5/tex-chtml
+  - mathjax/es5/tex-chtml  
+  - k_formentalpio-0a
   - svg-0c
 ---
-
-<script>
-lanĉe(() => {
-  dom_console();
-//  - k_formentalpio-0a
-});
-</script>
-
-<script src='/assets/js/k_formentalpio-0a.js' type="text/javascript"></script>
 
 
 <!--
@@ -318,5 +309,3 @@ Kiam tiu sumo estas pozitiva, la reakcio foruzas varmon, oni nomas ĝin *varmeni
 
 [^W1]: [Enthalpie in isobaren physikalischen und chemischen Prozessen](https://de.wikipedia.org/wiki/Enthalpie#Enthalpie_in_isobaren_physikalischen_und_chemischen_Prozessen)
 
-<!-- por sencimigo en iOS -->
-<div id="console" style="display: none"></div>
