@@ -19,6 +19,7 @@ La reakcianto, kiu oksidas alian reakcianton, t.e. mem reduktiĝas oni nomas oks
 
 <!-- teorio kaj eksperimentoj:
 https://www.youtube.com/watch?v=35zo207gks0 - Die Redoxreaktion - Teil 1 (Theorie und Versuche)
+https://chem.libretexts.org/Bookshelves/Inorganic_Chemistry/Book%3A_Introduction_to_Inorganic_Chemistry_(Wikibook)/04%3A_Redox_Stability_and_Redox_Reactions
 -->
 
 <!-- klarigu duon-reakciojn... 
