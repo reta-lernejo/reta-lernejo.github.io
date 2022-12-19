@@ -9,7 +9,7 @@ js-ext: mathjax3
 Laŭ la teoremo de Pitagoro por orta triangulo validas, ke la kvadrato super la plej 
 longa latero (la hipotenuzo kun longeco $$c$$), egalas al 
 la sumo de la kvadratoj de la du pli mallongaj lateroj 
-(la katetoj apudantaj la ortan angulon kun longecoj $$a$$ kaj $$b$$):
+(la katetoj apudantaj la ortan angulon kun longecoj $$a$$ kaj $$b$$ 🐈):
 
 $$ c^2 = a^2 + b^2 $$
 
@@ -21,6 +21,7 @@ Dum la jarcentoj homoj trovis plurajn manierojn pruvi la teoremon de Pitagoro. M
 
 <label for="val_a">valoro de $$a$$ (tiel ke $$a+b=1$$):</label> 
 <input type="range" id="val_a" style="width: 50em; max-width: 80%" value="a" min="0.1" max="0.5" value="0.3" step="0.01" onchange="aktualigu()"><br/>
+<span id="valoroj"></span>
 
 <label for="val_a">ŝovo:</label> 
 <input type="range" id="val_tf" style="width: 50em; max-width: 80%" value="tf" min="0.0" max="1.0" value="0.0" step="0.01" onchange="aktualigu()">
@@ -111,6 +112,16 @@ Dum la jarcentoj homoj trovis plurajn manierojn pruvi la teoremon de Pitagoro. M
         const a = valoro("val_a");
         const tf = valoro("val_tf");
         const b = 1-a;
+
+
+        const valoroj = document.getElementById("valoroj");
+        const rnd = (x) => Math.round(100*x)/100;
+        const ival = (n,v) => `<b>${n}</b>=${rnd(v)} `;
+        valoroj.innerHTML = 
+          ival('a',a) + ival('b',b) 
+          + ival('a/b',a/b) + ival('b/a', b/a)
+          + ival('a²',a*a) + ival('b²',b*b)
+          + ival('c²',(a*a+b*b)) + ival('c',Math.sqrt(a*a+b*b));
 
         const points = `0,0 0,${a} ${b},0`;
         SVG.atributoj("triangulo",{points: points});

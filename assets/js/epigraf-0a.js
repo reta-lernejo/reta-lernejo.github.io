@@ -8,7 +8,7 @@ const epigrafoj = [
     "Ne naskas porko leonidon, nek korniko aglidon. Stultaĵo de katkunuloj!",
     //"Nigran kornikon sapo ne blankigos. Ĉu neniam vidis pigon, grak-grak? Kaj kio estas sapo?",
     "Korvo al korvo okulon ne pikas, sed kotonplumuloj okulon pro okulo elgratas!",
-    "Birdo kantas laŭ sia beko. Mi amas nigrajn kantojn.",
+    "Birdo kantas laŭ sia beko. Nu, mi amas nigrajn kantojn.",
     "42? Ne, 21: montkornikoj, arbopigoj, funebropigoj, verpigoj, rakedopigoj, nigraj korvoj, verkornikoj, vergaroloj, verdpigoj, blupigoj, ruĝbekpigoj, fatgaroloj, blugaroloj, blukorvoj, nudbekgaroloj, arbustgaroloj, krestgaroloj, akacigaroloj, silkgaroloj, grundogaroloj, nuksrompuloj",
     "Korniko vundita propran voston timas. Senplumuloj senvostaj sensencaĵojn rimas.|Ludo Viko, la korniko",
     "Birdo petolas, kiom ĝi volas. Homo petrolas ĝis maroj bolas, grak-grak!|Ludo Viko, la korniko"
