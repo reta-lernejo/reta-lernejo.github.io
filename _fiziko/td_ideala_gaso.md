@@ -169,6 +169,8 @@ simulado de ideala gaso
 <canvas id="pvt" width="500" height="500"></canvas>
 premo, volumeno kaj temperaturo (kolore)
 
+Averto: pro la malgrandeco de la eksperimento, la premo kaj la temperaturo povas iomete devii de la teroriaj valoroj.
+
 <div style="display: none">
 <!-- ankoraŭ iom nefindindaj valoroj, do provizore kaŝita! -->
 Pliaj grandoj de la simulita eksperimento:

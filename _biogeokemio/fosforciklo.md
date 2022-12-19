@@ -159,7 +159,7 @@ La dua plej granda parto estas nestabilaj fosfor-kombinoj adsorbitaj al aluminia
 Oni kalkulas pri nur 1 - 2 kg/ha da solvita fosfato en la formo $$\ce{H2PO4^−}$$ aŭ $$\ce{HPO4^2−}$$, rekte uzebla de plantoj.[^W5]
 
 ## ferofosfato
-{: .sekcio #ferosfosfato}
+{: .sekcio #ferofosfato}
 
 
 Se la akvo de lago havas sufiĉe da oksigeno, fosfato sedimentiĝas en formo de $$\ce{Fe(III)PO4}$$. Tion oni nomas *fosfatkaptilo*. 
