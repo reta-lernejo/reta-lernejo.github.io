@@ -477,8 +477,10 @@ class Entalpio {
       // ne subtenita en Safario...
       //.replace(/(?<!\*)[0-9]/g,(d) =>
       //  String.fromCharCode(0x2080 + d.codePointAt(0) - "0".codePointAt(0)))
-      .replace(/([A-Za-z1-9])([0-9])/g,(d,p1,p2) =>
-        p1 + String.fromCharCode(0x2080 + p2.codePointAt(0) - "0".codePointAt(0)))
+      .replace(/([^\^*])([0-9]+)/g,(d,p1,p2) =>
+        p1 + p2.split('')
+          .map((c) => String.fromCharCode(0x2080 + c.codePointAt(0) - "0".codePointAt(0)))
+          .join(''))
       .replace('*','\u00b7');
 
     // altigu jonŝargon
