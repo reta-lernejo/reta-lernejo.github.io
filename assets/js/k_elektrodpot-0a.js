@@ -1,16 +1,23 @@
 /*
-
 https://en.wikipedia.org/wiki/Standard_electrode_potential_(data_page)
 E° [V]
 T=298.15 K (25.00 °C).
 c=1 mol/l
 p=101.325 kPa
 
-legendo: (s) – solida; (l) – likva; (g) – gasa; (aq) – akva solvaĵo
+legendo: 
+ (s) – solida; 
+ (l) – likva; 
+ (g) – gasa; 
+ (aq) – akva solvaĵo
+ (Hg) – amalgamo
 
 */   
 
-NET = [
+class EPot {
+
+    // normaj elektrod-tensioj rilate al norma hidrogenelektrodo
+    static NET = [
 ["Sr","Sr^+ + e- <-> Sr(s)", -4.101, 1],
 ["Ca","Ca^+ + e- <-> Ca(s)", -3.8, 1],
 ["Th","Th^4+ + e- <-> Th^3+",-3.6, 1],
@@ -33,7 +40,7 @@ NET = [
 ["Li","Li^+ + C6(s) + e- <-> LiC6(s)", -2.84, 1],
 ["Eu","Eu^2+ + 2e- <-> Eu(s)", -2.812, 2],
 ["Ra","Ra^2+ + 2e- <-> Ra(s)", -2.8, 2],
-["Ho","Ho^3+ + e- <-> Ho^2+" -2.8, 1],
+["Ho","Ho^3+ + e- <-> Ho^2+", -2.8, 1],
 ["Bk","Bk^3+ + e- <-> Bk^2+",-2.8, 1],
 ["Yb","Yb^2+ + 2e- <-> Yb(s)", -2.76, 2],
 ["Na","Na^+ + e- <-> Na(s)", -2.71, 1],
@@ -44,15 +51,15 @@ NET = [
 ["Be","Be2O3^2- + 3 H2O + 4e- <-> 2 Be(s) + 6 OH-", -2.63, 4],
 ["Pm","Pm^3+ + e- <-> Pm^2+",-2.6, 1],
 ["Dy","Dy^3+ + e- <-> Dy^2+",-2.6, 1],
-["No","No^2+ + 2e- <-> No" -2.5, 2],
+["No","No^2+ + 2e- <-> No", -2.5, 2],
 ["Hf","HfO(OH)2 + H2O + 4e- <-> Hf(s) + 4 OH-", -2.5, 4],
-["Th","Th(OH)4 + 4e- <-> Th(s) + 4 OH-" -2.48, 4],
-["Md","Md^2+ + 2e- <-> Md" -2.4, 2],
+["Th","Th(OH)4 + 4e- <-> Th(s) + 4 OH-", -2.48, 4],
+["Md","Md^2+ + 2e- <-> Md", -2.4, 2],
 ["Tm","Tm^2+ + 2e- <-> Tm(s)", -2.4, 2],
 ["La","La^3+ + 3e- <-> La(s)", -2.379, 3],
-["Y","Y^3+ + 3e- <-> Y(s)" -2.372, 3],
+["Y","Y^3+ + 3e- <-> Y(s)", -2.372, 3],
 ["Mg","Mg^2+ + 2e- <-> Mg(s)", -2.372, 2],
-["Zr","ZrO(OH)2(s) + H2O + 4e- <-> Zr(s) + 4 OH-" -2.36, 4],
+["Zr","ZrO(OH)2(s) + H2O + 4e- <-> Zr(s) + 4 OH-", -2.36, 4],
 ["Pr","Pr^3+ + 3e- <-> Pr(s)", -2.353, 3],
 ["Ce","Ce^3+ + 3e- <-> Ce(s)", -2.336, 3],
 ["Er","Er^3+ + 3e- <-> Er(s)", -2.331, 3],
@@ -60,18 +67,18 @@ NET = [
 ["Al","H2AlO3^- + H2O + 3e- <-> Al(s)  + 4 OH-", -2.33, 3],
 ["Nd","Nd^3+ + 3e- <-> Nd(s)", -2.323, 3],
 ["Tm","Tm^3+ + 3e- <-> Tm(s)", -2.319, 3],
-["Al","Al(OH)3](s) + 3e- <-> Al(s) + 3 OH-" -2.31, 3],
+["Al","Al(OH)3](s) + 3e- <-> Al(s) + 3 OH-", -2.31, 3],
 ["Sm","Sm^3+ + 3e- <-> Sm(s)", -2.304, 3],
-["Fm","Fm^2+ + 2e- <-> Fm" -2.3, 2],
+["Fm","Fm^2+ + 2e- <-> Fm", -2.3, 2],
 ["Am","Am^3+ + e- <-> Am^2+",-2.3, 1],
 ["Dy","Dy^3+ + 3e- <-> Dy(s)", -2.295, 3],
 ["Lu","Lu^3+ + 3e- <-> Lu(s)", -2.28, 3],
 ["Tb","Tb^3+ + 3e- <-> Tb(s)", -2.28, 3],
 ["Gd","Gd^3+ + 3e- <-> Gd(s)", -2.279, 3],
-["H","H2](g) + 2e- <-> 2 H^-",-2.23, 2],
+["H","H2(g) + 2e- <-> 2 H^-",-2.23, 2],
 ["Es","Es^2+ + 2e- <-> Es(s)", -2.23, 2],
 ["Pm","Pm^2+ + 2e- <-> Pm(s)", -2.2, 2],
-["Tm","Tm^3+ + e- <-> Tm^2+" -2.2, 1],
+["Tm","Tm^3+ + e- <-> Tm^2+", -2.2, 1],
 ["Dy","Dy^2+ + 2e- <-> Dy(s)", -2.2, 2],
 ["Ac","Ac^3+ + 3e- <-> Ac(s)", -2.2, 3],
 ["Yb","Yb^3+ + 3e- <-> Yb(s)", -2.19, 3],
@@ -86,7 +93,7 @@ NET = [
 ["Pr","Pr^2+ + 2e- <-> Pr(s)", -2, 2],
 ["Er","Er^2+ + 2e- <-> Er(s)", -2, 2],
 ["Eu","Eu^3+ + 3e- <-> Eu(s)", -1.991, 3],
-["Lr","Lr^3+ + 3e- <-> Lr" -1.96, 3],
+["Lr","Lr^3+ + 3e- <-> Lr", -1.96, 3],
 ["Cf","Cf^3+ + 3e- <-> Cf(s)", -1.94, 3],
 ["Es","Es^3+ + 3e- <-> Es(s)", -1.91, 3],
 ["Pa","Pa^4+ + e- <-> Pa^3+",-1.9, 1],
@@ -96,50 +103,50 @@ NET = [
 ["Np","Np^3+ + 3e- <-> Np(s)", -1.856, 3],
 ["Be","Be^2+ + 2e- <-> Be(s)", -1.847, 2],
 ["P","H2PO2^- + e- <-> P(s) + 2 OH-", -1.82, 1],
-["U","U^3+ + 3e- <-> U(s)" -1.798, 3],
+["U","U^3+ + 3e- <-> U(s)", -1.798, 3],
 ["Sr","Sr^2+ + 2e- <-> Sr( Hg)", -1.793, 2],
-["B","H2BO3^- + H2O + 3e- <-> B(s) + 4 OH-" -1.79, 3],
-["Th","ThO2 + 4 H^+ + 4e- <-> Th(s) + 2 H2O" -1.789, 4],
+["B","H2BO3^- + H2O + 3e- <-> B(s) + 4 OH-", -1.79, 3],
+["Th","ThO2 + 4 H^+ + 4e- <-> Th(s) + 2 H2O", -1.789, 4],
 ["Hf","HfO^2+ + 2 H^+ + 4e- <-> Hf(s) + H2O", -1.724, 4],
-["P"," HPO3^2- + 2 H2O + 3e- <-> P(s) + 5 OH-", -1.71, 3],
-["Si","SiO3^2- + 3 H2O + 4e- <-> Si(s) + 6 OH-" -1.697, 4],
+["P","HPO3^2- + 2 H2O + 3e- <-> P(s) + 5 OH-", -1.71, 3],
+["Si","SiO3^2- + 3 H2O + 4e- <-> Si(s) + 6 OH-", -1.697, 4],
 ["Al","Al^3+ + 3e- <-> Al(s)", -1.662, 3],
 ["Ti","Ti^2+ + 2e- <-> Ti(s)", -1.63, 2],
-["Zr","ZrO2(s) + 4 H^+ + 4e- <-> Zr(s) + 2 H2O" -1.553, 4],
+["Zr","ZrO2(s) + 4 H^+ + 4e- <-> Zr(s) + 2 H2O", -1.553, 4],
 ["Zr","Zr^4+ + 4e- <-> Zr(s)", -1.45, 4],
 ["Ti","Ti^3+ + 3e- <-> Ti(s)", -1.37, 3],
 ["Ti","TiO(s) + 2 H^+ + 2e- <-> Ti(s) + H2O", -1.31, 2],
-["Ti","Ti2O3(s) + 2 H^+ + 2e- <-> 2 TiO(s) + H2O" -1.23, 2],
+["Ti","Ti2O3(s) + 2 H^+ + 2e- <-> 2 TiO(s) + H2O", -1.23, 2],
 ["Zn","Zn(OH)4^2- + 2e- <-> Zn(s) + 4 OH-", -1.199, 2],
 ["Mn","Mn^2+ + 2e- <-> Mn(s)", -1.185, 2],
-["Fe","Fe(CN)6^4- + 6 H^+ + 2e- <-> Fe(s) + 6HCN(aq)" -1.16, 2],
+["Fe","Fe(CN)6^4- + 6 H^+ + 2e- <-> Fe(s) + 6HCN(aq)", -1.16, 2],
 ["Te","Te(s) + 2e- <-> Te^2-",-1.143, 2],
 ["V","V^2+ + 2e- <-> V(s)", -1.13, 2],
 ["Nb","Nb^3+ + 3e- <-> Nb(s)", -1.099, 3],
 ["Sn","Sn(s) + 4 H^+ + 4e- <-> SnH4](g)", -1.07, 4],
-["Ti","TiO^2+ + 2 H^+ + 4e- <-> Ti(s) + H2O" -0.93, 4],
-["Si","SiO2(s) + 4 H^+ + 4e- <-> Si(s) + 2 H2O" -0.91, 4],
+["Ti","TiO^2+ + 2 H^+ + 4e- <-> Ti(s) + H2O", -0.93, 4],
+["Si","SiO2(s) + 4 H^+ + 4e- <-> Si(s) + 2 H2O", -0.91, 4],
 ["B","B(OH)3(aq) + 3 H^+ + 3e- <-> B(s) + 3 H2O", -0.89, 3],
-["Fe","Fe(OH)2(s) + 2e- <-> Fe(s) + 2 OH-" -0.89, 2],
-["Fe","Fe2O3(s) + 3 H2O + 2e- <-> 2 Fe(OH)2(s) + 2 OH-" -0.86, 2],
-["H","2 H2O + 2e- <-> H2](g) + 2 OH-" -0.8277, 2],
-["Bi","Bi(s) + 3 H^+ + 3e- <->  BiH3" -0.8, 3],
+["Fe","Fe(OH)2(s) + 2e- <-> Fe(s) + 2 OH-", -0.89, 2],
+["Fe","Fe2O3(s) + 3 H2O + 2e- <-> 2 Fe(OH)2(s) + 2 OH-", -0.86, 2],
+["H","2 H2O + 2e- <-> H2(g) + 2 OH-", -0.8277, 2],
+["Bi","Bi(s) + 3 H^+ + 3e- <->  BiH3", -0.8, 3],
 ["Zn","Zn^2+ + 2e- <-> Zn(Hg)", -0.7628, 2],
 ["Zn","Zn^2+ + 2e- <-> Zn(s)", -0.7618, 2],
-["Ta","Ta2O5(s) + 10 H^+ + 10e- <-> 2 Ta(s) + 5 H2O" -0.75, 10],
+["Ta","Ta2O5(s) + 10 H^+ + 10e- <-> 2 Ta(s) + 5 H2O", -0.75, 10],
 ["Cr","Cr^3+ + 3e- <-> Cr(s)", -0.74, 3],
-["Ni","Ni(OH)2](s) + 2e- <-> Ni(s) + 2 OH-" -0.72, 2],
-["Ag","Ag2S(s) + 2e- <-> 2 Ag(s) +  S^2-(aq)" -0.69, 2],
+["Ni","Ni(OH)2](s) + 2e- <-> Ni(s) + 2 OH-", -0.72, 2],
+["Ag","Ag2S(s) + 2e- <-> 2 Ag(s) +  S^2-(aq)", -0.69, 2],
 ["Au","[Au(CN)2]^- + e- <->  Au(s) + 2 CN^-",-0.6, 1],
 ["Ta","Ta^3+ + 3e- <-> Ta(s)", -0.6, 3],
-["Pb","PbO(s) + H2O + 2e- <-> Pb(s) + 2 OH-" -0.58, 2],
-["Ti","2 TiO2(s) + 2 H^+ + 2e- <-> Ti2O3(s) + H2O" -0.56, 2],
+["Pb","PbO(s) + H2O + 2e- <-> Pb(s) + 2 OH-", -0.58, 2],
+["Ti","2 TiO2(s) + 2 H^+ + 2e- <-> Ti2O3(s) + H2O", -0.56, 2],
 ["Ga","Ga^3+ + 3e- <-> Ga(s)", -0.53, 3],
 ["U","U^4+ + e- <-> U^3+",-0.52, 1],
-["P","H3PO2(aq) + H^+ + e- <-> P(blanka) + 2 H2O" -0.508, 1],
-["P","H3PO3(aq) + 2 H^+ + 2e- <-> H3PO2(aq) + H2O" -0.499, 2],
-["Ni","NiO2(s) + 2 H2O + 2e- <->  Ni(OH)2(s) + 2 OH-" -0.49, 2],
-["P","H3PO3(aq) + 3 H^+ + 3e- <-> P(ruĝa) + 3 H2O" -0.454, 3],
+["P","H3PO2(aq) + H^+ + e- <-> P(blanka) + 2 H2O", -0.508, 1],
+["P","H3PO3(aq) + 2 H^+ + 2e- <-> H3PO2(aq) + H2O", -0.499, 2],
+["Ni","NiO2(s) + 2 H2O + 2e- <->  Ni(OH)2(s) + 2 OH-", -0.49, 2],
+["P","H3PO3(aq) + 3 H^+ + 3e- <-> P(ruĝa) + 3 H2O", -0.454, 3],
 ["Cu","Cu(CN)2^- + e- <-> Cu(s) + 2 CN^-",-0.44, 1],
 ["Fe","Fe^2+ + 2e- <-> Fe(s)", -0.44, 2],
 ["C","2 CO2(g) + 2 H^+ + 2e- <->  HOOCCOOH(aq)", -0.43, 2],
@@ -157,16 +164,16 @@ NET = [
 ["P","H3PO4(aq) + 2 H^+ + 2e- <-> H3PO3(aq) + H2O", -0.276, 2],
 ["V","V^3+ + e- <-> V^2+",-0.26, 1],
 ["Ni","Ni^2+ + 2e- <-> Ni(s)", -0.25, 2],
-["As","As(s) + 3 H^+ + 3e- <->  AsH3](g)" -0.23, 3],
+["As","As(s) + 3 H^+ + 3e- <->  AsH3](g)", -0.23, 3],
 ["Ag","AgI(s) + e- <-> Ag(s) + I^-",-0.15224, 1],
 ["Mo","MoO2(s) + 4 H^+ + 4e- <-> Mo(s) + 2 H2O", -0.15, 4],
-["Si","Si(s) + 4 H^+ + 4e- <-> SiH4](g)" -0.14, 4],
+["Si","Si(s) + 4 H^+ + 4e- <-> SiH4](g)", -0.14, 4],
 ["Sn","Sn^2+ + 2e- <-> Sn(s)", -0.13, 2],
 ["O","O2(g) + H^+ + e- <-> HO2^•(aq)", -0.13, 1],
 ["Pb","Pb^2+ + 2e- <-> Pb(s)", -0.126, 2],
 ["W","WO2(s) + 4 H^+ + 4e- <->  W(s) + 2 H2O", -0.12, 4],
 ["P","P(red) + 3 H^+ + 3e- <->  PH3](g)", -0.111, 3],
-["C","CO2(g) + 2 H^+ + 2e- <->  HCOOH(aq)" -0.11, 2],
+["C","CO2(g) + 2 H^+ + 2e- <->  HCOOH(aq)", -0.11, 2],
 ["Se","Se(s) + 2 H^+ + 2e- <-> H2Se(g)", -0.11, 2],
 ["C","CO2(g) + 2 H^+ + 2e- <-> CO(g) + H2O", -0.11, 2],
 ["Cu","Cu(NH3)2^+ + e- <-> Cu(s) + 2 NH3(aq)", -0.1, 1],
@@ -258,7 +265,7 @@ NET = [
 ["Cu","Cu^2+ + 2 CN^- + e- <-> Cu(CN)2^-", 1.12, 1],
 ["I","IO3^- + 5 H^+ + 4e- <-> HIO(aq) + 2 H2O", 1.13, 4],
 ["Au","[AuCl2]^- + e- <-> Au(s) + 2 Cl^-",1.15, 1],
-["Se","HSeO4^- + 3 H^+ + 2e- <-> H2SeO3(aq) + H2O" 1.15, 2],
+["Se","HSeO4^- + 3 H^+ + 2e- <-> H2SeO3(aq) + H2O", 1.15, 2],
 ["Ag","Ag2O(s) + 2 H^+ + 2e- <-> 2 Ag(s) + H2O", 1.17, 2],
 ["Cl","ClO3^- + 2 H^+ + e- <->  ClO2](g) + H2O", 1.18, 1],
 ["Xe","[HXeO6]^3- + 5 H2O + 8e- <-> Xe(g) + 11 OH-", 1.18, 8],
@@ -268,7 +275,7 @@ NET = [
 ["Cl","ClO4^- + 2 H^+ + 2e- <-> ClO3^- + H2O", 1.2, 2],
 ["Mn","MnO2(s) + 4 H^+ + 2e- <-> Mn^2+ + 2 H2O", 1.224, 2],
 ["O","O2(g) + 4 H^+ + 4e- <-> 2 H2O", 1.229, 4],
-["Ru","[Ru(bipi)3]^3+ + e- <->  [Ru(bipi)3]^2+",1.24 1],
+["Ru","[Ru(bipi)3]^3+ + e- <->  [Ru(bipi)3]^2+",1.24, 1],
 ["Xe","[HXeO4]^- + 3 H2O + 6e- <-> Xe(g) + 7 OH-", 1.24, 6],
 ["Tl","Tl^3+ + 2e- <-> Tl^+",1.25, 2], 
 ["Cr","Cr2O7^2- + 14 H^+ + 6e- <-> 2 Cr^3+ + 7 H2O", 1.33, 6],
@@ -315,4 +322,51 @@ NET = [
 ["Tb","Tb^4+ + e^– <-> Tb^3+", 3.1, 1],
 ["Pr","Pr^4+ + e^– <-> Pr^3+", 3.2, 1],
 ["Kr","KrF2](aq) + 2e- <-> Kr(g) + 2 F^-(aq)", 3.27, 2]
-];
+    ];
+
+    static F = 96485; // C/mol, t.e. ŝargo/molo, Farado-konstanto
+
+    /**
+     * Redonas liniojn de la la tabelo laŭ elemento (unua kolumno)
+     * @param {string} el 
+     */
+    static rel(el) {
+        return EPot.NET.filter((et) => et[0] == el);
+    }
+
+    /**
+     * 
+     * @param {string} dr la duonreakcio kies datumojn/eletrodtension ni serĉas
+     * @returns vektoro kun la elementoj [Elemento,duonreakcio,norma elektrodtensio, nombro daelektronoj]
+     */
+    static net(dr) {
+        return EPot.NET.find((et) => et[1] == dr);
+    }
+
+    /**
+     * Kalkulas la diferncon de Gibs-energio dG0 por paro
+     * da oksidiga kaj redoksa duonreakcioj per la formulo dG = -zFdE
+     * la diferencon dE de redoksaj tensioj ni ricevos el la supra tabelo,
+     * necesas do doni la du duonreakciojn per la identa sintakso.
+     * z estas la nombro de interŝanĝitaj elektronoj, F la Farado-konstanto
+     * @param {string} oks oksidiga duonreakcio} 
+     * @param {string} red redukta duonreakcio} 
+     * @param {number} z la nombro de interŝanĝitaj elektronoj
+     * 
+     * SOLVENDA: 
+     * 1. oksidigo / redukto povas okazi en pluraj ŝtuipojh Cu -> Cu+ -> Cu2+,
+     * la supre tabelo enhavas nur la unuopajn ŝtupojn, aŭ ni devas kombini la ŝtupojn 
+     * programe aŭ necesas transdoni la tutan ĉenon.
+     * 2. eble ni havu aldonan indekson (oksidnombro?) en la tabelo por pli facila aliro
+     * 3. ĉiuj ekvacioj en la tabelo estas reduktoj, por oksidigo oni devas legi la ekvacion de dekstre maldekstren
+     *    eble oni povus aŭtomate eltrovi kiu duono estas la redukto kaj kiu la oksidigo per la E0-valoroj.
+     */
+    static dG(oks,red,z) {        
+        const ro = EPot.net(oks);
+        const rr = EPot.net(red);
+        const eto = ro[2] * z / ro[3];
+        const etr = rr[2] * z / rr[3];
+        return -z * EPot.F * (etr - eto);
+    }
+
+}
