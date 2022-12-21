@@ -8,9 +8,12 @@ js:
   - elementoj-0c
   - k_kombinoj-0a
   - k_formuloj-0a
+  - k_elektrodpot-0a
 css:
   - k_formuloj-0a 
 ---
+
+...paĝostumpo...
 
 Se dum redoksa reakcio sume liberiĝas energio en formo de varmo aŭ lumo, oni nomas ĝin ekzoterma, se kontraŭe
 energio konsumiĝas - endoterma. Ekzoterma redoksreakcio nomiĝas ankaŭ bruliĝo. Foje oni nomas bruliĝon ankaŭ nur tian ekzoterman reakcion, kiu postlasas kiel reakciaj produktoj nur akvon kaj karbondioksidon.

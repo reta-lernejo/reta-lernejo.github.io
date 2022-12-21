@@ -13,6 +13,9 @@ Nernst-ekvacio:
 https://de.wikipedia.org/wiki/Nernst-Gleichung
 https://chem.libretexts.org/Bookshelves/General_Chemistry/Book%3A_Chem1_(Lower)/16%3A_Electrochemistry/16.05%3A_Applications_of_the_Nernst_Equation
 
+http://www.chem1.com/acad/webtut/aquatic/FallE1.html
+http://www.chem1.com/acad/webtut/aquatic/FallE2.html
+
 https://www.chemieunterricht.de/dc2/wasser/w-redox.htm
 https://www.sciencedirect.com/topics/earth-and-planetary-sciences/redox-potential
 https://en.wikipedia.org/wiki/Reduction_potential

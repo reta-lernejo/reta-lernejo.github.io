@@ -17,6 +17,7 @@ paĝo en preparo...
 <!--
 https://www.vedantu.com/chemistry/acids-and-bases
 https://www.chemieunterricht.de/dc2/wsu-grund/kap_14.htm
+http://www.chem1.com/acad/webtut/aquatic/FallProt.html
 
 eksperimentoj:
 
