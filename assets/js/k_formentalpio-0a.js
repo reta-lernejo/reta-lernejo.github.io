@@ -350,7 +350,7 @@ class Entalpio {
       // https://en.wikipedia.org/wiki/Sabatier_reaction
 
     ["N2(g) + 3 H2(g) -> 2 NH3(g)","sintezo de amoniako"],
-    ["C6H12O6(s) + 6 O2(g) -> 6 CO2(g) + 6 H2O(g)","kompleta forbrulo de glukozo"]
+    ["C6H12O6(s) + 6 O2(g) -> 6 CO2(g) + 6 H2O(l)","kompleta forbrulo de glukozo"]
   ]
 
 
