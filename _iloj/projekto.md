@@ -36,15 +36,15 @@ css:
 
 - krei retpaĝojn pri baza scio de sciencoj
 - precipe pri natursciencoj, kelkaj aliaj fakoj laŭokaze
-- laŭeble montri kiel unuopaj fakoj *kune* povus klarigi la funkciadon de la tero
+- laŭeble montri kiel unuopaj fakoj *kune* povus klarigi la "funkciadon" de la tero
 
-## Kritiko de instrumetodoj
+## Rimarkoj pri tradiciaj instrumetodoj
 {: .sekcio}
-- instruado baziĝas plu sur iamaj limigoj de papirusoj: tre kondensitaj formuloj klarigas imagajn modelojn
+- instruado baziĝas sur iamaj limigoj de papirusoj: tre kondensitaj formuloj klarigas imagajn modelojn
 - estas malfacile krei enkape la modelojn priskribitaj per formuloj kaj ankoraŭ pli malfacile apliki ilin al la realo
 - iom pli bone funkcias didaktikaj filmetoj en Jutubo ks, sed alie ol tekstoj kaj kalkuloj ili ne estas adapteblaj al propraj bezonoj
 - sed per komputiloj oni povas ja rekte krei ianivele interagajn modelojn esploreblajn
-- ekzemplaj paĝoj [teoremo de pitagoro](/matematiko/pitagoro), 
+- ekzemplaj paĝoj [teoremo de pitagoro](/matematiko/pitagoro),
 [fosforciklo](/biogeokemio/fosforciklo),
 [ideala gaso](/fiziko/td_ideala_gaso)
 
@@ -54,7 +54,7 @@ css:
 - akualigi mian propran scion pri natursciencoj
 - krei retpaĝojn, kiuj ne nur tekste prezentas konceptojn sed ankaŭ iugrade realigas la modelojn per programo por ebligi eksperimentadon 
 - kreitaj bazaj modeloj ebligas pluevoluadon de aplikeblo kaj ankaŭ kombinadon
-- fine, espereble, interligi la modelojn de la fakoj fiziko, kemio kaj biokemio ... por ebligi migradon tra la komponantoj de la sistemo Tero.
+- fine, espereble, interligi la modelojn de la fakoj fiziko, kemio kaj biokemio ... por ebligi migradon tra la konceptoj kaj doni ideon pri la sistemo Tero.
 - dum la lasta monatoj prilaborita precipe fako [kemio](/kemio)
 
 ## Karaktero
