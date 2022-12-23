@@ -6,11 +6,11 @@ c=1 mol/l
 p=101.325 kPa
 
 legendo: 
- (s) – solida; 
- (l) – likva; 
- (g) – gasa; 
- (aq) – akva solvaĵo
- (Hg) – amalgamo
+ (s) - solida; 
+ (l) - likva; 
+ (g) - gasa; 
+ (aq) - akva solvaĵo
+ (Hg) - amalgamo
 */   
 
 class EPot {
@@ -318,8 +318,8 @@ class EPot {
 ["Xe",8,6,"H4XeO6(aq) + 2 H^+ + 2e- <-> XeO3(aq) + 3 H2O", 2.42, 2],
 ["F",0,-1,"F2(g) + 2e- <-> 2 F^-",2.87, 2],
 ["F",0,-1,"F2(g) + 2 H^+ + 2e- <-> 2 HF(aq)", 3.05, 2],
-["Tb",4,3,"Tb^4+ + e^– <-> Tb^3+", 3.1, 1],
-["Pr",4,3,"Pr^4+ + e^– <-> Pr^3+", 3.2, 1],
+["Tb",4,3,"Tb^4+ + e^- <-> Tb^3+", 3.1, 1],
+["Pr",4,3,"Pr^4+ + e^- <-> Pr^3+", 3.2, 1],
 ["Kr",2,0,"KrF2(aq) + 2e- <-> Kr(g) + 2 F^-(aq)", 3.27, 2]
     ];
 
@@ -365,12 +365,41 @@ class EPot {
      */
     static inx() {
         EPot.NET.map((r) => {
+            const rx = r[3].replace(/\s[\(\)\[\]^]/g,'');
             if (r.length < 7) { // evitu pluroblan indeksigon!
-                r.push(EPot.hashCode(r[3]));
+                r.push(EPot.hashCode(rx));
             };
         });
         return EPot.NET.length;
     }
+
+
+    /**
+     * Redonas reakciojn laŭ element-simbolo, kaj se donita la 
+     * prefikso de la indekskampo (voku EPot.inx() unufoje komence!)
+     * @param {string} el la elemento de la duonreakcio
+     * @param {string} ix la indekso de la duonreakcio (resp. komenco de ĝi)
+     * @returns vektoro kun la elementoj [Elemento,ON1,ON2,duonreakcio,norma elektrodtensio, nombro daelektronoj, indekso]
+     */
+     static reakcioj(el,ix) {
+        return EPot.NET.filter((et) => et[0] == el && (!ix || et[6].startsWith(ix)));
+    }
+
+
+    /**
+     * Redonas reakcion laŭ element-simbolo, kaj prefikso de la indekskampo 
+     * (voku EPot.inx() unufoje komence!). Reagas per escepto, se troviĝas
+     * pli ol unu aŭ neniu tia reakcio
+     * @param {string} el la elemento de la duonreakcio
+     * @param {string} ix la indekso de la duonreakcio (resp. komenco de ĝi)
+     * @returns vektoro kun la elementoj [Elemento,ON1,ON2,duonreakcio,norma elektrodtensio, nombro daelektronoj, indekso]
+     */
+     static reakcio(el,ix) {
+        const r = EPot.NET.filter((et) => et[0] == el && (et[6].startsWith(ix)));
+        if (!(r || r.length)) throw "Neniu reakcio kun la donita indekso!";
+        if (r.length>1) throw "Pli ol unu reakcio kun tiu indeksprefikso!";
+        return r[0];
+    }    
 
     /**
      * Redonas liniojn de la la tabelo laŭ elemento (unua kolumno)
@@ -379,7 +408,7 @@ class EPot {
      * @param {number} on1 
      * @param {number} on2 
      */
-    static rel(el,on1,on2) {
+    static reakcioj_on(el,on1,on2) {
         const [ON1,ON2] = (on1<on2)? [on2,on1] : [on1,on2]; // se nur on1 donita ankaŭ estas la dua esprimo!
         return EPot.NET.filter((et) => 
             et[0] == el 
@@ -387,24 +416,15 @@ class EPot {
             && (typeof ON2 === 'undefined'? true: et[2] == ON2));
     }
 
-
     /**
      * 
-     * @param {string} dr la duonreakcio kies datumojn/eletrodtension ni serĉas
+     * @param {string} dr la duonreakcio kies datumojn/elektrodtension ni serĉas
      * @returns vektoro kun la elementoj [Elemento,ON1,ON2,duonreakcio,norma elektrodtensio, nombro daelektronoj]
      */
     static net(dr) {
         return EPot.NET.find((et) => et[3] == dr);
     }
 
-    /**
-     * 
-     * @param {string} ix la indekso de la duonreakcio
-     * @returns vektoro kun la elementoj [Elemento,ON1,ON2,duonreakcio,norma elektrodtensio, nombro daelektronoj, indekso]
-     */
-     static rix(dr) {
-        return EPot.NET.find((et) => et[7] == ix);
-    }
 
     /**
      * Kalkulas la diferncon de Gibs-energio dG0 por paro
