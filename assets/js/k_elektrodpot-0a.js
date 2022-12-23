@@ -326,6 +326,53 @@ class EPot {
     static F = 96485; // C/mol, t.e. ŝargo/molo, Farado-konstanto
 
     /**
+     * Kalkulas haketon (identigan sumon) de iu teksto.
+     * Ni bezonas tion por distingi la ekvaciojn
+     * @param {string} str 
+     * @returns 
+     */
+    static hashCode = function(str) {
+            /**
+             * Konverti nombron al 16-uma prezento,
+             * evitante negativ-signon
+             * @param {number} n 
+             * @returns 
+             */
+            function hex(n)
+            {
+            if (n < 0)
+            {
+                n = 0xFFFFFFFF + n + 1;
+            }
+            
+            return n.toString(16).toUpperCase();
+            }                              
+
+        var hash = 0, i, chr;
+        if (str.length === 0) return hash;
+        for (i = 0; i < str.length; i++) {
+            chr   = str.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return hex(hash).substring(0,6);
+    };
+
+    /**
+     * Aldonas 16-uman indekson al la areo de reakcioj
+     * PLIBONIGU: eble ni transformu ankaŭ al Object anst. Array?
+     * sed tiam ni devos verŝajne uzi duan objekton por ne konfuzi...
+     */
+    static inx() {
+        EPot.NET.map((r) => {
+            if (r.length < 7) { // evitu pluroblan indeksigon!
+                r.push(EPot.hashCode(r[3]));
+            };
+        });
+        return EPot.NET.length;
+    }
+
+    /**
      * Redonas liniojn de la la tabelo laŭ elemento (unua kolumno)
      * kaj se donita oksidnombrojn maldekstre kaj dekstre (reduktite)
      * @param {string} el 
@@ -340,6 +387,7 @@ class EPot {
             && (typeof ON2 === 'undefined'? true: et[2] == ON2));
     }
 
+
     /**
      * 
      * @param {string} dr la duonreakcio kies datumojn/eletrodtension ni serĉas
@@ -347,6 +395,15 @@ class EPot {
      */
     static net(dr) {
         return EPot.NET.find((et) => et[3] == dr);
+    }
+
+    /**
+     * 
+     * @param {string} ix la indekso de la duonreakcio
+     * @returns vektoro kun la elementoj [Elemento,ON1,ON2,duonreakcio,norma elektrodtensio, nombro daelektronoj, indekso]
+     */
+     static rix(dr) {
+        return EPot.NET.find((et) => et[7] == ix);
     }
 
     /**
