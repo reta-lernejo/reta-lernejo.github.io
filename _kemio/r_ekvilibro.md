@@ -15,6 +15,9 @@ https://www.chemieunterricht.de/dc2/mwg/mwg-kon.htm
 https://www.chemie.de/lexikon/Gleichgewichtskonstante
 https://chem.libretexts.org/Courses/University_of_Arkansas_Little_Rock/Chem_1403%3A_General_Chemistry_2/Text/15%3A_Equilibria/15.02%3A_Equilibrium_Constant_and_Reaction_Quotient
 
+- ekvilibraj konstantoj de diversaj reakciaj tipoj
+https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Analytical_Chemistry_2.1_(Harvey)/06%3A_Equilibrium_Chemistry/6.04%3A_Equilibrium_Constants_for_Chemical_Reactions
+
 - ekvilibro klarigita per pombatalo
 https://www.seilnacht.com/Lexikon/chemgl.htm
 http://daten.didaktikchemie.uni-bayreuth.de/umat/mwg/archiv/mwg.htm

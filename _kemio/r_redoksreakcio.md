@@ -30,6 +30,9 @@ https://en.wikipedia.org/wiki/Half-reaction
 https://www2.chem.wisc.edu/deptfiles/genchem/netorial/rottosen/tutorial/modules/electrochemistry/02half_reactions/18_21.htm
 https://de.serlo.org/chemie/127701/die-teilgleichungen-oxidation-und-reduktion
 https://de.serlo.org/chemie/129021/%C3%BCbungsaufgaben-teilgleichungen
+
+- ekvilibro
+https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Analytical_Chemistry_2.1_(Harvey)/06%3A_Equilibrium_Chemistry/6.04%3A_Equilibrium_Constants_for_Chemical_Reactions
 -->
 
 oksidilo (e-akceptanto): (x)O ()N ()H

@@ -45,3 +45,18 @@ https://www.kth.se/che/medusa/
 https://www.researchgate.net/figure/Pourbaix-diagram-for-carbon-at-298-K-showing-the-hatched-domain-of-stability-Predominate_fig1_267979384
 https://www.researchgate.net/figure/Pourbaix-diagram-for-nitrogen-at-25C_fig7_281640442
 -->
+
+<!--
+
+Ebleco por enkonduki la redoksan tenstion:
+
+El la termodinamika formulo de la leĝo de masefiko 
+(vd: https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Analytical_Chemistry_2.1_(Harvey)/06%3A_Equilibrium_Chemistry/6.02%3A_Thermodynamics_and_Equilibrium_Chemistry#equation6.2.3)
+
+oni povas dedukti la ekvacion de Nernst, 
+vd.
+https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Analytical_Chemistry_2.1_(Harvey)/06%3A_Equilibrium_Chemistry/6.04%3A_Equilibrium_Constants_for_Chemical_Reactions
+
+tiel ankaŭ klariĝas la interligo de ekvacioa konstanto kaj elektrodpotentialo/redokstensio
+
+-->
