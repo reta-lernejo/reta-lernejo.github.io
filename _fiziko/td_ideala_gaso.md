@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Ideala gaso
+chapter: 3
 js:
   - folio-0b
   - sekcio-0b 
