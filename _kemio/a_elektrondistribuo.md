@@ -222,7 +222,7 @@ en tiu pozicio de la centro. La ventroj de staranta ondo membrana do respondas a
 
 La membrano havas nur du dimensiojn (ĉar la tria donas la probablecon). Ĉe la atomoj aldoniĝas tria dimensio de spaco. Sed la tranĉbildoj de orbitalfunkcioj efektive tre similas al la ondbildoj de tambura membrano.
 
-Do oni povus imagi al si izolitan atomon kiel globforman tamburan membranon, fiksitan en la centro, kie troviĝas la nukleo kaj kiu ne ĉesas soni. Koncedite, tio estas malfacile, sed eble pli bone ol neniu analogio.
+Do oni povus imagi izolitan atomon kiel globforman tamburan membranon, fiksitan en la centro, kie troviĝas la nukleo kaj kiu ne ĉesas soni. Koncedite, tio estas malfacile, sed eble pli bone ol neniu analogio.
 
 
 <!-- 
