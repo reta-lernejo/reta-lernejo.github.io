@@ -118,6 +118,8 @@ class XPBDObj {
         this.rpd = new Float32Array(this.dim*this.eroj);
         // inversoj de la eraj masoj
         this.imas = new Float32Array(this.dim*this.eroj);
+        // restriktoj
+        this.restriktoj = [];
     }
 
     /**
@@ -154,7 +156,22 @@ class XPBDObj {
      * subklasoj, ĉar diversaj modeloj havas diversajn restriktojn.
      * @param {number} sdt 
      */
-    restriktoj(sdt);
+    restriktoj(sdt) {
+        this.restriktoj.forEach(R => {
+            // restriktoj povas rilati al eĝoj, pecoj ktp.
+            // anstataŭ al unuopaj eroj, kiel realigi tion?
+            // do necesas, scii la rilaton inter restrikto kaj ties elementoj (verticoj, eĝoj,...)
+            // kaj trakuri ci-lastajn anst. erojn...
+            /*
+            for (let i = 0; i < this.eroj; i++) {
+                // ∆𝐱𝑖 = λ𝑤𝑖 ∇𝐶𝑖
+                const korekto = R.lambda(i,...) * this.imas[i] * R.gradiento(i);
+                XV.plus(this.poz, i, korekto, 0, this.dim);
+            }
+            */
+            R.apliku()
+        });
+    }
 
     /**
      * Korektoj de rapido-vektoroj laŭ rezutlo movo+korekto
