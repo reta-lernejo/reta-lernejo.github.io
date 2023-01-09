@@ -101,6 +101,31 @@ class XV {
 }
 
 
+class XRDistanco {
+
+    constructor(obj) {
+        this.obj = obj;
+    }
+
+    grad(i,j1,j2) {
+        const sgn = i==j1? 1:-1;
+        // sgn * XV.dif...(obj.poz,j1,obj.poz,j2,1.0,2) / XV.abs(x2-x1)
+    }
+
+    lambda(i,j1,j2) {
+        return (l-l0) / (obj.imas[j1] + obj.imas[j2])...
+    }
+}
+
+class XRVolumeno {
+
+}
+
+class XRImpulso {
+
+}
+
+
 class XPBDObj {
     /**
      * @param {number} eroj nombro da eroj (punktoj, verticoj...)
