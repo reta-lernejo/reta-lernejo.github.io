@@ -85,9 +85,9 @@ class XV {
      * Skribu la diferencon de du vektoroj al tria loko, krome eblas obligi la duan vektoron
      * @param {Float32Array} d koordinata listo por la rezulto
      * @param {number} di indekso de la celvektoro
-     * @param {number} a indekso de la unua vektoro
+     * @param {number} a koordinata listo
      * @param {number} ai indekso de la unua kaj celvektoro
-     * @param {Float32Array} b 
+     * @param {Float32Array} b koordinata listo
      * @param {number} bi indekso de la dua vektoro
      * @param {number} obl oblo je kiu multipliki la duan vektoron
      * @param {number} dim dimensioj (2 por dudimensia spaco)
@@ -98,23 +98,66 @@ class XV {
         d[di++] = (a[ai++] - b[bi++]) * obl;
         if (dim>2) d[di] = (a[ai] - b[bi]) * obl;
     }
+
+    /**
+     * Redonas la kvadraton de la absoluta valoro de vektoro (t.e. la kvadrato de ĝia longeco)
+     * @param {number} a koordinata listo
+     * @param {number} ai indekso de la vektoro
+     * @param {number} dim dimensioj (2 por dudimensia spaco)
+     * @returns number
+     */
+    static abs2(a, ai, dim=3) {
+        ai *= dim;
+        let r = a[ai]**2 + a[ai+1]**2;
+        if (dim>2) r+= a[ai+2]**2;
+        return r;
+    }
+
 }
 
 
 class XRDistanco {
 
-    constructor(obj) {
+    constructor(obj,eĝoj,dim) {
+        this.dim = dim;
         this.obj = obj;
+        this.eĝoj = eĝoj;
+        this.lng = new Float32Array(eĝoj.length*dim);
+        this.grd = new Float32Array(dim);
+
+        // kalkulu kaj konservu la eĝlongojn
+        for (let i=0; i<eĝoj.length/2; i++) {
+            const i1 = eĝoj[dim*i];
+            const i2 = eĝoj[dim*i+1];
+    		this.lng[i] = Math.sqrt(XV.abs2(obj.poz,i1,obj.poz,i2));
+        }
     }
 
-    grad(i,j1,j2) {
-        const sgn = i==j1? 1:-1;
-        // sgn * XV.dif...(obj.poz,j1,obj.poz,j2,1.0,2) / XV.abs(x2-x1)
+    apliku() {
+        for (let i=0; i < this.eĝoj.length/2; i++) {
+            const l0 = this.lng[i];
+            const j1 = this.eĝoj[this.dim*i];
+            const j2 = this.eĝoj[this.dim*i+1];
+
+            // kalkulu nunan longecon de la eĝo kaj gradienton de restrikto
+            //const sgn = i==j1? 1.0:-1.0;
+            XV.dif_al(this.grd,0,this.obj.poz,j1,this.obj.poz,j2,1.0,this.dim);
+            const l = Math.sqrt(XV.abs2(this.grd,0,this.dim));
+            if (l != 0.0)
+                XV.oblo(this.grd,0,1.0/l,this.dim);    
+            
+            // kalkulu lambda
+            const w1 = this.obj.imas[j1];
+            const w2 = this.obj.imas[j2];
+            const alpha = 0; // rigideco, poste faru adapteble!
+            const lambda = (l-l0) / (w1+w2+alpha); // ni devus certigi, ke w1+w2 > 0
+
+            // kalkulu la korektojn
+            XV.plus(this.obj.poz,j1,this.grd,0,lambda*w1);
+            XV.plus(this.obj.poz,j2,this.grd,0,-lambda*w2);
+        }
     }
 
-    lambda(i,j1,j2) {
-        return (l-l0) / (obj.imas[j1] + obj.imas[j2]) //...
-    }
 }
 
 class XRVolumeno {

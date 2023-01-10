@@ -69,14 +69,22 @@ class Pilko2d extends XPBDObj {
      */
     constructor(r,n,c=[0,0]) {
       super(n,2);
+      let eĝoj = new Uint8Array(n);
       // ĉiu vertico havas du koordinatojn x kaj y
-      let phi = 0; 
+      let phi = 0;
       const d = 2*Math.PI/n;
       for (let i=0; i<n; i++) {
           this.poz[2*i] = c[0] + r * Math.cos(phi);
           this.poz[2*i+1] = c[1] + r * Math.sin(phi);
           phi += d;
       }
+
+      // longeco de eĝoj - ciuj samlongaj fakte
+      const l = Math.sqrt(XV.abs2(this.poz,0,this.poz,1));
+      eĝoj.fill(l);
+
+      // restriktoj
+      this.restr.push(new XRDistanco(this,eĝoj,2));
     }
 
     vertico(i) {
