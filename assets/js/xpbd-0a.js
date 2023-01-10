@@ -113,7 +113,7 @@ class XRDistanco {
     }
 
     lambda(i,j1,j2) {
-        return (l-l0) / (obj.imas[j1] + obj.imas[j2])...
+        return (l-l0) / (obj.imas[j1] + obj.imas[j2]) //...
     }
 }
 
@@ -144,7 +144,7 @@ class XPBDObj {
         // inversoj de la eraj masoj
         this.imas = new Float32Array(this.dim*this.eroj);
         // restriktoj
-        this.restriktoj = [];
+        this.restr = [];
     }
 
     /**
@@ -165,7 +165,7 @@ class XPBDObj {
             // memoru la poziciojn x en p
             XV.kopio(this.poz0, i, this.poz, i, this.dim);
             // adaptu la poziciojn laŭ rapideco
-            XV.plus(this.poz, i, this.vel, i, sdt, this.dim);
+            XV.plus(this.poz, i, this.rpd, i, sdt, this.dim);
 
             // ne permesu koordinatojn sub ebeno y=0 (grundo)
             const y = this.poz[this.dim * i + 1];
@@ -182,7 +182,7 @@ class XPBDObj {
      * @param {number} sdt 
      */
     restriktoj(sdt) {
-        this.restriktoj.forEach(R => {
+        this.restr.forEach(R => {
             // restriktoj povas rilati al eĝoj, pecoj ktp.
             // anstataŭ al unuopaj eroj, kiel realigi tion?
             // do necesas, scii la rilaton inter restrikto kaj ties elementoj (verticoj, eĝoj,...)
@@ -208,8 +208,8 @@ class XPBDObj {
             if (this.imas[i] == 0.0)
                 continue;
 
-            // adaptu la rapidecon al la reala poziciŝnaĝo dum tiu ĉi paŝo
-            XV.dif_al(this.vel, i, this.poz, i, this.poz0, i, 1.0/dt, this.dim);
+            // adaptu la rapidecon al la reala poziciŝanĝo dum tiu ĉi paŝo
+            XV.dif_al(this.rpd, i, this.poz, i, this.poz0, i, 1.0/sdt, this.dim);
         }
 
         // en sublklasoj aldonu kiel lastas paŝon aktualigon de la prezento
@@ -222,8 +222,9 @@ class XPBD {
      * 
      * @param {*} objektoj objektoj de simulado ili devas havi metodojn int, slv, rpd (vd. supre)
      */
-    constructor(objektoj) {
+    constructor(objektoj,akcelo) {
         this.objektoj = objektoj;
+        this.akcelo = akcelo;
     }
 
     /**
@@ -236,9 +237,9 @@ class XPBD {
         const sdt = dt/paŝeroj; // subdividitaj temperoj
 
         for (let p = 0; p < paŝeroj; p++) {
-            this.objektoj.forEach(o => movoj(sdt, akcelo))           
-            this.objektoj.forEach(o => restriktoj(sdt));
-            this.objektoj.forEach(o => rapidoj(sdt));
+            this.objektoj.forEach(o => o.movoj(sdt, this.akcelo))           
+            this.objektoj.forEach(o => o.restriktoj(sdt));
+            this.objektoj.forEach(o => o.rapidoj(sdt));
         }
     }
 
