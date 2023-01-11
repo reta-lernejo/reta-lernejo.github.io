@@ -69,7 +69,7 @@ class Pilko2d extends XPBDObj {
      */
     constructor(r,n,c=[0,0]) {
       super(n,2);
-      let eĝoj = new Uint8Array(n);
+      let eĝoj = new Uint8Array(2*n);
       // ĉiu vertico havas du koordinatojn x kaj y
       let phi = 0;
       const d = 2*Math.PI/n;
@@ -77,14 +77,14 @@ class Pilko2d extends XPBDObj {
           this.poz[2*i] = c[0] + r * Math.cos(phi);
           this.poz[2*i+1] = c[1] + r * Math.sin(phi);
           phi += d;
+
+          // aldonu eĝon
+          eĝoj[2*i] = i;
+          eĝoj[2*i+1] = i<n-1? i+1:0;
       }
 
-      // longeco de eĝoj - ciuj samlongaj fakte
-      const l = Math.sqrt(XV.abs2(this.poz,0,this.poz,1));
-      eĝoj.fill(l);
-
       // restriktoj
-      this.restr.push(new XRDistanco(this,eĝoj,2));
+      this.restr.push(new XRDistanco(this,eĝoj));
     }
 
     vertico(i) {
@@ -94,7 +94,7 @@ class Pilko2d extends XPBDObj {
 
 const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
-const n_vert = 31; // verticoj de pilko
+const n_vert = 5; // verticoj de pilko
 const pilko = new Pilko2d(30,n_vert,[40,HEIGHT-40]);
 pilko.imas.fill(1);
 const xpbd = new XPBD([pilko],[0,-10]);
@@ -125,6 +125,8 @@ function desegnu() {
 let ripetoj; 
 if (ripetoj) clearTimeout(ripetoj.p);
 const intervalo = 200;
+
+desegnu();
 ripetoj = ripetu(
     () => {
         xpbd.simulado(1,10);

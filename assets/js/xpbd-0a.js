@@ -17,100 +17,178 @@
  */
 
 /**
- * Vektoraj operaciojĉe kio la vektoroj estas nombroj en koordinata listo
- * [x1,y1,z1,x2,y2,z2,...xn,yn,zn]. Dudimensiaj vektoroj eblas kun aldona parametro
+ * Objekto, kiu tenas vektorojn en simpla listo [x0,y0,z0,x1,y2,z2...]
+ * kaj provizas metodojn por aliri la vektorojn kaj kalkuli pri ili
  */
-class XV {
-
+class XVj extends Float32Array {
     /**
-     * Metu nulvektoron 
-     * @param {Float32Array} a koordinata listo
-     * @param {number} ai indekso de la vektoro
-     * @param {number} dim dimensioj (2 por dudimensia spaco)
+     * Kreas vektorareon de ln vektoroj kun donita dimensio dim
      */
-    static nulo(a, ai, dim=3) {
-        ai *= dim;
-        a[ai++] = 0.0;
-        a[ai++] = 0.0;
-        if (dim>2) a[ai] = 0.0;
+    constructor(ln,dim=3) {
+        super(ln*dim);
+        // this.ln = ln; ni povas kalkuli per length/this.dim!
+        this.dim = dim;
     }
 
     /**
-     * Obligu vektoron per nombro
-     * @param {Float32Array} a koordinata listo
-     * @param {number} ai indekso de la vektoro
+     * Metu nulvektoron ĉie aŭ ĉe elektitaj indeksoj
+     * @param {number} i se donita indekso ekde kiu nuligi, alikaze ĉiuj
+     * @param {number} m nombro da nuligendaj vektoroj; apriore 1, se ne ĉiuj
+     */
+    nulo(i,m=1) {
+        if (typeof i === 'undefined') {
+            this.fill(0);
+        } else {
+            this.fill(0,this.dim*i,this.dim*i+this.dim*m);
+        }
+    }
+
+    /**
+     * Redonas parton de la vektoroj ekde indekso i, entute m
+     * (Float32Array.slice() ne ĝuste funkcias kun subklaso XVj, almenaŭ ne en FFv108!)
+     */
+    tranĉo(i, m) {
+        let r = new Float32Array(m*this.dim);
+        i *= this.dim;
+        for (let j = 0; j < m*this.dim; j++) {
+            r[j] = this[i+j];
+        }
+        return r;
+    };
+
+    /**
+     * Obligu vektorojn per nombro
      * @param {number} obl oblo je kiu multipliki
-     * @param {number} dim dimensioj (2 por dudimensia spaco)
+     * @param {number} i indekso de la komenca vektoro, -1 = ĉiuj
+     * @param {number} m nombro da vektoroj obligendaj, apriore 1, se ne ĉiuj
      */
-    static oblo(a, ai, obl, dim=3) {
-        ai *= dim;
-        a[ai++] *= obl;
-        a[ai++] *= obl;
-        if (dim>2) a[ai] *= obl;
+    oblo(obl,i,m) {
+        if (typeof i === 'undefined') {
+            this.forEach((k,j) => {this[j] = k*obl})
+        } else {
+            for (let j = i*this.dim; j < i*this.dim+m*this.dim; j++) {
+                this[j] *= obl;
+            }
+        }
     }
 
     /**
-     * Kopiu vektoron de unu indekso en listo a al alia en listo b (povas esti la sama)
-     * @param {Float32Array} a koordinata listo
-     * @param {number} ai indekso de la fontovektoro
-     * @param {Float32Array} b koordinata listo
-     * @param {number} bi indekso de la celvektoro
-     * @param {number} dim dimensioj (2 por dudimensia spaco)
+     * Kopiu vektorojn al alia vektorareo
+     * @param {Float32Array} b celareo
+     * @param {number} j indekso kien kopii
+     * @param {number} i indekso de kie kopii
+     * @param {number} m nombro da kopiendaj elementoj, 1 se i estas donita, alia ĉiuj
      */
-    static kopio(a, ai, b, bi, dim=3) {
-        ai *= dim; bi *= dim;
-        a[ai++] = b[bi++]; 
-        a[ai++] = b[bi++]; 
-        if (dim>2) a[ai] = b[bi];
+    kopiu_al(b,j=0,i,m=1) {
+        if (typeof i === 'undefined')
+            b.set(this,j);
+        else
+            b.set(this.tranĉo(i,m));
     }
 
     /**
-     * Adicioj du vektorojn kaj skribu la rezulton en la indekso de la unua
+     * Adiciu vektoron donita kiel  [x,y,z?] al iu(j) vektoro(j) en la areo
      * Aldone eblas obligi la duan vektoron antaŭ adicii
-     * @param {Float32Array} a koordinata listo
-     * @param {number} ai indekso de la unua kaj celvektoro
-     * @param {Float32Array} b koordinata listo
-     * @param {number} bi indekso de la dua vektoro
+     * @param {array} v vektoro (dua argumento)
      * @param {number} obl oblo je kiu multipliki la duan vektoron
-     * @param {number} dim dimensioj (2 por dudimensia spaco)
+     * @param {number} i indekso de la unua kaj celvektoro, se ne donita, adiciu al ĉiuj
+     * @param {number} m nombro da vektoroj al kiuj adicii v
      */
-    static plus(a, ai, b, bi, obl=i0, dim=3) {
-        ai *= dim; bi *= dim;
-        a[ai++] += b[bi++] * obl; 
-        a[ai++] += b[bi++] * obl; 
-        if (dim>2) a[ai] += b[bi] * obl;
+    plus(v, obl=1.0, i, m=1) {
+        const vo = v.map(x => x*obl);
+        if (typeof i === 'undefined') {
+            this.forEach((k,j) => {
+                this[j] += vo[j%this.dim];
+            })
+        } else {
+            for (let j = i*this.dim; j < i*this.dim+m*this.dim; j++) {
+                this[j] += vo[j%this.dim];
+            }
+        }
+    }
+
+
+    /**
+     * Adiciu vektorojn el alia areo al la propraj
+     * Aldone eblas obligi la duan vektoron antaŭ adicii
+     * @param {array} vj vektoroj (dua argumento)
+     * @param {number} obl oblo je kiu multipliki la duan vektoron
+     * @param {number} j indekso por la vektoroj de la dua argumento
+     * @param {number} i indekso de la unua kaj celvektoro, se ne donita, adiciu al ĉiuj
+     * @param {number} m nombro da vektoroj al kiuj adicii v
+     */
+    plus2(vj, obl=1.0, i, m=1) {
+        if (typeof j === 'undefined') {
+            this.forEach((k,j_) => {
+                this[j_] += vj[j_] * obl;
+            })
+        } else {
+            for (let j_ = j*this.dim; j < j_*this.dim+m*this.dim; j_++) {
+                this[i] += vj[j_] * obl;
+            }
+        }
+    }    
+
+
+    /**
+     * Redonu la difernecon de du vektoroj el la areo kiel novan vektoron [x,y,z?]
+     * Aldone eblas obligi la rezulton
+     * @param {number} i1 indekso de la unua vektoro
+     * @param {number} i2 indekso de la dua vektoro
+     * @param {number} obl oblo je kiu multipliki la rezulton
+     */
+    dif2(i1, i2, obl=1.0) {
+        // this.slice donas malĝustan rezulton en FF 108!
+        // const v = super.slice(i1,i1+this.dim);
+        const v = this.tranĉo(i1,1);
+        i2 *= this.dim;
+
+        v.forEach((k,j) => {
+            v[j] = (k - this.at(i2+j)) * obl;
+        });
+
+        return v;
     }
 
     /**
-     * Skribu la diferencon de du vektoroj al tria loko, krome eblas obligi la duan vektoron
-     * @param {Float32Array} d koordinata listo por la rezulto
-     * @param {number} di indekso de la celvektoro
-     * @param {number} a koordinata listo
-     * @param {number} ai indekso de la unua kaj celvektoro
-     * @param {Float32Array} b koordinata listo
-     * @param {number} bi indekso de la dua vektoro
-     * @param {number} obl oblo je kiu multipliki la duan vektoron
-     * @param {number} dim dimensioj (2 por dudimensia spaco)
+     * Kalkulu la diferencojn inter la unopaj vektoroj de du areoj
+     * kaj skribu la rezulton al la sama indekso de tiu ĉi areo.
+     * La tri areoj devas havi samajn dimensiojn.
+     * Ni fidas je tio sen anticipe testi!
+     * Aldone eblas obligi la rezulton.
+     * @param {Float32Array} vj1 la areo por la unuaj argumentoj
+     * @param {Float32Array} vj2 la areo por la unuaj argumentoj
+     * @param {number} obl oblo je kiu multipliki la rezultojn
      */
-    static dif_al(d, di, a, ai, b, bi, obl=1.0, dim=3) {
-        di *= dim; ai *= dim; bi *= dim;
-        d[di++] = (a[ai++] - b[bi++]) * obl;
-        d[di++] = (a[ai++] - b[bi++]) * obl;
-        if (dim>2) d[di] = (a[ai] - b[bi]) * obl;
+    dif3(xv1, xv2, obl=1.0) {
+        this.forEach((k,j) => {
+            this[j] = (xv1[j] - xv2[j]) * obl;
+        })
     }
 
     /**
      * Redonas la kvadraton de la absoluta valoro de vektoro (t.e. la kvadrato de ĝia longeco)
-     * @param {number} a koordinata listo
-     * @param {number} ai indekso de la vektoro
-     * @param {number} dim dimensioj (2 por dudimensia spaco)
+     * je indekso i
+     * @param {number} i indekso de la vektoro
      * @returns number
      */
-    static abs2(a, ai, dim=3) {
-        ai *= dim;
-        let r = a[ai]**2 + a[ai+1]**2;
-        if (dim>2) r+= a[ai+2]**2;
-        return r;
+    abs2(i) {
+        i *= this.dim;
+        const v = this.tranĉo(i,1);
+        return v.reduce((sumo,k) => sumo + Math.pow(k,2), 0);
+    }
+
+  
+    /**
+     * Redonu la kvadraton de la distanco inter du vektoroj
+     * @param {number} i1 indekso de la unua vektoro
+     * @param {number} i2 indekso de la dua vektoro
+     */
+    dist2(i1, i2) {
+        const v1 = this.tranĉo(i1,1);
+        const v2 = this.tranĉo(i2,1);
+
+        return v1.reduce((sumo,k,j) => sumo + Math.pow(k-v2[j],2), 0);
     }
 
 }
@@ -118,33 +196,32 @@ class XV {
 
 class XRDistanco {
 
-    constructor(obj,eĝoj,dim) {
-        this.dim = dim;
+    constructor(obj,eĝoj) {
         this.obj = obj;
         this.eĝoj = eĝoj;
-        this.lng = new Float32Array(eĝoj.length*dim);
-        this.grd = new Float32Array(dim);
+        this.lng = new XVj(eĝoj.length/2,1);
+        this.grd = new XVj(1,this.obj.poz.dim);
 
         // kalkulu kaj konservu la eĝlongojn
-        for (let i=0; i<eĝoj.length/2; i++) {
-            const i1 = eĝoj[dim*i];
-            const i2 = eĝoj[dim*i+1];
-    		this.lng[i] = Math.sqrt(XV.abs2(obj.poz,i1,obj.poz,i2));
+        for (let i=0; i<eĝoj.length; i+=2) {
+            const i1 = eĝoj[i];
+            const i2 = eĝoj[i+1];
+    		this.lng[i/2] = Math.sqrt(this.obj.poz.dist2(i1,i2));
         }
     }
 
     apliku() {
         for (let i=0; i < this.eĝoj.length/2; i++) {
             const l0 = this.lng[i];
-            const j1 = this.eĝoj[this.dim*i];
-            const j2 = this.eĝoj[this.dim*i+1];
+            const j1 = this.eĝoj[i];
+            const j2 = this.eĝoj[i+1];
 
             // kalkulu nunan longecon de la eĝo kaj gradienton de restrikto
             //const sgn = i==j1? 1.0:-1.0;
-            XV.dif_al(this.grd,0,this.obj.poz,j1,this.obj.poz,j2,1.0,this.dim);
-            const l = Math.sqrt(XV.abs2(this.grd,0,this.dim));
+            this.grd.set(this.obj.poz.dif2(j1,j2));
+            const l = Math.sqrt(this.grd.abs2(0));
             if (l != 0.0)
-                XV.oblo(this.grd,0,1.0/l,this.dim);    
+                this.grd.oblo(1.0/l);    
             
             // kalkulu lambda
             const w1 = this.obj.imas[j1];
@@ -153,8 +230,8 @@ class XRDistanco {
             const lambda = (l-l0) / (w1+w2+alpha); // ni devus certigi, ke w1+w2 > 0
 
             // kalkulu la korektojn
-            XV.plus(this.obj.poz,j1,this.grd,0,lambda*w1);
-            XV.plus(this.obj.poz,j2,this.grd,0,-lambda*w2);
+            this.obj.poz.plus(this.grd,lambda*w1,j1);
+            this.obj.poz.plus(this.grd,-lambda*w2,j2);
         }
     }
 
@@ -176,16 +253,15 @@ class XPBDObj {
      */
     constructor(eroj,dim=3) {
         this.eroj = eroj;
-        this.dim = dim;
 
         // pozicioj de la eroj
-        this.poz = new Float32Array(this.dim*this.eroj);
+        this.poz = new XVj(eroj,dim);
         // nunaj pozicioj de la eroj por kompari kun la novaj post movo
-        this.poz0 = new Float32Array(this.dim*this.eroj);
+        this.poz0 = new XVj(eroj,dim);
         // rapidoj de la eroj
-        this.rpd = new Float32Array(this.dim*this.eroj);
+        this.rpd = new XVj(eroj,dim);
         // inversoj de la eraj masoj
-        this.imas = new Float32Array(this.dim*this.eroj);
+        this.imas = new XVj(eroj,dim);
         // restriktoj
         this.restr = [];
     }
@@ -198,25 +274,28 @@ class XPBDObj {
      * @param {*} akcelo vektoro de akcelo
      */
     movoj(sdt, akcelo) {
-        for (let i = 0; i < this.eroj; i++) {
+        /*
             // senfiniaj masoj ne moviĝu en nia modelo
             if (this.imas[i] == 0.0)
                 continue;
+                */
 
-            // adaptu la rapideco per akcelo
-            XV.plus(this.rpd, i, akcelo, 0, sdt, this.dim);
-            // memoru la poziciojn x en p
-            XV.kopio(this.poz0, i, this.poz, i, this.dim);
-            // adaptu la poziciojn laŭ rapideco
-            XV.plus(this.poz, i, this.rpd, i, sdt, this.dim);
+        // adaptu la rapidecon per akcelo
+        this.rpd.plus(akcelo,sdt);
+        // memoru la poziciojn x en p
+        this.poz0.set(this.poz);
+        // adaptu la poziciojn laŭ rapideco
+        this.poz.plus2(this.rpd,sdt);
 
+            /*
             // ne permesu koordinatojn sub ebeno y=0 (grundo)
             const y = this.poz[this.dim * i + 1];
             if (y < 0.0) {
                 XV.kopio(this.poz, i, this.poz0, i, this.dim);
                 this.poz[this.dim * i + 1] = 0.0;
             }
-        }
+            */
+        
     }
 
     /**
@@ -246,14 +325,14 @@ class XPBDObj {
      * @param {number} sdt 
      */
     rapidoj(sdt) {
-        for (let i = 0; i < this.eroj; i++) {
+        /*
             // senfiniaj masoj ne moviĝu
             if (this.imas[i] == 0.0)
                 continue;
+                */
 
-            // adaptu la rapidecon al la reala poziciŝanĝo dum tiu ĉi paŝo
-            XV.dif_al(this.rpd, i, this.poz, i, this.poz0, i, 1.0/sdt, this.dim);
-        }
+        // adaptu la rapidecon al la reala poziciŝanĝo dum tiu ĉi paŝo
+        this.rpd.dif3(this.poz,this.poz0,1.0/sdt);      
 
         // en sublklasoj aldonu kiel lastas paŝon aktualigon de la prezento
     };
