@@ -218,7 +218,7 @@ class XRDistanco {
 
             // kalkulu nunan longecon de la eĝo kaj gradienton de restrikto
             //const sgn = i==j1? 1.0:-1.0;
-            this.grd.set(this.obj.poz.dif2(j1,j2));
+            this.grd.set(this.obj.poz.dif2(j2,j1));
             const l = Math.sqrt(this.grd.abs2(0));
             if (l != 0.0)
                 this.grd.oblo(1.0/l);    
