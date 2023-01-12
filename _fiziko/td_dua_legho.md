@@ -43,7 +43,7 @@ por simulado, sed nur 2-dimensie
 
 <canvas id="kampo" width="500" height="500"></canvas>
 simulado de pilko
-
+<button id="haltu">Haltu</button>
 
 <script>
 
@@ -69,7 +69,9 @@ class Pilko2d extends XPBDObj {
      */
     constructor(r,n,c=[0,0]) {
       super(n,2);
-      let eĝoj = new Uint8Array(2*n);
+      let eĝoj = new Uint8Array(2*n + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
+
+      // cirkonferenco...
       // ĉiu vertico havas du koordinatojn x kaj y
       let phi = 0;
       const d = 2*Math.PI/n;
@@ -83,7 +85,17 @@ class Pilko2d extends XPBDObj {
           eĝoj[2*i+1] = i<n-1? i+1:0;
       }
 
+      // kelkaj radioj de centro al cirkonferenco      
+      let e = 2*n, paŝo = Math.trunc(n/5);
+      for (let i=0; i<n; i+=paŝo) {
+        for (let j=2; j<n-2; j+=paŝo) {
+          eĝoj[e++]=i;
+          eĝoj[e++]=(i+j)%n;
+        }
+      }
+
       // restriktoj
+      this.restr.push(new XRGrundo(this));
       this.restr.push(new XRDistanco(this,eĝoj));
     }
 
@@ -94,7 +106,7 @@ class Pilko2d extends XPBDObj {
 
 const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
-const n_vert = 5; // verticoj de pilko
+const n_vert = 12; // verticoj de pilko
 const pilko = new Pilko2d(30,n_vert,[40,HEIGHT-40]);
 pilko.imas.fill(1);
 const xpbd = new XPBD([pilko],[0,-10]);
@@ -120,11 +132,12 @@ function desegnu() {
   // lasta eĝo al 0-a vertico
   v2 = pilko.vertico(0);
   eĝo(v1,v2);
+
 }
 
 let ripetoj; 
 if (ripetoj) clearTimeout(ripetoj.p);
-const intervalo = 200;
+const intervalo = 50; //200;
 
 desegnu();
 ripetoj = ripetu(
@@ -135,6 +148,10 @@ ripetoj = ripetu(
     },
     intervalo
 )
+
+kiam_klako("#haltu",() => {
+    if (ripetoj) clearTimeout(ripetoj.p);
+});
 
 /*
 function ripeto() {
@@ -147,3 +164,9 @@ ripeto();
 */
 
 </script>
+
+<!--
+
+sono je distanco, resonado en kapelo....
+
+-->

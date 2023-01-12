@@ -26,7 +26,7 @@ class XVj extends Float32Array {
      */
     constructor(ln,dim=3) {
         super(ln*dim);
-        // this.ln = ln; ni povas kalkuli per length/this.dim!
+        // this.ln = ln; ni povas kalkuli per length/this.dim! aŭ uzi XPBDObj.eroj
         this.dim = dim;
     }
 
@@ -47,7 +47,7 @@ class XVj extends Float32Array {
      * Redonas parton de la vektoroj ekde indekso i, entute m
      * (Float32Array.slice() ne ĝuste funkcias kun subklaso XVj, almenaŭ ne en FFv108!)
      */
-    tranĉo(i, m) {
+    tranĉo(i, m=1) {
         let r = new Float32Array(m*this.dim);
         i *= this.dim;
         for (let j = 0; j < m*this.dim; j++) {
@@ -70,6 +70,13 @@ class XVj extends Float32Array {
                 this[j] *= obl;
             }
         }
+    }
+
+    /**
+     * Metas vektorojn v ĉe pozicio i
+     */
+    metu(v,i) {
+        this.set(v,i*this.dim);
     }
 
     /**
@@ -193,6 +200,33 @@ class XVj extends Float32Array {
 
 }
 
+/**
+ * Traktas koliziojn kun la grundo
+ */
+class XRGrundo {
+
+    constructor(obj) {
+        this.obj = obj;
+    }
+
+    apliku() {
+        for (let i=0; i<this.obj.eroj; i++) {
+            const v = this.obj.poz.tranĉo(i);
+            const y = v[1];
+            if (y<0) {
+                // plenelasta puŝo: spegulu la poziciojn ĉe la grundo
+                // poste ni eble subtenu ankaŭ gradojn de elasteco (vd. alpha ĉe aliaj restriktoj)
+                v[1] = -v[1];
+                const v0 = this.obj.poz0.tranĉo(i);
+                v0[1] = -v0[1];
+
+                this.obj.poz.metu(v,i);
+                this.obj.poz0.metu(v0,i);
+            }
+        }
+    }
+}
+
 
 class XRDistanco {
 
@@ -211,8 +245,8 @@ class XRDistanco {
     }
 
     apliku() {
-        for (let i=0; i < this.eĝoj.length/2; i++) {
-            const l0 = this.lng[i];
+        for (let i=0; i < this.eĝoj.length; i+=2) {
+            const l0 = this.lng[i/2];
             const j1 = this.eĝoj[i];
             const j2 = this.eĝoj[i+1];
 
@@ -230,6 +264,7 @@ class XRDistanco {
             const lambda = (l-l0) / (w1+w2+alpha); // ni devus certigi, ke w1+w2 > 0
 
             // kalkulu la korektojn
+            console.debug(`<${j1}-${j2}> l: ${l}, l0: ${l0}, lambda: ${lambda}, grd: [${this.grd.join(',')}]`)
             this.obj.poz.plus(this.grd,lambda*w1,j1);
             this.obj.poz.plus(this.grd,-lambda*w2,j2);
         }
