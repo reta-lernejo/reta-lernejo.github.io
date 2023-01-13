@@ -69,7 +69,8 @@ class Pilko2d extends XPBDObj {
      */
     constructor(r,n,c=[0,0]) {
       super(n,2);
-      let eĝoj = new Uint8Array(2*n + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
+      const eĝoj = new Uint8Array(2*n); // + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
+      const trioj = new Uint8Array(3*n);
 
       // cirkonferenco...
       // ĉiu vertico havas du koordinatojn x kaj y
@@ -82,9 +83,15 @@ class Pilko2d extends XPBDObj {
 
           // aldonu eĝon
           eĝoj[2*i] = i;
-          eĝoj[2*i+1] = i<n-1? i+1:0;
+          eĝoj[2*i+1] = (i+1)%n; //i<n-1? i+1:0;
+
+          // aldonu trion super tri najbaraj verticoj
+          trioj[3*i] = i;
+          trioj[3*i+1] = (i+1)%n;
+          trioj[3*i+2] = (i+2)%n;
       }
 
+/*
       // kelkaj radioj de centro al cirkonferenco      
       let e = 2*n, paŝo = Math.trunc(n/5);
       for (let i=0; i<n; i+=paŝo) {
@@ -93,10 +100,12 @@ class Pilko2d extends XPBDObj {
           eĝoj[e++]=(i+j)%n;
         }
       }
+*/
 
       // restriktoj
       this.restr.push(new XRGrundo(this));
       this.restr.push(new XRDistanco(this,eĝoj));
+      this.restr.push(new XRAreo(this,trioj));
     }
 
     vertico(i) {
@@ -106,7 +115,7 @@ class Pilko2d extends XPBDObj {
 
 const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
-const n_vert = 12; // verticoj de pilko
+const n_vert = 5; // verticoj de pilko
 const pilko = new Pilko2d(30,n_vert,[40,HEIGHT-40]);
 pilko.imas.fill(1);
 const xpbd = new XPBD([pilko],[0,-10]);

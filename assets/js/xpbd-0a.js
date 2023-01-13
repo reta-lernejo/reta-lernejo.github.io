@@ -138,7 +138,7 @@ class XVj extends Float32Array {
 
 
     /**
-     * Redonu la difernecon de du vektoroj el la areo kiel novan vektoron [x,y,z?]
+     * Redonu la diferencon de du vektoroj el la areo kiel novan vektoron [x,y,z?]
      * Aldone eblas obligi la rezulton
      * @param {number} i1 indekso de la unua vektoro
      * @param {number} i2 indekso de la dua vektoro
@@ -198,6 +198,48 @@ class XVj extends Float32Array {
         return v1.reduce((sumo,k,j) => sumo + Math.pow(k-v2[j],2), 0);
     }
 
+    /**
+     * Redonas la skalaran produkton de du vektoroj en la areo
+     * @param {number} i1 indekso de la unua vektoro
+     * @param {number} i2 indekso de la dua vektoro
+     */
+    prod(i1, i2) {
+        i1 *= this.dim;
+        i2 *= this.dim;
+        let r = 0;
+        for (let j = i1; j<i1+this.dim; j++) {
+            r += this[j]*this[i2+j];
+        }
+        return r;
+    }	
+
+    /**
+     * Redonas la vektorprodukton (krucprodukton) de du vektoroj, ĉe dim=2 t.e. nombro
+     * ĉe dim=3 vektoro [x,y,z]
+     * @param {number} i1 indekso de la unua vektoro
+     * @param {number} i2 indekso de la dua vektoro
+     */
+    kruc(i1, i2) {
+        i1 *= this.dim; 
+        i2 *= this.dim;
+        if (this.dim == 2) {
+            return this[i1] * this[i2+1] - this[i1+1] * this[i2]
+        } else if (this.dim == 3) {
+            return [
+                this[i1+1] * this[i2+2] - this[i1+2] * this[i2+1],
+                this[i1+2] * this[i2]   - this[i1]   * this[i2+2],
+                this[i1]   * this[i2+1] - this[i1+1] * this[i2]       
+            ];
+        }
+    }
+
+    /**
+     * Redonas ortogonalan 2D-vektoron sur vektoro i1->i2
+     */
+    ort2(i1,i2) {
+        const v = this.dif2(i2,i1);
+        return [-v[1],v[0]];
+    }
 }
 
 /**
@@ -233,20 +275,20 @@ class XRDistanco {
     constructor(obj,eĝoj) {
         this.obj = obj;
         this.eĝoj = eĝoj;
-        this.lng = new XVj(eĝoj.length/2,1);
+        this.l0 = new XVj(eĝoj.length/2,1);
         this.grd = new XVj(1,this.obj.poz.dim);
 
         // kalkulu kaj konservu la eĝlongojn
         for (let i=0; i<eĝoj.length; i+=2) {
             const i1 = eĝoj[i];
             const i2 = eĝoj[i+1];
-    		this.lng[i/2] = Math.sqrt(this.obj.poz.dist2(i1,i2));
+    		this.l0[i/2] = Math.sqrt(this.obj.poz.dist2(i1,i2));
         }
     }
 
     apliku() {
         for (let i=0; i < this.eĝoj.length; i+=2) {
-            const l0 = this.lng[i/2];
+            const l0 = this.l0[i/2];
             const j1 = this.eĝoj[i];
             const j2 = this.eĝoj[i+1];
 
@@ -264,7 +306,7 @@ class XRDistanco {
             const lambda = (l-l0) / (w1+w2+alpha); // ni devus certigi, ke w1+w2 > 0
 
             // kalkulu la korektojn
-            console.debug(`<${j1}-${j2}> l: ${l}, l0: ${l0}, lambda: ${lambda}, grd: [${this.grd.join(',')}]`)
+            //console.debug(`<${j1}-${j2}> l: ${l}, l0: ${l0}, lambda: ${lambda}, grd: [${this.grd.join(',')}]`)
             this.obj.poz.plus(this.grd,lambda*w1,j1);
             this.obj.poz.plus(this.grd,-lambda*w2,j2);
         }
@@ -272,6 +314,83 @@ class XRDistanco {
 
 }
 
+class XRAreo {
+
+    constructor(obj,trioj) {
+        this.obj = obj;
+        this.trioj = trioj;
+        this.A0 = new XVj(trioj.length/3,1);
+
+        const poz = this.obj.poz;
+        const tmp = new XVj(2,poz.dim);
+        //this.grd = new XVj(3,poz.dim);
+
+        // kalkulu kaj konservu la areojn de la triangluoj
+
+        for (let i=0; i<trioj.length; i+=3) {
+            const i1 = trioj[i];
+            const i2 = trioj[i+1];
+            const i3 = trioj[i+2];
+            // la duono de la vektorprodukto de du flankoj de la triangulo
+            // donas la areon, ni ŝparas duonigi kaj uzas la duoblon de surfacareo
+            tmp.metu(poz.dif2(i2,i1),0);
+            tmp.metu(poz.dif2(i3,i1),1);
+    		this.A0[i/3] = tmp.kruc(0,1);
+        }
+    }
+
+    apliku() {
+        const poz = this.obj.poz;
+        const tmp = new XVj(2,poz.dim);
+
+        function abs2(v) {
+            return Math.pow(v[0],2) + Math.pow(v[1],2);
+        }
+
+        for (let i=0; i<this.trioj.length; i+=3) {
+            const A0 = this.A0[i/3];
+            const i1 = this.trioj[i];
+            const i2 = this.trioj[i+1];
+            const i3 = this.trioj[i+2];
+
+            // kalkulu nunan areon (duoblon) de la trianguloj 
+            tmp.metu(poz.dif2(i2,i1),0);
+            tmp.metu(poz.dif2(i3,i1),1);
+    		const A = tmp.kruc(0,1);
+
+            // la gradientovektroj estas la normvektoroj super la eĝoj de la triangulo
+            const n1 = poz.ort2(i1,i2);
+            const n2 = poz.ort2(i2,i3);
+            const n3 = poz.ort2(i3,i1);
+            
+            // kalkulu lambda
+            const w1 = this.obj.imas[i1];
+            const w2 = this.obj.imas[i2];
+            const w3 = this.obj.imas[i3];
+            const alpha = 0; // rigideco, poste faru adapteble!
+            const lambda = -(A-A0) / 
+                (w1*abs2(n1) + w2*abs2(n2) + w3*abs2(n3) + alpha); // ni devus certigi, ke w1+w2+3 > 0
+
+
+            // kalkulu la korektojn
+            //console.debug(`<${j1}-${j2}> l: ${l}, l0: ${l0}, lambda: ${lambda}, grd: [${this.grd.join(',')}]`)
+            poz.plus(n1,-lambda*w1,i1);
+            poz.plus(n2,-lambda*w2,i2);
+            poz.plus(n3,-lambda*w3,i3);
+
+            if (i==0 && Math.abs(A-A0)>10) {
+                // rekontrolu areon
+                tmp.metu(poz.dif2(i2,i1),0);
+                tmp.metu(poz.dif2(i3,i1),1);
+                const A1 = tmp.kruc(0,1);
+
+                if (Math.abs(A1-A0)>10) debugger;
+            }
+        }
+    }
+}
+
+/*
 class XRVolumeno {
 
 }
@@ -279,7 +398,7 @@ class XRVolumeno {
 class XRImpulso {
 
 }
-
+*/
 
 class XPBDObj {
     /**
