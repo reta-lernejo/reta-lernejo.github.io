@@ -49,7 +49,7 @@ simulado de pilko
 
 const HEIGHT=500;
 const WIDTH=500;
-const n_vert = 15; // verticoj de pilko
+const n_vert = 31; // verticoj de pilko
 
 // elekto de pilkospeco
 elekte((elekto,valoro) => {
@@ -76,6 +76,8 @@ class Pilko2d extends XPBDObj {
       // ĉiu vertico havas du koordinatojn x kaj y
       let phi = 0;
       const d = 2*Math.PI/n;
+      const tt = n>6?Math.trunc(n/5):1;
+
       for (let i=0; i<n; i++) {
           this.poz[2*i] = c[0] + r * Math.cos(phi);
           this.poz[2*i+1] = c[1] + r * Math.sin(phi);
@@ -87,14 +89,15 @@ class Pilko2d extends XPBDObj {
 
           // aldonu trion super tri najbaraj verticoj
           trioj[3*i] = i;
-          trioj[3*i+1] = (i+1)%n;
-          trioj[3*i+2] = (i+2)%n;
+          trioj[3*i+1] = (i+tt)%n;
+          trioj[3*i+2] = (i+tt+tt)%n;
       }
 
-      // por pli da stabileco ankaŭ eĝon al postsekva
+      // por pli da stabileco aldonu pliajn eĝojn
+      const te = n>10?Math.trunc(n/5):2;
       for (let i=0; i<n; i++) {
         eĝoj[2*n+2*i] = i; //i<n-1? i+1:0;
-        eĝoj[2*n+2*i+1] = (i+2)%n; //i<n-1? i+1:0;
+        eĝoj[2*n+2*i+1] = (i+te)%n; //i<n-1? i+1:0;
       }
 
 /*
@@ -110,8 +113,8 @@ class Pilko2d extends XPBDObj {
 
       // restriktoj
       this.restr.push(new XRGrundo(this));
-      this.restr.push(new XRDistanco(this,eĝoj));
-      this.restr.push(new XRAreo(this,trioj));
+      this.restr.push(new XRDistanco(this,eĝoj,0.005));
+      this.restr.push(new XRAreo(this,trioj,0.005));
     }
 
     vertico(i) {
@@ -152,12 +155,12 @@ function desegnu() {
 
 let ripetoj; 
 if (ripetoj) clearTimeout(ripetoj.p);
-const intervalo = 50; //200;
+const intervalo = 40; //200;
 
 desegnu();
 ripetoj = ripetu(
     () => {
-        xpbd.simulado(1,100);
+        xpbd.simulado(1,60);
         desegnu();
         return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
     },
