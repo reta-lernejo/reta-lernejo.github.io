@@ -76,7 +76,7 @@ class Pilko2d extends XPBDObj {
       // ĉiu vertico havas du koordinatojn x kaj y
       let phi = 0;
       const d = 2*Math.PI/n;
-      const tt = n>6?Math.trunc(n/5):1;
+      const tt = n>7?Math.trunc(n/7):1;
 
       for (let i=0; i<n; i++) {
           this.poz[2*i] = c[0] + r * Math.cos(phi);
