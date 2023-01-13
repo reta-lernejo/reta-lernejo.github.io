@@ -342,6 +342,7 @@ class XRAreo {
     apliku() {
         const poz = this.obj.poz;
         const tmp = new XVj(2,poz.dim);
+        let stop=false;
 
         function abs2(v) {
             return Math.pow(v[0],2) + Math.pow(v[1],2);
@@ -359,9 +360,9 @@ class XRAreo {
     		const A = tmp.kruc(0,1);
 
             // la gradientovektroj estas la normvektoroj super la eĝoj de la triangulo
-            const n1 = poz.ort2(i1,i2);
-            const n2 = poz.ort2(i2,i3);
-            const n3 = poz.ort2(i3,i1);
+            const n1 = poz.ort2(i2,i3);
+            const n2 = poz.ort2(i3,i1);
+            const n3 = poz.ort2(i1,i2);
             
             // kalkulu lambda
             const w1 = this.obj.imas[i1];
@@ -374,19 +375,24 @@ class XRAreo {
 
             // kalkulu la korektojn
             //console.debug(`<${j1}-${j2}> l: ${l}, l0: ${l0}, lambda: ${lambda}, grd: [${this.grd.join(',')}]`)
-            poz.plus(n1,-lambda*w1,i1);
-            poz.plus(n2,-lambda*w2,i2);
-            poz.plus(n3,-lambda*w3,i3);
+            poz.plus(n1,lambda*w1,i1);
+            poz.plus(n2,lambda*w2,i2);
+            poz.plus(n3,lambda*w3,i3);
 
-            if (i==0 && Math.abs(A-A0)>10) {
+            if (Math.abs(A-A0)>10) {
+                console.debug(`<${i1}-${i2}-${i3}> A-A0: ${A-A0} lbd: ${lambda} n..:${n1} ${n2} ${n3}`);
+                stop=true;
                 // rekontrolu areon
+                /*
                 tmp.metu(poz.dif2(i2,i1),0);
                 tmp.metu(poz.dif2(i3,i1),1);
                 const A1 = tmp.kruc(0,1);
 
                 if (Math.abs(A1-A0)>10) debugger;
-            }
+                */
+            }            
         }
+        if (stop) debugger;
     }
 }
 

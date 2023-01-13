@@ -49,7 +49,7 @@ simulado de pilko
 
 const HEIGHT=500;
 const WIDTH=500;
-
+const n_vert = 8; // verticoj de pilko
 
 // elekto de pilkospeco
 elekte((elekto,valoro) => {
@@ -115,7 +115,7 @@ class Pilko2d extends XPBDObj {
 
 const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
-const n_vert = 5; // verticoj de pilko
+
 const pilko = new Pilko2d(30,n_vert,[40,HEIGHT-40]);
 pilko.imas.fill(1);
 const xpbd = new XPBD([pilko],[0,-10]);
@@ -146,7 +146,7 @@ function desegnu() {
 
 let ripetoj; 
 if (ripetoj) clearTimeout(ripetoj.p);
-const intervalo = 50; //200;
+const intervalo = 150; //200;
 
 desegnu();
 ripetoj = ripetu(
