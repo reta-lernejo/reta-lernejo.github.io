@@ -49,7 +49,7 @@ simulado de pilko
 
 const HEIGHT=500;
 const WIDTH=500;
-const n_vert = 8; // verticoj de pilko
+const n_vert = 15; // verticoj de pilko
 
 // elekto de pilkospeco
 elekte((elekto,valoro) => {
@@ -69,7 +69,7 @@ class Pilko2d extends XPBDObj {
      */
     constructor(r,n,c=[0,0]) {
       super(n,2);
-      const eĝoj = new Uint8Array(2*n); // + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
+      const eĝoj = new Uint8Array(2*n + 2*n); // + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
       const trioj = new Uint8Array(3*n);
 
       // cirkonferenco...
@@ -89,6 +89,12 @@ class Pilko2d extends XPBDObj {
           trioj[3*i] = i;
           trioj[3*i+1] = (i+1)%n;
           trioj[3*i+2] = (i+2)%n;
+      }
+
+      // por pli da stabileco ankaŭ eĝon al postsekva
+      for (let i=0; i<n; i++) {
+        eĝoj[2*n+2*i] = i; //i<n-1? i+1:0;
+        eĝoj[2*n+2*i+1] = (i+2)%n; //i<n-1? i+1:0;
       }
 
 /*
@@ -146,12 +152,12 @@ function desegnu() {
 
 let ripetoj; 
 if (ripetoj) clearTimeout(ripetoj.p);
-const intervalo = 150; //200;
+const intervalo = 50; //200;
 
 desegnu();
 ripetoj = ripetu(
     () => {
-        xpbd.simulado(1,10);
+        xpbd.simulado(1,100);
         desegnu();
         return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
     },

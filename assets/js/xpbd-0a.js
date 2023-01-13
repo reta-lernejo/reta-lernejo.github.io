@@ -249,6 +249,7 @@ class XRGrundo {
 
     constructor(obj) {
         this.obj = obj;
+        //this.alpha = alpha
     }
 
     apliku() {
@@ -272,11 +273,12 @@ class XRGrundo {
 
 class XRDistanco {
 
-    constructor(obj,eĝoj) {
+    constructor(obj,eĝoj,alpha=0.01) {
         this.obj = obj;
         this.eĝoj = eĝoj;
         this.l0 = new XVj(eĝoj.length/2,1);
         this.grd = new XVj(1,this.obj.poz.dim);
+        this.alpha = alpha;
 
         // kalkulu kaj konservu la eĝlongojn
         for (let i=0; i<eĝoj.length; i+=2) {
@@ -286,7 +288,7 @@ class XRDistanco {
         }
     }
 
-    apliku() {
+    apliku(dt) {
         for (let i=0; i < this.eĝoj.length; i+=2) {
             const l0 = this.l0[i/2];
             const j1 = this.eĝoj[i];
@@ -302,8 +304,8 @@ class XRDistanco {
             // kalkulu lambda
             const w1 = this.obj.imas[j1];
             const w2 = this.obj.imas[j2];
-            const alpha = 0; // rigideco, poste faru adapteble!
-            const lambda = (l-l0) / (w1+w2+alpha); // ni devus certigi, ke w1+w2 > 0
+            const at = this.alpha/dt/dt; // rigideco, poste faru adapteble!
+            const lambda = (l-l0) / (w1+w2+at); // ni devus certigi, ke w1+w2 > 0
 
             // kalkulu la korektojn
             //console.debug(`<${j1}-${j2}> l: ${l}, l0: ${l0}, lambda: ${lambda}, grd: [${this.grd.join(',')}]`)
@@ -316,8 +318,9 @@ class XRDistanco {
 
 class XRAreo {
 
-    constructor(obj,trioj) {
+    constructor(obj,trioj,alpha=0.01) {
         this.obj = obj;
+        this.alpha = alpha;
         this.trioj = trioj;
         this.A0 = new XVj(trioj.length/3,1);
 
@@ -339,7 +342,7 @@ class XRAreo {
         }
     }
 
-    apliku() {
+    apliku(dt) {
         const poz = this.obj.poz;
         const tmp = new XVj(2,poz.dim);
         let stop=false;
@@ -368,9 +371,9 @@ class XRAreo {
             const w1 = this.obj.imas[i1];
             const w2 = this.obj.imas[i2];
             const w3 = this.obj.imas[i3];
-            const alpha = 0; // rigideco, poste faru adapteble!
+            const at = this.alpha/dt/dt; // rigideco, poste faru adapteble!
             const lambda = -(A-A0) / 
-                (w1*abs2(n1) + w2*abs2(n2) + w3*abs2(n3) + alpha); // ni devus certigi, ke w1+w2+3 > 0
+                (w1*abs2(n1) + w2*abs2(n2) + w3*abs2(n3) + at); // ni devus certigi, ke w1+w2+3 > 0
 
 
             // kalkulu la korektojn
@@ -476,7 +479,7 @@ class XPBDObj {
                 XV.plus(this.poz, i, korekto, 0, this.dim);
             }
             */
-            R.apliku()
+            R.apliku(sdt)
         });
     }
 
