@@ -180,7 +180,6 @@ class XVj extends Float32Array {
      * @returns number
      */
     abs2(i) {
-        i *= this.dim;
         const v = this.tranĉo(i,1);
         return v.reduce((sumo,k) => sumo + Math.pow(k,2), 0);
     }
@@ -212,6 +211,7 @@ class XVj extends Float32Array {
         }
         return r;
     }	
+
 
     /**
      * Redonas la vektorprodukton (krucprodukton) de du vektoroj, ĉe dim=2 t.e. nombro
@@ -395,7 +395,7 @@ class XRAreo {
                 */
             }            
         }
-        if (stop) debugger;
+        //if (stop) debugger;
     }
 }
 
@@ -416,6 +416,8 @@ class XPBDObj {
      */
     constructor(eroj,dim=3) {
         this.eroj = eroj;
+        this.origino = new XVj(1,dim); // [0,0,0?], uzata por Epot, 
+                                       // ŝanĝu se vi volas post kreo de objekto!
 
         // pozicioj de la eroj
         this.poz = new XVj(eroj,dim);
@@ -487,7 +489,7 @@ class XPBDObj {
      * Korektoj de rapido-vektoroj laŭ rezutlo movo+korekto
      * @param {number} sdt 
      */
-    rapidoj(sdt) {
+    rapidoj(sdt, akcelo) {
         /*
             // senfiniaj masoj ne moviĝu
             if (this.imas[i] == 0.0)
@@ -495,10 +497,62 @@ class XPBDObj {
                 */
 
         // adaptu la rapidecon al la reala poziciŝanĝo dum tiu ĉi paŝo
-        this.rpd.dif3(this.poz,this.poz0,1.0/sdt);      
+        this.rpd.dif3(this.poz,this.poz0,1.0/sdt);
 
-        // en sublklasoj aldonu kiel lastas paŝon aktualigon de la prezento
+        // kontrolu la energion, kiu devus konserviĝi dum ni ne interŝanĝas
+        // impulson kun aliaj movataj objektoj
+        const epot = this.EPot(akcelo,sdt)/1000;
+        const ekin = this.Ekin()/1000;
+        console.log(`E(pot|kin): ${epot+ekin} (${epot}|${ekin})`);
+        if (epot<ekin) debugger;
     };
+
+
+    /**
+     * Redonas la suman potencialan energion de la eroj 
+     * rilate al referencpunkto kaj konstanta akcelo (kutime la gravito)
+     * @param {*} akcelo vektoro de gravito aŭ alia akcelo per potencialo
+     * @param {*} refpt referencpunkto, per kies distanco la energio de la eroj kalkuliĝas
+     * @returns 
+     */
+    EPot(akcelo,sdt) {
+        function prod(v1,v2,obl) {
+            return obl * v1.reduce((s,k,i) => s += k*v2[i]);
+        }
+
+        let epot = 0;
+        let d = new XVj(1,this.poz.dim);
+
+        for (let i=0; i<this.eroj; i++) {
+            // por sencimigo:
+            if (i>0) break;
+
+            const m = this.imas[i];
+            d.dif3(this.poz.tranĉo(i,1),this.origino);
+            epot += prod(d,akcelo,-m/sdt/sdt);
+        }
+
+        return epot;
+    }
+
+    /**
+     * Redonas la kinetan energion el la sumo de kinetaj energioj de la eroj
+     * @returns 
+     */
+    Ekin() {
+        let ekin = 0;
+        for (let i=0; i<this.eroj; i++) {
+            // por sencimigo:
+            if (i>0) break;
+
+            const m = this.imas[i];
+            const v = this.rpd.abs2(i);
+            ekin += m/2 * v * v;
+            //if (isNaN(ekin)) debugger;
+        }
+
+        return ekin;
+    }
 }
 
 class XPBD {
@@ -524,7 +578,7 @@ class XPBD {
         for (let p = 0; p < paŝeroj; p++) {
             this.objektoj.forEach(o => o.movoj(sdt, this.akcelo))           
             this.objektoj.forEach(o => o.restriktoj(sdt));
-            this.objektoj.forEach(o => o.rapidoj(sdt));
+            this.objektoj.forEach(o => o.rapidoj(sdt,this.akcelo));
         }
     }
 

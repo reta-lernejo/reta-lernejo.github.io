@@ -118,7 +118,11 @@ class Pilko2d extends XPBDObj {
     }
 
     vertico(i) {
-        return {x: this.poz[2*i], y: this.poz[2*i+1]}
+      return {x: this.poz[2*i], y: this.poz[2*i+1]}
+    }
+
+    rapido(i) {
+      return {x: this.rpd[2*i], y: this.rpd[2*i+1]}
     }
 }
 
@@ -130,6 +134,7 @@ pilko.imas.fill(1);
 const xpbd = new XPBD([pilko],[0,-10]);
 
 function desegnu() {
+  // cirkonferenca eĝo 
   function eĝo(p1,p2) {
     ctx.beginPath();
     ctx.moveTo(p1.x,HEIGHT-p1.y);
@@ -139,18 +144,33 @@ function desegnu() {
     ctx.stroke();
   }
 
+  // ni montras negativajn rapidojn kiel spuron...
+  function rpd(p,v) {
+    ctx.beginPath();
+    ctx.moveTo(p.x,HEIGHT-p.y);
+    ctx.lineTo(p.x-v.x,HEIGHT-p.y+v.y);
+    ctx.strokeStyle = "#ddddee";
+    ctx.lineWidth = 6;
+    ctx.stroke();
+  }
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // rapidoj kiel spuro
+  for (let i=0; i<n_vert; i++) {
+    rpd(pilko.vertico(i),pilko.rapido(i));
+  }
+
+  // eĝoj kiel cirkonferenco
   let i = 0, v1 = pilko.vertico(i);
   while (i < n_vert-1) {
     const v2 = pilko.vertico(i+1);
     eĝo(v1,v2);
-    v1 = v2; i++
+    v1 = v2; i++;
   }
   // lasta eĝo al 0-a vertico
   v2 = pilko.vertico(0);
   eĝo(v1,v2);
-
 }
 
 let ripetoj; 
