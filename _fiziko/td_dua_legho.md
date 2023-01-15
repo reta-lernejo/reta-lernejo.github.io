@@ -63,75 +63,67 @@ elekte((elekto,valoro) => {
 
 class Pilko2d extends XPBDObj {
 
-    /**
-     * Kreas 2-dimensian pilkon kun radiuso r kiel "torton" el n pecoj
-     * @param {*} r radiuso
-     * @param {*} n nombro da pecoj
-     */
-    constructor(r,n,c=[0,0]) {
-      super(n,gravito,2);
-      const eĝoj = new Uint8Array(2*n + 2*n); // + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
-      const trioj = new Uint8Array(3*n);
+  /**
+   * Kreas 2-dimensian pilkon kun radiuso r kiel "torton" el n pecoj
+   * @param {*} r radiuso
+   * @param {*} n nombro da pecoj
+   */
+  constructor(r,n,c=[0,0]) {
+    super(n,gravito,2);
+    this.imas.fill(1);
+    const eĝoj = new Uint8Array(2*n + 2*n); // + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
+    const trioj = new Uint8Array(3*n);
 
-      // cirkonferenco...
-      // ĉiu vertico havas du koordinatojn x kaj y
-      let phi = 0;
-      const d = 2*Math.PI/n;
-      const tt = n>7?Math.trunc(n/7):1;
+    // cirkonferenco...
+    // ĉiu vertico havas du koordinatojn x kaj y
+    let phi = 0;
+    const d = 2*Math.PI/n;
+    const tt = n>7?Math.trunc(n/7):1;
 
-      for (let i=0; i<n; i++) {
-          this.poz[2*i] = c[0] + r * Math.cos(phi);
-          this.poz[2*i+1] = c[1] + r * Math.sin(phi);
-          phi += d;
+    for (let i=0; i<n; i++) {
+        this.poz[2*i] = c[0] + r * Math.cos(phi);
+        this.poz[2*i+1] = c[1] + r * Math.sin(phi);
+        phi += d;
 
-          // aldonu eĝon
-          eĝoj[2*i] = i;
-          eĝoj[2*i+1] = (i+1)%n; //i<n-1? i+1:0;
+        // aldonu eĝon
+        eĝoj[2*i] = i;
+        eĝoj[2*i+1] = (i+1)%n; //i<n-1? i+1:0;
 
-          // aldonu trion super tri najbaraj verticoj
-          trioj[3*i] = i;
-          trioj[3*i+1] = (i+tt)%n;
-          trioj[3*i+2] = (i+tt+tt)%n;
-      }
-
-      // por pli da stabileco de 2D-cirklo, aldonu kelkajn "spokojn"
-      const te = n>10?Math.trunc(n/5):2;
-      for (let i=0; i<n; i++) {
-        eĝoj[2*n+2*i] = i; //i<n-1? i+1:0;
-        eĝoj[2*n+2*i+1] = (i+te)%n; //i<n-1? i+1:0;
-      }
-
-/*
-      // kelkaj radioj de centro al cirkonferenco      
-      let e = 2*n, paŝo = Math.trunc(n/5);
-      for (let i=0; i<n; i+=paŝo) {
-        for (let j=2; j<n-2; j+=paŝo) {
-          eĝoj[e++]=i;
-          eĝoj[e++]=(i+j)%n;
-        }
-      }
-*/
-
-      // restriktoj
-      this.restr.push(new XRGrundo(this));
-      this.restr.push(new XRDistanco(this,eĝoj,0.0005));
-      this.restr.push(new XRAreo(this,trioj,0.0005));
+        // aldonu trion super tri najbaraj verticoj
+        trioj[3*i] = i;
+        trioj[3*i+1] = (i+tt)%n;
+        trioj[3*i+2] = (i+tt+tt)%n;
     }
 
-    vertico(i) {
-      return {x: this.poz[2*i], y: this.poz[2*i+1]}
+    // por pli da stabileco de 2D-cirklo, aldonu kelkajn "spokojn"
+    const te = n>10?Math.trunc(n/5):2;
+    for (let i=0; i<n; i++) {
+      eĝoj[2*n+2*i] = i; //i<n-1? i+1:0;
+      eĝoj[2*n+2*i+1] = (i+te)%n; //i<n-1? i+1:0;
     }
 
-    rapido(i) {
-      return {x: this.rpd[2*i], y: this.rpd[2*i+1]}
-    }
+    // restriktoj
+    this.restr.push(new XRGrundo(this));
+    this.restr.push(new XRDistanco(this,eĝoj,0.0005));
+    this.restr.push(new XRAreo(this,trioj,0.00005));
+
+    // perdu neniun energion
+    this.restrE.push(new XREnergio(this,0.005));
+  }
+
+  vertico(i) {
+    return {x: this.poz[2*i], y: this.poz[2*i+1]}
+  }
+
+  rapido(i) {
+    return {x: this.rpd[2*i], y: this.rpd[2*i+1]}
+  }
 }
 
 const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
 
-const pilko = new Pilko2d(30,n_vert,[40,HEIGHT-40]);
-pilko.imas.fill(1);
+const pilko = new Pilko2d(30,n_vert,[240,HEIGHT-40]);
 const xpbd = new XPBD([pilko],gravito);
 
 function desegnu() {
@@ -158,11 +150,11 @@ function desegnu() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // rapidoj kiel spuro  
-  /*
+  
   for (let i=0; i<n_vert; i++) {
     rpd(pilko.vertico(i),pilko.rapido(i));
   }
-  */
+  
   
   // eĝoj kiel cirkonferenco
   let i = 0, v1 = pilko.vertico(i);

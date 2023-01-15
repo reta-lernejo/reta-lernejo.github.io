@@ -93,6 +93,26 @@ class XVj extends Float32Array {
 
 
     /**
+     * Dividu vektorojn per nombro el alia areo ĉe sama indekso
+     * @param {Float32Array} xvj areo de faktoroj
+     * @param {number} i indekso de la komenca vektoro, -1 = ĉiuj
+     * @param {number} m nombro da vektoroj obligendaj, apriore 1, se ne ĉiuj
+     */
+    div2(xvj,i,m) {
+        if (typeof i === 'undefined') {
+            i == 0;
+            m == this.length/this.dim;
+        }
+        for (let i_ = i; i_ < i+m; i_++) {
+            const f = xvj[i_];
+            for (j = 0; j<this.dim; j++) {
+                this[i_+j] /= f;
+            }
+        }
+    }    
+
+
+    /**
      * Metas vektorojn v ĉe pozicio i
      */
     metu(v,i) {
@@ -471,6 +491,42 @@ class XRImpulso {
 }
 */
 
+/**
+ * Restrikto pri maksuma energiperdo je alpha
+ */
+class XREnergio {
+
+    constructor(obj,alpha=0.01) {
+        this.obj = obj;
+        this.alpha = alpha;
+
+        // ni kalkulu la originan energion
+        this.E0 = this.obj.Epot(this.obj.akcelo) + this.obj.Ekin();
+    }
+
+    apliku(dt) {
+        // ni kalkulu la nunan energion
+        const epot = this.obj.Epot(this.obj.akcelo);
+        const ekin = this.obj.Ekin();
+        const E =  epot + ekin;
+        console.log(`E(pot|kin): ${epot/1000+ekin/1000} (${epot/1000}|${ekin/1000})`);
+        const at = this.alpha/dt;
+        // se ni perdis tro da energio ni obligu ĉiujn rapidecojn de la objekto
+        // por altigi la kinetan energion, tiel konservante (1-at)-oblon da energio
+        if (E/this.E0 < (1-at) || E > this.E0) {
+            const E1 = this.E0*(1-at); // - epot;
+            const lambda = Math.sqrt((E1-E)/E+1);
+            this.obj.rpd.oblo(lambda);
+
+            // kontrolu la ŝanĝitan energion
+            const ekin1 = this.obj.Ekin()
+            console.log(`>>>E(pot|kin): ${epot/1000+ekin1/1000} (${epot/1000}|${ekin1/1000})`);
+            // kontrolu/sencimigu
+            if (epot + ekin1 > this.E0*1.01) debugger;
+        }
+    }
+}
+
 class XPBDObj {
     /**
      * @param {number} eroj nombro da eroj (punktoj, verticoj...)
@@ -491,9 +547,10 @@ class XPBDObj {
         this.imas = new XVj(eroj,dim);
         // restriktoj
         this.restr = [];
+        this.restrE = [];
 
         // komenca energio
-        this.E0 = this.Epot(akcelo) + this.Ekin();
+        this.akcelo = akcelo;
     }
 
     /**
@@ -564,13 +621,38 @@ class XPBDObj {
         // adaptu la rapidecon al la reala poziciŝanĝo dum tiu ĉi paŝo
         this.rpd.dif3(this.poz,this.poz0,1.0/sdt);
 
+        /*
         // kontrolu la energion, kiu devus konserviĝi dum ni ne interŝanĝas
         // impulson kun aliaj movataj objektoj
         const epot = this.Epot(akcelo)/1000;
         const ekin = this.Ekin()/1000;
         console.log(`E(pot|kin): ${epot+ekin} (${epot}|${ekin})`);
         //if (epot<ekin) debugger;
+        */
     };
+
+
+    /**
+     * Korektu poziciojn laŭ restriktoj. Tion devas realigi la
+     * subklasoj, ĉar diversaj modeloj havas diversajn restriktojn.
+     * @param {number} sdt 
+     */
+    Erestriktoj(sdt) {
+        this.restrE.forEach(R => {
+            // restriktoj povas rilati al eĝoj, pecoj ktp.
+            // anstataŭ al unuopaj eroj, kiel realigi tion?
+            // do necesas, scii la rilaton inter restrikto kaj ties elementoj (verticoj, eĝoj,...)
+            // kaj trakuri ci-lastajn anst. erojn...
+            /*
+            for (let i = 0; i < this.eroj; i++) {
+                // ∆𝐱𝑖 = λ𝑤𝑖 ∇𝐶𝑖
+                const korekto = R.lambda(i,...) * this.imas[i] * R.gradiento(i);
+                XV.plus(this.poz, i, korekto, 0, this.dim);
+            }
+            */
+            R.apliku(sdt)
+        });
+    }
 
 
     /**
@@ -592,7 +674,7 @@ class XPBDObj {
         this.poz.kopiu_al(d);
         d.dif1(this.origino,-1.0);
         // multobligu per la masoj
-        d.obl2(this.imas);
+        d.div2(this.imas);
         // sumo de skalarproduktoj
         return d.prod2(akcelo); // ,0,1); por sencimigo!
     }
@@ -607,7 +689,7 @@ class XPBDObj {
             // por sencimigo:
             //if (i>0) break;
 
-            const m = this.imas[i];
+            const m = 1/this.imas[i];
             const v2 = this.rpd.abs2(i);
             ekin += m/2 * v2;
             //if (isNaN(ekin)) debugger;
@@ -638,9 +720,10 @@ class XPBD {
         const sdt = dt/paŝeroj; // subdividitaj temperoj
 
         for (let p = 0; p < paŝeroj; p++) {
-            this.objektoj.forEach(o => o.movoj(sdt, this.akcelo))           
-            this.objektoj.forEach(o => o.restriktoj(sdt));
+            this.objektoj.forEach(o => o.movoj(sdt, this.akcelo));
+            this.objektoj.forEach(o => o.restriktoj(sdt)); // apliku restriktojn pri loko
             this.objektoj.forEach(o => o.rapidoj(sdt,this.akcelo));
+            this.objektoj.forEach(o => o.Erestriktoj(sdt)); // apliku restriktojn pri energio
         }
     }
 
