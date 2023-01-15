@@ -73,6 +73,26 @@ class XVj extends Float32Array {
     }
 
     /**
+     * Obligu vektorojn per nombro el alia areo ĉe sama indekso
+     * @param {Float32Array} xvj areo de faktoroj
+     * @param {number} i indekso de la komenca vektoro, -1 = ĉiuj
+     * @param {number} m nombro da vektoroj obligendaj, apriore 1, se ne ĉiuj
+     */
+    obl2(xvj,i,m) {
+        if (typeof i === 'undefined') {
+            i == 0;
+            m == this.length/this.dim;
+        }
+        for (let i_ = i; i_ < i+m; i_++) {
+            const f = xvj[i_];
+            for (j = 0; j<this.dim; j++) {
+                this[i_+j] *= f;
+            }
+        }
+    }
+
+
+    /**
      * Metas vektorojn v ĉe pozicio i
      */
     metu(v,i) {
@@ -130,11 +150,32 @@ class XVj extends Float32Array {
                 this[j_] += vj[j_] * obl;
             })
         } else {
-            for (let j_ = j*this.dim; j < j_*this.dim+m*this.dim; j_++) {
+            for (let j_ = j*this.dim; j_ < j*this.dim+m*this.dim; j_++) {
                 this[i] += vj[j_] * obl;
             }
         }
-    }    
+    }   
+    
+
+    /**
+     * Redonu la diferencon de vektoroj el la areo kun alia vektoron [x,y,z?]
+     * Aldone eblas obligi la rezulton
+     * @param {number} i indekso de la unua vektoro
+     * @param {number} m tiom da vektoroj komence de i
+     * @param {number} obl oblo je kiu multipliki la rezulton
+     */
+    dif1(v, obl=1.0, i, m=1) {
+        if (typeof i === 'undefined') {
+            this.forEach((k,i_) => {
+                this[i_] = (k - v[i_%this.dim]) * obl;
+            })
+        } else {
+            for (let j_ = i*this.dim; j_ < (i+m); j_++) {
+                this[j_] = (this[j_] - v[j_%this.dim]) * obl;
+            }
+        }
+    }
+    
 
 
     /**
@@ -210,7 +251,28 @@ class XVj extends Float32Array {
             r += this[j]*this[i2+j];
         }
         return r;
-    }	
+    }
+
+
+    /**
+     * Sumo de skalaraj produktoj de vektorojn el areo kun alia vektoro
+     * @param {array} v vektoro (dua argumento)
+     * @param {number} i indekso de la unua kaj celvektoro, se ne donita, multipliku al ĉiuj
+     * @param {number} m nombro da vektoroj al kiuj multipliki v
+     */
+    prod2(v, i, m=1) {
+        let sumo = 0;
+        if (typeof i === 'undefined') {
+            this.forEach((k,j_) => {
+                sumo += this[j_]*v[j_%v.length];
+            })
+        } else {
+            for (let j_ = i*this.dim; j_ < (i+m)*this.dim; j_++) {
+                sumo += this[j_]*v[j_%v.length];
+            }
+        }
+        return sumo;
+    }        
 
 
     /**
@@ -414,7 +476,7 @@ class XPBDObj {
      * @param {number} eroj nombro da eroj (punktoj, verticoj...)
      * @param {number} dim dimensio (2 aŭ 3) de la vektorspaco
      */
-    constructor(eroj,dim=3) {
+    constructor(eroj,akcelo,dim=3) {
         this.eroj = eroj;
         this.origino = new XVj(1,dim); // [0,0,0?], uzata por Epot, 
                                        // ŝanĝu se vi volas post kreo de objekto!
@@ -429,6 +491,9 @@ class XPBDObj {
         this.imas = new XVj(eroj,dim);
         // restriktoj
         this.restr = [];
+
+        // komenca energio
+        this.E0 = this.Epot(akcelo) + this.Ekin();
     }
 
     /**
@@ -501,10 +566,10 @@ class XPBDObj {
 
         // kontrolu la energion, kiu devus konserviĝi dum ni ne interŝanĝas
         // impulson kun aliaj movataj objektoj
-        const epot = this.EPot(akcelo,sdt)/1000;
+        const epot = this.Epot(akcelo)/1000;
         const ekin = this.Ekin()/1000;
         console.log(`E(pot|kin): ${epot+ekin} (${epot}|${ekin})`);
-        if (epot<ekin) debugger;
+        //if (epot<ekin) debugger;
     };
 
 
@@ -515,24 +580,21 @@ class XPBDObj {
      * @param {*} refpt referencpunkto, per kies distanco la energio de la eroj kalkuliĝas
      * @returns 
      */
-    EPot(akcelo,sdt) {
+    Epot(akcelo) {
         function prod(v1,v2,obl) {
             return obl * v1.reduce((s,k,i) => s += k*v2[i]);
         }
 
         let epot = 0;
-        let d = new XVj(1,this.poz.dim);
+        let d = new XVj(this.eroj,this.poz.dim);
 
-        for (let i=0; i<this.eroj; i++) {
-            // por sencimigo:
-            if (i>0) break;
-
-            const m = this.imas[i];
-            d.dif3(this.poz.tranĉo(i,1),this.origino);
-            epot += prod(d,akcelo,-m/sdt/sdt);
-        }
-
-        return epot;
+        // distancoj de eroj al origino
+        this.poz.kopiu_al(d);
+        d.dif1(this.origino,-1.0);
+        // multobligu per la masoj
+        d.obl2(this.imas);
+        // sumo de skalarproduktoj
+        return d.prod2(akcelo); // ,0,1); por sencimigo!
     }
 
     /**
@@ -543,11 +605,11 @@ class XPBDObj {
         let ekin = 0;
         for (let i=0; i<this.eroj; i++) {
             // por sencimigo:
-            if (i>0) break;
+            //if (i>0) break;
 
             const m = this.imas[i];
-            const v = this.rpd.abs2(i);
-            ekin += m/2 * v * v;
+            const v2 = this.rpd.abs2(i);
+            ekin += m/2 * v2;
             //if (isNaN(ekin)) debugger;
         }
 

@@ -50,6 +50,7 @@ simulado de pilko
 const HEIGHT=500;
 const WIDTH=500;
 const n_vert = 31; // verticoj de pilko
+const gravito = [0,-100];
 
 // elekto de pilkospeco
 elekte((elekto,valoro) => {
@@ -68,7 +69,7 @@ class Pilko2d extends XPBDObj {
      * @param {*} n nombro da pecoj
      */
     constructor(r,n,c=[0,0]) {
-      super(n,2);
+      super(n,gravito,2);
       const eĝoj = new Uint8Array(2*n + 2*n); // + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
       const trioj = new Uint8Array(3*n);
 
@@ -93,7 +94,7 @@ class Pilko2d extends XPBDObj {
           trioj[3*i+2] = (i+tt+tt)%n;
       }
 
-      // por pli da stabileco aldonu pliajn eĝojn
+      // por pli da stabileco de 2D-cirklo, aldonu kelkajn "spokojn"
       const te = n>10?Math.trunc(n/5):2;
       for (let i=0; i<n; i++) {
         eĝoj[2*n+2*i] = i; //i<n-1? i+1:0;
@@ -113,8 +114,8 @@ class Pilko2d extends XPBDObj {
 
       // restriktoj
       this.restr.push(new XRGrundo(this));
-      this.restr.push(new XRDistanco(this,eĝoj,0.005));
-      this.restr.push(new XRAreo(this,trioj,0.005));
+      this.restr.push(new XRDistanco(this,eĝoj,0.0005));
+      this.restr.push(new XRAreo(this,trioj,0.0005));
     }
 
     vertico(i) {
@@ -131,7 +132,7 @@ const ctx = canvas.getContext("2d");
 
 const pilko = new Pilko2d(30,n_vert,[40,HEIGHT-40]);
 pilko.imas.fill(1);
-const xpbd = new XPBD([pilko],[0,-10]);
+const xpbd = new XPBD([pilko],gravito);
 
 function desegnu() {
   // cirkonferenca eĝo 
@@ -149,18 +150,20 @@ function desegnu() {
     ctx.beginPath();
     ctx.moveTo(p.x,HEIGHT-p.y);
     ctx.lineTo(p.x-v.x,HEIGHT-p.y+v.y);
-    ctx.strokeStyle = "#ddddee";
-    ctx.lineWidth = 6;
+    ctx.strokeStyle = "#eeeeff";
+    ctx.lineWidth = 3;
     ctx.stroke();
   }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // rapidoj kiel spuro
+  // rapidoj kiel spuro  
+  /*
   for (let i=0; i<n_vert; i++) {
     rpd(pilko.vertico(i),pilko.rapido(i));
   }
-
+  */
+  
   // eĝoj kiel cirkonferenco
   let i = 0, v1 = pilko.vertico(i);
   while (i < n_vert-1) {
@@ -175,12 +178,13 @@ function desegnu() {
 
 let ripetoj; 
 if (ripetoj) clearTimeout(ripetoj.p);
-const intervalo = 40; //200;
+const intervalo = 1/60; //200;
+const paŝeroj = 10;
 
 desegnu();
 ripetoj = ripetu(
     () => {
-        xpbd.simulado(1,60);
+        xpbd.simulado(1/60,paŝeroj);
         desegnu();
         return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
     },
