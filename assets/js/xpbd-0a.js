@@ -353,6 +353,46 @@ class XRGrundo {
 }
 
 
+/**
+ * Traktas koliziojn kun la flankoj ([min<=x<=max)
+ * Ni momente ne subtenas z-koordinatojn per ĝi
+ * Pli bone subtenu ĉiu ajn ebenon kiel limigo donita per x,y,z?,a
+ */
+ class XRFlanko {
+
+    constructor(obj,minx=0,maxx=100) {
+        this.obj = obj;
+        this.minx = minx;
+        this.maxx = maxx;
+        //this.alpha = alpha
+    }
+
+    apliku() {
+        for (let i=0; i<this.obj.eroj; i++) {
+            const v = this.obj.poz.tranĉo(i);
+            const x = v[0];
+            let bx;
+            if (x<this.minx) {
+                bx = this.minx;
+            } else if (x>this.maxx) {
+                bx = this.maxx;
+            } else {
+                continue
+            }
+
+            // plenelasta puŝo: spegulu la poziciojn ĉe la muro
+            // poste ni eble subtenu ankaŭ gradojn de elasteco (vd. alpha ĉe aliaj restriktoj)
+            v[0] = bx + bx-v[0];
+            const v0 = this.obj.poz0.tranĉo(i);
+            v0[0] = bx + bx-v0[0];
+
+            this.obj.poz.metu(v,i);
+            this.obj.poz0.metu(v0,i);
+        }
+    }
+}
+
+
 class XRDistanco {
 
     constructor(obj,eĝoj,alpha=0.01) {

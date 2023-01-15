@@ -104,6 +104,7 @@ class Pilko2d extends XPBDObj {
 
     // restriktoj
     this.restr.push(new XRGrundo(this));
+    this.restr.push(new XRFlanko(this,0,WIDTH));
     this.restr.push(new XRDistanco(this,eĝoj,0.0005));
     this.restr.push(new XRAreo(this,trioj,0.00005));
 
