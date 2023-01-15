@@ -510,7 +510,7 @@ class XREnergio {
         const ekin = this.obj.Ekin();
         const E =  epot + ekin;
         console.log(`E(pot|kin): ${epot/1000+ekin/1000} (${epot/1000}|${ekin/1000})`);
-        const at = this.alpha/dt;
+        const at = this.alpha*dt;
         // se ni perdis tro da energio ni obligu ĉiujn rapidecojn de la objekto
         // por altigi la kinetan energion, tiel konservante (1-at)-oblon da energio
         if (E/this.E0 < (1-at) || E > this.E0) {
