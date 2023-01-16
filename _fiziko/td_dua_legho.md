@@ -49,8 +49,10 @@ simulado de pilko
 
 const HEIGHT=500;
 const WIDTH=500;
-const n_vert = 31; // verticoj de pilko
-const gravito = [0,-100];
+const n_vert = 36; // 17; //31; // verticoj de pilko
+const gravito = [0,-100]; // -1000 -> 500px ~ 5m, -100 -> 500px ~ 50m
+const premo = 1-0.00005; // 0...1
+const moleco =  0.0001;
 
 // elekto de pilkospeco
 elekte((elekto,valoro) => {
@@ -70,6 +72,7 @@ class Pilko2d extends XPBDObj {
    */
   constructor(r,n,c=[0,0]) {
     super(n,gravito,2);
+    this.rad = r;
     this.imas.fill(1);
     const eĝoj = new Uint8Array(2*n + 2*n); // + n*(n-3)); // cirkonferencaj eĝoj + diagonaloj
     const trioj = new Uint8Array(3*n);
@@ -105,8 +108,8 @@ class Pilko2d extends XPBDObj {
     // restriktoj
     this.restr.push(new XRGrundo(this));
     this.restr.push(new XRFlanko(this,0,WIDTH));
-    this.restr.push(new XRDistanco(this,eĝoj,0.0005));
-    this.restr.push(new XRAreo(this,trioj,0.00005));
+    this.restr.push(new XRDistanco(this,eĝoj,moleco));
+    this.restr.push(new XRAreo(this,trioj,moleco));
 
     // perdu neniun energion
     this.restrE.push(new XREnergio(this,0.005));
@@ -119,6 +122,118 @@ class Pilko2d extends XPBDObj {
   rapido(i) {
     return {x: this.rpd[2*i], y: this.rpd[2*i+1]}
   }
+
+
+  desegnu(ctx) {
+    // cirkonferenca eĝo 
+    function eĝo(p1,p2) {
+      ctx.beginPath();
+      ctx.moveTo(p1.x,HEIGHT-p1.y);
+      ctx.lineTo(p2.x,HEIGHT-p2.y);
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // ni montras negativajn rapidojn kiel spuron...
+    function rpd(p,v) {
+      ctx.beginPath();
+      ctx.moveTo(p.x,HEIGHT-p.y);
+      ctx.lineTo(p.x-v.x,HEIGHT-p.y+v.y);
+      ctx.strokeStyle = "#cce"; //"#eeeeff";
+      ctx.lineWidth = 1; //3;
+      ctx.stroke();
+    }
+
+    function koloro(self,n1,n2,n3,n4,klr) {
+      const p1 = self.vertico(n1);
+      const p3 = self.vertico(n3);
+      // mezpunkto
+      const m = {x: (p1.x+p3.x)/2, y: (p1.y+p3.y)/2};
+
+      ctx.beginPath();
+      ctx.moveTo(p1.x,HEIGHT-p1.y);
+      for (let n=n1; n<=n2; n++) {
+        const p = self.vertico(n);
+        ctx.lineTo(p.x,HEIGHT-p.y);
+      }
+      ctx.lineTo(m.x,HEIGHT-m.y);
+      ctx.closePath();
+      ctx.fillStyle = klr; //"#eeeeff";      
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(p3.x,HEIGHT-p3.y);
+      for (let n=n3; n<=n4; n++) {
+        const p = self.vertico(n);
+        ctx.lineTo(p.x,HEIGHT-p.y);
+      }      
+      ctx.lineTo(m.x,HEIGHT-m.y);
+      ctx.closePath();
+      ctx.fillStyle = klr; //"#eeeeff";      
+      ctx.fill();
+    }
+    
+/*
+    function strio(self,n1,n2) {
+      const p1 = self.vertico(n1);
+      const p2 = self.vertico(n2);
+      ctx.beginPath();
+      ctx.moveTo(p1.x,HEIGHT-p1.y);
+      ctx.lineTo(p2.x,HEIGHT-p2.y);
+      ctx.strokeStyle = "cornflowerblue"; //"#eeeeff";
+      ctx.lineWidth = 3; //3;
+      ctx.stroke();
+    }
+
+    function arko(self,n1,n2,m) {
+      const p1 = self.vertico(n1);
+      const p2 = self.vertico(n2);
+      // punkto meze kontrasŭflanka
+      const M = self.vertico(m);
+
+      ctx.beginPath();
+      ctx.moveTo(p1.x,HEIGHT-p1.y);
+      ctx.arcTo(M.x,HEIGHT-M.y,p2.x,HEIGHT-p2.y,3*self.rad/4);
+      ctx.lineTo(p2.x,HEIGHT-p2.y);
+      ctx.strokeStyle = "cornflowerblue"; //"#eeeeff";
+      ctx.lineWidth = 3; //3;
+      ctx.stroke();
+    }
+    */
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // rapidoj kiel spuro  
+    /*
+    for (let i=0; i<n_vert; i++) {
+      rpd(this.vertico(i),this.rapido(i));
+    }
+    */
+    
+    // ornamaj strioj
+    const n = this.eroj;
+    /*
+    strio(this,0,Math.trunc(n/2));
+    strio(this,Math.trunc(n/4),Math.trunc(3*n/4));
+    arko(this,Math.trunc(n/8),Math.trunc(7*n/8),Math.trunc(n/2));
+    arko(this,Math.trunc(5*n/8),Math.trunc(3*n/8),0);
+    */
+    koloro(this,0,Math.trunc(n/6),Math.trunc(3*n/6),Math.trunc(4*n/6),"cornflowerblue");
+    koloro(this,Math.trunc(n/6),Math.trunc(2*n/6),Math.trunc(4*n/6),Math.trunc(5*n/6),"chocolate");
+    
+    // eĝoj kiel cirkonferenco
+    let i = 0, v1 = this.vertico(i);
+    while (i < n_vert-1) {
+      const v2 = this.vertico(i+1);
+      eĝo(v1,v2);
+      v1 = v2; i++;
+    }
+    // lasta eĝo al 0-a vertico
+    const v2 = this.vertico(0);
+    eĝo(v1,v2);
+  }
+
 }
 
 const canvas = document.getElementById("kampo");
@@ -127,58 +242,16 @@ const ctx = canvas.getContext("2d");
 const pilko = new Pilko2d(30,n_vert,[240,HEIGHT-40]);
 const xpbd = new XPBD([pilko],gravito);
 
-function desegnu() {
-  // cirkonferenca eĝo 
-  function eĝo(p1,p2) {
-    ctx.beginPath();
-    ctx.moveTo(p1.x,HEIGHT-p1.y);
-    ctx.lineTo(p2.x,HEIGHT-p2.y);
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
-
-  // ni montras negativajn rapidojn kiel spuron...
-  function rpd(p,v) {
-    ctx.beginPath();
-    ctx.moveTo(p.x,HEIGHT-p.y);
-    ctx.lineTo(p.x-v.x,HEIGHT-p.y+v.y);
-    ctx.strokeStyle = "#eeeeff";
-    ctx.lineWidth = 3;
-    ctx.stroke();
-  }
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // rapidoj kiel spuro  
-  
-  for (let i=0; i<n_vert; i++) {
-    rpd(pilko.vertico(i),pilko.rapido(i));
-  }
-  
-  
-  // eĝoj kiel cirkonferenco
-  let i = 0, v1 = pilko.vertico(i);
-  while (i < n_vert-1) {
-    const v2 = pilko.vertico(i+1);
-    eĝo(v1,v2);
-    v1 = v2; i++;
-  }
-  // lasta eĝo al 0-a vertico
-  v2 = pilko.vertico(0);
-  eĝo(v1,v2);
-}
-
 let ripetoj; 
 if (ripetoj) clearTimeout(ripetoj.p);
 const intervalo = 1/60; //200;
 const paŝeroj = 10;
 
-desegnu();
+pilko.desegnu(ctx);
 ripetoj = ripetu(
     () => {
         xpbd.simulado(1/60,paŝeroj);
-        desegnu();
+        pilko.desegnu(ctx);
         return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
     },
     intervalo

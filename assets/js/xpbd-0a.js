@@ -17,6 +17,14 @@
  */
 
 /**
+ * Rotacio dum kolizioj...:
+ * http://gfs.khmeyberg.de/0607/0607Klasse11aPh/DezentralerStoss.pdf
+ * https://www.uni-bremen.de/fileadmin/user_upload/fachbereiche/fb1/fb1/Physika/Versuche/Mechanik/Anleitung/m12_drehimpuls_09_11_12.pdf
+ */
+
+const debugging = false;
+
+/**
  * Objekto, kiu tenas vektorojn en simpla listo [x0,y0,z0,x1,y2,z2...]
  * kaj provizas metodojn por aliri la vektorojn kaj kalkuli pri ili
  */
@@ -62,7 +70,7 @@ class XVj extends Float32Array {
      * @param {number} i indekso de la komenca vektoro, -1 = ĉiuj
      * @param {number} m nombro da vektoroj obligendaj, apriore 1, se ne ĉiuj
      */
-    oblo(obl,i,m) {
+    oblo(obl,i,m=1) {
         if (typeof i === 'undefined') {
             this.forEach((k,j) => {this[j] = k*obl})
         } else {
@@ -345,6 +353,11 @@ class XRGrundo {
                 const v0 = this.obj.poz0.tranĉo(i);
                 v0[1] = -v0[1];
 
+                // krome ni supozas frotadon ĉe la grundo,
+                // kiu donas puŝon al la kontraŭa x-direkto
+                v[0] = v0[0] + (v[0]-v0[0])/2;
+                if (this.obj.poz.dim==3) v[2] = v0[2] + (v[2]-v0[2])/2;
+
                 this.obj.poz.metu(v,i);
                 this.obj.poz0.metu(v0,i);
             }
@@ -385,6 +398,11 @@ class XRGrundo {
             v[0] = bx + bx-v[0];
             const v0 = this.obj.poz0.tranĉo(i);
             v0[0] = bx + bx-v0[0];
+
+            // krome ni supozas frotadon ĉe la flanko,
+            // kiu donas puŝon al la kontraŭa x-direkto
+            v[1] = v0[1] + (v[1]-v0[1])/2;
+            if (this.obj.poz.dim==3) v[2] = v0[2] + (v[2]-v0[2])/2;            
 
             this.obj.poz.metu(v,i);
             this.obj.poz0.metu(v0,i);
@@ -549,7 +567,7 @@ class XREnergio {
         const epot = this.obj.Epot(this.obj.akcelo);
         const ekin = this.obj.Ekin();
         const E =  epot + ekin;
-        console.log(`E(pot|kin): ${epot/1000+ekin/1000} (${epot/1000}|${ekin/1000})`);
+        if (debugging) console.log(`E(pot|kin): ${epot/1000+ekin/1000} (${epot/1000}|${ekin/1000})`);
         const at = this.alpha*dt;
         // se ni perdis tro da energio ni obligu ĉiujn rapidecojn de la objekto
         // por altigi la kinetan energion, tiel konservante (1-at)-oblon da energio
@@ -559,10 +577,12 @@ class XREnergio {
             this.obj.rpd.oblo(lambda);
 
             // kontrolu la ŝanĝitan energion
-            const ekin1 = this.obj.Ekin()
-            console.log(`>>>E(pot|kin): ${epot/1000+ekin1/1000} (${epot/1000}|${ekin1/1000})`);
-            // kontrolu/sencimigu
-            if (epot + ekin1 > this.E0*1.01) debugger;
+            if (debugging) {
+                const ekin1 = this.obj.Ekin();
+                console.log(`>>>E(pot|kin): ${epot/1000+ekin1/1000} (${epot/1000}|${ekin1/1000})`);
+                // kontrolu/sencimigu
+                if (epot + ekin1 > this.E0*1.01) debugger;    
+            }
         }
     }
 }
