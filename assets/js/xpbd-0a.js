@@ -2,6 +2,7 @@
  * algoritmo por fizika simulado de moviĝantaj eroj sub restriktoj
  * XPBD, laŭ https://matthias-research.github.io/pages/tenMinutePhysics/09-xpbd.pdf
  * kp ankaŭ https://github.com/matthias-research/pages/blob/master/tenMinutePhysics/10-softBodies.html
+ * vd ankaŭ https://www.highperformancegraphics.org/wp-content/uploads/2019/session5/position-based_simulation_of_elastic_models.pdf pri ebla plibonigo
  * 
  * Ĉiuj objektoj kiuj partoprenas la simuladon devas subteni tri metodojn:
  * 
@@ -523,7 +524,7 @@ class XRAreo {
             poz.plus(n3,lambda*w3,i3);
 
             if (Math.abs(A-A0)>10) {
-                console.debug(`<${i1}-${i2}-${i3}> A-A0: ${A-A0} lbd: ${lambda} n..:${n1} ${n2} ${n3}`);
+                if (debugging) console.debug(`<${i1}-${i2}-${i3}> A-A0: ${A-A0} lbd: ${lambda} n..:${n1} ${n2} ${n3}`);
                 stop=true;
                 // rekontrolu areon
                 /*
@@ -557,6 +558,7 @@ class XREnergio {
     constructor(obj,alpha=0.01) {
         this.obj = obj;
         this.alpha = alpha;
+        this.tolereco = 0.005;
 
         // ni kalkulu la originan energion
         this.E0 = this.obj.Epot(this.obj.akcelo) + this.obj.Ekin();
@@ -571,10 +573,13 @@ class XREnergio {
         const at = this.alpha*dt;
         // se ni perdis tro da energio ni obligu ĉiujn rapidecojn de la objekto
         // por altigi la kinetan energion, tiel konservante (1-at)-oblon da energio
-        if (E/this.E0 < (1-at) || E > this.E0) {
+        if (E/this.E0 < (1-at-this.tolereco) || E > this.E0) {
             const E1 = this.E0*(1-at); // - epot;
             const lambda = Math.sqrt((E1-E)/E+1);
             this.obj.rpd.oblo(lambda);
+            if (this.alpha>0) {
+                this.E0 = epot + this.obj.Ekin();
+            }
 
             // kontrolu la ŝanĝitan energion
             if (debugging) {

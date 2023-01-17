@@ -49,14 +49,19 @@ simulado de pilko
 
 const HEIGHT=500;
 const WIDTH=500;
+let tipo='ideala'; // pilkotipo
 const n_vert = 36; // 17; //31; // verticoj de pilko
 const gravito = [0,-100]; // -1000 -> 500px ~ 5m, -100 -> 500px ~ 50m
 const premo = 1-0.00005; // 0...1
 const moleco =  0.0001;
+const intervalo = 1/60; //200;
+const paŝeroj = 10;
 
 // elekto de pilkospeco
 elekte((elekto,valoro) => {
     console.log(elekto+':'+valoro);
+    if (elekto=='pilko') tipo = valoro;
+    eksperimento();
 });
 
 /**
@@ -70,7 +75,7 @@ class Pilko2d extends XPBDObj {
    * @param {*} r radiuso
    * @param {*} n nombro da pecoj
    */
-  constructor(r,n,c=[0,0]) {
+  constructor(tipo,r,n,c=[0,0]) {
     super(n,gravito,2);
     this.rad = r;
     this.imas.fill(1);
@@ -106,13 +111,18 @@ class Pilko2d extends XPBDObj {
     }
 
     // restriktoj
+    const mlc = (tipo=='truhava')? moleco*50 : moleco;
     this.restr.push(new XRGrundo(this));
     this.restr.push(new XRFlanko(this,0,WIDTH));
-    this.restr.push(new XRDistanco(this,eĝoj,moleco));
-    this.restr.push(new XRAreo(this,trioj,moleco));
+    this.restr.push(new XRDistanco(this,eĝoj,mlc));
+    this.restr.push(new XRAreo(this,trioj,mlc));
 
     // perdu neniun energion
-    this.restrE.push(new XREnergio(this,0.005));
+    if (tipo=='ideala') {
+      this.restrE.push(new XREnergio(this,0));
+    } if (tipo=='reala') {
+      this.restrE.push(new XREnergio(this,0.001));
+    }
   }
 
   vertico(i) {
@@ -238,38 +248,42 @@ class Pilko2d extends XPBDObj {
 
 const canvas = document.getElementById("kampo");
 const ctx = canvas.getContext("2d");
-
-const pilko = new Pilko2d(30,n_vert,[240,HEIGHT-40]);
-const xpbd = new XPBD([pilko],gravito);
-
 let ripetoj; 
-if (ripetoj) clearTimeout(ripetoj.p);
-const intervalo = 1/60; //200;
-const paŝeroj = 10;
 
-pilko.desegnu(ctx);
-ripetoj = ripetu(
-    () => {
-        xpbd.simulado(1/60,paŝeroj);
-        pilko.desegnu(ctx);
-        return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
-    },
-    intervalo
-)
+function eksperimento() {
+  const centro = [50+400*Math.random(),HEIGHT-50+20*Math.random()];
+  const pilko = new Pilko2d(tipo,30,n_vert,centro);
+  const xpbd = new XPBD([pilko],gravito);
+
+  if (ripetoj) clearTimeout(ripetoj.p);
+
+  pilko.desegnu(ctx);
+  ripetoj = ripetu(
+      () => {
+          xpbd.simulado(1/60,paŝeroj);
+          pilko.desegnu(ctx);
+          return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
+      },
+      intervalo
+  )
+
+
+  /*
+  function ripeto() {
+    xpbd.simulado(1,10);
+    desegnu();
+    // requestAnimationFrame(ripeto);
+  }
+
+  ripeto();
+  */
+}
 
 kiam_klako("#haltu",() => {
     if (ripetoj) clearTimeout(ripetoj.p);
 });
 
-/*
-function ripeto() {
-  xpbd.simulado(1,10);
-  desegnu();
-  // requestAnimationFrame(ripeto);
-}
-
-ripeto();
-*/
+eksperimento();
 
 </script>
 
