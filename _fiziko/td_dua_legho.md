@@ -89,25 +89,30 @@ class Pilko2d extends XPBDObj {
     const tt = n>7?Math.trunc(n/7):1;
 
     for (let i=0; i<n; i++) {
-        this.poz[2*i] = c[0] + r * Math.cos(phi);
-        this.poz[2*i+1] = c[1] + r * Math.sin(phi);
-        phi += d;
+      this.poz[2*i] = c[0] + r * Math.cos(phi);
+      this.poz[2*i+1] = c[1] + r * Math.sin(phi);
+      phi += d;
 
-        // aldonu eĝon
+      // aldonu eĝon
+      if (tipo!='truhava' || i<n-1) { // rezignu pri ferma eĝo ĉe truhava pilko
         eĝoj[2*i] = i;
         eĝoj[2*i+1] = (i+1)%n; //i<n-1? i+1:0;
-
-        // aldonu trion super tri najbaraj verticoj
-        trioj[3*i] = i;
-        trioj[3*i+1] = (i+tt)%n;
-        trioj[3*i+2] = (i+tt+tt)%n;
+      }
+      
+      // aldonu trion super tri najbaraj verticoj
+      trioj[3*i] = i;
+      trioj[3*i+1] = (i+tt)%n;
+      trioj[3*i+2] = (i+tt+tt)%n;
     }
 
     // por pli da stabileco de 2D-cirklo, aldonu kelkajn "spokojn"
     const te = n>10?Math.trunc(n/5):2;
     for (let i=0; i<n; i++) {
+
+      if (tipo!='truhava' || i<n-1) { // rezignu pri ferma eĝo ĉe truhava pilko
       eĝoj[2*n+2*i] = i; //i<n-1? i+1:0;
       eĝoj[2*n+2*i+1] = (i+te)%n; //i<n-1? i+1:0;
+      }
     }
 
     // restriktoj
@@ -292,3 +297,8 @@ eksperimento();
 sono je distanco, resonado en kapelo....
 
 -->
+
+Se vi staras ie en la naturo kaj ekkantas aŭ ekkrias, oni tion aŭdas depende de la tereno ankoraŭ en granda distanco. Kiam vi ĉesas, se ne okazas eĥo, ankaŭ la sono, kiun vi mem aŭdas tuj ĉesas. La energio de via voĉo transdoniĝas al la molekuloj de la aero kaj ŝtonoj kaj plantoj ktp, sed precipe transportiĝas per la eksvingoj kaj interpuŝiĝoj de aeraj molekuloj. Sed la origina energio disiĝas al ĉiam pli kaj pli da molekuloj en multaj diversaj manieroj moviĝi plurdirekte, rotacio ktp. ke oni baldaŭ ne plu povas percepti ĝin. Fakuloj diras, ke la energio dispersiĝas.
+
+Alie, se vi troviĝas en kapelo aŭ kelo kun bona akustiko, sono povas dum pluraj sekundoj, eĉ minutoj ankoraŭ aŭdiĝi. La muroj ĉiam reĵetas ĝin kaj dum certa tempo ne permesas, ke ĝia energio eliras ekster la murojn.
+
