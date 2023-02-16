@@ -15,6 +15,9 @@ js:
 <!-- 
 
 https://en.wikipedia.org/wiki/Black_body
+https://en.wikipedia.org/wiki/Planck%27s_law
+https://en.wikipedia.org/wiki/Thermal_radiation
+https://en.wikipedia.org/wiki/Planckian_locus
 http://hyperphysics.phy-astr.gsu.edu/hbase/mod6.html#c4 
 
 
