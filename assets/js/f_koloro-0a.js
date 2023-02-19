@@ -1,4 +1,5 @@
 class Koloro {
+    // vd. http://www.midnightkite.com/color.html por superrigardo
 
     /*
     *      CIE koloroj x,y,z
@@ -113,6 +114,8 @@ class Koloro {
      * laŭ Dan Bruton (astro@sfasu.edu)
      * http://www.physics.sfasu.edu/astro/color/blackbodyc.txt
      * 
+     * PLIBONIGU: sub 1000K la ruĝo malheliĝu ĝis 0 ĉe 750K
+     * 
      * @param {number} T temperaturo en Kelvin
      */
     static nigra_radianto_xyz(T) {
@@ -149,13 +152,22 @@ class Koloro {
      * @param {number} T temperaturo en Kelvin
      */
     static nigra_radianto_rgb(T) {
-        const [x,y,z] = Koloro.nigra_radianto_xyz(T);
-        return Koloro.xyz2rgb(x,y,z);
+        if (T<750) {
+            return [0,0,0]
+        } else if (T<1000) {
+            return [(T-750)/(1000-750),0,0]
+        } else {
+            const [x,y,z] = Koloro.nigra_radianto_xyz(T);
+            return Koloro.xyz2rgb(x,y,z);    
+        }
     }
 
 
     /**
      * Redonas la koloron kiel RGB-valoro respondan al la ondolongo de videbla lumo
+     * La paĝo https://aty.sdsu.edu/explain/optics/rendering.html prezentas pli
+     * bonajn prezentojn de la spektro.
+     * 
      * @param {number} ol ondolongo en nm [380..780]
      */
     static lumkoloro(ol) {
