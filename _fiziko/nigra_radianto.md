@@ -20,6 +20,20 @@ https://en.wikipedia.org/wiki/Thermal_radiation
 https://en.wikipedia.org/wiki/Planckian_locus
 http://hyperphysics.phy-astr.gsu.edu/hbase/mod6.html#c4 
 
+Derivado de la leĝo de Planck:
+https://edisciplinas.usp.br/pluginfile.php/48089/course/section/16461/qsp_chapter10-plank.pdf
+https://eng.libretexts.org/Bookshelves/Materials_Science/Supplemental_Modules_(Materials_Science)/Electronic_Properties/Solving_the_Ultraviolet_Catastrophe
+
+... du termoj: unu priskribantaj la ondospecojn (laŭ frekvenco en volumero), la dua
+priskribanta la energidistribuon laŭ Boltzmann-distribuo k Planck-Einstein-rilato
+en termodinamiko ekvilibro.... la eblaj n en E=nhf
+
+kiel klarigi la plank-ejnŝtejn-rilato...?
+energio de unuopa oscilo 1Hz: E = h
+energio proporcia al frekvenco: E = hf
+n osciloj: E = nhf
+
+kp. kineta energio: E = mv² (v=c: E = mc²)
 
 -->
 
@@ -60,7 +74,11 @@ function aktualigo_info() {
 function aktualigo() {
     const T = ĝi('#temperaturo').value;
     const lmin = 100, lmax=1500;
-    const smax = 6e13;
+    let smax = 1e15;
+    if (T<1600) smax=1e11;
+    else if (T<2400) smax=1e12
+    else if (T<3800) smax = 1e13;
+    else if (T<6100) smax = 1e14;
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0,  canvas.width, canvas.height);
