@@ -20,6 +20,9 @@ vd. https://study.com/skill/learn/calculating-change-in-entropy-for-a-process-in
 
 <!--
 
+entropio = "elspezita energio"?
+
+
 kiel eliro por klarigi entropion uzu modelon de pilko: 
 - ideala: daŭre saltanta
 - reala: iom post iom perdante energion pro varmperdo, frotvarmo...

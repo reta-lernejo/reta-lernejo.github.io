@@ -6,6 +6,7 @@ js:
   - folio-0b
   - sekcio-0b 
   - mathjax/es5/tex-chtml
+  - diagramo-0a
   - f_koloro-0a
 ---
 
@@ -54,7 +55,7 @@ spektro de nigra radianto
 <script>
     
 const canvas = document.getElementById("spektro");
-const ctx = canvas.getContext("2d");
+const dgr = new Diagramo(canvas);
 
 /*
 /// konstantoj
@@ -74,73 +75,60 @@ function aktualigo_info() {
 function aktualigo() {
     const T = ĝi('#temperaturo').value;
     const lmin = 100, lmax=1500;
+    /*
+    const ss = Koloro.spektro(lmax,T)
+    const smax = 10**(Math.ceil(Math.log10(ss)));
+    */
+    /*
     let smax = 1e15;
-    if (T<1600) smax=1e11;
+    if (T<600) smax=1e6;
+    else if (T<800) smax=1e8;
+    else if (T<1200) smax=1e10;
+    else if (T<1600) smax=1e11;
     else if (T<2400) smax=1e12
     else if (T<3800) smax = 1e13;
     else if (T<6100) smax = 1e14;
+    */
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0,  canvas.width, canvas.height);
-    plot(lmin,lmax,smax,T,"white");
+    dgr.viŝu("black");
+    plot(lmin,lmax,T,"white");
     radimakulo(T);
 }
 
 
-/**
- * Kalkulas la spektran radion de nigra radianto
- * por specifa ondolongo l kaj temperaturo T
- * @param {number} ol ondolongo en nm
- * @param {number} T temperaturo en Kelvin
- */
-/*
-function spektro(ol,T) {
-    const l = ol*1e-9;
-    return c1 / (Math.pow(l,5)*(Math.exp(c2/l/T)-1))
-}
-*/
-
-// desegnu punkton sur la kanvason
-function punkto(x,y,r=1,koloro,ctx) {
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = koloro;
-    ctx.fill();
-}
-
-function vlinio(x,koloro,ctx) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, canvas.height);
-    ctx.strokeStyle = koloro;
-    ctx.stroke(); 
-}
-
-function plot(lmin,lmax,smax,T,koloro="black") {
+function plot(lmin,lmax,T,koloro="black") {
     // kalkulu spektrovaloron por ĉiu x (0..width)
     const dl = (lmax-lmin)/canvas.width;
     let S = []; //, smax = 0;
     let K = [];
-    //debugger;
+    let smax = 0;
+    ///debugger;
     for (let l=lmin;l<lmax;l+=dl) {
         const s = Koloro.spektro(l,T);
         // if (s>smax) smax = s;
         S.push(s);
+        smax = Math.max(s,smax);
         // lumkoloro
         const k = Koloro.lumkoloro(l);
         K.push(k);
     }
     // desegnu la kurbon
-    sy = (canvas.height-2)/smax;
-    console.log("smax: "+smax+" sy: "+sy);
+    dgr.skalo_x(lmin,lmax,10,100,0,"nm","white");
+    let ymax = 10**(Math.ceil(Math.log10(smax)));
+    if (ymax<100) ymax = 100;
+    dgr.skalo_y(0,ymax,ymax/100,ymax/10,1,"","white");
+    sy = (canvas.height-2)/ymax;
+    ///console.log("ymax: "+ymax+" sy: "+sy);    
     for (let x=0;x<canvas.width;x++) {
         const y = Math.trunc(sy*S[x]);
         // montru videblan spektron
         if (K[x] != "#000000") {
-            vlinio(x,K[x],ctx);
+            //vlinio(x,K[x],ctx);
+            dgr.linio(x,0,x,canvas.height,K[x]);
         }
         // desegnu radiecon
-        punkto(x,canvas.height-y,1,koloro,ctx);
+        // punkto(x,canvas.height-y,1,koloro,ctx);
+        dgr.punkto(x,canvas.height-y,1,koloro)
         //console.log("x: "+x+" y:" +y);
     }
 }
@@ -177,7 +165,7 @@ function radimakulo(T) {
     const kstr = Koloro.rgb_gammo(r,g,b,0.8); // `rgb(${k[0]},${k[1]},${k[2]})`;
     console.log(kstr);
     // ankoraŭ la koloro ne ĝustas
-    punkto(canvas.width-30,30,25,kstr,ctx);
+    dgr.punkto(canvas.width-30,30,25,kstr);
 }
 
 // desegnu
