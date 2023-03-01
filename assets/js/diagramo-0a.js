@@ -79,31 +79,37 @@ class Diagramo {
     
     /**
      * Desegnas skalon ĉe la x-akso
-     * @param {number} min minimuma valoro
-     * @param {number} max maksimuma valoro
-     * @param {number} istrek intervalo por strekoj
+     * @param {number} start valoro ĉe la maldekstra rando de la diagramo
+     * @param {number} stop valoro ĉe la dekstra rando de la diagramo
+     * @param {number} istrek intervalo por strekoj (estu negativa se start>stop)
      * @param {number} inmb intervalo por nombroj
      * @param {number} prec precizeco de nombroj, ĉe pli longaj uziĝas eksponenta prezento
      * @param {string} unuo mezurunuo skribita ĉe la akso
      */
-    skalo_x(min,max,istrek,inmb,prec=1,unuo,koloro="black") {
+    skalo_x(start,stop,istrek,inmb,prec=1,unuo,koloro="black",supre=false,xfunc) {
         const w = this.ctx.canvas.width;
-        const h = this.ctx.canvas.height;
-        const cx = (x) => (x-min)*w/(max-min);
-        let x = min;
-        while (x <= max) {
-            const cif = !((x-min)%inmb);
-            const len = cif? 10:4;
+        const h = supre? 0 : this.ctx.canvas.height;
+        const s = supre? 1: -1;
+        const cx = (x) => (x-start)*w/(stop-start);
+        const inter = (v,v1,v2,d=0) => v >= Math.min(v1,v2)+d && v <= Math.max(v1,v2)-d;
+        const xstart = Math.ceil(start/istrek)*istrek
+        let x = xstart;
+        while (inter(x,start,stop)) {
+            const cif = !(x%inmb);
+            let len = cif? 10:4;
             const xx = cx(x);
-            this.linio(xx,h,xx,h-len,koloro);
-            if (cif && x>min && x<max) {
-                const n = prec? x.toPrecision(prec) : x;
-                this.teksto_x(xx,h-len-2,n,koloro)
+            this.linio(xx,h,xx,h+s*len,koloro);
+            if (cif && inter(x,start,stop,Math.abs(istrek)/2)) {
+                const cy = supre? h+len+2+12 : h-len-2;
+                const cx = xfunc? xfunc(x) : x; 
+                const n = prec? cx.toPrecision(prec) : cx;
+                this.teksto_x(xx,cy,n,koloro)
             }
             x += istrek;
         }
         // skribu la unuon
-        this.teksto_x(w-12,h-2,unuo,koloro);
+        const ty = supre? h+4+12 : h-6;
+        this.teksto_x(w-12,ty,unuo,koloro);
     }
 
     /**
@@ -121,10 +127,10 @@ class Diagramo {
         const cy = (y) => h - (y-min)*h/(max-min);
         let y = min;
         while (y <= max) {
-            const cif = !((y-min)%inmb);
+            const cif = !(y%inmb);
             const len = cif? 10:4;
             const yy = cy(y);
-            this.linio(0,yy,0+len,yy,koloro);
+            this.linio(0,yy,len,yy,koloro);
             if (cif && y>min && y<max) {
                 const n = prec? y.toPrecision(prec) : x;
                 this.teksto_y(len,yy,n,koloro)

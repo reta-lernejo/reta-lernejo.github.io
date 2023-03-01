@@ -90,6 +90,15 @@ class Koloro {
             [0, 0, 0]
     ];
 
+    // fizikaj konstantoj
+    static h = 6.62607015e-34 ;// Planka efikokvantumo en Js
+    static c = 2.99792458e8; // lumrapido en m/s
+    static kB = 1.380649e-23; // Boltzmann-konstanto en J/K
+
+    // konstantoj por kalkuli Plank-spektron
+    static c1 = 2*Math.PI*Koloro.h*Koloro.c*Koloro.c; 
+    static c2 = Koloro.h*Koloro.c/Koloro.kB; // faktoro por nm: 1e9
+
     /**
      * Kalkulas la spektran radion de nigra radianto
      * por specifa ondolongo l kaj temperaturo T
@@ -97,16 +106,16 @@ class Koloro {
      * @param {number} T temperaturo en Kelvin
      */
     static spektro(ol,T) {
-        // konstantoj
-        const h = 6.62607015e-34 ;// Planka efikokvantumo en Js
-        const c = 2.99792458e8; // lumrapido en m/s
-        const kB = 1.380649e-23; // Boltzmann-konstanto en J/K
-
-        const c1 = 2*Math.PI*h*c*c; // *Math.PI
-        const c2 = h*c/kB; // faktoro por nm: 1e9
-
         const l = ol*1e-9;
-        return c1 / (Math.pow(l,5)*(Math.exp(c2/l/T)-1))
+        return Koloro.c1 / (Math.pow(l,5)*(Math.exp(Koloro.c2/l/T)-1))
+    }
+
+    /**
+     * Kalkulas la frekvenocn en THz por donita ondolongo
+     * @param {number} ol ondolongo en nm
+     */
+    static frekv(ol) {
+        return Koloro.c*1e-3/ol
     }
 
     /**

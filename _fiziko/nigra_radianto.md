@@ -49,7 +49,7 @@ kp. kineta energio: E = mv² (v=c: E = mc²)
 spektro de nigra radianto
 
 <b id="temperaturo_info">1000K</b>
-<input type="range" id="temperaturo" style="width: 50em; max-width: 80%" min="300" max="10000" value="1000" step="100" onchange="aktualigo()" oninput="aktualigo_info()">
+<input type="range" id="temperaturo" style="width: 50em; max-width: 80%" min="300" max="15000" value="1000" step="100" onchange="aktualigo()" oninput="aktualigo_info()">
 
 
 <script>
@@ -112,11 +112,18 @@ function plot(lmin,lmax,T,koloro="black") {
         const k = Koloro.lumkoloro(l);
         K.push(k);
     }
-    // desegnu la kurbon
+
+    // desegnu la skalojn
+    // x: ondolongo
     dgr.skalo_x(lmin,lmax,10,100,0,"nm","white");
+    // x-supre: frekvenco
+    dgr.skalo_x(lmin,lmax,20,200,3,"THz","white",true,Koloro.frekv);
+    // y: spektro
     let ymax = 10**(Math.ceil(Math.log10(smax)));
     if (ymax<100) ymax = 100;
     dgr.skalo_y(0,ymax,ymax/100,ymax/10,1,"","white");
+
+    // desegnu la kurbon
     sy = (canvas.height-2)/ymax;
     ///console.log("ymax: "+ymax+" sy: "+sy);    
     for (let x=0;x<canvas.width;x++) {
@@ -165,7 +172,7 @@ function radimakulo(T) {
     const kstr = Koloro.rgb_gammo(r,g,b,0.8); // `rgb(${k[0]},${k[1]},${k[2]})`;
     console.log(kstr);
     // ankoraŭ la koloro ne ĝustas
-    dgr.punkto(canvas.width-30,30,25,kstr);
+    dgr.punkto(canvas.width-50,60,25,kstr);
 }
 
 // desegnu

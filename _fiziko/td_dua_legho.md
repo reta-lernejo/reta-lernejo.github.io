@@ -305,3 +305,14 @@ Se vi staras ie en la naturo kaj ekkantas aŭ ekkrias, oni tion aŭdas depende d
 
 Alie, se vi troviĝas en kapelo aŭ kelo kun bona akustiko, sono povas dum pluraj sekundoj, eĉ minutoj ankoraŭ aŭdiĝi. La muroj ĉiam reĵetas ĝin kaj dum certa tempo ne permesas, ke ĝia energio eliras ekster la murojn.
 
+<!-- 
+
+perdo de energio de pilko: elastaj transformoj -> varmo, froto -> varmo, puŝsonoj -> varmo...
+
+kreu duan eksperimenton, kie du partoj diverstemperaturaj miksiĝas.
+
+unua leĝo TD: \Delta U=W+Q
+dua leĝo:  \mathrm{d}S = \frac{\delta Q}{T} + \frac{\delta W_\mathrm{diss}}{T} 
+dua leĝo (ekv. formo): \Delta F = \Delta U - T \Delta S
+
+-->
