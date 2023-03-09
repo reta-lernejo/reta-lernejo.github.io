@@ -1,3 +1,12 @@
+/**
+ * Simulado de ideala gaso en volumeno. La eroj reflektiĝas ĉe la flankaj vandoj konservante sian kinetan energion. Pro simpleco ni simulas koliziojn inter la eroj mem kaj la movigoj en la profundo ni forlasas kaj movas ler erojn nur en du dimensioj, t.e. ni projekcias ĉiujn erojn de la volumeno al dudimensia ekrano. 
+ * 
+ * Por faciligi traktadon de reakcioj en subklasoj ks, ni dividas la spacon en kvadratajn ĉelojn, al kiuj ni ordigas la erojn post ĉia movo. Tiel vi povas anstataŭigi ekz-e la funkcion procezo por aldoni reakciojn en la unuopaj ĉeloj.
+ * 
+ * La premon ni kalkulas el la kolizioj kun la vando, pro la 2-dimensia projekcio ni eksterpolas gin al 3 dimensioj. Oni povas doni temperaturon el kiu ni normdistribuas la rapidojn per la metodo Box-Muller.
+ * Fine el la unuopaj rapidoj ni povas kalkuli energion, temperaturon k.a. parametrojn.
+ */
+
 class Idealgaso {
 
     // https://de.wikipedia.org/wiki/Ideales_Gas
