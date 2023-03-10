@@ -20,7 +20,7 @@ class Idealgaso {
     static norm_T = 293.15; // normtemperaturo en K
 
     /**
-     * Redonas la nombron de gaseroj ĉe donita premo, volumeno kaj temepraturo
+     * Redonas la nombron de gaseroj ĉe donita premo, volumeno kaj temperaturo
      * @param {number} p premo en Pa
      * @param {number} V volumeno en m³
      * @param {number} T temperaturo en K
@@ -30,7 +30,7 @@ class Idealgaso {
     }
 
     /**
-     * Redonas mezuman rapidon de gaseroj ĉe donita maso kaj termperaturo
+     * Redonas mezuman rapidon de gaseroj ĉe donita maso kaj temperaturo
      * @param {number} m maso en atommasunuoj (u)
      * @param {number} T temperaturo en K
      */

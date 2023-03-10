@@ -6,7 +6,7 @@ js:
   - sekcio-0b 
   - mathjax/es5/tex-chtml
   - diagramo-0a
-  - f_idealgas-0b
+  - f_idealgas-0c
   - bufro-0a
 ---
 
@@ -127,11 +127,11 @@ miksiĝo de volumenoj de ideala gaso diverstemperaturaj
 <button id="starto">Komencu</button>
 <button id="halto">Haltu</button>
 
-|volumeno (nm³)|<span id="volumeno"/>|
-|rapido (Ø m/s)|<span id="rapido"/>|
-|energio (J)|<span id="energio"/>|
-|temperaturo (K)|<span id="temperaturo"/>|
-|premo (Pa)|<span id="premo"/>|
+| | maldekstre | dekstre |
+|volumeno (nm³)|<span id="volumeno1"/>|<span id="volumeno2"/>|
+|rapido (Ø m/s)|<span id="rapido1"/>|<span id="rapido2"/>|
+|energio (J)|<span id="energio1"/>|<span id="energio2"/>|
+|temperaturo (K)|<span id="temperaturo1"/>|<span id="temperaturo2"/>|
 
 <div style="display: none">
 <!-- ankoraŭ iom nefindindaj valoroj, do provizore kaŝita! -->
@@ -214,7 +214,7 @@ function preparo() {
     const N2 = Idealgaso.nombro(p,V2,T2); // nombro da eroj en varma gaso
 
     idealgaso1.preparo(N1,m,T1);
-    idealgaso2.preparo(N2,m,T1);
+    idealgaso2.preparo(N2,m,T2);
 
     dgr.viŝu();
     dividita = true;
@@ -258,13 +258,24 @@ function pentro() {
 function valoroj() {
 
     // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
-    const E = idealgaso1.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
+    const E1 = idealgaso1.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
     
-    ĝi("#rapido").innerHTML = nombro(idealgaso1.rapido_ave());
-    ĝi("#energio").innerHTML = nombro(E);
+    ĝi("#rapido1").innerHTML = nombro(idealgaso1.rapido_ave());
+    ĝi("#energio1").innerHTML = nombro(E1);
 
-    const T = idealgaso1.temperaturo();
-    ĝi("#temperaturo").innerHTML = nombro(T);
+    const T1 = idealgaso1.temperaturo();
+    ĝi("#temperaturo1").innerHTML = nombro(T1);
+
+    if (dividita) {
+        // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
+        const E2 = idealgaso2.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
+        
+        ĝi("#rapido2").innerHTML = nombro(idealgaso2.rapido_ave());
+        ĝi("#energio2").innerHTML = nombro(E2);
+
+        const T2 = idealgaso2.temperaturo();
+        ĝi("#temperaturo2").innerHTML = nombro(T2);
+    }
 
 
 /*
