@@ -169,11 +169,16 @@ let ripetoj; // per clearTimeout(ripatoj.p) oni povas haltigi kurantan eksperime
 
 // ni uzas 16x16-ĉelojn por faciligi la kolizi-simuladon k.s.
 // larĝo kaj alto estu multoblo de 16!
-const idealgaso = new Idealgaso(
-    px_nm*canvas.width,
+const idealgaso1 = new Idealgaso( // maldekstre
+    px_nm*canvas.width/2,
     px_nm*canvas.height,
     px_nm*canvas.height, // profundo = alto
-    ĉelo);
+    ĉelo_nm);
+const idealgaso2 = new Idealgaso( // dekstre
+    px_nm*canvas.width/2,
+    px_nm*canvas.height,
+    px_nm*canvas.height, // profundo = alto
+    ĉelo_nm);
 
 // trakto de adaptoj per butonoj ...
 
@@ -198,42 +203,67 @@ function preparo() {
     // 3320 gaseroj kun maso 4u, rapideco 0.5*ĉelalto, tempintervalo 1/20s
     // PLIBONIGU: pli bone donu la temperaturon kaj kalkulo en Idealgaso la
     // konvenan rapidecon por tio, ĉu?
-    const T = 293.15; // temperaturo en K
+    const T1 = 273.15; // temperaturo maldekstre en K
+    const T2 = 373.15; // temperaturo dekstre en K
     const p = 1e5; // premo 1000 hPa
     const m = 4; // maso 4u
-    const V = idealgaso.volumeno()*1e-27; // en m³
-    const N = Idealgaso.nombro(p,V,T); // nombro da eroj en normkondiĉoj
-    idealgaso.preparo(N,m,T);
+    const V1 = idealgaso1.volumeno()*1e-27; // en m³
+    const N1 = Idealgaso.nombro(p,V1,T1); // nombro da eroj en normkondiĉoj
+
+    const V2 = idealgaso2.volumeno()*1e-27; // en m³
+    const N2 = Idealgaso.nombro(p,V2,T2); // nombro da eroj en varma gaso
+
+    idealgaso1.preparo(N1,m,T1);
+    idealgaso2.preparo(N2,m,T1);
 
     dgr.viŝu();
     dividita = true;
     dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,koloro);
 }
 
+
 function pentro() {
+
+    function ero(e,offs=0) {
+        const x = e.x/px_nm+offs;
+        const y = e.y/px_nm;
+        const koloro = "#0095DD";
+        dgr.punkto(x,y,1,koloro);
+    }
+
     dgr.viŝu();
+    const w2 = canvas.width/2;
 
-    if (dividita) dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,koloro);
+    if (dividita) { 
+        dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,koloro);
 
-/*
-    for (const ĉelo of idealgaso.ĉeloj) {
-        for (e of Object.values(ĉelo)) {
-            ero(e,ctx);
+        for (const ĉelo of idealgaso2.ĉeloj) {
+            for (e of Object.values(ĉelo)) {
+                ero(e,w2);
+            }
         }
     }
-    */
+
+    // se dividita idealgaso1 estas nur la maldekstra parto
+    // se ne plu dividita, ĝi kontenas erojn de ambaŭ partoj
+    for (const ĉelo of idealgaso1.ĉeloj) {
+        for (e of Object.values(ĉelo)) {
+            ero(e);
+        }
+    }
+    
 }
 
 
 function valoroj() {
 
     // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
-    const E = idealgaso.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
+    const E = idealgaso1.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
     
-    ĝi("#rapido").innerHTML = nombro(idealgaso.rapido_ave());
+    ĝi("#rapido").innerHTML = nombro(idealgaso1.rapido_ave());
     ĝi("#energio").innerHTML = nombro(E);
 
-    const T = idealgaso.temperaturo();
+    const T = idealgaso1.temperaturo();
     ĝi("#temperaturo").innerHTML = nombro(T);
 
 
@@ -247,7 +277,9 @@ function valoroj() {
 }
 
 function paŝo() {
-    idealgaso.procezo();
+    idealgaso1.procezo();
+    if (dividita) idealgaso2.procezo();
+
     pentro();
     valoroj();
 }
