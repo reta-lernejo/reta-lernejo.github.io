@@ -94,11 +94,11 @@ class Idealgaso {
             this.Ĉl = larĝo*ĉelo[0];
         }
 
-        this.T = 0; // la tuta tempo en paŝoj
+        this.t = 0; // la tuta tempo en paŝoj
         this.nombro = 0; // la nombro de eroj en iu momento
 
         // la ĉeloj enhavas la erojn en tiu spacregiono
-        this.ĉeloj = {};
+        this.ĉeloj = [];
 
         // valoroj por facile kalkuli la fizikajn grandojn
         this.premoj = {};
@@ -118,7 +118,7 @@ class Idealgaso {
         this.maso = maso;
         this.intervalo = intervalo;
             
-        this.T = 0; // tmepo = 0
+        this.t = 0; // tmepo = 0
         // neniom da ĉiu speco, ni aktualigos dum kreado de eroj kaj dum la eksperimento mem
 
         const n_ĉeloj = Math.ceil(this.larĝo/this.Ĉl * this.alto/this.Ĉa);
@@ -130,6 +130,56 @@ class Idealgaso {
         this.v_sum = 0;
         this.v_sum2 = 0;
         this.kreu_erojn(n_eroj,temperaturo);
+    }
+
+    /**
+     * Kunigas la idealan gason kun alia, tiu estas aldonita dekstre, t.e la volumeno poste havos
+     * larĝon de ambaŭ kunigitaj. La ĉeloj de la dua gaso kun ĉiuj eroj estas aldonita
+     */
+    kunigo(idealgaso) {
+        if (this.Ĉl != idealgaso.Ĉl) {
+            throw "Ni ne povas kunigi du gasojn kun diferencaj ĉellarĝoj!"
+        }; 
+
+        // ĉar la linioj de la ĉeloj estos nun longigitaj ni devos 
+        // krei novan areon. Pli facile estus aldoni malsupre, sed
+        // tio estus malpli avantaĝa en la prezento sur la retpaĝo.
+        let nĉeloj = []
+
+        const n_lin = Math.trunc(this.alto/this.Ĉa);
+        const n_kol1 = Math.trunc(this.larĝo/this.Ĉl);
+        const n_kol2 = Math.trunc(idealgaso.larĝo/this.Ĉl);
+
+        for (let l=0; l<n_lin; l++) {
+            for (let k1=0; k1<n_kol1; k1++) {
+                nĉeloj.push(this.ĉeloj[l*n_kol1+k1]);
+                //nĉeloj[l*(n_kol1+n_kol2)+k1] = this.ĉeloj[l*n_kol1+k1];
+            }
+            for (let k2=0; k2<n_kol1; k2++) {
+                //nĉeloj[l*(n_kol1+n_kol2)+n_kol1+k2] = idealgaso.ĉeloj[l*n_kol2+k2];
+                const i = l*n_kol2+k2;
+                const iĉ = idealgaso.ĉeloj[i];
+                // adaptu x kaj id de ĉiuj eroj
+                // kaj adiciu rapidecojn de ĉiuj aldonaj eroj
+                for (let e of Object.values(iĉ)) {
+                    delete iĉ[e.id];
+                    e.id += this.nombro;
+                    e.x += this.larĝo;
+
+                    const v2 = e.vx**2 + e.vy**2 + e.vz**2;
+                    this.v_sum2 += v2;
+                    this.v_sum += Math.sqrt(v2);   
+
+                    iĉ[e.id] = e;
+                }
+                nĉeloj.push(iĉ);
+            }
+        }
+
+        this.ĉeloj = nĉeloj;
+
+        this.larĝo += idealgaso.larĝo;
+        this.nombro += idealgaso.nombro;
     }
 
     /**
@@ -283,7 +333,7 @@ class Idealgaso {
 
             const e = {
                 id: n+1,
-                t: this.T - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe ĉelmovo
+                t: this.t - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe ĉelmovo
                 x: Math.random() * larĝo,
                 y: Math.random() * alto,
                 vx: mm6[mm],
@@ -356,7 +406,7 @@ class Idealgaso {
 
         /* movo de e laŭ ĝia rapideco kun eventuala reflekto ĉe la bordoj */        
         function movo(e) {
-            if (e.t < self.T) {
+            if (e.t < self.t) {
 
                 // momente ni nur movas la erojn
                 const vx = e.vx * tf;
@@ -383,12 +433,12 @@ class Idealgaso {
                     premo.ms -= e.vy;
                 }
                 // movo al nx, ny, eventuale al nova ĉelo
-                e.t = self.T;
+                e.t = self.t;
                 self.ĉelmovo(e,nx,ny);
             }
         }
         
-        // trakuru ĉiujn ĉelojn kaj traktu movojn kaj reakciojn de la eroj
+        // trakuru ĉiujn ĉelojn kaj traktu movojn kaj evtl. reakciojn de la eroj
         for (let k in this.ĉeloj) {
             // movo
             const kx = k % this.Ĉl;
@@ -401,7 +451,7 @@ class Idealgaso {
         this.premoj = {supre: m*2*premo.s, malsupre: m*2*premo.ms,
                 dekstre: m*2*premo.d, maldekstre: m*2*premo.md};
 
-        this.T++;
+        this.t++;
     }
 
     /**

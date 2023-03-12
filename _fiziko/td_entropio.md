@@ -103,12 +103,13 @@ por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m
     table {
         table-layout: fixed;
     }
+    /*
     td:first-child {
         width: 60%;
     }
     td:nth-child(2) {
         width: 20%;
-    }
+    }*/
     .elekto label {
         padding: 0.2em;
         padding-left: 0;
@@ -163,22 +164,11 @@ const r_ero = 1.4; // radiuso de eroj
 
 //let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
 
-let T0 = 0; // tempo komenciĝu ĉe T=0
+let t0 = 0; // tempo komenciĝu ĉe T=0
 let dividita = true; // en la komenco la du diverstemperaturaj partoj estas apartigitaj
 let ripetoj; // per clearTimeout(ripatoj.p) oni povas haltigi kurantan eksperimenton
 
-// ni uzas 16x16-ĉelojn por faciligi la kolizi-simuladon k.s.
-// larĝo kaj alto estu multoblo de 16!
-const idealgaso1 = new Idealgaso( // maldekstre
-    px_nm*canvas.width/2,
-    px_nm*canvas.height,
-    px_nm*canvas.height, // profundo = alto
-    [ĉellarĝo,1]);
-const idealgaso2 = new Idealgaso( // dekstre
-    px_nm*canvas.width/2,
-    px_nm*canvas.height,
-    px_nm*canvas.height, // profundo = alto
-    [ĉellarĝo,1]);
+let idealgaso1, idealgaso2; 
 
 // trakto de adaptoj per butonoj ...
 
@@ -197,9 +187,22 @@ kiam_klako("#halto",() => {
 // preparo de la eksperimento
 function preparo() {
 
+    // ni uzas 30x400-ĉelojn por ekhavi temperaturajn striojn
+    // larĝo estu multoblo de 30!
+    idealgaso1 = new Idealgaso( // maldekstre
+        px_nm*canvas.width/2,
+        px_nm*canvas.height,
+        px_nm*canvas.height, // profundo = alto
+        [ĉellarĝo,1]);
+    idealgaso2 = new Idealgaso( // dekstre
+        px_nm*canvas.width/2,
+        px_nm*canvas.height,
+        px_nm*canvas.height, // profundo = alto
+        [ĉellarĝo,1]);
+
     // tempopunkto=0
-    T0 = 0;
-    
+    t0 = 0;
+
     // 3320 gaseroj kun maso 4u, rapideco 0.5*ĉelalto, tempintervalo 1/20s
     // PLIBONIGU: pli bone donu la temperaturon kaj kalkulo en Idealgaso la
     // konvenan rapidecon por tio, ĉu?
@@ -289,6 +292,13 @@ function valoroj() {
 
 function paŝo() {
     idealgaso1.procezo();
+
+    const s6 = 6 * 1000 / intervalo;
+    if (dividita && idealgaso1.t - t0 > s6) {
+        dividita = false;
+        idealgaso1.kunigo(idealgaso2);
+    }
+
     if (dividita) idealgaso2.procezo();
 
     pentro();
@@ -317,13 +327,13 @@ function eksperimento() {
 
 function daŭrigo() {
     const ŝovo = 400;
-    T0 += ŝovo;
+    t0 += ŝovo;
 
     function maldekstren(ctx) {
         const imageData = ctx.getImageData(ŝovo,0,ctx.canvas.width-ŝovo,ctx.canvas.height);
         /*
         ctx.translate(-ŝovo,0);
-        ctx.clearRect(T0, 0, ctx.canvas.width,ctx.canvas.height);
+        ctx.clearRect(t0, 0, ctx.canvas.width,ctx.canvas.height);
         */
         ctx.clearRect(0, 0, ctx.canvas.width,ctx.canvas.height);
 
@@ -342,7 +352,8 @@ function daŭrigo() {
     ripetu(
         () => {
             paŝo();
-            return (idealgaso.T - T0 < d_larĝo);
+            //return (idealgaso.t - t0 < d_larĝo);
+            return true;
         },
         intervalo
     )
