@@ -156,8 +156,9 @@ const koloro = "cornflowerblue";
 
 // skal-faktoroj 
 const px_nm = 0.1; // 1px = 0.1nm
-const ĉellarĝo = 1/10; // ĉellarĝo estas 1/10 de duono de canvas.width, t.e. 30px
+const ĉellarĝo = 1/5; //aŭ 1/10;  1/5 = 60px, 1/10 = 30px; // ĉellarĝo estas 1/10 de duono de canvas.width, t.e. 30px
 const ĉelo_nm = 500*ĉellarĝo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
+const ĉelo_px = canvas.width/2*ĉellarĝo;
 
 const intervalo = 50; // 50 ms
 const r_ero = 1.4; // radiuso de eroj
@@ -168,7 +169,7 @@ let t0 = 0; // tempo komenciĝu ĉe T=0
 let dividita = true; // en la komenco la du diverstemperaturaj partoj estas apartigitaj
 let ripetoj; // per clearTimeout(ripatoj.p) oni povas haltigi kurantan eksperimenton
 
-let idealgaso1, idealgaso2; 
+let idealgaso1, idealgaso2;
 
 // trakto de adaptoj per butonoj ...
 
@@ -224,37 +225,35 @@ function preparo() {
     dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,koloro);
 }
 
-
 function pentro() {
 
-    function ero(e,offs=0) {
-        const x = e.x/px_nm+offs;
-        const y = e.y/px_nm;
-        const koloro = "#0095DD";
-        dgr.punkto(x,y,1,koloro);
-    }
-
-    dgr.viŝu();
-    const w2 = canvas.width/2;
-
-    if (dividita) { 
-        dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,koloro);
-
-        for (const ĉelo of idealgaso2.ĉeloj) {
-            for (e of Object.values(ĉelo)) {
-                ero(e,w2);
+    function ig_pentro(idealgaso,offs=0) {
+        for (let k=0; k<idealgaso.ĉeloj.length;k++) {
+            const ĉelo = idealgaso.ĉeloj[k];
+            const T = idealgaso.ĉeltemperaturo(ĉelo);
+            const klr = Diagramo.hsl2hex(Diagramo.kolorvaloro(T,250,400),30,80);
+            dgr.rektangulo(offs+ĉelo_px*k,0,ĉelo_px,canvas.height,klr);
+            for (const e of Object.values(ĉelo)) {
+                const x = e.x/px_nm+offs;
+                const y = e.y/px_nm;
+                const koloro = "#0095DD";
+                dgr.punkto(x,y,1,koloro);
             }
         }
     }
 
+    dgr.viŝu();
+
     // se dividita idealgaso1 estas nur la maldekstra parto
     // se ne plu dividita, ĝi kontenas erojn de ambaŭ partoj
-    for (const ĉelo of idealgaso1.ĉeloj) {
-        for (e of Object.values(ĉelo)) {
-            ero(e);
-        }
+    ig_pentro(idealgaso1);
+
+    if (dividita) { 
+        ig_pentro(idealgaso2,canvas.width/2);
+
+        dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,"#000055",3);
     }
-    
+
 }
 
 

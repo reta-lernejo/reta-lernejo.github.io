@@ -496,6 +496,26 @@ class Idealgaso {
         return 2/3 * this.energio() / this.nombro / Idealgaso.kB;
     }
 
+    /** 
+     * Redonas la energiuon de unuopa ĉelo
+     * @param {object} ĉelo 
+     */
+    ĉelenergio(ĉelo) {
+        let v2 = 0;
+        for (const e of Object.values(ĉelo)) {
+            v2 += e.vx**2 + e.vy**2 + e.vz**2;
+        }
+        return 0.5 * Idealgaso.u*this.maso * v2
+    }
+
+    /**
+     * Redonas la energion de unuopa ĉelo
+     * @param {object} ĉelo 
+     */
+    ĉeltemperaturo(ĉelo) {
+        return 2/3 * this.ĉelenergio(ĉelo) / Object.keys(ĉelo).length / Idealgaso.kB;
+    }
+
     /**
      * Redonas la premon kalkulitan el la kolizioj kun flankoj de la rektangulo kaj korektita per faktoroj al Pa
      */

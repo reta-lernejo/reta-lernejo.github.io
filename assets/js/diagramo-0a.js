@@ -27,12 +27,14 @@ class Diagramo {
      * @param {number} x1 x-valoro de fina punkto
      * @param {number} y1 y-valoro de fina punkto
      * @param {string} koloro linia koloro (angla nomo aŭ HTML-kolor-kodo, "black", se ne donita)
+     * @param {number} ll linilarĝo
      */
-    linio(x0,y0,x1,y1,koloro="black") {
+    linio(x0,y0,x1,y1,koloro="black",ll=1) {
         this.ctx.beginPath();
         this.ctx.moveTo(x0, y0);
         this.ctx.lineTo(x1, y1);
         this.ctx.strokeStyle = koloro;
+        this.ctx.lineWidth = ll;
         this.ctx.stroke(); 
     }
 
@@ -49,6 +51,20 @@ class Diagramo {
         this.ctx.arc(x, y, r, 0, Math.PI * 2);
         this.ctx.fillStyle = koloro;
         this.ctx.fill();
+    }
+
+    /**
+     * Desegnas koloran, senrandan rektangulon
+     * @param {number} x koordinato de dekstra rando
+     * @param {number} y koordinato de supra rando
+     * @param {number} w larĝo
+     * @param {number} h alto
+     * @param {string} koloro 
+     */
+    rektangulo(x,y,w,h,koloro="gray") {
+        this.ctx.beginPath();
+        this.ctx.fillStyle = koloro;
+        this.ctx.fillRect(x, y, w, h);
     }
 
     /**
@@ -139,5 +155,63 @@ class Diagramo {
         }
         // skribu la unuon
         this.teksto_y(10,10,unuo,koloro);
+    }
+
+
+    /**
+     * Redonas kolorvaloron, tiu kolorvaloro estu uzata kiel unua argumento h de hsl(h,s,l)
+     * @param {number} valoro la valoro, kiun traduki al kolorvaloro
+     * @param {number} vbluo valoro (minimuma) kiu redonu bluon (h=240)
+     * @param {number} vruĝo valoro (maksimuma) kiu redonu ruĝon (h=0)
+     */
+    static kolorvaloro(valoro,vbluo,vruĝo) {
+        return 240 - 240*(valoro-vbluo)/(vruĝo-vbluo);
+    }
+
+    /**
+     * Kalkulas deksesuman kolorindikon el h/s/l-valoroj
+     * @param {*} h kolorvaloro (0..360)
+     * @param {*} s kolorsateco (0..100)
+     * @param {*} l heleco (0..100)
+     * @returns 
+     */
+    static hsl2hex(h,s,l) {
+        s /= 100;
+        l /= 100;
+      
+        let c = (1 - Math.abs(2 * l - 1)) * s,
+            x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+            m = l - c/2,
+            r = 0,
+            g = 0, 
+            b = 0; 
+      
+        if (0 <= h && h < 60) {
+          r = c; g = x; b = 0;
+        } else if (60 <= h && h < 120) {
+          r = x; g = c; b = 0;
+        } else if (120 <= h && h < 180) {
+          r = 0; g = c; b = x;
+        } else if (180 <= h && h < 240) {
+          r = 0; g = x; b = c;
+        } else if (240 <= h && h < 300) {
+          r = x; g = 0; b = c;
+        } else if (300 <= h && h < 360) {
+          r = c; g = 0; b = x;
+        }
+        // Having obtained RGB, convert channels to hex
+        r = Math.round((r + m) * 255).toString(16);
+        g = Math.round((g + m) * 255).toString(16);
+        b = Math.round((b + m) * 255).toString(16);
+      
+        // Prepend 0s, if necessary
+        if (r.length == 1)
+          r = "0" + r;
+        if (g.length == 1)
+          g = "0" + g;
+        if (b.length == 1)
+          b = "0" + b;
+      
+        return "#" + r + g + b;
     }
 }
