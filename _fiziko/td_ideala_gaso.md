@@ -456,7 +456,7 @@ function daŭrigo() {
     ripetu(
         () => {
             paŝo();
-            return (idealgaso.T - T0 < d_larĝo);
+            return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);            
         },
         intervalo
     )
