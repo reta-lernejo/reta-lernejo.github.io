@@ -123,7 +123,7 @@ por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m
 
 
 <canvas id="kampo" width="600" height="400"></canvas>
-miksiĝo de volumenoj de ideala gaso diverstemperaturaj
+miksiĝo de du idealaj gasoj diverstemperaturaj
 
 <button id="starto">Komencu</button>
 <button id="halto">Haltu</button>
@@ -226,8 +226,8 @@ function preparo() {
 }
 
 function pentro() {
-    const satureco = 30;
-    const heleco = 80;
+    const satureco = 90;
+    const heleco = 90;
 
     function hsl(h) { return Diagramo.hsl2hex(h,satureco,heleco); }
     function h2sl(h1,h2) { return hsl(((h1+h2)/2)%360); }
