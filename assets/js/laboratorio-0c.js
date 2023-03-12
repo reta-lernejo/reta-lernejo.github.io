@@ -819,7 +819,7 @@ class LabPHIndikilo extends LabIlo {
     }
 
     /**
-     * Redonas kolovaloron por pH-valoro. Tiu kolovaloro estu uzata kiel unua argumento h de hsl(h,s,l)
+     * Redonas kolorvaloron por pH-valoro. Tiu kolorvaloro estu uzata kiel unua argumento h de hsl(h,s,l)
      */
     static pH_koloro(pH) {
         return (pH <= 7?
