@@ -67,6 +67,29 @@ class Diagramo {
         this.ctx.fillRect(x, y, w, h);
     }
 
+
+    /**
+     * Desegnas koloran, senrandan rektangulon kun kolorgradiento (horizontala)
+     * @param {number} x koordinato de dekstra rando
+     * @param {number} y koordinato de supra rando
+     * @param {number} w larĝo
+     * @param {number} h alto
+     * @param {string} k1 koloro maldekstra 
+     * @param {string} km koloro meza
+     * @param {string} k2 koloro dekstra
+     */
+    rektangulo_h3k(x,y,w,h,k1="black",km="white",k2="black") {
+        this.ctx.beginPath();
+        //const gradient = this.ctx.createLinearGradient(x,0,x+w,0);
+        const gradient = this.ctx.createLinearGradient(x,0,x+w,0);
+        gradient.addColorStop(0,k1);
+        gradient.addColorStop(0.5,km);
+        gradient.addColorStop(1,k2);
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(x, y, w, h);
+    }
+
+
     /**
      * Skribas horizontale centrigitan tekston
      * @param {number} x x-valoro de la centro
@@ -171,7 +194,7 @@ class Diagramo {
     /**
      * Kalkulas deksesuman kolorindikon el h/s/l-valoroj
      * @param {*} h kolorvaloro (0..360)
-     * @param {*} s kolorsateco (0..100)
+     * @param {*} s kolorsatureco (0..100)
      * @param {*} l heleco (0..100)
      * @returns 
      */

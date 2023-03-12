@@ -226,13 +226,29 @@ function preparo() {
 }
 
 function pentro() {
+    const satureco = 30;
+    const heleco = 80;
+
+    function hsl(h) { return Diagramo.hsl2hex(h,satureco,heleco); }
+    function h2sl(h1,h2) { return hsl(((h1+h2)/2)%360); }
 
     function ig_pentro(idealgaso,offs=0) {
+        // kalkulu temperaturojn kaj kolorvalorojn por la ĉeloj
+        let koloroj = [];
+        for (const ĉelo of idealgaso.ĉeloj) {
+            const T = idealgaso.ĉeltemperaturo(ĉelo);
+            koloroj.push(Diagramo.kolorvaloro(T,200,400));
+        }
+
+        // pentru la ĉelojn kun kolora fono
         for (let k=0; k<idealgaso.ĉeloj.length;k++) {
             const ĉelo = idealgaso.ĉeloj[k];
-            const T = idealgaso.ĉeltemperaturo(ĉelo);
-            const klr = Diagramo.hsl2hex(Diagramo.kolorvaloro(T,250,400),30,80);
-            dgr.rektangulo(offs+ĉelo_px*k,0,ĉelo_px,canvas.height,klr);
+
+            const k1 = k? h2sl(koloroj[k-1],koloroj[k]) : hsl(koloroj[k]);
+            const km = hsl(koloroj[k]);
+            const k2 = (k<idealgaso.ĉeloj.length-1)? h2sl(koloroj[k],koloroj[k+1]) : hsl(koloroj[k]);
+
+            dgr.rektangulo_h3k(offs+ĉelo_px*k,0,ĉelo_px,canvas.height,k1,km,k2);
             for (const e of Object.values(ĉelo)) {
                 const x = e.x/px_nm+offs;
                 const y = e.y/px_nm;
