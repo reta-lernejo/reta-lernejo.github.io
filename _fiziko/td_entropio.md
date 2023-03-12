@@ -155,7 +155,7 @@ const koloro = "cornflowerblue";
 
 // skal-faktoroj 
 const px_nm = 0.1; // 1px = 0.1nm
-const ĉellarĝo = 1/25; // ĉellarĝo estas 1/25 de 500px
+const ĉellarĝo = 1/10; // ĉellarĝo estas 1/10 de duono de canvas.width, t.e. 30px
 const ĉelo_nm = 500*ĉellarĝo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
 
 const intervalo = 50; // 50 ms
@@ -173,12 +173,12 @@ const idealgaso1 = new Idealgaso( // maldekstre
     px_nm*canvas.width/2,
     px_nm*canvas.height,
     px_nm*canvas.height, // profundo = alto
-    ĉelo_nm);
+    [ĉellarĝo,1]);
 const idealgaso2 = new Idealgaso( // dekstre
     px_nm*canvas.width/2,
     px_nm*canvas.height,
     px_nm*canvas.height, // profundo = alto
-    ĉelo_nm);
+    [ĉellarĝo,1]);
 
 // trakto de adaptoj per butonoj ...
 

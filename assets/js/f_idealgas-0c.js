@@ -70,7 +70,7 @@ class Idealgaso {
      * @param {number} larĝo larĝo en nm
      * @param {number} alto alto en nm
      * @param {number} profundo profundo (virtuala) en nm
-     * @param {number} ĉelo grandeco de ĉelo en frakcio de alto
+     * @param {number} ĉelo grandeco de kvadrata ĉelo en frakcio de alto; aŭ du nombroj: frakcio de larĝo, frakcio de alto
      * @param {number} takto takto en onoj de sekundo por aktualigi la bildon
      */
     constructor(larĝo,alto,profundo,ĉelo=1/20,takto=1/20) {
@@ -86,8 +86,13 @@ class Idealgaso {
         this.takto = takto;
 
         // ĉelalto kaj ĉellarĝo
-        this.Ĉa = alto*ĉelo;
-        this.Ĉl = this.Ĉa; //larĝo/this.Ĉa; 
+        if (typeof ĉelo === 'number') {
+            this.Ĉa = alto*ĉelo;
+            this.Ĉl = this.Ĉa; //larĝo/this.Ĉa;     
+        } else if (Array.isArray(ĉelo) && ĉelo.length == 2) {
+            this.Ĉa = alto*ĉelo[1];
+            this.Ĉl = larĝo*ĉelo[0];
+        }
 
         this.T = 0; // la tuta tempo en paŝoj
         this.nombro = 0; // la nombro de eroj en iu momento
