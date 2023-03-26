@@ -183,5 +183,3 @@ aktualigo();
 
 
 $$ S(\lambda) = \frac{2 \pi h c^2}{\lambda^5} \frac{1}{e^{hc / \lambda k_B T}-1} $$
-
-

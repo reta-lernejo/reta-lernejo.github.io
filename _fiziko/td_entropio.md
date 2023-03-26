@@ -13,6 +13,15 @@ js:
 ...paĝo en preparo...
 
 <!--
+https://de.wikipedia.org/wiki/Sackur-Tetrode-Gleichung
+http://hyperphysics.phy-astr.gsu.edu/hbase/Therm/entropgas.html
+
+
+https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_General_Chemistry_(Petrucci_et_al.)/19%3A_Spontaneous_Change%3A_Entropy_and_Gibbs_Energy/19.3%3A_Evaluating_Entropy_and_Entropy_Changes
+
+https://physics.stackexchange.com/questions/334813/entropy-of-two-subsystems-exchanging-energy
+
+
 
 https://eo.wikibooks.org/wiki/Termodinamiko/Leciono_1#Ideala_gaso
 https://de.wikipedia.org/wiki/Ideales_Gas
