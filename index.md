@@ -104,7 +104,7 @@ nek ke ĉio funkcias senmanke.
 {% endif %}  
 {% endfor %}
 
-
+<!--
 ## Esperanto
 
 {% assign esp = site.esperanto | sort: "title" %}
@@ -113,3 +113,4 @@ nek ke ĉio funkcias senmanke.
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
 {% endif %}  
 {% endfor %}  
+-->

@@ -46,7 +46,7 @@ collections:
   iloj:
     output: true
   esperanto:
-    output: true
+    output: false
   kosmo:
     output: true    
   programado:
