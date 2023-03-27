@@ -15,13 +15,14 @@ js:
 <!--
 https://de.wikipedia.org/wiki/Sackur-Tetrode-Gleichung
 http://hyperphysics.phy-astr.gsu.edu/hbase/Therm/entropgas.html
+https://de.wikipedia.org/wiki/Ideales_Gas#Entropie
 
 
 https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_General_Chemistry_(Petrucci_et_al.)/19%3A_Spontaneous_Change%3A_Entropy_and_Gibbs_Energy/19.3%3A_Evaluating_Entropy_and_Entropy_Changes
 
 https://physics.stackexchange.com/questions/334813/entropy-of-two-subsystems-exchanging-energy
 
-
+https://en.wikipedia.org/wiki/Entropy_of_mixing
 
 https://eo.wikibooks.org/wiki/Termodinamiko/Leciono_1#Ideala_gaso
 https://de.wikipedia.org/wiki/Ideales_Gas
@@ -33,6 +34,20 @@ https://www.pfeiffer-vacuum.com/de/know-how/einfuehrung-in-die-vakuumtechnik/gru
 
 https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_idealen_Gases
 -->
+
+## Enkonduko
+
+Noether - simetrio -> responda konservata grando
+-> energiokonservo
+
+energiuzo por laboro... fakte ne la energio mem uziĝas sed energidiferencoj:
+
+1. akvo sur monto -> akvofluo -> movenergio -> uzo por peli muelilon
+2. diferenco detemperaturo / premo de du gasoj -> piŝto / rotoro -> movenergio ...
+3. elektra potencialdiferenco -> kurento -> peli elektran aparaton
+
+a) uzebla energio b) neuzebla / elspezita energio
+...?
 
 
 
@@ -103,6 +118,16 @@ rapido:
 He: v = √(2E/m) = √(8.1e-21J/6.64e-27kg) = √(1.22e6)m/s = 1100m/s = 1.1e3m/s
 por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m/s
 
+entropio:
+----------
+absoluta, laŭ simplita formo de Sackuhr-Tetrode-ekvacio:
+S = N*kB*(ln(V/N) + 3/2*ln(T) + N*σ
+kun entropikonstanto σ = kB(ln[(2*pi*m*kB)^³/² / h³] + 5/2)
+
+ĉe miksado de du samnombraj volumenoj la entropidiferenco estas:
+(vd https://en.wikipedia.org/wiki/Entropy_of_mixing)
+ΔS = - N*kB*ln(1/2) (ĉ. 2e-20)
+
 -->
 
 <style>
@@ -137,25 +162,15 @@ miksiĝo de du idealaj gasoj diverstemperaturaj
 <button id="starto">Komencu</button>
 <button id="halto">Haltu</button>
 
-| | maldekstre | dekstre |
-|volumeno (nm³)|<span id="volumeno1"/>|<span id="volumeno2"/>|
-|rapido (Ø m/s)|<span id="rapido1"/>|<span id="rapido2"/>|
-|energio (J)|<span id="energio1"/>|<span id="energio2"/>|
-|temperaturo (K)|<span id="temperaturo1"/>|<span id="temperaturo2"/>|
-
-<div style="display: none">
-<!-- ankoraŭ iom nefindindaj valoroj, do provizore kaŝita! -->
-Pliaj grandoj de la simulita eksperimento:
-
-|entropio (J/K)|<span id="entropio"/>|
-|entalpio (J)|<span id="entalpio"/>|
-|Gibs-energio (J)|<span id="gibsenergio"/>|
+| | maldekstre | dekstre | kune |
+|volumeno (nm³)|<span id="volumeno1"/>|<span id="volumeno2"/>|<span id="volumeno3"/>|
+|rapido (Ø m/s)|<span id="rapido1"/>|<span id="rapido2"/>|<span id="rapido3"/>|
+|energio (J)|<span id="energio1"/>|<span id="energio2"/>|<span id="energio3"/>|
+|temperaturo (K)|<span id="temperaturo1"/>|<span id="temperaturo2"/>|<span id="temperaturo3"/>|
+|entropio (J/K)|<span id="entropio1"/>|<span id="entropio2"/>|<span id="entropio3"/>|
 
 (pro la malgrandeco kaj simpleco de nia eksperimento, tiuj valoroj
-estas iom malprecizaj kaj nestabilaj dum la eksperimento. Ekzemple
-entropio ĉe adiabata volumenŝanĝo devus resti konstanta, sed ĝi 
-eventuale iom fordrivetas.)
-</div>
+povas esti iom malprecizaj kaj nestabilaj dum la eksperimento.)
 
 <script>
 
@@ -229,6 +244,21 @@ function preparo() {
     idealgaso1.preparo(N1,m,T1);
     idealgaso2.preparo(N2,m,T2);
 
+    ĝi("#rapido1").innerHTML = '';
+    ĝi("#energio1").innerHTML = '';
+    ĝi("#temperaturo1").innerHTML = '';
+    ĝi("#entropio1").innerHTML = '';
+
+    ĝi("#rapido2").innerHTML = '';
+    ĝi("#energio2").innerHTML = '';
+    ĝi("#temperaturo2").innerHTML = '';
+    ĝi("#entropio2").innerHTML = '';
+
+    ĝi("#rapido3").innerHTML = '';
+    ĝi("#energio3").innerHTML = '';
+    ĝi("#temperaturo3").innerHTML = '';
+    ĝi("#entropio3").innerHTML = '';
+
     dgr.viŝu();
     dividita = true;
     dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,koloro);
@@ -284,24 +314,28 @@ function pentro() {
 
 function valoroj() {
 
-    // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
-    const E1 = idealgaso1.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
-    
-    ĝi("#rapido1").innerHTML = nombro(idealgaso1.rapido_ave());
-    ĝi("#energio1").innerHTML = nombro(E1);
-
-    const T1 = idealgaso1.temperaturo();
-    ĝi("#temperaturo1").innerHTML = nombro(T1);
-
     if (dividita) {
-        // energio E konvertita de kg*px²/intervl² al J = kg*m²/s²
-        const E2 = idealgaso2.energio(); // * px_nm * px_nm  * 1000/intervalo * 1000/intervalo; // * 1e-54;
-        
-        ĝi("#rapido2").innerHTML = nombro(idealgaso2.rapido_ave());
-        ĝi("#energio2").innerHTML = nombro(E2);
 
-        const T2 = idealgaso2.temperaturo();
-        ĝi("#temperaturo2").innerHTML = nombro(T2);
+        ĝi("#volumeno1").innerHTML = nombro(idealgaso1.volumeno());
+        ĝi("#rapido1").innerHTML = nombro(idealgaso1.rapido_ave());
+        ĝi("#energio1").innerHTML = nombro(idealgaso1.energio());
+        ĝi("#temperaturo1").innerHTML = nombro(idealgaso1.temperaturo());
+        ĝi("#entropio1").innerHTML = nombro(idealgaso1.entropio(),6);
+
+        ĝi("#volumeno2").innerHTML = nombro(idealgaso2.volumeno());
+        ĝi("#rapido2").innerHTML = nombro(idealgaso2.rapido_ave());
+        ĝi("#energio2").innerHTML = nombro(idealgaso2.energio());
+        ĝi("#temperaturo2").innerHTML = nombro(idealgaso2.temperaturo());
+        ĝi("#entropio2").innerHTML = nombro(idealgaso2.entropio(),6);
+
+    } else {
+
+        ĝi("#volumeno3").innerHTML = nombro(idealgaso1.volumeno());
+        ĝi("#rapido3").innerHTML = nombro(idealgaso1.rapido_ave());
+        ĝi("#energio3").innerHTML = nombro(idealgaso1.energio());
+        ĝi("#temperaturo3").innerHTML = nombro(idealgaso1.temperaturo());
+        ĝi("#entropio3").innerHTML = nombro(idealgaso1.entropio(),6);
+
     }
 
 
