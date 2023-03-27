@@ -497,7 +497,7 @@ class Idealgaso {
     }
 
     /** 
-     * Redonas la energiuon de unuopa ĉelo
+     * Redonas la energion de unuopa ĉelo
      * @param {object} ĉelo 
      */
     ĉelenergio(ĉelo) {
@@ -509,7 +509,7 @@ class Idealgaso {
     }
 
     /**
-     * Redonas la energion de unuopa ĉelo
+     * Redonas la temperaturon de unuopa ĉelo
      * @param {object} ĉelo 
      */
     ĉeltemperaturo(ĉelo) {
@@ -558,12 +558,13 @@ class Idealgaso {
     /**
      * Redonas la entropion (J/K),
      * vd. https://de.wikipedia.org/wiki/Ideales_Gas#Entropie
+     * (simpligo el https://de.wikipedia.org/wiki/Sackur-Tetrode-Gleichung)
      */
     entropio() {
         /* entropio restos egala, se la volumenoj en kolumno 1
         respondas al la temperaturoj en la lasta kolumno, por
-        adiabata procezo la entropio devus resti sama, ĉar
-        nek varmo, ne materio interŝanĝiĝus kun la ĉirkaŭo!
+        adiabata procezo la entropio en ekvilibra stato devus resti sama, 
+        ĉar nek varmo, nek materio interŝanĝiĝus kun la ĉirkaŭo!
 
         V(nm³) ln(V/T)	3/2 ln(T) -> diff	exp(diff/1,5)
         10000	-60,99				11,05	1.578,93
@@ -581,8 +582,8 @@ class Idealgaso {
         200000	-58,00				8,05	214,29
 
         Nia nuna modelo (larĝadapto() {...}) iomete altigas la entropion ankoraŭ ĉe
-        malpligrandigo de volumeno, tio povas esti statistika eraro pro la malmultaj eroj kaj 
-        kolizioj, sed povas ankaŭ esti sitema erareto en nia modelo!
+        malpligrandigo de volumeno, tio povas esti statistika eraro pro la malmultaj eroj kaj kolizioj, sed povas ankaŭ esti sistema erareto en nia modelo!
+        Cetere la uzata formulo validas nur por sufiĉe grandaj N, ĉar en la Sackuhr-Tetrode-ekvacio termo kiu mem ne dependas de N neglektiĝas.
         */
 
         const N = this.nombro;
