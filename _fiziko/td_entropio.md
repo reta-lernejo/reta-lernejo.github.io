@@ -164,6 +164,7 @@ miksiĝo de du idealaj gasoj diverstemperaturaj
 
 | | maldekstre | dekstre | kune |
 |volumeno (nm³)|<span id="volumeno1"/>|<span id="volumeno2"/>|<span id="volumeno3"/>|
+|nombro|<span id="nombro1"/>|<span id="nombro2"/>|<span id="nombro3"/>|
 |rapido (Ø m/s)|<span id="rapido1"/>|<span id="rapido2"/>|<span id="rapido3"/>|
 |energio (J)|<span id="energio1"/>|<span id="energio2"/>|<span id="energio3"/>|
 |temperaturo (K)|<span id="temperaturo1"/>|<span id="temperaturo2"/>|<span id="temperaturo3"/>|
@@ -317,12 +318,14 @@ function valoroj() {
     if (dividita) {
 
         ĝi("#volumeno1").innerHTML = nombro(idealgaso1.volumeno());
+        ĝi("#nombro1").innerHTML = nombro(idealgaso1.nombro);
         ĝi("#rapido1").innerHTML = nombro(idealgaso1.rapido_ave());
         ĝi("#energio1").innerHTML = nombro(idealgaso1.energio());
         ĝi("#temperaturo1").innerHTML = nombro(idealgaso1.temperaturo());
         ĝi("#entropio1").innerHTML = nombro(idealgaso1.entropio(),6);
 
         ĝi("#volumeno2").innerHTML = nombro(idealgaso2.volumeno());
+        ĝi("#nombro2").innerHTML = nombro(idealgaso2.nombro);
         ĝi("#rapido2").innerHTML = nombro(idealgaso2.rapido_ave());
         ĝi("#energio2").innerHTML = nombro(idealgaso2.energio());
         ĝi("#temperaturo2").innerHTML = nombro(idealgaso2.temperaturo());
@@ -331,6 +334,7 @@ function valoroj() {
     } else {
 
         ĝi("#volumeno3").innerHTML = nombro(idealgaso1.volumeno());
+        ĝi("#nombro3").innerHTML = nombro(idealgaso1.nombro);
         ĝi("#rapido3").innerHTML = nombro(idealgaso1.rapido_ave());
         ĝi("#energio3").innerHTML = nombro(idealgaso1.energio());
         ĝi("#temperaturo3").innerHTML = nombro(idealgaso1.temperaturo());
