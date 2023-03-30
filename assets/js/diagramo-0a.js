@@ -89,6 +89,11 @@ class Diagramo {
         this.ctx.fillRect(x, y, w, h);
     }
 
+/*
+ por havi alian koloron ĉe ciu angulo, estas pli bone uzi radiajn gradientojn kun kolorkombinoj, vd.
+ https://stackoverflow.com/questions/62808328/gradients-at-each-vertex-of-a-triangle-with-html5-canvas 
+ */
+
 
     /**
      * Skribas horizontale centrigitan tekston
