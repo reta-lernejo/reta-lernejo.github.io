@@ -107,14 +107,13 @@ class Idealgaso {
     }
 
    
-    /* 
+    /**  
     * Remetu variablojn, kreu erojn kaj alordigu al ĉeloj laŭ koordinatoj
-    * @param {number} n_eroj nombro de eroj
     * @param {number} maso de unuopa ero (en atommasoj u)
-    * @param {number} temperaturo en K, per tio ni scios la ekspekton de la rapido por la eroj
     * @param {intervalo} intervalo en onoj de sekundo, por redukti la rapidon, apriore 10^-11s
     */
-    preparo(n_eroj=1000, maso=1, temperaturo=293.15, intervalo=1e-11) {
+    preparo(maso=1, intervalo=1e-11) {
+
         this.maso = maso;
         this.intervalo = intervalo;
             
@@ -124,12 +123,14 @@ class Idealgaso {
         const n_ĉeloj = Math.ceil(this.larĝo/this.Ĉl * this.alto/this.Ĉa);
         this.ĉeloj = Array.apply(null, new Array(n_ĉeloj))
             .map(() => new Object());
+
         //this.v_max = rapido * this.Ĉa;
         
         this.nombro = 0;
         this.v_sum = 0;
         this.v_sum2 = 0;
-        this.kreu_erojn(n_eroj,temperaturo);
+        // this.kreu_erojn(n_eroj,temperaturo,
+        //     xmin,ymin,xmax,ymax);
     }
 
     /**
@@ -303,10 +304,14 @@ class Idealgaso {
      * @param {number} n_eroj nombro da kreendaj eroj
      * @param {number} maso maso de eroj en atommasunuoj (u)
      * @param {number} temperaturo la temperaturo en K, difinanta la ekspekton de la rapido
+     * @param {number} xmin minimuma x-koordinato (0)
+     * @param {number} ymin minimuma y-koordinato (0)
+     * @param {number} xmax maksimuma x-koordinato (this.larĝo)
+     * @param {number} ymax maksimuma y-koordinato (this.alto)
      */
-    kreu_erojn(n_eroj,temperaturo) {
-        const larĝo = this.larĝo;
-        const alto = this.alto;
+    kreu_erojn(n_eroj,temperaturo,xmin=0,ymin=0,xmax=this.larĝo,ymax=this.alto) {
+        const larĝo = xmax - xmin;
+        const alto = ymax - ymin;
 
         // per la temperaturo atendebla rapidodistribuo en unu dimensio, vd
         // https://de.wikipedia.org/wiki/Maxwell-Boltzmann-Verteilung
@@ -334,8 +339,8 @@ class Idealgaso {
             const e = {
                 id: n+1,
                 t: this.t - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe ĉelmovo
-                x: Math.random() * larĝo,
-                y: Math.random() * alto,
+                x: xmin + Math.random()*larĝo,
+                y: ymin + Math.random()*alto,
                 vx: mm6[mm],
                 vy: mm6[mm+1],
                 vz: mm6[mm+2] // z-dimensio de rapideco, loko ne gravas, ĉar ni projekcias al x-y-ebeneo
@@ -361,9 +366,18 @@ class Idealgaso {
      * Sur kiu ĉelo troviĝas pozicio (x,y)?
      */
     ĉelo(x,y) {
-        const k = Math.trunc(x/this.Ĉl + this.Ĉl*Math.trunc(y/this.Ĉa));
+        const k = Math.trunc(x/this.Ĉl + (this.larĝo/this.Ĉl)*Math.trunc(y/this.Ĉa));
         if (k>=this.ĉeloj.length) throw(`neniu ĉelo ${k} por x: ${x}, y: ${y}`);
         return this.ĉeloj[k];
+    }
+
+    /**
+     * Redonas la ĉelpozicion (kol,lin)
+     * @param {number} k la numero de la ĉelo
+     */
+    ĉelpos(k) {
+        const mod = this.larĝo/this.Ĉl;
+        return { kol: k%mod, lin: Math.trunc(k/mod) };
     }
 
 
@@ -393,6 +407,43 @@ class Idealgaso {
         }
     }
 
+    /**
+     * Traktas koliziojn kun la eksteraj vandoj. Por specialaj aranĝoj, ekz-e internaj
+     * vandoj, vi povas superŝargi tiun metodon.
+     * 
+     * @param {object} e la traktenda ero
+     * @param {number} nx nova x-koordinato
+     * @param {number} ny nova y-koordinato
+     */
+    kolizio(e,nx,ny) {
+        const vando = {};
+
+        // momente ni nur movas la erojn
+        if (nx < 0) { // kolizio maldekstre
+            e.vx = -e.vx;
+            nx = -nx; // e.x - vx;
+            vando.md = true;
+        } else if (nx > this.larĝo) { // kolizio dekstre
+            e.vx = -e.vx;
+            nx = this.larĝo - (nx-this.larĝo); // e.x - vx;
+            vando.d = true;
+        }
+
+        if (ny < 0) { // kolizio supre
+            e.vy = -e.vy;
+            ny = -ny; //e.y + e.vy;
+            vando.s = true;
+        } else if (ny > this.alto) { // kolizio malsupre
+            e.vy = -e.vy;
+            ny = this.alto - (ny-this.alto); //e.y + e.vy;
+            vando.ms = true;
+        }
+        // movo al nx, ny, eventuale al nova ĉelo
+        e.t = this.t;
+        this.ĉelmovo(e,nx,ny);
+        return vando;
+    }
+
 
     /**
      * Trakuri la ĉelojn, movi ĉiujn erojn en ĉiu ĉelo,
@@ -401,49 +452,26 @@ class Idealgaso {
     procezo() {
         const self = this;
         const premo = {d: 0, md: 0, s: 0, ms: 0}; // la kvar flankoj
-        const tf = this.intervalo * 1e9 * this.takto; // artefarita malrapidigo, sed ni mezuras nm anst. m kaj ni havas
-                // takton de nur ono de sekundo.
+        const tf = this.intervalo * 1e9 * this.takto; // artefarita malrapidigo, 
+            // sed ni mezuras nm anst. m kaj ni havas
+            // takton de nur ono de sekundo.
 
-        /* movo de e laŭ ĝia rapideco kun eventuala reflekto ĉe la bordoj */        
-        function movo(e) {
-            if (e.t < self.t) {
-
-                // momente ni nur movas la erojn
-                const vx = e.vx * tf;
-                let nx = e.x + vx;
-                if (nx < 0) {
-                    e.vx = -e.vx;
-                    nx = -nx; // e.x - vx;
-                    premo.md += e.vx; 
-                } else if (nx > self.larĝo) {
-                    e.vx = -e.vx;
-                    nx = self.larĝo - (nx-self.larĝo); // e.x - vx;
-                    premo.d -= e.vx; 
-                }
-
-                const vy = e.vy * tf;
-                let ny = e.y + vy;
-                if (ny < 0) {
-                    e.vy = -e.vy;
-                    ny = -ny; //e.y + e.vy;
-                    premo.s += e.vy;
-                } else if (ny > self.alto) {
-                    e.vy = -e.vy;
-                    ny = self.alto - (ny-self.alto); //e.y + e.vy;
-                    premo.ms -= e.vy;
-                }
-                // movo al nx, ny, eventuale al nova ĉelo
-                e.t = self.t;
-                self.ĉelmovo(e,nx,ny);
-            }
-        }
         
         // trakuru ĉiujn ĉelojn kaj traktu movojn kaj evtl. reakciojn de la eroj
         for (let k in this.ĉeloj) {
             // movo
-            const kx = k % this.Ĉl;
-            const ky = Math.trunc(k / this.Ĉa);
-            Object.values(this.ĉeloj[k]).map((e) => movo(e,kx,ky));
+            Object.values(this.ĉeloj[k]).map((e) => {
+                // movo de e laŭ ĝia rapideco kun eventuala reflekto ĉe la bordoj        
+                if (e.t < self.t) {
+                    const nx = e.x + e.vx * tf;
+                    const ny = e.y + e.vy * tf;
+            
+                    const vando = self.kolizio(e,nx,ny);
+                    for (let v in Object.keys(vando)) {
+                        premo[v] += (v == 'md' || v == 'd')? Math.abs(e.vx) : Math.abs(e.vy);
+                    }
+                }
+            });
         }
 
         // aktualigu la premon kaj obligu per maso kaj 2 (pro Δv = v-(-v) = 2v))

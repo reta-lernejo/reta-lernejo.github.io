@@ -386,9 +386,7 @@ class Idealgaso {
         // trakuru ĉiujn ĉelojn kaj traktu movojn kaj reakciojn de la eroj
         for (let k in this.ĉeloj) {
             // movo
-            const kx = k % this.Ĉl;
-            const ky = Math.trunc(k / this.Ĉa);
-            Object.values(this.ĉeloj[k]).map((e) => movo(e,kx,ky));
+            Object.values(this.ĉeloj[k]).map((e) => movo(e));
         }
 
         // aktualigu la premon kaj obligu per maso kaj 2 (pro Δv = v-(-v) = 2v))

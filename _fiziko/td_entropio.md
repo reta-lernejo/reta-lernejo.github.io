@@ -181,9 +181,11 @@ const koloro = "cornflowerblue";
 
 // skal-faktoroj 
 const px_nm = 0.1; // 1px = 0.1nm
-const ĉellarĝo = 1/5; //aŭ 1/10;  1/5 = 60px, 1/10 = 30px; // ĉellarĝo estas 1/10 de duono de canvas.width, t.e. 30px
-const ĉelo_nm = 500*ĉellarĝo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
-const ĉelo_px = canvas.width/2*ĉellarĝo;
+const ĉellarĝo = 1/6; 
+const ĉelalto = 1/4;
+
+const ĉelo_nm = 600*ĉellarĝo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
+const ĉelo_px = canvas.width*ĉellarĝo;
 
 const intervalo = 50; // 50 ms
 const r_ero = 1.4; // radiuso de eroj
@@ -191,10 +193,28 @@ const r_ero = 1.4; // radiuso de eroj
 //let v_max = K/2; // 10*K; K*2;  // maksimuma rapideco ~ temperaturo
 
 let t0 = 0; // tempo komenciĝu ĉe T=0
-let dividita = true; // en la komenco la du diverstemperaturaj partoj estas apartigitaj
 let ripetoj; // per clearTimeout(ripatoj.p) oni povas haltigi kurantan eksperimenton
 
-let idealgaso1, idealgaso2;
+let idealgaso;
+
+class IG2 extends Idealgaso {
+    kolizio(e,nx,ny) {
+        // traktu koliziojn kun la meza vando, ĉu la vektoro n-e tranĉas la vandon?
+        if (nx != e.x) {
+            const lambda = (this.larĝo/2 - e.x) / (nx - e.x);
+            if (lambda >= 0 && lambda <= 1) {
+                const sy = e.y + lambda*(ny-e.y);
+                if (sy/this.alto > ĉelalto && sy < this.alto) {
+                    // kolizio kun la vando - reĵetu!
+                    e.vx = -e.vx;
+                    nx = this.larĝo/2 - (nx - this.larĝo/2);
+                }
+            }
+        }
+
+        return super.kolizio(e,nx,ny);
+    }
+}
 
 // trakto de adaptoj per butonoj ...
 
@@ -215,16 +235,11 @@ function preparo() {
 
     // ni uzas 30x400-ĉelojn por ekhavi temperaturajn striojn
     // larĝo estu multoblo de 30!
-    idealgaso1 = new Idealgaso( // maldekstre
-        px_nm*canvas.width/2,
+    idealgaso = new IG2( // maldekstre
+        px_nm*canvas.width,
         px_nm*canvas.height,
         px_nm*canvas.height, // profundo = alto
-        [ĉellarĝo,1]);
-    idealgaso2 = new Idealgaso( // dekstre
-        px_nm*canvas.width/2,
-        px_nm*canvas.height,
-        px_nm*canvas.height, // profundo = alto
-        [ĉellarĝo,1]);
+        [ĉellarĝo,ĉelalto]);
 
     // tempopunkto=0
     t0 = 0;
@@ -236,14 +251,15 @@ function preparo() {
     const T2 = 373.15; // temperaturo dekstre en K
     const p = 1e5; // premo 1000 hPa
     const m = 4; // maso 4u
-    const V1 = idealgaso1.volumeno()*1e-27; // en m³
-    const N1 = Idealgaso.nombro(p,V1,T1); // nombro da eroj en normkondiĉoj
+    const V = idealgaso.volumeno()*1e-27; // en m³
+    const N1 = Idealgaso.nombro(p,V/2,T1); // nombro da eroj en normkondiĉoj maldekstre
+    const N2 = Idealgaso.nombro(p,V/2,T2); // nombro da eroj en varma gaso dekstre
 
-    const V2 = idealgaso2.volumeno()*1e-27; // en m³
-    const N2 = Idealgaso.nombro(p,V2,T2); // nombro da eroj en varma gaso
-
-    idealgaso1.preparo(N1,m,T1);
-    idealgaso2.preparo(N2,m,T2);
+    // provizore... ni devas aldoni eblecon
+    // de diferencaj eroj/kondiĉoj en diversaj ĉeloj ĉe Idalgaso!
+    idealgaso.preparo(m);
+    idealgaso.kreu_erojn(N1,T1,0,0,px_nm*canvas.width/2,px_nm*canvas.height);
+    idealgaso.kreu_erojn(N2,T2,px_nm*canvas.width/2,0);
 
     ĝi("#rapido1").innerHTML = '';
     ĝi("#energio1").innerHTML = '';
@@ -262,7 +278,10 @@ function preparo() {
 
     dgr.viŝu();
     dividita = true;
-    dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,koloro);
+    dgr.linio(
+        canvas.width/2,canvas.height*ĉelalto,
+        canvas.width/2,canvas.height,
+        koloro);
 }
 
 function pentro() {
@@ -281,14 +300,20 @@ function pentro() {
         }
 
         // pentru la ĉelojn kun kolora fono
-        for (let k=0; k<idealgaso.ĉeloj.length;k++) {
+        for (let k=0; k<idealgaso.ĉeloj.length; k++) {
             const ĉelo = idealgaso.ĉeloj[k];
+            const p = idealgaso.ĉelpos(k);
 
-            const k1 = k? h2sl(koloroj[k-1],koloroj[k]) : hsl(koloroj[k]);
+            //const k1 = k? h2sl(koloroj[k-1],koloroj[k]) : hsl(koloroj[k]);
             const km = hsl(koloroj[k]);
-            const k2 = (k<idealgaso.ĉeloj.length-1)? h2sl(koloroj[k],koloroj[k+1]) : hsl(koloroj[k]);
+            //const k2 = (k<idealgaso.ĉeloj.length-1)? h2sl(koloroj[k],koloroj[k+1]) : hsl(koloroj[k]);
 
-            dgr.rektangulo_h3k(offs+ĉelo_px*k,0,ĉelo_px,canvas.height,k1,km,k2);
+            // dgr.rektangulo_h3k(offs+ĉelo_px*k,0,ĉelo_px,canvas.height,k1,km,k2);
+            dgr.rektangulo(
+                p.kol*ĉelo_px, p.lin*ĉelo_px,
+                (1+p.kol)*ĉelo_px, (1+p.lin)*ĉelo_px,
+                km);
+
             for (const e of Object.values(ĉelo)) {
                 const x = e.x/px_nm+offs;
                 const y = e.y/px_nm;
@@ -300,47 +325,40 @@ function pentro() {
 
     dgr.viŝu();
 
-    // se dividita idealgaso1 estas nur la maldekstra parto
-    // se ne plu dividita, ĝi kontenas erojn de ambaŭ partoj
-    ig_pentro(idealgaso1);
+    ig_pentro(idealgaso);
 
-    if (dividita) { 
-        ig_pentro(idealgaso2,canvas.width/2);
-
-        dgr.linio(canvas.width/2,0,canvas.width/2,canvas.height,"#000055",3);
-    }
+    dgr.linio(
+        canvas.width/2,canvas.height*ĉelalto,
+        canvas.width/2,canvas.height,
+        "#000055",3);
 
 }
 
 
 function valoroj() {
 
-    if (dividita) {
+/*
+        ĝi("#volumeno1").innerHTML = nombro(idealgaso.volumeno());
+        ĝi("#nombro1").innerHTML = nombro(idealgaso.nombro);
+        ĝi("#rapido1").innerHTML = nombro(idealgaso.rapido_ave());
+        ĝi("#energio1").innerHTML = nombro(idealgaso.energio());
+        ĝi("#temperaturo1").innerHTML = nombro(idealgaso.temperaturo());
+        ĝi("#entropio1").innerHTML = nombro(idealgaso.entropio(),6);
 
-        ĝi("#volumeno1").innerHTML = nombro(idealgaso1.volumeno());
-        ĝi("#nombro1").innerHTML = nombro(idealgaso1.nombro);
-        ĝi("#rapido1").innerHTML = nombro(idealgaso1.rapido_ave());
-        ĝi("#energio1").innerHTML = nombro(idealgaso1.energio());
-        ĝi("#temperaturo1").innerHTML = nombro(idealgaso1.temperaturo());
-        ĝi("#entropio1").innerHTML = nombro(idealgaso1.entropio(),6);
+        ĝi("#volumeno2").innerHTML = nombro(idealgaso.volumeno());
+        ĝi("#nombro2").innerHTML = nombro(idealgaso.nombro);
+        ĝi("#rapido2").innerHTML = nombro(idealgaso.rapido_ave());
+        ĝi("#energio2").innerHTML = nombro(idealgaso.energio());
+        ĝi("#temperaturo2").innerHTML = nombro(idealgaso.temperaturo());
+        ĝi("#entropio2").innerHTML = nombro(idealgaso.entropio(),6);
+*/
 
-        ĝi("#volumeno2").innerHTML = nombro(idealgaso2.volumeno());
-        ĝi("#nombro2").innerHTML = nombro(idealgaso2.nombro);
-        ĝi("#rapido2").innerHTML = nombro(idealgaso2.rapido_ave());
-        ĝi("#energio2").innerHTML = nombro(idealgaso2.energio());
-        ĝi("#temperaturo2").innerHTML = nombro(idealgaso2.temperaturo());
-        ĝi("#entropio2").innerHTML = nombro(idealgaso2.entropio(),6);
-
-    } else {
-
-        ĝi("#volumeno3").innerHTML = nombro(idealgaso1.volumeno());
-        ĝi("#nombro3").innerHTML = nombro(idealgaso1.nombro);
-        ĝi("#rapido3").innerHTML = nombro(idealgaso1.rapido_ave());
-        ĝi("#energio3").innerHTML = nombro(idealgaso1.energio());
-        ĝi("#temperaturo3").innerHTML = nombro(idealgaso1.temperaturo());
-        ĝi("#entropio3").innerHTML = nombro(idealgaso1.entropio(),6);
-
-    }
+        ĝi("#volumeno3").innerHTML = nombro(idealgaso.volumeno());
+        ĝi("#nombro3").innerHTML = nombro(idealgaso.nombro);
+        ĝi("#rapido3").innerHTML = nombro(idealgaso.rapido_ave());
+        ĝi("#energio3").innerHTML = nombro(idealgaso.energio());
+        ĝi("#temperaturo3").innerHTML = nombro(idealgaso.temperaturo());
+        ĝi("#entropio3").innerHTML = nombro(idealgaso.entropio(),6);
 
 
 /*
@@ -353,15 +371,7 @@ function valoroj() {
 }
 
 function paŝo() {
-    idealgaso1.procezo();
-
-    const s6 = 6 * 1000 / intervalo;
-    if (dividita && idealgaso1.t - t0 > s6) {
-        dividita = false;
-        idealgaso1.kunigo(idealgaso2);
-    }
-
-    if (dividita) idealgaso2.procezo();
+    idealgaso.procezo();
 
     pentro();
     valoroj();
@@ -392,7 +402,8 @@ function daŭrigo() {
     t0 += ŝovo;
 
     function maldekstren(ctx) {
-        const imageData = ctx.getImageData(ŝovo,0,ctx.canvas.width-ŝovo,ctx.canvas.height);
+        const imageData = ctx.getImageData(ŝovo,0,
+            ctx.canvas.width-ŝovo,ctx.canvas.height);
         /*
         ctx.translate(-ŝovo,0);
         ctx.clearRect(t0, 0, ctx.canvas.width,ctx.canvas.height);
