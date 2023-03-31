@@ -89,10 +89,29 @@ class Diagramo {
         this.ctx.fillRect(x, y, w, h);
     }
 
-/*
- por havi alian koloron ĉe ciu angulo, estas pli bone uzi radiajn gradientojn kun kolorkombinoj, vd.
- https://stackoverflow.com/questions/62808328/gradients-at-each-vertex-of-a-triangle-with-html5-canvas 
- */
+    /**
+     * Desegnas koloran, senrandan rektangulon kun kolorgradiento (cirkla)
+     *
+     * por havi alian koloron ĉe ciu angulo, oni devas kombini plurajn gradientojn, vd.
+     * https://stackoverflow.com/questions/62808328/gradients-at-each-vertex-of-a-triangle-with-html5-canvas 
+     * @param {number} x koordinato de dekstra rando
+     * @param {number} y koordinato de supra rando
+     * @param {number} w larĝo
+     * @param {number} h alto
+     * @param {string} km koloro meza
+     * @param {string} ka koloro angula (eble sama sed travidebla)
+     */
+    rektangulo_gr(x,y,w,h,km="#FFFFFFFF",ka="FFFFFF00") {
+        this.ctx.beginPath();
+        //const gradient = this.ctx.createLinearGradient(x,0,x+w,0);
+        const gradient = this.ctx.createRadialGradient(
+            x+w/2, y+h/2, 0,
+            x+w/2, y+h/2, Math.sqrt(w*w+h*h)/2);
+        gradient.addColorStop(0,km);
+        gradient.addColorStop(1,ka);
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(x, y, w, h);
+    }
 
 
     /**

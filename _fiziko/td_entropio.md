@@ -177,6 +177,8 @@ povas esti iom malprecizaj kaj nestabilaj dum la eksperimento.)
 
 const canvas = document.getElementById("kampo");
 const dgr = new Diagramo(canvas);
+    // pro pli bona kombino de interkovriĝantaj gradientoj 
+    //dgr.ctx.globalCompositeOperation = "soft-light"; // lighter
 const koloro = "cornflowerblue";
 
 // skal-faktoroj 
@@ -309,10 +311,10 @@ function pentro() {
             //const k2 = (k<idealgaso.ĉeloj.length-1)? h2sl(koloroj[k],koloroj[k+1]) : hsl(koloroj[k]);
 
             // dgr.rektangulo_h3k(offs+ĉelo_px*k,0,ĉelo_px,canvas.height,k1,km,k2);
-            dgr.rektangulo(
+            dgr.rektangulo_gr(
                 p.kol*ĉelo_px, p.lin*ĉelo_px,
                 (1+p.kol)*ĉelo_px, (1+p.lin)*ĉelo_px,
-                km);
+                km, km+"00");
 
             for (const e of Object.values(ĉelo)) {
                 const x = e.x/px_nm+offs;
