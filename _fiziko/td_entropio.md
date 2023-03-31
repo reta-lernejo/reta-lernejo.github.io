@@ -216,6 +216,27 @@ class IG2 extends Idealgaso {
 
         return super.kolizio(e,nx,ny);
     }
+
+    // kalkulu energion kaj eronombron aparte por dekstra kaj maldekstra parto
+    dekstre_maldekstre() {
+        let md = {n:0, e: 0};
+        let d = {n: 0, e: 0};
+
+        for (let k=0; k < this.ĉeloj.length; k++) {
+            const ĉelo = this.ĉeloj[k];
+            const pos = this.ĉelpos(k);
+
+            if (pos.kol < 1/ĉellarĝo/2) {
+                md.n += Object.keys(ĉelo).length;
+                md.e += this.ĉelenergio(ĉelo)
+            } else {
+                d.n += Object.keys(ĉelo).length;
+                d.e += this.ĉelenergio(ĉelo)
+            }
+        }
+
+        return [md,d];
+    }
 }
 
 // trakto de adaptoj per butonoj ...
@@ -311,7 +332,7 @@ function pentro() {
             //const k2 = (k<idealgaso.ĉeloj.length-1)? h2sl(koloroj[k],koloroj[k+1]) : hsl(koloroj[k]);
 
             // dgr.rektangulo_h3k(offs+ĉelo_px*k,0,ĉelo_px,canvas.height,k1,km,k2);
-            dgr.rektangulo_gr(
+            dgr.rektangulo( //_gr(
                 p.kol*ĉelo_px, p.lin*ĉelo_px,
                 (1+p.kol)*ĉelo_px, (1+p.lin)*ĉelo_px,
                 km, km+"00");
@@ -338,29 +359,34 @@ function pentro() {
 
 
 function valoroj() {
+    const [md,d] = idealgaso.dekstre_maldekstre();
+    const maso = idealgaso.maso;
+    const volumeno = idealgaso.volumeno();
+    const Tmd = Idealgaso.temperaturo(md.n,md.e);
+    const Td = Idealgaso.temperaturo(d.n,d.e);
 
-/*
-        ĝi("#volumeno1").innerHTML = nombro(idealgaso.volumeno());
-        ĝi("#nombro1").innerHTML = nombro(idealgaso.nombro);
-        ĝi("#rapido1").innerHTML = nombro(idealgaso.rapido_ave());
-        ĝi("#energio1").innerHTML = nombro(idealgaso.energio());
-        ĝi("#temperaturo1").innerHTML = nombro(idealgaso.temperaturo());
-        ĝi("#entropio1").innerHTML = nombro(idealgaso.entropio(),6);
+    ĝi("#volumeno1").innerHTML = nombro(volumeno/2);
+    ĝi("#nombro1").innerHTML = nombro(md.n);
+    ĝi("#rapido1").innerHTML = nombro(Idealgaso.rapido(maso, Tmd));
+    ĝi("#energio1").innerHTML = nombro(md.e);
+    ĝi("#temperaturo1").innerHTML = nombro(Tmd);
+    ĝi("#entropio1").innerHTML = nombro(Idealgaso.entropio(md.n,maso,volumeno,Tmd),6);
 
-        ĝi("#volumeno2").innerHTML = nombro(idealgaso.volumeno());
-        ĝi("#nombro2").innerHTML = nombro(idealgaso.nombro);
-        ĝi("#rapido2").innerHTML = nombro(idealgaso.rapido_ave());
-        ĝi("#energio2").innerHTML = nombro(idealgaso.energio());
-        ĝi("#temperaturo2").innerHTML = nombro(idealgaso.temperaturo());
-        ĝi("#entropio2").innerHTML = nombro(idealgaso.entropio(),6);
-*/
+    ĝi("#volumeno2").innerHTML = nombro(volumeno/2);
+    ĝi("#nombro2").innerHTML = nombro(d.n);
+    ĝi("#rapido2").innerHTML = nombro(Idealgaso.rapido(maso, Td));
+    ĝi("#energio2").innerHTML = nombro(d.e);
+    ĝi("#temperaturo2").innerHTML = nombro(Td);
+    ĝi("#entropio2").innerHTML = nombro(Idealgaso.entropio(d.n,maso,volumeno,Td),6);
 
-        ĝi("#volumeno3").innerHTML = nombro(idealgaso.volumeno());
-        ĝi("#nombro3").innerHTML = nombro(idealgaso.nombro);
-        ĝi("#rapido3").innerHTML = nombro(idealgaso.rapido_ave());
-        ĝi("#energio3").innerHTML = nombro(idealgaso.energio());
-        ĝi("#temperaturo3").innerHTML = nombro(idealgaso.temperaturo());
-        ĝi("#entropio3").innerHTML = nombro(idealgaso.entropio(),6);
+
+    ĝi("#volumeno3").innerHTML = nombro(volumeno);
+    ĝi("#nombro3").innerHTML = nombro(idealgaso.nombro);
+    //ĝi("#rapido3").innerHTML = nombro(idealgaso.rapido_ave());
+    ĝi("#rapido3").innerHTML = nombro(Idealgaso.rapido(maso,idealgaso.temperaturo()));
+    ĝi("#energio3").innerHTML = nombro(idealgaso.energio());
+    ĝi("#temperaturo3").innerHTML = nombro(idealgaso.temperaturo());
+    ĝi("#entropio3").innerHTML = nombro(idealgaso.entropio(),6);
 
 
 /*

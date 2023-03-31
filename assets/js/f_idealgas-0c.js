@@ -8,6 +8,7 @@
  */
 
 class Idealgaso {
+    static debug = 0;
 
     // https://de.wikipedia.org/wiki/Ideales_Gas
 
@@ -65,6 +66,29 @@ class Idealgaso {
         return [z0,z1];
     }
 
+    /**
+     * Redonas la temperaturon depende de nombro kaj suma energio de eroj
+     */
+    static temperaturo(nombro,energio) {
+        return 2/3 * energio / nombro / Idealgaso.kB;
+    }
+
+    /**
+     * Redonas la entropion depende de N, m, V, T
+     */
+    static entropio(nombro, maso, volumeno, temperaturo) {
+        /*
+        La uzata formulo fakte validas nur por sufiĉe grandaj N, ĉar en la Sackuhr-Tetrode-ekvacio termo kiu mem ne dependas de N neglektiĝas.
+        */
+
+        const sigmo = Idealgaso.entropikonstanto(maso);
+        return nombro * Idealgaso.kB * (
+              Math.log(volumeno*1e-27/nombro)
+            + 3/2*Math.log(temperaturo)
+        ) + nombro*sigmo;
+    }
+
+   
     /**
      * Kreas spacon por la eksperimento
      * @param {number} larĝo larĝo en nm
@@ -302,7 +326,6 @@ class Idealgaso {
     /**
      * Kreas erojn de unu el la specoj A, B, AB en arbitraj lokoj kun arbitra rapido-vektoro
      * @param {number} n_eroj nombro da kreendaj eroj
-     * @param {number} maso maso de eroj en atommasunuoj (u)
      * @param {number} temperaturo la temperaturo en K, difinanta la ekspekton de la rapido
      * @param {number} xmin minimuma x-koordinato (0)
      * @param {number} ymin minimuma y-koordinato (0)
@@ -312,6 +335,7 @@ class Idealgaso {
     kreu_erojn(n_eroj,temperaturo,xmin=0,ymin=0,xmax=this.larĝo,ymax=this.alto) {
         const larĝo = xmax - xmin;
         const alto = ymax - ymin;
+        const n_min = this.nombro + 1;
 
         // per la temperaturo atendebla rapidodistribuo en unu dimensio, vd
         // https://de.wikipedia.org/wiki/Maxwell-Boltzmann-Verteilung
@@ -337,7 +361,7 @@ class Idealgaso {
             }
 
             const e = {
-                id: n+1,
+                id: n_min+n,
                 t: this.t - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe ĉelmovo
                 x: xmin + Math.random()*larĝo,
                 y: ymin + Math.random()*alto,
@@ -480,6 +504,20 @@ class Idealgaso {
                 dekstre: m*2*premo.d, maldekstre: m*2*premo.md};
 
         this.t++;
+/*
+        if (Idealgaso.debug) {
+            // kontrolu nombron
+            let n = 0;
+            for (const ĉ of this.ĉeloj) {
+                n += Object.keys(ĉ).length;
+            }
+            // console.log("eroj: "+n);
+            if (n<this.nombro) {
+                console.error(`Mankas eroj: ${n}/${this.nombro}`);
+                debugger;
+            }
+        }
+        */
     }
 
     /**
@@ -496,6 +534,7 @@ class Idealgaso {
      */
     rapido_ave() {
         // ALDONU: sumigu la rapidojn dum kreado kaj redonu ĝin tie ĉi dividite per /this.nombro
+        // KOREKTU: tiu nombro devias de Idealgaso.rapido(m,T), kial?
         return this.v_sum/this.nombro;
     }
 
