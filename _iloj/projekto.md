@@ -40,9 +40,9 @@ css:
 
 ## Rimarkoj pri tradiciaj instrumetodoj
 {: .sekcio}
-- instruado baziĝas sur iamaj limigoj de papirusoj: tre kondensitaj formuloj klarigas imagajn modelojn
-- estas malfacile krei enkape la modelojn priskribitaj per formuloj kaj ankoraŭ pli malfacile apliki ilin al la realo
-- iom pli bone funkcias didaktikaj filmetoj en Jutubo ks, sed alie ol tekstoj kaj kalkuloj ili ne estas adapteblaj al propraj bezonoj
+- tradicia instruado baziĝas sur iamaj limigoj de papirusoj: tre kondensitaj formuloj klarigas imagajn modelojn
+- estas malfacile krei enkape la modelojn priskribitajn per formuloj kaj ankoraŭ pli malfacile apliki ilin al la realo
+- iom pli bone funkcias instrufilmetoj en Jutubo ks, sed alie ol tekstoj kaj kalkuloj ili ne estas adapteblaj al propraj bezonoj
 - sed per komputiloj oni povas ja rekte krei ianivele interagajn modelojn esploreblajn
 - ekzemplaj paĝoj [teoremo de pitagoro](/matematiko/pitagoro),
 [fosforciklo](/biogeokemio/fosforciklo),
@@ -54,8 +54,8 @@ css:
 - akualigi mian propran scion pri natursciencoj
 - krei retpaĝojn, kiuj ne nur tekste prezentas konceptojn sed ankaŭ iugrade realigas la modelojn per programo por ebligi eksperimentadon 
 - kreitaj bazaj modeloj ebligas pluevoluadon de aplikeblo kaj ankaŭ kombinadon
-- fine, espereble, interligi la modelojn de la fakoj fiziko, kemio kaj biokemio ... por ebligi migradon tra la konceptoj kaj doni ideon pri la sistemo Tero.
-- dum la lasta monatoj prilaborita precipe fako [kemio](/kemio)
+- iam fine, espereble, interligi la modelojn de la fakoj fiziko, kemio kaj biokemio ... por ebligi migradon tra la konceptoj kaj doni ideon pri la sistemo Tero.
+- dum la lasta jaro estis prilaborita precipe fako [kemio](/kemio)
 
 ## Karaktero
 {: .sekcio}
@@ -63,7 +63,7 @@ css:
 - nivelo de gimnaziano aŭ ambicia laiko
 - ne postulanta universitatan scion
 - fokuso sur modeloj kaj teorioj helpantaj *kompreni* naturon
-- flankenlasi praktikajn sciojn (realaj eksperimentoj ja ne eblas...)
+- flankenlasi praktikajn sciojn (realaj eksperimentoj ja ne eblas en retpaĝo...)
 - flankenlasi tro formalajn sciojn (kalkulsistemoj, k.s. krom se ili necese subtenas la fokusan enhavon)
 - klarigi prefere per interagaj grafikoj anstataŭ longaj tekstoj aŭ kalkuloj
 
@@ -76,17 +76,18 @@ css:
 - ...kaj kial ĝi estas tia, kia ni konas ĝin: atmosfero ktp. kreita el fizikaj, ĥemiaj kaj biologiaj procezoj ktp
 -->
 
-## Teknikaj rimedoj)
+## Teknikaj rimedoj
 {: .sekcio}
 
 - uzo de senpagaj Github-paĝoj
-- enhavo estas statikaj retpaĝoj kreitaj generitaj per Jekyll/Liquid
+- enhavo estas retpaĝoj statike generitaj per Jekyll/Liquid
 - baza teksto do estas en Viki-speca formato *markdown*
 - tiel ne eblas servilaj programoj, do dinamika enhavo funkciu senescepte per Javoskripto
 - avantaĝo estas, ke oni ne bezonas servilan administradon de datumbazoj, aktualigita softvaro, sekurecproblemoj... 
 - krome eblas relative simple funkciigi la tuton loke.
 - grafikoj farataj kiel vektorgrafikoj (SVG), movataj per Javoskripto
-- specialaj JS-bibliotekoj por fakoj, ekz-e JsMol por 3-dimensia prezento de molekuloj, MathJAx por matematikaj kaj kemiaj formuloj
+- specialaj JS-bibliotekoj por fakoj, ekz-e JsMol por 3-dimensia prezento de molekuloj, MathJax por matematikaj kaj kemiaj formuloj
+
 <!--
 - ideale antaŭpreparitaj JS-bibliotekoj reduktu la kodon en la enhavpaĝoj al alnotoj `{: ...}` kaj malmultaj kompreneblaj kodlinioj
 -->
