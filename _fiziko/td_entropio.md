@@ -13,6 +13,10 @@ js:
 ...paĝo en preparo...
 
 <!--
+https://de.wikipedia.org/wiki/Ideales_Gas#Ideales_Gasgemisch
+https://de.wikipedia.org/wiki/Gibbssches_Paradoxon
+https://en.wikipedia.org/wiki/Entropy_of_mixing
+
 https://de.wikipedia.org/wiki/Sackur-Tetrode-Gleichung
 http://hyperphysics.phy-astr.gsu.edu/hbase/Therm/entropgas.html
 https://de.wikipedia.org/wiki/Ideales_Gas#Entropie
@@ -21,8 +25,6 @@ https://de.wikipedia.org/wiki/Ideales_Gas#Entropie
 https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_General_Chemistry_(Petrucci_et_al.)/19%3A_Spontaneous_Change%3A_Entropy_and_Gibbs_Energy/19.3%3A_Evaluating_Entropy_and_Entropy_Changes
 
 https://physics.stackexchange.com/questions/334813/entropy-of-two-subsystems-exchanging-energy
-
-https://en.wikipedia.org/wiki/Entropy_of_mixing
 
 https://eo.wikibooks.org/wiki/Termodinamiko/Leciono_1#Ideala_gaso
 https://de.wikipedia.org/wiki/Ideales_Gas
@@ -85,48 +87,58 @@ spacon 320px profundan.
 
 1pm = 1e-12m, 1nm = 1e-9m
 1nm³ = 1e-27m³
-1px = 80pm = 0.08nm
-1px³ = 5e-4nm³
-320px³ = 25.6³nm³ = 16800nm³ = 16800e-27m³
-He-radiuso: 140pm = 1.75px
+1px =~ 0.1nm
+1px³ =~ 1e-3nm³
+V = 300x400x400 px³ =~ 30x40x40nm³ = 4.8e4nm³ = 4.8e-23m³
+He-radiuso: 140pm = 1.4px
 
 por ideala gaso en normkondiĉoj:
 pₙ = 1.0bar = 1000hPa; 
-Tₙ = 293.15K = 20°C
-ni ricevas
-N = p*V / (kB*T) = 1e5kg/ms² * 16800e-27m³ / (1.38e-23m²kg/Ks²*293.15K) = 16800e-22 / 40.5e-22 = 415 gaseroj
-
+T1 = Tₙ-20K = 273.15K = 0°C
+T2 = T1+100K = 100°C
+ni ricevus
+N1 = p*V / (kB*T1) = 1272 gaseroj
+N2 = p*V / (kB*T2) = 931 gaseroj
 
 maso/denso
 -----------
 He-maso: 4u = 6.64e-27 kg
-He-gasa denso en normaj kondiĉoj: 0.1785 kg/m³
-He-eroj/nm³ = 0.027, t.e. 450 gaseroj en nia supra volumeno de 16800nm³
-(bolpunkto de He: 4,15K, ignorata ĉe ideala gaso)
-
 
 terma energio
 -----------
-E_th = N*kB*T = 420 * 1.38J/K * 293.15K = 1.7e-18J
-unuopa E_th = 1.38J/K * 293.15K = 4.05e-21J
-(ĉar ni uzas rapidecon je faktoro e-11 (vd. malsupre) nia
-energio estus sen korekto je faktoro e-22 pli malgranda, t.e. 1e-40)
+EN1 = N*kB*T = 1272 * 1.38e-23J/K * 273.15K = 4.8e-18J
+unuopa E1 = 1.38e-23J/K * 293.15K = 3.8e-21J
+
+EN2 = N*kB*T = 931 * 1.38e-23J/K * 373.15K = 4.8e-18J
+unuopa E2 = 1.38e-23J/K * 373.15K = 5.1e-21J
 
 
 rapido:
 -----------
-He: v = √(2E/m) = √(8.1e-21J/6.64e-27kg) = √(1.22e6)m/s = 1100m/s = 1.1e3m/s
-por videbligi la movon ni havas nur proksimume 16px/intervalo = 25nm/s = 2.5e-8m/s
+He: v1 = √(2E1/m) = √(7.6e-21J/6.64e-27kg)  = 1070m/s ~ 1.1e3m/s
+He: v2 = √(2E2/m) = √(10.2e-21J/6.64e-27kg) = 1239m/s = 1.2e3m/s
 
 entropio:
 ----------
-absoluta, laŭ simplita formo de Sackuhr-Tetrode-ekvacio:
+vd. https://de.wikipedia.org/wiki/Ideales_Gas#Mischungsentropie_eines_idealen_Gasgemischs
+absoluta, laŭ simpligita formo de Sackuhr-Tetrode-ekvacio:
 S = N*kB*(ln(V/N) + 3/2*ln(T) + N*σ
 kun entropikonstanto σ = kB(ln[(2*pi*m*kB)^³/² / h³] + 5/2)
 
-ĉe miksado de du samnombraj volumenoj la entropidiferenco estas:
+ĉe miksado de du *samnombraj* (N=1050) volumenoj la entropidiferenco estus:
 (vd https://en.wikipedia.org/wiki/Entropy_of_mixing)
-ΔS = - N*kB*ln(1/2) (ĉ. 2e-20)
+ΔS = - N*kB*ln(1/2) (ĉ. 1e-20)
+
+S1 = entropie(1272,4u,4.8e-23m³,273.15K)
+S2 = entropio(931,4u,4.8e-23m³,373.15K)
+S1 = 1.815e-18
+S2 = 1.338e-18
+S1+S2 = 3.153e-18
+
+S = entropio(2203,4u,9.6e-23m³,323.15K) 
+  = 3.155e-18.
+
+Do ni ricevas nr devion de 0.2e-20 - eble N ĉe ni estas tro malgranda por uzi la simpligitan formulon?
 
 -->
 
@@ -186,7 +198,7 @@ const px_nm = 0.1; // 1px = 0.1nm
 const ĉellarĝo = 1/6; 
 const ĉelalto = 1/4;
 
-const ĉelo_nm = 600*ĉellarĝo*px_nm; // ĉelalto en nm: 16 * 0.08nm = 1.28nm
+const ĉelo_nm = 600*ĉellarĝo*px_nm; // ĉelalto en nm
 const ĉelo_px = canvas.width*ĉellarĝo;
 
 const intervalo = 50; // 50 ms

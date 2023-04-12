@@ -52,7 +52,7 @@ class Idealgaso {
     }
 
     /**
-     * Redonas du arbitrajn nombrojn kiu statistike sekvas Guassan norm-distribuon
+     * Redonas du arbitrajn nombrojn kiu statistike sekvas Gaussan norm-distribuon
      * Ili estas kreitaj laŭ la metodo Box-Muller
      * @param {nombro} E ekspekto
      * @param {nombro} D varianca devio
@@ -74,7 +74,7 @@ class Idealgaso {
     }
 
     /**
-     * Redonas la entropion depende de N, m, V, T
+     * Redonas la entropion depende de N, m (atommaso), V, T
      */
     static entropio(nombro, maso, volumeno, temperaturo) {
         /*
@@ -282,6 +282,7 @@ class Idealgaso {
         // per la temperaturo atendebla rapidodistribuo en unu dimensio, vd
         // https://de.wikipedia.org/wiki/Maxwell-Boltzmann-Verteilung
 
+        // ĉiu komponanto de rapideco (x,y,z) havas ekspekton=0 kaj variancon = sqrt(kB *T/m)
         const m = this.maso*Idealgaso.u;
         const D = Math.sqrt(temperaturo*Idealgaso.kB/m);
         const E = 0; 
@@ -360,6 +361,7 @@ class Idealgaso {
                 }
             }
 
+            // kreu unu eron
             const e = {
                 id: n_min+n,
                 t: this.t - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe ĉelmovo
