@@ -180,15 +180,20 @@ miksiĝo de du idealaj gasoj diverstemperaturaj
 |rapido (Ø m/s)|<span id="rapido1"/>|<span id="rapido2"/>|<span id="rapido3"/>|
 |energio (J)|<span id="energio1"/>|<span id="energio2"/>|<span id="energio3"/>|
 |temperaturo (K)|<span id="temperaturo1"/>|<span id="temperaturo2"/>|<span id="temperaturo3"/>|
-|entropio (J/K)|<span id="entropio1"/>|<span id="entropio2"/>|<span id="entropio3"/>|
+|entropiŝanĝo (J/K)|<span id="entropio1"/>|<span id="entropio2"/>|<span id="entropio3"/>|
 
 (pro la malgrandeco kaj simpleco de nia eksperimento, tiuj valoroj
 povas esti iom malprecizaj kaj nestabilaj dum la eksperimento.)
+
+<canvas id="kurboj" width="600" height="400"></canvas>
+gaseroj maldekstre (speco 1 = blua, speco 2 = flava) kaj entropiŝanĝo (ΔS, nigra)
 
 <script>
 
 const canvas = document.getElementById("kampo");
 const dgr = new Diagramo(canvas);
+const kurboj = document.getElementById("kurboj");
+const krb = new Diagramo(kurboj);
     // pro pli bona kombino de interkovriĝantaj gradientoj 
     //dgr.ctx.globalCompositeOperation = "soft-light"; // lighter
 const koloro = "cornflowerblue";
@@ -210,6 +215,7 @@ let t0 = 0; // tempo komenciĝu ĉe T=0
 let ripetoj; // per clearTimeout(ripatoj.p) oni povas haltigi kurantan eksperimenton
 
 let idealgaso;
+let N1, N2; // ero-nombroj, du specoj
 
 class IG2 extends Idealgaso {
     kolizio(e,nx,ny) {
@@ -231,21 +237,29 @@ class IG2 extends Idealgaso {
 
     // kalkulu energion kaj eronombron aparte por dekstra kaj maldekstra parto
     dekstre_maldekstre() {
-        let md = {n:0, e: 0};
-        let d = {n: 0, e: 0};
+        let md = {n:0, e: 0, "-1": 0, "1": 0};
+        let d = {n: 0, e: 0, "-1": 0, "1": 0};
 
         for (let k=0; k < this.ĉeloj.length; k++) {
             const ĉelo = this.ĉeloj[k];
             const pos = this.ĉelpos(k);
+            const nj = this.ĉelnombroj(ĉelo);
 
             if (pos.kol < 1/ĉellarĝo/2) {
                 md.n += Object.keys(ĉelo).length;
-                md.e += this.ĉelenergio(ĉelo)
+                md.e += this.ĉelenergio(ĉelo);
+                md[-1] += nj[-1]||0;
+                md[1] += nj[1]||0;
             } else {
                 d.n += Object.keys(ĉelo).length;
-                d.e += this.ĉelenergio(ĉelo)
+                d.e += this.ĉelenergio(ĉelo);
+                d[-1] += nj[-1]||0;
+                d[1] += nj[1]||0;
             }
         }
+
+        md.dS = Idealgaso.entropikresko(md[-1],md[1]);
+        d.dS = Idealgaso.entropikresko(d[-1],d[1]);
 
         return [md,d];
     }
@@ -282,19 +296,22 @@ function preparo() {
     // 3320 gaseroj kun maso 4u, rapideco 0.5*ĉelalto, tempintervalo 1/20s
     // PLIBONIGU: pli bone donu la temperaturon kaj kalkulo en Idealgaso la
     // konvenan rapidecon por tio, ĉu?
-    const T1 = 273.15; // temperaturo maldekstre en K
-    const T2 = 373.15; // temperaturo dekstre en K
+    // const T1 = 273.15; // temperaturo maldekstre en K
+    // const T2 = 373.15; // temperaturo dekstre en K
+    // provizore mi ne trovis formulon por entropikresko ĉe miksado de diverstemperaturaj gasoj!
+    const T1 = 293.15; // temperaturo maldekstre en K
+    const T2 = 293.15; // temperaturo dekstre en K
     const p = 1e5; // premo 1000 hPa
     const m = 4; // maso 4u
     const V = idealgaso.volumeno()*1e-27; // en m³
-    const N1 = Idealgaso.nombro(p,V/2,T1); // nombro da eroj en normkondiĉoj maldekstre
-    const N2 = Idealgaso.nombro(p,V/2,T2); // nombro da eroj en varma gaso dekstre
+    N1 = Idealgaso.nombro(p,V/2,T1); // nombro da eroj en normkondiĉoj maldekstre
+    N2 = Idealgaso.nombro(p,V/2,T2); // nombro da eroj en varma gaso dekstre
 
     // provizore... ni devas aldoni eblecon
     // de diferencaj eroj/kondiĉoj en diversaj ĉeloj ĉe Idalgaso!
     idealgaso.preparo(m);
-    idealgaso.kreu_erojn(N1,T1,0,0,px_nm*canvas.width/2,px_nm*canvas.height);
-    idealgaso.kreu_erojn(N2,T2,px_nm*canvas.width/2,0);
+    idealgaso.kreu_erojn(N1,T1,-1,0,0,px_nm*canvas.width/2,px_nm*canvas.height);
+    idealgaso.kreu_erojn(N2,T2,1,px_nm*canvas.width/2,0);
 
     ĝi("#rapido1").innerHTML = '';
     ĝi("#energio1").innerHTML = '';
@@ -312,7 +329,10 @@ function preparo() {
     ĝi("#entropio3").innerHTML = '';
 
     dgr.viŝu();
-    dividita = true;
+    krb.viŝu();
+
+    //dividita = true;
+
     dgr.linio(
         canvas.width/2,canvas.height*ĉelalto,
         canvas.width/2,canvas.height,
@@ -327,18 +347,21 @@ function pentro() {
     function h2sl(h1,h2) { return hsl(((h1+h2)/2)%360); }
 
     function ig_pentro(idealgaso,offs=0) {
+        /*
         // kalkulu temperaturojn kaj kolorvalorojn por la ĉeloj
         let koloroj = [];
         for (const ĉelo of idealgaso.ĉeloj) {
             const T = idealgaso.ĉeltemperaturo(ĉelo);
             koloroj.push(Diagramo.kolorvaloro(T,200,400));
         }
+        */
 
         // pentru la ĉelojn kun kolora fono
         for (let k=0; k<idealgaso.ĉeloj.length; k++) {
             const ĉelo = idealgaso.ĉeloj[k];
             const p = idealgaso.ĉelpos(k);
 
+            /*
             //const k1 = k? h2sl(koloroj[k-1],koloroj[k]) : hsl(koloroj[k]);
             const km = hsl(koloroj[k]);
             //const k2 = (k<idealgaso.ĉeloj.length-1)? h2sl(koloroj[k],koloroj[k+1]) : hsl(koloroj[k]);
@@ -348,11 +371,12 @@ function pentro() {
                 p.kol*ĉelo_px, p.lin*ĉelo_px,
                 (1+p.kol)*ĉelo_px, (1+p.lin)*ĉelo_px,
                 km, km+"00");
+            */
 
             for (const e of Object.values(ĉelo)) {
                 const x = e.x/px_nm+offs;
                 const y = e.y/px_nm;
-                const koloro = "#0095DD";
+                const koloro = e.k<0? "#0095DD": "#DD9500";
                 dgr.punkto(x,y,1,koloro);
             }
         }
@@ -376,20 +400,21 @@ function valoroj() {
     const volumeno = idealgaso.volumeno();
     const Tmd = Idealgaso.temperaturo(md.n,md.e);
     const Td = Idealgaso.temperaturo(d.n,d.e);
+    const dS = md.dS+d.dS;
 
     ĝi("#volumeno1").innerHTML = nombro(volumeno/2);
     ĝi("#nombro1").innerHTML = nombro(md.n);
     ĝi("#rapido1").innerHTML = nombro(Idealgaso.rapido(maso, Tmd));
     ĝi("#energio1").innerHTML = nombro(md.e);
     ĝi("#temperaturo1").innerHTML = nombro(Tmd);
-    ĝi("#entropio1").innerHTML = nombro(Idealgaso.entropio(md.n,maso,volumeno,Tmd),6);
+    ĝi("#entropio1").innerHTML = nombro(md.dS);
 
     ĝi("#volumeno2").innerHTML = nombro(volumeno/2);
     ĝi("#nombro2").innerHTML = nombro(d.n);
     ĝi("#rapido2").innerHTML = nombro(Idealgaso.rapido(maso, Td));
     ĝi("#energio2").innerHTML = nombro(d.e);
     ĝi("#temperaturo2").innerHTML = nombro(Td);
-    ĝi("#entropio2").innerHTML = nombro(Idealgaso.entropio(d.n,maso,volumeno,Td),6);
+    ĝi("#entropio2").innerHTML = nombro(d.dS);
 
 
     ĝi("#volumeno3").innerHTML = nombro(volumeno);
@@ -398,16 +423,18 @@ function valoroj() {
     ĝi("#rapido3").innerHTML = nombro(Idealgaso.rapido(maso,idealgaso.temperaturo()));
     ĝi("#energio3").innerHTML = nombro(idealgaso.energio());
     ĝi("#temperaturo3").innerHTML = nombro(idealgaso.temperaturo());
-    ĝi("#entropio3").innerHTML = nombro(idealgaso.entropio(),6);
+    ĝi("#entropio3").innerHTML = nombro(dS);
 
+    // desegnu valorojn en la malsupra diagramo
 
-/*
-    ĝi("#entropio").innerHTML = nombro(idealgaso.entropio());
-    entalpio.val(idealgaso.entalpio());
-    gibsenergio.val(idealgaso.gibsenergio());
-    ĝi("#entalpio").innerHTML = nombro(entalpio.averaĝo(),2);
-    ĝi("#gibsenergio").innerHTML = nombro(gibsenergio.averaĝo(),2);
-    */
+            // ĉe du specoj: maksimuma entropio, kiam duono de ĉiu speco sur ĉiu flanko
+    const dS_max = Idealgaso.entropikresko(N1,N2);
+    const t = idealgaso.t/10;
+    if (t%10 && t<kurboj.width) {
+        krb.punkto(t,kurboj.height - kurboj.height*md[-1]/N1,1,"#0095DD");
+        krb.punkto(t,kurboj.height - kurboj.height*md[1]/N2,1,"#DD9500");
+        krb.punkto(t,kurboj.height - kurboj.height*dS/dS_max);
+    }
 }
 
 function paŝo() {

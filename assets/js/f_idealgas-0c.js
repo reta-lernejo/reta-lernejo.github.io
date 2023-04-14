@@ -88,6 +88,16 @@ class Idealgaso {
         ) + nombro*sigmo;
     }
 
+    /**
+     * Entropiŝanĝo por du diversaj gasoj kun sama premo kaj temperaturo en kunigita volumeno
+     * vd. https://de.wikipedia.org/wiki/Ideales_Gas#Ideales_Gasgemisch
+     */ 
+    static entropikresko(nombro1,nombro2) {
+        if (!nombro1 || !nombro2) return 0;
+
+        const N = nombro1 + nombro2;
+        return Idealgaso.kB * (nombro1*Math.log(N/nombro1) + nombro2*Math.log(N/nombro2))
+    }
    
     /**
      * Kreas spacon por la eksperimento
@@ -328,12 +338,13 @@ class Idealgaso {
      * Kreas erojn de unu el la specoj A, B, AB en arbitraj lokoj kun arbitra rapido-vektoro
      * @param {number} n_eroj nombro da kreendaj eroj
      * @param {number} temperaturo la temperaturo en K, difinanta la ekspekton de la rapido
+     * @param {number} speco speco de la eroj (ekz. -1, 0, 1) por diversspecaj
      * @param {number} xmin minimuma x-koordinato (0)
      * @param {number} ymin minimuma y-koordinato (0)
      * @param {number} xmax maksimuma x-koordinato (this.larĝo)
      * @param {number} ymax maksimuma y-koordinato (this.alto)
      */
-    kreu_erojn(n_eroj,temperaturo,xmin=0,ymin=0,xmax=this.larĝo,ymax=this.alto) {
+    kreu_erojn(n_eroj,temperaturo,speco=0,xmin=0,ymin=0,xmax=this.larĝo,ymax=this.alto) {
         const larĝo = xmax - xmin;
         const alto = ymax - ymin;
         const n_min = this.nombro + 1;
@@ -365,6 +376,7 @@ class Idealgaso {
             const e = {
                 id: n_min+n,
                 t: this.t - 1, // per memoro de la tempo en la eroj ni evitas refojan trakton ĉe ĉelmovo
+                k: speco,
                 x: xmin + Math.random()*larĝo,
                 y: ymin + Math.random()*alto,
                 vx: mm6[mm],
@@ -563,6 +575,18 @@ class Idealgaso {
     temperaturo() {
         // la temperaturo estas this.energio / (N*kB), kie kB estas la konstanto de Boltzmann, kaj N la nombro de eroj
         return 2/3 * this.energio() / this.nombro / Idealgaso.kB;
+    }
+
+    /**
+     * Redonas la nombrojnd de eroj laŭ speco en unuopa ĉelo 
+     */
+    ĉelnombroj(ĉelo) {
+        let nj = {};
+        for (const e of Object.values(ĉelo)) {
+            if (! nj[e.k]) nj[e.k] = 1;
+            else nj[e.k]++;
+        }
+        return nj;
     }
 
     /** 
