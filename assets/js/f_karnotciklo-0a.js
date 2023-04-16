@@ -55,7 +55,7 @@ class KCGaso {
      * @param {*} dV 
      */
     dV_adiabata(dV) {
-        this.tempteraturo = this.temperaturo * Math.pow((this.volumeno/(this.volumeno+dV)),KCGaso.kappa-1);
+        this.temperaturo = this.temperaturo * Math.pow((this.volumeno/(this.volumeno+dV)),KCGaso.kappa-1);
         this.volumeno += dV;
     }
 

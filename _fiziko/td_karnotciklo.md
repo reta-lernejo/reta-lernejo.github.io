@@ -25,7 +25,8 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 
 <canvas id="karnot" width="300" height="400"></canvas>
 
---
+<button id="starto">Komencu</button>
+<button id="halto">Haltu</button>
 
 <canvas id="pV_dgr" width="300" height="300"></canvas>
 <canvas id="TS_dgr" width="300" height="300"></canvas>
@@ -38,6 +39,23 @@ const T2 = T1 + 300;
 const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
 const kciklo = new KCiklo(T1,T2);
+
+const intervalo = 400; // 100; 100 ms
+let ripetoj;
+
+ĝi("#halto").disabled = true;
+
+kiam_klako("#starto",() => {
+    eksperimento();
+    ĝi("#halto").disabled = false;
+});
+
+kiam_klako("#halto",() => {
+    if (ripetoj) clearTimeout(ripetoj.p);
+});
+
+// pentru sen jam movi...
+modelo_pentru();
 
 /**
  * Pentras la piŝton kaj medion de la Karnot-modelo
@@ -53,6 +71,7 @@ function modelo_pentru() {
     const py = 360 - 1000*V*5; // 1000l = 1m³, ni kvinobligas tiel, ke
         // 1mol ĉe 20°C = 24l = 120 px, ĉe 300°C = 48l = 240px
 
+    if (py>350) debugger;
 
     // donas koloron al temperatur-valoroj inter T1 kaj T2;
     function Tkoloro(T) {
@@ -63,7 +82,7 @@ function modelo_pentru() {
     function medio() {
         // medio
         const koloro = (
-            paŝo.startsWith("Qk")? "#000" :
+            paŝo.startsWith("Qk")? "#777" :
             (paŝo == "Tk_V-"? Tkoloro(T1) : Tkoloro(T2))
         );
         // varma  kaj malvarma provizoj
@@ -93,7 +112,7 @@ function modelo_pentru() {
         // gasujo
         const koloro = Tkoloro(T);
         modelo.rektangulo(100,0,100,360,"#fff");
-        modelo.rektangulo(100,py,100,360,koloro);
+        modelo.rektangulo(100,py,100,360-py,koloro);
         modelo.linio(100,0,100,360);
         modelo.linio(100,360,200,360);
         modelo.linio(200,0,200,360);
@@ -115,7 +134,26 @@ function modelo_pentru() {
     piŝto()
 }
 
-modelo_pentru();
+
+function paŝu() {
+    kciklo.iteracio();
+
+    modelo_pentru();
+    //valoroj();
+}
+
+
+function eksperimento() {
+    if (ripetoj) clearTimeout(ripetoj.p);
+    ripetoj = ripetu(
+        () => {
+            paŝu();
+            return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
+        },
+        intervalo
+    )
+}
+
 
 </script>
 
