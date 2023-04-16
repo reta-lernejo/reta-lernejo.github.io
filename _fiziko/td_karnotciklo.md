@@ -40,7 +40,7 @@ const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
 const kciklo = new KCiklo(T1,T2);
 
-const intervalo = 400; // 100; 100 ms
+const intervalo = 50; // 100 = 100 ms
 let ripetoj;
 
 ĝi("#halto").disabled = true;
@@ -70,12 +70,14 @@ function modelo_pentru() {
     // alteco de piŝto super la fundo (ĉe 360px)
     const py = 360 - 1000*V*5; // 1000l = 1m³, ni kvinobligas tiel, ke
         // 1mol ĉe 20°C = 24l = 120 px, ĉe 300°C = 48l = 240px
+    const y12 = 360 - 1000*kciklo.V12*5;
+    const y34 = 360 - 1000*kciklo.V12*5;
 
     if (py>350) debugger;
 
     // donas koloron al temperatur-valoroj inter T1 kaj T2;
     function Tkoloro(T) {
-        const h = Diagramo.kolorvaloro(T,T1,T2);
+        const h = Diagramo.kolorvaloro(T,T1-10,T2+10);
         return Diagramo.hsl2hex(h,90,45);
     }
 
@@ -92,19 +94,21 @@ function modelo_pentru() {
         // medio-koloro laŭ temperaturo...
         modelo.rektangulo(80,0,140,400,koloro);
 
-        if (paŝo == "Tk_V-") {
+        if (paŝo == "Tk_V-" || paŝo.startsWith("Qk")) {
             modelo.linio(80,0,80,400);
-        } else if (paŝo == "Tk_V+") {
-            modelo.linio(80,400,220,400);
+        } else if (paŝo == "Tk_V+" || paŝo.startsWith("Qk")) {
+            modelo.linio(220,0,220,400);
         }
         //modelo.linio(220,20,220,400);
     }
 
     function gasujo() {
         // ciklo-ŝaltilo
-        function nazo(alto) {
+        function nazo_md(alto) {
             modelo.linio(100,alto-2,104,alto);
             modelo.linio(100,alto+2,104,alto);
+        }
+        function nazo_d(alto) {
             modelo.linio(200,alto-2,196,alto);
             modelo.linio(200,alto+2,196,alto);
         }
@@ -117,10 +121,9 @@ function modelo_pentru() {
         modelo.linio(100,360,200,360);
         modelo.linio(200,0,200,360);
 
-        // altec-markoj por avanci en la ciklo
-        // nazo(40); - ne necesas, ĉar la temperaturo difinas la supran punkton
-        nazo(140);
-        // nazo(240); - ne necesas, ĉar la temperaturo difinas la malsupran punkton
+        // altec-markoj por avanci en la ciklo al varmkonserva paŝo, t.e. medioŝanĝo al izola
+        nazo_md(y12);
+        nazo_d(y34);
     }
 
     function piŝto() {

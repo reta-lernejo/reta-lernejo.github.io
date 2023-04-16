@@ -60,6 +60,16 @@ class KCGaso {
     }
 
     /**
+     * Ŝanĝu la temperaturon al T konservanta la internan energion, ni bezonas por korekti
+     * troan kunpremon aŭ entendiĝon
+     * @param {*} T 
+     */
+    T_adiabata(T) {
+        this.volumeno = this.volumeno * Math.pow(this.temperaturo/T,1/(KCGaso.kappa-1));
+        this.temperaturo = T;
+    }
+
+    /**
      * Redonas la premon de la gaso, kalkulitan el ĝia temperaturo kaj volumeno
      */
     premo() {
@@ -73,9 +83,9 @@ class KCiklo {
     // V+ etendiĝo, V- kunpremiĝo
     static paŝoj = ["Tk_V-","Qk_V-","Tk_V+","Qk_V+"];
     static igV = 0.0224; // mola volumeno de ideala gaso = 22,4l
-    static dV = 0.001; // 1 litro
+    static dV = 0.0002; // 1 litro
 
-    constructor(T_malalta,T_alta,V34=KCiklo.igV,V12=KCiklo.igV/2,gaso) {
+    constructor(T_malalta,T_alta,V34=2/3*KCiklo.igV,V12=2/3*KCiklo.igV,gaso) {
         this.gaso = gaso || new KCGaso(T_malalta);
         this.T_alta = T_alta;
         this.T_malalta = T_malalta;
@@ -94,30 +104,42 @@ class KCiklo {
         case "Tk_V-": 
             if (this.gaso.volumeno > this.V12) {
                 this.gaso.dV_izoterma(-KCiklo.dV);
-                break;
             }
-            this.paŝo = "Qk_V-";
-
+            if (this.gaso.volumeno <= this.V12) {
+                this.paŝo = "Qk_V-";
+                // debugger;
+            } else break;
         case "Qk_V-":
             if (this.gaso.temperaturo < this.T_alta) {
                 this.gaso.dV_adiabata(-KCiklo.dV);
-                break;                    
             }
-            this.paŝo = "Tk_V+"; // PLIBONIGU: se la temperaturo tro devias, ni eble devus alĝustigi...?
+            if (this.gaso.temperaturo >= this.T_alta) {
+                // la temperaturo eble devias, do ni alĝustigu
+                this.gaso.T_adiabata(this.T_alta);
+                // debugger;
+                this.paŝo = "Tk_V+"; 
+            } else break;                                
 
         case "Tk_V+": 
             if (this.gaso.volumeno < this.V34) {
                 this.gaso.dV_izoterma(KCiklo.dV);
-                break;
             }
-            this.paŝo = "Qk_V+";     
+            if (this.gaso.volumeno >= this.V34) {
+                //debugger;
+                this.paŝo = "Qk_V+";     
+            } else break;            
 
         case "Qk_V+":
             if (this.gaso.temperaturo > this.T_malalta) {
                 this.gaso.dV_adiabata(KCiklo.dV);
                 break;                    
             }
-            this.paŝo = "Tk_V-"; // PLIBONIGU: se la temperaturo tro devias, ni eble devus alĝustigi...?                       
+            if (this.gaso.temperaturo <= this.T_malalta) {
+                // la temperaturo eble devias, do ni alĝustigu
+                this.gaso.T_adiabata(this.T_malalta);
+                //debugger;
+                this.paŝo = "Tk_V-"; 
+            }
         }
     }
 }
