@@ -36,6 +36,9 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 const T1 = 293.15;
 const T2 = T1 + 300;
 
+const p_max = 1e6;
+const V_max = 5e-2;
+
 const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
 
@@ -62,6 +65,7 @@ kiam_klako("#halto",() => {
 
 // pentru sen jam movi...
 modelo_pentru();
+preparo();
 
 // donas koloron al temperatur-valoroj inter T1 kaj T2;
 function Tkoloro(T) {
@@ -69,6 +73,14 @@ function Tkoloro(T) {
     return Diagramo.hsl2hex(h,90,45);
 }
 
+function preparo() {
+    dpV.viŝu();
+    dpV.skalo_y(0,p_max/100,100,1000,0,"hPa");
+    dpV.skalo_x(0,V_max*1000,1,10,0,"l");
+
+    dTS.viŝu();
+    dTS.skalo_y(0,Math.ceil(T2*100)/100,10,50,0,"K");
+}
 
 /**
  * Pentras la piŝton kaj medion de la Karnot-modelo
@@ -99,12 +111,16 @@ function modelo_pentru() {
         modelo.rektangulo(0,0,80,400,Tkoloro(T2));
         modelo.rektangulo(220,0,300,400,Tkoloro(T1));
 
+        modelo.teksto_x(40,100,T2+" K");
+        modelo.teksto_x(260,100,T1+" K");
+
         // medio-koloro laŭ temperaturo...
         modelo.rektangulo(80,0,140,400,koloro);
 
         if (paŝo == "Tk_V-" || paŝo.startsWith("Qk")) {
             modelo.linio(80,0,80,400);
-        } else if (paŝo == "Tk_V+" || paŝo.startsWith("Qk")) {
+        } 
+        if (paŝo == "Tk_V+" || paŝo.startsWith("Qk")) {
             modelo.linio(220,0,220,400);
         }
         //modelo.linio(220,20,220,400);
@@ -146,8 +162,6 @@ function modelo_pentru() {
 }
 
 function diagramo_pentru() {
-    const p_max = 1e6;
-    const V_max = 5e-2;
 
     const x = pV_dgr.width * kciklo.gaso.volumeno/V_max;
     const y = pV_dgr.height * (1 - kciklo.gaso.premo()/p_max);
@@ -166,8 +180,10 @@ function paŝu() {
 }
 
 
-function eksperimento() {
+function eksperimento() {    
     if (ripetoj) clearTimeout(ripetoj.p);
+
+    preparo();
     ripetoj = ripetu(
         () => {
             paŝu();

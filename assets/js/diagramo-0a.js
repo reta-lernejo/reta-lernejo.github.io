@@ -195,7 +195,7 @@ class Diagramo {
             const yy = cy(y);
             this.linio(0,yy,len,yy,koloro);
             if (cif && y>min && y<max) {
-                const n = prec? y.toPrecision(prec) : x;
+                const n = prec? y.toPrecision(prec) : y;
                 this.teksto_y(len,yy,n,koloro)
             }
             y += istrek;
