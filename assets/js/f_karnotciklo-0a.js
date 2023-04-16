@@ -75,7 +75,7 @@ class KCiklo {
     static igV = 0.0224; // mola volumeno de ideala gaso = 22,4l
     static dV = 0.001; // 1 litro
 
-    constructor(gaso,T_alta,T_malalta,V12=igV/2,V34=igV) {
+    constructor(T_malalta,T_alta,V34=KCiklo.igV,V12=KCiklo.igV/2,gaso) {
         this.gaso = gaso || new KCGaso(T_malalta);
         this.T_alta = T_alta;
         this.T_malalta = T_malalta;
@@ -83,7 +83,7 @@ class KCiklo {
         this.paŝo = KCiklo.paŝoj[0];
 
         this.V12 = V12; // volumeno, kie T-konserva kunpremo transiru al Q-konserva
-        this.V34 = V34; // volumeno, kie T-konserva entediĝo transiru al Q-konserva
+        this.V34 = V34; // volumeno, kie T-konserva etendiĝo transiru al Q-konserva
     }
 
     /**

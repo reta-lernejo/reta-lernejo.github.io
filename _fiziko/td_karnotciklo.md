@@ -32,9 +32,12 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 
 <script>
 
+const T1 = 293.15;
+const T2 = T1 + 300;
+
 const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
-
+const kciklo = new KCiklo(T1,T2);
 
 /**
  * Pentras la piŝton kaj medion de la Karnot-modelo
@@ -42,13 +45,40 @@ const modelo = new Diagramo(karnot);
 function modelo_pentru() {
     modelo.viŝu(); // ĉu necesas ĉiufoje?
 
+    const paŝo = kciklo.paŝo;
+    const T = kciklo.gaso.temperaturo;
+    const V = kciklo.gaso.volumeno;
+
+    // alteco de piŝto super la fundo (ĉe 360px)
+    const py = 360 - 1000*V*5; // 1000l = 1m³, ni kvinobligas tiel, ke
+        // 1mol ĉe 20°C = 24l = 120 px, ĉe 300°C = 48l = 240px
+
+
+    // donas koloron al temperatur-valoroj inter T1 kaj T2;
+    function Tkoloro(T) {
+        const h = Diagramo.kolorvaloro(T,T1,T2);
+        return Diagramo.hsl2hex(h,90,45);
+    }
+
     function medio() {
         // medio
-        // koloro laŭ temperaturo...
-        modelo.rektangulo(80,20,140,380,"#11c");
-        modelo.linio(80,20,80,400);
-        modelo.linio(80,400,220,400);
-        modelo.linio(220,20,220,400);
+        const koloro = (
+            paŝo.startsWith("Qk")? "#000" :
+            (paŝo == "Tk_V-"? Tkoloro(T1) : Tkoloro(T2))
+        );
+        // varma  kaj malvarma provizoj
+        modelo.rektangulo(0,0,80,400,Tkoloro(T2));
+        modelo.rektangulo(220,0,300,400,Tkoloro(T1));
+
+        // medio-koloro laŭ temperaturo...
+        modelo.rektangulo(80,0,140,400,koloro);
+
+        if (paŝo == "Tk_V-") {
+            modelo.linio(80,0,80,400);
+        } else if (paŝo == "Tk_V+") {
+            modelo.linio(80,400,220,400);
+        }
+        //modelo.linio(220,20,220,400);
     }
 
     function gasujo() {
@@ -61,10 +91,12 @@ function modelo_pentru() {
         }
 
         // gasujo
-        modelo.rektangulo(100,20,100,300,"#fff");
-        modelo.linio(100,20,100,320);
-        modelo.linio(100,320,200,320);
-        modelo.linio(200,20,200,320);
+        const koloro = Tkoloro(T);
+        modelo.rektangulo(100,0,100,360,"#fff");
+        modelo.rektangulo(100,py,100,360,koloro);
+        modelo.linio(100,0,100,360);
+        modelo.linio(100,360,200,360);
+        modelo.linio(200,0,200,360);
 
         // altec-markoj por avanci en la ciklo
         // nazo(40); - ne necesas, ĉar la temperaturo difinas la supran punkton
@@ -74,8 +106,8 @@ function modelo_pentru() {
 
     function piŝto() {
         //modelo.linio(101,200,199,200,"#bbb",10);
-        modelo.rektangulo_h3k(101,200,98,10,"#eee","#bbb","#999");
-        modelo.rektangulo_h3k(120,200-80,60,80,"#eee","#bbb","#999");
+        modelo.rektangulo_h3k(101,py-10,98,10,"#eee","#bbb","#999");
+        modelo.rektangulo_h3k(120,py-10-80,60,80,"#eee","#bbb","#999");
     }
 
     medio();
