@@ -1,7 +1,7 @@
 ---
 layout: laborfolio
 title: Nigra radianto
-chapter: 4
+chapter: 6
 js:
   - folio-0b
   - sekcio-0b 

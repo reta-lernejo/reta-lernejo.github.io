@@ -1,6 +1,7 @@
 ---
 layout: laborfolio
 title: Karnot-ciklo
+chapter: 4
 js:
   - folio-0b
   - sekcio-0b  
@@ -30,6 +31,7 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 
 <canvas id="pV_dgr" width="300" height="300"></canvas>
 <canvas id="TS_dgr" width="300" height="300"></canvas>
+p-V-diagramo kaj T-ΔS-diagramo
 
 <script>
 
@@ -38,6 +40,8 @@ const T2 = T1 + 300;
 
 const p_max = 1e6;
 const V_max = 5e-2;
+const T_max = Math.ceil(T2/100)*100;
+const S_max = 5;
 
 const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
@@ -76,10 +80,11 @@ function Tkoloro(T) {
 function preparo() {
     dpV.viŝu();
     dpV.skalo_y(0,p_max/100,100,1000,0,"hPa");
-    dpV.skalo_x(0,V_max*1000,1,10,0,"l");
+    dpV.skalo_x(0,V_max*1000,1,10,0,"dm³");
 
     dTS.viŝu();
-    dTS.skalo_y(0,Math.ceil(T2*100)/100,10,50,0,"K");
+    dTS.skalo_y(0,T_max,10,50,0,"K");
+    dTS.skalo_x(-S_max,S_max,1,1,0,"J/K");
 }
 
 /**
@@ -163,11 +168,14 @@ function modelo_pentru() {
 
 function diagramo_pentru() {
 
-    const x = pV_dgr.width * kciklo.gaso.volumeno/V_max;
-    const y = pV_dgr.height * (1 - kciklo.gaso.premo()/p_max);
+    const V = pV_dgr.width * kciklo.gaso.volumeno/V_max;
+    const p = pV_dgr.height * (1 - kciklo.gaso.premo()/p_max);
     const koloro = Tkoloro(kciklo.gaso.temperaturo);
+    dpV.punkto(V,p,1,koloro);
 
-    dpV.punkto(x,y,1,koloro);
+    const S = TS_dgr.width/2 * (1 + kciklo.entropio()/S_max);
+    const T = TS_dgr.height * (1 - kciklo.gaso.temperaturo/T_max);
+    dTS.punkto(S,T,1,koloro);
 }
 
 
