@@ -76,6 +76,14 @@ class KCGaso {
         return KCGaso.R * this.temperaturo / this.volumeno;
     }
 
+    /**
+     * Elskribas la nunan staton
+     */
+    log_stato() {
+        console.log(`T: ${this.temperaturo.toFixed(2)} K; V: ${(this.volumeno*1000).toFixed(2)} l; p: ${(this.premo()/100).toFixed(2)} hPa`);
+    }
+
+
 }
 
 class KCiklo {
@@ -97,6 +105,14 @@ class KCiklo {
     }
 
     /**
+     * Skribas la nunan staton
+     */
+    log_stato() {
+        console.log(`paŝo ${this.paŝo}`);
+        this.gaso.log_stato();
+    }
+
+    /**
      * Iteracias tra la ciklo
      */
     iteracio() {
@@ -107,6 +123,7 @@ class KCiklo {
             }
             if (this.gaso.volumeno <= this.V12) {
                 this.paŝo = "Qk_V-";
+                this.log_stato();
                 // debugger;
             } else break;
         case "Qk_V-":
@@ -117,6 +134,7 @@ class KCiklo {
                 // la temperaturo eble devias, do ni alĝustigu
                 this.gaso.T_adiabata(this.T_alta);
                 // debugger;
+                this.log_stato();
                 this.paŝo = "Tk_V+"; 
             } else break;                                
 
@@ -126,6 +144,7 @@ class KCiklo {
             }
             if (this.gaso.volumeno >= this.V34) {
                 //debugger;
+                this.log_stato();
                 this.paŝo = "Qk_V+";     
             } else break;            
 
@@ -138,6 +157,7 @@ class KCiklo {
                 // la temperaturo eble devias, do ni alĝustigu
                 this.gaso.T_adiabata(this.T_malalta);
                 //debugger;
+                this.log_stato();
                 this.paŝo = "Tk_V-"; 
             }
         }
