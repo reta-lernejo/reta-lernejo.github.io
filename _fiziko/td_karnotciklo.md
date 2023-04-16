@@ -38,6 +38,12 @@ const T2 = T1 + 300;
 
 const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
+
+pV_dgr = document.getElementById("pV_dgr");
+TS_dgr = document.getElementById("TS_dgr");
+dpV = new Diagramo(pV_dgr);
+dTS = new Diagramo(TS_dgr);
+
 const kciklo = new KCiklo(T1,T2);
 
 const intervalo = 50; // 100 = 100 ms
@@ -57,6 +63,13 @@ kiam_klako("#halto",() => {
 // pentru sen jam movi...
 modelo_pentru();
 
+// donas koloron al temperatur-valoroj inter T1 kaj T2;
+function Tkoloro(T) {
+    const h = Diagramo.kolorvaloro(T,T1-10,T2+10);
+    return Diagramo.hsl2hex(h,90,45);
+}
+
+
 /**
  * Pentras la piŝton kaj medion de la Karnot-modelo
  */
@@ -75,11 +88,6 @@ function modelo_pentru() {
 
     if (py>350) debugger;
 
-    // donas koloron al temperatur-valoroj inter T1 kaj T2;
-    function Tkoloro(T) {
-        const h = Diagramo.kolorvaloro(T,T1-10,T2+10);
-        return Diagramo.hsl2hex(h,90,45);
-    }
 
     function medio() {
         // medio
@@ -137,11 +145,23 @@ function modelo_pentru() {
     piŝto()
 }
 
+function diagramo_pentru() {
+    const p_max = 1e6;
+    const V_max = 5e-2;
+
+    const x = pV_dgr.width * kciklo.gaso.volumeno/V_max;
+    const y = pV_dgr.height * (1 - kciklo.gaso.premo()/p_max);
+    const koloro = Tkoloro(kciklo.gaso.temperaturo);
+
+    dpV.punkto(x,y,1,koloro);
+}
+
 
 function paŝu() {
     kciklo.iteracio();
 
     modelo_pentru();
+    diagramo_pentru();
     //valoroj();
 }
 
