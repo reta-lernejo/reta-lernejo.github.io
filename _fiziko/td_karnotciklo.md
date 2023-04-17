@@ -24,7 +24,7 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
     }
 </style>
 
-<canvas id="karnot" width="300" height="400"></canvas>
+<canvas id="karnot" width="300" height="300"></canvas>
 
 <button id="starto">Komencu</button>
 <button id="halto">Haltu</button>
@@ -38,10 +38,11 @@ p-V-diagramo kaj T-ΔS-diagramo
 const T1 = 293.15;
 const T2 = T1 + 300;
 
-const p_max = 1e6;
-const V_max = 5e-2;
+const p_max = 2e6;
+const V_max = 2.5e-2;
+const T_min = Math.floor(T1/100)*100;
 const T_max = Math.ceil(T2/100)*100;
-const S_max = 5;
+const S_max = 10;
 
 const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
@@ -79,12 +80,12 @@ function Tkoloro(T) {
 
 function preparo() {
     dpV.viŝu();
-    dpV.skalo_y(0,p_max/100,100,1000,0,"hPa");
+    dpV.skalo_y(0,p_max/1e5,1,5,0,"·10⁵Pa");
     dpV.skalo_x(0,V_max*1000,1,10,0,"dm³");
 
     dTS.viŝu();
-    dTS.skalo_y(0,T_max,10,50,0,"K");
-    dTS.skalo_x(-S_max,S_max,1,1,0,"J/K");
+    dTS.skalo_y(T_min,T_max,10,50,0,"K");
+    dTS.skalo_x(-1,S_max,1,1,0,"J/K");
 }
 
 /**
@@ -97,13 +98,16 @@ function modelo_pentru() {
     const T = kciklo.gaso.temperaturo;
     const V = kciklo.gaso.volumeno;
 
-    // alteco de piŝto super la fundo (ĉe 360px)
-    const py = 360 - 1000*V*5; // 1000l = 1m³, ni kvinobligas tiel, ke
-        // 1mol ĉe 20°C = 24l = 120 px, ĉe 300°C = 48l = 240px
-    const y12 = 360 - 1000*kciklo.V12*5;
-    const y34 = 360 - 1000*kciklo.V12*5;
+    const h = karnot.height;
+    const sk = 7; // skalfaktoro por y-koordinatoj
 
-    if (py>350) debugger;
+    // alteco de piŝto super la fundo (ĉe 360px)
+    const py = h-40 - 1000*V*sk; // 1000l = 1m³, ni sk-obligas tiel, ke
+        // 1mol ĉe 20°C = 24l = sk*24 px
+    const y12 = h-40 - 1000*kciklo.V12*sk;
+    const y34 = h-40 - 1000*kciklo.V12*sk;
+
+    if (py>h-50) debugger;
 
 
     function medio() {
@@ -113,46 +117,46 @@ function modelo_pentru() {
             (paŝo == "Tk_V-"? Tkoloro(T1) : Tkoloro(T2))
         );
         // varma  kaj malvarma provizoj
-        modelo.rektangulo(0,0,80,400,Tkoloro(T2));
-        modelo.rektangulo(220,0,300,400,Tkoloro(T1));
+        modelo.rektangulo(0,0,80,h,Tkoloro(T2));
+        modelo.rektangulo(220,0,300,h,Tkoloro(T1));
 
         modelo.teksto_x(40,100,T2+" K");
-        modelo.teksto_x(260,100,T1+" K");
+        modelo.teksto_x(260,100,T1+" K","white");
 
         // medio-koloro laŭ temperaturo...
-        modelo.rektangulo(80,0,140,400,koloro);
+        modelo.rektangulo(80,0,140,h,koloro);
 
         if (paŝo == "Tk_V-" || paŝo.startsWith("Qk")) {
-            modelo.linio(80,0,80,400);
+            modelo.linio(80,0,80,h);
         } 
         if (paŝo == "Tk_V+" || paŝo.startsWith("Qk")) {
-            modelo.linio(220,0,220,400);
+            modelo.linio(220,0,220,h);
         }
-        //modelo.linio(220,20,220,400);
+        //modelo.linio(220,20,220,h);
     }
 
     function gasujo() {
         // ciklo-ŝaltilo
         function nazo_md(alto) {
-            modelo.linio(100,alto-2,104,alto);
-            modelo.linio(100,alto+2,104,alto);
+            modelo.linio(100,alto,104,alto);
+            modelo.linio(100,alto+4,104,alto);
         }
         function nazo_d(alto) {
-            modelo.linio(200,alto-2,196,alto);
-            modelo.linio(200,alto+2,196,alto);
+            modelo.linio(200,alto-4,196,alto);
+            modelo.linio(200,alto,196,alto);
         }
 
         // gasujo
         const koloro = Tkoloro(T);
-        modelo.rektangulo(100,0,100,360,"#fff");
-        modelo.rektangulo(100,py,100,360-py,koloro);
-        modelo.linio(100,0,100,360);
-        modelo.linio(100,360,200,360);
-        modelo.linio(200,0,200,360);
+        modelo.rektangulo(100,0,100,h-40,"#fff");
+        modelo.rektangulo(100,py,100,h-40-py,koloro);
+        modelo.linio(100,0,100,h-40);
+        modelo.linio(100,h-40,200,h-40);
+        modelo.linio(200,0,200,h-40);
 
         // altec-markoj por avanci en la ciklo al varmkonserva paŝo, t.e. medioŝanĝo al izola
-        nazo_md(y12);
-        nazo_d(y34);
+        nazo_d(y12);
+        nazo_md(y34);
     }
 
     function piŝto() {
@@ -167,15 +171,13 @@ function modelo_pentru() {
 }
 
 function diagramo_pentru() {
-
-    const V = pV_dgr.width * kciklo.gaso.volumeno/V_max;
-    const p = pV_dgr.height * (1 - kciklo.gaso.premo()/p_max);
     const koloro = Tkoloro(kciklo.gaso.temperaturo);
-    dpV.punkto(V,p,1,koloro);
 
-    const S = TS_dgr.width/2 * (1 + kciklo.entropio()/S_max);
-    const T = TS_dgr.height * (1 - kciklo.gaso.temperaturo/T_max);
-    dTS.punkto(S,T,1,koloro);
+    let k = dpV.koord_xy(kciklo.gaso.volumeno*1000,kciklo.gaso.premo()/1e5);
+    dpV.punkto(k.x,k.y,1,koloro);
+
+    k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
+    dTS.punkto(k.x,k.y,1,koloro);
 }
 
 

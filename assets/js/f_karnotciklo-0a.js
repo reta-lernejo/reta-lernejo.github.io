@@ -12,7 +12,7 @@
 
 
 class KCGaso {
-    static norm_p = 1e5; // normpremo estas 1000 hPa
+    static norm_p = 101325; //1e5; // normpremo estas 1013 hPa
     static norm_T = 293.15; // normtemperaturo en K
     static R = 8.31446261815324; // universala gaskonstanto en J/K/mol
     static kappa = 5/3; // adiabata koeficiento
@@ -98,9 +98,9 @@ class KCiklo {
     // V+ etendiĝo, V- kunpremiĝo
     static paŝoj = ["Tk_V-","Qk_V-","Tk_V+","Qk_V+"];
     static igV = 0.0224; // mola volumeno de ideala gaso = 22,4l
-    static dV = 0.0002; // 1 litro
+    static dV = 0.0001; // 0,1 litro
 
-    constructor(T_malalta,T_alta,V34=2/3*KCiklo.igV,V12=2/3*KCiklo.igV,gaso) {
+    constructor(T_malalta,T_alta,V12=KCiklo.igV/3,gaso) {
         this.gaso = gaso || new KCGaso(T_malalta);
         this.T_alta = T_alta;
         this.T_malalta = T_malalta;
@@ -111,7 +111,7 @@ class KCiklo {
         this.S0 = 0;
 
         this.V12 = V12; // volumeno, kie T-konserva kunpremo transiru al Q-konserva
-        this.V34 = V34; // volumeno, kie T-konserva etendiĝo transiru al Q-konserva
+        this.V34 = this.V0*Math.pow(T_malalta/T_alta,1/(KCGaso.kappa-1)); // volumeno, kie T-konserva etendiĝo transiru al Q-konserva
     }
 
     /**
