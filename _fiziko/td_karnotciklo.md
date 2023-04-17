@@ -53,6 +53,12 @@ dpV = new Diagramo(pV_dgr);
 dTS = new Diagramo(TS_dgr);
 
 const kciklo = new KCiklo(T1,T2);
+kciklo.kiam_sekva = function(al) {
+    if (al == "Tk_V-") {
+        // viŝu la diagramojn antaŭ venonta ciklo
+        preparo();
+    }
+}
 
 const intervalo = 50; // 100 = 100 ms
 let ripetoj;

@@ -112,6 +112,8 @@ class KCiklo {
 
         this.V12 = V12; // volumeno, kie T-konserva kunpremo transiru al Q-konserva
         this.V34 = this.V0*Math.pow(T_malalta/T_alta,1/(KCGaso.kappa-1)); // volumeno, kie T-konserva etendiĝo transiru al Q-konserva
+
+        this.kiam_sekva = undefined; // metu revok-funkcion kiam vi volas ekscii transirojn inter paŝoj 1,2,3,4,1
     }
 
     /**
@@ -120,6 +122,15 @@ class KCiklo {
     log_stato() {
         console.log(`paŝo ${this.paŝo}`);
         this.gaso.log_stato();
+    }
+
+    /**
+     * Transiro al venonta paŝo
+     */
+    sekva_paŝo(al) {
+        this.log_stato();        
+        this.paŝo = al;
+        if (this.kiam_sekva) this.kiam_sekva(al); // ekz-e 'debugger';
     }
 
     /**
@@ -144,10 +155,9 @@ class KCiklo {
             }
             if (this.gaso.volumeno <= this.V12) {
                 this.S0 = this.entropio();
-                this.log_stato();
-                // debugger;
-                this.paŝo = "Qk_V-";
+                this.sekva_paŝo("Qk_V-");
             } else break;
+
         case "Qk_V-":
             if (this.gaso.temperaturo < this.T_alta) {
                 this.gaso.dV_adiabata(-KCiklo.dV);
@@ -156,9 +166,7 @@ class KCiklo {
                 // la temperaturo eble devias, do ni alĝustigu
                 this.gaso.T_adiabata(this.T_alta);
                 this.V0 = this.gaso.volumeno;
-                this.log_stato();
-                // debugger;
-                this.paŝo = "Tk_V+"; 
+                this.sekva_paŝo("Tk_V+");
             } else break;                                
 
         case "Tk_V+": 
@@ -167,23 +175,18 @@ class KCiklo {
             }
             if (this.gaso.volumeno >= this.V34) {
                 this.S0 = this.entropio();
-                this.log_stato();
-                //debugger;
-                this.paŝo = "Qk_V+";     
+                this.sekva_paŝo("Qk_V+");
             } else break;            
 
         case "Qk_V+":
             if (this.gaso.temperaturo > this.T_malalta) {
                 this.gaso.dV_adiabata(KCiklo.dV);                
-                break;                    
             }
             if (this.gaso.temperaturo <= this.T_malalta) {
                 // la temperaturo eble devias, do ni alĝustigu
                 this.gaso.T_adiabata(this.T_malalta);
                 this.V0 = this.gaso.volumeno;
-                this.log_stato();
-                //debugger;
-                this.paŝo = "Tk_V-"; 
+                this.sekva_paŝo("Tk_V-");
             }
         }
     }
