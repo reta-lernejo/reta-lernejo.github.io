@@ -28,6 +28,9 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 
 <button id="starto">Komencu</button>
 <button id="halto">Haltu</button>
+ΔT: <b id="temperaturo_info">300K</b>
+<input type="range" id="temperaturo" style="width: 50em; max-width: 60%" min="30" max="300" value="300" step="10" onchange="aktualigo()" oninput="aktualigo_info()">
+
 
 <canvas id="pV_dgr" width="300" height="300"></canvas>
 <canvas id="TS_dgr" width="300" height="300"></canvas>
@@ -36,12 +39,10 @@ p-V-diagramo kaj T-ΔS-diagramo
 <script>
 
 const T1 = 293.15;
-const T2 = T1 + 300;
+let T2 = T1 + 300; // +30 .. +300
 
 const p_max = 2e6;
 const V_max = 2.5e-2;
-const T_min = Math.floor(T1/100)*100;
-const T_max = Math.ceil(T2/100)*100;
 const S_max = 10;
 
 const karnot = document.getElementById("karnot");
@@ -63,6 +64,7 @@ kciklo.kiam_sekva = function(al) {
 const intervalo = 50; // 100 = 100 ms
 let ripetoj;
 
+ĝi('#temperaturo').value = 300;
 ĝi("#halto").disabled = true;
 
 kiam_klako("#starto",() => {
@@ -73,6 +75,16 @@ kiam_klako("#starto",() => {
 kiam_klako("#halto",() => {
     if (ripetoj) clearTimeout(ripetoj.p);
 });
+
+function aktualigo() {
+    T2 = T1 + parseInt(ĝi('#temperaturo').value);
+    modelo_pentru();
+}
+
+function aktualigo_info() {
+    const temp = ĝi('#temperaturo').value;
+    ĝi('#temperaturo_info').textContent = temp + 'K';
+}
 
 // pentru sen jam movi...
 modelo_pentru();
@@ -90,6 +102,8 @@ function preparo() {
     dpV.skalo_x(0,V_max*1000,1,10,0,"dm³");
 
     dTS.viŝu();
+    const T_min = Math.floor(T1/100)*100;
+    const T_max = Math.ceil(T2/100)*100;
     dTS.skalo_y(T_min,T_max,10,50,0,"K");
     dTS.skalo_x(-1,S_max,1,1,0,"J/K");
 }
