@@ -29,7 +29,7 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 <button id="starto">Komencu</button>
 <button id="halto">Haltu</button>
 ΔT: <b id="temperaturo_info">300K</b>
-<input type="range" id="temperaturo" style="width: 50em; max-width: 60%" min="30" max="300" value="300" step="10" onchange="aktualigo()" oninput="aktualigo_info()">
+<input type="range" id="temperaturo" style="width: 50em; max-width: 60%" min="30" max="600" value="300" step="10" onchange="aktualigo()" oninput="aktualigo_info()">
 
 
 <canvas id="pV_dgr" width="300" height="300"></canvas>
@@ -53,13 +53,8 @@ TS_dgr = document.getElementById("TS_dgr");
 dpV = new Diagramo(pV_dgr);
 dTS = new Diagramo(TS_dgr);
 
-const kciklo = new KCiklo(T1,T2);
-kciklo.kiam_sekva = function(al) {
-    if (al == "Tk_V-") {
-        // viŝu la diagramojn antaŭ venonta ciklo
-        preparo();
-    }
-}
+let kciklo = kreu_ciklon();
+
 
 const intervalo = 50; // 100 = 100 ms
 let ripetoj;
@@ -78,7 +73,12 @@ kiam_klako("#halto",() => {
 
 function aktualigo() {
     T2 = T1 + parseInt(ĝi('#temperaturo').value);
-    modelo_pentru();
+    // post T-agordo laŭbezone rekreu la modelon
+    if (kciklo.T_alta != T2) {
+        kciklo = kreu_ciklon();
+        preparo();
+        modelo_pentru();
+    }
 }
 
 function aktualigo_info() {
@@ -90,9 +90,20 @@ function aktualigo_info() {
 modelo_pentru();
 preparo();
 
+function kreu_ciklon() {
+    const kc = new KCiklo(T1,T2);
+    kc.kiam_sekva = function(al) {
+        if (al == "Tk_V-") {
+            // viŝu la diagramojn antaŭ venonta ciklo
+            preparo();
+        }
+    }
+    return kc;
+}
+
 // donas koloron al temperatur-valoroj inter T1 kaj T2;
 function Tkoloro(T) {
-    const h = Diagramo.kolorvaloro(T,T1-10,T2+10);
+    const h = Diagramo.kolorvaloro(T,T1*0.99,T2*1.01);
     return Diagramo.hsl2hex(h,90,45);
 }
 
