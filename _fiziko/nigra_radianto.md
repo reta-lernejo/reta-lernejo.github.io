@@ -20,6 +20,7 @@ https://en.wikipedia.org/wiki/Planck%27s_law
 https://en.wikipedia.org/wiki/Thermal_radiation
 https://en.wikipedia.org/wiki/Planckian_locus
 http://hyperphysics.phy-astr.gsu.edu/hbase/mod6.html#c4 
+https://www.heise.de/hintergrund/Zahlen-bitte-Das-Plancksche-Wirkungsquantum-vom-Hotfix-zur-Quantenphysik-3901487.html
 
 Derivado de la leĝo de Planck:
 https://edisciplinas.usp.br/pluginfile.php/48089/course/section/16461/qsp_chapter10-plank.pdf
