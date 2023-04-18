@@ -475,6 +475,9 @@ Tiu energiŝanĝo estas kalkulebla per:
 
 $$dE = -N k_B T \cdot \frac{dV}{V}$$
 
+Por ricevi temperaturkonservan (kaj sekve energikonservan) volumenan ŝanĝon, necesas egaligi la perditan aŭ gajnitan 
+energion per varminterŝanĝo kun la ekstera medio.
+
 ## sonrapido en ideala gaso
 {: .sekcio}
 

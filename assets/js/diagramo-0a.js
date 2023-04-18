@@ -150,6 +150,7 @@ class Diagramo {
      * @param {string} unuo mezurunuo skribita ĉe la akso
      */
     skalo_x(start,stop,istrek,inmb,prec=1,unuo,koloro="black",supre=false,xfunc) {
+        this.X = {min: start, max: stop};
         const w = this.ctx.canvas.width;
         const h = supre? 0 : this.ctx.canvas.height;
         const s = supre? 1: -1;
@@ -185,6 +186,7 @@ class Diagramo {
      * @param {string} unuo mezurunuo skribita ĉe la akso
      */
     skalo_y(min,max,istrek,inmb,prec=1,unuo,koloro="black") {
+        this.Y = {min: min, max: max};
         const w = this.ctx.canvas.width;
         const h = this.ctx.canvas.height;
         const cy = (y) => h - (y-min)*h/(max-min);
@@ -195,13 +197,26 @@ class Diagramo {
             const yy = cy(y);
             this.linio(0,yy,len,yy,koloro);
             if (cif && y>min && y<max) {
-                const n = prec? y.toPrecision(prec) : x;
+                const n = prec? y.toPrecision(prec) : y;
                 this.teksto_y(len,yy,n,koloro)
             }
             y += istrek;
         }
         // skribu la unuon
         this.teksto_y(10,10,unuo,koloro);
+    }
+
+    /**
+     * Kalkulas la skalajn koordinatojn al pikseloj de la desegnoareo.
+     * Tio funkcias nur, se vi antaŭe vokis skalo_x kaj skalo_y aŭ
+     * mane donis ekstremojn en this.X, this.Y
+     * @param {*} X koordinato laŭ x-skalo
+     * @param {*} Y koordinato laŭ y-skalo
+     */
+    koord_xy(X,Y) {
+        const cx = this.ctx.canvas.width * (X - this.X.min) / (this.X.max - this.X.min);
+        const cy = this.ctx.canvas.height - this.ctx.canvas.height * (Y -this.Y.min) / (this.Y.max - this.Y.min);
+        return {x: cx, y: cy};
     }
 
 
