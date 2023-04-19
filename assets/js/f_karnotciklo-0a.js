@@ -96,7 +96,8 @@ class KCGaso {
 class KCiklo {
     // Tk: temperaturkonserva, Qk: varmkonserva (adiabata)
     // V+ etendiĝo, V- kunpremiĝo
-    static paŝoj = ["Tk_V-","Qk_V-","Tk_V+","Qk_V+"];
+    // motora ciklo - paŝoj = ["Tk_V-","Qk_V-","Tk_V+","Qk_V+"];
+    // varmpumpa ciklo - paŝoj = ["Qk_V-","Tk_V-","Qk_V+","Tk_V+"];
     static igV = 0.0224; // mola volumeno de ideala gaso = 22,4l
     static dV = 0.0001; // 0,1 litro
 
@@ -105,13 +106,16 @@ class KCiklo {
         this.T_alta = T_alta;
         this.T_malalta = T_malalta;
         //this.izolita = ???
-        this.paŝo = KCiklo.paŝoj[0];
+        this.paŝo = "Tk_V-";
+        this.inversa = false;
 
         this.V0 = this.gaso.volumeno;
-        this.S0 = 0;
-
         this.V12 = V12; // volumeno, kie T-konserva kunpremo transiru al Q-konserva
-        this.V34 = this.V0*Math.pow(T_malalta/T_alta,1/(KCGaso.kappa-1)); // volumeno, kie T-konserva etendiĝo transiru al Q-konserva
+        this.V34 = this.V0*Math.pow(T_malalta/T_alta,1/(KCGaso.kappa-1)); // volumeno, kie T-konserva etendiĝo transiru al Q-konserva (por la motora ciklo)
+        this.V32 = this.V12*Math.pow(T_malalta/T_alta,1/(KCGaso.kappa-1)); // volumeno, kie T-konserva kunpremo transiru al Q-konserva etendiĝo (por la inversa varmpumpa ciklo)
+
+        this.S0 = 0; // komencan entropion ni metas al 0
+        this.VS0 = this.V0; // volumeno al kiu ni rilatigas la entropion
 
         this.kiam_sekva = undefined; // metu revok-funkcion kiam vi volas ekscii transirojn inter paŝoj 1,2,3,4,1
     }
@@ -128,9 +132,10 @@ class KCiklo {
      * Transiro al venonta paŝo
      */
     sekva_paŝo(al) {
-        this.log_stato();        
+        this.log_stato();
+        const de = this.paŝo;
         this.paŝo = al;
-        if (this.kiam_sekva) this.kiam_sekva(al); // ekz-e 'debugger';
+        if (this.kiam_sekva) this.kiam_sekva(de,al); // ekz-e 'debugger';
     }
 
     /**
@@ -140,14 +145,14 @@ class KCiklo {
         if (this.paŝo.startsWith("Qk")) {
             return this.S0;
         } else {
-            return this.S0 + this.gaso.entropidiferenco(this.V0)
+            return this.S0 + this.gaso.entropidiferenco(this.VS0)
         };
     }
 
     /**
-     * Iteracias tra la ciklo
+     * Iteracias tra la ciklo en antaŭa direkto, t.e. produktante movon el varmdiferenco
      */
-    iteracio() {
+    iteracio_motora() {
         switch (this.paŝo) {
         case "Tk_V-": 
             if (this.gaso.volumeno > this.V12) {
@@ -165,7 +170,7 @@ class KCiklo {
             if (this.gaso.temperaturo >= this.T_alta) {
                 // la temperaturo eble devias, do ni alĝustigu
                 this.gaso.T_adiabata(this.T_alta);
-                this.V0 = this.gaso.volumeno;
+                this.VS0 = this.gaso.volumeno;
                 this.sekva_paŝo("Tk_V+");
             } else break;                                
 
@@ -185,9 +190,59 @@ class KCiklo {
             if (this.gaso.temperaturo <= this.T_malalta) {
                 // la temperaturo eble devias, do ni alĝustigu
                 this.gaso.T_adiabata(this.T_malalta);
-                this.V0 = this.gaso.volumeno;
+                this.VS0 = this.gaso.volumeno;
                 this.sekva_paŝo("Tk_V-");
             }
         }
     }
+
+
+    /**
+     * Iteracias tra la ciklo inverse, t.e. pumpante varmon de la malvarma al la varma medio
+     * helpe de movoforto
+     */
+    iteracio_varmpumpa() {
+        switch (this.paŝo) {
+
+            case "Qk_V-":
+                if (this.gaso.temperaturo < this.T_alta) {
+                    this.gaso.dV_adiabata(-KCiklo.dV);
+                }
+                if (this.gaso.temperaturo >= this.T_alta) {
+                    // la temperaturo eble devias, do ni alĝustigu
+                    this.gaso.T_adiabata(this.T_alta);
+                    this.VS0 = this.gaso.volumeno;
+                    this.sekva_paŝo("Tk_V-");
+                } else break;                                
+    
+            case "Tk_V-": 
+                if (this.gaso.volumeno > this.V32) {
+                    this.gaso.dV_izoterma(-KCiklo.dV);
+                }
+                if (this.gaso.volumeno <= this.V32) {
+                    this.S0 = this.entropio();
+                    this.sekva_paŝo("Qk_V+");
+                } else break;                
+
+            case "Qk_V+":
+                if (this.gaso.temperaturo > this.T_malalta) {
+                    this.gaso.dV_adiabata(KCiklo.dV);                
+                }
+                if (this.gaso.temperaturo <= this.T_malalta) {
+                    // la temperaturo eble devias, do ni alĝustigu
+                    this.gaso.T_adiabata(this.T_malalta);
+                    this.VS0 = this.gaso.volumeno;
+                    this.sekva_paŝo("Tk_V+");
+                } else break;                 
+
+            case "Tk_V+": 
+                if (this.gaso.volumeno < this.V0) {
+                    this.gaso.dV_izoterma(KCiklo.dV);
+                }
+                if (this.gaso.volumeno >= this.V0) {
+                    this.S0 = this.entropio();
+                    this.sekva_paŝo("Qk_V-");
+                }                       
+        }
+    }    
 }

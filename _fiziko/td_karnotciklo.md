@@ -26,8 +26,9 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 
 <canvas id="karnot" width="300" height="300"></canvas>
 
-<button id="starto">Komencu</button>
-<button id="halto">Haltu</button>
+<button id="starto_motoro">Motoro</button>
+<button id="starto_pumpilo">Varmpumpilo</button>
+<button id="halto" disabled>Haltu</button>
 ΔT: <b id="temperaturo_info">300K</b>
 <input type="range" id="temperaturo" style="width: 50em; max-width: 60%" min="30" max="600" value="300" step="10" onchange="aktualigo()" oninput="aktualigo_info()">
 
@@ -41,9 +42,9 @@ p-V-diagramo kaj T-ΔS-diagramo
 const T1 = 293.15;
 let T2 = T1 + 300; // +30 .. +300
 
-const p_max = 2e6;
+const p_max = 2.5e6;
 const V_max = 2.5e-2;
-const S_max = 10;
+const S_max = 10.5;
 
 const karnot = document.getElementById("karnot");
 const modelo = new Diagramo(karnot);
@@ -62,8 +63,13 @@ let ripetoj;
 ĝi('#temperaturo').value = 300;
 ĝi("#halto").disabled = true;
 
-kiam_klako("#starto",() => {
-    eksperimento();
+kiam_klako("#starto_motoro",() => {
+    eksperimento(true);
+    ĝi("#halto").disabled = false;
+});
+
+kiam_klako("#starto_pumpilo",() => {
+    eksperimento(false);
     ĝi("#halto").disabled = false;
 });
 
@@ -92,8 +98,11 @@ preparo();
 
 function kreu_ciklon() {
     const kc = new KCiklo(T1,T2);
-    kc.kiam_sekva = function(al) {
-        if (al == "Tk_V-") {
+    kc.kiam_sekva = function(de,al) {
+        // nove ciklo 
+        if (de == "Qk_V+" && al == "Tk_V-" // motora ciklo
+         || de == "Tk_V+" && al == "Qk_V-" // varmpumpa ciklo
+         ) {
             // viŝu la diagramojn antaŭ venonta ciklo
             preparo();
         }
@@ -138,15 +147,12 @@ function modelo_pentru() {
     const y12 = h-40 - 1000*kciklo.V12*sk;
     const y34 = h-40 - 1000*kciklo.V12*sk;
 
-    if (py>h-50) debugger;
+    // if (py>h-50) debugger;
 
 
     function medio() {
         // medio
-        const koloro = (
-            paŝo.startsWith("Qk")? "#777" :
-            (paŝo == "Tk_V-"? Tkoloro(T1) : Tkoloro(T2))
-        );
+
         // varma  kaj malvarma provizoj
         modelo.rektangulo(0,0,80,h,Tkoloro(T2));
         modelo.rektangulo(220,0,300,h,Tkoloro(T1));
@@ -155,6 +161,15 @@ function modelo_pentru() {
         modelo.teksto_x(260,100,T1+" K","white");
 
         // medio-koloro laŭ temperaturo...
+        // PLIBONIGU: pli bone kciklo havu funkcion por redoni la staton!
+        let koloro = "#777";
+        if (! paŝo.startsWith("Qk")) {
+            if (kciklo.inversa && paŝo == "Tk_V+" || !kciklo.inversa && paŝo == "Tk_V-") {
+                koloro = Tkoloro(T1);
+            } else {
+                koloro = Tkoloro(T2);
+            }
+        }
         modelo.rektangulo(80,0,140,h,koloro);
 
         if (paŝo == "Tk_V-" || paŝo.startsWith("Qk")) {
@@ -212,8 +227,12 @@ function diagramo_pentru() {
 }
 
 
-function paŝu() {
-    kciklo.iteracio();
+function paŝu(kiel_motoro) {
+    if (kiel_motoro) {
+        kciklo.iteracio_motora();
+    } else {
+        kciklo.iteracio_varmpumpa();
+    }
 
     modelo_pentru();
     diagramo_pentru();
@@ -221,13 +240,23 @@ function paŝu() {
 }
 
 
-function eksperimento() {    
+function eksperimento(kiel_motoro=true) {    
     if (ripetoj) clearTimeout(ripetoj.p);
 
     preparo();
+    // PLIBONIGU: eble tio povas esti ankaŭ en preparo...?
+    if (kiel_motoro) {
+        kciklo.inversa = false;
+        kciklo.paŝo = "Tk_V-";
+    } else {
+        kciklo.inversa = true;
+        kciklo.paŝo = "Qk_V-";
+    }
+
+
     ripetoj = ripetu(
         () => {
-            paŝu();
+            paŝu(kiel_motoro);
             return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
         },
         intervalo
