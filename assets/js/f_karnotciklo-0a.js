@@ -96,18 +96,21 @@ class KCGaso {
 class KCiklo {
     // Tk: temperaturkonserva, Qk: varmkonserva (adiabata)
     // V+ etendiĝo, V- kunpremiĝo
-    // motora ciklo - paŝoj = ["Tk_V-","Qk_V-","Tk_V+","Qk_V+"];
-    // varmpumpa ciklo - paŝoj = ["Qk_V-","Tk_V-","Qk_V+","Tk_V+"];
     static igV = 0.0224; // mola volumeno de ideala gaso = 22,4l
     static dV = 0.0001; // 0,1 litro
 
-    constructor(T_malalta,T_alta,V12=KCiklo.igV/3,gaso) {
-        this.gaso = gaso || new KCGaso(T_malalta);
+    static motora_ciklo = ["Tk_V-","Qk_V-","Tk_V+","Qk_V+"];
+    static varmpumpa_ciklo = ["Qk_V-","Tk_V-","Qk_V+","Tk_V+"];
+
+    constructor(T_malalta,T_alta,inversa=false,V12=KCiklo.igV/3,gaso) {
         this.T_alta = T_alta;
         this.T_malalta = T_malalta;
-        //this.izolita = ???
-        this.paŝo = "Tk_V-";
-        this.inversa = false;
+
+        this.inversa = inversa;
+        this.ciklo = inversa? KCiklo.varmpumpa_ciklo : KCiklo.motora_ciklo;
+        this.paŝo = this.ciklo[0];
+
+        this.gaso = gaso || new KCGaso(T_malalta);
 
         this.V0 = this.gaso.volumeno;
         this.V12 = V12; // volumeno, kie T-konserva kunpremo transiru al Q-konserva
@@ -131,11 +134,16 @@ class KCiklo {
     /**
      * Transiro al venonta paŝo
      */
-    sekva_paŝo(al) {
+    sekva_paŝo() {
         this.log_stato();
+        // kio estas la nuna kaj la sekva paŝoj?
         const de = this.paŝo;
-        this.paŝo = al;
+        const i = this.ciklo.indexOf(de);
+        const al = this.ciklo[(i+1)%4];
+        // permesu apartajn agojn ĉe transiro
         if (this.kiam_sekva) this.kiam_sekva(de,al); // ekz-e 'debugger';
+        // sekva paŝo
+        this.paŝo = al;
     }
 
     /**
@@ -188,67 +196,40 @@ class KCiklo {
     }
 
     /**
-     * Iteracias tra la ciklo en antaŭa direkto, t.e. produktante movon el varmdiferenco
+     * Iteracias tra la ciklo
      */
-    iteracio_motora() {
+    iteracio() {
         switch (this.paŝo) {
         case "Tk_V-": 
-            if (this.dV_izoterma(-KCiklo.dV,this.V12)) {
+            if (this.dV_izoterma(-KCiklo.dV,
+                    this.inversa?this.V32:this.V12)) { 
                 this.S0 = this.entropio();
-                this.sekva_paŝo("Qk_V-");
-            } else break;
+                this.sekva_paŝo();
+            };
+            break;
+
+        case "Tk_V+": 
+            if (this.dV_izoterma(KCiklo.dV, 
+                    this.inversa?this.V0:this.V34)) { 
+                this.S0 = this.entropio();
+                this.sekva_paŝo();
+            };
+            break;            
 
         case "Qk_V-":
             if (this.dV_adiabata(-KCiklo.dV)) {
                 this.VS0 = this.gaso.volumeno;
-                this.sekva_paŝo("Tk_V+");
-            } else break;                                
+                this.sekva_paŝo();
+            };
+            break;                                
 
-        case "Tk_V+": 
-            if (this.dV_izoterma(KCiklo.dV,this.V34)) {
-                this.S0 = this.entropio();
-                this.sekva_paŝo("Qk_V+");
-            } else break;            
 
         case "Qk_V+":
             if (this.dV_adiabata(KCiklo.dV)) {
                 this.VS0 = this.gaso.volumeno;
-                this.sekva_paŝo("Tk_V-");
+                this.sekva_paŝo();
             }
         }
     }
 
-
-    /**
-     * Iteracias tra la ciklo inverse, t.e. pumpante varmon de la malvarma al la varma medio
-     * helpe de movoforto
-     */
-    iteracio_varmpumpa() {
-        switch (this.paŝo) {
-
-            case "Qk_V-":
-                if (this.dV_adiabata(-KCiklo.dV)) {
-                    this.VS0 = this.gaso.volumeno;
-                    this.sekva_paŝo("Tk_V-");
-                } else break;                                
-    
-            case "Tk_V-": 
-                if (this.dV_izoterma(-KCiklo.dV,this.V32)) {
-                    this.S0 = this.entropio();
-                    this.sekva_paŝo("Qk_V+");
-                } else break;                
-
-            case "Qk_V+":
-                if (this.dV_adiabata(KCiklo.dV)) {              
-                    this.VS0 = this.gaso.volumeno;
-                    this.sekva_paŝo("Tk_V+");
-                } else break;                 
-
-            case "Tk_V+": 
-                if (this.dV_izoterma(KCiklo.dV,this.V0)) {
-                    this.S0 = this.entropio();
-                    this.sekva_paŝo("Qk_V-");
-                }                       
-        }
-    }    
 }
