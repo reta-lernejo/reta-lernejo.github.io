@@ -150,46 +150,68 @@ class KCiklo {
     }
 
     /**
+     * Faras adiabatan volumenŝanĝon. Se ni ne jam atingis limtemperaturon
+     * redonas 'false', se ni atingis limtemperaturon, redonas 'true'
+     * @param {*} dV 
+     */
+    dV_adiabata(dV) {
+        // adaptu la volumenon dum la temperaturo estas inter la limoj
+        if (dV>0 && this.gaso.temperaturo>this.T_malalta 
+         || dV<0 && this.gaso.temperaturo<this.T_alta) {
+                this.gaso.dV_adiabata(dV);
+        }        
+        // se ni intertempe superis limon ni adaptu por reveni al ĝi        
+        if (this.gaso.temperaturo > this.T_alta) {
+            this.gaso.T_adiabata(this.T_alta);
+            return true;
+        } else if (this.gaso.temperaturo < this.T_malalta) {
+            this.gaso.T_adiabata(this.T_malalta);
+            return true;
+        } 
+        return (dV>0 && this.gaso.temperaturo<=this.T_malalta 
+            || dV<0 && this.gaso.temperaturo>=this.T_alta);   
+    }
+
+    /**
+     * Faras izoterman volumenŝanĝon
+     * @param {*} dV 
+     * @param {*} Vlim la lima volumeno
+     * @returns redonas 'true' se ni atingis liman volumenon
+     */
+    dV_izoterma(dV,Vlim) {
+        if (dV>0 && this.gaso.volumeno < Vlim
+         || dV<0 && this.gaso.volumeno > Vlim) {
+            this.gaso.dV_izoterma(dV);
+        }
+        return (dV>0 && this.gaso.volumeno >= Vlim
+         || dV<0 && this.gaso.volumeno <= Vlim);
+    }
+
+    /**
      * Iteracias tra la ciklo en antaŭa direkto, t.e. produktante movon el varmdiferenco
      */
     iteracio_motora() {
         switch (this.paŝo) {
         case "Tk_V-": 
-            if (this.gaso.volumeno > this.V12) {
-                this.gaso.dV_izoterma(-KCiklo.dV);
-            }
-            if (this.gaso.volumeno <= this.V12) {
+            if (this.dV_izoterma(-KCiklo.dV,this.V12)) {
                 this.S0 = this.entropio();
                 this.sekva_paŝo("Qk_V-");
             } else break;
 
         case "Qk_V-":
-            if (this.gaso.temperaturo < this.T_alta) {
-                this.gaso.dV_adiabata(-KCiklo.dV);
-            }
-            if (this.gaso.temperaturo >= this.T_alta) {
-                // la temperaturo eble devias, do ni alĝustigu
-                this.gaso.T_adiabata(this.T_alta);
+            if (this.dV_adiabata(-KCiklo.dV)) {
                 this.VS0 = this.gaso.volumeno;
                 this.sekva_paŝo("Tk_V+");
             } else break;                                
 
         case "Tk_V+": 
-            if (this.gaso.volumeno < this.V34) {
-                this.gaso.dV_izoterma(KCiklo.dV);
-            }
-            if (this.gaso.volumeno >= this.V34) {
+            if (this.dV_izoterma(KCiklo.dV,this.V34)) {
                 this.S0 = this.entropio();
                 this.sekva_paŝo("Qk_V+");
             } else break;            
 
         case "Qk_V+":
-            if (this.gaso.temperaturo > this.T_malalta) {
-                this.gaso.dV_adiabata(KCiklo.dV);                
-            }
-            if (this.gaso.temperaturo <= this.T_malalta) {
-                // la temperaturo eble devias, do ni alĝustigu
-                this.gaso.T_adiabata(this.T_malalta);
+            if (this.dV_adiabata(KCiklo.dV)) {
                 this.VS0 = this.gaso.volumeno;
                 this.sekva_paŝo("Tk_V-");
             }
@@ -205,41 +227,25 @@ class KCiklo {
         switch (this.paŝo) {
 
             case "Qk_V-":
-                if (this.gaso.temperaturo < this.T_alta) {
-                    this.gaso.dV_adiabata(-KCiklo.dV);
-                }
-                if (this.gaso.temperaturo >= this.T_alta) {
-                    // la temperaturo eble devias, do ni alĝustigu
-                    this.gaso.T_adiabata(this.T_alta);
+                if (this.dV_adiabata(-KCiklo.dV)) {
                     this.VS0 = this.gaso.volumeno;
                     this.sekva_paŝo("Tk_V-");
                 } else break;                                
     
             case "Tk_V-": 
-                if (this.gaso.volumeno > this.V32) {
-                    this.gaso.dV_izoterma(-KCiklo.dV);
-                }
-                if (this.gaso.volumeno <= this.V32) {
+                if (this.dV_izoterma(-KCiklo.dV,this.V32)) {
                     this.S0 = this.entropio();
                     this.sekva_paŝo("Qk_V+");
                 } else break;                
 
             case "Qk_V+":
-                if (this.gaso.temperaturo > this.T_malalta) {
-                    this.gaso.dV_adiabata(KCiklo.dV);                
-                }
-                if (this.gaso.temperaturo <= this.T_malalta) {
-                    // la temperaturo eble devias, do ni alĝustigu
-                    this.gaso.T_adiabata(this.T_malalta);
+                if (this.dV_adiabata(KCiklo.dV)) {              
                     this.VS0 = this.gaso.volumeno;
                     this.sekva_paŝo("Tk_V+");
                 } else break;                 
 
             case "Tk_V+": 
-                if (this.gaso.volumeno < this.V0) {
-                    this.gaso.dV_izoterma(KCiklo.dV);
-                }
-                if (this.gaso.volumeno >= this.V0) {
+                if (this.dV_izoterma(KCiklo.dV,this.V0)) {
                     this.S0 = this.entropio();
                     this.sekva_paŝo("Qk_V-");
                 }                       
