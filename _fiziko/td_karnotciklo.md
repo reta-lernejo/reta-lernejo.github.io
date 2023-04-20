@@ -37,6 +37,12 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 <canvas id="TS_dgr" width="300" height="300"></canvas>
 p-V-diagramo kaj T-ΔS-diagramo
 
+| | internen | eksteren |
+|-|-|-|
+| laboro W |<span id="laboro_i"/> |<span id="laboro_e"/> |
+| varmŝanĝo Q |<span id="varmo_i"/> |<span id="varmo_e"/> |
+| interna energio U |<span id="energio_i"/> | |
+
 <script>
 
 const T1 = 293.15;
@@ -66,11 +72,13 @@ let ripetoj;
 kiam_klako("#starto_motoro",() => {
     eksperimento(false);
     ĝi("#halto").disabled = false;
+    Sekcio.malfermu("motoro",true);
 });
 
 kiam_klako("#starto_pumpilo",() => {
     eksperimento(true);
     ĝi("#halto").disabled = false;
+    Sekcio.malfermu("pumpilo",true);
 });
 
 kiam_klako("#halto",() => {
@@ -109,7 +117,7 @@ function kreu_ciklon(inversa) {
             preparo();
         }
         // skribu numeron de la paŝo en la diagramojn
-        diagramo_paŝo();
+        diagramo_paŝo(al);
     }
     return kc;
 }
@@ -130,6 +138,8 @@ function preparo() {
     const T_max = Math.ceil(T2/100)*100;
     dTS.skalo_y(T_min,T_max,10,50,0,"K");
     dTS.skalo_x(-1,S_max,1,1,0,"J/K");
+
+    diagramo_paŝo();
 }
 
 /**
@@ -228,13 +238,24 @@ function diagramo_pentru() {
     dTS.punkto(k.x,k.y,1,koloro);
 }
 
-function diagramo_paŝo() {
-    const nro = kciklo.paŝnro()+1;
+function diagramo_paŝo(paŝo) {
+    // ioma adapto de koordinatoj ĉe la randoj
+    function ka(k) {
+        if (k<50) return k+12;
+        if (k>250) return k-6;
+        return k-4;
+    }
+
+    const nro = kciklo.paŝnro(paŝo)+1;
+    const koloro = Tkoloro(kciklo.gaso.temperaturo);
+
     let k = dpV.koord_xy(kciklo.gaso.volumeno*1000,kciklo.gaso.premo()/1e5);
-    dpV.teksto_x(k.x,k.y+5,nro);
+    dpV.punkto(k.x,k.y,3,koloro);
+    dpV.teksto_x(ka(k.x),ka(k.y),nro,koloro);
 
     k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
-    dTS.teksto_x(k.x,k.y+5,nro);
+    dTS.punkto(k.x,k.y,3,koloro);
+    dTS.teksto_x(ka(k.x),ka(k.y),nro,koloro);
 }
 
 
@@ -252,6 +273,7 @@ function eksperimento(inversa) {
 
     // kreu novan procezon 
     kciklo = kreu_ciklon(inversa);
+    preparo();
 
     // cikligu
     ripetoj = ripetu(
@@ -266,28 +288,84 @@ function eksperimento(inversa) {
 
 </script>
 
-## paŝo 1 - temperaturkonserva (izoterma) kunpremiĝo
+## funkcio kiel motoro
+{: .sekcio #motoro}
 
-Dum la temperaturo estas teanata konstante malalta la gaso kunpremiĝas per ekstera premo, t.e. laboro, aplikata al la gaso.
-La varmo estiĝanta en la gaso per kunpremiĝo estas transdonata al la ekstera malvarma medio. Pro la konstanta temperaturo
+### paŝo 1 - temperaturkonserva (izoterma) kunpremiĝo
+
+Dum la temperaturo estas teanata konstante malalta la gaso kunpremiĝas per ekstera premo, 
+t.e. laboro, aplikata al la gaso. La varmo estiĝanta en la gaso per kunpremiĝo estas 
+transdonata al la ekstera malvarma medio. Pro la konstanta temperaturo
 la produkto $$pV$$ restas konstanta, do pro la malgrandiĝanta volumeno la premo kreskas.
 
-Ĉar temas pri ideala gaso, konstanta temperaturo signifas konstanta interna energio $$dU = 0$$. Konsekvence la tuta farita laboro
-(la surfaco sub la kurbo 1-2 en la p-V-diagramo) transformiĝos al varmo akceptata de la malvarma medio, egala al la surfaco 
-sub la kurbo 1-2 en la T-S-diagramo.
+Ĉar temas pri ideala gaso, konstanta temperaturo signifas konstanta interna energio $$dU = 0$$. 
+Konsekvence la tuta farita laboro (la surfaco sub la kurbo 1-2 en la p-V-diagramo) transformiĝos 
+al varmo akceptata de la malvarma medio, egala al la surfaco  sub la kurbo 1-2 en la T-S-diagramo.[^W1]
 
-## paŝo 2 - varmkonserva (adiabata) kunpremiĝo
+### paŝo 2 - varmkonserva (adiabata) kunpremiĝo
 
-La piŝtujo estas varmizolita dum la piŝto plu kunpremas la gason, kies temperaturo pro tio altiĝas. Pro la izolo da tuta farita laboro
-(la surfaco sub la kurbo 2-3 en la p-V-diagramo) altigas la internan energion de la gaso.
+La piŝtujo estas varmizolita dum la piŝto plu kunpremas la gason, kies temperaturo pro tio altiĝas. 
+Pro la izolo da tuta farita laboro (la surfaco sub la kurbo 2-3 en la p-V-diagramo) altigas 
+la internan energion de la gaso.
 
-## paŝo 3 - temperaturkonserva (izoterma) etendiĝo
+### paŝo 3 - temperaturkonserva (izoterma) etendiĝo
 
-Ĉe temperaturo tenata konstante alta, la gaso etendiĝas pro interna premo. Pro la konstanta temperaturo la interna energio same
-restas konstanta kaj la tuta farita laboro (la surfaco sub la kurbo 3-4 en la p-V-diagramo) estas
-egala al la varmo (la surfaco sub la kurbo 3-4 en la T-S-diagramo) transdonita de la alttemperatura ekstera medio al la gaso en la piŝtujo.
-Pro la konstanta temperaturo ankaŭ la produko $$pV$$ restas konstnat. Konsekvence la premo malaltiĝas inverse proporcie al la kreskanta volumeno.
+Ĉe temperaturo tenata konstante alta, la gaso etendiĝas pro interna premo. Pro la konstanta temperaturo 
+la interna energio same restas konstanta kaj la tuta farita laboro (la surfaco sub la kurbo 3-4 
+en la p-V-diagramo) estas egala al la varmo (la surfaco sub la kurbo 3-4 en la T-S-diagramo) 
+transdonita de la alttemperatura ekstera medio al la gaso en la piŝtujo.
 
-## paŝo 4 - varmkonserva (adiabata) etendiĝo
+Pro la konstanta temperaturo ankaŭ la produko $$pV$$ restas konstanta. Konsekvence la premo malaltiĝas inverse proporcie al la kreskanta volumeno.
 
-La piŝtujo estas varmizolita la gaso plu etendiĝas, kies temperaturo kaj premo pro tio malaltiĝas. Pro la izolo, la laboro farita de la gaso sammezure malaltigas la internan energion.
+### paŝo 4 - varmkonserva (adiabata) etendiĝo
+
+La piŝtujo estas varmizolita la gaso plu etendiĝas, kies temperaturo kaj premo pro tio malaltiĝas. 
+Pro la izolo, la laboro farita de la gaso sammezure malaltigas la internan energion.
+
+
+## funkcio kiel varmpumpilo
+{: .sekcio #pumpilo}
+
+
+### paŝo 1 - varmkonserva (adiabata) kunpremiĝo
+
+La piŝtujo estas varmizolita dum la piŝto kunpremas la gason, kies temperaturo pro tio altiĝas. 
+Pro la izolo da tuta farita laboro (la surfaco sub la kurbo 1-2 en la p-V-diagramo) altigas la 
+internan energion de la gaso.
+
+### paŝo 2 - temperaturkonserva (izoterma) kunpremiĝo
+
+Dum la temperaturo estas teanata konstante alta la gaso kunpremiĝas per ekstera premo, 
+t.e. laboro, aplikata al la gaso. La varmo estiĝanta en la gaso per kunpremiĝo estas 
+transdonata al la ekstera varma medio. Tiel la temperaturo restas konstanta kaj
+ankaŭ la produkto $$pV$$ restas konstanta, do pro la malgrandiĝanta volumeno la premo kreskas.
+
+Ĉar temas pri ideala gaso, konstanta temperaturo signifas konstanta interna energio $$dU = 0$$. 
+Konsekvence la tuta farita laboro (la surfaco sub la kurbo 2-3 en la p-V-diagramo) transformiĝos 
+al varmo akceptata de la ekstera medio, egala al la surfaco sub la kurbo 2-3 en la T-S-diagramo.
+
+
+### paŝo 3 - varmkonserva (adiabata) etendiĝo
+
+La piŝtujo estas varmizolita la gaso nun etendiĝas dum ĝia temperaturo kaj premo malaltiĝas. 
+Pro la izolo la gaso sammezure malaltigas la internan energion.
+
+### paŝo 4 - temperaturkonserva (izoterma) etendiĝo
+
+Ĉe temperaturo tenata konstanta, la gaso etendiĝas pro interna premo. 
+La gaso ne povas malvarmiĝi sub la eksteran temperaturon, ĉar la medio
+donas al ĝi tiom da varmo, ke la interna temperaturo egalas al la ekstera. 
+Pro la konstanta temperaturo la interna energio same restas konstanta kaj 
+la tuta farita laboro (la surfaco sub la kurbo 4-1 en la p-V-diagramo) estas
+egala al la enprenata varmo (la surfaco sub la kurbo 4-1 en la T-S-diagramo).
+
+Pro la konstanta temperaturo ankaŭ la produko $$pV$$ restas konstanta. 
+Konsekvence la premo malaltiĝas inverse proporcie al la kreskanta volumeno
+ĝis ĝi egalas al la ekstera premo.
+
+## fontoj
+{: .fontoj}
+
+[^W1]: [Vikipedio: Ciklo de Carnot](https://eo.wikipedia.org/wiki/Ciklo_de_Carnot)
+[^L1]: [LibreTexts: Carnot Cycle](https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle)
+

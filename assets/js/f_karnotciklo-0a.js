@@ -17,6 +17,9 @@ class KCGaso {
     static R = 8.31446261815324; // universala gaskonstanto en J/K/mol
     static kappa = 5/3; // adiabata koeficiento
 
+    // unumolaj varmkapacitoj (por konstanta volumeno, konstanta premo respektive)
+    static CmV = 3/2*KCGaso.R;
+    static Cmp = 5/2*KCGaso.R;
     /**
      * Kalkulas la volumenon depende de temperaturo, molkvanto kaj premo
      * el la ekvacio por ideala gaso
@@ -80,7 +83,31 @@ class KCGaso {
      * Redonas entropidiferencon rilate al komenca volumeno de adiabata ŝanĝo
      */
     entropidiferenco(V0) {
-        return -KCGaso.R * Math.log(this.volumeno/V0);
+        return -this.moloj*KCGaso.R * Math.log(this.volumeno/V0);
+    }
+
+    /**
+     * Redonas la laboron faritan per izoterma volumenŝanĝo. La ŝanĝo de interna energio kaj entalpio
+     * estas egala al tiu.
+     * vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
+     */
+    laboro_izoterma(V0) {
+       return -this.moloj*KCGaso.R*this.temperaturo*Math.log(this.volumeno/V0);
+    }
+
+    /**
+     * Redonas la laboron faritan ĉe adiabata volumenŝanĝo
+     */
+    laboro_adiabata(T0) {
+        return -this.moloj*KCGaso.CmV * (this.temperaturo - T0);
+    }
+
+    /**
+     * Redonas la varmoŝanĝon dum izoterma volumenŝanĝo
+     * vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
+     */
+    varmo_izoterma(V0) {
+        return -this.moloj*KCGaso.R*Math.log(this.volumeno/V0);
     }
 
     /**
@@ -134,8 +161,8 @@ class KCiklo {
     /**
      * Redonas la numeron de la paŝo
      */
-    paŝsnro() {
-        return this.ciklo.indexOf(this.paŝo);
+    paŝnro(paŝo=this.paŝo) {
+        return this.ciklo.indexOf(paŝo);
     }
 
     /**
@@ -147,10 +174,10 @@ class KCiklo {
         const de = this.paŝo;
         const i = this.ciklo.indexOf(de);
         const al = this.ciklo[(i+1)%4];
-        // permesu apartajn agojn ĉe transiro
-        if (this.kiam_sekva) this.kiam_sekva(de,al); // ekz-e 'debugger';
         // sekva paŝo
         this.paŝo = al;
+        // permesu apartajn agojn ĉe transiro
+        if (this.kiam_sekva) this.kiam_sekva(de,al); // ekz-e 'debugger';
     }
 
     /**
