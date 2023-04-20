@@ -129,6 +129,13 @@ class KCiklo {
     }
 
     /**
+     * Redonas la numeron de la paŝo
+     */
+    paŝsnro() {
+        return this.ciklo.indexOf(this.paŝo);
+    }
+
+    /**
      * Transiro al venonta paŝo
      */
     sekva_paŝo(al) {
@@ -136,6 +143,18 @@ class KCiklo {
         const de = this.paŝo;
         this.paŝo = al;
         if (this.kiam_sekva) this.kiam_sekva(de,al); // ekz-e 'debugger';
+    }
+
+    /**
+     * Depende de la paŝo redonas la medion (varma, malvarma, izolita)
+     */
+    medio() {
+        if (this.paŝo.startsWith("Qk")) return "izolita";
+        if (this.inversa && this.paŝo == "Tk_V+" || !this.inversa && this.paŝo == "Tk_V-") {
+            return "malvarma"
+        } else {
+            return "varma"
+        }
     }
 
     /**

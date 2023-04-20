@@ -99,13 +99,15 @@ preparo();
 function kreu_ciklon() {
     const kc = new KCiklo(T1,T2);
     kc.kiam_sekva = function(de,al) {
-        // nove ciklo 
+        // nova ciklo 
         if (de == "Qk_V+" && al == "Tk_V-" // motora ciklo
          || de == "Tk_V+" && al == "Qk_V-" // varmpumpa ciklo
          ) {
             // viŝu la diagramojn antaŭ venonta ciklo
             preparo();
         }
+        // skribu numeron de la paŝo en la diagramojn
+        diagramo_paŝo();
     }
     return kc;
 }
@@ -134,7 +136,6 @@ function preparo() {
 function modelo_pentru() {
     modelo.viŝu(); // ĉu necesas ĉiufoje?
 
-    const paŝo = kciklo.paŝo;
     const T = kciklo.gaso.temperaturo;
     const V = kciklo.gaso.volumeno;
 
@@ -163,19 +164,18 @@ function modelo_pentru() {
         // medio-koloro laŭ temperaturo...
         // PLIBONIGU: pli bone kciklo havu funkcion por redoni la staton!
         let koloro = "#777";
-        if (! paŝo.startsWith("Qk")) {
-            if (kciklo.inversa && paŝo == "Tk_V+" || !kciklo.inversa && paŝo == "Tk_V-") {
-                koloro = Tkoloro(T1);
-            } else {
-                koloro = Tkoloro(T2);
-            }
+        if (kciklo.medio() == "malvarma") {
+            koloro = Tkoloro(T1);
+        } else if (kciklo.medio() == "varma") {
+            koloro = Tkoloro(T2);
         }
+        // desegnu la medion
         modelo.rektangulo(80,0,140,h,koloro);
-
-        if (paŝo == "Tk_V-" || paŝo.startsWith("Qk")) {
+        // desegnu vandojn de la medio
+        if (kciklo.medio() != "varma") {
             modelo.linio(80,0,80,h);
         } 
-        if (paŝo == "Tk_V+" || paŝo.startsWith("Qk")) {
+        if (kciklo.medio() != "malvarma") {
             modelo.linio(220,0,220,h);
         }
         //modelo.linio(220,20,220,h);
@@ -224,6 +224,15 @@ function diagramo_pentru() {
 
     k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
     dTS.punkto(k.x,k.y,1,koloro);
+}
+
+function diagramo_paŝo() {
+    const nro = kciklo.paŝnro()+1;
+    let k = dpV.koord_xy(kciklo.gaso.volumeno*1000,kciklo.gaso.premo()/1e5);
+    dpV.teksto_x(k.x,k.y+5,nro);
+
+    k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
+    dTS.teksto_x(k.x,k.y+5,nro);
 }
 
 
