@@ -64,12 +64,12 @@ let ripetoj;
 ĝi("#halto").disabled = true;
 
 kiam_klako("#starto_motoro",() => {
-    eksperimento(true);
+    eksperimento(false);
     ĝi("#halto").disabled = false;
 });
 
 kiam_klako("#starto_pumpilo",() => {
-    eksperimento(false);
+    eksperimento(true);
     ĝi("#halto").disabled = false;
 });
 
@@ -81,7 +81,9 @@ function aktualigo() {
     T2 = T1 + parseInt(ĝi('#temperaturo').value);
     // post T-agordo laŭbezone rekreu la modelon
     if (kciklo.T_alta != T2) {
-        kciklo = kreu_ciklon();
+        inversa = kciklo.inversa;
+        // rekreu
+        kciklo = kreu_ciklon(inversa);
         preparo();
         modelo_pentru();
     }
@@ -96,8 +98,8 @@ function aktualigo_info() {
 modelo_pentru();
 preparo();
 
-function kreu_ciklon() {
-    const kc = new KCiklo(T1,T2);
+function kreu_ciklon(inversa) {
+    const kc = new KCiklo(T1,T2,inversa);
     kc.kiam_sekva = function(de,al) {
         // nova ciklo 
         if (de == "Qk_V+" && al == "Tk_V-" // motora ciklo
@@ -236,36 +238,25 @@ function diagramo_paŝo() {
 }
 
 
-function paŝu(kiel_motoro) {
-    if (kiel_motoro) {
-        kciklo.iteracio_motora();
-    } else {
-        kciklo.iteracio_varmpumpa();
-    }
-
+function paŝu() {
+    kciklo.iteracio();
     modelo_pentru();
     diagramo_pentru();
     //valoroj();
 }
 
 
-function eksperimento(kiel_motoro=true) {    
+function eksperimento(inversa) {
+    // eventuale haltigu antaŭan
     if (ripetoj) clearTimeout(ripetoj.p);
 
-    preparo();
-    // PLIBONIGU: eble tio povas esti ankaŭ en preparo...?
-    if (kiel_motoro) {
-        kciklo.inversa = false;
-        kciklo.paŝo = "Tk_V-";
-    } else {
-        kciklo.inversa = true;
-        kciklo.paŝo = "Qk_V-";
-    }
+    // kreu novan procezon 
+    kciklo = kreu_ciklon(inversa);
 
-
+    // cikligu
     ripetoj = ripetu(
         () => {
-            paŝu(kiel_motoro);
+            paŝu();
             return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
         },
         intervalo
