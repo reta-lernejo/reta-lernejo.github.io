@@ -37,9 +37,9 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 <canvas id="TS_dgr" width="300" height="300"></canvas>
 p-V-diagramo kaj T-ΔS-diagramo
 
-| laboro W |<span id="laboro"/> |
-| varmŝanĝo Q |<span id="varmo"/> |
-| interna energio U |<span id="energio_i"/> |
+| konsumita laboro W (sumita) |<span id="laboro"/> |
+| varminterŝanĝo Q (sumita) |<span id="varmo"/> |
+| interna energiŝanĝo ΔU |<span id="energio"/> |
 
 <script>
 
@@ -259,6 +259,7 @@ function diagramo_paŝo(paŝo) {
 function valoroj() {
     ĝi("#laboro").innerHTML = nombro(kciklo.suma_laboro(),3,"J");
     ĝi("#varmo").innerHTML = nombro(kciklo.suma_varmo(),3,"J");
+    ĝi("#energio").innerHTML = nombro(kciklo.energiŝanĝo(),3,"J");
 }
 
 function paŝu() {
