@@ -38,9 +38,10 @@ class KCGaso {
      * @param {*} premo 
      * @param {*} atommaso 
      */
-    constructor(temperaturo=KCGaso.norm_T,volumeno) {
+    constructor(temperaturo=KCGaso.norm_T,volumeno,moloj=1) {
         this.temperaturo = temperaturo;
-        this.volumeno = volumeno || KCGaso.volumeno(this.temperaturo,KCGaso.norm_p);
+        this.moloj = moloj;
+        this.volumeno = volumeno || KCGaso.volumeno(this.temperaturo,KCGaso.norm_p,moloj);
     }
 
     /**
@@ -99,7 +100,7 @@ class KCGaso {
      * Redonas la laboron faritan ĉe adiabata volumenŝanĝo
      */
     laboro_adiabata(T0) {
-        return -this.moloj*KCGaso.CmV * (this.temperaturo - T0);
+        return this.moloj*KCGaso.CmV * (this.temperaturo - T0);
     }
 
     /**
@@ -107,7 +108,16 @@ class KCGaso {
      * vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
      */
     varmo_izoterma(V0) {
-        return -this.moloj*KCGaso.R*Math.log(this.volumeno/V0);
+        return this.moloj*KCGaso.R*this.temperaturo*Math.log(this.volumeno/V0);
+    }
+
+    /**
+     * Redonas la internan energiŝanĝon ĉe adiabata volumenŝanĝo (samgranda kiel la laboro)
+     * @param {*} T0 
+     * @returns 
+     */
+    energiŝanĝo_adiabata(T0) {
+        return this.moloj*KCGaso.CmV * (this.temperaturo - T0);
     }
 
     /**
@@ -147,6 +157,12 @@ class KCiklo {
         this.S0 = 0; // komencan entropion ni metas al 0
         this.VS0 = this.V0; // volumeno al kiu ni rilatigas la entropion
 
+        // komenca suma laboro kaj varmo estu 0
+        this.W = 0;
+        this.Q = 0;
+        // ŝanĝo de interna energio dum la ciklo
+        this.dU = 0; 
+
         this.kiam_sekva = undefined; // metu revok-funkcion kiam vi volas ekscii transirojn inter paŝoj 1,2,3,4,1
     }
 
@@ -154,8 +170,9 @@ class KCiklo {
      * Skribas la nunan staton
      */
     log_stato() {
-        console.log(`paŝo ${this.paŝo}`);
+        console.log(`fino de paŝo ${this.paŝo}`);
         this.gaso.log_stato();
+        console.log(`S: ${(this.S0).toFixed(2)}, ∑W: ${(this.W).toFixed(2)}, ∑Q: ${(this.Q).toFixed(2)}`);
     }
 
     /**
@@ -169,13 +186,21 @@ class KCiklo {
      * Transiro al venonta paŝo
      */
     sekva_paŝo() {
+        // aldono de varmo kaj laboro
+        this.W = this.suma_laboro();
+        this.Q = this.suma_varmo();
+        this.dU = this.energiŝanĝo();
+
+        // skribu informojn
         this.log_stato();
         // kio estas la nuna kaj la sekva paŝoj?
         const de = this.paŝo;
         const i = this.ciklo.indexOf(de);
         const al = this.ciklo[(i+1)%4];
+
         // sekva paŝo
         this.paŝo = al;
+        
         // permesu apartajn agojn ĉe transiro
         if (this.kiam_sekva) this.kiam_sekva(de,al); // ekz-e 'debugger';
     }
@@ -191,6 +216,44 @@ class KCiklo {
             return "varma"
         }
     }
+
+    /**
+     * Redonas la suman laboron, pluraj paŝoj kaj cikloj sumiĝas...
+     */
+    suma_laboro() {
+        switch (this.paŝo) {
+            case "Tk_V+":
+            case "Tk_V-": return this.W + this.gaso.laboro_izoterma(this.VS0); 
+            case "Qk_V+": return this.W + this.gaso.laboro_adiabata(this.T_alta);
+            case "Qk_V-": return this.W + this.gaso.laboro_adiabata(this.T_malalta);
+        }
+    }
+
+    /**
+     * Redonas la suman varmon, pluraj paŝoj kaj cikloj sumiĝas...
+     */
+    suma_varmo() {
+       switch (this.paŝo) {
+            case "Tk_V+":
+            case "Tk_V-": return this.Q + this.gaso.varmo_izoterma(this.VS0); 
+            case "Qk_V+":
+            case "Qk_V-": return this.Q; // neniu ŝanĝo en la nuna paŝo pro varmizolo
+        }
+    }
+
+    /**
+     * Redonas la ŝanĝon de interna energio. Ni ne bezonas sumigi, ĉar post unu ciklo
+     * ĝi estas samgranda kiel komence
+     */
+    energiŝanĝo() {
+        switch (this.paŝo) {
+            case "Tk_V+":
+            case "Tk_V-": return this.dU; 
+            case "Qk_V+": return this.dU + this.gaso.energiŝanĝo_adiabata(this.T_alta);
+            case "Qk_V-": return this.dU + this.gaso.energiŝanĝo_adiabata(this.T_malalta);
+        }
+    }
+
 
     /**
      * Redonas entropidiferencon depende de la paŝo
