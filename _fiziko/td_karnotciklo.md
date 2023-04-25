@@ -10,12 +10,23 @@ js:
   - f_karnotciklo-0a
 ---
 
-... paĝo en preparo ...
-
 <!--
 https://de.wikipedia.org/wiki/Carnot-Prozess
 
 -->
+
+
+La *ciklo de Karnot'* estas modela termodinamika procezo,
+priskribita de *Sadi Carnot* en la 1820-aj jaroj,
+strebante krei teorian fundamenton por la funkciado de vapormaŝinoj.
+La modela procezo de Karnot' multe helpis evoluigi la konceptojn de termodinamiko.
+
+La preciza matematika priskribo estis kontribuita poste en la 1850aj de *Rudolf Clausius*, kiu
+klarigis varmon kiel formon de energio kaj enkondukis entropion kiel fizikan grandon.
+
+La Karnot-ciklo kiel teoria koncepto havas, depende de varma kaj malvarma temperaturoj, 
+la maksimuman efikecon (rendimenton), kiu de realaj maŝinoj ne estas atingebla. 
+Alivorte neniu reala termodinamika maŝino povas esti pli efika ol la Karnot-ciklo.
 
 
 <style>
@@ -37,8 +48,8 @@ https://de.wikipedia.org/wiki/Carnot-Prozess
 <canvas id="TS_dgr" width="300" height="300"></canvas>
 p-V-diagramo kaj T-ΔS-diagramo
 
-| konsumita laboro W (sumita) |<span id="laboro"/> |
-| varminterŝanĝo Q (sumita) |<span id="varmo"/> |
+| konsumita laboro W |<span id="laboro"/> |
+| varminterŝanĝo Q |<span id="varmo"/> |
 | interna energiŝanĝo ΔU |<span id="energio"/> |
 
 <script>
@@ -90,7 +101,7 @@ function aktualigo() {
         inversa = kciklo.inversa;
         // rekreu
         kciklo = kreu_ciklon(inversa);
-        preparo();
+        dgr_preparo();
         modelo_pentru();
     }
 }
@@ -102,7 +113,7 @@ function aktualigo_info() {
 
 // pentru sen jam movi...
 modelo_pentru();
-preparo();
+dgr_preparo();
 
 function kreu_ciklon(inversa) {
     const kc = new KCiklo(T1,T2,inversa);
@@ -112,7 +123,9 @@ function kreu_ciklon(inversa) {
          || de == "Tk_V+" && al == "Qk_V-" // varmpumpa ciklo
          ) {
             // viŝu la diagramojn antaŭ venonta ciklo
-            preparo();
+            dgr_preparo();
+            // rekomencu kalkuli Q kaj W
+            kciklo.W = 0; kciklo.Q = 0;
         }
         // skribu numeron de la paŝo en la diagramojn
         diagramo_paŝo(al);
@@ -126,7 +139,7 @@ function Tkoloro(T) {
     return Diagramo.hsl2hex(h,90,45);
 }
 
-function preparo() {
+function dgr_preparo() {
     dpV.viŝu();
     dpV.skalo_y(0,p_max/1e5,1,5,0,"·10⁵Pa");
     dpV.skalo_x(0,V_max*1000,1,10,0,"dm³");
@@ -134,7 +147,7 @@ function preparo() {
     dTS.viŝu();
     const T_min = Math.floor(T1/100)*100;
     const T_max = Math.ceil(T2/100)*100;
-    dTS.skalo_y(T_min,T_max,10,50,0,"K");
+    dTS.skalo_y(0 /*T_min*/,T_max,10,50,0,"K");
     dTS.skalo_x(-1,S_max,1,1,0,"J/K");
 
     diagramo_paŝo();
@@ -274,9 +287,11 @@ function eksperimento(inversa) {
     // eventuale haltigu antaŭan
     if (ripetoj) clearTimeout(ripetoj.p);
 
-    // kreu novan procezon 
-    kciklo = kreu_ciklon(inversa);
-    preparo();
+    // se direkto ŝanĝita, kreu novan procezon 
+    if (inversa != kciklo.inversa) {
+        kciklo = kreu_ciklon(inversa);
+        dgr_preparo();
+    }
 
     // cikligu
     ripetoj = ripetu(
@@ -290,6 +305,7 @@ function eksperimento(inversa) {
 
 
 </script>
+  
 
 ## funkcio kiel motoro
 {: .sekcio #motoro}
@@ -365,6 +381,59 @@ egala al la enprenata varmo (la surfaco sub la kurbo 4-1 en la T-S-diagramo).
 Pro la konstanta temperaturo ankaŭ la produko $$pV$$ restas konstanta. 
 Konsekvence la premo malaltiĝas inverse proporcie al la kreskanta volumeno
 ĝis ĝi egalas al la ekstera premo.
+
+
+## konsidero pri energio
+{: .sekcio}
+
+
+En la Karnot-ciklo aperas tri formoj de energio: interna energio de la gaso, varmo kaj meĥanika laboro. En la procezo ili transformiĝas unu en alian:
+
+En la temperaturkonservaj paŝoj la interna energio de la ideala gaso ne ŝanĝiĝas. La varmo interŝanĝata kun la medio estas egalmezura al la meĥanika laboro farita.
+
+En la varmkonservaj paŝoj, la piŝtujo kun la gaso estas varmizolita, neniu varmo estas interŝanĝata kun la medio. La farita laboro estas egalmezura al la ŝanĝo de interna energio de la gaso.
+
+La sumo el ĉiuj tri energioj estas konstanta, t.e. energiformoj ja povas estas transformataj unu al alia, sed energio ne povas esti kreata el nenio nek neniiĝi. Oni povas skribi tion matematike:
+
+$$\Delta U = Q + W$$
+
+Tiu ekvacio estas formulado de la **unua leĝo de Termodinamiko**, kiu validas universale por 
+ĉiu *fermita* termodinamika sistemo. (Foje oni ankaŭ donas inversan signumon al la laboro kaj skribas:
+$$\Delta U = Q - W$$)
+
+## konsidero pri varminterŝanĝo
+{: .sekcio}
+
+<!--
+01. Thermodynamics: Carnot engine, Entropy, Helmholtz/Gibbs free energy
+https://www.youtube.com/watch?v=00WL4JX5fX8
+-->
+
+Oni trovas, ke en la Karnot-ciklo la kvocientoj el la absolutaj valoroj de varminterŝanĝo kaj la respektiva temperaturo egalas. *Clausius* derivis matematike, ke:
+
+$$ \frac{Q_{en}}{T_{alta}} + \frac{Q_{el}}{T_{malalta}} = 0 $$
+
+kaj ke pli ĝenerale por ĉia inversigebla termodinamika procezo la sumo de ĉiuj tiaj termoj egalas al nulo:
+
+$$ \sum_i{\frac{Q_i}{T_i}} = 0 $$
+
+kaj por ĉiu neinversigebla termodinamika procezo la sumo estas pli malgranda ol nulo:
+
+$$ \sum_i{\frac{Q_i}{T_i}} < 0 $$
+
+Se ekzemple varmo el alttemperatura provizo enfluas en iun sistemon kaj sammezura varmo
+elfluas al pli malalttemperatura provizo, sed sen survoje transformiĝi al laboro, 
+tiam la termo $$ \frac{|Q_{en}|}{T_{alta}} $$ estas pli granda ol la termo $$ \frac{|Q_{el}|}{T_{malalta}} $$ kaj la supra sumo do estas pli malgranda ol 0.
+
+Inverse, varmo ne povas spontane, t.e. sen apliki laboron, flui de malvarma al varma provizo. Do la sumo ne povas fariĝi pli granda ol 0. La ekvacio estas la limo, kiu atingiĝas nur ĉe inversigeblaj procezoj.
+
+Tiun kvanton de varmenergio, kiu kalkuliĝas el la sumo de kvocientoj $$ \frac{Q}{T_{ekstera}} $$ kaj al kiu sistemo transformiĝas neinversigeble, *Clausius* nomis **entropio**.
+
+Se oni ekzemple miksas varman kun malvarma substanco en izolita spaco, la entropio strebas al maksimumo. Sen temperaturdiferenco sistemo ne plu povas fari laboron per transporto de varmo al malvarma medio.
+
+Tion oni nomas la **dua leĝo de termodinamiko**, alie dirite: la suma entropio de fermita termodinamika sistemo pligrandiĝas strebante al sia maksimumo:
+
+$$ \Delta S - \frac{Q}{T_{ekstera}} >= 0 $$
 
 ## fontoj
 {: .fontoj}

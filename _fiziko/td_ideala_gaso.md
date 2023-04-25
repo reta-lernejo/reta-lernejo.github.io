@@ -475,8 +475,43 @@ Tiu energiŝanĝo estas kalkulebla per:
 
 $$dE = -N k_B T \cdot \frac{dV}{V}$$
 
-Por ricevi temperaturkonservan (kaj sekve energikonservan) volumenan ŝanĝon, necesas egaligi la perditan aŭ gajnitan 
-energion per varminterŝanĝo kun la ekstera medio.
+Por ricevi temperaturkonservan (kaj sekve energikonservan) volumenan ŝanĝon, necesas egaligi la perditan aŭ gajnitan energion per varminterŝanĝo kun la ekstera medio.
+
+<!--
+
+pri la sekva derivado vd. ekz-e 01. Thermodynamics: Carnot engine, Entropy, Helmholtz/Gibbs free energy
+https://www.youtube.com/watch?v=00WL4JX5fX8
+
+Derivado de ekvacioj por adiabata procezo el la unua leĝo de termodinamiko:
+
+$$\Delta U = Q + W$$
+
+La laboro egalas al la produkto de forto kaj vojo. Ĉe piŝto la forto egalas
+al la produkto de premo kaj areo kaj resume:
+
+$$ W = p \Delta V $$ (1)
+
+Kun $$ Q = 0 => \Delta U = p \Delta V$$
+
+Por ideala gaso validas krome:
+
+$$ \Delta(pV) = V\Delta p + p\Delta V = nR\Delta T = nR \frac{\Delta T}{\Delta U} p\Delta V$$
+
+(La lastan egalecon ni ricveas el (1), ĉar 1 = ...)
+
+Tiel fine validas:
+
+$$ V\Delta p = (nR/C_V - 1) p \Delta V$$
+
+Per integralado oni ricevas (difinante $$\kappa = (...)$$):
+
+$$ ln(p) = \kappa ln(V) + C, p = V^(-\kappa)C' $$
+
+Fone do por adiabata procezo:
+
+$$ pV^\kappa = C', TV^(\kappa-1) = C' / nR $$
+
+-->
 
 ## sonrapido en ideala gaso
 {: .sekcio}
