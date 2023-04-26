@@ -24,6 +24,10 @@ La modela procezo de Karnot' multe helpis evoluigi la konceptojn de termodinamik
 La preciza matematika priskribo estis kontribuita poste en la 1850aj de *Rudolf Clausius*, kiu
 klarigis varmon kiel formon de energio kaj enkondukis entropion kiel fizikan grandon.
 
+La modelo konsistas el du senlimaj provizoj diverstemperaturaj, kaj piŝto, kies ujo
+en la diversaj paŝoj de la ciklo aŭ estas en interŝanĝo kun unu el la du provizoj
+tiel tenante la saman temperaturon aŭ varmizolita.
+
 La Karnot-ciklo kiel teoria koncepto havas, depende de varma kaj malvarma temperaturoj, 
 la maksimuman efikecon (rendimenton), kiu de realaj maŝinoj ne estas atingebla. 
 Alivorte neniu reala termodinamika maŝino povas esti pli efika ol la Karnot-ciklo.
@@ -409,7 +413,8 @@ $$\Delta U = Q - W$$)
 https://www.youtube.com/watch?v=00WL4JX5fX8
 -->
 
-Oni trovas, ke en la Karnot-ciklo la kvocientoj el la absolutaj valoroj de varminterŝanĝo kaj la respektiva temperaturo egalas. *Clausius* derivis matematike, ke:
+Oni trovas, ke en la Karnot-ciklo la kvocientoj el la absolutaj valoroj de varminterŝanĝo kaj la respektiva temperaturo egalas por la temperaturkonservaj paŝoj. En la varmkonservaj ili
+egalas al 0. *Clausius* derivis matematike, ke:
 
 $$ \frac{Q_{en}}{T_{alta}} + \frac{Q_{el}}{T_{malalta}} = 0 $$
 
@@ -427,13 +432,18 @@ tiam la termo $$ \frac{|Q_{en}|}{T_{alta}} $$ estas pli granda ol la termo $$ \f
 
 Inverse, varmo ne povas spontane, t.e. sen apliki laboron, flui de malvarma al varma provizo. Do la sumo ne povas fariĝi pli granda ol 0. La ekvacio estas la limo, kiu atingiĝas nur ĉe inversigeblaj procezoj.
 
-Tiun kvanton de varmenergio, kiu kalkuliĝas el la sumo de kvocientoj $$ \frac{Q}{T_{ekstera}} $$ kaj al kiu sistemo transformiĝas neinversigeble, *Clausius* nomis **entropio**.
+Tiun grandon, kiu kalkuliĝas el la sumo de kvocientoj $$ \frac{Q}{T_{ekstera}} $$, *Clausius* nomis **entropio**.
 
-Se oni ekzemple miksas varman kun malvarma substanco en izolita spaco, la entropio strebas al maksimumo. Sen temperaturdiferenco sistemo ne plu povas fari laboron per transporto de varmo al malvarma medio.
+Ĝi esprimas gradon de neinversigeblo de procezo. Se oni ekzemple miksas varman kun malvarma substanco en izolita spaco, la entropio strebas al maksimumo. Sen temperaturdiferenco sistemo ne plu povas fari laboron per transporto de varmo al malvarma medio.
 
 Tion oni nomas la **dua leĝo de termodinamiko**, alie dirite: la suma entropio de fermita termodinamika sistemo pligrandiĝas strebante al sia maksimumo:
 
 $$ \Delta S - \frac{Q}{T_{ekstera}} >= 0 $$
+
+Cetere oni vidas, ke la entropio dependas de la temperaturo: estas facile elpreni certan kvanton da varmo el provizo kun alta temperaturo aŭ aldoni ĝin al provizo kun malalta temperaturo, tiel oni povas eĉ gajni laborenergion. Sed inverse kostas konsiderindan laboron por elpreni varmon el malalttemperatura provizo kaj aldoni ĝin al varma.
+
+Krome ne eblas atingi la absolutan temperaturon de 0K tiel, ĉar la necesa laboro por forigi varmon de
+provizo kreskas senfine se ties temparaturo proksimiĝas pli kaj pli al 0K. Tion oni nomas la **tria leĝo de termodinamiko**.
 
 ## fontoj
 {: .fontoj}

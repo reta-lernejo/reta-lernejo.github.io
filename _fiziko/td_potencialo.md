@@ -15,3 +15,8 @@ https://www.youtube.com/watch?v=00WL4JX5fX8
 
 
 -->
+
+<!-- 
+... nula leĝo de termodinamiko: ekvilibro inter tri konektitaj sistemoj kaj ties temepraturo.
+
+-->
