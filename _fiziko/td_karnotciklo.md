@@ -12,6 +12,15 @@ js:
 
 <!--
 https://de.wikipedia.org/wiki/Carnot-Prozess
+https://itp.uni-frankfurt.de/~gros/Vorlesungen/TD/4_Entropy_second_law.pdf
+
+FARENDA:
+- montru laboron kaj varmon rekte kiel la surfacoj en la diagramoj pV, TS:
+  maldekstre-dekstren pentru surfacon sub la kurbo, dekstre-maldekstren estingu(?)
+  lasante nur la enciklan parton - por la varmpumpilo oni devus fari inverse por
+  montri negativan laboron kaj pozitivan varmon, kiel...!?
+- la malsupraj konsideroj estas ĝis nun tro lakonaj, necesas iom pli eksplicitaj
+  klarigoj. La supra preleg-skripto povus helpi pri tio.
 
 -->
 
@@ -413,16 +422,16 @@ $$\Delta U = Q - W$$)
 https://www.youtube.com/watch?v=00WL4JX5fX8
 -->
 
-Oni trovas, ke en la Karnot-ciklo la kvocientoj el la absolutaj valoroj de varminterŝanĝo kaj la respektiva temperaturo egalas por la temperaturkonservaj paŝoj. En la varmkonservaj ili
+Oni trovas, ke en la Karnot-ciklo la kvocientoj el la absolutaj valoroj de varminterŝanĝo kaj la respektiva temperaturo egalas por la temperaturkonservaj paŝoj. En la varmkonservaj paŝoj ili
 egalas al 0. *Clausius* derivis matematike, ke:
 
 $$ \frac{Q_{en}}{T_{alta}} + \frac{Q_{el}}{T_{malalta}} = 0 $$
 
-kaj ke pli ĝenerale por ĉia inversigebla termodinamika procezo la sumo de ĉiuj tiaj termoj egalas al nulo:
+kaj ke pli ĝenerale por ĉia *inversigebla* termodinamika procezo la sumo de ĉiuj tiaj termoj egalas al nulo:
 
 $$ \sum_i{\frac{Q_i}{T_i}} = 0 $$
 
-kaj por ĉiu neinversigebla termodinamika procezo la sumo estas pli malgranda ol nulo:
+kaj por ĉiu *neinversigebla* termodinamika procezo la sumo estas pli malgranda ol nulo:
 
 $$ \sum_i{\frac{Q_i}{T_i}} < 0 $$
 
@@ -432,18 +441,23 @@ tiam la termo $$ \frac{|Q_{en}|}{T_{alta}} $$ estas pli granda ol la termo $$ \f
 
 Inverse, varmo ne povas spontane, t.e. sen apliki laboron, flui de malvarma al varma provizo. Do la sumo ne povas fariĝi pli granda ol 0. La ekvacio estas la limo, kiu atingiĝas nur ĉe inversigeblaj procezoj.
 
-Tiun grandon, kiu kalkuliĝas el la sumo de kvocientoj $$ \frac{Q}{T_{ekstera}} $$, *Clausius* nomis **entropio**.
+Tiun grandon, kiu (ĉe inversigeblaj procezoj) kalkuliĝas el la sumo de kvocientoj $$ \frac{Q}{T_{ekstera}} $$, *Clausius* nomis **entropio**.
 
-Ĝi esprimas gradon de neinversigeblo de procezo. Se oni ekzemple miksas varman kun malvarma substanco en izolita spaco, la entropio strebas al maksimumo. Sen temperaturdiferenco sistemo ne plu povas fari laboron per transporto de varmo al malvarma medio.
+La entropio priskribas staton de termodinamika sistemo, simile al temperaturo, premo, volumeno. Sed
+alie ol tiuj ĝi ne estas rekte mezurebla. Oni nur povas dedukti ĝin el la varminterŝanĝoj de la
+sistemo ĉe specifaj temperaturoj de la ĉirkaŭa medio. Pro tio oni ordinare ne uzas ĝin kun
+absolutaj valoroj, sed nur kun relativaj (diferencoj inter statoj).
 
-Tion oni nomas la **dua leĝo de termodinamiko**, alie dirite: la suma entropio de fermita termodinamika sistemo pligrandiĝas strebante al sia maksimumo:
+La entropio esprimas gradon de neinversigeblo de procezo. Se oni ekzemple miksas varman kun malvarma substanco en izolita spaco, la entropio strebas al maksimumo. Sen temperaturdiferenco sistemo ne plu povas fari laboron per transporto de varmo al malvarma medio.
+
+Tion oni nomas la **dua leĝo de termodinamiko**, alie dirite: la suma entropio de *fermita* termodinamika sistemo povas nur pligrandiĝi strebante al sia maksimumo, sed ne malgrandiĝi:
 
 $$ \Delta S - \frac{Q}{T_{ekstera}} >= 0 $$
 
-Cetere oni vidas, ke la entropio dependas de la temperaturo: estas facile elpreni certan kvanton da varmo el provizo kun alta temperaturo aŭ aldoni ĝin al provizo kun malalta temperaturo, tiel oni povas eĉ gajni laborenergion. Sed inverse kostas konsiderindan laboron por elpreni varmon el malalttemperatura provizo kaj aldoni ĝin al varma.
+Cetere oni vidas, ke la entropio rilatigas la varminterŝanĝon al la temperaturo: estas facile elpreni certan kvanton da varmo el provizo kun alta temperaturo aŭ aldoni ĝin al provizo kun malalta temperaturo, tiel oni povas eĉ gajni laborenergion. Sed inverse kostas laboron por elpreni varmon el malalttemperatura provizo kaj aldoni ĝin al varma.
 
-Krome ne eblas atingi la absolutan temperaturon de 0K tiel, ĉar la necesa laboro por forigi varmon de
-provizo kreskas senfine se ties temparaturo proksimiĝas pli kaj pli al 0K. Tion oni nomas la **tria leĝo de termodinamiko**.
+Krome ne eblas atingi la absolutan temperaturon de 0 K tiel, ĉar la necesa laboro por forigi varmon de
+provizo kreskas senfine, se ties temparaturo proksimiĝas pli kaj pli al 0 K. Tion oni nomas la **tria leĝo de termodinamiko**.
 
 ## fontoj
 {: .fontoj}

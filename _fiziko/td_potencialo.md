@@ -13,6 +13,8 @@ js:
 https://de.wikipedia.org/wiki/Thermodynamisches_Potential 
 https://www.youtube.com/watch?v=00WL4JX5fX8
 
+https://itp.uni-frankfurt.de/~gros/Vorlesungen/TD/5_Thermodynamic_potentials.pdf
+
 
 -->
 

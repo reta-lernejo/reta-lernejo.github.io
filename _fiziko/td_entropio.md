@@ -39,6 +39,10 @@ https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_i
 
 ## Enkonduko
 
+...
+
+<!--
+
 Noether - simetrio -> responda konservata grando
 -> energiokonservo
 
@@ -57,6 +61,13 @@ La *temperaturon* de ideala gaso oni tiam ricevas per la *konstanto de Boltzmann
 
 $$T = \frac{\frac{2}{3} E}{N \cdot k_B}$$
 
+
+Uzu Helmholtz-potencialon (libera energio) por priskribi la miks-procezon, proksimigon al
+ekvilibro:
+
+dF = dU -TdS, dU = 0 => dF = -T dS
+
+-->
 
 ## eksperimento
 {: .sekcio}
