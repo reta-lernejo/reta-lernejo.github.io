@@ -33,6 +33,9 @@ https://de.serlo.org/chemie/129021/%C3%BCbungsaufgaben-teilgleichungen
 
 - ekvilibro
 https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Analytical_Chemistry_2.1_(Harvey)/06%3A_Equilibrium_Chemistry/6.04%3A_Equilibrium_Constants_for_Chemical_Reactions
+
+-- interese:
+https://www.heise.de/news/Mahlzeit-Batterie-zum-Verzehr-geeignet-8980754.html
 -->
 
 oksidilo (e-akceptanto): (x)O ()N ()H

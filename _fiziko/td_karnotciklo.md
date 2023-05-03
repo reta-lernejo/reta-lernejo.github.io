@@ -414,6 +414,8 @@ Tiu ekvacio estas formulado de la **unua leĝo de Termodinamiko**, kiu validas u
 ĉiu *fermita* termodinamika sistemo. (Foje oni ankaŭ donas inversan signumon al la laboro kaj skribas:
 $$\Delta U = Q - W$$)
 
+<!-- klarigu nociojn "fermita" = N,V konst. kaj izolita: N,V,U konst., dQ=0 -->
+
 ## konsidero pri varminterŝanĝo
 {: .sekcio}
 
@@ -450,7 +452,7 @@ absolutaj valoroj, sed nur kun relativaj (diferencoj inter statoj).
 
 La entropio esprimas gradon de neinversigeblo de procezo. Se oni ekzemple miksas varman kun malvarma substanco en izolita spaco, la entropio strebas al maksimumo. Sen temperaturdiferenco sistemo ne plu povas fari laboron per transporto de varmo al malvarma medio.
 
-Tion oni nomas la **dua leĝo de termodinamiko**, alie dirite: la suma entropio de *fermita* termodinamika sistemo povas nur pligrandiĝi strebante al sia maksimumo, sed ne malgrandiĝi:
+Tion oni nomas la **dua leĝo de termodinamiko**, alie dirite: la suma entropio de *izolita* termodinamika sistemo povas nur pligrandiĝi strebante al sia maksimumo, sed ne malgrandiĝi:
 
 $$ \Delta S - \frac{Q}{T_{ekstera}} >= 0 $$
 
