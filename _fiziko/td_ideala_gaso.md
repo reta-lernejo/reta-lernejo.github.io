@@ -12,6 +12,7 @@ js:
 
 <!--
 
+
 https://eo.wikibooks.org/wiki/Termodinamiko/Leciono_1#Ideala_gaso
 https://de.wikipedia.org/wiki/Ideales_Gas
 https://de.wikipedia.org/wiki/Innere_Energie
