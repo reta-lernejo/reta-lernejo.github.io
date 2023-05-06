@@ -89,7 +89,7 @@ class KCGaso {
 
     /**
      * Redonas la laboron faritan per izoterma volumenŝanĝo. La ŝanĝo de interna energio kaj entalpio
-     * estas egala al tiu.
+     * estas egala al tiu. 
      * vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
      */
     laboro_izoterma(V0) {
