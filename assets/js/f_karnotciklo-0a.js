@@ -200,7 +200,7 @@ class KCiklo {
 
         // sekva paŝo
         this.paŝo = al;
-        
+
         // permesu apartajn agojn ĉe transiro
         if (this.kiam_sekva) this.kiam_sekva(de,al); // ekz-e 'debugger';
     }
@@ -242,8 +242,7 @@ class KCiklo {
     }
 
     /**
-     * Redonas la ŝanĝon de interna energio. Ni ne bezonas sumigi, ĉar post unu ciklo
-     * ĝi estas samgranda kiel komence
+     * Redonas la ŝanĝon de interna energio. Post unu ciklo ĝi estas samgranda kiel komence
      */
     energiŝanĝo() {
         switch (this.paŝo) {
