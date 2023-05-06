@@ -18,6 +18,9 @@ https://itp.uni-frankfurt.de/~gros/Vorlesungen/TD/5_Thermodynamic_potentials.pdf
 bona prezento de ĉiuj kvar precipaj potencialaj:
 https://www.youtube.com/watch?v=9s30qibtEjw
 
+komprenebla prelego pri derivado de potentialoj F kaj G:
+https://www.youtube.com/watch?v=KqFldc82sos&t=3170s
+
 Gibbs-potencialo:
 https://de.wikipedia.org/wiki/Gibbs-Energie
 
@@ -36,6 +39,11 @@ atmosferaj procezoj:
 https://www.spektrum.de/lexikon/geographie/adiabatische-prozesse/115
 https://wiki.bildungsserver.de/klimawandel/index.php/Adiabatische_Prozesse
 https://www.studocu.com/de/document/universitat-augsburg/physische-geographie-i/physische-geographie-i-vorlesung-6-klimatologie/16182796
+
+
+pri "naturaj/sendependaj variabloj"
+https://physics.stackexchange.com/questions/399452/relations-between-variables-in-thermodynamic-potentials
+https://physics.stackexchange.com/questions/307026/understanding-natural-variables-of-the-thermodynamic-potentials-using-the-exam
 
 -->
 
