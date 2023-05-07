@@ -132,8 +132,9 @@ class Piŝto {
         this.larĝo = 100;
         this.alto = 260;
         // alteco de piŝto super la fundo
-        this.p_alto = this.alto-40; // - 1000*V*sk; // 1000l = 1m³, ni sk-obligas tiel, ke
-           // alteco de piŝto super la fundo (ĉe 360px)    
+        this.pozicio = this.alto-40; // - 1000*V*sk; // 1000l = 1m³, ni sk-obligas tiel, ke
+           // alteco de piŝto super la fundo (ĉe 360px)
+        // provizore, poste kalkulu
     }
 
     /**
@@ -154,27 +155,27 @@ class Piŝto {
         const LRG = this.dgr.larĝo();
         const ALT = this.dgr.alto();
 
-        const x1 = LRG-this.larĝo/2;
+        const x1 = (LRG-this.larĝo)/2;
         const x2 = x1 + this.larĝo;
 
         // gasujo
-        const koloro = this.Tkoloro(T);
+        const koloro = this.Tkoloro(this.gaso.temperaturo,200,600);
         this.dgr.rektangulo(x1,this.larĝo,this.alto-40,"#fff");
-        this.dgr.rektangulo(x1,py,this.larĝo,this.alto-40-this.p_alto,koloro);
-        this.dgr.linio(x1,0,x1,h-40);
-        this.dgr.linio(x1,h-40,x2,h-40);
-        this.dgr.linio(x2,0,x2,h-40);
+        this.dgr.rektangulo(x1,this.pozicio,this.larĝo,this.alto-40-this.pozicio,koloro);
+        this.dgr.linio(x1,0,x1,this.alto-40);
+        this.dgr.linio(x1,this.alto-40,x2,this.alto-40);
+        this.dgr.linio(x2,0,x2,this.alto-40);
     }
 
     d_piŝto() {
         const LRG = this.dgr.larĝo();
         const ALT = this.dgr.alto();
+        const x1 = (LRG-this.larĝo)/2-1;
         //dgr.linio(101,200,199,200,"#bbb",10);
         // kovrilo
-        const x1 = LRG-this.larĝo/2-1;
-        this.dgr.rektangulo_h3k(x1,this.p_alto-10,this.larĝo-2,10,"#eee","#bbb","#999");
+        this.dgr.rektangulo_h3k(x1,this.pozicio-10,this.larĝo-2,10,"#eee","#bbb","#999");
         // pezaĵo aŭ stango
-        this.dgr.rektangulo_h3k(x1+this.larĝo/5,this.p_alto-10-80,3/5*this.larĝo,80,"#eee","#bbb","#999");
+        this.dgr.rektangulo_h3k(x1+this.larĝo/5,this.pozicio-10-80,3/5*this.larĝo,80,"#eee","#bbb","#999");
     }
 
 }
