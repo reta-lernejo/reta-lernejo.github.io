@@ -7,7 +7,7 @@ js:
   - sekcio-0b  
   - mathjax/es5/tex-chtml
   - diagramo-0a 
-  - f_termodinamiko-0a
+  - f_pishto-0a
 ---
 
 <!--
@@ -76,7 +76,7 @@ TS_dgr = document.getElementById("TS_dgr");
 dpV = new Diagramo(pV_dgr);
 dTS = new Diagramo(TS_dgr);
 
-let kciklo = kreu_ciklon();
+let piŝto = new Piŝto(modelo);
 
 
 const intervalo = 50; // 100 = 100 ms
@@ -104,13 +104,8 @@ kiam_klako("#halto",() => {
 function aktualigo() {
     T2 = T1 + parseInt(ĝi('#temperaturo').value);
     // post T-agordo laŭbezone rekreu la modelon
-    if (kciklo.T_alta != T2) {
-        inversa = kciklo.inversa;
-        // rekreu
-        kciklo = kreu_ciklon(inversa);
-        dgr_preparo();
-        modelo_pentru();
-    }
+    dgr_preparo();
+    piŝto.desegnu();
 }
 
 function aktualigo_info() {
@@ -119,32 +114,9 @@ function aktualigo_info() {
 }
 
 // pentru sen jam movi...
-modelo_pentru();
 dgr_preparo();
+piŝto.desegnu();
 
-function kreu_ciklon(inversa) {
-    const kc = new KCiklo(T1,T2,inversa);
-    kc.kiam_sekva = function(de,al) {
-        // nova ciklo 
-        if (de == "Qk_V+" && al == "Tk_V-" // motora ciklo
-         || de == "Tk_V+" && al == "Qk_V-" // varmpumpa ciklo
-         ) {
-            // viŝu la diagramojn antaŭ venonta ciklo
-            dgr_preparo();
-            // rekomencu kalkuli Q kaj W
-            kciklo.W = 0; kciklo.Q = 0;
-        }
-        // skribu numeron de la paŝo en la diagramojn
-        diagramo_paŝo(al);
-    }
-    return kc;
-}
-
-// donas koloron al temperatur-valoroj inter T1 kaj T2;
-function Tkoloro(T) {
-    const h = Diagramo.kolorvaloro(T,T1*0.99,T2*1.01);
-    return Diagramo.hsl2hex(h,90,45);
-}
 
 function dgr_preparo() {
     dpV.viŝu();
@@ -160,12 +132,7 @@ function dgr_preparo() {
     diagramo_paŝo();
 }
 
-/**
- * Pentras la piŝton kaj medion de la Karnot-modelo
- */
-function modelo_pentru() {
-    modelo.viŝu(); // ĉu necesas ĉiufoje?
-
+/*
     const T = kciklo.gaso.temperaturo;
     const V = kciklo.gaso.volumeno;
 
@@ -210,43 +177,10 @@ function modelo_pentru() {
         }
         //modelo.linio(220,20,220,h);
     }
-
-    function gasujo() {
-        // ciklo-ŝaltilo
-        function nazo_md(alto) {
-            modelo.linio(100,alto,104,alto);
-            modelo.linio(100,alto+4,104,alto);
-        }
-        function nazo_d(alto) {
-            modelo.linio(200,alto-4,196,alto);
-            modelo.linio(200,alto,196,alto);
-        }
-
-        // gasujo
-        const koloro = Tkoloro(T);
-        modelo.rektangulo(100,0,100,h-40,"#fff");
-        modelo.rektangulo(100,py,100,h-40-py,koloro);
-        modelo.linio(100,0,100,h-40);
-        modelo.linio(100,h-40,200,h-40);
-        modelo.linio(200,0,200,h-40);
-
-        // altec-markoj por avanci en la ciklo al varmkonserva paŝo, t.e. medioŝanĝo al izola
-        nazo_d(y12);
-        nazo_md(y34);
-    }
-
-    function piŝto() {
-        //modelo.linio(101,200,199,200,"#bbb",10);
-        modelo.rektangulo_h3k(101,py-10,98,10,"#eee","#bbb","#999");
-        modelo.rektangulo_h3k(120,py-10-80,60,80,"#eee","#bbb","#999");
-    }
-
-    medio();
-    gasujo();
-    piŝto()
-}
+*/
 
 function diagramo_pentru() {
+    /*
     const koloro = Tkoloro(kciklo.gaso.temperaturo);
 
     let k = dpV.koord_xy(kciklo.gaso.volumeno*1000,kciklo.gaso.premo()/1e5);
@@ -254,6 +188,7 @@ function diagramo_pentru() {
 
     k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
     dTS.punkto(k.x,k.y,1,koloro);
+    */
 }
 
 function diagramo_paŝo(paŝo) {
@@ -263,7 +198,7 @@ function diagramo_paŝo(paŝo) {
         if (k>250) return k-6;
         return k-4;
     }
-
+/*
     const nro = kciklo.paŝnro(paŝo)+1;
     const koloro = Tkoloro(kciklo.gaso.temperaturo);
 
@@ -274,23 +209,29 @@ function diagramo_paŝo(paŝo) {
     k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
     dTS.punkto(k.x,k.y,3,koloro);
     dTS.teksto_x(ka(k.x),ka(k.y),nro,koloro);
+    */
 }
 
 function valoroj() {
+    /*
     ĝi("#laboro").innerHTML = nombro(kciklo.suma_laboro(),3,"J");
     ĝi("#varmo").innerHTML = nombro(kciklo.suma_varmo(),3,"J");
     ĝi("#energio").innerHTML = nombro(kciklo.energiŝanĝo(),3,"J");
+    */
 }
 
 function paŝu() {
+    /*
     kciklo.iteracio();
     modelo_pentru();
     diagramo_pentru();
     valoroj();
+    */
 }
 
 
 function eksperimento(inversa) {
+    /*
     // eventuale haltigu antaŭan
     if (ripetoj) clearTimeout(ripetoj.p);
 
@@ -308,6 +249,7 @@ function eksperimento(inversa) {
         },
         intervalo
     )
+    */
 }
 
 </script>
