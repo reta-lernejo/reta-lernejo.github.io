@@ -44,9 +44,11 @@ FARENDA, plej bone sur aparta(j) paĝo(j):
 
 <canvas id="karnot" width="300" height="300"></canvas>
 
-<button id="starto_motoro">Motoro</button>
-<button id="starto_pumpilo">Varmpumpilo</button>
-<button id="halto" disabled>Haltu</button>
+<button id="premu">Premu</button>
+<button id="lasu" disabled>Lasu</button>
+<button id="varmigu">Varmigu</button>
+<button id="malvarmigu">Malarmigu</button>
+
 ΔT: <b id="temperaturo_info">300K</b>
 <input type="range" id="temperaturo" style="width: 50em; max-width: 60%" min="30" max="600" value="300" step="10" onchange="aktualigo()" oninput="aktualigo_info()">
 
