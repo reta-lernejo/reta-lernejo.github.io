@@ -9,6 +9,22 @@ class Diagramo {
     }
 
     /**
+     * 
+     * @returns la larĝo de la desegnoareo
+     */
+    larĝo() {
+        return this.ctx.canvas.width;
+    }
+
+    /**
+     * 
+     * @returns la alto de la desegnoareo
+     */
+    alto() {
+        return this.ctx.canvas.height;
+    }
+
+    /**
      * Viŝas la tutan areon por redesegni la diagramon
      */
     viŝu(koloro) {
