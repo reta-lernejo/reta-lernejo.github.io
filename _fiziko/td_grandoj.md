@@ -3,12 +3,14 @@ layout: laborfolio
 title: Grandoj termodinamikaj
 chapter: 1
 js:
-  - folio-0b
-  - sekcio-0b  
+  - folio-0c
+  - sekcio-0b 
   - mathjax/es5/tex-chtml
   - diagramo-0a 
   - f_pishto-0a
 ---
+
+... paĝo en preparo ...
 
 <!--
 
@@ -43,14 +45,19 @@ FARENDA, plej bone sur aparta(j) paĝo(j):
 </style>
 
 <canvas id="karnot" width="300" height="300"></canvas>
+[]adaptu volumenon al:
+{: .elekto #e_volumeno}
+<input type="range" id="i_volumeno" style="width: 50em; max-width: 60%" min="5" max="35" value="22.4" step="0.1" onchange="aktualigo()" oninput="aktualigo_info('volumeno')"><span id="v_volumeno">22,4</span> dm³ 
 
-<button id="premu">Premu</button>
-<button id="lasu" disabled>Lasu</button>
-<button id="varmigu">Varmigu</button>
-<button id="malvarmigu">Malarmigu</button>
 
-ΔT: <b id="temperaturo_info">300K</b>
-<input type="range" id="temperaturo" style="width: 50em; max-width: 60%" min="30" max="600" value="300" step="10" onchange="aktualigo()" oninput="aktualigo_info()">
+[]adaptu temperaturon al:
+{: .elekto #e_temperaturo}
+<input type="range" id="i_temperaturo" style="width: 50em; max-width: 60%" min="100" max="500" value="273" step="1" onchange="aktualigo()" oninput="aktualigo_info('temperaturo')"><span id="v_temperaturo">273</span> K
+
+
+[]adaptu premon al:
+{: .elekto #e_premo}
+<input type="range" id="i_premo" style="width: 50em; max-width: 60%" min="10" max="150" value="100" step="10" onchange="aktualigo()" oninput="aktualigo_info('premo')"><span id="v_premo">100</span> kPa
 
 
 <canvas id="pV_dgr" width="300" height="300"></canvas>
@@ -84,8 +91,13 @@ let piŝto = new Piŝto(modelo);
 const intervalo = 50; // 100 = 100 ms
 let ripetoj;
 
-ĝi('#temperaturo').value = 300;
-ĝi("#halto").disabled = true;
+elekte((elekto,valoro) => {
+    console.log(elekto+':'+valoro);
+    aktualigo();
+});
+
+// ĝi('#temperaturo').value = 300;
+// ĝi("#halto").disabled = true;
 
 kiam_klako("#starto_motoro",() => {
     eksperimento(false);
@@ -104,15 +116,28 @@ kiam_klako("#halto",() => {
 });
 
 function aktualigo() {
-    T2 = T1 + parseInt(ĝi('#temperaturo').value);
-    // post T-agordo laŭbezone rekreu la modelon
-    dgr_preparo();
+    piŝto.izolita = ! ĝi('#e_temperaturo_0').checked;
+    const T = parseInt(ĝi('#i_temperaturo').value);
+    piŝto.medio_temperaturo = T;
     piŝto.desegnu();
 }
 
-function aktualigo_info() {
-    const temp = ĝi('#temperaturo').value;
-    ĝi('#temperaturo_info').textContent = temp + 'K';
+function aktualigo_info(grando) {
+    let value;
+    switch (grando) {
+    case "volumeno":
+        value = ĝi('#i_volumeno').value;
+        ĝi('#v_volumeno').textContent = value;
+        break;
+    case "temperaturo":
+        value = ĝi('#i_temperaturo').value;
+        ĝi('#v_temperaturo').textContent = value;
+        break;
+    case "premo":
+        value = ĝi('#i_premo').value;
+        ĝi('#v_premo').textContent = value;
+        break;                
+    }
 }
 
 // pentru sen jam movi...

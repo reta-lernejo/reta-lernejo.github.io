@@ -75,6 +75,8 @@ nek ke ĉio funkcias senmanke.
 
 ## Fiziko
 
+### Termodinamiko
+
 {% assign fiz = site.fiziko | sort: "title" %}
 {% for t in fiz %}
 {% assign c = t.chapter | prepend: "c" %}

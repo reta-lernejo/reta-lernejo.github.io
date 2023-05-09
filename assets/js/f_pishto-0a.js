@@ -121,6 +121,12 @@ class PGaso {
 
 class Piŝto {
 
+    // kalkuli inter piŝta maso kaj pista premo, ni ĉiam aldonas atmosferan premon
+    static g = 9.8; // tera gravitkonstanto m/s²
+    static premo(maso,areo) { return 1e5 + maso * Piŝto.g / areo };
+    static maso(premo,areo) { return (premo-1e5) * areo / Piŝto.g };
+    static forto(maso) { return maso * Piŝto.g };
+
     /**
      * Kreas novan dgr. de piŝto en piŝtujo
      * @param {*} dgr la diagramo por desegni
@@ -129,12 +135,29 @@ class Piŝto {
     constructor(dgr,gaso) {
         this.dgr = dgr;
         this.gaso = gaso || new PGaso();
+        this.fundo = 20; // fundo de la piŝtujo en px, t.e. 0l = malplena
         this.larĝo = 100;
-        this.alto = 260;
+
+        // la faktoron px -> dm ni kalkulas el la volumenformulo de cilindro
+        // tiel, ke por 20 l validas alto = diametro
+        const LITROJ = 20;
+        this.diametro = Math.pow(4*LITROJ/Math.PI,1/3); // en dm
+        // areo en m², por kalkuli inter piŝta pezo kaj premo
+        this.areo = Math.PI/4*this.diametro*this.diametro/100;
+
+        // devus esti 0 komence...! Ni bezonos 6,8 kN (694kg) por 1 atm 
+        this.maso = Piŝto.maso(1e5,this.areo);
+
+        // skalfaktoro por kalkuli inter px kaj dm
+        this.dm_px = this.larĝo / this.diametro;
+        // skalfaktoro por y-koordinatoj: 1 litro = l_px
+        this.l_px = this.larĝo / LITROJ; 
+
         // alteco de piŝto super la fundo
-        this.pozicio = this.alto-40; // - 1000*V*sk; // 1000l = 1m³, ni sk-obligas tiel, ke
-           // alteco de piŝto super la fundo (ĉe 360px)
-        // provizore, poste kalkulu
+        this.enhavo = 24; // dm³, t.e. l; 1mol da ideala gaso en 100kPa/293.15K = ĉ. 24l
+        this.medio_temperaturo = 273.15;
+        this.izolita = true;
+
     }
 
     /**
@@ -147,35 +170,44 @@ class Piŝto {
 
     desegnu() {
         this.dgr.viŝu();
-        this.d_piŝtujo();
-        this.d_piŝto();
-    }
 
-    d_piŝtujo() {
         const LRG = this.dgr.larĝo();
         const ALT = this.dgr.alto();
-
         const x1 = (LRG-this.larĝo)/2;
         const x2 = x1 + this.larĝo;
+        const y =  ALT - this.fundo - this.enhavo*this.l_px; 
+        const dy = ALT - this.fundo - y;
 
-        // gasujo
-        const koloro = this.Tkoloro(this.gaso.temperaturo,200,600);
-        this.dgr.rektangulo(x1,this.larĝo,this.alto-40,"#fff");
-        this.dgr.rektangulo(x1,this.pozicio,this.larĝo,this.alto-40-this.pozicio,koloro);
-        this.dgr.linio(x1,0,x1,this.alto-40);
-        this.dgr.linio(x1,this.alto-40,x2,this.alto-40);
-        this.dgr.linio(x2,0,x2,this.alto-40);
+        this.d_medio(LRG,ALT);
+        this.d_piŝtujo(LRG,ALT,x1,x2);
+        this.d_enhavo(LRG,ALT,x1,y,dy);
+        this.d_piŝto(LRG,ALT,x1,y);
     }
 
-    d_piŝto() {
-        const LRG = this.dgr.larĝo();
-        const ALT = this.dgr.alto();
-        const x1 = (LRG-this.larĝo)/2-1;
+    d_medio(LRG,ALT) {
+        const koloro = (this.izolita)? "#ccc" : this.Tkoloro(this.medio_temperaturo,200,600);
+        this.dgr.rektangulo(0,0,LRG,ALT,koloro);
+    }
+
+    d_piŝtujo(LRG,ALT,x1,x2) {
+        // gasujo
+        this.dgr.rektangulo(x1,this.larĝo,ALT-this.fundo,"#fff");
+        this.dgr.linio(x1,0,x1,ALT-this.fundo);
+        this.dgr.linio(x1,ALT-this.fundo,x2,ALT-this.fundo);
+        this.dgr.linio(x2,0,x2,ALT-this.fundo);
+    }
+
+    d_enhavo(LRG,ALT,x1,y,dy) {
+        const koloro = this.Tkoloro(this.gaso.temperaturo,200,600);
+        this.dgr.rektangulo(x1,y,this.larĝo,dy,koloro);
+    }
+
+    d_piŝto(LRG,ALT,x1,y) {
         //dgr.linio(101,200,199,200,"#bbb",10);
         // kovrilo
-        this.dgr.rektangulo_h3k(x1,this.pozicio-10,this.larĝo-2,10,"#eee","#bbb","#999");
+        this.dgr.rektangulo_h3k(x1+1,y-10,this.larĝo-2,10,"#eee","#bbb","#999");
         // pezaĵo aŭ stango
-        this.dgr.rektangulo_h3k(x1+this.larĝo/5,this.pozicio-10-80,3/5*this.larĝo,80,"#eee","#bbb","#999");
+        this.dgr.rektangulo_h3k(x1+1+this.larĝo/5,y-10-80,3/5*this.larĝo,80,"#eee","#bbb","#999");
     }
 
 }
