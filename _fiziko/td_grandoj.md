@@ -44,7 +44,6 @@ FARENDA, plej bone sur aparta(j) paĝo(j):
 ==> klarigu inversigeblajn kaj neinversigeblajn procezojn
 ==> klarigu nociojn fermita kaj izolita sistemo - eble per butonoj "fermu", "izolu"?
 
-
 -->
 
 
@@ -96,30 +95,24 @@ let ripetoj;
 
 age((ago) => {
     console.log(ago);
+    switch (ago) {
+        case "ago_premu": break;
+        case "ago_malpremu": break;
+        case "varmigu": break;
+        case "ago_malvarmigu": break;
+    }
 });
 
 elekte((elekto,valoro) => {
     console.log(elekto+':'+valoro);
-    aktualigo();
-});
-
-// ĝi('#temperaturo').value = 300;
-// ĝi("#halto").disabled = true;
-
-kiam_klako("#starto_motoro",() => {
-    eksperimento(false);
-    ĝi("#halto").disabled = false;
-    Sekcio.malfermu("motoro",true);
-});
-
-kiam_klako("#starto_pumpilo",() => {
-    eksperimento(true);
-    ĝi("#halto").disabled = false;
-    Sekcio.malfermu("pumpilo",true);
-});
-
-kiam_klako("#halto",() => {
-    if (ripetoj) clearTimeout(ripetoj.p);
+    // laŭ elektu ebligu certajn agojn, aliajn ne:
+    const Tk = (valoro.startsWith("temp") || valoro.startsWith("varm"));
+    ĝi("#ago_premu").disabled = !Tk;
+    ĝi("#ago_malpremu").disabled = !Tk;
+    ĝi("#ago_varmigu").disabled = Tk;
+    ĝi("#ago_malvarmigu").disabled = Tk;
+   
+    //aktualigo();
 });
 
 function aktualigo() {

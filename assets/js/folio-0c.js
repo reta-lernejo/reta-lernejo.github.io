@@ -236,7 +236,7 @@ function _plenumu_reftaskojn(evento) {
 function _plenumu_agotaskon(evento) {
     //evento.preventDefault();
     const elemento = evento.target;
-    _agotasko(elemento.name,evento);
+    _agotasko(elemento.id,evento);
 }
 
 /**
