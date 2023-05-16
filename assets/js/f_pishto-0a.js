@@ -163,9 +163,9 @@ class Piŝto {
     /**
      * Donas koloron al temperatur-valoroj inter T1 kaj T2
      */
-    Tkoloro(T,T1,T2) {
+    Tkoloro(T,T1,T2,l=45) {
         const h = Diagramo.kolorvaloro(T,T1*0.99,T2*1.01);
-        return Diagramo.hsl2hex(h,90,45);
+        return Diagramo.hsl2hex(h,90,l);
     }
 
     desegnu() {
@@ -191,15 +191,19 @@ class Piŝto {
 
     d_piŝtujo(LRG,ALT,x1,x2) {
         // gasujo
-        this.dgr.rektangulo(x1,this.larĝo,ALT-this.fundo,"#fff");
+        //this.dgr.rektangulo(x1,0,this.larĝo,ALT-this.fundo,"#fff");
+        //this.dgr.rektangulo_h3k(x1,0,this.larĝo,ALT-this.fundo,"#999","#bbb","#eee");
+        this.dgr.rektangulo_h3k(x1,0,this.larĝo,ALT-this.fundo,"#ccc","#bbb","#aaa");
         this.dgr.linio(x1,0,x1,ALT-this.fundo);
         this.dgr.linio(x1,ALT-this.fundo,x2,ALT-this.fundo);
         this.dgr.linio(x2,0,x2,ALT-this.fundo);
     }
 
     d_enhavo(LRG,ALT,x1,y,dy) {
-        const koloro = this.Tkoloro(this.gaso.temperaturo,200,600);
-        this.dgr.rektangulo(x1,y,this.larĝo,dy,koloro);
+        const k1 = this.Tkoloro(this.gaso.temperaturo,200,600,60);
+        const k2 = this.Tkoloro(this.gaso.temperaturo,200,600,45);
+        const k3 = this.Tkoloro(this.gaso.temperaturo,200,600,30);
+        this.dgr.rektangulo_h3k(x1,y,this.larĝo,dy,k1,k2,k3);
     }
 
     d_piŝto(LRG,ALT,x1,y) {
@@ -207,7 +211,7 @@ class Piŝto {
         // kovrilo
         this.dgr.rektangulo_h3k(x1+1,y-10,this.larĝo-2,10,"#eee","#bbb","#999");
         // pezaĵo aŭ stango
-        this.dgr.rektangulo_h3k(x1+1+this.larĝo/5,y-10-80,3/5*this.larĝo,80,"#eee","#bbb","#999");
+        this.dgr.rektangulo_h3k(x1+1+2/5*this.larĝo,0,1/5*this.larĝo,y-10,"#eee","#bbb","#999");
     }
 
 }

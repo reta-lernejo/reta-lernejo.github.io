@@ -14,6 +14,17 @@ js:
 
 <!--
 
+La paĝo prezentas modelon de piŝto kun ideala gaso por enkonduki bazajn grandojn de termodinamiko.
+Unu grando estas tenata konstanta, dum oni aplikas premon/malpremon aŭ varmon/malvarmon. La tri aliaj grandoj montriĝas la ŝanĝojn laŭ la modelo de ideala gaso.
+
+sistemo           izolita neizolita fermita nefermita          
+konstanta grando: Q/S     T         V       p
+/agoj/
+premu             +p+T-V  +p-V-S    -       -
+malpremu          -p-T+V  -p+V+S    -       -
+varmigu           -       -         +T+V+S  +T+p+S
+malvarmigu        -       -         -T-V-S  -T-p-S
+
 
 FARENDA, plej bone sur aparta(j) paĝo(j):
 
@@ -45,19 +56,11 @@ FARENDA, plej bone sur aparta(j) paĝo(j):
 </style>
 
 <canvas id="karnot" width="300" height="300"></canvas>
-[]adaptu volumenon al:
-{: .elekto #e_volumeno}
-<input type="range" id="i_volumeno" style="width: 50em; max-width: 60%" min="5" max="35" value="22.4" step="0.1" onchange="aktualigo()" oninput="aktualigo_info('volumeno')"><span id="v_volumeno">22,4</span> dm³ 
+konservu (x)varmon ()temperaturon ()premon ()volumenon
+{: .elekto #konservo}
 
-
-[]adaptu temperaturon al:
-{: .elekto #e_temperaturo}
-<input type="range" id="i_temperaturo" style="width: 50em; max-width: 60%" min="100" max="500" value="273" step="1" onchange="aktualigo()" oninput="aktualigo_info('temperaturo')"><span id="v_temperaturo">273</span> K
-
-
-[]adaptu premon al:
-{: .elekto #e_premo}
-<input type="range" id="i_premo" style="width: 50em; max-width: 60%" min="10" max="150" value="100" step="10" onchange="aktualigo()" oninput="aktualigo_info('premo')"><span id="v_premo">100</span> kPa
+[premu] [malpremu] [varmigu] [malvarmigu]
+{: .butonoj #ago}
 
 
 <canvas id="pV_dgr" width="300" height="300"></canvas>
@@ -90,6 +93,10 @@ let piŝto = new Piŝto(modelo);
 
 const intervalo = 50; // 100 = 100 ms
 let ripetoj;
+
+age((ago) => {
+    console.log(ago);
+});
 
 elekte((elekto,valoro) => {
     console.log(elekto+':'+valoro);
@@ -312,9 +319,9 @@ Respektive, se oni lasas la gason libere etendiĝi aŭ maletendiĝo la premo ada
 
 ... mezuri temperaturon per termometro, varmon per kalorimetro ....
 
-... mankas partnera etenda grando por la temperaturo... ĝi estas la entropio S ...
+La varmenergion tiel en- aŭ elkundukitan je la sistemo oni povas analoge al la laboro prezenti kiel produkto de unu entenda kaj unu neetenda grandoj. La neetenda grando estas la temperaturo $$T$$. La etendan grandon oni bedaŭrinde tie ĉi ne povas mezuri sed nur elkalkuli. Oni nomas ĝin la entropio $$S$$.
 
-... analoge kiel la volumeno indikas kiom distruita (koncentrita aŭ malkoncentrita en iu spaco) estas materio, la entropio indikas,
+... analoge kiel la volumeno indikas kiom distribuita (koncentrita aŭ malkoncentrita en iu spaco) estas materio, la entropio indikas,
 kiom distribuita estas la energio (varmo) en iu sistemo. Sed entropio havas pli ol la tri dimensiojn de la spaco: ĝi estas
 determinita de la enerergiporcietoj en ĉiu el la multaj eblecoj kiel la eroj de materio povas moviĝi. Oni nomas tion la gradoj de libereco:
 Ekzemple molekulo el tri atomoj povas moviĝi en la tri dimensioj de la spaco, krome ĝi povas turniĝi laŭ pluraj rotaciaj aksoj, la interatomaj ligoj povas svingiĝi, la elektronoj povas okupi diversajn orbitalojn de la atomo, en ĉiu tiu grado de libereco enteniĝas certa kvanto de energio. 
