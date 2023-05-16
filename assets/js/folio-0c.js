@@ -114,7 +114,8 @@ function nombro(nombro,prec=3,unuo) {
 
 let _lanĉtaskoj = []; 
 let _reftaskoj = [];
-let _elektotasko;
+let _elektotasko; // donata per tasko, kiun la laborfolio transdonas per elekte(tasko)
+let _agotasko; // donata per tasko, kiun la laborfolio transdonas per age(tasko)
 document.body.style.cursor = 'progress';
 
 /**
@@ -134,7 +135,36 @@ window.onload = () => {
             }
         }
 
-        if (_elektotasko) {
+        // se la laborfolio vokis la funkcion age() ni serĉos la
+        // kaj preparos la ago-butonojn en la paĝo
+        if (_agotasko) { 
+            // butonoj estas markitaj per angulaj krampoj
+            const re = /\[([^\]]+)\]/;
+            for (e of document.querySelectorAll(".butonoj")) {
+                let tc = e.innerHTML;
+                let html = '', n=0;
+                console.log (e.textContent);
+                // konvertu tekstoj (x?)blabla al <input type="radio"><label for="..."> 
+                // resp. [x?]blabla al <input type="checkbox"><label for="..."> 
+                while ((m = re.exec(tc))) {
+                    //debugger;
+                    const de = m.index;
+                    const l = m[0].length;
+                    const ago = m[1];
+                    html = html + tc.slice(0,de) 
+                        + `<button id="${e.id}_${ago}">${ago}</button>`
+                    tc = tc.slice(de+l);
+                    n++;
+                }
+                e.innerHTML = html;
+                e.addEventListener("click", _plenumu_agotaskon);
+            }
+        }
+
+        // se la laborfolio vokis la funkcion elekte() ni serĉos la
+        // kaj preparos la elektilojn en la paĝo
+        if (_elektotasko) { 
+            // elektiloj estas markitaj per rondaj aŭ angulaj krampoj
             const re = /([\(\[])(x?)([\)\]])([^,;.<\(\[)]+)/;
             for (e of document.querySelectorAll(".elekto")) {
                 let tc = e.innerHTML;
@@ -198,8 +228,27 @@ function _plenumu_reftaskojn(evento) {
     }
 }
 
+
 /** 
- * Plenumas elekto taskon kiam klakiĝis elemento radio/checkbox
+ * Plenumas ago-taskon kiam klakiĝis elemento button
+ * 
+ */
+function _plenumu_agotaskon(evento) {
+    //evento.preventDefault();
+    const elemento = evento.target;
+    _agotasko(elemento.name,evento);
+}
+
+/**
+ * Registras agon (button)
+ * kaj koncernan taskon
+ */
+function age(tasko) {
+    _agotasko = tasko; // ni detaligos post ŝargo kaj trakribro de la dokumento (.onload)
+}
+
+/** 
+ * Plenumas elekto-taskon kiam klakiĝis elemento radio/checkbox
  * 
  */
  function _plenumu_elektotaskon(evento) {
