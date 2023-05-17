@@ -115,7 +115,7 @@ function nombro(nombro,prec=3,unuo) {
 let _lanĉtaskoj = []; 
 let _reftaskoj = [];
 let _elektotasko; // donata per tasko, kiun la laborfolio transdonas per elekte(tasko)
-let _agotasko; // donata per tasko, kiun la laborfolio transdonas per age(tasko)
+let _butontasko; // donata per tasko, kiun la laborfolio transdonas per age(tasko)
 document.body.style.cursor = 'progress';
 
 /**
@@ -137,7 +137,7 @@ window.onload = () => {
 
         // se la laborfolio vokis la funkcion age() ni serĉos la
         // kaj preparos la ago-butonojn en la paĝo
-        if (_agotasko) { 
+        if (_butontasko) { 
             // butonoj estas markitaj per angulaj krampoj
             const re = /\[([^\]]+)\]/;
             for (e of document.querySelectorAll(".butonoj")) {
@@ -150,14 +150,14 @@ window.onload = () => {
                     //debugger;
                     const de = m.index;
                     const l = m[0].length;
-                    const ago = m[1];
+                    const ago = m[1].trim(); // sursrkibo
                     html = html + tc.slice(0,de) 
                         + `<button id="${e.id}_${ago}">${ago}</button>`
                     tc = tc.slice(de+l);
                     n++;
                 }
                 e.innerHTML = html;
-                e.addEventListener("click", _plenumu_agotaskon);
+                e.addEventListener("click", _plenumu_butontaskon);
             }
         }
 
@@ -179,7 +179,7 @@ window.onload = () => {
                     const tipo = m[1] == '('? 'radio' : 'checkbox';
                     const x = m[2];
                     const pri = m[4];
-                    const val = pri; // PLIBONIGU: eble permesu doni pli koncizas voloron ene de (jes:x), (ne)
+                    const val = pri.trim(); // PLIBONIGU: eble permesu doni pli koncizas voloron ene de (jes:x), (ne)
                     // const id = (tipo=='radio')? `${e.id}_${n}` : e.id;
                     html = html + tc.slice(0,de) 
                         + `<input type="${tipo}" id="${e.id}_${n}" name="${e.id}" value="${val}" ${x?'checked':''}>`
@@ -233,18 +233,17 @@ function _plenumu_reftaskojn(evento) {
  * Plenumas ago-taskon kiam klakiĝis elemento button
  * 
  */
-function _plenumu_agotaskon(evento) {
+function _plenumu_butontaskon(evento) {
     //evento.preventDefault();
     const elemento = evento.target;
-    _agotasko(elemento.id,evento);
+    _butontasko(elemento.id,evento);
 }
 
 /**
- * Registras agon (button)
- * kaj koncernan taskon
+ * Registras butontaskon
  */
-function age(tasko) {
-    _agotasko = tasko; // ni detaligos post ŝargo kaj trakribro de la dokumento (.onload)
+function butone(tasko) {
+    _butontasko = tasko; // ni detaligos post ŝargo kaj trakribro de la dokumento (.onload)
 }
 
 /** 
@@ -254,7 +253,8 @@ function age(tasko) {
  function _plenumu_elektotaskon(evento) {
     //evento.preventDefault();
     const elemento = evento.target;
-    _elektotasko(elemento.name,elemento.value,evento);
+    if (elemento.name)
+        _elektotasko(elemento.name,elemento.value,evento);
 }
 
 /**

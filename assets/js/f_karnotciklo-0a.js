@@ -81,7 +81,8 @@ class KCGaso {
     }
 
     /**
-     * Redonas entropidiferencon rilate al komenca volumeno de adiabata ŝanĝo
+     * Redonas entropidiferencon rilate al komenca volumeno de izoterma ŝanĝo
+     * vd https://de.wikipedia.org/wiki/Entropie#Entropiezunahme_bei_irreversibler_und_reversibler_isothermer_Expansion
      */
     entropidiferenco(V0) {
         return -this.moloj*KCGaso.R * Math.log(this.volumeno/V0);

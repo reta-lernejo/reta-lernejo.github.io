@@ -93,14 +93,17 @@ let piŝto = new Piŝto(modelo);
 const intervalo = 50; // 100 = 100 ms
 let ripetoj;
 
-age((ago) => {
+butone((ago) => {
     console.log(ago);
     switch (ago) {
-        case "ago_premu": break;
-        case "ago_malpremu": break;
-        case "varmigu": break;
-        case "ago_malvarmigu": break;
+        case "ago_premu": piŝto.premu(10000); break;
+        case "ago_malpremu": piŝto.premu(-10000); break;
+        case "ago_varmigu": piŝto.varmigu(10); break;
+        case "ago_malvarmigu": piŝto.varmigu(-10); break;
     }
+
+    // valoroj();
+    diagramo_pentru();
 });
 
 elekte((elekto,valoro) => {
@@ -112,38 +115,14 @@ elekte((elekto,valoro) => {
     ĝi("#ago_varmigu").disabled = Tk;
     ĝi("#ago_malvarmigu").disabled = Tk;
    
-    //aktualigo();
+    piŝto.konservata = valoro;
+    piŝto.desegnu();
 });
 
-function aktualigo() {
-    piŝto.izolita = ! ĝi('#e_temperaturo_0').checked;
-    const T = parseInt(ĝi('#i_temperaturo').value);
-    piŝto.medio_temperaturo = T;
-    piŝto.desegnu();
-}
-
-function aktualigo_info(grando) {
-    let value;
-    switch (grando) {
-    case "volumeno":
-        value = ĝi('#i_volumeno').value;
-        ĝi('#v_volumeno').textContent = value;
-        break;
-    case "temperaturo":
-        value = ĝi('#i_temperaturo').value;
-        ĝi('#v_temperaturo').textContent = value;
-        break;
-    case "premo":
-        value = ĝi('#i_premo').value;
-        ĝi('#v_premo').textContent = value;
-        break;                
-    }
-}
 
 // pentru sen jam movi...
 dgr_preparo();
 piŝto.desegnu();
-
 
 function dgr_preparo() {
     dpV.viŝu();
@@ -156,87 +135,18 @@ function dgr_preparo() {
     dTS.skalo_y(0 /*T_min*/,T_max,10,50,0,"K");
     dTS.skalo_x(-1,S_max,1,1,0,"J/K");
 
-    diagramo_paŝo();
+    diagramo_pentru();
 }
 
-/*
-    const T = kciklo.gaso.temperaturo;
-    const V = kciklo.gaso.volumeno;
 
-    const h = karnot.height;
-    const sk = 7; // skalfaktoro por y-koordinatoj
+function diagramo_pentru() {    
+    const koloro = piŝto.Tkoloro(piŝto.gaso.temperaturo);
 
-    // alteco de piŝto super la fundo (ĉe 360px)
-    const py = h-40 - 1000*V*sk; // 1000l = 1m³, ni sk-obligas tiel, ke
-        // 1mol ĉe 20°C = 24l = sk*24 px
-    const y12 = h-40 - 1000*kciklo.V12*sk;
-    const y34 = h-40 - 1000*kciklo.V12*sk;
-
-    // if (py>h-50) debugger;
-
-
-    function medio() {
-        // medio
-
-        // varma  kaj malvarma provizoj
-        modelo.rektangulo(0,0,80,h,Tkoloro(T2));
-        modelo.rektangulo(220,0,300,h,Tkoloro(T1));
-
-        modelo.teksto_x(40,100,T2+" K");
-        modelo.teksto_x(260,100,T1+" K","white");
-
-        // medio-koloro laŭ temperaturo...
-        // PLIBONIGU: pli bone kciklo havu funkcion por redoni la staton!
-        let koloro = "#777";
-        if (kciklo.medio() == "malvarma") {
-            koloro = Tkoloro(T1);
-        } else if (kciklo.medio() == "varma") {
-            koloro = Tkoloro(T2);
-        }
-        // desegnu la medion
-        modelo.rektangulo(80,0,140,h,koloro);
-        // desegnu vandojn de la medio
-        if (kciklo.medio() != "varma") {
-            modelo.linio(80,0,80,h);
-        } 
-        if (kciklo.medio() != "malvarma") {
-            modelo.linio(220,0,220,h);
-        }
-        //modelo.linio(220,20,220,h);
-    }
-*/
-
-function diagramo_pentru() {
-    /*
-    const koloro = Tkoloro(kciklo.gaso.temperaturo);
-
-    let k = dpV.koord_xy(kciklo.gaso.volumeno*1000,kciklo.gaso.premo()/1e5);
+    let k = dpV.koord_xy(piŝto.gaso.volumeno*1000,piŝto.gaso.premo()/1e5);
     dpV.punkto(k.x,k.y,1,koloro);
 
-    k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
+    k = dTS.koord_xy(piŝto.gaso.entropio,piŝto.gaso.temperaturo);
     dTS.punkto(k.x,k.y,1,koloro);
-    */
-}
-
-function diagramo_paŝo(paŝo) {
-    // ioma adapto de koordinatoj ĉe la randoj
-    function ka(k) {
-        if (k<50) return k+12;
-        if (k>250) return k-6;
-        return k-4;
-    }
-/*
-    const nro = kciklo.paŝnro(paŝo)+1;
-    const koloro = Tkoloro(kciklo.gaso.temperaturo);
-
-    let k = dpV.koord_xy(kciklo.gaso.volumeno*1000,kciklo.gaso.premo()/1e5);
-    dpV.punkto(k.x,k.y,3,koloro);
-    dpV.teksto_x(ka(k.x),ka(k.y),nro,koloro);
-
-    k = dTS.koord_xy(kciklo.entropio(),kciklo.gaso.temperaturo);
-    dTS.punkto(k.x,k.y,3,koloro);
-    dTS.teksto_x(ka(k.x),ka(k.y),nro,koloro);
-    */
 }
 
 function valoroj() {
@@ -247,37 +157,6 @@ function valoroj() {
     */
 }
 
-function paŝu() {
-    /*
-    kciklo.iteracio();
-    modelo_pentru();
-    diagramo_pentru();
-    valoroj();
-    */
-}
-
-
-function eksperimento(inversa) {
-    /*
-    // eventuale haltigu antaŭan
-    if (ripetoj) clearTimeout(ripetoj.p);
-
-    // se direkto ŝanĝita, kreu novan procezon 
-    if (inversa != kciklo.inversa) {
-        kciklo = kreu_ciklon(inversa);
-        dgr_preparo();
-    }
-
-    // cikligu
-    ripetoj = ripetu(
-        () => {
-            paŝu();
-            return true; // ni ne haltos antaŭ butonpremo [Haltu]...(idealgaso.T < d_larĝo);
-        },
-        intervalo
-    )
-    */
-}
 
 </script>
 

@@ -33,6 +33,7 @@ class PGaso {
         this.temperaturo = temperaturo;
         this.moloj = moloj;
         this.volumeno = volumeno || PGaso.volumeno(this.temperaturo,PGaso.norm_p,moloj);
+        this.entropio = 0;
     }
 
     /**
@@ -40,8 +41,11 @@ class PGaso {
      * tiel konservanta la internan energion
      * @param {*} dV 
      */
-    dV_izoterma(dV) {
+    dV_Tkonserva(dV) {
+        // entropiŝanĝo, vd.  vd https://de.wikipedia.org/wiki/Entropie#Entropiezunahme_bei_irreversibler_und_reversibler_isothermer_Expansion
+        const dS = -this.moloj*PGaso.R * Math.log((this.volumeno+dV)/this.volumeno);
         this.volumeno += dV;
+        this.entropio += dS;       
     }
 
     /**
@@ -52,6 +56,55 @@ class PGaso {
     dV_adiabata(dV) {
         this.temperaturo = this.temperaturo * Math.pow((this.volumeno/(this.volumeno+dV)),PGaso.kappa-1);
         this.volumeno += dV;
+        // entropio ne ŝanĝigas
+    }
+
+    /** 
+     * Ŝanĝas la premon de la gaso izoterme, t.e. kun varminterŝanĝo kun la medio
+     * tiel konservanta la internan energion
+     */
+    dp_Tkonserva(dp) {
+        // ni ne povas rekte ŝangi la premon, sed nur la volumenon
+        // kiun ni elkalkulas per la statekvacio de la ideala gaso
+        const premo = this.premo() + dp;
+        this.volumeno = PGaso.volumeno(this.temperaturo,premo,this.moloj);
+    }
+
+    /**
+     * Ŝanĝas la premon de la gaso adiabate, t.e. sen varminterŝanĝo kun la medio
+     * tiel konservanta la entropion
+     */
+    dp_adiabata(dp) {
+        const p = this.premo() + dp;
+        const V = PGaso.volumeno(this.temperaturo,p,this.moloj);
+        // ni aplikas adiabatan ekvacion por eltrovi la novan temepraturon
+        this.temperaturo = this.temperaturo * Math.pow((this.volumeno/V),PGaso.kappa-1);
+        this.volumeno = V;
+        // entropio ne ŝanĝiĝas
+    }
+
+    /**
+     * Adaptu la temperaturon konservante la volumenon
+     */
+    dT_Vkonserva(dT) {
+        // entropiŝanĝo
+        // vd https://studyflix.de/ingenieurwissenschaften/isochore-zustandsanderung-1162
+        const dS =  this.moloj * PGaso.Cmv * Math.log((this.temperaturo+dT)/this.temperaturo)
+        this.temperaturo += dT;
+        this.entropio += dS;       
+    }
+
+    /**
+     * Adaptu la temperaturon konservante la premon
+     */
+    dT_pkonserva(dT) {
+        const T = this.temperaturo += dT;
+        // entropiŝanĝo
+        // vd https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/569-isobare-zustandsaenderung.html
+        const dS = this.moloj * PGaso.Cmp * Math.log((this.temperaturo+dT)/this.temperaturo);     
+        this.volumeno = PGaso.volumeno(T,this.premo(),this.moloj);        
+        this.temperaturo = T;
+        this.entropio += dS;       
     }
 
     /**
@@ -62,7 +115,9 @@ class PGaso {
     T_adiabata(T) {
         this.volumeno = this.volumeno * Math.pow(this.temperaturo/T,1/(PGaso.kappa-1));
         this.temperaturo = T;
+        // entropio ne ŝanĝiĝas
     }
+
 
     /**
      * Redonas la premon de la gaso, kalkulitan el ĝia temperaturo kaj volumeno
@@ -71,12 +126,6 @@ class PGaso {
         return PGaso.R * this.temperaturo / this.volumeno;
     }
 
-    /**
-     * Redonas entropidiferencon rilate al komenca volumeno de adiabata ŝanĝo
-     */
-    entropidiferenco(V0) {
-        return -this.moloj*PGaso.R * Math.log(this.volumeno/V0);
-    }
 
     /**
      * Redonas la laboron faritan per izoterma volumenŝanĝo. La ŝanĝo de interna energio kaj entalpio
@@ -137,6 +186,8 @@ class Piŝto {
         this.gaso = gaso || new PGaso();
         this.fundo = 20; // fundo de la piŝtujo en px, t.e. 0l = malplena
         this.larĝo = 100;
+        this.T_min = 200;
+        this.T_max = 600;
 
         // la faktoron px -> dm ni kalkulas el la volumenformulo de cilindro
         // tiel, ke por 20 l validas alto = diametro
@@ -154,17 +205,18 @@ class Piŝto {
         this.l_px = this.larĝo / LITROJ; 
 
         // alteco de piŝto super la fundo
-        this.enhavo = 24; // dm³, t.e. l; 1mol da ideala gaso en 100kPa/293.15K = ĉ. 24l
-        this.medio_temperaturo = 273.15;
-        this.izolita = true;
+        //this.enhavo = 24; // dm³, t.e. l; 1mol da ideala gaso en 100kPa/293.15K = ĉ. 24l
+        //this.medio_temperaturo = 273.15;
 
+        // po unu grando povas esti konservata: varmo, temperaturo, premo, volumeno
+        this.konservata = "varmo"; // t.e. izolita, sen varminterŝanĝo
     }
 
     /**
      * Donas koloron al temperatur-valoroj inter T1 kaj T2
      */
-    Tkoloro(T,T1,T2,l=45) {
-        const h = Diagramo.kolorvaloro(T,T1*0.99,T2*1.01);
+    Tkoloro(T,l=45) {
+        const h = Diagramo.kolorvaloro(T,this.T_min*0.99,this.T_max*1.01);
         return Diagramo.hsl2hex(h,90,l);
     }
 
@@ -175,17 +227,21 @@ class Piŝto {
         const ALT = this.dgr.alto();
         const x1 = (LRG-this.larĝo)/2;
         const x2 = x1 + this.larĝo;
-        const y =  ALT - this.fundo - this.enhavo*this.l_px; 
+        const y =  ALT - this.fundo - this.gaso.volumeno*1e3*this.l_px; 
         const dy = ALT - this.fundo - y;
 
         this.d_medio(LRG,ALT);
         this.d_piŝtujo(LRG,ALT,x1,x2);
         this.d_enhavo(LRG,ALT,x1,y,dy);
         this.d_piŝto(LRG,ALT,x1,y);
+        this.d_valoroj(LRG,ALT);
     }
 
     d_medio(LRG,ALT) {
-        const koloro = (this.izolita)? "#ccc" : this.Tkoloro(this.medio_temperaturo,200,600);
+        // provizore ni supozas, ke la medio ĉiam havu la saman temperaturon kiel la gaso mem
+        // krom ĉe izolita piŝtujo, t.e. konservata="varmo", tiam ni grizigas la medion
+        const koloro = (this.konservata.startsWith("varmo"))? "#ccc" 
+            : this.Tkoloro(this.gaso.temperaturo); //this.Tkoloro(this.medio_temperaturo,200,600);
         this.dgr.rektangulo(0,0,LRG,ALT,koloro);
     }
 
@@ -200,9 +256,9 @@ class Piŝto {
     }
 
     d_enhavo(LRG,ALT,x1,y,dy) {
-        const k1 = this.Tkoloro(this.gaso.temperaturo,200,600,60);
-        const k2 = this.Tkoloro(this.gaso.temperaturo,200,600,45);
-        const k3 = this.Tkoloro(this.gaso.temperaturo,200,600,30);
+        const k1 = this.Tkoloro(this.gaso.temperaturo,60);
+        const k2 = this.Tkoloro(this.gaso.temperaturo,45);
+        const k3 = this.Tkoloro(this.gaso.temperaturo,30);
         this.dgr.rektangulo_h3k(x1,y,this.larĝo,dy,k1,k2,k3);
     }
 
@@ -212,6 +268,43 @@ class Piŝto {
         this.dgr.rektangulo_h3k(x1+1,y-10,this.larĝo-2,10,"#eee","#bbb","#999");
         // pezaĵo aŭ stango
         this.dgr.rektangulo_h3k(x1+1+2/5*this.larĝo,0,1/5*this.larĝo,y-10,"#eee","#bbb","#999");
+    }
+
+    d_valoroj(LRG,ALT) {
+        const V = nombro(this.gaso.volumeno*1000,3,'dm³');
+        const p = nombro(this.gaso.premo()/1000,3,'kPa');
+        const T = nombro(this.gaso.temperaturo,5,'K');
+        this.dgr.teksto_y(3,ALT-60,`V: ${V}`);
+        this.dgr.teksto_y(3,ALT-40,`p: ${p}`);
+        this.dgr.teksto_y(3,ALT-20,`T: ${T}`);
+    }
+
+    /**
+     * altigu/malaltigu la premon je dp Pa
+     */
+    premu(dp) {
+        if (this.konservata.startsWith("varmo"))
+            this.gaso.dp_adiabata(dp);
+        else if (this.konservata.startsWith("temperaturo"))
+            this.gaso.dp_Tkonserva(dp);
+        else
+            console.error("ni ne povas adapti la premon, se konservata = "+this.konservata)
+
+        this.desegnu();
+    }
+
+    /**
+     * altigu/malaltigu la temperaturon je dT K
+     */
+    varmigu(dT) {
+        if (this.konservata.startsWith("volumeno"))
+            this.gaso.dT_Vkonserva(dT);
+        else if (this.konservata.startsWith("premo"))
+            this.gaso.dT_pkonserva(dT);
+        else
+            console.error("ni ne povas varmigi/malvarmigi la temperaturon, se konservata = "+this.konservata);
+
+        this.desegnu();
     }
 
 }
