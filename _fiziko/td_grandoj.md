@@ -113,7 +113,7 @@ butone((ago) => {
     diagramo_pentru();
 
     // evtl. adaptu butonojn
-    buton_statoj(pishto.konservata);
+    buton_statoj(piŝto.konservata);
 });
 
 elekte((elekto,valoro) => {
@@ -127,10 +127,10 @@ elekte((elekto,valoro) => {
 function buton_statoj(konservata) {
     const Tk = (konservata.startsWith("temp") || konservata.startsWith("varm"));
     // PLIBONIGU: lasta kondiĉoj (V) devus respekti ankoraŭ sekvan paŝon!
-    ĝi("#ago_premu").disabled = !Tk || piŝto.gaso.premo()-dp < p_min || piŝto.gaso.volumeno < V_min; 
-    ĝi("#ago_malpremu").disabled = !Tk || piŝto.gaso.premo()+dp < p_max || piŝto.gaso.volumeno > V_max;
-    ĝi("#ago_varmigu").disabled = Tk || piŝto.gaso.temperaturo-dT < T_min || piŝto.gaso.volumeno > V_max;
-    ĝi("#ago_malvarmigu").disabled = Tk || piŝto.gaso.temperaturo+dT > T_max || piŝto.gaso.volumeno < V_min;
+    ĝi("#ago_premu").disabled = !Tk || piŝto.gaso.premo()+dp > p_max || piŝto.gaso.volumeno < V_min; 
+    ĝi("#ago_malpremu").disabled = !Tk || piŝto.gaso.premo()-dp < p_min || piŝto.gaso.volumeno > V_max;
+    ĝi("#ago_varmigu").disabled = Tk || piŝto.gaso.temperaturo+dT > T_max || piŝto.gaso.volumeno > V_max;
+    ĝi("#ago_malvarmigu").disabled = Tk || piŝto.gaso.temperaturo-dT < T_min || piŝto.gaso.volumeno < V_min;
 }
 
 
