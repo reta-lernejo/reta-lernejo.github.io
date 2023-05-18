@@ -98,7 +98,7 @@ class PGaso {
      * Adaptu la temperaturon konservante la premon
      */
     dT_pkonserva(dT) {
-        const T = this.temperaturo += dT;
+        const T = this.temperaturo + dT;
         // entropiŝanĝo
         // vd https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/569-isobare-zustandsaenderung.html
         const dS = this.moloj * PGaso.Cmp * Math.log((this.temperaturo+dT)/this.temperaturo);     
@@ -238,10 +238,11 @@ class Piŝto {
     }
 
     d_medio(LRG,ALT) {
-        // provizore ni supozas, ke la medio ĉiam havu la saman temperaturon kiel la gaso mem
-        // krom ĉe izolita piŝtujo, t.e. konservata="varmo", tiam ni grizigas la medion
-        const koloro = (this.konservata.startsWith("varmo"))? "#ccc" 
-            : this.Tkoloro(this.gaso.temperaturo); //this.Tkoloro(this.medio_temperaturo,200,600);
+        // ĉe temperaturkonservaj procezoj la medio ĉiam havu la saman temperaturon kiel la gaso mem
+        // en aliaj ni uzas ĉe izolitan piŝtujon, tiam ni grizigas la medion
+        const koloro = (this.konservata.startsWith("temperaturo"))?  
+            this.Tkoloro(this.gaso.temperaturo) //this.Tkoloro(this.medio_temperaturo,200,600);
+            : "#ccc"; 
         this.dgr.rektangulo(0,0,LRG,ALT,koloro);
     }
 
