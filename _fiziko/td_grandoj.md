@@ -151,7 +151,7 @@ function dgr_preparo() {
     const _Tmin = Math.floor(T_min/100)*100;
     const _Tmax = Math.ceil(T_max/100)*100;
     dTS.skalo_y(_Tmin,_Tmax,10,50,0,"K");
-    dTS.skalo_x(S_min,S_max,1,1,0,"J/K");
+    dTS.skalo_x(S_min,S_max,1,2,0,"J/K");
 
     diagramo_pentru();
 }
@@ -228,6 +228,27 @@ La grandoj laboro kaj varmo estas *procezaj grandoj* ili dependas de la konkreta
 Ekzemple oni povas transiri de unu stato al alia laŭ iu kombino de temperatur-, prem, -volumen, varmkonservaj ŝanĝoj. Kiam oni atingis iun staton
 priskribita de la stataj grandoj oni ne povas dedukti, laŭ kiuspecaj ŝanĝoj ĝi estis atingita. Tamen la grandaj laboro kaj varmo povas
 akiri tre diversajn valorojn laŭ la trairitaj procezoj.
+
+## taskoj
+{: .sekcio}
+
+1. Provu trovi kombinon de tri procezoj, kies kurboj en la  T-S-diagramo similas al velo (resp. la cifero 4)
+
+2. Provu trovi kombinon de tri procezoj, kies kurboj en la p-V-diagramo similas al la spegulbildo de tiu en (1)
+
+3. Provu trovi ciklon el kvar procezoj, kies kurboj en la T-S-diagramo similas al rektangula tuko glate kuŝanta sur la planko kaj
+   en la p-V-diagramo al forfluganta tuko.
+
+<!--
+
+4. Provu trovi ciklon, kiu maksimumigas la gajnita laboron ricevitan el la sistemo per alkonduko de varmo. (Eblas ankaŭ apliki laboron aŭ elkonduki
+   varmon dum la ciklo, sed la diferenca laboro gajnita estu plej eble granda kaj la diferenca alkondukata varmo plej eble malgranda)
+
+5. Provu trovi ciklon, kiu gajnas varmon per apliko de laboro....
+
+6. Provu trovi ciklon, kiu malvarmigas la gason per apliko de laboro....
+
+-->
 
 ## fontoj
 {: .fontoj}
