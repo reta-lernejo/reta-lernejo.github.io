@@ -54,7 +54,7 @@ FARENDA, plej bone sur aparta(j) paĝo(j):
     }
 </style>
 
-<canvas id="karnot" width="300" height="300"></canvas>
+<canvas id="pishto" width="300" height="300"></canvas>
 konservu (x)varmon ()temperaturon ()premon ()volumenon
 {: .elekto #konservo}
 
@@ -72,52 +72,66 @@ p-V-diagramo kaj T-ΔS-diagramo
 
 <script>
 
-const T1 = 293.15;
-let T2 = T1 + 300; // +30 .. +300
+const dT = 10; // paŝoj por varmigi/malvarmigi
+const T_min = 200;
+const T_max = 800;
 
-const p_max = 2.5e6;
-const V_max = 2.5e-2;
+const dp = 0.1e5; // paŝoj por premi/malpremi en Pa
+const p_min = 0.01e5; // 1kPa t.e. centono de atm.
+const p_max = 10e5; // 10-oblo de atm.
+
+const V_min = 1e-3; // 1 l
+const V_max = 5e-2; // 50 l
+
+const S_min = -10.5;
 const S_max = 10.5;
 
-const karnot = document.getElementById("karnot");
-const modelo = new Diagramo(karnot);
+const cpishto = document.getElementById("pishto");
+const modelo = new Diagramo(cpishto);
+const piŝto = new Piŝto(modelo);
+piŝto.T_min = T_min;
+piŝto.T_max = T_max;
 
-pV_dgr = document.getElementById("pV_dgr");
-TS_dgr = document.getElementById("TS_dgr");
-dpV = new Diagramo(pV_dgr);
-dTS = new Diagramo(TS_dgr);
+const pV_dgr = document.getElementById("pV_dgr");
+const TS_dgr = document.getElementById("TS_dgr");
+const dpV = new Diagramo(pV_dgr);
+const dTS = new Diagramo(TS_dgr);
 
-let piŝto = new Piŝto(modelo);
-
-
-const intervalo = 50; // 100 = 100 ms
-let ripetoj;
+//const intervalo = 50; // 100 = 100 ms
+//let ripetoj;
 
 butone((ago) => {
     console.log(ago);
     switch (ago) {
-        case "ago_premu": piŝto.premu(10000); break;
-        case "ago_malpremu": piŝto.premu(-10000); break;
-        case "ago_varmigu": piŝto.varmigu(10); break;
-        case "ago_malvarmigu": piŝto.varmigu(-10); break;
+        case "ago_premu": piŝto.premu(dp); break;
+        case "ago_malpremu": piŝto.premu(-dp); break;
+        case "ago_varmigu": piŝto.varmigu(dT); break;
+        case "ago_malvarmigu": piŝto.varmigu(-dT); break;
     }
 
     // valoroj();
     diagramo_pentru();
+
+    // evtl. adaptu butonojn
+    buton_statoj(pishto.konservata);
 });
 
 elekte((elekto,valoro) => {
     console.log(elekto+':'+valoro);
     // laŭ elektu ebligu certajn agojn, aliajn ne:
-    const Tk = (valoro.startsWith("temp") || valoro.startsWith("varm"));
-    ĝi("#ago_premu").disabled = !Tk;
-    ĝi("#ago_malpremu").disabled = !Tk;
-    ĝi("#ago_varmigu").disabled = Tk;
-    ĝi("#ago_malvarmigu").disabled = Tk;
-   
+    buton_statoj(valoro);
     piŝto.konservata = valoro;
     piŝto.desegnu();
 });
+
+function buton_statoj(konservata) {
+    const Tk = (konservata.startsWith("temp") || konservata.startsWith("varm"));
+    // PLIBONIGU: lasta kondiĉoj (V) devus respekti ankoraŭ sekvan paŝon!
+    ĝi("#ago_premu").disabled = !Tk || piŝto.gaso.premo()-dp < p_min || piŝto.gaso.volumeno < V_min; 
+    ĝi("#ago_malpremu").disabled = !Tk || piŝto.gaso.premo()+dp < p_max || piŝto.gaso.volumeno > V_max;
+    ĝi("#ago_varmigu").disabled = Tk || piŝto.gaso.temperaturo-dT < T_min || piŝto.gaso.volumeno > V_max;
+    ĝi("#ago_malvarmigu").disabled = Tk || piŝto.gaso.temperaturo+dT > T_max || piŝto.gaso.volumeno < V_min;
+}
 
 
 // pentru sen jam movi...
@@ -130,9 +144,9 @@ function dgr_preparo() {
     dpV.skalo_x(0,V_max*1000,1,10,0,"dm³");
 
     dTS.viŝu();
-    const T_min = Math.floor(T1/100)*100;
-    const T_max = Math.ceil(T2/100)*100;
-    dTS.skalo_y(0 /*T_min*/,T_max,10,50,0,"K");
+    const _Tmin = Math.floor(T_min/100)*100;
+    const _Tmax = Math.ceil(T_max/100)*100;
+    dTS.skalo_y(_Tmin,_Tmax,10,50,0,"K");
     dTS.skalo_x(-1,S_max,1,1,0,"J/K");
 
     diagramo_pentru();
