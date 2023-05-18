@@ -134,9 +134,13 @@ function buton_statoj(konservata) {
 }
 
 
-// pentru sen jam movi...
-dgr_preparo();
-piŝto.desegnu();
+
+// preparu kaj pentru komence ĉion
+lanĉe(()=>{
+    dgr_preparo();
+    piŝto.desegnu();
+    buton_statoj(piŝto.konservata);
+});
 
 function dgr_preparo() {
     dpV.viŝu();
@@ -147,13 +151,13 @@ function dgr_preparo() {
     const _Tmin = Math.floor(T_min/100)*100;
     const _Tmax = Math.ceil(T_max/100)*100;
     dTS.skalo_y(_Tmin,_Tmax,10,50,0,"K");
-    dTS.skalo_x(-1,S_max,1,1,0,"J/K");
+    dTS.skalo_x(S_min,S_max,1,1,0,"J/K");
 
     diagramo_pentru();
 }
 
 
-function diagramo_pentru() {    
+function diagramo_pentru() {
     const koloro = piŝto.Tkoloro(piŝto.gaso.temperaturo);
 
     let k = dpV.koord_xy(piŝto.gaso.volumeno*1000,piŝto.gaso.premo()/1e5);
@@ -214,6 +218,16 @@ determinita de la enerergiporcietoj en ĉiu el la multaj eblecoj kiel la eroj de
 Ekzemple molekulo el tri atomoj povas moviĝi en la tri dimensioj de la spaco, krome ĝi povas turniĝi laŭ pluraj rotaciaj aksoj, la interatomaj ligoj povas svingiĝi, la elektronoj povas okupi diversajn orbitalojn de la atomo, en ĉiu tiu grado de libereco enteniĝas certa kvanto de energio. 
 La interna energio estas la sumo el ĉiuj kaj la entropio donas mezuron kiom egale distribuita la energio estas en ĉiuj gradoj de libereco.
 
+## stataj kaj procezaj grandoj
+{: .sekcio}
+
+La grandoj premo, volumeno, temperaturo kaj entropio estas nomataj *stataj grandoj*, ĉar ili priskribas staton de termodinamika sistemo, sendepende laŭ kiu vojo tiu stato atingiĝis. 
+
+La grandoj laboro kaj varmo estas *procezaj grandoj* ili dependas de la konkreta procezo, la vojo laŭ kiu iu ŝanĝo efektiviĝis. 
+
+Ekzemple oni povas transiri de unu stato al alia laŭ iu kombino de temperatur-, prem, -volumen, varmkonservaj ŝanĝoj. Kiam oni atingis iun staton
+priskribita de la stataj grandoj oni ne povas dedukti, laŭ kiuspecaj ŝanĝoj ĝi estis atingita. Tamen la grandaj laboro kaj varmo povas
+akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 
 ## fontoj
 {: .fontoj}

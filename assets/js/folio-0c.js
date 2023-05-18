@@ -124,8 +124,6 @@ document.body.style.cursor = 'progress';
  */
 window.onload = () => {
     try {
-        // plenumu ĉiujn lanĉ-taskojn
-        for (t of _lanĉtaskoj) { t(); }
 
         // trovu ĉiujn lokojn markitajn per klaso .ref
         // kaj registru reftaskojn
@@ -191,6 +189,10 @@ window.onload = () => {
                 e.addEventListener("click", _plenumu_elektotaskon);
             }
         }
+
+        // plenumu ĉiujn lanĉ-taskojn
+        // ni faros intence fine, t.e. post kreo de elektiloj kaj butonoj
+        for (t of _lanĉtaskoj) { t(); }
     }
     finally {
         document.body.style.cursor = 'default';

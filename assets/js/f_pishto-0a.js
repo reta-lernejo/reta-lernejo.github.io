@@ -64,10 +64,14 @@ class PGaso {
      * tiel konservanta la internan energion
      */
     dp_Tkonserva(dp) {
+        const premo = this.premo() + dp;
+        // entropiŝanĝo, vd
+        // https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/564-isotherme-zustandsaenderung.html
+        const dS =  this.moloj * PGaso.R * Math.log(this.premo()/premo);
         // ni ne povas rekte ŝangi la premon, sed nur la volumenon
         // kiun ni elkalkulas per la statekvacio de la ideala gaso
-        const premo = this.premo() + dp;
         this.volumeno = PGaso.volumeno(this.temperaturo,premo,this.moloj);
+        this.entropio += dS;
     }
 
     /**
@@ -88,8 +92,8 @@ class PGaso {
      */
     dT_Vkonserva(dT) {
         // entropiŝanĝo
-        // vd https://studyflix.de/ingenieurwissenschaften/isochore-zustandsanderung-1162
-        const dS =  this.moloj * PGaso.Cmv * Math.log((this.temperaturo+dT)/this.temperaturo)
+        // vd hhttps://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/568-isochore-zustandsaenderung.html
+        const dS =  this.moloj * PGaso.CmV * Math.log((this.temperaturo+dT)/this.temperaturo)
         this.temperaturo += dT;
         this.entropio += dS;       
     }
@@ -240,9 +244,8 @@ class Piŝto {
     d_medio(LRG,ALT) {
         // ĉe temperaturkonservaj procezoj la medio ĉiam havu la saman temperaturon kiel la gaso mem
         // en aliaj ni uzas ĉe izolitan piŝtujon, tiam ni grizigas la medion
-        const koloro = (this.konservata.startsWith("temperaturo"))?  
-            this.Tkoloro(this.gaso.temperaturo) //this.Tkoloro(this.medio_temperaturo,200,600);
-            : "#ccc"; 
+        const koloro = (this.konservata.startsWith("varmo"))? "#ccc"
+            : this.Tkoloro(this.gaso.temperaturo); //this.Tkoloro(this.medio_temperaturo,200,600);
         this.dgr.rektangulo(0,0,LRG,ALT,koloro);
     }
 
