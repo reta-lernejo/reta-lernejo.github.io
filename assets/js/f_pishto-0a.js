@@ -132,11 +132,12 @@ class PGaso {
      */
     dp_adiabata(dp,nur_kalkulu) {
         const p = this.premo() + dp;
+        // KOREKTU: ni devas uzi la temperaturon post la ŝanĝo por V!
         const V = PGaso.volumeno(this.temperaturo,p,this.moloj);
         // ni aplikas adiabatan ekvacion por eltrovi la novan temepraturon
         const T = this.temperaturo * Math.pow((this.volumeno/V),PGaso.kappa-1);
         const ns = {
-            laboro: this.aboro + this.moloj * PGaso.CmV * (T - this.temperaturo),
+            laboro: this.laboro + this.moloj * PGaso.CmV * (T - this.temperaturo),
             temperaturo: T,
             volumeno: V,  
             // entropio kaj varmo ne ŝanĝigas
