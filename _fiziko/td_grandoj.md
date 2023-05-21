@@ -52,6 +52,19 @@ FARENDA, plej bone sur aparta(j) paĝo(j):
     canvas {
         border: 2px solid cornflowerblue;
     }
+
+    table {
+        table-layout: fixed;
+    }
+    td:first-child {
+        width: 60%;
+    }
+    td:nth-child(2),
+    td:nth-child(3)
+    {
+        width: 20%;
+        text-align: right
+    }
 </style>
 
 <canvas id="pishto" width="300" height="300"></canvas>
@@ -66,9 +79,10 @@ konservu (x)varmon ()temperaturon ()premon ()volumenon
 <canvas id="TS_dgr" width="300" height="300"></canvas>
 p-V-diagramo kaj T-ΔS-diagramo
 
-| konsumita laboro W |<span id="laboro"/> |
-| varminterŝanĝo Q |<span id="varmo"/> |
-| interna energiŝanĝo ΔU |<span id="energio"/> |
+| | Δ |∑ |
+| konsumita laboro W |<span id="dW"/> |<span id="W"/> |
+| varminterŝanĝo Q |<span id="dQ"/>|<span id="Q"/> |
+| interna energiŝanĝo U |<span id="dU"/>|<span id="U"/> |
 
 <script>
 
@@ -109,7 +123,7 @@ butone((ago) => {
         case "ago_malvarmigu": piŝto.varmigu(-dT); break;
     }
 
-    // valoroj();
+    valoroj();
     diagramo_pentru();
 
     // evtl. adaptu butonojn
@@ -172,11 +186,12 @@ function diagramo_pentru() {
 }
 
 function valoroj() {
-    /*
-    ĝi("#laboro").innerHTML = nombro(kciklo.suma_laboro(),3,"J");
-    ĝi("#varmo").innerHTML = nombro(kciklo.suma_varmo(),3,"J");
-    ĝi("#energio").innerHTML = nombro(kciklo.energiŝanĝo(),3,"J");
-    */
+    ĝi("#Q").innerHTML = nombro(piŝto.gaso.varmo,3,"J");
+    ĝi("#dQ").innerHTML = nombro(piŝto.gaso.varmo - piŝto.gaso.lasta_stato.varmo,3,"J");
+    ĝi("#W").innerHTML = nombro(piŝto.gaso.laboro,3,"J");
+    ĝi("#dW").innerHTML = nombro(piŝto.gaso.laboro - piŝto.gaso.lasta_stato.laboro,3,"J");
+    ĝi("#U").innerHTML = nombro(piŝto.gaso.energio(),3,"J");
+    ĝi("#dU").innerHTML = nombro(piŝto.gaso.energio() - piŝto.gaso.lasta_stato.energio,3,"J");
 }
 
 

@@ -48,7 +48,8 @@ class PGaso {
             volumeno: this.volumeno, 
             entropio: this.entropio,
             varmo: this.varmo,
-            laboro: this.laboro
+            laboro: this.laboro,
+            energio: this.energio(),
         };
     }
 
