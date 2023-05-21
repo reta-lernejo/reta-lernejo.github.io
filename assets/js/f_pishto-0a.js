@@ -34,6 +34,34 @@ class PGaso {
         this.moloj = moloj;
         this.volumeno = volumeno || PGaso.volumeno(this.temperaturo,PGaso.norm_p,moloj);
         this.entropio = 0;
+        this.laboro = 0; // laboro, negativa estas enkondukita, pozitiva elkondukita
+        this.varmo = 0; // varmo, pozitiva estas enkondukita, negativa elkondukita
+        this.lasta_stato = {}; // memoras lastan staton por iuj kalkuloj aŭ ebleco reiri
+    }
+
+    /**
+     * Memoras la aktualan staton por poste kalkuli diferencojn aŭ reiri
+     */
+    lasta() {
+        this.lasta_stato = {
+            temperaturo: this.temperaturo, 
+            volumeno: this.volumeno, 
+            entropio: this.entropio,
+            varmo: this.varmo,
+            laboro: this.laboro
+        };
+    }
+
+    /**
+     * Remetas al stato lasta
+     */
+    remetu() {
+        const ls = this.lasta_stato;
+        this.temperaturo = lthis.ls.temperaturo;
+        this.volumeno = this.ls.volumeno;
+        this.entropio = this.ls.entropio;
+        this.varmo = this.ls.varmo;
+        this.laboro = this.ls.laboro;
     }
 
     /**
@@ -42,10 +70,15 @@ class PGaso {
      * @param {*} dV 
      */
     dV_Tkonserva(dV) {
+        this.lasta();
         // entropiŝanĝo, vd.  vd https://de.wikipedia.org/wiki/Entropie#Entropiezunahme_bei_irreversibler_und_reversibler_isothermer_Expansion
         const dS = -this.moloj*PGaso.R * Math.log((this.volumeno+dV)/this.volumeno);
+        // Q = dS*T = -W
+        // vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
         this.volumeno += dV;
-        this.entropio += dS;       
+        this.entropio += dS;
+        this.varmo += this.temperaturo*dS;
+        this.laboro -= this.temperaturo*dS;
     }
 
     /**
@@ -54,9 +87,12 @@ class PGaso {
      * @param {*} dV 
      */
     dV_adiabata(dV) {
-        this.temperaturo = this.temperaturo * Math.pow((this.volumeno/(this.volumeno+dV)),PGaso.kappa-1);
+        this.lasta();
+        const T = this.temperaturo * Math.pow((this.volumeno/(this.volumeno+dV)),PGaso.kappa-1);
+        // entropio kaj varmo ne ŝanĝigas
+        this.laboro += this.moloj * PGaso.CmV * (T - this.temperaturo);
+        this.temperaturo = T;
         this.volumeno += dV;
-        // entropio ne ŝanĝigas
     }
 
     /** 
@@ -64,6 +100,7 @@ class PGaso {
      * tiel konservanta la internan energion
      */
     dp_Tkonserva(dp) {
+        this.lasta();
         const premo = this.premo() + dp;
         // entropiŝanĝo, vd
         // https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/564-isotherme-zustandsaenderung.html
@@ -72,6 +109,8 @@ class PGaso {
         // kiun ni elkalkulas per la statekvacio de la ideala gaso
         this.volumeno = PGaso.volumeno(this.temperaturo,premo,this.moloj);
         this.entropio += dS;
+        this.varmo += this.temperaturo*dS;
+        this.laboro -= this.temperaturo*dS;
     }
 
     /**
@@ -79,18 +118,22 @@ class PGaso {
      * tiel konservanta la entropion
      */
     dp_adiabata(dp) {
+        this.lasta();
         const p = this.premo() + dp;
         const V = PGaso.volumeno(this.temperaturo,p,this.moloj);
         // ni aplikas adiabatan ekvacion por eltrovi la novan temepraturon
-        this.temperaturo = this.temperaturo * Math.pow((this.volumeno/V),PGaso.kappa-1);
+        const T = this.temperaturo * Math.pow((this.volumeno/V),PGaso.kappa-1);
+        // entropio kaj varmo ne ŝanĝigas
+        this.laboro += this.moloj * PGaso.CmV * (T - this.temperaturo);
+        this.temperaturo = T;
         this.volumeno = V;
-        // entropio ne ŝanĝiĝas
     }
 
     /**
      * Adaptu la temperaturon konservante la volumenon
      */
     dT_Vkonserva(dT) {
+        this.lasta();
         // entropiŝanĝo
         // vd hhttps://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/568-isochore-zustandsaenderung.html
         const dS =  this.moloj * PGaso.CmV * Math.log((this.temperaturo+dT)/this.temperaturo)
@@ -102,66 +145,32 @@ class PGaso {
      * Adaptu la temperaturon konservante la premon
      */
     dT_pkonserva(dT) {
+        this.lasta();
         const T = this.temperaturo + dT;
         // entropiŝanĝo
         // vd https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/569-isobare-zustandsaenderung.html
         const dS = this.moloj * PGaso.Cmp * Math.log((this.temperaturo+dT)/this.temperaturo);     
-        this.volumeno = PGaso.volumeno(T,this.premo(),this.moloj);        
+        const V = PGaso.volumeno(T,this.premo(),this.moloj);        
+        this.entropio += dS;
+        this.laboro = this.premo() * (V-this.volumeno);
+        this.varmo += this.moloj * PGaso.Cmp * (T-this.temperaturo);
         this.temperaturo = T;
-        this.entropio += dS;       
+        this.volumeno = V;
     }
-
-    /**
-     * Ŝanĝu la temperaturon al T konservanta la internan energion, ni bezonas por korekti
-     * troan kunpremon aŭ entendiĝon
-     * @param {*} T 
-     */
-    T_adiabata(T) {
-        this.volumeno = this.volumeno * Math.pow(this.temperaturo/T,1/(PGaso.kappa-1));
-        this.temperaturo = T;
-        // entropio ne ŝanĝiĝas
-    }
-
 
     /**
      * Redonas la premon de la gaso, kalkulitan el ĝia temperaturo kaj volumeno
      */
     premo() {
-        return PGaso.R * this.temperaturo / this.volumeno;
-    }
-
-
-    /**
-     * Redonas la laboron faritan per izoterma volumenŝanĝo. La ŝanĝo de interna energio kaj entalpio
-     * estas egala al tiu. 
-     * vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
-     */
-    laboro_izoterma(V0) {
-       return -this.moloj*PGaso.R*this.temperaturo*Math.log(this.volumeno/V0);
+        return this.moloj * PGaso.R * this.temperaturo / this.volumeno;
     }
 
     /**
-     * Redonas la laboron faritan ĉe adiabata volumenŝanĝo
-     */
-    laboro_adiabata(T0) {
-        return this.moloj*PGaso.CmV * (this.temperaturo - T0);
-    }
-
-    /**
-     * Redonas la varmoŝanĝon dum izoterma volumenŝanĝo
-     * vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
-     */
-    varmo_izoterma(V0) {
-        return this.moloj*PGaso.R*this.temperaturo*Math.log(this.volumeno/V0);
-    }
-
-    /**
-     * Redonas la internan energiŝanĝon ĉe adiabata volumenŝanĝo (samgranda kiel la laboro)
-     * @param {*} T0 
+     * Redonas la internan energion de la ideala gaso
      * @returns 
      */
-    energiŝanĝo_adiabata(T0) {
-        return this.moloj*PGaso.CmV * (this.temperaturo - T0);
+    energio() {
+        return 3/2 * this.moloj * PGaso.R * this.temperaturo;
     }
 
     /**

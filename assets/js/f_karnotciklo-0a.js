@@ -89,8 +89,7 @@ class KCGaso {
     }
 
     /**
-     * Redonas la laboron faritan per izoterma volumenŝanĝo. La ŝanĝo de interna energio kaj entalpio
-     * estas egala al tiu. 
+     * Redonas la laboron faritan per izoterma volumenŝanĝo. La varminterŝanĝo estas egala al tiu: W = -Q
      * vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
      */
     laboro_izoterma(V0) {
@@ -98,7 +97,7 @@ class KCGaso {
     }
 
     /**
-     * Redonas la laboron faritan ĉe adiabata volumenŝanĝo
+     * Redonas la laboron faritan ĉe adiabata volumenŝanĝo, egala al ŝanĝo de interna energio
      */
     laboro_adiabata(T0) {
         return this.moloj*KCGaso.CmV * (this.temperaturo - T0);
