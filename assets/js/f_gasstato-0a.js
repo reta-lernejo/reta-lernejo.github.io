@@ -89,12 +89,12 @@ class GS {
      */
     nova_stato(spec,dx) {
         const nova = {...this}; // kopiu this al nova
-        nova.V = transiro("dV|"+spec,dx);
-        nova.T = transiro("dT|"+spec,dx);
-        nova.p = transiro("dp|"+spec,dx);
-        nova.S = transiro("dS|"+spec,dx);
-        nova.Q = transiro("Q|"+spec,dx);
-        nova.W = transiro("W|"+spec,dx);
+        nova.V += transiro("dV|"+spec,dx);
+        nova.T += transiro("dT|"+spec,dx);
+        nova.p += transiro("dp|"+spec,dx);
+        nova.S += transiro("dS|"+spec,dx);
+        nova.Q += transiro("Q|"+spec,dx);
+        nova.W += transiro("W|"+spec,dx);
         return nova;
     }
 
