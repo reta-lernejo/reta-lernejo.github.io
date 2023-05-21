@@ -54,15 +54,15 @@ class PGaso {
     }
 
     /**
-     * Remetas al stato lasta
+     * Metas al donita stato (nova aŭ lasta...)
      */
-    remetu() {
-        const ls = this.lasta_stato;
-        this.temperaturo = lthis.ls.temperaturo;
-        this.volumeno = this.ls.volumeno;
-        this.entropio = this.ls.entropio;
-        this.varmo = this.ls.varmo;
-        this.laboro = this.ls.laboro;
+    nova_stato(stato = this.lasta_stato) {
+        this.lasta();
+        this.temperaturo = stato.temperaturo;
+        this.volumeno = stato.volumeno;
+        this.entropio = stato.entropio;
+        this.varmo = stato.varmo;
+        this.laboro = stato.laboro;
     }
 
     /**
@@ -70,16 +70,20 @@ class PGaso {
      * tiel konservanta la internan energion
      * @param {*} dV 
      */
-    dV_Tkonserva(dV) {
-        this.lasta();
+    dV_Tkonserva(dV,nur_kalkulu) {
         // entropiŝanĝo, vd.  vd https://de.wikipedia.org/wiki/Entropie#Entropiezunahme_bei_irreversibler_und_reversibler_isothermer_Expansion
         const dS = -this.moloj*PGaso.R * Math.log((this.volumeno+dV)/this.volumeno);
         // Q = dS*T = -W
         // vd https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Thermodynamics/Thermodynamic_Cycles/Carnot_Cycle
-        this.volumeno += dV;
-        this.entropio += dS;
-        this.varmo += this.temperaturo*dS;
-        this.laboro -= this.temperaturo*dS;
+        const ns = {
+            temperaturo: this.temperaturo,
+            volumeno: this.volumeno + dV,
+            entropio: this.entropio + dS,
+            varmo: this.varmo + this.temperaturo*dS,
+            laboro: this.laboro - this.temperaturo*dS
+        }
+        if (!nur_kalkulu) this.nova_stato(ns);
+        return ns;
     }
 
     /**
@@ -87,76 +91,99 @@ class PGaso {
      * vd. https://de.wikipedia.org/wiki/Adiabatische_Zustands%C3%A4nderung#Adiabaten_des_idealen_Gases
      * @param {*} dV 
      */
-    dV_adiabata(dV) {
-        this.lasta();
-        const T = this.temperaturo * Math.pow((this.volumeno/(this.volumeno+dV)),PGaso.kappa-1);
-        // entropio kaj varmo ne ŝanĝigas
-        this.laboro += this.moloj * PGaso.CmV * (T - this.temperaturo);
-        this.temperaturo = T;
-        this.volumeno += dV;
+    dV_adiabata(dV,nur_kalkulu) {
+        const ns = {
+            temperaturo: this.temperaturo * Math.pow((this.volumeno/(this.volumeno+dV)),PGaso.kappa-1),
+            volumeno: this.volumeno + dV,
+            laboro: this.laboro + this.moloj * PGaso.CmV * (T - this.temperaturo),
+            // entropio kaj varmo ne ŝanĝigas
+            entropio: this.entropio,
+            varmo: this.varmo
+        }
+        if (!nur_kalkulu) this.nova_stato(ns);
+        return ns;
     }
 
     /** 
      * Ŝanĝas la premon de la gaso izoterme, t.e. kun varminterŝanĝo kun la medio
      * tiel konservanta la internan energion
      */
-    dp_Tkonserva(dp) {
-        this.lasta();
+    dp_Tkonserva(dp,nur_kalkulu) {
         const premo = this.premo() + dp;
         // entropiŝanĝo, vd
         // https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/564-isotherme-zustandsaenderung.html
         const dS =  this.moloj * PGaso.R * Math.log(this.premo()/premo);
         // ni ne povas rekte ŝangi la premon, sed nur la volumenon
         // kiun ni elkalkulas per la statekvacio de la ideala gaso
-        this.volumeno = PGaso.volumeno(this.temperaturo,premo,this.moloj);
-        this.entropio += dS;
-        this.varmo += this.temperaturo*dS;
-        this.laboro -= this.temperaturo*dS;
+        const ns = {
+            temperaturo: this.temperaturo,
+            volumeno: PGaso.volumeno(this.temperaturo,premo,this.moloj),
+            entropio: this.entropio + dS,
+            varmo: this.varmo + this.temperaturo*dS,
+            laboro: this.laboro - this.temperaturo*dS
+        }
+        if (!nur_kalkulu) this.nova_stato(ns);
+        return ns;
     }
 
     /**
      * Ŝanĝas la premon de la gaso adiabate, t.e. sen varminterŝanĝo kun la medio
      * tiel konservanta la entropion
      */
-    dp_adiabata(dp) {
-        this.lasta();
+    dp_adiabata(dp,nur_kalkulu) {
         const p = this.premo() + dp;
         const V = PGaso.volumeno(this.temperaturo,p,this.moloj);
         // ni aplikas adiabatan ekvacion por eltrovi la novan temepraturon
         const T = this.temperaturo * Math.pow((this.volumeno/V),PGaso.kappa-1);
-        // entropio kaj varmo ne ŝanĝigas
-        this.laboro += this.moloj * PGaso.CmV * (T - this.temperaturo);
-        this.temperaturo = T;
-        this.volumeno = V;
+        const ns = {
+            laboro: this.aboro + this.moloj * PGaso.CmV * (T - this.temperaturo),
+            temperaturo: T,
+            volumeno: V,  
+            // entropio kaj varmo ne ŝanĝigas
+            entropio: this.entropio,
+            varmo: this.varmo
+        }
+        if (!nur_kalkulu) this.nova_stato(ns);
+        return ns;
     }
 
     /**
      * Adaptu la temperaturon konservante la volumenon
      */
-    dT_Vkonserva(dT) {
-        this.lasta();
+    dT_Vkonserva(dT,nur_kalkulu) {
         // entropiŝanĝo
-        // vd hhttps://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/568-isochore-zustandsaenderung.html
-        const dS =  this.moloj * PGaso.CmV * Math.log((this.temperaturo+dT)/this.temperaturo)
-        this.temperaturo += dT;
-        this.entropio += dS;       
+        // vd https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/568-isochore-zustandsaenderung.html
+        const dS =  this.moloj * PGaso.CmV * Math.log((this.temperaturo+dT)/this.temperaturo);
+        const p = this.moloj * PGaso.R * (this.temperaturo+dT) / this.volumeno;
+        const ns = {
+            temperaturo: this.temperaturo + dT,
+            volumeno: this.volumeno,
+            entropio: this.entropio + dS,
+            laboro: this.volumeno * (p - this.premo()),
+            varmo: this.moloj * PGaso.CmV * dT
+        }
+        if (!nur_kalkulu) this.nova_stato(ns);
+        return ns;
     }
 
     /**
      * Adaptu la temperaturon konservante la premon
      */
-    dT_pkonserva(dT) {
-        this.lasta();
+    dT_pkonserva(dT,nur_kalkulu) {
         const T = this.temperaturo + dT;
         // entropiŝanĝo
         // vd https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/569-isobare-zustandsaenderung.html
         const dS = this.moloj * PGaso.Cmp * Math.log((this.temperaturo+dT)/this.temperaturo);     
-        const V = PGaso.volumeno(T,this.premo(),this.moloj);        
-        this.entropio += dS;
-        this.laboro = this.premo() * (V-this.volumeno);
-        this.varmo += this.moloj * PGaso.Cmp * (T-this.temperaturo);
-        this.temperaturo = T;
-        this.volumeno = V;
+        const V = PGaso.volumeno(T,this.premo(),this.moloj);     
+        const ns = {
+            temperaturo: T,
+            volumeno: V,
+            entropio: this.entropio + dS,
+            laboro: this.premo() * (V-this.volumeno),
+            varmo: this.varmo + this.moloj * PGaso.Cmp * (T-this.temperaturo),    
+        }   
+        if (!nur_kalkulu) this.nova_stato(ns);
+        return ns;
     }
 
     /**
