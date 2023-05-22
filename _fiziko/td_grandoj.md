@@ -83,7 +83,7 @@ p-V-diagramo kaj T-ΔS-diagramo
 | | Δ |∑ |
 | konsumita laboro W |<span id="dW"/> |<span id="W"/> |
 | varminterŝanĝo Q |<span id="dQ"/>|<span id="Q"/> |
-| interna energiŝanĝo U |<span id="dU"/>|<span id="U"/> |
+| interna energio U |<span id="dU"/>|<span id="U"/> |
 
 <script>
 
@@ -98,8 +98,9 @@ const p_max = 10e5; // 10-oblo de atm.
 const V_min = 1e-3; // 1 l
 const V_max = 5e-2; // 50 l
 
-const S_min = -30.5;
-const S_max = 30.5;
+// nur por la diagram-akso, tio devus sufiĉi
+const S_min = -29.99;
+const S_max = 29.99;
 
 const cpishto = document.getElementById("pishto");
 const modelo = new Diagramo(cpishto);
@@ -158,6 +159,7 @@ function buton_statoj(konservata) {
 lanĉe(()=>{
     dgr_preparo();
     piŝto.desegnu();
+    valoroj();
     buton_statoj(piŝto.konservata);
 });
 
@@ -188,11 +190,13 @@ function diagramo_pentru() {
 
 function valoroj() {
     ĝi("#Q").innerHTML = nombro(piŝto.gaso.Q,3,"J");
-    ĝi("#dQ").innerHTML = nombro(piŝto.gaso.Q - piŝto.gaso.lasta_stato.Q,3,"J");
     ĝi("#W").innerHTML = nombro(piŝto.gaso.W,3,"J");
-    ĝi("#dW").innerHTML = nombro(piŝto.gaso.W - piŝto.gaso.lasta_stato.W,3,"J");
     ĝi("#U").innerHTML = nombro(piŝto.gaso.U,3,"J");
-    ĝi("#dU").innerHTML = nombro(piŝto.gaso.U - piŝto.gaso.lasta_stato.U,3,"J");
+    if (piŝto.gaso.lasta_stato) {
+        ĝi("#dQ").innerHTML = nombro(piŝto.gaso.Q - piŝto.gaso.lasta_stato.Q,3,"J");
+        ĝi("#dW").innerHTML = nombro(piŝto.gaso.W - piŝto.gaso.lasta_stato.W,3,"J");
+        ĝi("#dU").innerHTML = nombro(piŝto.gaso.U - piŝto.gaso.lasta_stato.U,3,"J");
+    }
 }
 
 
@@ -259,7 +263,9 @@ akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 3. Provu trovi ciklon el kvar procezoj, kies kurboj en la T-S-diagramo similas al rektangula tuko glate kuŝanta sur la planko kaj
    en la p-V-diagramo al forfluganta tuko.
 
-4. Provu minimumigi la entropion (sub -25 J/K).
+4. Provu minimumigi la entropion (sub -25 J/K) nur per premo kaj malpremo. Provu la saman nur per varmigo kaj malvarmigo.
+
+5. De kiuj el l grandoj T, V, p kaj S dependas la interna energio de la (ideala) gaso?
 
 <!--
 

@@ -71,14 +71,15 @@ class GS {
         // https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/568-isochore-zustandsaenderung.html
         "dS|dT|V": (stato,dT) => stato.n * GS.CmV * Math.log((stato.T+dT)/stato.T),
         "dp|dT|V": (stato,dT) => stato.n * GS.R * (stato.T+dT) / stato.V - stato.n * GS.R * (stato.T) / stato.V,
-        "W|dT|V":  (stato,dT) => stato.V * stato.d("dp|dT|V",dT),
+        "W|dT|V":  (stato,dT) => 0, // pdV = 0; ni havas fermitan sistemon, kie ni ignoras la premlaboron Vdp
+             // por malfermita kazo vd https://www.tec-science.com/de/thermodynamik-waermelehre/thermodynamische-prozesse-in-offenen-systemen/druckanderungsarbeit-in-offenen-systemen/
         "Q|dT|V":  (stato,dT) => stato.n * GS.CmV * dT,
         // formuloj por premkonserva temperaturŝanĝo
         // vd https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/569-isobare-zustandsaenderung.html
         "dS|dT|p": (stato,dT) => stato.n * GS.Cmp * Math.log((stato.T+dT)/stato.T),
         "dV|dT|p": (stato,dT) => GS.V(stato.T+dT,stato.p,stato.n) - GS.V(stato.T,stato.p,stato.n),
-        "W|dT|p": (stato,dT) => stato.p * (stato.d("dV|dT|p",dT)-stato.V),
-        "Q|dT|p": (stato,dT) => stato.n * GS.Cmp * dT
+        "W|dT|p": (stato,dT) => stato.n * GS.R * dT, //stato.p * (stato.d("dV|dT|p",dT)-stato.V),
+        "Q|dT|p": (stato,dT) => - stato.n * GS.Cmp * dT
     }
     
     /**
@@ -157,7 +158,7 @@ class GS {
         nova.S += this.d("dS|"+spec,dx);
         nova.Q += this.d("Q|"+spec,dx);
         nova.W += this.d("W|"+spec,dx);
-        nova.U = this.a("U(T,n)");
+        nova.U = nova.a("U(T,n)");
         return nova;
     }
 
