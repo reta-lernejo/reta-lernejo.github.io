@@ -267,6 +267,8 @@ akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 
 5. De kiuj el l grandoj T, V, p kaj S dependas la interna energio de la (ideala) gaso?
 
+6. Kiel rilatas la ŝanĝoj de interna energio ΔU al laboro ΔW kaj varminterŝanĝo ΔQ?
+
 <!--
 
 4. Provu trovi ciklon, kiu maksimumigas la gajnita laboron ricevitan el la sistemo per alkonduko de varmo. (Eblas ankaŭ apliki laboron aŭ elkonduki
