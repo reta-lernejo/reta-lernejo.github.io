@@ -78,8 +78,8 @@ class GS {
         // vd https://www.ahoefler.de/maschinenbau/thermodynamik-waermelehre/entropie/spezielle-prozesse/569-isobare-zustandsaenderung.html
         "dS|dT|p": (stato,dT) => stato.n * GS.Cmp * Math.log((stato.T+dT)/stato.T),
         "dV|dT|p": (stato,dT) => GS.V(stato.T+dT,stato.p,stato.n) - GS.V(stato.T,stato.p,stato.n),
-        "W|dT|p": (stato,dT) => stato.n * GS.R * dT, //stato.p * (stato.d("dV|dT|p",dT)-stato.V),
-        "Q|dT|p": (stato,dT) => - stato.n * GS.Cmp * dT
+        "W|dT|p": (stato,dT) => -stato.n * GS.R * dT, //stato.p * (stato.d("dV|dT|p",dT)-stato.V),
+        "Q|dT|p": (stato,dT) => stato.n * GS.Cmp * dT
     }
     
     /**
