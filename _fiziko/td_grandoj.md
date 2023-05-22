@@ -4,10 +4,11 @@ title: Grandoj termodinamikaj
 chapter: 1
 js:
   - folio-0c
-  - sekcio-0b 
+  - sekcio-0b
   - mathjax/es5/tex-chtml
   - diagramo-0a 
-  - f_pishto-0a
+  - f_gasstato-0a
+  - f_pishto-0b
 ---
 
 ... paĝo en preparo ...
@@ -97,14 +98,18 @@ const p_max = 10e5; // 10-oblo de atm.
 const V_min = 1e-3; // 1 l
 const V_max = 5e-2; // 50 l
 
-const S_min = -10.5;
-const S_max = 10.5;
+const S_min = -30.5;
+const S_max = 30.5;
 
 const cpishto = document.getElementById("pishto");
 const modelo = new Diagramo(cpishto);
-const piŝto = new Piŝto(modelo);
+const piŝto = new Piŝto(modelo,new GS());
 piŝto.T_min = T_min;
 piŝto.T_max = T_max;
+piŝto.p_min = p_min;
+piŝto.p_max = p_max;
+piŝto.V_min = V_min;
+piŝto.V_max = V_max;
 
 const pV_dgr = document.getElementById("pV_dgr");
 const TS_dgr = document.getElementById("TS_dgr");
@@ -133,22 +138,18 @@ butone((ago) => {
 elekte((elekto,valoro) => {
     console.log(elekto+':'+valoro);
     // laŭ elektu ebligu certajn agojn, aliajn ne:
-    buton_statoj(valoro);
     piŝto.konservata = valoro;
+    buton_statoj(valoro);
     piŝto.desegnu();
 });
 
 function buton_statoj(konservata) {
     const Tk = (konservata.startsWith("temp") || konservata.startsWith("varm"));
     // PLIBONIGU: lasta kondiĉoj (V) devus respekti ankoraŭ sekvan paŝon!
-    ĝi("#ago_premu").disabled = !Tk || piŝto.gaso.premo()+dp > p_max 
-        || piŝto.gaso.volumeno < V_min || piŝto.gaso.temperaturo > T_max; 
-    ĝi("#ago_malpremu").disabled = !Tk || piŝto.gaso.premo()-dp < p_min 
-        || piŝto.gaso.volumeno > V_max || piŝto.gaso.temperaturo < T_min;
-    ĝi("#ago_varmigu").disabled = Tk || piŝto.gaso.temperaturo+dT > T_max 
-        || piŝto.gaso.volumeno > V_max;
-    ĝi("#ago_malvarmigu").disabled = Tk || piŝto.gaso.temperaturo-dT < T_min 
-        || piŝto.gaso.volumeno < V_min;
+    ĝi("#ago_premu").disabled = !Tk || !piŝto.premu(dp,true); 
+    ĝi("#ago_malpremu").disabled = !Tk || !piŝto.premu(-dp,true);
+    ĝi("#ago_varmigu").disabled = Tk || !piŝto.varmigu(dT,true);
+    ĝi("#ago_malvarmigu").disabled = Tk || !piŝto.varmigu(-dT,true);
 }
 
 
@@ -162,36 +163,36 @@ lanĉe(()=>{
 
 function dgr_preparo() {
     dpV.viŝu();
-    dpV.skalo_y(0,p_max/1e5,1,5,0,"·10⁵Pa");
+    dpV.skalo_y(0,p_max/1e5,1,2,0,"·10⁵Pa");
     dpV.skalo_x(0,V_max*1000,1,10,0,"dm³");
 
     dTS.viŝu();
-    const _Tmin = Math.floor(T_min/100)*100;
-    const _Tmax = Math.ceil(T_max/100)*100;
-    dTS.skalo_y(_Tmin,_Tmax,10,50,0,"K");
-    dTS.skalo_x(S_min,S_max,1,2,0,"J/K");
+    const _Tmin = Math.floor(T_min/101)*100;
+    const _Tmax = Math.ceil(T_max/99)*100;
+    dTS.skalo_y(_Tmin,_Tmax,10,100,0,"K");
+    dTS.skalo_x(S_min,S_max,1,5,0,"J/K");
 
     diagramo_pentru();
 }
 
 
 function diagramo_pentru() {
-    const koloro = piŝto.Tkoloro(piŝto.gaso.temperaturo);
+    const koloro = piŝto.Tkoloro(piŝto.gaso.T);
 
-    let k = dpV.koord_xy(piŝto.gaso.volumeno*1000,piŝto.gaso.premo()/1e5);
+    let k = dpV.koord_xy(piŝto.gaso.V*1000,piŝto.gaso.p/1e5);
     dpV.punkto(k.x,k.y,1,koloro);
 
-    k = dTS.koord_xy(piŝto.gaso.entropio,piŝto.gaso.temperaturo);
+    k = dTS.koord_xy(piŝto.gaso.S,piŝto.gaso.T);
     dTS.punkto(k.x,k.y,1,koloro);
 }
 
 function valoroj() {
-    ĝi("#Q").innerHTML = nombro(piŝto.gaso.varmo,3,"J");
-    ĝi("#dQ").innerHTML = nombro(piŝto.gaso.varmo - piŝto.gaso.lasta_stato.varmo,3,"J");
-    ĝi("#W").innerHTML = nombro(piŝto.gaso.laboro,3,"J");
-    ĝi("#dW").innerHTML = nombro(piŝto.gaso.laboro - piŝto.gaso.lasta_stato.laboro,3,"J");
-    ĝi("#U").innerHTML = nombro(piŝto.gaso.energio(),3,"J");
-    ĝi("#dU").innerHTML = nombro(piŝto.gaso.energio() - piŝto.gaso.lasta_stato.energio,3,"J");
+    ĝi("#Q").innerHTML = nombro(piŝto.gaso.Q,3,"J");
+    ĝi("#dQ").innerHTML = nombro(piŝto.gaso.Q - piŝto.gaso.lasta_stato.Q,3,"J");
+    ĝi("#W").innerHTML = nombro(piŝto.gaso.W,3,"J");
+    ĝi("#dW").innerHTML = nombro(piŝto.gaso.W - piŝto.gaso.lasta_stato.W,3,"J");
+    ĝi("#U").innerHTML = nombro(piŝto.gaso.U,3,"J");
+    ĝi("#dU").innerHTML = nombro(piŝto.gaso.U - piŝto.gaso.lasta_stato.U,3,"J");
 }
 
 
@@ -257,6 +258,8 @@ akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 
 3. Provu trovi ciklon el kvar procezoj, kies kurboj en la T-S-diagramo similas al rektangula tuko glate kuŝanta sur la planko kaj
    en la p-V-diagramo al forfluganta tuko.
+
+4. Provu minimumigi la entropion (sub -25 J/K).
 
 <!--
 
