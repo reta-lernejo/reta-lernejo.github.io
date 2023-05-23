@@ -131,6 +131,34 @@ class Diagramo {
 
 
     /**
+     * Redonas nombron en petita precizeco kaj kun evtl. potencoj de 10
+     * kun eksponento kiel altigita Unikodo
+     * @param {number} nombro
+     * @param {number} prec precizeco je ciferoj
+     * @param {string} unuo mezurunuo
+     */
+    nombro(nombro,prec=3,unuo) {
+        let p = nombro.toPrecision(prec).replace('.',',');
+        // altigu per Unikodo
+        p = p.replace(/e\+?(\-?\d+)/,(m,exp) => {
+            exp.split('')
+            .map((c) => {
+                    switch (c) {
+                        case 1: return tring.fromCharCode(0x00b9); break;
+                        case 2: return tring.fromCharCode(0x00b2); break;
+                        case 3: return tring.fromCharCode(0x00b3); break;
+                        return String.fromCharCode(0x2070 + c.codePointAt(0) - "0".codePointAt(0))
+                    }
+                })
+            .join('')
+        });
+        return ((p
+            .replace('Infinity','--')
+            .replace('NaN','--'))
+            + (unuo? '\u202f'+unuo : ''));
+    }
+
+    /**
      * Skribas horizontale centrigitan tekston
      * @param {number} x x-valoro de la centro
      * @param {number} y y-valoro de la centro
