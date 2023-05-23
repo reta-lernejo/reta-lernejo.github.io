@@ -107,12 +107,14 @@ class Piŝto {
     }
 
     d_valoroj(LRG,ALT) {
-        const V = nombro(this.gaso.V*1000,3,'dm³');
-        const p = nombro(this.gaso.p/1000,3,'kPa');
-        const T = nombro(this.gaso.T,5,'K');
-        this.dgr.teksto_y(3,ALT-60,`V: ${V}`);
-        this.dgr.teksto_y(3,ALT-40,`p: ${p}`);
-        this.dgr.teksto_y(3,ALT-20,`T: ${T}`);
+        const dgr = this.dgr;
+        const V = dgr.nombro(this.gaso.V*1000,3,'dm³');
+        const p = dgr.nombro(this.gaso.p/1000,3,'kPa');
+        const T = dgr.nombro(this.gaso.T,5,'K');
+        dgr.rektangulo(2,ALT-70,75,65,'#ccc');
+        dgr.teksto_y(3,ALT-60,`V: ${V}`);
+        dgr.teksto_y(3,ALT-40,`p: ${p}`);
+        dgr.teksto_y(3,ALT-20,`T: ${T}`);
     }
 
     /**

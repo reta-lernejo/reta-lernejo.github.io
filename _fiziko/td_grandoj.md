@@ -80,8 +80,8 @@ konservu (x)varmon ()temperaturon ()premon ()volumenon
 <canvas id="TS_dgr" width="300" height="300"></canvas>
 p-V-diagramo kaj T-ΔS-diagramo
 
-| | Δ |∑ |
-| konsumita laboro W |<span id="dW"/> |<span id="W"/> |
+|  | ŝanĝo | entute |
+| laboro W |<span id="dW"/> |<span id="W"/> |
 | varminterŝanĝo Q |<span id="dQ"/>|<span id="Q"/> |
 | interna energio U |<span id="dU"/>|<span id="U"/> |
 
@@ -234,7 +234,7 @@ Respektive, se oni lasas la gason libere etendiĝi aŭ maletendiĝo la premo ada
 
 ... mezuri temperaturon per termometro, varmon per kalorimetro ....
 
-La varmenergion tiel en- aŭ elkundukitan je la sistemo oni povas analoge al la laboro prezenti kiel produkto de unu entenda kaj unu neetenda grandoj. La neetenda grando estas la temperaturo $$T$$. La etendan grandon oni bedaŭrinde tie ĉi ne povas mezuri sed nur elkalkuli. Oni nomas ĝin la entropio $$S$$.
+La varmenergion tiel en- aŭ elkundukitan je la sistemo oni povas, analoge al la laboro, prezenti kiel produkto de unu entenda kaj unu neetenda grandoj. La neetenda grando estas la temperaturo $$T$$. La etendan grandon oni bedaŭrinde tie ĉi ne povas mezuri sed nur elkalkuli. Oni nomas ĝin la entropio $$S$$.
 
 ... analoge kiel la volumeno indikas kiom distribuita (koncentrita aŭ malkoncentrita en iu spaco) estas materio, la entropio indikas,
 kiom distribuita estas la energio (varmo) en iu sistemo. Sed entropio havas pli ol la tri dimensiojn de la spaco: ĝi estas
@@ -269,11 +269,10 @@ akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 
 6. Kiel rilatas la ŝanĝoj de interna energio ΔU al laboro ΔW kaj varminterŝanĝo ΔQ?
 
+7. Provu trovi ciklon, kiu maksimumigas la laboron ricevitan (t.e. negativa) el la sistemo per alkonduko de varmo. 
+   (Eblas ankaŭ apliki laboron aŭ elkonduki varmon dum la ciklo, sed la diferenca laboro gajnita estu plej eble granda kaj la diferenca alkondukata varmo plej eble malgranda)
+
 <!--
-
-4. Provu trovi ciklon, kiu maksimumigas la gajnita laboron ricevitan el la sistemo per alkonduko de varmo. (Eblas ankaŭ apliki laboron aŭ elkonduki
-   varmon dum la ciklo, sed la diferenca laboro gajnita estu plej eble granda kaj la diferenca alkondukata varmo plej eble malgranda)
-
 5. Provu trovi ciklon, kiu gajnas varmon per apliko de laboro....
 
 6. Provu trovi ciklon, kiu malvarmigas la gason per apliko de laboro....

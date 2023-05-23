@@ -96,7 +96,7 @@ function emfazo(elm,klaso="emfazo") {
 }
 
 /**
- * Redonas nombron en petita precizeco kaj kun evtl. potencoj de de 10
+ * Redonas nombron en petita precizeco kaj kun evtl. potencoj de 10
  * kiel HTML (eksponento per sup-elemento)
  * @param {number} nombro
  * @param {number} prec precizeco je ciferoj
