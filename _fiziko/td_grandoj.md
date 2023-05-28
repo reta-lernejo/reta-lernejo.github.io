@@ -16,9 +16,8 @@ js:
 <!--
 
 La paĝo prezentas modelon de piŝto kun ideala gaso por enkonduki bazajn grandojn de termodinamiko.
-Unu grando estas tenata konstanta, dum oni aplikas premon/malpremon aŭ varmon/malvarmon. La tri aliaj grandoj montriĝas la ŝanĝojn laŭ la modelo de ideala gaso.
+Unu grando estas tenata konstanta, dum oni aplikas premon/malpremon aŭ varmon/malvarmon. La tri aliaj grandoj montras la ŝanĝojn laŭ la modelo de ideala gaso.
 
-sistemo           izolita neizolita fermita nefermita          
 konstanta grando: Q/S     T         V       p
 /agoj/
 premu             +p+T-V  +p-V-S    -       -
@@ -26,24 +25,22 @@ malpremu          -p-T+V  -p+V+S    -       -
 varmigu           -       -         +T+V+S  +T+p+S
 malvarmigu        -       -         -T-V-S  -T-p-S
 
+Celo:
 
-FARENDA, plej bone sur aparta(j) paĝo(j):
-
-1. klarigu rilaton inter premo, volumeno kaj laboro: dp -> dV -> W
+1. klarigi rilaton inter premo, volumeno kaj laboro: dp -> dV -> W
    (altigo de premo ĉu per volumenŝanĝo/laboro, ĉu per aldono de gaso...?)
-2. enkonduku temperaturon kaj varmenergion, Q -> dT -> dp -> ...
-3. enkonduku entropion kiel analogon de (negativa) premo(?) en la rilato d(T*S) = Q
-      koncentriĝo de energio/varmo = malalta entropio / alta temperaturo ... 
-      koncentriĝo de materio estas malalta volumeno / alta premo  
-4... eble: simile enkonduku ĥemian potencialon kaj kvanton?
+2. enkonduki temperaturon kaj varmenergion, Q -> dT -> dp -> ...
+3. enkonduki entropion kiel analogon de volumeno por energio en la rilato d(T*S) = Q
+4... eble: simile enkonduku ĥemian potencialon kaj kvanton? 
+    (verŝajne pli bone en aparta paĝo por ne tro kompliki la enkondukon)
 
 ==> Prezentu modelon de ideala gaso, en kiu unu grando povas esti fiksita (V,p,T)
     kaj alia ŝanĝita (V,T,...) kaj montriĝas la influo al la aliaj grandoj.
     (laŭ teorie, ĉiam du estas liberaj kaj du dependaj variabloj 
     ne konsiderante provizore ĥemian potencialon/reakciojn)
 ==> prezentu ĉiam ankaŭ la kondiĉojn de la ekstera medio (temperaturo, premo)
-==> klarigu inversigeblajn kaj neinversigeblajn procezojn
-==> klarigu nociojn fermita kaj izolita sistemo - eble per butonoj "fermu", "izolu"?
+==> klarigu inversigeblajn kaj neinversigeblajn procezojn (rilatas al ekvilibro, do en aparta paĝo poste!)
+==> klarigu nociojn fermita kaj izolita sistemo (eble ankaŭ aparte?)
 
 -->
 
@@ -222,24 +219,26 @@ Inverse oni povas *apliki* laboron premante aŭ tirante ĉe la piŝto, por krei 
 {: .sekcio}
 
 Grandoj, kiuj grandiĝas propocio kun la grandeco de la sistemo oni nomas *etendaj* (aŭ fakece: *ekstensivaj*). La volumeno estas *etenda grando*:
-se oni kunmetas du sistemojn kun volumeno $$V_1$$ kaj volumeno $$V_2$$ la volumeno de la kombinita sistemo estas la sumo $$V = V_1 + V_2$$.
+se oni kunmetas du sistemojn kun volumeno $$V_1$$ kaj volumeno $$V_2$$ la volumeno de la kombinita sistemo etendiĝas al la sumo $$V = V_1 + V_2$$.
 
-La premo estas *neetenda* grando: se oni dividas sistemon, kiu havas certan premon egale en ĉiu loko, en du partojn, la du partaj sistemo havas la saman premon kiel la kuna. Tiajn grandojn ni nomas *neetendaj* (aŭ fakece: *intensivaj*).
+La premo estas *neetenda* grando: se oni dividas sistemon, kiu havas certan premon egale en ĉiu loko, en du partojn, la du partaj sistemo havas la saman premon kiel la kuna. Tiajn grandojn ni nomas *neetendaj* (aŭ fakece: *intensivaj*). Ili ne etendiĝas kune kun etendiĝo de sistemlimoj.
 
 ## temperaturo, entropio kaj varmo
 {: .sekcio}  
 
-Oni cetere povas ŝanĝi la internan premon de gaso en la piŝtujo ankaŭ per ŝanĝo de temperaturo. Varmigante ĝin al pli alta temperaturo la premo altiĝas kaj malvarmigante ĝin la premo malaltiĝas.
+Oni povas ŝanĝi la internan premon de gaso en la piŝtujo ne nur movante la piŝton, sed ankaŭ per ŝanĝo de temperaturo. Varmigante ĝin al pli alta temperaturo la premo altiĝas kaj malvarmigante ĝin la premo malaltiĝas.
 Respektive, se oni lasas la gason libere etendiĝi aŭ maletendiĝo la premo adaptiĝas al la ekstera kaj anstataŭe la volumeno ŝanĝiĝas.
 
-... mezuri temperaturon per termometro, varmon per kalorimetro ....
+La varmenergion tiel en- aŭ elkundukitan je la sistemo oni povas, analoge al la laboro, prezenti kiel produkto de unu entenda kaj unu neetenda grandoj. La neetenda grando estas la temperaturo $$T$$. 
+La temperaturon oni  povas mezuri per termometro, la interŝanĝon de varmenergio per kalorimetro.
+Sed la etendan grandon oni bedaŭrinde tie ĉi ne povas mezuri, sed nur elkalkuli. 
+Oni nomas ĝin la entropio $$S$$.
 
-La varmenergion tiel en- aŭ elkundukitan je la sistemo oni povas, analoge al la laboro, prezenti kiel produkto de unu entenda kaj unu neetenda grandoj. La neetenda grando estas la temperaturo $$T$$. La etendan grandon oni bedaŭrinde tie ĉi ne povas mezuri sed nur elkalkuli. Oni nomas ĝin la entropio $$S$$.
-
-... analoge kiel la volumeno indikas kiom distribuita (koncentrita aŭ malkoncentrita en iu spaco) estas materio, la entropio indikas,
-kiom distribuita estas la energio (varmo) en iu sistemo. Sed entropio havas pli ol la tri dimensiojn de la spaco: ĝi estas
+Iom simile kiel la volumeno indikas kiom distribuita (koncentrita aŭ malkoncentrita en iu spaco) estas materio, la entropio indikas, kiom distribuita estas la energio (varmo) en iu sistemo. 
+Sed la energio havas pli ol la tri dimensiojn de la spaco: ĝi estas
 determinita de la enerergiporcietoj en ĉiu el la multaj eblecoj kiel la eroj de materio povas moviĝi. Oni nomas tion la gradoj de libereco:
-Ekzemple molekulo el tri atomoj povas moviĝi en la tri dimensioj de la spaco, krome ĝi povas turniĝi laŭ pluraj rotaciaj aksoj, la interatomaj ligoj povas svingiĝi, la elektronoj povas okupi diversajn orbitalojn de la atomo, en ĉiu tiu grado de libereco enteniĝas certa kvanto de energio. 
+Ekzemple molekulo el tri atomoj povas moviĝi en la tri dimensioj de la spaco, krome ĝi povas turniĝi laŭ pluraj rotaciaj aksoj, la interatomaj ligoj povas svingiĝi, la elektronoj povas okupi diversajn orbitalojn de la atomo. En ĉiu tiu grado de libereco enteniĝas certa kvanto de energio.
+
 La interna energio estas la sumo el ĉiuj kaj la entropio donas mezuron kiom egale distribuita la energio estas en ĉiuj gradoj de libereco.
 
 ## stataj kaj procezaj grandoj
@@ -256,6 +255,9 @@ akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 ## taskoj
 {: .sekcio}
 
+Laŭplaĉe vi povas utiligi la sekvajn taskojn por iom esplori la interrilatojn termodinamikajn
+aplikeblajn al ideala gaso en fermita sistemo.
+
 1. Provu trovi kombinon de tri procezoj, kies kurboj en la  T-S-diagramo similas al velo (resp. la cifero 4)
 
 2. Provu trovi kombinon de tri procezoj, kies kurboj en la p-V-diagramo similas al la spegulbildo de tiu en (1)
@@ -269,15 +271,13 @@ akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 
 6. Kiel rilatas la ŝanĝoj de interna energio ΔU al laboro ΔW kaj varminterŝanĝo ΔQ?
 
-7. Provu trovi ciklon, kiu maksimumigas la laboron ricevitan (t.e. negativa) el la sistemo per alkonduko de varmo. 
+7. Provu trovi ciklon, kiu gajnas varmon per apliko de laboro....
+
+8. Provu trovi ciklon, kiu malvarmigas la gason per apliko de laboro....
+
+9. Provu trovi ciklon, kiu maksimumigas la laboron ricevitan (t.e. negativa) el la sistemo per alkonduko de varmo. 
    (Eblas ankaŭ apliki laboron aŭ elkonduki varmon dum la ciklo, sed la diferenca laboro gajnita estu plej eble granda kaj la diferenca alkondukata varmo plej eble malgranda)
 
-<!--
-5. Provu trovi ciklon, kiu gajnas varmon per apliko de laboro....
-
-6. Provu trovi ciklon, kiu malvarmigas la gason per apliko de laboro....
-
--->
 
 ## fontoj
 {: .fontoj}
