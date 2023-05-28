@@ -252,6 +252,34 @@ Ekzemple oni povas transiri de unu stato al alia laŭ iu kombino de temperatur-,
 priskribita de la stataj grandoj oni ne povas dedukti, laŭ kiuspecaj ŝanĝoj ĝi estis atingita. Tamen la grandaj laboro kaj varmo povas
 akiri tre diversajn valorojn laŭ la trairitaj procezoj.
 
+## varmkapacito
+{: .sekcio}
+
+La kvociento el varmo kaj la temperaturŝanĝo atingita per tio nomiĝas *varmkapacito* $$C$$. La varmkapacito por unu kilogramo nomiĝas *specifa varmkapacito* $$c$$ kaj tiu por unu molo nomiĝas *mola varmkapacito* $$C_m$$.
+
+La varmkapacito estas etenda grando: duobla kvanto de substanco povas akcepti la duoblon da varmo. La specifa kaj mola varmkapacitoj estas neetendaj grandoj.
+
+Ordinare la varmkapacito dependas de la cirkonstancoj inkluzive de la temperaturo mem:
+
+  - la varmkapacito de glacio kreskas proksimume proporcie kun la temperaturo
+  - ĉe la degelo de glacio al akvo (t.e. je $$\pu{273,15 K}$$) la varmkapacito duobliĝas
+  - por likva akvo ĝi restas proksimume konstanta je $$\pu{4,2 kJ//kg*K}$$
+  - vaporo havas nur proksimume la duonon de la varmkapacito de likva akvo
+
+Ideala gaso havas konstantan varmkapaciton sendepende de la temperaturo.
+
+Krome la varmkapacito de gaso (ekzemple vaporo) en premkonserva procezo ($$C_p$$) aperas pli alta ol tiu por volumenkonserva procezo
+($$C_V$$), en la unua kazo parto de la alkondukita varmo transformiĝas al volumena laboro.
+
+Varmkapacito mezuriĝas en J/K kiel la entropio kaj efektive ĝi helpas kalkuli entropiŝanĝojn:
+
+- por ideala gaso kaj volumenkonserva procezo la entropiŝanĝo estas la produkto de varmkapacito kaj la
+  logaritmo de premkvociento: $$ \Delta S = C_V \cdot log(\frac{p_2}{p_1}) $$
+- por ideala gaso kaj premkonserva procezo la entropiŝanĝo estas la produkto de varmkapacito kaj la logaritmo de volumenkviciento:
+  $$ \Delta S = C_p \cdot log(\frac{V_2}{V_1})$$
+
+
+
 ## taskoj
 {: .sekcio}
 
