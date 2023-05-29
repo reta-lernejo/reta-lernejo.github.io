@@ -295,15 +295,17 @@ aplikeblajn al ideala gaso en fermita sistemo.
 
 4. Provu minimumigi la entropion (sub -25 J/K) nur per premo kaj malpremo. Provu la saman nur per varmigo kaj malvarmigo.
 
-5. De kiuj el l grandoj T, V, p kaj S dependas la interna energio de la (ideala) gaso?
+5. Trovu eksperimente la varmkapacitojn $$C_V$$ kaj $$C_p$$ de la gaso en la piŝtujo.
 
-6. Kiel rilatas la ŝanĝoj de interna energio ΔU al laboro ΔW kaj varminterŝanĝo ΔQ?
+6. De kiuj el la grandoj T, V, p kaj S dependas la interna energio de la (ideala) gaso?
 
-7. Provu trovi ciklon, kiu gajnas varmon per apliko de laboro....
+7. Kiel rilatas la ŝanĝoj de interna energio ΔU al laboro ΔW kaj varminterŝanĝo ΔQ?
 
-8. Provu trovi ciklon, kiu malvarmigas la gason per apliko de laboro....
+8. Provu trovi ciklon, kiu gajnas varmon per apliko de laboro....
 
-9. Provu trovi ciklon, kiu maksimumigas la laboron ricevitan (t.e. negativa) el la sistemo per alkonduko de varmo. 
+9. Provu trovi ciklon, kiu malvarmigas la gason per apliko de laboro....
+
+10. Provu trovi ciklon, kiu maksimumigas la laboron ricevitan (t.e. negativa) el la sistemo per alkonduko de varmo. 
    (Eblas ankaŭ apliki laboron aŭ elkonduki varmon dum la ciklo, sed la diferenca laboro gajnita estu plej eble granda kaj la diferenca alkondukata varmo plej eble malgranda)
 
 
