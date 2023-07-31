@@ -13,6 +13,11 @@ https://stackoverflow.com/questions/35037482/favicon-with-github-pages
 
 Tero - fluomodelo de vento en diversaj altoj, akvofluoj..:
 https://earth.nullschool.net/
+
+Fundamentals of Atmospheric Modeling:
+https://assets.cambridge.org/97805218/39709/frontmatter/9780521839709_frontmatter.pdf
+https://web.stanford.edu/group/efmh/jacobson/FAMbook/FAMbook.html
+
 https://en.wikipedia.org/wiki/Hadley_cell
 https://www.science.org/content/article/controversial-russian-theory-claims-forests-don-t-just-make-rain-they-make-wind
 
@@ -29,3 +34,47 @@ https://www2.chem.wisc.edu/deptfiles/genchem/netorial/modules/thermodynamics/
 
 Ekosistemoj:
 https://www.heise.de/hintergrund/Oekosystem-Meer-Wie-das-Meer-Nahrungsmittelquelle-und-CO-Senke-bleiben-kann-7159803.html?seite=2
+
+
+Entropio, ideo pri eksperimento:
+
+1/2
+
+Imagine you have a container filled with gas molecules. The gas molecules are in constant motion and have a certain amount of energy. The temperature of the gas is related to the average kinetic energy of the gas molecules. The higher the temperature, the higher the average kinetic energy of the gas molecules.
+
+Now, let's say you have two containers, each filled with gas molecules, but one container has a higher temperature than the other. You connect the two containers with a small opening, so that the gas molecules can move between the two containers.
+
+At first, most of the gas molecules will be in the container with the higher temperature, as the molecules in this container have a higher average kinetic energy and are moving faster. Over time, however, the gas molecules will start to move back and forth between the two containers through the opening.
+
+Eventually, the gas molecules will reach a state of equilibrium, where the number of molecules moving from one container to the other is the same as the number of molecules moving in the opposite direction. At this point, the temperature of the gas in both containers will be the same.
+
+What's interesting is that when the gas molecules are initially separated by temperature, the total energy of the system is higher than when the gas molecules are in a state of equilibrium. This is because the gas molecules in the container with the higher temperature have more energy than those in the container with the lower temperature
+
+
+2 / 2
+
+Certainly, here's a physical experiment that you can use to demonstrate how temperature and energy of a system are related to entropy:
+
+Materials:
+
+A container with a lid
+Some water
+A thermometer
+A heat source (such as a hot plate or a stove)
+A cold source (such as a container of ice or a refrigerator)
+Procedure:
+
+Fill the container with water and put the lid on it.
+Measure the temperature of the water using a thermometer.
+Place the container on a heat source and heat the water until it boils.
+Measure the temperature of the boiling water using a thermometer.
+Remove the container from the heat source and place it on a cold source.
+Measure the temperature of the water as it cools down using a thermometer.
+Repeat steps 3-6, but this time start with cold water and heat it up to boiling, then cool it back down.
+Observations:
+When you heat the water, it gains energy and its temperature increases. As it reaches the boiling point, it undergoes a phase change from liquid to gas. During this phase change, the temperature of the water remains constant, but the water gains energy in the form of latent heat. When you cool the water, it loses energy and its temperature decreases.
+
+Explanation:
+In thermodynamics, entropy is a measure of the number of ways in which the energy of a system can be distributed among its particles. A high-entropy system has more ways to distribute its energy, while a low-entropy system has fewer ways to distribute its energy.
+
+When you heat the water, you are increasing its energy and therefore increasing its entropy. This is because the molecules in the
