@@ -57,6 +57,8 @@ collections:
     output: true
   biogeokemio:
     output: true
+  tero:
+    output: true  
   matematiko:
     output: true
   fiziko:
