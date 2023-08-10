@@ -64,16 +64,16 @@ sceno.add(direktlumo);
 //############### modelo
 
 
-function ebeno(y, koloro = 0xff0000) {
+function ebeno(y, koloro = 0xff0000, dy = 0) {
 
     const geometrio = new THREE.BufferGeometry();
     let ind = [], vert = new Float32Array(3*4); // po tri koordinatoj
 
     const v = new Float32Array([
-        -1.0, y,  1.0,
+        -1.0, y-dy,  1.0,
          1.0, y,  1.0,
          1.0, y, -1.0,
-        -1.0, y, -1.0]);
+        -1.0, y-dy, -1.0]);
 
     const i = [
         0, 1, 2,
@@ -163,11 +163,9 @@ function supro(y, koloro = 0xff0000) {
 }
 
 // krado
-ebeno(-0.9, 0x754515);
-ebeno(-0.5, 0x2757a3);
-supro([1.0, 0.8, 0.75, 0.5, 0.55, 0.3], 0x3ba617);
-
-
+ebeno(-0.9, 0x754515, 0.1);
+ebeno(-0.5, 0x2757a3, 0.2);
+supro([1.0, 0.7, 0.65, 0.3, 0.4, 0.25], 0x3ba617);
 
 
 
