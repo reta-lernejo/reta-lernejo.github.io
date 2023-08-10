@@ -26,6 +26,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const LARĜO = 600;
 const ALTO = 500;
+const DEBUG = false;
 
 
 //############### sceno + kamerao
@@ -41,11 +42,24 @@ const orbito = new OrbitControls( kamerao, bildigo.domElement );
 
 //const kamerao = new THREE.PerspectiveCamera( 25, LARĜO / ALTO, 0.1, 1000 );
 
-kamerao.position.set( -100, 100, 100);
+kamerao.position.set( -100, 20, 100);
 orbito.update();
 
 //kamerao.position.y = 0.4;
 sceno.add( kamerao );
+
+
+//kp https://chriscourses.com/blog/a-comprehensive-guide-to-materials-in-threejs
+/*
+const lumo = new THREE.AmbientLight( 0x404040 ); // soft white light
+sceno.add( lumo );
+*/
+
+const direktlumo = new THREE.DirectionalLight(0xfcffe0, 9.9);
+direktlumo.position.z = 30;
+direktlumo.position.y = 10;
+sceno.add(direktlumo);
+
 
 //############### modelo
 
@@ -76,25 +90,86 @@ function ebeno(y, koloro = 0xff0000) {
     sceno.add(krado);
 }
 
+/**
+ * y: ses malkreskantaj y-koordinatoj laŭ zigzaga linio: supre angulo - supra mezo - flanko meznivela - mezo meznivela - malsupra angulo - malsupra mezo
+ **/
+function supro(y, koloro = 0xff0000) {
+
+    const geometrio = new THREE.BufferGeometry();
+    let ind = [], vert = new Float32Array(3*4); // po tri koordinatoj
+
+    // verticoj: terenprofilo rigardata de la flanko kun 
+    // deklivo grimpanta maldekstre dekstren
+    const v = new Float32Array([
+        // antaŭa profilflanko
+        -1.0, y[4],  1.0,
+         0.0, y[2],  1.0,
+         1.0, y[0],  1.0,
+        // valo
+        -1.0, y[5],  0.0,
+        -0.5, y[3],  0.0,
+         1.0, y[1],  0.0,
+        // malantaŭa profilflanko
+        -1.0, y[4], -1.0,
+         0.0, y[2], -1.0,
+         1.0, y[0], -1.0]);
+
+    const i = [
+        // antaŭa malsupra (maldekstra) angulo
+        0, 1, 4,
+        4, 3, 0,
+        // antaŭa supra (dekstra) angulo
+        1, 2, 5,
+        5, 4, 1 ,
+        // malantaŭa malsupra angulo
+        3, 4, 6,
+        6, 4, 7,
+        // malantaŭa supra angulo
+        4, 5, 7,
+        7, 5, 8
+    ];
+
+    geometrio.setIndex( i );
+    geometrio.setAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
+    geometrio.computeVertexNormals();
+
+    //const materialo = new THREE.MeshStandardMaterial( { color: koloro} );
+    // kp https://sbcode.net/threejs/meshlambertmaterial/
+    const materialo = new THREE.MeshLambertMaterial({ color: koloro} );
+    //materialo.color.setHex(koloro);
+
+    materialo.side = THREE.DoubleSide;
+    if (DEBUG) materialo.wireframe = true;
+    const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
+
+    sceno.add(krado);
+    
+/*
+    if (DEBUG) {
+        // por sencimigo montru ankaŭ la eĝojn
+        const dgeo = new THREE.EdgesGeometry( geometrio ); // or WireframeGeometry( geometry )
+        //const dmat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 2 } );
+        const dmat = new THREE.LineDashedMaterial( {
+            color: 0xffffff,
+            linewidth: 2,
+            scale: 1,
+            dashSize: 3,
+            gapSize: 4,
+        } );
+        const drat = new THREE.LineSegments( dgeo, dmat );
+        sceno.add( drat );
+    }
+    */
+}
+
 // krado
 ebeno(-0.9, 0x754515);
 ebeno(-0.5, 0x2757a3);
-ebeno(0.1, 0x3ba617);
-
-const dratoj = new THREE.LineBasicMaterial( {
-	color: 0xffffff,
-	linewidth: 0.1,
-	linecap: 'round', //ignored by WebGLRenderer
-	linejoin:  'round' //ignored by WebGLRenderer
-} );
+supro([1.0, 0.8, 0.75, 0.5, 0.55, 0.3], 0x3ba617);
 
 
-/* por testi... 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-sceno.add( cube );
- .................. */
+
+
 
 function animate() {
 	requestAnimationFrame( animate );
