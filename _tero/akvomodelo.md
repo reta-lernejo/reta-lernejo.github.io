@@ -159,10 +159,11 @@ function supro(y, koloro = 0xff0000) {
     });
     */
     const texture = new THREE.TextureLoader().load("inc/rivero2.png");
-    const materialo = new THREE.MeshLambertMaterial({ map: texture }); // , color: koloro
+    const materialo = new THREE.MeshLambertMaterial({ map: texture, 
+        bumpMap: texture, bumpScale: 0.05 }); //, normalMapType: THREE.ObjectSpaceNormalMap }); // , color: koloro
 
     //materialo.color.setHex(koloro);
-
+    // materialo.normalScale.set( 0.01, 0.01 );
     materialo.side = THREE.DoubleSide;
     if (DEBUG) materialo.wireframe = true;
     const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
