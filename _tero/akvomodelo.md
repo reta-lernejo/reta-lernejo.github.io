@@ -83,7 +83,7 @@ function ebeno(y, koloro = 0xff0000, dy = 0) {
     geometrio.setIndex( i );
     geometrio.setAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
 
-    const materialo = new THREE.MeshBasicMaterial( { color: koloro} );
+    const materialo = new THREE.MeshBasicMaterial( { color: koloro });
     materialo.side = THREE.DoubleSide;
     const krado = new THREE.Mesh( geometrio, materialo); // dratoj|materialo );
 
@@ -114,6 +114,21 @@ function supro(y, koloro = 0xff0000) {
          0.0, y[2], -1.0,
          1.0, y[0], -1.0]);
 
+    const uv = new Float32Array([
+        // antaŭa profilflanko
+        1,0,
+        1,0.5,
+        1,1,
+        // valo
+        0.5,0,
+        0.5,0.25,
+        0.5,1,
+        // malantaŭa profilflanko
+        0,0,
+        0,0.5,
+        0,1
+    ]);
+
     const i = [
         // antaŭa malsupra (maldekstra) angulo
         0, 1, 4,
@@ -131,11 +146,21 @@ function supro(y, koloro = 0xff0000) {
 
     geometrio.setIndex( i );
     geometrio.setAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
+    geometrio.setAttribute( 'uv', new THREE.BufferAttribute( uv, 2 ) );
     geometrio.computeVertexNormals();
 
     //const materialo = new THREE.MeshStandardMaterial( { color: koloro} );
+    /*
+    const materialo = new THREE.MeshLambertMaterial({ color: koloro });
+
     // kp https://sbcode.net/threejs/meshlambertmaterial/
-    const materialo = new THREE.MeshLambertMaterial({ color: koloro} );
+    new THREE.TextureLoader().load("inc/rivero2.png", function ( texture ) {
+        materialo.map = texture
+    });
+    */
+    const texture = new THREE.TextureLoader().load("inc/rivero2.png");
+    const materialo = new THREE.MeshLambertMaterial({ map: texture }); // , color: koloro
+
     //materialo.color.setHex(koloro);
 
     materialo.side = THREE.DoubleSide;
@@ -143,7 +168,6 @@ function supro(y, koloro = 0xff0000) {
     const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
 
     sceno.add(krado);
-    
 /*
     if (DEBUG) {
         // por sencimigo montru ankaŭ la eĝojn
