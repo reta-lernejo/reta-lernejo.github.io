@@ -63,6 +63,8 @@ sceno.add(direktlumo);
 
 //############### modelo
 
+// http://heightmap.mxgr.fr
+// https://tangrams.github.io/heightmapper/#5.325/58.098/27.016
 
 function ebeno(y, koloro = 0xff0000, dy = 0) {
 
@@ -95,6 +97,9 @@ function ebeno(y, koloro = 0xff0000, dy = 0) {
  **/
 function supro(y, koloro = 0xff0000) {
 
+    const tx_altoj = new THREE.TextureLoader().load("inc/tereno_alt.png");
+    const tx_koloroj = new THREE.TextureLoader().load("inc/tereno_klr.png");
+/*
     const geometrio = new THREE.BufferGeometry();
     let ind = [], vert = new Float32Array(3*4); // po tri koordinatoj
 
@@ -114,6 +119,7 @@ function supro(y, koloro = 0xff0000) {
          0.0, y[2], -1.0,
          1.0, y[0], -1.0]);
 
+
     const uv = new Float32Array([
         // antaŭa profilflanko
         1,0,
@@ -128,6 +134,7 @@ function supro(y, koloro = 0xff0000) {
         0,0.5,
         0,1
     ]);
+
 
     const i = [
         // antaŭa malsupra (maldekstra) angulo
@@ -144,10 +151,16 @@ function supro(y, koloro = 0xff0000) {
         7, 5, 8
     ];
 
+*/
+/*
     geometrio.setIndex( i );
     geometrio.setAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
     geometrio.setAttribute( 'uv', new THREE.BufferAttribute( uv, 2 ) );
     geometrio.computeVertexNormals();
+    */
+
+    const geometrio = new THREE.PlaneGeometry( 2,2,100,100 );
+    geometrio.rotateX(-Math.PI * 0.5).rotateY(Math.PI * 0.5);
 
     //const materialo = new THREE.MeshStandardMaterial( { color: koloro} );
     /*
@@ -158,9 +171,8 @@ function supro(y, koloro = 0xff0000) {
         materialo.map = texture
     });
     */
-    const texture = new THREE.TextureLoader().load("inc/rivero2.png");
-    const materialo = new THREE.MeshLambertMaterial({ map: texture, 
-        bumpMap: texture, bumpScale: 0.05 }); //, normalMapType: THREE.ObjectSpaceNormalMap }); // , color: koloro
+    const materialo = new THREE.MeshLambertMaterial({ map: tx_koloroj, 
+        displacementMap: tx_altoj, displacementScale: 0.25 }); //, normalMapType: THREE.ObjectSpaceNormalMap }); // , color: koloro
 
     //materialo.color.setHex(koloro);
     // materialo.normalScale.set( 0.01, 0.01 );
@@ -187,11 +199,37 @@ function supro(y, koloro = 0xff0000) {
     */
 }
 
+// vd. https://redstapler.co/three-js-realistic-rain-tutorial/
+let pluv_geom;
+
+function pluvo(y0,n_eroj=1000) {
+    const pluveroj = []; new Float32Array(n_eroj);
+    for (let i=0;i<n_eroj;i++) {
+        const x = THREE.MathUtils.randFloatSpread( .5 );
+        const y = y0 - THREE.MathUtils.randFloatSpread( .5 );
+        const z = THREE.MathUtils.randFloatSpread( .5 );
+        pluveroj.push( x, y, z );
+    }
+
+    pluv_geom = new THREE.BufferGeometry();
+    pluv_geom.setAttribute( 'position', new THREE.Float32BufferAttribute( pluveroj, 3 ) );
+
+    const pluv_materialo = new THREE.PointsMaterial({
+        color: 0xaaaaaa,
+        //vertexColors: THREE.VertexColors, 
+        size: 2,
+        transparent: false
+    });
+    const pluvo = new THREE.Points(pluv_geom,pluv_materialo);
+    sceno.add(pluvo);
+}
+
 // krado
 ebeno(-0.9, 0x754515, 0.1);
 ebeno(-0.5, 0x2757a3, 0.2);
-supro([1.0, 0.7, 0.65, 0.3, 0.4, 0.25], 0x3ba617);
-
+const s = 0.5;
+supro([s, s-.3, s-.35, s-.7, s-.6, s-.75], 0x3ba617);
+pluvo(.9,200);
 
 
 function animate() {
@@ -203,6 +241,24 @@ function animate() {
 	// required if orbito.enableDamping or orbito.autoRotate are set to true
 	// orbito.update();
 
+    // movu pluvon
+    const pluveroj = pluv_geom.getAttribute('position');
+    const eroj = pluveroj.array;
+    for (let i=0; i<eroj.length; i++) {
+        if (i%3 == 1) {
+            let y = eroj[i];
+            y -= .01;
+            if (y<0.5) y = .9;
+            eroj[i] = y;
+        }
+    }
+    pluv_geom.setAttribute( 'position', pluveroj);
+    
+
+    //verticesNeedUpdate = true;
+    pluv_geom.rotateY(0.008);
+
+    // rebildigu
 	bildigo.render( sceno, kamerao );
 }
 animate();
