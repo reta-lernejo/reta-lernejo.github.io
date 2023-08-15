@@ -110,9 +110,28 @@ export class Tereno {
         // return krado;
     }
 
+    nuboj(alto, larĝo, ymin=0, ymax=1, radiuso=1,n_eroj=10) {        
+        const map = new THREE.TextureLoader().load( '/tero/inc/nubo.png' );
+        const material = new THREE.SpriteMaterial( { map: map } );
+
+        for (let n=0; n<n_eroj; n++) {
+            const nubo = new THREE.Sprite( material );
+            // KOREKTU: momente tio estos rektangula, ni devas apliki ekvacion de cirklo (r*sin(alfa)/r*cos(alfa))
+            // por x kaj z, alfa arbitre inter 0..2*Pi, r arbitre inter 0 kaj radiuso
+            const x = THREE.MathUtils.randFloatSpread( radiuso/2 );
+            const y = THREE.MathUtils.randFloat(ymin, ymax);
+            const z = THREE.MathUtils.randFloatSpread( radiuso/2 );
+            nubo.scale.set(larĝo,alto,larĝo);
+            nubo.translateX(x);
+            nubo.translateY(y);
+            nubo.translateZ(z);
+            this.sceno.add( nubo );    
+        }
+    }
+
     // vd. https://redstapler.co/three-js-realistic-rain-tutorial/
     precipito(ymin=0,ymax=1,radiuso=1,n_eroj=1000) {
-        const precipito = new Precipito(ymin=0,ymax=1,radiuso=1,n_eroj=1000);
+        const precipito = new Precipito(ymin,ymax,radiuso,n_eroj);
         this.sceno.add(precipito.objekto);
         return precipito;
     }
@@ -128,13 +147,13 @@ export class Tereno {
 }
 
 export class Precipito {
-    constructor(ymin=0,ymax=1,radiuso=1,n_eroj=1000) {
+    constructor(ymin=0,ymax=1,radiuso=1,koloro=0xaaaaaa,n_eroj=1000) {
         const p_eroj = []; new Float32Array(n_eroj);
         this.ymin = ymin;
         this.ymax = ymax;
 
         for (let i=0;i<n_eroj;i++) {
-            // KOREKTU: momente tio estos rektangula, ni devas pliki ekvacion de cirklo (r*sin(alfa)/r*cos(alfa))
+            // KOREKTU: momente tio estos rektangula, ni devas apliki ekvacion de cirklo (r*sin(alfa)/r*cos(alfa))
             // por x kaj z, alfa arbitre inter 0..2*Pi, r arbitre inter 0 kaj radiuso
             const x = THREE.MathUtils.randFloatSpread( radiuso/2 );
             const y = THREE.MathUtils.randFloat(ymin, ymax);
@@ -146,7 +165,7 @@ export class Precipito {
         p_geom.setAttribute( 'position', new THREE.Float32BufferAttribute( p_eroj, 3 ) );
 
         const p_mat = new THREE.PointsMaterial({
-            color: 0xaaaaaa,
+            color: koloro,
             //vertexColors: THREE.VertexColors, 
             size: 1,
             transparent: false
