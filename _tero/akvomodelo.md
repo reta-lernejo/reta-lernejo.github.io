@@ -22,11 +22,12 @@ const tereno = new Tereno("akvomodelo",LARĜO,ALTO);
 
 //############### modelo
 // krado
+tereno.direktlumo();
 tereno.ebeno(-0.9, 0x754515, 0.1);
 tereno.ebeno(-0.5, 0x2757a3, 0.2);
 const s = 0.5;
 tereno.pejzaĝo("/tero/inc/tereno_alt.png", "/tero/inc/tereno_klr.png");
-const pluvo = tereno.precipito(.9,200);
+const pluvo = tereno.precipito(0.1,0.9,1,200);
 
 
 function animate() {

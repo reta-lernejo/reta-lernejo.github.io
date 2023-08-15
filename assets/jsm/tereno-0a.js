@@ -28,7 +28,7 @@ export class Tereno {
         const dlumo = new THREE.DirectionalLight(0xfcffe0, 9.9);
         dlumo.position.z = 30;
         dlumo.position.y = 10;
-        sceno.add(dlumo);
+        this.sceno.add(dlumo);
         return dlumo;
     } 
 
@@ -66,20 +66,30 @@ export class Tereno {
 
         const tx_altoj = new THREE.TextureLoader().load(altmapo);
         const tx_koloroj = new THREE.TextureLoader().load(kolormapo);
+/*
+        const texture = Promise.all([
+            new THREE.TextureLoader().load(altmapo), 
+            new THREE.TextureLoader().load(kolormapo)], 
+            (resolve, reject) => { resolve(texture); }
+        ).then(txt2 => {
+            */
 
-        const geometrio = new THREE.PlaneGeometry( 2,2,100,100 );
-        geometrio.rotateX(-Math.PI * 0.5).rotateY(Math.PI * 0.5);
+            const geometrio = new THREE.PlaneGeometry( 2,2,100,100 );
+            geometrio.rotateX(-Math.PI * 0.5).rotateY(Math.PI * 0.5);
 
-        const materialo = new THREE.MeshLambertMaterial({ map: tx_koloroj, 
-            displacementMap: tx_altoj, displacementScale: 0.25 }); //, normalMapType: THREE.ObjectSpaceNormalMap }); // , color: koloro
+            const materialo = new THREE.MeshLambertMaterial({ map: tx_koloroj, 
+                displacementMap: tx_altoj, displacementScale: 0.25 }); //, normalMapType: THREE.ObjectSpaceNormalMap }); // , color: koloro
 
-        //materialo.color.setHex(koloro);
-        // materialo.normalScale.set( 0.01, 0.01 );
-        materialo.side = THREE.DoubleSide;
-        if (DEBUG) materialo.wireframe = true;
-        const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
+            //materialo.color.setHex(koloro);
+            // materialo.normalScale.set( 0.01, 0.01 );
+            materialo.side = THREE.DoubleSide;
+            if (DEBUG) materialo.wireframe = true;
+            const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
 
-        this.sceno.add(krado);
+            this.sceno.add(krado);
+/*
+        });
+*/
     /*
         if (DEBUG) {
             // por sencimigo montru ankaŭ la eĝojn
@@ -97,7 +107,7 @@ export class Tereno {
         }
         */
 
-        return krado;
+        // return krado;
     }
 
     // vd. https://redstapler.co/three-js-realistic-rain-tutorial/
@@ -107,7 +117,7 @@ export class Tereno {
             // KOREKTU: momente tio estos rektangula, ni devas pliki ekvacion de cirklo (r*sin(alfa)/r*cos(alfa))
             // por x kaj z, alfa arbitre inter 0..2*Pi, r arbitre inter 0 kaj radiuso
             const x = THREE.MathUtils.randFloatSpread( radiuso/2 );
-            const y = ymin + THREE.MathUtils.randFloatSpread( (ymax-ymin)/2 );
+            const y = THREE.MathUtils.randFloat(ymin, ymax);
             const z = THREE.MathUtils.randFloatSpread( radiuso/2 );
             p_eroj.push( x, y, z );
         }
