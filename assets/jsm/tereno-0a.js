@@ -112,7 +112,27 @@ export class Tereno {
 
     // vd. https://redstapler.co/three-js-realistic-rain-tutorial/
     precipito(ymin=0,ymax=1,radiuso=1,n_eroj=1000) {
+        const precipito = new Precipito(ymin=0,ymax=1,radiuso=1,n_eroj=1000);
+        this.sceno.add(precipito.objekto);
+        return precipito;
+    }
+
+    animacio() {
+    	requestAnimationFrame( this.animacio.bind(this) );
+        // movu iujn aferojn...
+        if (this.ŝanĝoj) this.ŝanĝoj();
+        // rebildigu
+        this.bildigo.render(this.sceno, this.kamerao);
+    }
+    
+}
+
+export class Precipito {
+    constructor(ymin=0,ymax=1,radiuso=1,n_eroj=1000) {
         const p_eroj = []; new Float32Array(n_eroj);
+        this.ymin = ymin;
+        this.ymax = ymax;
+
         for (let i=0;i<n_eroj;i++) {
             // KOREKTU: momente tio estos rektangula, ni devas pliki ekvacion de cirklo (r*sin(alfa)/r*cos(alfa))
             // por x kaj z, alfa arbitre inter 0..2*Pi, r arbitre inter 0 kaj radiuso
@@ -131,9 +151,20 @@ export class Tereno {
             size: 1,
             transparent: false
         });
-        const precipito = new THREE.Points(p_geom,p_mat);
-        this.sceno.add(precipito);
+        this.objekto = new THREE.Points(p_geom,p_mat);
+    }
 
-        return precipito;
+    animacio() {
+        const geom = this.objekto.geometry;
+        const punktoj = geom.getAttribute('position');
+        const eroj = punktoj.array;
+        for (let i=0; i<eroj.length; i++) {
+            if (i%3 == 1) {
+                const y = eroj[i] - .01;
+                eroj[i] = (y>this.ymin)? y : this.ymax;
+            }
+        }
+        geom.setAttribute( 'position', punktoj);
+        geom.rotateY(0.008);
     }
 }
