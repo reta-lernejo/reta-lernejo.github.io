@@ -217,7 +217,7 @@ function pluvo(y0,n_eroj=1000) {
     const pluv_materialo = new THREE.PointsMaterial({
         color: 0xaaaaaa,
         //vertexColors: THREE.VertexColors, 
-        size: 2,
+        size: 1,
         transparent: false
     });
     const pluvo = new THREE.Points(pluv_geom,pluv_materialo);
