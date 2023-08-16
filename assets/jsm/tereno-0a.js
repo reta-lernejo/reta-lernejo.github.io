@@ -63,6 +63,34 @@ export class Tereno {
         return krado;
     }
 
+    tavolo(y, koloro = 0xff0000, dy = 0) {
+
+        const geometrio = new THREE.BoxGeometry(2,dy,2);
+/*
+        const v = new Float32Array([
+            -1.0, y-dy,  1.0,
+            1.0, y,  1.0,
+            1.0, y, -1.0,
+            -1.0, y-dy, -1.0]);
+
+        const i = [
+            0, 1, 2,
+            0, 2, 3
+        ];
+
+        geometrio.setIndex( i );
+        geometrio.setAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
+        */
+
+        const materialo = new THREE.MeshBasicMaterial( { color: koloro });
+        materialo.side = THREE.DoubleSide;
+        const krado = new THREE.Mesh( geometrio, materialo); // dratoj|materialo );
+
+        this.sceno.add(krado);
+        return krado;
+    }
+
+
 
     /**
      * y: ses malkreskantaj y-koordinatoj laŭ zigzaga linio: supre angulo - supra mezo - flanko meznivela - mezo meznivela - malsupra angulo - malsupra mezo
