@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const DEBUG = false;
+const SHADERCODE = true; // log shader code
 
 export class Tereno {
 
@@ -22,6 +23,10 @@ export class Tereno {
 
         //kamerao.position.y = 0.4;
         this.sceno.add( this.kamerao );
+
+        // media lumo
+        const mlumo = new THREE.AmbientLight( 0x404040 ); // mola blanka lumo
+        this.sceno.add( mlumo );
     }
 
     direktlumo() {
@@ -64,32 +69,35 @@ export class Tereno {
      **/
     pejzaĝo(altmapo, kolormapo) {
 
+        // ĉu oni povas plibonigi fermante la flankojn?
+        // vd. ekz-e https://discourse.threejs.org/t/displacement-map-terrain-close-sides/30683/2
+
         const tx_altoj = new THREE.TextureLoader().load(altmapo);
         const tx_koloroj = new THREE.TextureLoader().load(kolormapo);
 /*
-        const texture = Promise.all([
-            new THREE.TextureLoader().load(altmapo), 
-            new THREE.TextureLoader().load(kolormapo)], 
-            (resolve, reject) => { resolve(texture); }
-        ).then(txt2 => {
-            */
+        const geometrio = new THREE.PlaneGeometry( 2,2,100,100 );
+        geometrio.rotateX(-Math.PI * 0.5).rotateY(Math.PI * 0.5);
 
-            const geometrio = new THREE.PlaneGeometry( 2,2,100,100 );
-            geometrio.rotateX(-Math.PI * 0.5).rotateY(Math.PI * 0.5);
+        const materialo = new THREE.MeshLambertMaterial({ map: tx_koloroj, 
+            displacementMap: tx_altoj, displacementScale: 0.25 }); //, normalMapType: THREE.ObjectSpaceNormalMap }); // , color: koloro
 
-            const materialo = new THREE.MeshLambertMaterial({ map: tx_koloroj, 
-                displacementMap: tx_altoj, displacementScale: 0.25 }); //, normalMapType: THREE.ObjectSpaceNormalMap }); // , color: koloro
-
-            //materialo.color.setHex(koloro);
-            // materialo.normalScale.set( 0.01, 0.01 );
-            materialo.side = THREE.DoubleSide;
-            if (DEBUG) materialo.wireframe = true;
-            const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
-
-            this.sceno.add(krado);
-/*
-        });
+        //materialo.color.setHex(koloro);
+        // materialo.normalScale.set( 0.01, 0.01 );
+        materialo.side = THREE.DoubleSide;
+        if (DEBUG) {
+            materialo.wireframe = true;
+        }
+        if (SHADERCODE) {
+            materialo.onBeforeCompile = 
+                (shader) => console.debug(shader.vertexShader);
+        }
+        const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
 */
+
+        const krado = new TerenKahelo(2,0.1,2,100,100,tx_altoj,tx_koloroj);
+
+        this.sceno.add(krado);
+
     /*
         if (DEBUG) {
             // por sencimigo montru ankaŭ la eĝojn
@@ -145,6 +153,78 @@ export class Tereno {
     }
     
 }
+
+
+// el https://codesandbox.io/s/youthful-meadow-0swsm?file=/src/js/TerrainCutout.js
+class TerenKahelo extends THREE.Mesh {
+    constructor(width, height, depth, segW, segD, heightMap, colorMap) {
+      super();
+  
+      this.geometry = new THREE.BoxGeometry(width, height, depth, segW, 1, segD);
+      let pos = this.geometry.attributes.position;
+      let nor = this.geometry.attributes.normal;
+      let enableDisplacement = [];
+      for (let i = 0; i < pos.count; i++) {
+        enableDisplacement.push(
+          Math.sign(pos.getY(i)), // se y>0, punkto povas leviĝi kun la tereno
+          Math.sign(nor.getY(i)) // se Y-koordinato de la normalo >0 necesas rekalkuli ĝin
+        );
+        //re-kalkulu UV (por terenleviĝo)
+        let u = (pos.getX(i) + width * 0.5) / width;
+        let v = 1 - (pos.getZ(i) + depth * 0.5) / depth;
+        this.geometry.attributes.uv.setXY(i, u, v);
+      }
+      // uzu apartan atributon por enableDisplacement
+      this.geometry.setAttribute(
+        "enableDisp",
+        new THREE.Float32BufferAttribute(enableDisplacement, 2)
+      );
+      // materialo
+      this.material = new THREE.MeshStandardMaterial({
+        //wireframe: true,
+        //side: DoubleSide,
+        //color: "brown",
+        map: colorMap,
+        displacementMap: heightMap,
+        displacementScale: 0.25,
+        // uzo de aparta 'shader' por la tereno, kiu respektas la agordon de enableDisp
+        onBeforeCompile: (shader) => {
+          shader.vertexShader = `
+            attribute vec2 enableDisp;
+            
+            ${shader.vertexShader}
+          `.replace(
+            `#include <displacementmap_vertex>`,
+            `
+            #ifdef USE_DISPLACEMENTMAP
+              if (enableDisp.x > 0.) {
+                
+                vec3 vUp = vec3(0, 1, 0);
+  
+                vec3 v0 = normalize( vUp ) * ( texture2D( displacementMap, vDisplacementMapUv ).x * displacementScale + displacementBias );
+                transformed += v0;
+                
+                if(enableDisp.y > 0.) {
+                  float txl = 1. / 256.;
+  
+                  vec3 v1 = normalize( vUp ) * ( texture2D( displacementMap, vDisplacementMapUv + vec2(txl, 0.) ).x * displacementScale + displacementBias );
+                  v1.xz = vec2(txl, 0.) * 20.;
+                  vec3 v2 = normalize( vUp ) * ( texture2D( displacementMap, vDisplacementMapUv + vec2(0., txl) ).x * displacementScale + displacementBias );
+                  v2.xz = -vec2(0., txl) * 20.;
+  
+                  vec3 n = normalize(cross(v1 - v0, v2 - v0));
+                  vNormal = normalMatrix * n;
+                }              
+              }
+            #endif
+            `
+          );
+          //console.log(shader.vertexShader);
+        }
+      });
+    }
+}
+
 
 export class Precipito {
     constructor(ymin=0,ymax=1,radiuso=1,koloro=0xaaaaaa,n_eroj=1000) {
