@@ -25,14 +25,15 @@ export class Tereno {
         this.sceno.add( this.kamerao );
 
         // media lumo
-        const mlumo = new THREE.AmbientLight( 0x404040 ); // mola blanka lumo
+        const mlumo = new THREE.AmbientLight( 0x808080 ); // blanketa lumo
         this.sceno.add( mlumo );
     }
 
-    direktlumo() {
-        const dlumo = new THREE.DirectionalLight(0xfcffe0, 9.9);
-        dlumo.position.z = 30;
-        dlumo.position.y = 10;
+    direktlumo(x,y,z) {
+        const dlumo = new THREE.DirectionalLight(0xfcffe0, 4.9);
+        dlumo.position.z = z;
+        dlumo.position.y = y;
+        dlumo.position.x = x; 
         this.sceno.add(dlumo);
         return dlumo;
     } 
@@ -91,6 +92,18 @@ export class Tereno {
     }
 
 
+    /**
+     * tavolo kun profilo donita kiel altmapo
+     **/
+    tavolo2(altmapo,koloro,x=1,y=1,z=1,nx=1,ny=1,nz=1) {
+
+        // plibone rekte donu la teksturon, tiel ni povas reuzi ĝin aliloke
+        const tx_altoj = new THREE.TextureLoader().load(altmapo);
+        const krado = new TerenKahelo(x,y,z,nx,nz,tx_altoj,koloro);
+        this.sceno.add(krado);
+
+        return krado;
+    }
 
     /**
      * y: ses malkreskantaj y-koordinatoj laŭ zigzaga linio: supre angulo - supra mezo - flanko meznivela - mezo meznivela - malsupra angulo - malsupra mezo
@@ -122,7 +135,7 @@ export class Tereno {
         const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
 */
 
-        const krado = new TerenKahelo(2,0.1,2,100,100,tx_altoj,tx_koloroj);
+        const krado = new TerenKahelo(2,0.3,2,100,100,tx_altoj,tx_koloroj);
 
         this.sceno.add(krado);
 
@@ -143,7 +156,7 @@ export class Tereno {
         }
         */
 
-        // return krado;
+        return krado;
     }
 
     nuboj(alto, larĝo, ymin=0, ymax=1, radiuso=1,n_eroj=10) {        
@@ -183,9 +196,12 @@ export class Tereno {
 }
 
 
+/**
+ * Kreas kahelon de tereno, kun profilo supra kaj kolormapo
+ */
 // el https://codesandbox.io/s/youthful-meadow-0swsm?file=/src/js/TerrainCutout.js
 class TerenKahelo extends THREE.Mesh {
-    constructor(width, height, depth, segW, segD, heightMap, colorMap) {
+    constructor(width, height, depth, segW, segD, heightMap, color) {
       super();
   
       this.geometry = new THREE.BoxGeometry(width, height, depth, segW, 1, segD);
@@ -211,8 +227,8 @@ class TerenKahelo extends THREE.Mesh {
       this.material = new THREE.MeshStandardMaterial({
         //wireframe: true,
         //side: DoubleSide,
-        //color: "brown",
-        map: colorMap,
+        color: typeof color === "number"? color : null,
+        map: typeof color === "object"? color : null,
         displacementMap: heightMap,
         displacementScale: 0.25,
         // uzo de aparta 'shader' por la tereno, kiu respektas la agordon de enableDisp
