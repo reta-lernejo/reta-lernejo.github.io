@@ -18,23 +18,22 @@ export class Tereno {
         this.orbito = new OrbitControls( this.kamerao, this.bildigo.domElement );
         //const kamerao = new THREE.OrthographicCamera( LARĜO/- 2, LARĜO/2, ALTO/2, ALTO/- 2, 1, 1000 );
         //const kamerao = new THREE.PerspectiveCamera( 25, LARĜO / ALTO, 0.1, 1000 );
-        this.kamerao.position.set( -100, 20, 100);
+        this.kamerao.position.set( -100, 20, -100);
         this.orbito.update();
 
         //kamerao.position.y = 0.4;
         this.sceno.add( this.kamerao );
 
         // media lumo
-        const mlumo = new THREE.AmbientLight( 0x808080 ); // blanketa lumo
+        const mlumo = new THREE.AmbientLight( 0xc0c0c0 ); // blanketa lumo
         this.sceno.add( mlumo );
     }
 
     direktlumo(x,y,z) {
-        const dlumo = new THREE.DirectionalLight(0xfcffe0, 4.9);
-        dlumo.position.z = z;
-        dlumo.position.y = y;
-        dlumo.position.x = x; 
+        const dlumo = new THREE.DirectionalLight(0xfcffe0, 0.9);
+        dlumo.position.set(x,y,z);
         this.sceno.add(dlumo);
+        //dlumo.target.updateMatrixWorld();
         return dlumo;
     } 
 
@@ -108,13 +107,16 @@ export class Tereno {
     /**
      * y: ses malkreskantaj y-koordinatoj laŭ zigzaga linio: supre angulo - supra mezo - flanko meznivela - mezo meznivela - malsupra angulo - malsupra mezo
      **/
-    pejzaĝo(altmapo, kolormapo) {
+    pejzaĝo(altmapo, kolormapo, flankmapo) {
 
         // ĉu oni povas plibonigi fermante la flankojn?
         // vd. ekz-e https://discourse.threejs.org/t/displacement-map-terrain-close-sides/30683/2
 
         const tx_altoj = new THREE.TextureLoader().load(altmapo);
         const tx_koloroj = new THREE.TextureLoader().load(kolormapo);
+        const tx_flankoj = new THREE.TextureLoader().load(flankmapo);
+        tx_flankoj.rotation = Math.PI/2;
+
 /*
         const geometrio = new THREE.PlaneGeometry( 2,2,100,100 );
         geometrio.rotateX(-Math.PI * 0.5).rotateY(Math.PI * 0.5);
@@ -135,7 +137,7 @@ export class Tereno {
         const krado = new THREE.Mesh( geometrio, materialo ); //materialo); // dratoj|materialo );
 */
 
-        const krado = new TerenKahelo(2,0.3,2,100,100,tx_altoj,tx_koloroj);
+        const krado = new TerenKahelo(2,.01,2,100,100,tx_altoj,tx_koloroj,tx_flankoj);
 
         this.sceno.add(krado);
 
@@ -159,7 +161,68 @@ export class Tereno {
         return krado;
     }
 
-    nuboj(alto, larĝo, ymin=0, ymax=1, radiuso=1,n_eroj=10) {        
+    pejzaĝo2(altmapo, kolormapo, flankmapo) {
+
+        // ĉu oni povas plibonigi fermante la flankojn?
+        // vd. ekz-e https://discourse.threejs.org/t/displacement-map-terrain-close-sides/30683/2
+
+        const tx_altoj = new THREE.TextureLoader().load(altmapo);
+        const tx_koloroj = new THREE.TextureLoader().load(kolormapo);
+        const tx_flankoj = new THREE.TextureLoader().load(flankmapo);
+
+        const geometrio = new THREE.BoxGeometry(2,1,2,100,10,100);
+
+        const supro = new THREE.MeshLambertMaterial({ map: tx_koloroj, 
+            displacementMap: tx_altoj, displacementScale: 0.25,
+            normalMap: tx_altoj, normalScale: new THREE.Vector2(0.1,0.1) }); // , color: koloro
+        const flanko = new THREE.MeshBasicMaterial({ map: tx_flankoj });
+        const malsupro = new THREE.MeshBasicMaterial({ color: 0x080808 });
+
+        /*
+        const c1 = new THREE.MeshBasicMaterial({ color: "red" });
+        const c2 = new THREE.MeshBasicMaterial({ color: "blue" });
+        const c3 = new THREE.MeshBasicMaterial({ color: "green" });
+        const c4 = new THREE.MeshBasicMaterial({ color: "yellow" });
+        const c5 = new THREE.MeshBasicMaterial({ color: "white" });
+        const c6 = new THREE.MeshBasicMaterial({ color: "orange" });
+        */
+
+        /* ordo de la materialoj: 
+           1. maldekstre, malantaŭe, 
+           2. dekstre antaŭe
+           3. supre
+           4. malsupre
+           5. dekstre malantaŭe
+           6. maldekstre antaŭe
+        */
+        const krado = new THREE.Mesh( geometrio, [flanko,flanko,supro,malsupro,flanko,flanko] ); 
+            //materialo); // dratoj|materialo );
+
+        //const krado = new TerenKahelo(2,0.3,2,100,100,tx_altoj,tx_koloroj);
+
+        this.sceno.add(krado);
+
+    /*
+        if (DEBUG) {
+            // por sencimigo montru ankaŭ la eĝojn
+            const dgeo = new THREE.EdgesGeometry( geometrio ); // or WireframeGeometry( geometry )
+            //const dmat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 2 } );
+            const dmat = new THREE.LineDashedMaterial( {
+                color: 0xffffff,
+                linewidth: 2,
+                scale: 1,
+                dashSize: 3,
+                gapSize: 4,
+            } );
+            const drat = new THREE.LineSegments( dgeo, dmat );
+            sceno.add( drat );
+        }
+        */
+
+        return krado;
+    }    
+
+    nuboj(alto, larĝo, ymin=0, ymax=1, radiuso=1,n_eroj=10) {
         const map = new THREE.TextureLoader().load( '/tero/inc/nubo.png' );
         const material = new THREE.SpriteMaterial( { map: map } );
 
@@ -200,8 +263,14 @@ export class Tereno {
  * Kreas kahelon de tereno, kun profilo supra kaj kolormapo
  */
 // el https://codesandbox.io/s/youthful-meadow-0swsm?file=/src/js/TerrainCutout.js
+
+// Ni ankoraŭ ne povas tiel meti tavoliĝon ĉe la flankoj, verŝajne ni devos aldoni ĉirkaŭan randon por
+// tio en la kolor-teksturo (kio postulas etendi la UV-koordinatojn trans la supra surfaco
+// kaj uzi nigran koloron en displacementMap tie...?
+// paĝoj kun konsideroj:
+// https://discourse.threejs.org/t/displacement-map-creates-gaps-on-the-edges-of-a-mesh/44458
 class TerenKahelo extends THREE.Mesh {
-    constructor(width, height, depth, segW, segD, heightMap, color) {
+    constructor(width, height, depth, segW, segD, heightMap, color, side) {
       super();
   
       this.geometry = new THREE.BoxGeometry(width, height, depth, segW, 1, segD);
@@ -224,13 +293,16 @@ class TerenKahelo extends THREE.Mesh {
         new THREE.Float32BufferAttribute(enableDisplacement, 2)
       );
       // materialo
-      this.material = new THREE.MeshStandardMaterial({
+      const supro = new THREE.MeshStandardMaterial({
         //wireframe: true,
         //side: DoubleSide,
         color: typeof color === "number"? color : null,
         map: typeof color === "object"? color : null,
         displacementMap: heightMap,
         displacementScale: 0.25,
+        displacementBias: -0.25,
+        normalMap: heightMap,
+        normalScale: new THREE.Vector2(0.25,0.25),
         // uzo de aparta 'shader' por la tereno, kiu respektas la agordon de enableDisp
         onBeforeCompile: (shader) => {
           shader.vertexShader = `
@@ -266,6 +338,10 @@ class TerenKahelo extends THREE.Mesh {
           //console.log(shader.vertexShader);
         }
       });
+
+      // const flanko = new THREE.MeshStandardMaterial({transparent: true});
+      this.material = [null,null,supro,null,null,null];
+      //this.material = supro;
     }
 }
 
@@ -308,6 +384,6 @@ export class Precipito {
             }
         }
         geom.setAttribute( 'position', punktoj);
-        geom.rotateY(0.008);
+        geom.rotateY(0,0.001);
     }
 }
