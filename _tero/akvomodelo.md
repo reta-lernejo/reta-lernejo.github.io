@@ -41,3 +41,11 @@ tereno.ŝanĝoj = () => pluvo.animacio(); // PLIBONIGU: ĉu la tereno iel povus 
 tereno.animacio();
 
 </script>
+
+## Precipito
+
+Kiam pluvo, roso, neĝo ktp. malsekigas la teron, la plej granda parto de la akvo poste revaporiĝos en la atmosferon. Alia parto kolektiĝos en riveretoj, riveroj fluante al lagoj kaj maroj. Tria parto, kutime la pli malgranda enpenetras la grundon ĝis ĝi renkontas iun tavolon, kiu ne estas penetrebla plu kaj tie kolektiĝas kiel grundakvo. 
+
+Faktoroj, kiuj influas tion estas i.a.: la temperaturo kaj malsekeco de la aero influas, kiom da precipitaĵo vaporiĝas. La konsisto de la grundo kaj formo de tereno influas, kiom forfluas kaj kiom povas enpenetri la grundon.
+
+Fine ankaŭ la ofteco kaj forteco de precipito havas grandan influon: ofte milda pluvo pli bone povas kolektiĝi kiel grundakvo dum malofta sed forta pluvo foriras sen riĉigi la grundon. Neĝamasoj rapide degelantoj forfluas en la valon dum malrapida degeliĝo helpas kolekti grundakvon en la malvarma sezono.
