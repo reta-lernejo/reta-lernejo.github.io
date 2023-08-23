@@ -9,6 +9,7 @@ js-ext:
 ---
 
 <div id="akvomodelo"></div>
+<canvas id="tavoloj" width="20" height="20"></canvas>
 
 <script type="module">
 
@@ -19,6 +20,17 @@ const ALTO = 500;
 
 const tereno = new Tereno("akvomodelo",LARĜO,ALTO);
 
+//############### tavoloj
+
+const tavoloj = document.getElementById("tavoloj");
+const ctx = tavoloj.getContext("2d");
+
+ctx.fillStyle = "#544";
+ctx.fillRect(0, 0, 20, 20);
+
+ctx.fillStyle = "#22e";
+ctx.fillRect(0, 3, 20, 3);
+ctx.fillRect(0, 13, 20, 4);
 
 //############### modelo
 // krado
@@ -32,7 +44,7 @@ tereno.direktlumo(-5,5,-10);
 //tereno.tavolo2("/tero/inc/tereno_alt.png", 0x2757a3, 2.001, .22, 2.001, 20, 20).translateY(-0.1);
 
 //const s = 0.5;
-tereno.pejzaĝo2("/tero/inc/tereno_alt.png", "/tero/inc/tereno_klr.png", "/tero/inc/tavoloj.png").translateY(-0.5);
+tereno.pejzaĝo2("/tero/inc/tereno_alt.png", "/tero/inc/tereno_klr.png", tavoloj).translateY(-0.5); //"/tero/inc/tavoloj.png").translateY(-0.5);
 //tereno.pejzaĝo2("/tero/inc/tereno_alt.png", "/tero/inc/tereno_klr.png", "/tero/inc/3darko.png");
 tereno.nuboj(0.3,1.1, 0.9,1.0,2);
 const pluvo = tereno.precipito(0.1,0.8, 1.8, 0x777788);

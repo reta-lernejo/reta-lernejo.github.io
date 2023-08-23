@@ -25,7 +25,7 @@ export class Tereno {
         this.sceno.add( this.kamerao );
 
         // media lumo
-        const mlumo = new THREE.AmbientLight( 0xc0c0c0 ); // blanketa lumo
+        const mlumo = new THREE.AmbientLight( 0xfaf9d4 ); // flaveta lumo
         this.sceno.add( mlumo );
     }
 
@@ -161,20 +161,21 @@ export class Tereno {
         return krado;
     }
 
-    pejzaĝo2(altmapo, kolormapo, flankmapo) {
+    pejzaĝo2(altmapo, kolormapo, tavoloj) {
 
         // ĉu oni povas plibonigi fermante la flankojn?
         // vd. ekz-e https://discourse.threejs.org/t/displacement-map-terrain-close-sides/30683/2
 
         const tx_altoj = new THREE.TextureLoader().load(altmapo);
         const tx_koloroj = new THREE.TextureLoader().load(kolormapo);
-        const tx_flankoj = new THREE.TextureLoader().load(flankmapo);
+        //const tx_flankoj = new THREE.TextureLoader().load(flankmapo);
+        const tx_flankoj = new THREE.CanvasTexture(tavoloj);
 
         const geometrio = new THREE.BoxGeometry(2,1,2,100,10,100);
 
         const supro = new THREE.MeshLambertMaterial({ map: tx_koloroj, 
             displacementMap: tx_altoj, displacementScale: 0.25,
-            normalMap: tx_altoj, normalScale: new THREE.Vector2(0.1,0.1) }); // , color: koloro
+            normalMap: tx_altoj, normalScale: new THREE.Vector2(0.2,0.2) }); // , color: koloro
         const flanko = new THREE.MeshBasicMaterial({ map: tx_flankoj });
         const malsupro = new THREE.MeshBasicMaterial({ color: 0x080808 });
 
