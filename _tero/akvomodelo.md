@@ -9,7 +9,6 @@ js-ext:
 ---
 
 <div id="akvomodelo"></div>
-<canvas id="tavoloj" width="20" height="20"></canvas>
 
 <script type="module">
 
@@ -18,19 +17,22 @@ import {Tereno} from '/assets/jsm/tereno-0a.js';
 const LARĜO = 600;
 const ALTO = 500;
 
+const TLARĜO = 51;
+const TALTO = 51;
+
 const tereno = new Tereno("akvomodelo",LARĜO,ALTO);
 
 //############### tavoloj
 
-const tavoloj = document.getElementById("tavoloj");
+const tavoloj = new OffscreenCanvas(TLARĜO, TALTO); 
 const ctx = tavoloj.getContext("2d");
 
 ctx.fillStyle = "#544";
-ctx.fillRect(0, 0, 20, 20);
+ctx.fillRect(0, 0, TLARĜO, TALTO);
 
 ctx.fillStyle = "#22e";
-ctx.fillRect(0, 3, 20, 3);
-ctx.fillRect(0, 13, 20, 4);
+ctx.fillRect(0, 0.2*TALTO, TLARĜO, 0.2*TALTO);
+ctx.fillRect(0, 0.5*TALTO, TLARĜO, 0.25*TALTO);
 
 //############### modelo
 // krado
