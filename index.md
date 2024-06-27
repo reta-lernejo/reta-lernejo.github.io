@@ -38,7 +38,7 @@ nek ke ĉio funkcias senmanke.
 
 <!-- alternativa nomo elementoj & molekuloj -->
 
-## [Kemio](/kemio)
+## [Materio (kemio)](/kemio)
 
 {% assign kem = site.kemio | sort: "chapter" %}
 {% for t in kem %}
@@ -50,7 +50,7 @@ nek ke ĉio funkcias senmanke.
 
 <!-- alternativa nomo: vivo | organismoj -->
 
-## [Biokemio](/biokemio)
+## [Vivo (biokemio)](/biokemio)
 
 {% assign bio = site.biokemio | sort: "chapter" %}
 {% for t in bio %}
@@ -62,9 +62,9 @@ nek ke ĉio funkcias senmanke.
 
 <!-- alternativa nomo: (sistemo) Tero -->
 
-## [Biogeokemio](/biogeokemio)
+## [Tero (tersciencoj)](/tero)
 
-{% assign bio = site.biogeokemio | sort: "chapter" %}
+{% assign bio = site.tero | sort: "chapter" %}
 {% for t in bio %}
 {% assign c = t.chapter | prepend: "c" %}
 {% if t.title and c.size == 2 %}
@@ -75,7 +75,7 @@ nek ke ĉio funkcias senmanke.
 
 ## Fiziko
 
-### Termodinamiko
+### Varmo (termodinamiko)
 
 {% assign fiz = site.fiziko | sort: "title" %}
 {% for t in fiz %}

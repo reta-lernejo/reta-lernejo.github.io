@@ -296,6 +296,12 @@ Grandaj atomoj kaj grandaj molekuloj kun multaj elektronoj pli facile polusiĝas
 
 <!-- klarigi rilaton al ...agregataj statoj...  ??? -->
 
+## Aldona komento
+{: .sekcio}
+
+Necesas konscii, ke ĉiuj ĝis nun priparolataj fortoj en la naturo ne ekzistas aparte. Ili estas apartigitaj de la homoj, por pli facile konsideri kaj prikalkuli la interagojn de la atomoj. En la naturo ekzistas nur la kombinita rezulto. Simile kiel naĝante en akvo oni ne perceptas la fortojn de suprena puŝo, premo, ondumado kaj propra movo aparte, sed nur la rezulton de ĉiuj fortoj komune puŝantaj kaj tirantaj ĉe la diversaj partoj de nia haŭto.
+
+Depende de la vidpunkto kaj situacio iuj fortoj superregas aliajn tiel, ke ni povas neglekti tiujn kaj faciligi la pritakson kaj kalkuladon. Tial estas utila, disigi la fortojn en la diversajn kategoriojn.
 
 
 ## fontoj
