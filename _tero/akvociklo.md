@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: Akvociklo
+title: Akvomodelo
 _chapter: 1.5
 js:
   - folio-0b
