@@ -108,15 +108,4 @@ nek ke ĉio funkcias senmanke.
 {% endif %}  
 {% endfor %}
 
-## Lingvo
 
-* [Lingvolernado](lingvo)
-
-<!--
-{% assign esp = site.lingvo | sort: "title" %}
-{% for t in esp %}
-{% if t.title %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
--->
