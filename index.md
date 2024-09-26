@@ -85,7 +85,9 @@ nek ke ĉio funkcias senmanke.
 {% endif %}  
 {% endfor %}
 
+## Lingvo
 
+* [Lingvolernado](lingvo)
 
 ## Programado
 
@@ -106,10 +108,12 @@ nek ke ĉio funkcias senmanke.
 {% endif %}  
 {% endfor %}
 
-<!--
-## Esperanto
+## Lingvo
 
-{% assign esp = site.esperanto | sort: "title" %}
+* [Lingvolernado](lingvo)
+
+<!--
+{% assign esp = site.lingvo | sort: "title" %}
 {% for t in esp %}
 {% if t.title %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})

@@ -14,14 +14,6 @@ nek ke ĉio funkcias senmanke.
 Kontribuantoj estas bonvenaj.
 
 
-## Esperanto
-
-{% assign esp = site.esperanto | sort: "title" %}
-{% for t in esp %}
-{% if t.title %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
 
 
 <!-- alternativa nomo elementoj & molekuloj -->
@@ -80,3 +72,13 @@ Kontribuantoj estas bonvenaj.
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
 {% endif %}  
 {% endfor %}
+
+
+## Lingvo
+
+{% assign esp = site.lingvo | sort: "title" %}
+{% for t in esp %}
+{% if t.title %}
+* [{{ t.title | escape }}]({{ t.url | relative_url }})
+{% endif %}  
+{% endfor %}  

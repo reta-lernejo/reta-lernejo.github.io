@@ -45,8 +45,8 @@ minima:
 collections:
   iloj:
     output: true
-  esperanto:
-    output: false
+  lingvo:
+    output: true
   kosmo:
     output: true    
   programado:
