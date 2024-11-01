@@ -22,11 +22,11 @@ Kontribuantoj estas bonvenaj.
 
 ## [Materio (kemio)](/kemio)
 
-* [Atomoj kaj elementoj](kemio/a_atomoj)  
+* [Atomoj kaj elementoj](relo-kemio/kemio/a_atomoj)  
 
-* [Interatomaj fortoj](kemio/l_atomaj_fortoj)  
+* [Interatomaj fortoj](relo-kemio/kemio/l_atomaj_fortoj)  
 
-* [Kemiaj reakcioj](kemio/r_reakcioj)  
+* [Kemiaj reakcioj](relo-kemio/kemio/r_reakcioj)  
 
 ## [Biokemio](/biokemio)
 

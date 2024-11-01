@@ -40,9 +40,11 @@ nek ke ĉio funkcias senmanke.
 
 ## [Materio (kemio)](/kemio)
 
-* [Atomoj kaj elementoj](kemio/a_atomoj)
-* [Interatomaj fortoj](kemio/l_atomaj_fortoj)
-* [Kemiaj reakcioj](kemio/r_reakcioj)
+* [Atomoj kaj elementoj](relo-kemio/kemio/a_atomoj)  
+
+* [Interatomaj fortoj](relo-kemio/kemio/l_atomaj_fortoj)  
+
+* [Kemiaj reakcioj](relo-kemio/kemio/r_reakcioj)
 
 <!-- alternativa nomo: vivo | organismoj -->
 
@@ -53,8 +55,8 @@ nek ke ĉio funkcias senmanke.
 {% assign c = t.chapter | prepend: "c" %}
 {% if t.title and c.size == 2 %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
+{% endif %}
+{% endfor %}
 
 <!-- alternativa nomo: (sistemo) Tero -->
 
