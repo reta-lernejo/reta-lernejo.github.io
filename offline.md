@@ -20,13 +20,13 @@ Kontribuantoj estas bonvenaj.
 
 ## [Kemio](/kemio)
 
-{% assign kem = site.kemio | sort: "chapter" %}
-{% for t in kem %}
-{% assign c = t.chapter | prepend: "c" %}
-{% if t.title and c.size == 2 %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
+## [Materio (kemio)](/kemio)
+
+* [Atomoj kaj elementoj](kemio/a_atomoj)  
+
+* [Interatomaj fortoj](kemio/l_atomaj_fortoj)  
+
+* [Kemiaj reakcioj](kemio/r_reakcioj)  
 
 ## [Biokemio](/biokemio)
 
@@ -35,8 +35,8 @@ Kontribuantoj estas bonvenaj.
 {% assign c = t.chapter | prepend: "c" %}
 {% if t.title and c.size == 2 %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
+{% endif %}
+{% endfor %}
 
 <!-- alternativa nomo: (sistemo) Tero -->
 
@@ -47,8 +47,8 @@ Kontribuantoj estas bonvenaj.
 {% assign c = t.chapter | prepend: "c" %}
 {% if t.title and c.size == 2 %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
+{% endif %}
+{% endfor %}
 
 <!-- alternativa nomo: vivo | organismoj -->
 
@@ -61,7 +61,7 @@ Kontribuantoj estas bonvenaj.
 {% for t in mat %}
 {% if t.title %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
+{% endif %}
 {% endfor %}
 
 ## Programado
@@ -70,7 +70,7 @@ Kontribuantoj estas bonvenaj.
 {% for t in progr %}
 {% if t.title %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
+{% endif %}
 {% endfor %}
 
 
@@ -80,5 +80,5 @@ Kontribuantoj estas bonvenaj.
 {% for t in esp %}
 {% if t.title %}
 * [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
+{% endif %}
+{% endfor %}

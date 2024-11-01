@@ -40,13 +40,9 @@ nek ke ĉio funkcias senmanke.
 
 ## [Materio (kemio)](/kemio)
 
-{% assign kem = site.kemio | sort: "chapter" %}
-{% for t in kem %}
-{% assign c = t.chapter | prepend: "c" %}
-{% if t.title and c.size == 2 %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}  
+* [Atomoj kaj elementoj](kemio/a_atomoj)
+* [Interatomaj fortoj](kemio/l_atomaj_fortoj)
+* [Kemiaj reakcioj](kemio/r_reakcioj)
 
 <!-- alternativa nomo: vivo | organismoj -->
 
