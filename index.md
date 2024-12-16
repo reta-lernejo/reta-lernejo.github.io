@@ -38,7 +38,7 @@ nek ke ĉio funkcias senmanke.
 
 <!-- alternativa nomo elementoj & molekuloj -->
 
-## [Materio (kemio)](/kemio)
+## [Materio (kemio)](/relo-kemio/kemio)
 
 * [Atomoj kaj elementoj](relo-kemio/kemio/a_atomoj)  
 
