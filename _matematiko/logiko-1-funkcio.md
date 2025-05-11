@@ -1,8 +1,78 @@
 ---
 layout: laborfolio
 title: Logiko 1 - Logikaj funkcioj
+js:
+  - folio-0c
 js-ext: mathjax3
 ---
+
+<script>
+
+// unuargumentaj logikaj funkcioj
+const lf1 = {
+  nul: () => 0,
+  unu: () => 1,
+  id: (x) => x,
+  ne: (x) => Number(!x)
+};
+
+// duargumentaj logikaj funkcioj
+const lf2 = {
+  nul: () => 0,
+  unu: () => 1, // T (taŭtologio)
+  id1: (x) => x, // x
+  id2: (x,y) => y, // y
+  ne1: (x) => Number(!x), // NOTx
+  ne2: (x,y) => Number(!y), //NOTy
+  sp1: (x,y) => Number(x&&!y), // y subpremas x
+  sp2: (x,y) => Number(!x&&y), // x subpremas y
+  kaj: (x,y) => x&&y, // AND
+  aŭ: (x,y) => x||y, // OR
+  disaŭ: (x,y) => x^y, // XOR x!= y
+  impl: (x,y) => Number(!(y==0&&x==1)),
+  inv: (x,y) => Number(!(y==1&&x==0)),
+  ekv: (x,y) => Number(x==y), //XNOR | NXOR
+  nek: (x,y) => Number(!(x||y)), // NOR
+  malkaj: (x,y) => Number(!(x&&y)) // NAND
+
+//  [kajne]
+//  [nekaj] 
+//  [repl?]
+//  [impl]
+}
+
+butone((ago) => {
+  console.log(ago);
+  [f_aro,f] = ago.split('_');
+
+  // unuargumentaj funkcioj
+  if (f_aro == 'lf1') {
+    const th = ĝi("#tabelo1 thead tr");
+    // nomo de la funkcio
+    th.children[1].textContent = f;
+    // valoroj de la funkcio en la dua kolumno
+    ĉiuj("#tabelo1 tbody tr").forEach((tr) => {
+      const x = parseInt(tr.children[0].textContent)
+      const td2 = tr.children[1];
+      td2.textContent = lf1[f](x)
+    });
+
+  // duargumentaj funkcioj
+  } else if (f_aro == 'lf2') {
+    const th = ĝi("#tabelo2 thead tr");
+    // nomo de la funkcio
+    th.children[2].textContent = f;
+    // valoroj de la funkcio en la dua kolumno
+    ĉiuj("#tabelo2 tbody tr").forEach((tr) => {
+      const x = parseInt(tr.children[0].textContent)
+      const y = parseInt(tr.children[1].textContent)
+      const td2 = tr.children[2];
+      td2.textContent = lf2[f](x,y)
+    });
+  }
+})
+</script>
+
 
 Tio ĉi estas epitoma laborfolio, ne lernolibro, nek deviga terminaro aŭ kompleta kompendio.
 Mi tie ĉi notis informojn pri nocioj, kiujn mi iam devis lerni por ekzameno.
@@ -12,8 +82,49 @@ Mi tie ĉi notis informojn pri nocioj, kiujn mi iam devis lerni por ekzameno.
 En la klasika logiko oni laboras nur per du diversaj valoroj: *vera* kaj *malvera*, aŭ 0 kaj 1.
 Logikaj funkcioj bildigas variablojn, kiuj havas unu el du valoroj, al tiuj du valoroj denove.
 Ekzemple `ne` estas unuargumenta logika funkcio, kiu bildigas 0 al 1 kaj 1 al 0,
-oni ĝin signas per superstreketo: $$ \overline{0}=1 $$. Aliaj, duargumentaj, logikaj
+oni ĝin signas per superstreketo: $$ \overline{0}=1 $$. Duargumentaj, logikaj
 funkcioj estas `kaj` kaj `aŭ`.
+
+Ekzistas kvar unu-argumentaj logikaj funkcioj:
+
+[nul][id][ne][unu]
+{: .butonoj #lf1}
+
+|x|f(x)|
+|-|-|
+|0||
+|1||
+{: #tabelo1 style="width:min-content"}
+
+<!--
+Montru unu- kaj duargumentajn logikfunkciojn per tabeloj:
+1-argumentaj [nul] [unu] [id] [ne]
+
+2-argumentoj 
+  [nul-0] [kaj-AND] 
+  [kajne] [id1] 
+  [nekaj] [id2] 
+  [disaŭ-XOR] [aŭ-OR] 
+  [malaŭ-NOR] [maldisaŭ-XNOR]
+  [ne2] [repl?]
+  [ne1] [impl]
+  [malkaj-NAND] [unu-T]
+
+vd. ankaŭ https://de.wikipedia.org/wiki/Boolesche_Funktion
+-->
+
+Entute ekzistas 16 diversaj du-argumentaj logikaj funkcioj, jen elekto:
+
+[nul] [unu] [id1] [ne1] [id2] [ne2] [sp1] [sp2] [kaj] [malkaj] [aŭ] [nek] [impl] [inv] [ekv] [disaŭ]
+{: .butonoj #lf2}
+
+|x|y|f(x,y)|
+|-|-|-|
+|0|0||
+|0|1||
+|1|0||
+|1|1||
+{: #tabelo2 style="width:min-content"}
 
 ## Supermetado de funkcioj
 
