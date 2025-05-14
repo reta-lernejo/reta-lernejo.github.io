@@ -11,6 +11,8 @@ echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 # vd pri gem github-pages
 # https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll
+#
+# pri instali Jekyll en Ubunto: https://jekyllrb.com/docs/installation/ubuntu/
 
 # vd. eblaj pri problomoj kun bundler-versio:
 # https://bundler.io/blog/2019/05/14/solutions-for-cant-find-gem-bundler-with-executable-bundle.html

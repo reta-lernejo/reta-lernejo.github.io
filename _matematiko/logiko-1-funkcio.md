@@ -6,6 +6,11 @@ js:
 js-ext: mathjax3
 ---
 
+<!-- helpopaĝoj:
+https://de.wikipedia.org/wiki/Boolesche_Funktion
+https://en.wikipedia.org/wiki/List_of_logic_symbols
+-->
+
 <script>
 
 // unuargumentaj logikaj funkcioj
@@ -20,17 +25,17 @@ const lf1 = {
 const lf2 = {
   nul: () => 0,
   unu: () => 1, // T (taŭtologio)
-  id1: (x) => x, // x
-  id2: (x,y) => y, // y
-  ne1: (x) => Number(!x), // NOTx
-  ne2: (x,y) => Number(!y), //NOTy
-  sp1: (x,y) => Number(x&&!y), // y subpremas x
-  sp2: (x,y) => Number(!x&&y), // x subpremas y
+  idx: (x) => x, // x
+  idy: (x,y) => y, // y
+  nex: (x) => Number(!x), // NOTx
+  ney: (x,y) => Number(!y), //NOTy
+  spx: (x,y) => Number(x&&!y), // y subpremas x
+  spy: (x,y) => Number(!x&&y), // x subpremas y
   kaj: (x,y) => x&&y, // AND
   aŭ: (x,y) => x||y, // OR
   disaŭ: (x,y) => x^y, // XOR x!= y
   impl: (x,y) => Number(!(y==0&&x==1)),
-  inv: (x,y) => Number(!(y==1&&x==0)),
+  repl: (x,y) => Number(!(y==1&&x==0)),
   ekv: (x,y) => Number(x==y), //XNOR | NXOR
   nek: (x,y) => Number(!(x||y)), // NOR
   malkaj: (x,y) => Number(!(x&&y)) // NAND
@@ -87,6 +92,15 @@ funkcioj estas `kaj` kaj `aŭ`.
 
 Ekzistas kvar unu-argumentaj logikaj funkcioj:
 
+`nul` kaj `unu`
+: La funkcioj `nul` kaj `unu` ignoras la argumenton kaj ĉiam rezultas en 0 (malvera) respektive 1 (vera). Do efektive ili povas esti konsiderataj kiel senargumentaj funkcioj. Cetere oni nomas esprimon, kiu ĉiam estas malvera *kontraŭdiro* ($$\bot$$). Esprimon ĉiam veran oni ankaŭ nomas *taŭtologio* ($$\top$$).
+
+`id`
+: La funkcio `id` (idento) ĉiam redonas la argumenton senŝanĝe.
+
+`ne`
+: La funkcio `ne` - neg(aci)o, ĉiam redonas la kontraŭon de la argumento. Oni povas signi ĝin per $$\lnot$$, sed ni ĉi tie uzas alternative la superstrekon, kiu koncizigas esprimon kun pluraj aplikaj de funkcio `ne`. En programlingvo oni povas realigi ĝin per `(x) => !x ` aŭ per `(x) => 1-x`.
+
 [nul][id][ne][unu]
 {: .butonoj #lf1}
 
@@ -115,7 +129,37 @@ vd. ankaŭ https://de.wikipedia.org/wiki/Boolesche_Funktion
 
 Entute ekzistas 16 diversaj du-argumentaj logikaj funkcioj, jen elekto:
 
-[nul] [unu] [id1] [ne1] [id2] [ne2] [sp1] [sp2] [kaj] [malkaj] [aŭ] [nek] [impl] [inv] [ekv] [disaŭ]
+`nul` kaj `unu`
+: La duargumentaj funkcioj `nul` (kontraŭdiro) kaj `unu` (taŭtologio) ne dependas de siaj argumentoj. Ni jam pritraktis ilin sub la unuargumentaj. Ili aperas tie ĉi pro kompleteco.
+
+`idx` kaj `idy`
+: La idento-funkcioj `idx` kaj `idy` ignoras unu el siaj argumentoj kaj funkcias kiel unuargumenta idento sur la argumento x respektive y.
+
+`nex` kaj `ney`
+: La neaj funkcioj `nex` ($$\overline{x}$$) kaj `ney` ($$\overline{y}$$) ignoras unu el siaj argumentoj kaj funkcias kiel unuargumenta negacio sur la argumento x respektive y.
+
+`spx` kaj `spy`
+: Ĉe la funkcio `spx` (subpremo de x, alinome inhib(ici)o de x), la argumento y, se vera, subpremas, t.e. nuligas, malverigas, la valoron de x. La funkcio `spy` (subpremo de y) inversigas la rolon de ambaŭ argumentoj. En programlingvo oni povas realigi `spx` per `(x,y) => x && !y` aŭ per `(x,y) => x > y`.
+
+`kaj` kaj `malkaj`
+: La funkcio `kaj` (konjunkcio, AND) estas vera nur, se ambaŭ argumentoj estas veraj. Ni simboligas ĝin per la kutima signo $$\land$$. En programlingvo oni povas realigi ĝin per `(x,y) => x && y` aŭ per `(x,y) =>  x*y`. 
+: La funkcio `malkaj` (ekskludo, ankaŭ NAND aŭ Ŝeferfunkcio laŭ *Henry Maurice Sheffer*) estas ĉiam vera, krom se ambaŭ argumentoj estas veraj. Alivorte ĝi estas la negacio de `kaj`. Oni povas simboligi ĝin per $$x\mid y$$ aŭ $$x\barwedge y$$. En programlingvo oni povas realigi ĝin per `(x,y) => ! (x && y)` aŭ `(x,y) =>  1 - x*y`.
+
+`aŭ` kaj `nek`
+: La funkcio `aŭ` (inkluziva disjunkcio, OR) estas vera, se alemanŭ unu el ĝiaj argumentoj estas vera. Ni simboligas ĝin per la kutima signo $$\lor$$. En programlingvo oni povas realigi ĝin per `(x,y) => x || y`, `(x,y) => x+y > 0` aŭ per `(x,y) => x + y - x*y`. 
+: La funkcio `nek` (NOR, nihilo, funkcio de Peirce) estas vera nur, se nek x nek y estas veraj. Ĝia simbolo estas $$⊽$$ kaj oni povas programlingve realigi ĝin per `(x,y) => !(x||y)` aŭ `(x,y) => x+y == 0`.
+
+`impl` kaj `repl`
+: La funkcio `impl` (implico) estas malvera nur, se x estas vera, sed y estas malvera: *Se pluvas, mi ĉiam restas hejme*. Oni simboligas ĝin per $$\implies$$ kaj programlingve povas esprimi ĝin per `(x,y) => x<=y`. 
+: La funkcio `repl` (inversa implico, reimplico) estas malvera, se y estas vera, sed ne x: *Nur se estas bela vetero (x), foje mi promenas (y)*. Do x esprimas necesan kondiĉon, por ke y estu vera. Oni uzas la simbolon $$\Leftarrow$$ kaj realigas ĝin en programo ekzemple per `(x,y) => x>=y`.
+
+`ekv` kaj `disaŭ`
+: La funkcio `ekv` (XNOR, NXOR, XAND, ekvivalento, duobla implico) estas vera nur, se ambaŭ x kaj y havas la saman valoron. Oni uzas la simbolon $$\iff$$ 
+aŭ $$\odot$$ kaj programlingve esprimas ĝin per `(x,y) => x==y`.
+: La funkcio `disaŭ` (ekskluziva disjunkcio, XOR) estas vera, se nur unu el ambaŭ argumento estas vera. Ĝia simbolo estas $$\oplus$$ aŭ $$\veebar$$ kaj oni povas programlingve realigi ĝin per `(x,y) => x^y` aŭ per `(x,y) => x != y`.
+
+
+[nul] [unu] [idx] [nex] [idy] [ney] [spx] [spy] [kaj] [malkaj] [aŭ] [nek] [impl] [repl] [ekv] [disaŭ]
 {: .butonoj #lf2}
 
 |x|y|f(x,y)|
