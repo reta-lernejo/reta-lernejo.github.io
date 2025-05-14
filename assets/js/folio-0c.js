@@ -133,7 +133,7 @@ window.onload = () => {
             }
         }
 
-        // se la laborfolio vokis la funkcion age() ni serĉos la
+        // se la laborfolio vokis la funkcion age() ni serĉos 
         // kaj preparos la ago-butonojn en la paĝo
         if (_butontasko) { 
             // butonoj estas markitaj per angulaj krampoj
