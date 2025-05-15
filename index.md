@@ -33,9 +33,6 @@ nek ke ĉio funkcias senmanke.
 
 [Kontribuantoj](about) estas bonvenaj.
 
-
-
-
 <!-- alternativa nomo elementoj & molekuloj -->
 
 ## [Materio (kemio)](/relo-kemio/kemio)
@@ -97,13 +94,9 @@ nek ke ĉio funkcias senmanke.
 {% endfor %}
 
 
-## Matematiko
+## Matematiko(/relo-matematiko/)
 
-{% assign mat = site.matematiko | sort: "title" %}
-{% for t in mat %}
-{% if t.title %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}
+* [Enhavo](/relo-matematiko/)
 
+* [Logiko](/relo-matematiko/logiko)
 
