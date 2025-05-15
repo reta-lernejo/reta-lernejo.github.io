@@ -94,7 +94,7 @@ nek ke ĉio funkcias senmanke.
 {% endfor %}
 
 
-## Matematiko(/relo-matematiko/)
+## [Matematiko](/relo-matematiko/)
 
 * [Enhavo](/relo-matematiko/)
 
