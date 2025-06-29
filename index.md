@@ -47,13 +47,13 @@ nek ke ĉio funkcias senmanke.
 
 ## [Vivo (biokemio)](/biokemio)
 
-{% assign bio = site.biokemio | sort: "chapter" %}
-{% for t in bio %}
-{% assign c = t.chapter | prepend: "c" %}
-{% if t.title and c.size == 2 %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}
-{% endfor %}
+* [La ses elementoj esencaj por vivo](relo-biokemio/biokemio/esencaj_elementoj)
+
+* [Aminacidoj](relo-biokemio/biokemio/aminacido)
+
+* [Proteinoj](relo-biokemio/biokemio/proteino)
+
+* [Genkodilo](relo-biokemio/biokemio/genkodilo)
 
 <!-- alternativa nomo: (sistemo) Tero -->
 
