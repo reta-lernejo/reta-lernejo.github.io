@@ -45,7 +45,7 @@ nek ke ĉio funkcias senmanke.
 
 <!-- alternativa nomo: vivo | organismoj -->
 
-## [Vivo (biokemio)](/biokemio)
+## [Vivo (biokemio)](/relo-biokemio/biokemio)
 
 * [La ses elementoj esencaj por vivo](relo-biokemio/biokemio/esencaj_elementoj)
 
