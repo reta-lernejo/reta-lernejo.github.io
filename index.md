@@ -88,7 +88,7 @@ nek ke ĉio funkcias senmanke.
 
 * [Enhavo](/relo-programado/)
 
-* [Prologo](/relo-matematiko/prologo)
+* [Prologo](/relo-programado/prologo)
 
 
 ## [Matematiko](/relo-matematiko/)
