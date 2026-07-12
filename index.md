@@ -84,14 +84,11 @@ nek ke ĉio funkcias senmanke.
 
 * [Lingvolernado](lingvo)
 
-## Programado
+## [Programado](/relo-programado/)
 
-{% assign progr = site.programado | sort: "title" %}
-{% for t in progr %}
-{% if t.title %}
-* [{{ t.title | escape }}]({{ t.url | relative_url }})
-{% endif %}  
-{% endfor %}
+* [Enhavo](/relo-programado/)
+
+* [Prologo](/relo-matematiko/prologo)
 
 
 ## [Matematiko](/relo-matematiko/)
