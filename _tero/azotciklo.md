@@ -34,7 +34,8 @@ js-ext:
   }
 
   window.onload = () => {
-    const bgimg = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png";
+    //const bgimg = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nitrogen_Cycle-eo.svg/1024px-Nitrogen_Cycle-eo.svg.png";
+    const bgimg = "/assets/bld/Nitrogen_Cycle-eo.svg.webp";
     const svgpuzlo = new SVGPuzlo("puzzlecontainer","puzzlepieces",4,3,700,500,5,3,21.0);
     svgpuzlo.kreu(bgimg,13,0.04);
 
