@@ -1,5 +1,5 @@
 /**
- * Kalkulas transirojn de (ideala) gasstatoato, se unu grando restas konstanta kaj alia ŝanĝiĝas
+ * Kalkulas transirojn de (ideala) gasstato, se unu grando restas konstanta kaj alia ŝanĝiĝas
  */
 
 class GS {

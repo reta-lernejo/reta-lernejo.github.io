@@ -1,5 +1,5 @@
 /**
- * Simulas ciklon de Karnoto (laŭ Nicolas Léonard Sadi Carnot) kun ideala gaso.
+ * Tio simulas ciklon de Karnoto (laŭ Nicolas Léonard Sadi Carnot) kun ideala gaso.
  * La modelo konsistas el la gaso en la piŝtujo kaj la ekstera medio. 
  * Por la gaso ni uzas apartan klason, tiel principe oni povus anstataŭigi la idealan gason per iu alia.
  * 

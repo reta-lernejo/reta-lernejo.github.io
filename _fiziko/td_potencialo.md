@@ -1,6 +1,6 @@
 ---
 layout: laborfolio
-title: Termodinamikaj potentialoj
+title: Termodinamikaj potencialoj
 js:
   - folio-0b
   - sekcio-0b  

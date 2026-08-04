@@ -178,7 +178,7 @@ La sekvaj:
 
 estas ekzemploj de kunmetitaj termoj. La atomoj `punkto`, `p`, `linio` estas la funktoroj kaj inter la krampoj povas sekvi arbitra nombro de aliaj simplaj aŭ kunmetitaj termoj kiel argumentoj. Ĝenerale oni skribas ilin en la formo `funktoro(Termo_1,...,Termo_n)`. Oni nomas kunmetitajn termojn ankaŭ *strukturoj*.
 
-Por havi pli legeblan sintakson oni povas skribi kelkajn kunmetitajn termojn en pli konvencia formo uzante *operatorojn*. Tiu formo interne estas tradukata al la norma formo:
+Por havi pli legeblan sintakson oni povas skribi kelkajn kunmetitajn termojn en pli konvencia formo uzante *operaciilojn*. Tiu formo interne estas tradukata al la norma formo:
 
 ```prolog
 % 3+4 => +(3,4)
@@ -197,7 +197,7 @@ Por havi pli legeblan sintakson oni povas skribi kelkajn kunmetitajn termojn en 
 
 ### Kapoj kaj korpoj
 
-Ni komence jam enkondukis simplan *regulon* pri geedzoj. Reguloj havas ĉiam *kapon* kaj *korpon*. La kapo estas la termo antaŭ la operatoro `:-` kaj la korpo estas la termo post tiu. Jen alia ekzemplo:
+Ni komence jam enkondukis simplan *regulon* pri geedzoj. Reguloj havas ĉiam *kapon* kaj *korpon*. La kapo estas la termo antaŭ la operaciilo `:-` kaj la korpo estas la termo post tiu. Jen alia ekzemplo:
 
 ```prolog
 filino(F,P) :-
@@ -268,7 +268,7 @@ Y = C,
 A = 1.
 ```
 
-Ĉar `=` estas operatoro ni povas same skribi:
+Ĉar `=` estas operaciilo ni povas same skribi:
 
 ```prolog
 ?- mi=mi.
@@ -377,7 +377,7 @@ Resto = [2, c].
 Kion do ni ĵus faris? Ni difinis liston el kvar elementoj, kies unua estas variablo kaj la aliaj du nombroj kaj unu atomo.
 Pri la variablo ni poste donis fakton ke ĝi estas la sumo el 4 kaj 5. Fine ni identigis la voston de la listo ekde la tria elemento kun la variablo `Resto`.
 
-Vi supre jam vidis, ke ni uzas du diversajn operatorojn por apartigi la elementojn de listo: komon `,` kaj strekon `|`. Post la komo venos alia elemento dum post la streko venos cetera listo, t.e. la resto (aŭ vosto) de la listo, kiu povas ankaŭ esti malplena:
+Vi supre jam vidis, ke ni uzas du diversajn operaciilojn por apartigi la elementojn de listo: komon `,` kaj strekon `|`. Post la komo venos alia elemento dum post la streko venos cetera listo, t.e. la resto (aŭ vosto) de la listo, kiu povas ankaŭ esti malplena:
 
 ```prolog
 ?- [1,2,3] = [E|R].

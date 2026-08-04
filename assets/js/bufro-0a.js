@@ -13,7 +13,7 @@ class Bufro {
     }
 
     /**
-     * Redonas la averaĝond e la bufro
+     * Redonas la averaĝon de la bufro
      */
     averaĝo() {
         const sumo = this.b.reduce((v0,v) => v0+v, 0);
