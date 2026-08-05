@@ -45,6 +45,8 @@ minima:
 collections:
   iloj:
     output: true
+  kov:
+    output: true
   lingvo:
     output: true
   kosmo:
