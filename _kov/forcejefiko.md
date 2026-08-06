@@ -27,10 +27,10 @@ fontoj:
 
 ## verda lumo de suno vs ruĝa lumo de tero
 
-[Spektro de nigra radianto](https://reta-lernejo.github.io/fiziko/nigra_radianto.html)
+[Spektro de nigra radianto](/fiziko/nigra_radianto.html)
 
-Suna surfaco: 6000 K - maksimumo ĉe bluverda lumo
-Tera surfaco: 300 K - maksimuma en infraruĝo
+Suna surfaco: 5800 K - maksimumo ĉe bluverda lumo
+Tera surfaco: 300 K - maksimumo en transruĝo
 
 ## atmosferaj fenestroj (spektrobendoj) de frekvenc-tralaso vs bloko
 

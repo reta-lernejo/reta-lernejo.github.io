@@ -67,7 +67,7 @@ En nia eksperimento ni provas simuli idealan gason en kubo kun latera longeco de
 t.e. 20 °C = 293,15 K kaj premo de 1000 hPa, tiu volumeno enhavas proksimume 3090 gaserojn. Ĉe heliumo, 
 kiu kondutas proksimume kiel ideala gaso, estus 3360 atomoj. 
 
-Ĉar ne eblas montri en modelo rapidojn de je 1 km/s, ni simple malrapidigas la tempon je faktoro $$10^{-11}$$. 
+Ĉar ne eblas montri en modelo rapidojn de 1 km/s, ni simple malrapidigas la tempon je faktoro $$10^{-11}$$. 
 Per tio la punktoj en nia simulado moviĝas je ĉirkaŭ 10nm/s, kio en nia modelo estas 100 bilderoj respektive kvinono de la bildalto. La bildigataj gaseroj respondas proksimume al la grandeco de heliuma atomo kun radiuso de 0,14 nm = 1,4 bilderoj.
 
 <!--

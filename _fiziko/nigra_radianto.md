@@ -52,6 +52,16 @@ spektro de nigra radianto
 <b id="temperaturo_info">1000K</b>
 <input type="range" id="temperaturo" style="width: 50em; max-width: 80%" min="300" max="15000" value="1000" step="100" onchange="aktualigo()" oninput="aktualigo_info()">
 
+Nia suno havas surfacan temperaturon de preskaŭ 5800K. La maksimumo estas ĉe 500nm, do en la
+bluverda parto de la spektro. Tamen, ĉar ĝi lumegas tra la tuta spektro, ĝia lumo aperas blanka - almenaŭ 
+se oni rigardus ĝin el la kosmo.
+
+Tra la atmosfero ĝia lumo aperas flava al niaj okuloj. La blu-violaj radioj difuziĝas en la atmosfero, pro kio la spektro 
+ŝoviĝas al la ruĝa flanko. Aldone subjektive ni perceptas ĝin eĉ pli flava en kontrasto kun la blua fono.
+
+Tero havas surfacan temperaturon de ĉirkaŭ 300K. La spektra maksimumo en la transruĝa parto de la spektro, nevidebla al niaj
+okuloj. Tial nokte, sen alia lumo, ĉio ŝajnas nigra. Nur per specialaj aparatoj oni povas videbligi transruĝan lumon. 
+Ankaŭ iuj serpentoj kapablas vidi ĝin per specialaj kavaj organoj ĉe la kapo.
 
 <script>
     
@@ -181,6 +191,6 @@ aktualigo();
 
 </script>
 
-
+Formulo priskribanta la fortecon de iu ondolongo en la spektro de nigra radianto:
 
 $$ S(\lambda) = \frac{2 \pi h c^2}{\lambda^5} \frac{1}{e^{hc / \lambda k_B T}-1} $$
