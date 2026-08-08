@@ -1,7 +1,7 @@
 /**
  * Simulado de ideala gaso en volumeno. La eroj reflektiĝas ĉe la flankaj vandoj konservante sian kinetan energion. Pro simpleco ni simulas koliziojn inter la eroj mem kaj la moviĝoj en la dimensio profundo ni forlasas kaj movas la erojn nur en du dimensioj, t.e. ni projekcias ĉiujn erojn de la volumeno al dudimensia ekrano. 
  * 
- * Por faciligi traktadon de reakcioj en subklasoj ks, ni dividas la spacon en kvadratajn ĉelojn, al kiuj ni ordigas la erojn post ĉia movo. Tiel vi povas anstataŭigi ekz-e la funkcion procezo por aldoni reakciojn en la unuopaj ĉeloj.
+ * Por faciligi traktadon de reakcioj en subklasoj ks, ni dividas la spacon en kvadratajn ĉelojn, al kiuj ni ordigas la erojn post ĉiu movo. Tiel vi povas anstataŭigi ekz-e la funkcion procezo() por aldoni reakciojn en la unuopaj ĉeloj.
  * 
  * La premon ni kalkulas el la kolizioj kun la vando, pro la 2-dimensia projekcio ni eksterpolas ĝin al 3 dimensioj. Oni povas doni temperaturon el kiu ni normdistribuas la rapidojn per la metodo Box-Muller.
  * Fine el la unuopaj rapidoj ni povas kalkuli energion, temperaturon k.a. parametrojn.
@@ -385,11 +385,12 @@ class Idealgaso {
             }
             mm = (mm+3)%6;
             // alordigu ĉiun eron al koncerna ĉelo por pli facila traktado 
-            // de interagoj (se estas, se ne fakte sufiĉus unusola ĉelo)
+            // de interagoj (se okazas interagoj; se ne, fakte sufiĉus unusola ĉelo)
             const k = this.ĉelo(e.x,e.y);
             if (k) {
                 k[e.id] = e;
                 this.nombro++;
+                // alsumigi rapidecon
                 const v2 = e.vx**2 + e.vy**2 + e.vz**2;
                 this.v_sum2 += v2;
                 this.v_sum += Math.sqrt(v2);
