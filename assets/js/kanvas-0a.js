@@ -34,3 +34,29 @@ function punkto(ctx,e,radiuso=1.4,koloro="#0095DD") {
     ctx.fillStyle = koloro;
     ctx.fill();
 }
+
+
+/**
+ * Ŝovi punkton p je distanco c
+ */
+function ŝovo(p,d) {
+    return({
+        x: p.x + d.x,
+        y: p.y + d.y
+    })
+}
+
+/**
+ * Rotacii punkton p je angulo a ĉirkaŭ centro c
+ */
+function rotacio(p,a,c={x:0,y:0}) {
+    if (!a) return p;
+
+    const pc = ŝovo(p,{x:-c.x,y:-c.y});
+    const ark = a*Math.PI/180;
+    const pt = {
+        x: pc.x * Math.cos(ark) - pc.y * Math.sin(ark),
+        y: pc.x * Math.sin(ark) + pc.y * Math.cos(ark)
+    }
+    return ŝovo(pt,c);
+}

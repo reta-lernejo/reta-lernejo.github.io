@@ -673,7 +673,7 @@ class XPBDObj {
     }
 
     /**
-     * Korektoj de rapido-vektoroj laŭ rezutlo movo+korekto
+     * Korektoj de rapido-vektoroj laŭ rezulto movo+korekto
      * @param {number} sdt 
      */
     rapidoj(sdt, akcelo) {

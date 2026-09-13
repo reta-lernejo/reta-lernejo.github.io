@@ -1,5 +1,5 @@
 /**
- * Simulado de ideala gaso en volumeno. La eroj reflektiĝas ĉe la flankaj vandoj konservante sian kinetan energion. Pro simpleco ni simulas koliziojn inter la eroj mem kaj la moviĝoj en la dimensio profundo ni forlasas kaj movas la erojn nur en du dimensioj, t.e. ni projekcias ĉiujn erojn de la volumeno al dudimensia ekrano. 
+ * Simulado de ideala gaso en volumeno. La eroj reflektiĝas ĉe la flankaj vandoj konservante sian kinetan energion. Pro simpleco ni ne simulas koliziojn inter la eroj mem. Ankaŭ la moviĝojn en la dimensio profundo ni forlasas, do movas la erojn nur en du dimensioj, t.e. ni projekcias ĉiujn erojn de la volumeno al dudimensia ekrano. 
  * 
  * Por faciligi traktadon de reakcioj en subklasoj ks, ni dividas la spacon en kvadratajn ĉelojn, al kiuj ni ordigas la erojn post ĉiu movo. Tiel vi povas anstataŭigi ekz-e la funkcion procezo() por aldoni reakciojn en la unuopaj ĉeloj.
  * 
@@ -249,7 +249,8 @@ class Idealgaso {
             // trakuru ĉiujn ĉelojn kaj se necese adaptu lokojn de ties eroj
             for (let k of this.ĉeloj) {
                 // adapto
-                Object.values(k).map((e) => {                                    
+                // por ĉiuj eroj de la ĉelo
+                Object.values(k).map((e) => {                                
                     // kalkulu koliziojn kaj rapidŝanĝon pro tio
                     // se la vando moviĝas dx nm/s
                     // laŭ leĝo de elasta puŝo kun maso de vando multe pli granda ol tiu de ero
