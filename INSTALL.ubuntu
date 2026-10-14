@@ -1,0 +1,6 @@
+sudo apt install ruby-full ruby-dev build-essential
+sudo gem install bundler
+sudo gem install minima jekyll-feed
+
+rm Gemfile.lock
+bundle install --local
